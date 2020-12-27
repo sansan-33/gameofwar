@@ -11,7 +11,7 @@ public class CardCounter : NetworkBehaviour, IPointerClickHandler
 {
     
     [SerializeField] private Transform unitSpawnPoint = null;
-    
+    //[SerializeField] private Unit unitPrefab = null;
     [SerializeField] private TMP_Text remainingUnitsText = null;
     [SerializeField] private Image unitProgressImage = null;
     [SerializeField] private int maxUnitQueue = 1;
