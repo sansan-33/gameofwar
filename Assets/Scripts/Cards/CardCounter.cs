@@ -214,7 +214,7 @@ public class CardCounter : NetworkBehaviour, IPointerClickHandler
     
 }
 /*1 Pointerclick
-  2 interactable=false
+  2 interactable=true or false
   3 unitqueue++
   4 click queueunit Update
   5 Check if Unit Timer >1 btn = true
