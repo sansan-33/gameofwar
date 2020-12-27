@@ -1,2 +1,2 @@
-# RealTimeStrategy
+# Bellum Game of War
 
