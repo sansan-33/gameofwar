@@ -31,13 +31,14 @@ public class SpawnEnemies : NetworkBehaviour
     private void Update()
     {
         GameObject target = GameObject.FindGameObjectWithTag("Player");
-        if(FindObjectOfType<NetworkManager>().numPlayers ==1){
-        Quaternion targetRotation =
-        Quaternion.LookRotation((target.transform.position - enemy.transform.position).normalized);
+        if(FindObjectOfType<NetworkManager>().numPlayers ==1 && target != null && enemy != null)
+        {
+            Quaternion targetRotation =
+            Quaternion.LookRotation((target.transform.position - enemy.transform.position).normalized);
 
-        enemy.transform.rotation = Quaternion.RotateTowards(
-            enemy.transform.rotation, targetRotation, 800 * Time.deltaTime);
-            }
+            enemy.transform.rotation = Quaternion.RotateTowards(
+                enemy.transform.rotation, targetRotation, 800 * Time.deltaTime);
+                }
         }
 
     private void SpawnEnemy()
