@@ -8,92 +8,260 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Building building = null;
-    [SerializeField] private Image iconImage = null;
+    [SerializeField] private Unit unit = null;
     [SerializeField] private TMP_Text priceText = null;
     [SerializeField] private LayerMask floorMask = new LayerMask();
+    [SerializeField] private TMP_Text remainingUnitsText = null;
+    [SerializeField] private Image unitProgressImage = null;
+    [SerializeField] private int maxUnitQueue = 1;
+    [SerializeField] private int ResourcesNeeded = 500;
 
+    [SerializeField] private float unitSpawnDuration = 5f;
     private Camera mainCamera;
-    private BoxCollider buildingCollider;
+    private BoxCollider unitCollider;
     private RTSPlayer player;
-    private GameObject buildingPreviewInstance;
-    private Renderer buildingRendererInstance;
-
+    private GameObject unitPreviewInstance;
+    private Renderer unitRendererInstance;
+    [SyncVar(hook = nameof(interactableTrue))]
+    private int queuedUnits;
+    [SyncVar(hook = nameof(Resources))]
+    private int a;
+    [SyncVar]
+    private float unitTimer;
+    [SyncVar]
+    int resources;
+    private float progressImageVelocity;
     private void Start()
     {
         Input.simulateMouseWithTouches = true;
         mainCamera = Camera.main;
 
-        iconImage.sprite = building.GetIcon();
-        priceText.text = building.GetPrice().ToString();
+       
+        priceText.text = unit.GetPrice().ToString();
 
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-        buildingCollider = building.GetComponent<BoxCollider>();
+        unitCollider = unit.GetComponent<BoxCollider>();
     }
 
     private void Update()
     {
-       
-        if (buildingPreviewInstance == null) { return; }
+        if (isServer)
+        {
+            unitTimers();
+
+        }
+
+        if (isClient)
+        {
+            UpdateTimerDisplay();
+        }
+        if (unitPreviewInstance == null) { return; }
 
         UpdateBuildingPreview();
 
     }
+    [Server]
+    private void unitTimers()
+    {
+        Button btn = this.gameObject.GetComponent<Button>();
 
+
+        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+
+
+
+
+
+        if (queuedUnits == 0) { return; }
+
+        unitTimer += Time.deltaTime;
+        
+       /* if (player.GetResources() < ResourcesNeeded)
+        {
+
+            GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
+
+            foreach (GameObject card in cards)
+            {
+                card.GetComponent<Button>().interactable = false; Debug.Log(9);
+
+            }
+        }
+        if (player.GetResources() < ResourcesNeeded)
+        {
+
+            Debug.Log(8);
+        }
+        else
+        {
+
+
+            if (unitTimer > 5)
+            {
+
+
+                btn.interactable = true;
+
+
+            }
+        }
+
+        if (btn.interactable == false)
+        {
+
+
+            return;
+        }
+
+
+
+        if (player.GetResources() > ResourcesNeeded)
+        {
+
+            GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
+
+            foreach (GameObject card in cards)
+            {
+                card.GetComponent<Button>().interactable = true; ;
+
+            }
+        }
+       */
+        if (unitTimer > 5)
+        {
+
+
+            btn.interactable = true;
+        }
+
+       if (unitTimer < unitSpawnDuration) { return; }
+
+        // Debug.Log($"2 Produce Unit unitSpawnDuration {unitSpawnDuration} , unitTimer {unitTimer}");
+        
+      queuedUnits--;
+        unitTimer = 0f;
+        Screen.orientation = ScreenOrientation.Portrait;
+
+       Debug.Log(queuedUnits);
+        Debug.Log(10100101010);
+
+    }
+
+
+    private void UpdateTimerDisplay()
+    {
+        Debug.Log(1);
+        float newProgress = unitTimer / unitSpawnDuration;
+        Debug.Log(newProgress);
+        if (newProgress < unitProgressImage.fillAmount)
+        {
+            Debug.Log(newProgress);
+            Debug.Log(50);
+            unitProgressImage.fillAmount = newProgress;
+
+        }
+        else
+        {
+            RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+            
+            //the yellow effect
+            unitProgressImage.fillAmount = Mathf.SmoothDamp(
+                unitProgressImage.fillAmount,
+                newProgress,
+                ref progressImageVelocity,
+                0.1f
+            );
+            if (unitProgressImage.fillAmount > 0.99)
+            {
+
+                Button btn = this.gameObject.GetComponent<Button>();
+                btn.interactable = true;
+            }
+            //     Debug.Log($"fillamount {unitProgressImage.fillAmount}");
+
+        }
+
+    }
+
+
+    private void Resources(int olda, int newa)
+    {
+
+        Debug.Log($"connectionToClient {connectionToClient}");
+        if (queuedUnits == maxUnitQueue) { return; }
+
+        //RTSPlayer player = connectionToClient.identity.GetComponent<RTSPlayer>();
+        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        Button btn = this.gameObject.GetComponent<Button>();
+
+        //  if (player.GetResources() > ResourcesNeeded) { btn.interactable = true; ; }
+        //Debug.Log(false);
+        queuedUnits++;
+        //hook interactableTrue
+        if (player.GetResources() < ResourcesNeeded) { return; }
+        player.SetResources(player.GetResources() - ResourcesNeeded);
+
+    }
     public void onBeginDrag(PointerEventData eventData)
     {
 
         Debug.Log($"Begin Drag");
-        if (player.GetResources() < building.GetPrice()) { return; }
+        if (player.GetResources() < unit.GetPrice()) { return; }
 
-        buildingPreviewInstance = Instantiate(building.GetBuildingPreview());
-        buildingRendererInstance = buildingPreviewInstance.GetComponentInChildren<Renderer>();
-
-        buildingPreviewInstance.SetActive(false);
+        unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
+        unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
+        //testing
+        unitPreviewInstance.SetActive(false);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log($"End Drag {eventData.position}");
 
-        if (buildingPreviewInstance == null) { return; }
+        if (unitPreviewInstance == null) { return; }
 
         Ray ray = mainCamera.ScreenPointToRay(eventData.position);
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
         {
-            player.CmdTryPlaceBuilding(building.GetId(), hit.point);
+            a++;
+            player.CmdTryPlaceunit(unit.GetId(), hit.point);
         }
 
-        Destroy(buildingPreviewInstance);
+        Destroy(unitPreviewInstance);
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log(12);
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
 
-        if (player.GetResources() < building.GetPrice()) { return; }
+        if (player.GetResources() < unit.GetPrice()) { return; }
 
-        buildingPreviewInstance = Instantiate(building.GetBuildingPreview());
-        buildingRendererInstance = buildingPreviewInstance.GetComponentInChildren<Renderer>();
+        unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
+        unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
 
-        buildingPreviewInstance.SetActive(false);
+        unitPreviewInstance.SetActive(false);
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        Button btn = this.gameObject.GetComponent<Button>();
+        btn.interactable = false;
+        a++;
         try { 
-            if (buildingPreviewInstance == null) { return; }
+            if (unitPreviewInstance == null) { return; }
 
             Ray ray = mainCamera.ScreenPointToRay(eventData.position);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
             {
-                player.CmdTryPlaceBuilding(building.GetId(), hit.point);
+                player.CmdTryPlaceunit(unit.GetId(), hit.point);
             }
 
-            Destroy(buildingPreviewInstance);
+            Destroy(unitPreviewInstance);
         }catch(Exception){}
     }
 
@@ -106,39 +274,39 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
             if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
 
-            buildingPreviewInstance.transform.position = hit.point;
+            unitPreviewInstance.transform.position = hit.point;
 
-            if (!buildingPreviewInstance.activeSelf)
+            if (!unitPreviewInstance.activeSelf)
             {
-                buildingPreviewInstance.SetActive(true);
+                unitPreviewInstance.SetActive(true);
             }
 
-            Color color = player.CanPlaceBuilding(buildingCollider, hit.point) ? Color.green : Color.red;
+            Color color = player.CanPlaceBuilding(unitCollider, hit.point) ? Color.green : Color.red;
 
-            buildingRendererInstance.material.SetColor("_BaseColor", color);
+            unitRendererInstance.material.SetColor("_BaseColor", color);
         }catch (Exception ){}
 
     }
     private void HandleTouchStart()
     {
-        buildingPreviewInstance = Instantiate(building.GetBuildingPreview());
-        buildingRendererInstance = buildingPreviewInstance.GetComponentInChildren<Renderer>();
+        unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
+        unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
 
-        buildingPreviewInstance.SetActive(false);
+        unitPreviewInstance.SetActive(false);
 
     }
     private void HandleTouchEnd(Vector2 touchPosition)
     {
-        if (buildingPreviewInstance == null) { return; }
+        if (unitPreviewInstance == null) { return; }
 
         Ray ray = mainCamera.ScreenPointToRay(touchPosition);
 
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
         {
-            player.CmdTryPlaceBuilding(building.GetId(), hit.point);
+            player.CmdTryPlaceunit(unit.GetId(), hit.point);
         }
 
-        Destroy(buildingPreviewInstance);
+        Destroy(unitPreviewInstance);
 
     }
     private void UpdateTouchBuildingPreview(Vector2 touchPosition)
@@ -147,16 +315,28 @@ public class BuildingButton : MonoBehaviour, IPointerDownHandler, IPointerUpHand
 
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
 
-        buildingPreviewInstance.transform.position = hit.point;
+        unitPreviewInstance.transform.position = hit.point;
 
-        if (!buildingPreviewInstance.activeSelf)
+        if (!unitPreviewInstance.activeSelf)
         {
-            buildingPreviewInstance.SetActive(true);
+            unitPreviewInstance.SetActive(true);
         }
 
-        Color color = player.CanPlaceBuilding(buildingCollider, hit.point) ? Color.green : Color.red;
-
-        buildingRendererInstance.material.SetColor("_BaseColor", color);
+        Color color = player.CanPlaceBuilding(unitCollider, hit.point) ? Color.green : Color.red;
+        unitRendererInstance.material.SetColor("_BaseColor", color);
     }
+    private void interactableTrue(int oldUnits, int newUnits)
+    {
+        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
+        //Debug.Log(9);
+        remainingUnitsText.text = newUnits.ToString();
+        //print the number
+        Button btn = this.gameObject.GetComponent<Button>();
+
+
+       // if (player.GetResources() < ResourcesNeeded) { btn.interactable = false; ; }
+        //botton can touch now
+        //  Debug.Log(queuedUnits);
+    }
 }

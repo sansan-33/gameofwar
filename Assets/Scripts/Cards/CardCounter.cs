@@ -120,31 +120,28 @@ public class CardCounter : NetworkBehaviour, IPointerClickHandler
 
         if (unitTimer < unitSpawnDuration) { return; }
 
-       // Debug.Log($"2 Produce Unit unitSpawnDuration {unitSpawnDuration} , unitTimer {unitTimer}");
-
         queuedUnits--;
         unitTimer = 0f;
         Screen.orientation = ScreenOrientation.Portrait;
         float newProgress = unitTimer / unitSpawnDuration;
 
+      //  Debug.Log($"queuedUnits{queuedUnits}");
 
-       
-     
+
     }
 
 
     private void UpdateTimerDisplay()
     {
         //unitProgressImage.fillAmount = 0.5f;
-        //Debug.Log(6);
+       
         //unitTimer = 0f;
         float newProgress = unitTimer / unitSpawnDuration;
        
         if (newProgress < unitProgressImage.fillAmount)
         {
-            //Debug.Log(newProgress);
-            unitProgressImage.fillAmount = newProgress;
-            
+                unitProgressImage.fillAmount = newProgress;
+           
         }
         else
         {
@@ -156,9 +153,9 @@ public class CardCounter : NetworkBehaviour, IPointerClickHandler
                 newProgress,
                 ref progressImageVelocity,
                 0.1f
-            );
-            //Debug.Log($"5 {unitProgressImage.fillAmount}");
-            
+
+            ); 
+
         }
 
     }

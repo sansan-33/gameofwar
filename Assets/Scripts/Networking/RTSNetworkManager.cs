@@ -83,7 +83,6 @@ public class RTSNetworkManager : NetworkManager
             foreach(RTSPlayer player in Players)
             {
                 Vector3 pos = GetStartPosition().position;
-                Debug.Log($"OnServerSceneChanged pos {GetStartPosition().position} ");
                 GameObject baseInstance = Instantiate(
                     unitBasePrefab,
                     pos,

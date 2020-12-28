@@ -7,12 +7,12 @@ using UnityEngine;
 public class RTSPlayer : NetworkBehaviour
 {
     [SerializeField] private Transform cameraTransform = null;
-    [SerializeField] private LayerMask buildingBlockLayer = new LayerMask();
-    [SerializeField] private Building[] buildings = new Building[0];
-    [SerializeField] private float buildingRangeLimit = 5f;
-
+    [SerializeField] private LayerMask unitBlockLayer = new LayerMask();
+    [SerializeField] private Unit[] unit = new Unit[0];
+    [SerializeField] private float unitRangeLimit = 5f;
+    [SerializeField] private int halfOfScreenSize = 4;
     [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
-    private int resources = 15;
+    private int resources = 1000000;
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
     private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
@@ -62,27 +62,28 @@ public class RTSPlayer : NetworkBehaviour
         return myBuildings;
     }
 
-    public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 point)
+    public bool CanPlaceBuilding(BoxCollider unitCollider, Vector3 point)
     {
         if (Physics.CheckBox(
-                    point + buildingCollider.center,
-                    buildingCollider.size / 2,
+                    point + unitCollider.center,
+                    unitCollider.size / 2,
                     Quaternion.identity,
-                    buildingBlockLayer))
+                    unitBlockLayer))
         {
             return false;
         }
-
-        foreach (Building building in myBuildings)
-        {
-            if ((point - building.transform.position).sqrMagnitude
-                <= buildingRangeLimit * buildingRangeLimit)
-            {
+       
+       
+       // foreach (Building building in myBuildings)
+     //   {
+       //     if ((point - building.transform.position).sqrMagnitude
+       //         <= halfOfScreenSize)
+         //   {
                 return true;
-            }
-        }
+          //  }
+       // }
 
-        return false;
+       // return false;
     }
 
     #region Server
@@ -138,33 +139,33 @@ public class RTSPlayer : NetworkBehaviour
     }
 
     [Command]
-    public void CmdTryPlaceBuilding(int buildingId, Vector3 point)
+    public void CmdTryPlaceunit(int unitId, Vector3 point)
     {
-        Building buildingToPlace = null;
+        Unit unitToPlace = null;
 
-        foreach (Building building in buildings)
+        foreach (Unit unit in unit)
         {
-            if (building.GetId() == buildingId)
+            if (unit.GetId() == unitId)
             {
-                buildingToPlace = building;
+                unitToPlace = unit;
                 break;
             }
         }
 
-        if (buildingToPlace == null) { return; }
-
-        if (resources < buildingToPlace.GetPrice()) { return; }
-
-        BoxCollider buildingCollider = buildingToPlace.GetComponent<BoxCollider>();
+        if (unitToPlace == null) { return; }
+        Debug.Log( 1);
+        if (resources < unitToPlace.GetPrice()) { return; }
+        Debug.Log(2);
+        BoxCollider buildingCollider = unitToPlace.GetComponent<BoxCollider>();
 
         if (!CanPlaceBuilding(buildingCollider, point)) { return; }
+        Debug.Log(3);
+        GameObject unitInstance =
+            Instantiate(unitToPlace.gameObject, point, unitToPlace.transform.rotation);
 
-        GameObject buildingInstance =
-            Instantiate(buildingToPlace.gameObject, point, buildingToPlace.transform.rotation);
+        NetworkServer.Spawn(unitInstance, connectionToClient);
 
-        NetworkServer.Spawn(buildingInstance, connectionToClient);
-
-        SetResources(resources - buildingToPlace.GetPrice());
+        SetResources(resources - unitToPlace.GetPrice());
     }
 
     private void ServerHandleUnitSpawned(Unit unit)

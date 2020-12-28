@@ -72,21 +72,6 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 1
   animator: {fileID: 3837303402258925098}
---- !u!114 &7227571640310510780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247893643128478723}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72dcefcd322267c4093586e2be9cdaf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  health: {fileID: 7434521872848669670}
 --- !u!114 &6543442643458956378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +114,21 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 1000
     m_PropagationSpeed: 343
+--- !u!114 &7227571640310510780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247893643128478723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72dcefcd322267c4093586e2be9cdaf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  health: {fileID: 7434521872848669670}
 --- !u!1001 &1049900271178853973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217,9 +217,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2303057591089235326, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
+      propertyPath: id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303057591089235326, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
       propertyPath: unitAnimator
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2303057591089235326, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
+      propertyPath: buildingPreview
+      value: 
+      objectReference: {fileID: 247893643128478723, guid: 711f9071eee9b4e2fa0933db9e9c4d45, type: 3}
     - target: {fileID: 2303057591089235326, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
       propertyPath: unitNetworkAnimator
       value: 

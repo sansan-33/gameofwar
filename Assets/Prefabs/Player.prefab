@@ -108,14 +108,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   cameraTransform: {fileID: 4618828630348862267}
-  buildingBlockLayer:
+  unitBlockLayer:
     serializedVersion: 2
-    m_Bits: 1281
-  buildings:
-  - {fileID: 6818829978409247728, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
-  - {fileID: 2315851388335868524, guid: 5aa8c9a7e5556794a91c6eb67af5dc8a, type: 3}
-  - {fileID: 2315851388335868524, guid: 238678013f3ac40479875cd2da1650eb, type: 3}
-  buildingRangeLimit: 7.5
+    m_Bits: 0
+  unit:
+  - {fileID: 1254221807189732139, guid: 711f9071eee9b4e2fa0933db9e9c4d45, type: 3}
+  unitRangeLimit: 5
+  halfOfScreenSize: 4
 --- !u!114 &1532699281228866823
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,12 +7,13 @@ using UnityEngine.Events;
 
 public class Unit : NetworkBehaviour
 {
+    [SerializeField] private GameObject buildingPreview = null;
     [SerializeField] private int resourceCost = 10;
     [SerializeField] private Health health = null;
     [SerializeField] private UnitMovement unitMovement = null;
-   
+    [SerializeField] private int id = -1;
     [SerializeField] private bool isEmeny = false;
-
+    [SerializeField] private int price = 100;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
@@ -22,7 +23,10 @@ public class Unit : NetworkBehaviour
 
     public static event Action<Unit> AuthorityOnUnitSpawned;
     public static event Action<Unit> AuthorityOnUnitDespawned;
-
+    public GameObject GetBuildingPreview()
+    {
+        return buildingPreview;
+    }
     public int GetResourceCost()
     {
         return resourceCost;
@@ -41,7 +45,14 @@ public class Unit : NetworkBehaviour
         return isEmeny;
     }
     #region Server
-
+    public int GetId()
+    {
+        return id;
+    }
+    public int GetPrice()
+    {
+        return price;
+    }
     public override void OnStartServer()
     {
         ServerOnUnitSpawned?.Invoke(this);
