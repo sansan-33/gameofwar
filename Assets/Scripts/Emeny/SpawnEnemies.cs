@@ -6,26 +6,35 @@ using UnityEngine.AI;
 
 public class SpawnEnemies : NetworkBehaviour
 {
-    [SerializeField]
-    private GameObject enemyPrefab;
+    [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject projectilePrefab = null;
+    [SerializeField] private float fireRange = 20;
+
     private NavMeshAgent agent = null;
+    private Camera mainCamera;
 
     [SerializeField]
-    private float spawnInterval = 300.0f;
+    private float spawnInterval = 0.1f;
 
     private GameObject enemy;
     private float stoppingDistance = 1;
     private float chaseRange = 1;
+    private int spawncount=3;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
     public override void OnStartServer()
     {
+        mainCamera = Camera.main;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-        if(FindObjectOfType<NetworkManager>().numPlayers ==1)
-            InvokeRepeating("SpawnEnemy", 0.1f, this.spawnInterval);
+        if (FindObjectOfType<NetworkManager>().numPlayers == 1){ 
+             while (spawncount > 0)
+            {
+                InvokeRepeating("SpawnEnemy", 0.1f, this.spawnInterval);
+                spawncount--;
+            }
+        }
     }
 
     private void Update()
@@ -33,6 +42,7 @@ public class SpawnEnemies : NetworkBehaviour
         GameObject target = GameObject.FindGameObjectWithTag("Player");
         if(FindObjectOfType<NetworkManager>().numPlayers ==1 && target != null && enemy != null)
         {
+            if( (target.transform.position - enemy.transform.position).magnitude == 0 ) { return; }
             Quaternion targetRotation =
             Quaternion.LookRotation((target.transform.position - enemy.transform.position).normalized);
 
@@ -44,23 +54,31 @@ public class SpawnEnemies : NetworkBehaviour
     private void SpawnEnemy()
     {
 
-        //if (GameObject.FindGameObjectWithTag("Enemy") != null ) { return; }
-        //if (Time.time > (1 / 0.01) + lastFireTime)
-        //{
-            //RTSPlayer player = connectionToClient.identity.GetComponent<RTSPlayer>();
-            
-            Vector2 spawnPosition = new Vector2(Random.Range(-4.0f, 4.0f), this.transform.position.y);
-            enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity) as GameObject;
-            agent = enemy.GetComponent<NavMeshAgent>();
-            agent.speed = 10;
-            agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+            int i = 0;
+            int spawnMoveRange = 1;
+            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            /*
+            foreach (GameObject point in points)
+            {
+                Debug.Log($"12345 SpawnEnemy spawnPosition {i++} {point.transform.position}");
+            }
+            */
+            Vector3 spawnPosition = points[2].transform.position ;
+            //Debug.Log($"7777777 SpawnEnemy spawnPosition {spawnPosition}");
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+
+            enemy = Instantiate(enemyPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
             //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
             NetworkServer.Spawn(enemy, player.connectionToClient);
-            InvokeRepeating("TryMove", 0.1f, 30f);
-            InvokeRepeating("TryShoot", 0.1f, 2f);
-            //lastFireTime = Time.time;
-            //Destroy(enemy, 10);
-        //}
+            agent = enemy.GetComponent<NavMeshAgent>();
+            agent.speed = 10;
+            //agent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
+
+            agent.SetDestination(spawnPosition + spawnOffset);
+
+            //InvokeRepeating("TryMove", 0.1f, 30f);
+            InvokeRepeating("TryShoot", 1f, 1f);
     }
 
     private void  TryMove()
@@ -77,23 +95,60 @@ public class SpawnEnemies : NetworkBehaviour
     }
     private void TryShoot()
     {
-        GameObject target = GameObject.FindGameObjectWithTag("Player");
-       
-        if (Time.time > (1 / fireRate) + lastFireTime)
+        Vector3 target = findNearest("Player",5000);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if(target == null || enemies == null) { return; }
+        foreach (GameObject enemy in enemies)
         {
-            //Debug.Log($"Time.time {Time.time}");
+            if (!CanFireAtTarget(target,enemy)) { continue; }
             Quaternion projectileRotation = Quaternion.LookRotation(
-                 target.transform.position - enemy.transform.position);
+                     target  - enemy.transform.position);
+           GameObject projectileInstance = Instantiate(
+                    projectilePrefab, enemy.transform.Find("ProjectileSpawnPoint").transform.position, projectileRotation);
 
-            GameObject projectileInstance = Instantiate(
-                projectilePrefab, enemy.transform.Find("ProjectileSpawnPoint").transform.position, projectileRotation);
-
-            NetworkServer.Spawn(projectileInstance, player.connectionToClient);
-
-
-
-            lastFireTime = Time.time;
+           NetworkServer.Spawn(projectileInstance, player.connectionToClient);
         }
 
+    }
+    private bool CanFireAtTarget(Vector3 target, GameObject enemy)
+    {
+        return (target  - enemy.transform.position).sqrMagnitude
+            <= fireRange * fireRange;
+    }
+    public Vector3 findNearest(string enemyTag, int range)
+    {
+
+        GameObject target = null;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        float shortesDistance = Mathf.Infinity;
+        Vector3 pos;
+        GameObject otherPlayerEnemy = null;
+        //Debug.Log($"enemies {enemies.Length}");
+        foreach (GameObject enemy in enemies)
+        {
+
+            //Debug.Log($"enemy {enemy} / hasAuthority {enemy.GetComponent<Unit>().hasAuthority} , num players : {FindObjectOfType<NetworkManager>().numPlayers }");
+            if (FindObjectOfType<NetworkManager>().numPlayers > 1 && enemy.GetComponent<Unit>().hasAuthority) { continue; }
+            if (enemy != null && enemy != this.gameObject)
+            {
+                otherPlayerEnemy = enemy;
+                //Debug.Log($"otherPlayerEnemy {otherPlayerEnemy}");
+                float distanceToEnemy = Vector3.Distance(transform.position, otherPlayerEnemy.transform.position);
+                //targetEnemy = nearestEnemy.GetComponent<Enemy>();
+                if (distanceToEnemy < shortesDistance && distanceToEnemy <= range)
+                {
+                    shortesDistance = distanceToEnemy;
+                    target = otherPlayerEnemy;
+                }
+            }
+            //Debug.Log($"target {target} ");
+        }
+        pos = target.transform.position;
+        //pos = mainCamera.WorldToScreenPoint(pos);
+        //pos.z = 0.0f;
+        target.transform.Find("SelectedHighlight").gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        target.transform.Find("SelectedHighlight").gameObject.GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+
+        return pos;
     }
 }

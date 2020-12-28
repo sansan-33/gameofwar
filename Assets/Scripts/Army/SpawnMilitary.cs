@@ -1,0 +1,183 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Mirror;
+using UnityEngine.AI;
+
+public class SpawnMilitary : NetworkBehaviour
+{
+    [SerializeField] private GameObject archerPrefab;
+    [SerializeField] private GameObject footmanPrefab;
+    [SerializeField] private GameObject projectilePrefab = null;
+    [SerializeField] private float fireRange = 30;
+    private NavMeshAgent agent = null;
+
+    [SerializeField]
+    private float spawnInterval = 60000f;
+
+    private GameObject unit;
+    private float stoppingDistance = 1;
+    private float chaseRange = 1;
+    private int spawnArcherCount=2;
+    private int spawnFootmanCount = 2;
+    private float lastFireTime;
+    [SerializeField] private float fireRate = 6000f;
+    private RTSPlayer player;
+    public override void OnStartServer()
+    {
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+
+        if (FindObjectOfType<NetworkManager>().numPlayers == 1) { 
+            while (spawnArcherCount > 0)
+            {
+                InvokeRepeating("loadArcher", 0.1f, 60000f);
+                spawnArcherCount--;
+            }
+            while (spawnFootmanCount > 0)
+            {
+                InvokeRepeating("loadFootman", 0.1f, 60000f);
+                spawnFootmanCount--;
+            }
+            InvokeRepeating("TryMove", 5f, 1f);
+            InvokeRepeating("TryShoot", 5f, 1f);
+        }
+
+    }
+    private void Update()
+    {
+        GameObject target = GameObject.FindGameObjectWithTag("Enemy");
+        if(FindObjectOfType<NetworkManager>().numPlayers ==1 && target != null && unit != null)
+        {
+            if( (target.transform.position - unit.transform.position).magnitude == 0 ) { return; }
+            Quaternion targetRotation =
+            Quaternion.LookRotation((target.transform.position - unit.transform.position).normalized);
+
+            unit.transform.rotation = Quaternion.RotateTowards(
+            unit.transform.rotation, targetRotation, 800 * Time.deltaTime);
+        }
+    }
+    private void loadArcher()
+    {
+
+            int i = 0;
+            int spawnMoveRange = 1;
+            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            Vector3 spawnPosition = points[0].transform.position ;
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+            unit = Instantiate(archerPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
+
+            NetworkServer.Spawn(unit, player.connectionToClient);
+            unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Shoot);
+
+            agent = unit.GetComponent<NavMeshAgent>();
+            agent.speed = 10;
+            agent.SetDestination(spawnPosition + spawnOffset);
+
+           
+    }
+    private void loadFootman()
+    {
+
+        int i = 0;
+        int spawnMoveRange = 1;
+        GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        Vector3 spawnPosition = points[0].transform.position;
+        Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+        spawnOffset.y = spawnPosition.y;
+        unit = Instantiate(footmanPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+        //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
+        NetworkServer.Spawn(unit, player.connectionToClient);
+        unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Slash);
+
+        agent = unit.GetComponent<NavMeshAgent>();
+        agent.speed = 10;
+        agent.SetDestination(spawnPosition + spawnOffset);
+       
+    }
+    private void  TryMove()
+    {
+
+        Vector3 target = findNearest("Enemy", 5000);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+        if (target == null || armies == null) { return; }
+        foreach (GameObject army in armies)
+        {
+            agent = army.GetComponent<NavMeshAgent>();
+
+            if (target != null && !agent.hasPath)
+            {
+                agent.SetDestination(target );
+                //Debug.Log($"2 Agent Move to {target}");
+            }
+        }
+
+    }
+    private void TryShoot()
+    {
+        Vector3 target = findNearest("Enemy", 5000);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+        if(target == null || armies == null) { return; }
+        Debug.Log($"TryShoot 1 armies size {armies.Length} target postion {target}");
+
+        foreach (GameObject army in armies)
+        {
+            Debug.Log($"TryShoot 2 army: {army} at pos: {army.transform.position} , fire range {(target - army.transform.position).sqrMagnitude}");
+            if (!CanFireAtTarget(target, army)) { continue; }
+
+            Quaternion projectileRotation = Quaternion.LookRotation(
+                target - army.transform.position);
+            GameObject projectileInstance = Instantiate(
+                projectilePrefab, army.transform.Find("ProjectileSpawnPoint").transform.position, projectileRotation);
+            Debug.Log($"TryShoot 3 army {army.transform.position} target {target}");
+            NetworkServer.Spawn(projectileInstance, player.connectionToClient);
+        }
+    }
+    private bool CanFireAtTarget(Vector3 target, GameObject unit)
+    {
+        bool canfire = true;
+        if ((target - unit.transform.position).sqrMagnitude < fireRange * fireRange)
+            canfire = false;
+        if (unit.GetComponent<Targeter>().targeterAttackType != Targeter.AttackType.Shoot)
+            canfire = false;
+        Debug.Log($"unit.GetComponent<Targeter>().targeterAttackType {unit.GetComponent<Targeter>().targeterAttackType}");
+        return canfire;
+    }
+
+    public Vector3 findNearest(string enemyTag, int range)
+    {
+
+        GameObject target = null;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
+        float shortesDistance = Mathf.Infinity;
+        Vector3 pos;
+        GameObject otherPlayerEnemy = null;
+        //Debug.Log($"enemies {enemies.Length}");
+        foreach (GameObject enemy in enemies)
+        {
+
+            //Debug.Log($"enemy {enemy} / hasAuthority {enemy.GetComponent<Unit>().hasAuthority} , num players : {FindObjectOfType<NetworkManager>().numPlayers }");
+            if (FindObjectOfType<NetworkManager>().numPlayers > 1 && enemy.GetComponent<Unit>().hasAuthority) { continue; }
+            if (enemy != null && enemy != this.gameObject)
+            {
+                otherPlayerEnemy = enemy;
+                //Debug.Log($"otherPlayerEnemy {otherPlayerEnemy}");
+                float distanceToEnemy = Vector3.Distance(transform.position, otherPlayerEnemy.transform.position);
+                //targetEnemy = nearestEnemy.GetComponent<Enemy>();
+                if (distanceToEnemy < shortesDistance && distanceToEnemy <= range)
+                {
+                    shortesDistance = distanceToEnemy;
+                    target = otherPlayerEnemy;
+                }
+            }
+            //Debug.Log($"target {target} ");
+        }
+        pos = target.transform.position;
+        target.transform.Find("SelectedHighlight").gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        target.transform.Find("SelectedHighlight").gameObject.GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
+
+        return pos;
+    }
+
+}

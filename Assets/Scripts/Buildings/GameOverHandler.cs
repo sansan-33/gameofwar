@@ -39,7 +39,7 @@ public class GameOverHandler : NetworkBehaviour
     {
         bases.Remove(unitBase);
 
-        if (bases.Count != 2) { return; }
+        if (bases.Count != 1) { return; }
 
         int playerId = bases[0].connectionToClient.connectionId;
 

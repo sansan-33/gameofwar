@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Mirror;
@@ -214,7 +213,7 @@ public class UnitCommandGiver : MonoBehaviour
         return doubleTap;
     }
 
-    public Vector3 findNearest(String enemyTag, int range)
+    public Vector3 findNearest(string enemyTag, int range)
     {
 
         target = null;
@@ -226,7 +225,7 @@ public class UnitCommandGiver : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             
-            Debug.Log($"enemy {enemy} / hasAuthority {enemy.GetComponent<Unit>().hasAuthority} , num players : {FindObjectOfType<NetworkManager>().numPlayers }");
+            //Debug.Log($"enemy {enemy} / hasAuthority {enemy.GetComponent<Unit>().hasAuthority} , num players : {FindObjectOfType<NetworkManager>().numPlayers }");
             if(FindObjectOfType<NetworkManager>().numPlayers > 1 && enemy.GetComponent<Unit>().hasAuthority){ continue;}
             if (enemy != null && enemy != this.gameObject  )
             {
