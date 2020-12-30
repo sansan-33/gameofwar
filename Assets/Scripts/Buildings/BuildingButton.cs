@@ -146,21 +146,18 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
         unitTimer = 0f;
         Screen.orientation = ScreenOrientation.Portrait;
 
-       Debug.Log(queuedUnits);
-        Debug.Log(10100101010);
-
+      
     }
 
 
     private void UpdateTimerDisplay()
     {
-        Debug.Log(1);
+        
         float newProgress = unitTimer / unitSpawnDuration;
-        Debug.Log(newProgress);
+        
         if (newProgress < unitProgressImage.fillAmount)
         {
-            Debug.Log(newProgress);
-            Debug.Log(50);
+            
             unitProgressImage.fillAmount = newProgress;
 
         }
@@ -181,7 +178,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
                 Button btn = this.gameObject.GetComponent<Button>();
                 btn.interactable = true;
             }
-            //     Debug.Log($"fillamount {unitProgressImage.fillAmount}");
+           
 
         }
 
@@ -191,7 +188,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     private void Resources(int olda, int newa)
     {
 
-        Debug.Log($"connectionToClient {connectionToClient}");
+        
         if (queuedUnits == maxUnitQueue) { return; }
 
         //RTSPlayer player = connectionToClient.identity.GetComponent<RTSPlayer>();
@@ -235,7 +232,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     }
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log(12);
+        
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
 
         if (player.GetResources() < unit.GetPrice()) { return; }

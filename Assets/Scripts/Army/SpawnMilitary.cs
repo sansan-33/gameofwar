@@ -14,7 +14,7 @@ public class SpawnMilitary : NetworkBehaviour
 
     [SerializeField]
     private float spawnInterval = 60000f;
-
+    public int numberOfEnermy;
     private GameObject unit;
     private float stoppingDistance = 1;
     private float chaseRange = 1;
@@ -74,8 +74,9 @@ public class SpawnMilitary : NetworkBehaviour
             agent = unit.GetComponent<NavMeshAgent>();
             agent.speed = 10;
             agent.SetDestination(spawnPosition + spawnOffset);
+        numberOfEnermy++;
 
-           
+
     }
     private void loadFootman()
     {
@@ -94,7 +95,11 @@ public class SpawnMilitary : NetworkBehaviour
         agent = unit.GetComponent<NavMeshAgent>();
         agent.speed = 10;
         agent.SetDestination(spawnPosition + spawnOffset);
-       
+        numberOfEnermy++;
+    }
+    public int GetNumberOfEnermy()
+    {
+        return numberOfEnermy;
     }
     private void  TryMove()
     {

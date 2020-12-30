@@ -11,10 +11,11 @@ public class UnitMovement : NetworkBehaviour
 
     private float stoppingDistance = 1f;
     #region Server
-
+    private float startTime = 3;
     public override void OnStartServer()
     {
         GameOverHandler.ServerOnGameOver += ServerHandleGameOver;
+        
     }
 
     public override void OnStopServer()
@@ -25,7 +26,7 @@ public class UnitMovement : NetworkBehaviour
     [ServerCallback]
     private void Update()
     {
-
+        GameStartCountDown();
         Targetable target = targeter.GetTarget();
         
         if (target != null)
@@ -77,7 +78,21 @@ public class UnitMovement : NetworkBehaviour
     {
         agent.ResetPath();
     }
+    private void GameStartCountDown()
+    {
+        startTime -= 1 * Time.deltaTime;
+        if (startTime <= 0)
+        {
+            startTime = 0;
+        }
+        if (startTime <= 3 && startTime > 0)
+        {
 
+            agent.ResetPath();
+
+        }
+        
+    }
     [Command]
     public void CmdMoveAttack(Vector3 position,  int speed)
     {
