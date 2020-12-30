@@ -13,7 +13,6 @@ public class SpawnMilitary : NetworkBehaviour
     
     [SerializeField]
     private float spawnInterval = 60000f;
-    
     private float stoppingDistance = 1;
     private int spawnMoveRange = 1;
 
@@ -96,8 +95,8 @@ public class SpawnMilitary : NetworkBehaviour
         agent = unit.GetComponent<NavMeshAgent>();
         agent.speed = 10;
         agent.SetDestination(spawnPosition + spawnOffset);
-       
     }
+   
     private void  TrySlash()
     {
 
