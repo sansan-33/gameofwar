@@ -10,9 +10,13 @@ public class UnitWeapon : NetworkBehaviour
     [SerializeField] private int damageToDeal = 1;
     [SerializeField] private float destroyAfterSeconds = 1f;
     [SerializeField] private GameObject textPrefab = null;
-    [SerializeField] private GameObject projectilePrefab = null;
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private GameObject camFreeLookPrefab = null;
+    [SerializeField] private GameObject attackPoint;
+    [SerializeField] private float attackRange=5f;
+    [SerializeField] private LayerMask layerMask = new LayerMask();
+
+    bool m_Started;
 
     void Start()
     {
@@ -20,8 +24,8 @@ public class UnitWeapon : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        //this.floatingText = tryDamageText(transform.position);
-        //Invoke(nameof(DestroySelf), 1);
+        //Use this to ensure that the Gizmos are being drawn when in Play Mode.
+        m_Started = true;
     }
     [ServerCallback]
     private void Update()
@@ -30,37 +34,47 @@ public class UnitWeapon : NetworkBehaviour
        
     }
 
-    [ServerCallback]
-    private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
+    [Command]
+    public void Attack()
     {
 
-        Targetable target = targeter.GetTarget();
-        if (target == null) { return; }
-        if (targeter.targeterAttackType != Targeter.AttackType.Slash) { return; }
+        //Use the OverlapBox to detect if there are any other colliders within this box area.
+        //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
+        Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
+        int i = 0;
+        Collider other;
+        //Check when there is a new collider coming into contact with the box
+        while (i < hitColliders.Length)
+        {
+            other = hitColliders[i];
+            if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
+            {
+                if (networkIdentity.connectionToClient == connectionToClient && other.tag != "Enemy") { return; }  //check to see if it belongs to the player, if it does, do nothing
+            }
+            if (other.TryGetComponent<Health>(out Health health))
+            {
+                health.DealDamage(damageToDeal);
+                cmdDamageText(other.transform.position);
+                cmdCMVirtual();
+                break;
+            }
+            i++;
+        }
 
-        Vector3 pos;
-        //Debug.Log($"Unit Weapon On Trigger Enter Collide {other}");
-        if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
-        {
-             //Debug.Log($"same connectionToClient ? other : {networkIdentity.connectionToClient.connectionId}  / this: {connectionToClient.connectionId} / other hasAuthority ? { networkIdentity.hasAuthority}");
-            //Debug.Log($"same connectionToClient ?   {networkIdentity.connectionToClient == connectionToClient}");
-            
-            if (networkIdentity.connectionToClient == connectionToClient && other.tag != "Enemy") { return; }  //check to see if it belongs to the player, if it does, do nothing
-            //if (networkIdentity.hasAuthority) { return; }  //check to see if it belongs to the player, if it does, do nothing
-        }
-        //Debug.Log($"Try Health {other.GetComponent<Health>()}");
-        if(other.TryGetComponent<Health>(out Health health))
-        {
-            pos = other.transform.position;
-            health.DealDamage(damageToDeal);
-            cmdDamageText(pos);
-            //cmdCMVirtual();
-            cmdCMFreeLook();
-            //Debug.Log($"Deal {damageToDeal} Damage on {other}, totoal health is {health.getCurrentHealth()}");
-            // ===================================================================================================
-        }
-        //DestroySelf();
     }
+    //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+        if (m_Started)
+        {
+            //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+            Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale);
+        }
+    }
+
+
     [Command]   
     private void cmdDamageText(Vector3 targetPos)
     {

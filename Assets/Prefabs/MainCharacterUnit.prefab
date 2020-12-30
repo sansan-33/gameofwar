@@ -53,7 +53,6 @@ MonoBehaviour:
   damageToDeal: 1
   destroyAfterSeconds: 1
   textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
-  projectilePrefab: {fileID: 3714870687590703606, guid: a3cf9c6d519b275409a66a3b0a73984c, type: 3}
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   camFreeLookPrefab: {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
 --- !u!114 &5853594902084082683
@@ -283,6 +282,10 @@ PrefabInstance:
     - target: {fileID: 4768947040284657953, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
       propertyPath: m_Speed
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4768947040284657953, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
+      propertyPath: m_Radius
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 4768947040284657953, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
       propertyPath: m_Acceleration

@@ -46,9 +46,9 @@ public class UnitProjectile : NetworkBehaviour
 
         if (other.TryGetComponent<Health>(out Health health))
         {
-            Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {other}");
-            cmdDamageText(other.transform.position);
-            cmdCMVirtual();
+            //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {other}");
+            //cmdDamageText(other.transform.position);
+            //cmdCMVirtual();
             health.DealDamage(damageToDeal);
         }
 

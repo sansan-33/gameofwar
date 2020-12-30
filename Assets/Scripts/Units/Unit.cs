@@ -18,6 +18,8 @@ public class Unit : NetworkBehaviour
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
 
+    public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN ,HERO };
+    public UnitType unitType;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
 
