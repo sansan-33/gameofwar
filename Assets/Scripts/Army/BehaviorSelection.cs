@@ -20,37 +20,46 @@ public class BehaviorSelection : MonoBehaviour
 
         public void Start()
         {
+            InvokeRepeating("addBehaviourToMilitary", 5f, 6000000f);
+        }
+        private void addBehaviourToMilitary()
+        {
 
 
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
             foreach (GameObject child in armies)
             {
-
-
-            //for (int i = 0; i < agentGroup.transform.childCount; ++i) {
-           //     var child = agentGroup.transform.GetChild(i);
+                 //for (int i = 0; i < agentGroup.transform.childCount; ++i) {
+                //     var child = agentGroup.transform.GetChild(i);
                 var agentTrees = child.GetComponents<BehaviorTree>();
-                for (int j = 0; j < agentTrees.Length; ++j) {
+                for (int j = 0; j < agentTrees.Length; ++j)
+                {
                     var group = agentTrees[j].Group;
                     List<BehaviorTree> groupBehaviorTrees;
-                    if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees)) {
+                    if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
+                    {
                         groupBehaviorTrees = new List<BehaviorTree>();
                         agentBehaviorTreeGroup.Add(group, groupBehaviorTrees);
                     }
                     groupBehaviorTrees.Add(agentTrees[j]);
+                    Debug.Log($" {j} {agentTrees[j]} ");                 
                 }
             }
-            enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
-            var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
+            //enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
+            //var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
 
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            for (int i = 0; i < enemies.Length; ++i)
+            var behaviorTrees = enemies[0].GetComponentsInChildren<BehaviorTree>();
+            for (int i = 0; i < behaviorTrees.Length; ++i)
             {
-            //for (int i = 0; i < behaviorTrees.Length; ++i) {
+                //for (int i = 0; i < behaviorTrees.Length; ++i) {
                 List<BehaviorTree> list;
-                if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list)) {
+                if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list))
+                {
                     list.Add(behaviorTrees[i]);
-                } else {
+                }
+                else
+                {
                     list = new List<BehaviorTree>();
                     list.Add(behaviorTrees[i]);
                     enemyBehaviorTreeGroup[behaviorTrees[i].Group] = list;
@@ -59,7 +68,6 @@ public class BehaviorSelection : MonoBehaviour
 
             SelectionChanged();
         }
-
 
         private string Description()
         {
