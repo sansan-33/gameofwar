@@ -18,9 +18,9 @@ public class SpawnMilitary : NetworkBehaviour
     private int spawnMoveRange = 1;
 
     private float chaseRange = 1;
-    private int spawnArcherCount=0;
-    private int spawnFootmanCount = 1;
-    private int spawnKnightCount = 5;
+    private int spawnArcherCount=1;
+    private int spawnFootmanCount = 0;
+    private int spawnKnightCount = 2;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
@@ -36,7 +36,7 @@ public class SpawnMilitary : NetworkBehaviour
             }
             StartCoroutine(loadKnight(2f));
             InvokeRepeating("TrySlash", 10f, 2f);
-            InvokeRepeating("TryShoot", 3f, 3f);
+            InvokeRepeating("TryShoot", 3f, 10f);
         }
 
     }
@@ -61,7 +61,7 @@ public class SpawnMilitary : NetworkBehaviour
         NetworkServer.Spawn(unit, player.connectionToClient);
             
         agent = unit.GetComponent<NavMeshAgent>();
-        agent.speed = 10;
+        //agent.speed = 8;
         agent.SetDestination(spawnPosition + spawnOffset);
     }
 
@@ -82,7 +82,7 @@ public class SpawnMilitary : NetworkBehaviour
         unit.GetComponent<Unit>().unitType = Unit.UnitType.SPEARMAN;
         unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
         agent = unit.GetComponent<NavMeshAgent>();
-        agent.speed = 10;
+     //   agent.speed = 6;
         agent.SetDestination(spawnPosition + spawnOffset);
     }
     private IEnumerator loadKnight(float waitTime)
@@ -105,10 +105,11 @@ public class SpawnMilitary : NetworkBehaviour
             unit.GetComponent<Unit>().unitType = Unit.UnitType.KNIGHT;
             unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
             agent = unit.GetComponent<NavMeshAgent>();
-            agent.speed = 10;
+            //agent.speed = 10;
             agent.SetDestination(spawnPosition + spawnOffset);
             spawnKnightCount--;
         }
+
     }
     private void  TrySlash()
     {
@@ -126,7 +127,7 @@ public class SpawnMilitary : NetworkBehaviour
                 //Debug.Log($"army {i} {army.GetComponent<Unit>().unitType}");
                 army.GetComponent<Targeter>().CmdSetTarget(target, Targeter.AttackType.Slash);
                 agent = army.GetComponent<NavMeshAgent>();
-                agent.speed = 10;
+               // agent.speed = 10;
                 Quaternion targetRotation =
                 Quaternion.LookRotation((target.transform.position - army.transform.position).normalized);
                 army.transform.rotation = Quaternion.RotateTowards(
