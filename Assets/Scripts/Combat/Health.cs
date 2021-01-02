@@ -7,10 +7,10 @@ using UnityEngine;
 public class Health : NetworkBehaviour
 {
     [SerializeField] private int maxHealth = 100;
-
+    [SerializeField] private int defend = 0;
     [SyncVar(hook = nameof(HandleHealthUpdated))]
     private int currentHealth;
-
+    
     public event Action ServerOnDie;
 
     public event Action<int, int> ClientOnHealthUpdated;
@@ -41,7 +41,9 @@ public class Health : NetworkBehaviour
     public void DealDamage(int damageAmount)
     {
         if (currentHealth == 0) { return; }
-
+        
+        damageAmount -= defend;
+       
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
 
         if (currentHealth != 0) { return; }

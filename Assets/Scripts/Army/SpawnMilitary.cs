@@ -39,8 +39,8 @@ public class SpawnMilitary : NetworkBehaviour
                 InvokeRepeating("loadKnight", 0.1f, 60000f);
                 spawnKnightCount--;
             }
-            InvokeRepeating("TrySlash", 5f, 2f);
-            InvokeRepeating("TryShoot", 5f, 3f);
+            InvokeRepeating("TrySlash", 10f, 2f);
+            InvokeRepeating("TryShoot", 3f, 3f);
         }
 
     }

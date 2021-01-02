@@ -6,7 +6,7 @@ using UnityEngine;
 public class UnitProjectile : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb = null;
-    [SerializeField] private int damageToDeal = 20;
+    [SerializeField] private int damageToDeals = 0;
     [SerializeField] private float destroyAfterSeconds = 5f;
     [SerializeField] private float launchForce = 10f;
     [SerializeField] private GameObject textPrefab = null;
@@ -15,6 +15,7 @@ public class UnitProjectile : NetworkBehaviour
 
     void Start()
     {
+       
         rb.velocity = transform.forward * launchForce;
     }
 
@@ -27,7 +28,7 @@ public class UnitProjectile : NetworkBehaviour
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
 
-
+      
         // Not attack same connection client object except AI Enemy
         if (FindObjectOfType<NetworkManager>().numPlayers == 1) {
             //Debug.Log($"other.tag  {other.tag} ,unitType {unitType} ");
@@ -49,7 +50,8 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {other}");
             cmdDamageText(other.transform.position);
             cmdCMVirtual();
-            health.DealDamage(damageToDeal);
+            health.DealDamage(damageToDeals);
+            
         }
 
         DestroySelf();
@@ -59,7 +61,7 @@ public class UnitProjectile : NetworkBehaviour
     {
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         floatingText.GetComponent<DamageTextHolder>().displayColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-        floatingText.GetComponent<DamageTextHolder>().displayText = damageToDeal + "";
+        floatingText.GetComponent<DamageTextHolder>().displayText = damageToDeals + "";
         NetworkServer.Spawn(floatingText, connectionToClient);
     }
     [Command]
