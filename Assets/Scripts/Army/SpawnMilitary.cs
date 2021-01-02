@@ -34,11 +34,7 @@ public class SpawnMilitary : NetworkBehaviour
                 InvokeRepeating("loadArcher", 0.1f, 60000f);
                 spawnArcherCount--;
             }
-            while (spawnKnightCount > 0)
-            {
-                InvokeRepeating("loadKnight", 0.1f, 60000f);
-                spawnKnightCount--;
-            }
+            StartCoroutine(loadKnight(2f));
             InvokeRepeating("TrySlash", 10f, 2f);
             InvokeRepeating("TryShoot", 3f, 3f);
         }
@@ -89,24 +85,30 @@ public class SpawnMilitary : NetworkBehaviour
         agent.speed = 10;
         agent.SetDestination(spawnPosition + spawnOffset);
     }
-    private void loadKnight()
+    private IEnumerator loadKnight(float waitTime)
     {
-        GameObject unit;
-        NavMeshAgent agent = null;
+        yield return new WaitForSeconds(waitTime);
+        while (spawnKnightCount > 0)
+        {
+            GameObject unit;
+            NavMeshAgent agent = null;
 
-        GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        Vector3 spawnPosition = points[0].transform.position;
-        Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
-        spawnOffset.y = spawnPosition.y;
-        unit = Instantiate(knightPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
-        NetworkServer.Spawn(unit, player.connectionToClient);
-        unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Slash);
+            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            Vector3 spawnPosition = points[0].transform.position;
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+            unit = Instantiate(knightPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            unit.name = "Knight" + spawnKnightCount;
+            NetworkServer.Spawn(unit, player.connectionToClient);
+            unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Slash);
 
-        unit.GetComponent<Unit>().unitType = Unit.UnitType.KNIGHT;
-        unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
-        agent = unit.GetComponent<NavMeshAgent>();
-        agent.speed = 10;
-        agent.SetDestination(spawnPosition + spawnOffset);
+            unit.GetComponent<Unit>().unitType = Unit.UnitType.KNIGHT;
+            unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
+            agent = unit.GetComponent<NavMeshAgent>();
+            agent.speed = 10;
+            agent.SetDestination(spawnPosition + spawnOffset);
+            spawnKnightCount--;
+        }
     }
     private void  TrySlash()
     {

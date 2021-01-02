@@ -198,12 +198,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             if (leader.Value == null) {
                 if (formationTrees == null) {
+                    Debug.Log($"AddAgentToGroup formationTrees is null");
                     formationTrees = new List<Behavior>();
                     agentsReady = new List<bool>();
                 }
 
                 // Notify the current agent of the existing agents.
+                Debug.Log($"formationTrees.Count {formationTrees.Count}");
                 for (int i = 0; i < formationTrees.Count; ++i) {
+                    Debug.Log($"Notify the current agent of the existing agents.");
                     agent.SendEvent("AddAgentToGroup", formationTrees[i], i);
                 }
                 // Notify the current agent of the targets.
@@ -215,9 +218,12 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
                 formationTrees.Insert(index, agent);
                 agentsReady.Insert(index, false);
+                Debug.Log($"AddAgentToGroup formationTrees-{index} count {formationTrees.Count} / agentsReady-{index} count {agentsReady.Count}");
 
                 // Notify other agents that the current agent has joined the formation.
                 for (int i = 1; i < formationTrees.Count; ++i) {
+                    Debug.Log($"Notify other agents that the current agent has joined the formation");
+
                     formationTrees[i].SendEvent("AddAgentToGroup", formationTrees[index], index);
                     formationTrees[i].SendEvent("FormationUpdated", i);
                 }
@@ -243,7 +249,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (runStatus != TaskStatus.Running) {
                 return;
             }
-            Debug.Log($"UpdateInPosition {agentsReady.Count} / {index}");
+            Debug.Log($"UpdateInPosition Total: {agentsReady.Count} / Index: {index}");
             agentsReady[index] = inPosition;
             var allReady = inPosition;
             for (int i = 0; i < agentsReady.Count; ++i) {

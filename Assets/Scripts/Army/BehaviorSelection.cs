@@ -41,6 +41,7 @@ public class BehaviorSelection : MonoBehaviour
                 for (int j = 0; j < agentTrees.Length; ++j)
                 {
                     var group = agentTrees[j].Group;
+                    //Debug.Log($" Behavior Tree {j}: {agentTrees[j]} / Group: {group} ");
                     List<BehaviorTree> groupBehaviorTrees;
                     if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
                     {
@@ -50,6 +51,16 @@ public class BehaviorSelection : MonoBehaviour
                     groupBehaviorTrees.Add(agentTrees[j]);
                 }
             }
+            for(int j=0; j< agentBehaviorTreeGroup.Count; j++)
+            {
+//              Debug.Log($" agentBehaviorTreeGroup {j} : {agentBehaviorTreeGroup[j]} ");
+                for (int k = 0; k < agentBehaviorTreeGroup[j].Count; k++)
+                {
+                    Debug.Log($" agentBehaviorTreeGroup {j}-{k} : {agentBehaviorTreeGroup[j][k]} ");
+
+                }
+            }
+
             //enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
 
 
@@ -200,9 +211,10 @@ public class BehaviorSelection : MonoBehaviour
                 }
             }
         */
-        //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
-        for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i) {
+            //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
+            for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i) {
                 agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
+                Debug.Log($"(int)selectionType {(int)selectionType} / {i} ==== {agentBehaviorTreeGroup[(int)selectionType][i]}");
             }
         }
 
