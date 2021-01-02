@@ -43,7 +43,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         
         public override TaskStatus OnUpdate()
         {
+
             var baseStatus = base.OnUpdate();
+            
             if (baseStatus != TaskStatus.Running || !started) {
                 return baseStatus;
             }
@@ -69,6 +71,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
             } else if (MoveToAttackPosition()) {
                 // The agent isn't in position yet. One case of MoveToAttackPosition returning false is when the agent still needs to rotate to face the target.
+                Debug.Log($"The agent isn't in position yet. One case of MoveToAttackPosition returning false is when the agent still needs to rotate to face the target.");
                 inPosition = true;
                 // Notify the leader when the agent is in position.
                 if (leaderTree != null) {

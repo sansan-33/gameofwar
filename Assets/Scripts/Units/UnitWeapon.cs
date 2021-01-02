@@ -18,9 +18,17 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     [SerializeField] private LayerMask layerMask = new LayerMask();
 
     bool m_Started;
+    // The amount of time it takes for the agent to be able to attack again
+    public float repeatAttackDelay;
+    // The maximum angle that the agent can attack from
+    public float attackAngle;
+
+    // The last time the agent attacked
+    private float lastAttackTime;
 
     void Start()
     {
+        lastAttackTime = -repeatAttackDelay;
     }
 
     public override void OnStartServer()
@@ -118,17 +126,18 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
     public bool CanAttack()
     {
-        return true;
+        return lastAttackTime + repeatAttackDelay < Time.time;
     }
 
     public float AttackAngle()
     {
-        return 45f;
+        return attackAngle;
     }
 
     public void Attack(Vector3 targetPosition)
     {
         Debug.Log("unit weapon attacking now ");
         Attack();
+        lastAttackTime = Time.time;
     }
 }

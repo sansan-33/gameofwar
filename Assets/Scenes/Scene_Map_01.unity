@@ -5462,6 +5462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CardsDisplay
       objectReference: {fileID: 0}
+    - target: {fileID: 2784060138516068311, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+      propertyPath: sceneId
+      value: 1144694642
+      objectReference: {fileID: 0}
     - target: {fileID: 3378768385603239411, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -5473,6 +5477,26 @@ PrefabInstance:
     - target: {fileID: 6021824489083907092, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6283307045825056762, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467967724444784786, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1374085935}
+    - target: {fileID: 7467967724444784786, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TryAmbush
+      objectReference: {fileID: 0}
+    - target: {fileID: 7467967724444784786, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: BehaviorSelection, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7865673164214891246, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+      propertyPath: m_Name
+      value: CardsAmbushTimerCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 8303626985202032638, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
       propertyPath: m_LocalScale.x
@@ -5490,6 +5514,7 @@ PrefabInstance:
     - {fileID: 2627676319165817275, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
     - {fileID: 6021824489083907092, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
     - {fileID: 2627676319254236825, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
+    - {fileID: 1379345996989290706, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 37201b6b0cf9b4c0b8ace2428b811070, type: 3}
 --- !u!114 &2129150135 stripped
 MonoBehaviour:

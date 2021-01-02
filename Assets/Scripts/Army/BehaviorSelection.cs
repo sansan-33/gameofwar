@@ -128,6 +128,12 @@ public class BehaviorSelection : MonoBehaviour
             prevSelectionType = selectionType;
             selectionType = BehaviorSelectionType.Attack;
             SelectionChanged();
+        }
+        public void TryAmbush()
+        {
+            prevSelectionType = selectionType;
+            selectionType = BehaviorSelectionType.Ambush;
+            SelectionChanged();
 
         }
         public void TryRetreat()
@@ -179,71 +185,7 @@ public class BehaviorSelection : MonoBehaviour
         private IEnumerator EnableBehavior()
         {
             defendObject.SetActive(false);
-        /*
-            switch (selectionType) {
-                case BehaviorSelectionType.Attack:
-                case BehaviorSelectionType.Charge:
-                case BehaviorSelectionType.MarchingFire:
-                case BehaviorSelectionType.Flank:
-                    SetPosRot(new Vector3(-16.85f, 0, 38.9f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0f, 58.75f), new Vector3(0, 180, 0), new Vector3(-12.8f, 36.75f, 43.35f));
-                    SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f)},
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-                case BehaviorSelectionType.Ambush:
-                    SetPosRot(new Vector3(33.75f, 0, -13.05f), new Vector3(0, 270, 0), new Vector3(29.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(30, 36.75f, -15f));
-                    SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-1.75f, 0, -7.66f), new Vector3(2.5f, 0, -5.7f), new Vector3(-1.1f, 0, -5.6f) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-                case BehaviorSelectionType.ShootAndScoot:
-                    SetPosRot(new Vector3(-20.25f, 0, -16.87f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(-21, 36.75f, -12.5f));
-                    SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f)},
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-                case BehaviorSelectionType.Leapfrog:
-                    SetPosRot(new Vector3(-20.25f, 0, -30.87f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(-21, 36.75f, -22.5f));
-                    SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-                case BehaviorSelectionType.Surround:
-                    SetPosRot(new Vector3(-10, 0, -18.5f), new Vector3(0, 0, 0), new Vector3(-10.9f, 0, -7.25f), new Vector3(0, 180, 0), new Vector3(-10.9f, 36.75f, -7.25f));
-                    SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-                case BehaviorSelectionType.Retreat:
-                    SetPosRot(new Vector3(-16.85f, 0, -2.7f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(-21, 36.75f, -22.5f));
-                    SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-                case BehaviorSelectionType.Defend:
-                case BehaviorSelectionType.Hold:
-                    defendObject.SetActive(true);
-                    SetPosRot(new Vector3(-16.85f, 0, 38.9f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0f, 58.75f), new Vector3(0, 180, 0), new Vector3(-12.8f, 36.75f, 43.35f));
-                    SetChildPosRot(new Vector3[] { new Vector3(-2f, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-8.75f, 0, 50f), new Vector3(25.1f, 0, -7.0f) },
-                                   new Vector3[] { new Vector3(0, 180, 0), new Vector3(0, 320, 0) });
-                    break;
-                case BehaviorSelectionType.Reinforcements:
-                    SetPosRot(new Vector3(-16.85f, 0, 38.9f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0f, 58.75f), new Vector3(0, 180, 0), new Vector3(-12.8f, 36.75f, 43.35f));
-                    SetChildPosRot(new Vector3[] { new Vector3(3, 0, 16.4f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                                   new Vector3[] { new Vector3(0, 335, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                                   new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                    break;
-            }
-        */
+      
             yield return new WaitForSeconds(0.1f);
         /*
             for (int i = 0; i < enemyHealth.Length; ++i) {
