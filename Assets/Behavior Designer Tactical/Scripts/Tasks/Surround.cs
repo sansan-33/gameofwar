@@ -27,7 +27,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
         protected override void AddAgentToGroup(Behavior agent, int index)
         {
-            //Debug.Log($"Task Surround AddAgentToGroup {agent} {index}");
+            Debug.Log($"Task Surround AddAgentToGroup {agent} {index}");
             base.AddAgentToGroup(agent, index);
 
             // 2 * PI = 360 degrees

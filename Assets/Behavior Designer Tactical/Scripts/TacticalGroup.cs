@@ -243,7 +243,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (runStatus != TaskStatus.Running) {
                 return;
             }
-            Debug.Log($"UpdateInPosition {index}");
+            Debug.Log($"UpdateInPosition {agentsReady.Count} / {index}");
             agentsReady[index] = inPosition;
             var allReady = inPosition;
             for (int i = 0; i < agentsReady.Count; ++i) {
