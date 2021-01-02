@@ -7,6 +7,10 @@ using UnityEngine;
 
 public class UnitWeapon : NetworkBehaviour, IAttackAgent
 {
+    [SerializeField] private bool isArcher = false;
+    [SerializeField] private bool isFootman = false;
+    [SerializeField] private bool isKnight = false;
+    [SerializeField] private Unit units = null;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private int damageToDeal = 1;
     [SerializeField] private float destroyAfterSeconds = 1f;
@@ -16,7 +20,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     [SerializeField] private GameObject attackPoint;
     [SerializeField] private float attackRange=5f;
     [SerializeField] private LayerMask layerMask = new LayerMask();
-
+    private int id;
     bool m_Started;
     // The amount of time it takes for the agent to be able to attack again
     public float repeatAttackDelay;
@@ -46,7 +50,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     [Command]
     public void Attack()
     {
-
+     
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
@@ -62,7 +66,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
             }
             if (other.TryGetComponent<Health>(out Health health))
             {
-                health.DealDamage(damageToDeal);
+                Debug.Log(true);
+                health.isFootmans(isKnight, damageToDeal, isArcher);
+                health.isKnights(isArcher, damageToDeal, isFootman);
+                health.isArchers(isFootman, damageToDeal, isKnight);
                 cmdDamageText(other.transform.position);
                 cmdCMVirtual();
                 break;
@@ -70,6 +77,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
             i++;
         }
 
+    }
+    public int Getids()
+    {
+        return id;
     }
     //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
     void OnDrawGizmos()

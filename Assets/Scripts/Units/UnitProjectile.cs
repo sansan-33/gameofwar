@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class UnitProjectile : NetworkBehaviour, IAttackAgent
 {
+    [SerializeField] private bool isArcher = false;
+    [SerializeField] private bool isFootman = false;
+    [SerializeField] private bool isKnight = false;
     [SerializeField] private Rigidbody rb = null;
     [SerializeField] private int damageToDeals = 0;
     [SerializeField] private float destroyAfterSeconds = 5f;
@@ -51,8 +54,9 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {other}");
             cmdDamageText(other.transform.position);
             cmdCMVirtual();
-            health.DealDamage(damageToDeals);
-            
+            health.isArchers(isFootman, damageToDeals, isKnight);
+            health.isFootmans(isKnight, damageToDeals, isArcher);
+            health.isKnights(isArcher, damageToDeals, isFootman);
         }
 
         DestroySelf();
