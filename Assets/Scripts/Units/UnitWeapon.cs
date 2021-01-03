@@ -29,10 +29,13 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
     // The last time the agent attacked
     private float lastAttackTime;
+    private StrengthWeakness strengthWeakness;
 
     void Start()
     {
         lastAttackTime = -repeatAttackDelay;
+        strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
+
     }
 
     public override void OnStartServer()
@@ -66,10 +69,16 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
             }
             if (other.TryGetComponent<Health>(out Health health))
             {
-                Debug.Log(true);
-                health.isFootmans(isKnight, damageToDeal, isArcher);
-                health.isKnights(isArcher, damageToDeal, isFootman);
-                health.isArchers(isFootman, damageToDeal, isKnight);
+                //Debug.Log(true);
+                Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
+                damageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
+                health.DealDamage(damageToDeal);
+                Debug.Log($"Strength Weakness damage {damageToDeal}");
+
+
+                //health.isFootmans(isKnight, damageToDeal, isArcher);
+                //health.isKnights(isArcher, damageToDeal, isFootman);
+                //health.isArchers(isFootman, damageToDeal, isKnight);
                 cmdDamageText(other.transform.position);
                 cmdCMVirtual();
                 break;

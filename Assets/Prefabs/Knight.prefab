@@ -65,6 +65,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  isArcher: 0
+  isFootman: 0
+  isKnight: 0
+  units: {fileID: 0}
   targeter: {fileID: 7533793514368480727}
   damageToDeal: 1
   destroyAfterSeconds: 1
@@ -206,6 +210,10 @@ PrefabInstance:
       propertyPath: colorRenderers.Array.data[0]
       value: 
       objectReference: {fileID: 6535697132223707556}
+    - target: {fileID: 4768947040284657953, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
+      propertyPath: m_Speed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7619321989462222259, guid: 765608929db10fc4ea6e373ba1c987a5, type: 3}
       propertyPath: defense
       value: 16

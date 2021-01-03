@@ -51,6 +51,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         public override void OnAwake()
         {
+            Debug.Log($"Who is Owner {Owner.GetOwnerName()}");
             Owner.RegisterEvent<Behavior>("StartListeningForOrders", StartListeningForOrders);
             Owner.RegisterEvent<Behavior>("StopListeningToOrders", StopListeningToOrders);
             Owner.RegisterEvent<int>("FormationUpdated", FormationUpdated);
@@ -80,6 +81,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             if (leader.Value == null) {
                 formationIndex = 0;
+                Debug.Log("Update Leader to index 0");
                 AddAgentToGroup(Owner, 0);
                 FormationUpdated(0);
             } else {
@@ -196,6 +198,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// <param name="index">The index of the agent within the group.</param>
         protected virtual void AddAgentToGroup(Behavior agent, int index)
         {
+            Debug.Log($"AddAgentToGroup leader.Value {leader.Value}");
             if (leader.Value == null) {
                 if (formationTrees == null) {
                     Debug.Log($"AddAgentToGroup formationTrees is null");
@@ -222,7 +225,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
                 // Notify other agents that the current agent has joined the formation.
                 for (int i = 1; i < formationTrees.Count; ++i) {
-                    Debug.Log($"Notify other agents that the current agent has joined the formation");
+                    Debug.Log($"Notify other agents that the current agent has joined the formation {formationTrees[i]}");
 
                     formationTrees[i].SendEvent("AddAgentToGroup", formationTrees[index], index);
                     formationTrees[i].SendEvent("FormationUpdated", i);

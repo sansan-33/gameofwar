@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class StrengthWeakness : MonoBehaviour
+{
+    private Dictionary<Unit.UnitType, Unit.UnitType[]> strengthWeakness = new Dictionary<Unit.UnitType, Unit.UnitType[]>();
+    //private Dictionary<string, string> weakness = new Dictionary<string, string>();
+    private int StrengthDamage = 2;
+    private int WeaknessDamage = 2;
+
+    public void Start()
+    {
+        //DEFINE Strength Weakness of Player --> Strength , Weakness
+        strengthWeakness.Add(Unit.UnitType.ARCHER, new Unit.UnitType[] { Unit.UnitType.SPEARMAN, Unit.UnitType.KNIGHT } );
+        strengthWeakness.Add(Unit.UnitType.KNIGHT, new Unit.UnitType[] { Unit.UnitType.ARCHER, Unit.UnitType.SPEARMAN });
+        strengthWeakness.Add(Unit.UnitType.SPEARMAN, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
+        
+    }
+    public int calculateDamage(Unit.UnitType player , Unit.UnitType enemy, int damage)
+    {
+        int damageResult = 0;
+        Unit.UnitType[]  dict = strengthWeakness[player];
+        if (dict[0] == enemy)
+            damageResult = damage * StrengthDamage;
+        else if (dict[1] == enemy)
+            damageResult = damage / WeaknessDamage;
+
+        return damageResult;
+    }
+}

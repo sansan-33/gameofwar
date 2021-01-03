@@ -18,9 +18,9 @@ public class SpawnMilitary : NetworkBehaviour
     private int spawnMoveRange = 1;
 
     private float chaseRange = 1;
-    private int spawnArcherCount=1;
+    private int spawnArcherCount=0;
     private int spawnFootmanCount = 0;
-    private int spawnKnightCount = 2;
+    private int spawnKnightCount = 5;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
@@ -35,8 +35,9 @@ public class SpawnMilitary : NetworkBehaviour
                 spawnArcherCount--;
             }
             StartCoroutine(loadKnight(2f));
+            StartCoroutine(loadFootman(2f));
             InvokeRepeating("TrySlash", 10f, 2f);
-            InvokeRepeating("TryShoot", 3f, 10f);
+            //InvokeRepeating("TryShoot", 3f, 10f);
         }
 
     }
@@ -61,29 +62,33 @@ public class SpawnMilitary : NetworkBehaviour
         NetworkServer.Spawn(unit, player.connectionToClient);
             
         agent = unit.GetComponent<NavMeshAgent>();
-        //agent.speed = 8;
         agent.SetDestination(spawnPosition + spawnOffset);
     }
 
-    private void loadFootman()
+    private IEnumerator loadFootman(float waitTime)
     {
-        GameObject unit;
-        NavMeshAgent agent = null;
+        yield return new WaitForSeconds(waitTime);
+        while (spawnFootmanCount > 0)
+        {
+            GameObject unit;
+            NavMeshAgent agent = null;
 
-        GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        Vector3 spawnPosition = points[0].transform.position;
-        Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
-        spawnOffset.y = spawnPosition.y;
-        unit = Instantiate(footmanPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
-        //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
-        NetworkServer.Spawn(unit, player.connectionToClient);
-        unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Slash);
+            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            Vector3 spawnPosition = points[0].transform.position;
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+            unit = Instantiate(footmanPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            unit.name = "Footman" + spawnFootmanCount;
+            //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
+            NetworkServer.Spawn(unit, player.connectionToClient);
+            //unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Slash);
 
-        unit.GetComponent<Unit>().unitType = Unit.UnitType.SPEARMAN;
-        unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
-        agent = unit.GetComponent<NavMeshAgent>();
-     //   agent.speed = 6;
-        agent.SetDestination(spawnPosition + spawnOffset);
+            //unit.GetComponent<Unit>().unitType = Unit.UnitType.SPEARMAN;
+            //unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
+            //agent = unit.GetComponent<NavMeshAgent>();
+            //agent.SetDestination(spawnPosition + spawnOffset);
+            spawnFootmanCount--;
+        }
     }
     private IEnumerator loadKnight(float waitTime)
     {
@@ -105,7 +110,6 @@ public class SpawnMilitary : NetworkBehaviour
             unit.GetComponent<Unit>().unitType = Unit.UnitType.KNIGHT;
             unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
             agent = unit.GetComponent<NavMeshAgent>();
-            //agent.speed = 10;
             agent.SetDestination(spawnPosition + spawnOffset);
             spawnKnightCount--;
         }
