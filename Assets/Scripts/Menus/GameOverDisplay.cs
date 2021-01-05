@@ -8,7 +8,15 @@ public class GameOverDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverDisplayParent = null;
     [SerializeField] private TMP_Text winnerNameText = null;
-
+    private float Timer = 183;
+    private void Update()
+    {
+        Timer -= Time.deltaTime;
+        if(Timer <= 0)
+        {
+            ClientHandleGameOverdraw();
+        }
+    }
     private void Start()
     {
         GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
@@ -34,6 +42,19 @@ public class GameOverDisplay : MonoBehaviour
     private void ClientHandleGameOver(string winner)
     {
         winnerNameText.text = $"{winner} Has Won!";
+
+        gameOverDisplayParent.SetActive(true);
+    }
+    private void ClientHandleGameOverdraw()
+    {
+        winnerNameText.text = $"Draw!";
+
+        gameOverDisplayParent.SetActive(true);
+    }
+    public void ClientHandleGameOverResign()
+    {
+        Debug.Log(1);
+        winnerNameText.text = $"Someone give up";
 
         gameOverDisplayParent.SetActive(true);
     }

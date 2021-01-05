@@ -7,13 +7,16 @@ using UnityEngine.UI;
 
 public class TotalHealthDisplay : NetworkBehaviour
 {
-    [SerializeField] private TMP_Text TotalPlayerhealth = null;
-    [SerializeField] private TMP_Text TotalEnermyhealth = null;
+    [SerializeField] private Image TotalPlayerhealth = null;
+    [SerializeField] private Image TotalEnermyhealth = null;
     private int militarySize = 0;
     private int EnermymilitarySize = 0;
     float unitTimer = 1;
-    int a = 1;
-
+    int MaxmilitarySize = 0;
+    int a = 0;
+    int MaxEnermymilitarySize = 0;
+    int b = 0;
+    private float progressImageVelocity;
     private void Update()
     {
         
@@ -29,37 +32,67 @@ public class TotalHealthDisplay : NetworkBehaviour
     private void TotalPlayerHealthdisplay()
     {
         
-        militarySize = 0;
+        if (militarySize > 0)
+        {
+            militarySize = 0;
+        }
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-        a++;
+      
 
         
         foreach (GameObject army in armies)
-        {
+        { float newProgress;
             
             militarySize += army.GetComponent<Health>().getCurrentHealth();
-            TotalPlayerhealth.text = militarySize.ToString();
-          
-           
+            if (militarySize > MaxmilitarySize)
+            {
+
+                MaxmilitarySize = militarySize;
+            }
+            newProgress = MaxmilitarySize / militarySize;
+           ;
+            TotalPlayerhealth.fillAmount = Mathf.SmoothDamp(
+                TotalPlayerhealth.fillAmount,
+                newProgress,
+                ref progressImageVelocity,
+                0.1f);
+
 
         }
-
+       
 
     }
     private void totalEnermyhealth()
     {
+       
+        if (militarySize > 0)
+        {
+            EnermymilitarySize = 0;
+        }
         
-        EnermymilitarySize = 0;
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject EnermyArmy in enemies)
         {
-            
+            float newProgress;
             EnermymilitarySize += EnermyArmy.GetComponent<Health>().getCurrentHealth();
-            TotalEnermyhealth.text = EnermymilitarySize.ToString();
+            if (EnermymilitarySize > MaxEnermymilitarySize)
+            {
+                MaxEnermymilitarySize = EnermymilitarySize;
+
+            }
+           
+            newProgress = MaxEnermymilitarySize / EnermymilitarySize;
+           
+            TotalEnermyhealth.fillAmount = Mathf.SmoothDamp(
+                TotalEnermyhealth.fillAmount,
+                newProgress,
+                ref progressImageVelocity,
+                0.1f);
         }
 
-   
+        b++;
     }
+
 
 
 
