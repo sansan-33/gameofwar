@@ -8,12 +8,14 @@ using UnityEngine;
 public class GameOverHandler : NetworkBehaviour
 {
     [SerializeField] private TMP_Text NumberOfKnight = null;
+    [SerializeField] private TMP_Text NumberOfEnemy = null;
     public static event Action ServerOnGameOver;
 
     public static event Action<string> ClientOnGameOver;
     private int Totalplayers = -2;
     private List<UnitEnemy> enemies = new List<UnitEnemy>();
     public List<UnitBase> bases = new List<UnitBase>();
+
     #region Server
     private void Update()
     {
@@ -39,14 +41,14 @@ public class GameOverHandler : NetworkBehaviour
     {
 
 
-
+        
 
 if (NumberOfKnight == null) { return; }
         int Totalplayers = bases.Count;
         Totalplayers -= 2;
         int Totalenemies = enemies.Count;
-        NumberOfKnight.text = $"{Totalenemies} VS {Totalplayers}";
-        
+        NumberOfKnight.text = Totalplayers.ToString();
+        NumberOfEnemy.text = Totalenemies.ToString();
     }
     public override void OnStartServer()
     {

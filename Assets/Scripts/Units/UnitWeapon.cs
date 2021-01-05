@@ -7,9 +7,7 @@ using UnityEngine;
 
 public class UnitWeapon : NetworkBehaviour, IAttackAgent
 {
-    [SerializeField] private bool isArcher = false;
-    [SerializeField] private bool isFootman = false;
-    [SerializeField] private bool isKnight = false;
+   
     [SerializeField] private Unit units = null;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private int damageToDeal = 1;

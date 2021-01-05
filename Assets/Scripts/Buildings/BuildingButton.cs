@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    [SerializeField] private GameObject unitProgressImageParent = null;
     [SerializeField] private Building building = null;
     [SerializeField] private Unit unit = null;
     [SerializeField] private TMP_Text priceText = null;
@@ -40,11 +41,13 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
         mainCamera = Camera.main;
 
        
-        priceText.text = unit.GetPrice().ToString();
+        
 
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-
+        if (priceText == null) { return; }
         unitCollider = unit.GetComponent<BoxCollider>();
+       
+        priceText.text = unit.GetPrice().ToString();
     }
 
     private void Update()
@@ -164,7 +167,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
         else
         {
             RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-            
+            unitProgressImageParent.SetActive(true);
             //the yellow effect
             unitProgressImage.fillAmount = Mathf.SmoothDamp(
                 unitProgressImage.fillAmount,
@@ -174,7 +177,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
             );
             if (unitProgressImage.fillAmount > 0.99)
             {
-
+                unitProgressImageParent.SetActive(false);
                 Button btn = this.gameObject.GetComponent<Button>();
                 btn.interactable = true;
             }

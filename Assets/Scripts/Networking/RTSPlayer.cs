@@ -153,13 +153,13 @@ public class RTSPlayer : NetworkBehaviour
         }
 
         if (unitToPlace == null) { return; }
-        Debug.Log( 1);
+        
         if (resources < unitToPlace.GetPrice()) { return; }
-        Debug.Log(2);
+      
         BoxCollider buildingCollider = unitToPlace.GetComponent<BoxCollider>();
 
         if (!CanPlaceBuilding(buildingCollider, point)) { return; }
-        Debug.Log(3);
+       
         GameObject unitInstance =
             Instantiate(unitToPlace.gameObject, point, unitToPlace.transform.rotation);
 
