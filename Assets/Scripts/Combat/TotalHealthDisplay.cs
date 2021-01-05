@@ -12,17 +12,17 @@ public class TotalHealthDisplay : NetworkBehaviour
     private int militarySize = 0;
     private int EnermymilitarySize = 0;
     float unitTimer = 1;
-    int MaxmilitarySize = 0;
+    int MaxmilitarySize = 1;
     int a = 0;
     int MaxEnermymilitarySize = 0;
     int b = 0;
     private float progressImageVelocity;
     private void Update()
     {
-        
+
         TotalPlayerHealthdisplay();
         totalEnermyhealth();
-     
+
     }
     private void UnitTimer()
     {
@@ -31,45 +31,49 @@ public class TotalHealthDisplay : NetworkBehaviour
     }
     private void TotalPlayerHealthdisplay()
     {
-        
-        if (militarySize > 0)
-        {
-            militarySize = 0;
-        }
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-      
 
-        
+        militarySize = 1;
+
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+
+
+
         foreach (GameObject army in armies)
-        { float newProgress;
-            
+        {
+            float newProgress;
+
             militarySize += army.GetComponent<Health>().getCurrentHealth();
+            if(MaxmilitarySize == 0)
+            {
+                Debug.Log($"MaxmilitarySize{MaxmilitarySize}");
+            }
+            if (militarySize == 0)
+            {
+                Debug.Log($"militarySize{militarySize}");
+            }
             if (militarySize > MaxmilitarySize)
             {
 
                 MaxmilitarySize = militarySize;
             }
-            newProgress = MaxmilitarySize / militarySize;
-           ;
-            TotalPlayerhealth.fillAmount = Mathf.SmoothDamp(
-                TotalPlayerhealth.fillAmount,
-                newProgress,
-                ref progressImageVelocity,
-                0.1f);
+            Debug.Log($"newProgress: {militarySize} / {MaxmilitarySize}");
+            newProgress = (float) militarySize / (float) MaxmilitarySize;
+            TotalPlayerhealth.fillAmount = newProgress;
+            Debug.Log($"TotalPlayerhealth.fillAmount : {TotalPlayerhealth.fillAmount } / newProgress : {newProgress}");
 
 
         }
-       
+
 
     }
     private void totalEnermyhealth()
     {
-       
+
         if (militarySize > 0)
         {
             EnermymilitarySize = 0;
         }
-        
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject EnermyArmy in enemies)
         {
@@ -80,9 +84,9 @@ public class TotalHealthDisplay : NetworkBehaviour
                 MaxEnermymilitarySize = EnermymilitarySize;
 
             }
-           
+
             newProgress = MaxEnermymilitarySize / EnermymilitarySize;
-           
+
             TotalEnermyhealth.fillAmount = Mathf.SmoothDamp(
                 TotalEnermyhealth.fillAmount,
                 newProgress,
@@ -94,9 +98,5 @@ public class TotalHealthDisplay : NetworkBehaviour
     }
 
 
-
-
-
-
-
 }
+
