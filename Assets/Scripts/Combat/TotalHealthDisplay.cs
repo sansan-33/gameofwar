@@ -43,25 +43,13 @@ public class TotalHealthDisplay : NetworkBehaviour
             float newProgress;
 
             militarySize += army.GetComponent<Health>().getCurrentHealth();
-            if(MaxmilitarySize == 0)
-            {
-                Debug.Log($"MaxmilitarySize{MaxmilitarySize}");
-            }
-            if (militarySize == 0)
-            {
-                Debug.Log($"militarySize{militarySize}");
-            }
             if (militarySize > MaxmilitarySize)
             {
 
                 MaxmilitarySize = militarySize;
             }
-            Debug.Log($"newProgress: {militarySize} / {MaxmilitarySize}");
             newProgress = (float) militarySize / (float) MaxmilitarySize;
             TotalPlayerhealth.fillAmount = newProgress;
-            Debug.Log($"TotalPlayerhealth.fillAmount : {TotalPlayerhealth.fillAmount } / newProgress : {newProgress}");
-
-
         }
 
 
