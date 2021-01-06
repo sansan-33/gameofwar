@@ -15,10 +15,12 @@ public class StrengthWeakness : MonoBehaviour
         strengthWeakness.Add(Unit.UnitType.ARCHER, new Unit.UnitType[] { Unit.UnitType.SPEARMAN, Unit.UnitType.KNIGHT } );
         strengthWeakness.Add(Unit.UnitType.KNIGHT, new Unit.UnitType[] { Unit.UnitType.ARCHER, Unit.UnitType.SPEARMAN });
         strengthWeakness.Add(Unit.UnitType.SPEARMAN, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
-        
+        strengthWeakness.Add(Unit.UnitType.HERO, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
+
     }
-    public int calculateDamage(Unit.UnitType player , Unit.UnitType enemy, int damage)
+    public int calculateDamage(Unit.UnitType player, Unit.UnitType enemy, int damage)
     {
+        Debug.Log($"calculateDamage  {player}");
         int damageResult = 0;
         Unit.UnitType[]  dict = strengthWeakness[player];
         if (dict[0] == enemy)

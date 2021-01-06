@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using BehaviorDesigner.Runtime.Tactical;
 
-public class UnitFiring : NetworkBehaviour
+public class UnitFiring : NetworkBehaviour, IAttackAgent
 {
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private GameObject projectilePrefab = null;
@@ -14,6 +15,14 @@ public class UnitFiring : NetworkBehaviour
     [SerializeField] private float rotationSpeed = 100f;
 
     private float lastFireTime;
+
+    // The amount of time it takes for the agent to be able to attack again
+    public float repeatAttackDelay;
+    // The maximum angle that the agent can attack from
+    public float attackAngle;
+
+    // The last time the agent attacked
+    private float lastAttackTime;
 
     [ServerCallback]
     private void Update()
@@ -57,5 +66,25 @@ public class UnitFiring : NetworkBehaviour
             <= fireRange * fireRange;
     }
 
-   
+    public float AttackDistance()
+    {
+        return fireRange;
+    }
+
+    public bool CanAttack()
+    {
+        return lastAttackTime + repeatAttackDelay < Time.time;
+    }
+
+    public float AttackAngle()
+    {
+        return attackAngle;
+    }
+
+    public void Attack(Vector3 targetPosition)
+    {
+        Debug.Log("unit firing now ");
+        //Attack();
+        lastAttackTime = Time.time;
+    }
 }

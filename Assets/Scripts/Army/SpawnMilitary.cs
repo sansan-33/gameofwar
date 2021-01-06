@@ -19,9 +19,9 @@ public class SpawnMilitary : NetworkBehaviour
     private int spawnMoveRange = 1;
 
     private float chaseRange = 1;
-    private int spawnArcherCount=0;
+    private int spawnArcherCount=5;
     private int spawnFootmanCount = 0;
-    private int spawnKnightCount = 5;
+    private int spawnKnightCount = 0;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
@@ -30,16 +30,13 @@ public class SpawnMilitary : NetworkBehaviour
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
         if (FindObjectOfType<NetworkManager>().numPlayers == 1) { 
-            while (spawnArcherCount > 0)
-            {
-                InvokeRepeating("loadArcher", 0.1f, 60000f);
-                spawnArcherCount--;
-            }
+            
+            StartCoroutine(loadArcher(2f));
             StartCoroutine(loadHero(2f));
             StartCoroutine(loadKnight(2f));
             StartCoroutine(loadFootman(2f));
-            InvokeRepeating("TrySlash", 10f, 2f);
-            InvokeRepeating("TryShoot", 3f, 10f);
+            //InvokeRepeating("TrySlash", 10f, 2f);
+            //InvokeRepeating("TryShoot", 3f, 10f);
         }
 
     }
@@ -47,24 +44,29 @@ public class SpawnMilitary : NetworkBehaviour
     {
        
     }
-    private void loadArcher()
+    private IEnumerator loadArcher(float waitTime)
     {
 
-        GameObject unit;
-        NavMeshAgent agent = null;
+        yield return new WaitForSeconds(waitTime);
+        while (spawnArcherCount > 0)
+        {
+            GameObject unit;
+            NavMeshAgent agent = null;
 
-        GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        Vector3 spawnPosition = points[0].transform.position ;
-        Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
-        spawnOffset.y = spawnPosition.y;
-        unit = Instantiate(archerPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
-        //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
-        unit.GetComponent<Unit>().unitType = Unit.UnitType.ARCHER;
-        unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
-        NetworkServer.Spawn(unit, player.connectionToClient);
+            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            Vector3 spawnPosition = points[0].transform.position ;
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+            unit = Instantiate(archerPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
+            unit.GetComponent<Unit>().unitType = Unit.UnitType.ARCHER;
+            unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
+            NetworkServer.Spawn(unit, player.connectionToClient);
             
-        agent = unit.GetComponent<NavMeshAgent>();
-        agent.SetDestination(spawnPosition + spawnOffset);
+            agent = unit.GetComponent<NavMeshAgent>();
+            agent.SetDestination(spawnPosition + spawnOffset);
+            spawnArcherCount--;
+        }
     }
 
     private IEnumerator loadFootman(float waitTime)

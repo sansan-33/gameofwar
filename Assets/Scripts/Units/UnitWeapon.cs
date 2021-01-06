@@ -67,18 +67,14 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
             {
                 if (networkIdentity.connectionToClient == connectionToClient && other.tag != "Enemy") { return; }  //check to see if it belongs to the player, if it does, do nothing
             }
+            Debug.Log($"Attack --> {other} ");
+
             if (other.TryGetComponent<Health>(out Health health))
             {
-                //Debug.Log(true);
                 Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 damageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 health.DealDamage(damageToDeal);
                 Debug.Log($"Strength Weakness damage {damageToDeal}");
-
-
-                //health.isFootmans(isKnight, damageToDeal, isArcher);
-                //health.isKnights(isArcher, damageToDeal, isFootman);
-                //health.isArchers(isFootman, damageToDeal, isKnight);
                 cmdDamageText(other.transform.position);
                 cmdCMVirtual();
                 break;

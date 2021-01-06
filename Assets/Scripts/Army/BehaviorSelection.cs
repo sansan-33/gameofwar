@@ -83,36 +83,10 @@ public class BehaviorSelection : MonoBehaviour
             {
                 var group = agentTrees[j].Group;
 
-                //Debug.Log($" Behavior Tree {j}: {agentTrees[j]} / Group: {group} Leader {agentTrees[j].GetVariable("Leader")} , Index {agentTrees[j].GetVariable("LeaderGroupIndex")} ");
-
-                if (j == 3)
-                {
-                    if (child.gameObject.name.Contains("Hero") || child.gameObject.name.Contains("Agent1")) {
-                        agentTrees[j].SetVariableValue("HeroTargetGroup", new List<GameObject>()); ;
-                    }
-                    else
-                    {
-                    //else if (child.gameObject.name.Contains("Knight")) { 
-                        //var myIntVariable = (SharedGameObject)agentTrees[j].GetVariable("newLeader");
-                        //myIntVariable.Value = hero;
-                        agentTrees[j].SetVariableValue("newLeader", hero);
-                        //agentTrees[j].SetVariableValue("newLeaderGroupIndex", j);
-                        //agentTrees[j].SetVariableValue("newTagName", "Enemy");
-                        //Debug.Log($" Behavior Tree {j}: {agentTrees[j]} / Group: {group} Leader {agentTrees[j].GetVariable("newLeader")} , Index {agentTrees[j].GetVariable("newLeaderGroupIndex")} / child: {child}");
-
-
-
-                        //agentTrees[j].SendEvent<object>("LeaderUpdated", armies[1]);
-                        List<SharedVariable> tmpList = agentTrees[j].GetAllVariables();
-                        //Debug.Log($"agentTrees {agentTrees[j]} GetAllVariables size:  {tmpList.Count} ");
-                        //foreach (SharedVariable tmp in tmpList)
-                        //{
-                        //    Debug.Log($"agentTrees[j].GetAllVariables()  {tmp} ");
-                        //}
-                        //myIntVariable.Value = armies[1];
-                    }
+                if (!child.gameObject.name.Contains("Hero")) {
+                    agentTrees[j].SetVariableValue("newLeader", hero);
                 }
-
+            
                 List<BehaviorTree> groupBehaviorTrees;
                     if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
                     {

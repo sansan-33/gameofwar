@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6046735958499268729}
   - component: {fileID: 4935447870258368774}
   - component: {fileID: 6578906706764959243}
-  m_Layer: 11
+  m_Layer: 10
   m_Name: MinimapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3336110099694315676}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AimAtPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,6 @@ GameObject:
   - component: {fileID: 4649854274305143335}
   - component: {fileID: 4649854274305143332}
   - component: {fileID: 4649854274305143333}
-  - component: {fileID: 4469356033512502381}
   - component: {fileID: 1430969508781407035}
   - component: {fileID: 4237456972027882872}
   - component: {fileID: 988132111067734789}
@@ -144,10 +143,8 @@ GameObject:
   - component: {fileID: 5531517098549734394}
   - component: {fileID: 3843459825319120970}
   - component: {fileID: 1910679349635884098}
-  - component: {fileID: 5181807085459038296}
-  - component: {fileID: 132006377903995345}
   - component: {fileID: 1140377478757733173}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Unit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +310,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Charge","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Charge","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2.5)"},"SharedFloatattackDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3.5},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Charge","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Charge","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2.5)"},"SharedFloatattackDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3.5},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -354,7 +351,7 @@ MonoBehaviour:
       startIndex: 
       variableStartIndex: 
       JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.MarchingFire","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Marching
-        Fire","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2.5)"},"SharedFloatattackDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":4},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+        Fire","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2.5)"},"SharedFloatattackDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":4},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -434,7 +431,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Ambush","NodeData":{"Offset":"(0,110)"},"ID":1,"Name":"Ambush","Instant":true,"SharedFloatattackDelay":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":1},"SharedFloatminAmbushDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":14},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Ambush","NodeData":{"Offset":"(0,110)"},"ID":1,"Name":"Ambush","Instant":true,"SharedFloatattackDelay":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":1},"SharedFloatminAmbushDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":14},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -475,7 +472,7 @@ MonoBehaviour:
       startIndex: 
       variableStartIndex: 
       JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.ShootAndScoot","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Shoot
-        And Scoot","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2)"},"SharedFloattimeStationary":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3},"SharedFloatminMoveAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":20},"SharedFloatmaxMoveAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":30},"SharedFloatminAttackRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":4},"SharedFloatmaxAttackRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":6},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+        And Scoot","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2)"},"SharedFloattimeStationary":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3},"SharedFloatminMoveAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":20},"SharedFloatmaxMoveAngle":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":30},"SharedFloatminAttackRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":4},"SharedFloatmaxAttackRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":6},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -515,7 +512,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Leapfrog","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Leapfrog","Instant":true,"SharedFloatseparation":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":2},"SharedFloatgroupSeparation":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedFloatleapDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Leapfrog","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Leapfrog","Instant":true,"SharedFloatseparation":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":2},"SharedFloatgroupSeparation":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedFloatleapDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -595,7 +592,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Defend","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Defend","Instant":true,"SharedGameObjectdefendObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedFloatradius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3},"SharedFloatdefendRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedFloatmaxDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":14},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Defend","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Defend","Instant":true,"SharedGameObjectdefendObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedFloatradius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3},"SharedFloatdefendRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedFloatmaxDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":14},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -635,7 +632,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Hold","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Hold","Instant":true,"SharedGameObjectdefendObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedFloatradius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3},"SharedFloatdefendRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Hold","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Hold","Instant":true,"SharedGameObjectdefendObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedFloatradius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":3},"SharedFloatdefendRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Enemy"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -675,7 +672,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Retreat","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Retreat","Instant":true,"SharedFloatsafeDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":20},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":""},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"Enemy","IsShared":true,"IsDynamic":true},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"}}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Retreat","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Retreat","Instant":true,"SharedFloatsafeDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":20},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"Enemy","IsShared":true,"IsDynamic":true},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -711,44 +708,23 @@ MonoBehaviour:
     behaviorName: Reinforcements
     behaviorDescription: 
     mTaskData:
-      types:
-      - BehaviorDesigner.Runtime.Tasks.EntryTask
-      - BehaviorDesigner.Runtime.Tasks.Parallel
-      - BehaviorDesigner.Runtime.Tactical.Tasks.Attack
-      - BehaviorDesigner.Runtime.Tasks.Sequence
-      - BehaviorDesigner.Runtime.Tasks.Wait
-      - BehaviorDesigner.Runtime.Tactical.Tasks.RequestReinforcements
-      parentIndex: ffffffff0000000001000000010000000300000003000000
-      startIndex: 000000000a000000150000003f0000004a00000064000000
+      types: []
+      parentIndex: 
+      startIndex: 
       variableStartIndex: 
-      JSONSerialization: 
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tasks.Parallel","NodeData":{"Offset":"(0,110)"},"ID":1,"Name":"Parallel","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Attack","NodeData":{"Offset":"(-70,120)"},"ID":2,"Name":"Attack","Instant":true,"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"","StringmValue":"Player"},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips"},{"Type":"BehaviorDesigner.Runtime.Tasks.Sequence","NodeData":{"Offset":"(110,120)"},"ID":3,"Name":"Sequence","Instant":true,"AbortTypeabortType":"None","Children":[{"Type":"BehaviorDesigner.Runtime.Tasks.Wait","NodeData":{"Offset":"(-90,110)"},"ID":4,"Name":"Wait","Instant":true,"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":1},"SharedBoolrandomWait":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"SharedFloatrandomWaitMin":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":1},"SharedFloatrandomWaitMax":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":1}},{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.RequestReinforcements","NodeData":{"Offset":"(70,110)"},"ID":5,"Name":"Request
+        Reinforcements","Instant":true}]}]},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
       fieldSerializationData:
         typeName: []
-        fieldNameHash: 7d6ed74f587d82e1cda3fdf0ab643ccee0f0d2677230fc9344a34c197c55199df179fb1af835a4a97d6ed74f587d82e1cda3fdf0ab643ccee0f0d2677230fc9344a34c197c55199df179fb1af835a4a90a1684897d6ed74f587d82e1cda3fdf0ab643ccee0f0d2677230fc9344a34c197c55199df179fb1af835a4a95c5470f6d63521c709e5cf92e15123bd5b33d48d8ee282591bfcba92610cdc13dbed8ce40e9d3bb063337cc893f50f550dd7c02540866ff11620a957f7e957d271cb08a3a47ab76e1a303be4c87cf1eb425ea2bc750d51888aafb415d9fd594353df0a14868eb9df9b301d6dd718c9a851fa797984a92845d4bc1ac244e90a9e7d6ed74f587d82e1cda3fdf0ab643ccee0f0d2677230fc9344a34c197c55199df179fb1af835a4a90a1684897d6ed74f587d82e1cda3fdf0ab643ccee0f0d2677230fc9344a34c197c55199df179fb1af835a4a9f7e957d271cb08a3a47ab76e1a303be46820bdc7e2016e9815b11c6465c40ee100adfbf67a8eacc7ad3d5b9323f3de08091dc4ab83fe747cb6ad23482c63a7bd7d6ed74f587d82e1cda3fdf0ab643ccee0f0d2677230fc9344a34c197c55199df179fb1af835a4a9
-        startIndex: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f0000001f000000200000002100000021000000220000002300000024000000240000002500000026000000270000002700000028000000290000002a0000002a0000002b0000002c0000002d0000002d0000002e0000002f0000003000000030000000310000003200000033000000330000003400000035000000360000003700000038000000390000003a0000003b0000003c0000003d0000003e0000003f000000400000004100000042000000430000004400000045000000460000004700000048000000490000004a0000004b0000004c0000004c0000004d0000004e0000004f0000004f0000005000000051000000520000005200000053000000540000005500000055000000560000005700000058000000590000005a0000005b0000005c0000005d0000005e0000005f0000006000000061000000
-        dataPosition: 0000000004000000090000000a0000000b00000013000000130000001400000015000000190000001d00000021000000290000002a0000002b00000033000000330000003400000035000000390000003d00000041000000450000004b0000004c0000004d000000550000005500000056000000570000005b0000005f0000008800000088000000aa000000aa000000ae000000db000000db000000df00000004010000040100000a0100002e0100002e010000320100005801000058010000640100008a0100008a01000096010000b9010000b9010000ba010000be010000c2010000ca010000cb010000cc010000d4010000d4010000d5010000d6010000da010000de010000e2010000e6010000ea010000eb010000ec010000f4010000f4010000f5010000f6010000fa010000fe01000022020000220200002602000049020000490200004a0200006e0200006e0200007202000096020000960200009a0200009e020000b4020000b5020000b6020000be020000be020000bf020000c0020000c4020000
+        fieldNameHash: 
+        startIndex: 
+        dataPosition: 
         unityObjects: []
-        byteData: 00000000456e747279010000000000000000000000000000000000000001000000506172616c6c656c0100000000000000dc4200000000000000000000000000000200000041747461636b010000008cc20000f042000000000000000000004265686176696f7244657369676e65722e52756e74696d652e53686172656447616d654f626a6563744265686176696f7244657369676e65722e52756e74696d652e536861726564496e74000000004265686176696f7244657369676e65722e52756e74696d652e53686172656447616d654f626a6563744c697374000000004265686176696f7244657369676e65722e52756e74696d652e536861726564537472696e67506c617965724265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f6174000000004265686176696f7244657369676e65722e52756e74696d652e536861726564566563746f72330000000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564566563746f72330000000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564426f6f6c00000000000300000053657175656e636501000000dc420000f0420000000000000000000000000000040000005761697401000000b4c20000dc42000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f61740000803f4265686176696f7244657369676e65722e52756e74696d652e536861726564426f6f6c004265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f61740000803f4265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f61740000803f0500000052657175657374205265696e666f7263656d656e7473010000008c420000dc4200000000000000000000
-        byteDataArray: 00000000456e747279010000000000000000000000000000000000000001000000506172616c6c656c0100000000000000dc4200000000000000000000000000000200000041747461636b010000008cc20000f042000000000000000000004265686176696f7244657369676e65722e52756e74696d652e53686172656447616d654f626a6563744265686176696f7244657369676e65722e52756e74696d652e536861726564496e74000000004265686176696f7244657369676e65722e52756e74696d652e53686172656447616d654f626a6563744c697374000000004265686176696f7244657369676e65722e52756e74696d652e536861726564537472696e67506c617965724265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f6174000000004265686176696f7244657369676e65722e52756e74696d652e536861726564566563746f72330000000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564566563746f72330000000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564426f6f6c00000000000300000053657175656e636501000000dc420000f0420000000000000000000000000000040000005761697401000000b4c20000dc42000000000000000000004265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f61740000803f4265686176696f7244657369676e65722e52756e74696d652e536861726564426f6f6c004265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f61740000803f4265686176696f7244657369676e65722e52756e74696d652e536861726564466c6f61740000803f0500000052657175657374205265696e666f7263656d656e7473010000008c420000dc4200000000000000000000
-      Version: 1.5.10
+        byteData: 
+        byteDataArray: 
+      Version: 1.6.7
   gizmoViewMode: 2
   showBehaviorDesignerGizmo: 1
---- !u!114 &4469356033512502381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4649854274305143770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e81c85b7420faa49b0db9cab89db537, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 100000, guid: 1f64829979706394d98b1060ef20f747, type: 3}
-  attackDistance: 5
-  repeatAttackDelay: 0.5
-  attackAngle: 1
 --- !u!114 &1430969508781407035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,12 +757,12 @@ MonoBehaviour:
   syncInterval: 0.1
   buildingPreview: {fileID: 0}
   resourceCost: 10
-  health: {fileID: 0}
-  unitMovement: {fileID: 0}
+  health: {fileID: 5531517098549734394}
+  unitMovement: {fileID: 988132111067734789}
   id: -1
   isEmeny: 0
   price: 100
-  targeter: {fileID: 0}
+  targeter: {fileID: 1489045426958974518}
   onSelected:
     m_PersistentCalls:
       m_Calls:
@@ -880,9 +856,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isArcher: 0
-  isFootman: 0
-  isKnight: 0
   ourType: 
   maxHealth: 100
   defense: 0
@@ -898,9 +871,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b38562ffce085428b1710277254aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 0}
-  healthBarParent: {fileID: 0}
-  healthBarImage: {fileID: 0}
+  health: {fileID: 5531517098549734394}
+  healthBarParent: {fileID: 3087878123819642891}
+  healthBarImage: {fileID: 3087878124407815446}
 --- !u!114 &1910679349635884098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,57 +892,6 @@ MonoBehaviour:
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
---- !u!114 &5181807085459038296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4649854274305143770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34dcfa190e50d4d4cb14ae09c506761c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isArcher: 0
-  isFootman: 0
-  isKnight: 0
-  units: {fileID: 0}
-  targeter: {fileID: 0}
-  damageToDeal: 1
-  destroyAfterSeconds: 1
-  textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
-  camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
-  camFreeLookPrefab: {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
-  attackPoint: {fileID: 7739131720492845238}
-  attackRange: 5
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  repeatAttackDelay: 1
-  attackAngle: 0
---- !u!114 &132006377903995345
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4649854274305143770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84a29c67bf37c814794c341e2cb37e29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  targeter: {fileID: 0}
-  projectilePrefab: {fileID: 3714870687590703606, guid: 73a810fcf32d37b42962d05a9a0d9c95, type: 3}
-  projectileSpawnPoint: {fileID: 8663785943906713466}
-  fireRange: 300
-  fireRate: 1
-  rotationSpeed: 100
 --- !u!65 &1140377478757733173
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -993,7 +915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8582631184671871363}
   - component: {fileID: 6708296567205280145}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SelectedHighlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1074,7 +996,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2278323069818987186}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1104,7 +1026,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8663785943906713466}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ProjectileSpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1132,6 +1054,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4649854274305143349}
     m_Modifications:
+    - target: {fileID: 1620868314800243451, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1620868314868891401, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1620868315474620944, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1221,13 +1151,33 @@ PrefabInstance:
       value: HealthBarCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 1620868315474620950, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1620868315474620950, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+--- !u!1 &3087878123819642891 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1620868315474620950, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+  m_PrefabInstance: {fileID: 4369657044579697181}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3087878123819642893 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1620868315474620944, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
   m_PrefabInstance: {fileID: 4369657044579697181}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3087878124407815446 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1620868314868891403, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+  m_PrefabInstance: {fileID: 4369657044579697181}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

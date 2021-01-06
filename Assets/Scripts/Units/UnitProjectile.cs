@@ -45,10 +45,10 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
             }
 
         }
-        Debug.Log($"Health {other} / {other.GetComponent<Health>()} ");
+        //Debug.Log($"Health {other} / {other.GetComponent<Health>()} ");
         if (other.TryGetComponent<Health>(out Health health))
         {
-            Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}");
+            //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}");
             cmdDamageText(other.transform.position);
             cmdCMVirtual();
             damageToDeals = strengthWeakness.calculateDamage(Unit.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
