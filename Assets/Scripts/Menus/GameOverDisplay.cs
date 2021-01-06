@@ -53,9 +53,10 @@ public class GameOverDisplay : MonoBehaviour
     }
     public void ClientHandleGameOverResign()
     {
-        Debug.Log(1);
+       
         winnerNameText.text = $"Someone give up";
-
+        Debug.Log(winnerNameText.text);
         gameOverDisplayParent.SetActive(true);
+        
     }
 }

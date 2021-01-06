@@ -41,12 +41,11 @@ public class GameOverHandler : NetworkBehaviour
     {
 
 
-        
-
-if (NumberOfKnight == null) { return; }
-        int Totalplayers = bases.Count;
-        Totalplayers -= 2;
-        int Totalenemies = enemies.Count;
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] enemy = GameObject.FindGameObjectsWithTag("Enemy");
+        if (NumberOfKnight == null) { return; }
+        int Totalplayers = armies.Length;
+        int Totalenemies = enemy.Length;
         NumberOfKnight.text = Totalplayers.ToString();
         NumberOfEnemy.text = Totalenemies.ToString();
     }

@@ -12,7 +12,7 @@ public class RTSPlayer : NetworkBehaviour
     [SerializeField] private float unitRangeLimit = 5f;
     [SerializeField] private int halfOfScreenSize = 4;
     [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
-    private int resources = 1000000;
+    private int resources = 1000;
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
     private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]

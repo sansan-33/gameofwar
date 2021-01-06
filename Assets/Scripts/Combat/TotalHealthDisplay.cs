@@ -9,10 +9,11 @@ public class TotalHealthDisplay : NetworkBehaviour
 {
     [SerializeField] private Image TotalPlayerhealth = null;
     [SerializeField] private Image TotalEnermyhealth = null;
+    
     private int militarySize = 0;
     private int EnermymilitarySize = 0;
     float unitTimer = 1;
-    int MaxmilitarySize = 1;
+    int MaxmilitarySize = 0;
     int a = 0;
     int MaxEnermymilitarySize = 0;
     int b = 0;
@@ -32,7 +33,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     private void TotalPlayerHealthdisplay()
     {
 
-        militarySize = 1;
+        militarySize = 0;
 
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
 
@@ -48,6 +49,7 @@ public class TotalHealthDisplay : NetworkBehaviour
 
                 MaxmilitarySize = militarySize;
             }
+           
             newProgress = (float) militarySize / (float) MaxmilitarySize;
             TotalPlayerhealth.fillAmount = newProgress;
         }
@@ -57,10 +59,9 @@ public class TotalHealthDisplay : NetworkBehaviour
     private void totalEnermyhealth()
     {
 
-        if (militarySize > 0)
-        {
+        
             EnermymilitarySize = 0;
-        }
+        
 
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject EnermyArmy in enemies)
@@ -72,14 +73,10 @@ public class TotalHealthDisplay : NetworkBehaviour
                 MaxEnermymilitarySize = EnermymilitarySize;
 
             }
+         
+            newProgress = (float)EnermymilitarySize / (float)MaxEnermymilitarySize;
 
-            newProgress = MaxEnermymilitarySize / EnermymilitarySize;
-
-            TotalEnermyhealth.fillAmount = Mathf.SmoothDamp(
-                TotalEnermyhealth.fillAmount,
-                newProgress,
-                ref progressImageVelocity,
-                0.1f);
+            TotalEnermyhealth.fillAmount = newProgress;
         }
 
         b++;

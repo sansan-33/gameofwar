@@ -10,6 +10,7 @@ public class ResourcesDisplay : MonoBehaviour
     [SerializeField] private TMP_Text resourcesText = null;
     [SerializeField] private Image healthBarImage = null;
     private RTSPlayer player;
+    int maxresources = 0;
 
     private void Start()
     {
@@ -28,10 +29,14 @@ public class ResourcesDisplay : MonoBehaviour
     private void ClientHandleResourcesUpdated(int resources)
     {
         int currentresources;
-        int maxresources = 10;
+        
         currentresources = resources;
-      //  resourcesText.text = $"Resources: {resources}";
-        healthBarImage.fillAmount = (float)currentresources / maxresources;
-        Debug.Log($"healthBarImage.fillAmount");
+        if (currentresources > maxresources)
+        {
+           
+            maxresources = currentresources;
+        }
+        healthBarImage.fillAmount = (float)currentresources / (float) maxresources;
+
     }
 }
