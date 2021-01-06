@@ -15,15 +15,15 @@ public class StrengthWeakness : MonoBehaviour
         strengthWeakness.Add(Unit.UnitType.ARCHER, new Unit.UnitType[] { Unit.UnitType.SPEARMAN, Unit.UnitType.KNIGHT } );
         strengthWeakness.Add(Unit.UnitType.KNIGHT, new Unit.UnitType[] { Unit.UnitType.ARCHER, Unit.UnitType.SPEARMAN });
         strengthWeakness.Add(Unit.UnitType.SPEARMAN, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
-        strengthWeakness.Add(Unit.UnitType.HERO, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
+        strengthWeakness.Add(Unit.UnitType.HERO, new Unit.UnitType[] { Unit.UnitType.HERO, Unit.UnitType.HERO }); // HERO Strength to all , weak to HEROR only
 
     }
     public int calculateDamage(Unit.UnitType player, Unit.UnitType enemy, int damage)
     {
-        Debug.Log($"calculateDamage  {player}");
+        //Debug.Log($"calculateDamage  {player}");
         int damageResult = 0;
         Unit.UnitType[]  dict = strengthWeakness[player];
-        if (dict[0] == enemy)
+        if (dict[0] == enemy || dict[0] == Unit.UnitType.HERO)
             damageResult = damage * StrengthDamage;
         else if (dict[1] == enemy)
             damageResult = damage / WeaknessDamage;

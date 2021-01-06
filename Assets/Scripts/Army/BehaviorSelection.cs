@@ -19,45 +19,7 @@ public class BehaviorSelection : MonoBehaviour
         private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
         private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;
 
-    public void StartS()
-    {
-        for (int i = 0; i < agentGroup.transform.childCount; ++i)
-        {
-            var child = agentGroup.transform.GetChild(i);
-            var agentTrees = child.GetComponents<BehaviorTree>();
-            for (int j = 0; j < agentTrees.Length; ++j)
-            {
-                var group = agentTrees[j].Group;
-                List<BehaviorTree> groupBehaviorTrees;
-                if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
-                {
-                    groupBehaviorTrees = new List<BehaviorTree>();
-                    agentBehaviorTreeGroup.Add(group, groupBehaviorTrees);
-                }
-                groupBehaviorTrees.Add(agentTrees[j]);
-            }
-        }
-        enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
-        var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
-        for (int i = 0; i < behaviorTrees.Length; ++i)
-        {
-            List<BehaviorTree> list;
-            if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list))
-            {
-                list.Add(behaviorTrees[i]);
-            }
-            else
-            {
-                list = new List<BehaviorTree>();
-                list.Add(behaviorTrees[i]);
-                enemyBehaviorTreeGroup[behaviorTrees[i].Group] = list;
-            }
-        }
-
-        SelectionChanged();
-    }
-
-    public void Start ()
+        public void Start ()
         {
             InvokeRepeating("addBehaviourToMilitary", 5f, 6000000f);
         }
@@ -96,59 +58,24 @@ public class BehaviorSelection : MonoBehaviour
                     groupBehaviorTrees.Add(agentTrees[j]);
                 }
             }
-        /*
-            for(int j=0; j< agentBehaviorTreeGroup.Count; j++)
-            {
-                //Debug.Log($" agentBehaviorTreeGroup {j} : {agentBehaviorTreeGroup[j]} ");
-                for (int k = 0; k < agentBehaviorTreeGroup[j].Count; k++)
-                {
-                    Debug.Log($" agentBehaviorTreeGroup {j}-{k} : {agentBehaviorTreeGroup[j][k]} ");
+       
 
+            enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
+            var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
+            for (int i = 0; i < behaviorTrees.Length; ++i)
+            {
+                List<BehaviorTree> list;
+                if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list))
+                {
+                    list.Add(behaviorTrees[i]);
+                }
+                else
+                {
+                    list = new List<BehaviorTree>();
+                    list.Add(behaviorTrees[i]);
+                    enemyBehaviorTreeGroup[behaviorTrees[i].Group] = list;
                 }
             }
-        */
-        //enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
-
-        /*
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject child in enemies)
-        {
-            child.transform.parent =  enemyGroup.transform;
-        }
-        var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
-        for (int i = 0; i < behaviorTrees.Length; ++i)
-        {
-            List<BehaviorTree> list;
-            //Debug.Log($" {i} {behaviorTrees[i]} ");
-            if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list))
-            {
-                list.Add(behaviorTrees[i]);
-            }
-            else
-            {
-                list = new List<BehaviorTree>();
-                list.Add(behaviorTrees[i]);
-                enemyBehaviorTreeGroup[behaviorTrees[i].Group] = list;
-            }
-        }
-    */
-
-        enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
-        var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
-        for (int i = 0; i < behaviorTrees.Length; ++i)
-        {
-            List<BehaviorTree> list;
-            if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list))
-            {
-                list.Add(behaviorTrees[i]);
-            }
-            else
-            {
-                list = new List<BehaviorTree>();
-                list.Add(behaviorTrees[i]);
-                enemyBehaviorTreeGroup[behaviorTrees[i].Group] = list;
-            }
-        }
 
     }
 
@@ -249,89 +176,11 @@ public class BehaviorSelection : MonoBehaviour
             StartCoroutine("EnableBehavior");
         }
 
-        private static string SplitCamelCase(string s)
-        {
-            var r = new Regex(@"(?<=[A-Z])(?=[A-Z][a-z])|(?<=[^A-Z])(?=[A-Z])|(?<=[A-Za-z])(?=[^A-Za-z])", RegexOptions.IgnorePatternWhitespace);
-            s = r.Replace(s, " ");
-            return (char.ToUpper(s[0]) + s.Substring(1)).Trim();
-        }
-
         private IEnumerator EnableBehavior()
         {
-            defendObject.SetActive(false);
+            //defendObject.SetActive(false);
 
-        switch (selectionType)
-        {
-            case BehaviorSelectionType.Attack:
-            case BehaviorSelectionType.Charge:
-            case BehaviorSelectionType.MarchingFire:
-            case BehaviorSelectionType.Flank:
-                SetPosRot(new Vector3(-16.85f, 0, 38.9f), new Vector3(0, 0, 0), new Vector3(0f, 0f, 20f), new Vector3(0, 180, 0), new Vector3(-12.8f, 36.75f, 43.35f));
-                SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-            case BehaviorSelectionType.Ambush:
-                SetPosRot(new Vector3(33.75f, 0, -13.05f), new Vector3(0, 270, 0), new Vector3(0f, 0, 20f), new Vector3(0, 180, 0), new Vector3(30, 36.75f, -15f));
-                SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-1.75f, 0, -7.66f), new Vector3(2.5f, 0, -5.7f), new Vector3(-1.1f, 0, -5.6f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-            case BehaviorSelectionType.ShootAndScoot:
-                SetPosRot(new Vector3(-20.25f, 0, -16.87f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(-21, 36.75f, -12.5f));
-                SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-            case BehaviorSelectionType.Leapfrog:
-                SetPosRot(new Vector3(-20.25f, 0, -30.87f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(-21, 36.75f, -22.5f));
-                SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-            case BehaviorSelectionType.Surround:
-                SetPosRot(new Vector3(-10, 0, -18.5f), new Vector3(0, 0, 0), new Vector3(-10.9f, 0, -7.25f), new Vector3(0, 180, 0), new Vector3(-10.9f, 36.75f, -7.25f));
-                SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-            case BehaviorSelectionType.Retreat:
-                SetPosRot(new Vector3(-16.85f, 0, -2.7f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0, -4.5f), new Vector3(0, 180, 0), new Vector3(-21, 36.75f, -22.5f));
-                SetChildPosRot(new Vector3[] { new Vector3(0, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-            case BehaviorSelectionType.Defend:
-            case BehaviorSelectionType.Hold:
-                defendObject.SetActive(true);
-                SetPosRot(new Vector3(-16.85f, 0, 38.9f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0f, 58.75f), new Vector3(0, 180, 0), new Vector3(-12.8f, 36.75f, 43.35f));
-                SetChildPosRot(new Vector3[] { new Vector3(-2f, 0, -4.25f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-8.75f, 0, 50f), new Vector3(25.1f, 0, -7.0f) },
-                               new Vector3[] { new Vector3(0, 180, 0), new Vector3(0, 320, 0) });
-                break;
-            case BehaviorSelectionType.Reinforcements:
-                SetPosRot(new Vector3(-16.85f, 0, 38.9f), new Vector3(0, 0, 0), new Vector3(-16.9f, 0f, 58.75f), new Vector3(0, 180, 0), new Vector3(-12.8f, 36.75f, 43.35f));
-                SetChildPosRot(new Vector3[] { new Vector3(3, 0, 16.4f), new Vector3(0.55f, 0, -5.55f), new Vector3(-4.1f, 0, -3.88f), new Vector3(2.5f, 0, -5.7f), new Vector3(-3.6f, 0, -4.75f) },
-                               new Vector3[] { new Vector3(0, 335, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(-1.65f, 0, 0), new Vector3(0, 0, 0) },
-                               new Vector3[] { new Vector3(0, 0, 0), new Vector3(0, 0, 0) });
-                break;
-        }
-
-        yield return new WaitForSeconds(0.1f);
-
-        yield return new WaitForSeconds(0.1f);
-        
-            //for (int i = 0; i < enemyHealth.Length; ++i) {
-            //    enemyHealth[i].ResetHealth();
-            //}
+            yield return new WaitForSeconds(0.1f);
         
             if (enemyBehaviorTreeGroup.ContainsKey((int)selectionType)) {
                 var trees = enemyBehaviorTreeGroup[(int)selectionType];
@@ -348,41 +197,7 @@ public class BehaviorSelection : MonoBehaviour
             }
         }
 
-        private void SetPosRot(Vector3 agentGroupPosition, Vector3 agentGroupRotation, Vector3 enemyGroupPosition, Vector3 enemyGroupRotation, Vector3 cameraPosition)
-        {
-            //Debug.Log($"SetPosRot : {agentGroupPosition} ");
-           
-            //agentGroup.transform.position = agentGroupPosition;
-            //agentGroup.transform.eulerAngles = agentGroupRotation;
-            enemyGroup.transform.position = enemyGroupPosition;
-            enemyGroup.transform.eulerAngles = enemyGroupRotation;
-            Camera.main.transform.position = cameraPosition;
         
-        }
 
-        private void SetChildPosRot(Vector3[] agentPositions, Vector3[] agentRotations, Vector3[] enemyPositions, Vector3[] enemyRotations)
-        {
-        /*
-        for (int i = 0; i < agentGroup.transform.childCount; ++i) {
-            var child = agentGroup.transform.Find("Agent " + (i + 1));
-            child.localPosition = agentPositions[i];
-            child.localEulerAngles = agentRotations[i];
-        }
-
-        int j = 0;
-        foreach (Transform child in agentGroup.transform)
-        {
-            //var child = agentGroup.transform.Find("Agent " + (i + 1));
-            child.localPosition = agentPositions[j];
-            child.localEulerAngles = agentRotations[j];
-            j++;
-        }
-        */
-        for (int i = 0; i < enemyGroup.transform.childCount; ++i) {
-            var child = enemyGroup.transform.Find("Enemy " + (i + 1));
-            child.localPosition = enemyPositions[i];
-            child.localEulerAngles = enemyRotations[i];
-        }
         
-    }
 }
