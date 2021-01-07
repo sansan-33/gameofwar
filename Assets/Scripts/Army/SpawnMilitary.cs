@@ -19,9 +19,10 @@ public class SpawnMilitary : NetworkBehaviour
     private int spawnMoveRange = 1;
 
     private float chaseRange = 1;
-    private int spawnArcherCount=5;
+    private int spawnArcherCount=4;
     private int spawnFootmanCount = 0;
     private int spawnKnightCount = 0;
+    private int spawnHeroCount = 1;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
@@ -122,8 +123,8 @@ public class SpawnMilitary : NetworkBehaviour
     private IEnumerator loadHero(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-        //while (spawnKnightCount > 0)
-        //{
+        if (spawnHeroCount > 0)
+        {
             GameObject unit;
             NavMeshAgent agent = null;
 
@@ -140,7 +141,7 @@ public class SpawnMilitary : NetworkBehaviour
             //unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
             agent = unit.GetComponent<NavMeshAgent>();
             agent.SetDestination(spawnPosition + spawnOffset);
-        //}
+        }
     }
     private void  TrySlash()
     {

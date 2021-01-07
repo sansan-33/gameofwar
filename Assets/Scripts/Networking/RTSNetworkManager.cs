@@ -87,7 +87,7 @@ public class RTSNetworkManager : NetworkManager
                     unitBasePrefab,
                     pos,
                     Quaternion.identity);
-
+                baseInstance.tag = "PlayerBase";
                 NetworkServer.Spawn(baseInstance, player.connectionToClient);
 
                 /*

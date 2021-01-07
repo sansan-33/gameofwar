@@ -31,7 +31,7 @@ public class SpawnEnemies : NetworkBehaviour
 
         if (FindObjectOfType<NetworkManager>().numPlayers == 1){
 
-            SpawnEnemyBase();
+            //SpawnEnemyBase();
 
             while (spawncount > 0)
             {
@@ -82,8 +82,8 @@ public class SpawnEnemies : NetworkBehaviour
 
             agent.SetDestination(spawnPosition + spawnOffset);
 
-            InvokeRepeating("TryMove", 0.1f, 30f);
-            InvokeRepeating("TryShoot", 1f, 1f);
+            //InvokeRepeating("TryMove", 0.1f, 30f);
+            //InvokeRepeating("TryShoot", 1f, 1f);
     }
 
     private void  TryMove()

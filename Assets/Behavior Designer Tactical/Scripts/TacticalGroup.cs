@@ -129,7 +129,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             // Clear the old group.
             targets.Clear();
             targetTransforms.Clear();
-            //Debug.Log($"Agent {Owner} checking target group value {targetGroup}");    
+            Debug.Log($"Agent {Owner} checking target group value {targetGroup}");    
             if (leader.Value == null) {
                 if (targetGroup.Value != null && targetGroup.Value.Count > 0) {
                     for (int i = 0; i < targetGroup.Value.Count; ++i) {
@@ -398,6 +398,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         protected void FindAttackTarget()
         {
+            Debug.Log($"FindAttackTarget --> | {tacticalAgent} | ? ");
             if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive()) {
                 Transform target = null;
                 IDamageable damageable = null;

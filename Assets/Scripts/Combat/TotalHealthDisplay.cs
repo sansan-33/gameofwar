@@ -9,7 +9,8 @@ public class TotalHealthDisplay : NetworkBehaviour
 {
     [SerializeField] private Image TotalPlayerhealth = null;
     [SerializeField] private Image TotalEnermyhealth = null;
-    
+    [SerializeField] private TMP_Text TotalPlayerhealths = null;
+    [SerializeField] private TMP_Text TotalEnermyhealths = null;
     private int militarySize = 0;
     private int EnermymilitarySize = 0;
     float unitTimer = 1;
@@ -52,6 +53,7 @@ public class TotalHealthDisplay : NetworkBehaviour
            
             newProgress = (float) militarySize / (float) MaxmilitarySize;
             TotalPlayerhealth.fillAmount = newProgress;
+            TotalPlayerhealths.text = militarySize.ToString();
         }
 
 
@@ -75,7 +77,7 @@ public class TotalHealthDisplay : NetworkBehaviour
             }
          
             newProgress = (float)EnermymilitarySize / (float)MaxEnermymilitarySize;
-
+            TotalEnermyhealths.text = EnermymilitarySize.ToString();
             TotalEnermyhealth.fillAmount = newProgress;
         }
 
