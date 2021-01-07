@@ -83,7 +83,8 @@ public class BehaviorSelection : MonoBehaviour
             for (int j = 0; j < agentTrees.Length; ++j)
             {
                 var group = agentTrees[j].Group;
-                
+
+                agentTrees[j].SetVariableValue("newTargetName", "Enemy");
                 if (j == (int)BehaviorSelectionType.Hold || j == (int)BehaviorSelectionType.Defend)
                 {
                     agentTrees[j].SetVariableValue("newDefendObject", defendObject);
@@ -95,7 +96,7 @@ public class BehaviorSelection : MonoBehaviour
                 {
                     agentTrees[j].SetVariableValue("newLeader", null);
                 }
-            
+
                 List<BehaviorTree> groupBehaviorTrees;
                     if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
                     {

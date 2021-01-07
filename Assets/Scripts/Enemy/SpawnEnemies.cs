@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.AI;
+using BehaviorDesigner.Runtime;
 
 public class SpawnEnemies : NetworkBehaviour
 {
     [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private GameObject bossPrefab;
     [SerializeField] private GameObject unitBasePrefab;
     [SerializeField] private GameObject projectilePrefab = null;
     [SerializeField] private float fireRange = 30;
@@ -20,10 +22,24 @@ public class SpawnEnemies : NetworkBehaviour
     private GameObject enemy;
     private float stoppingDistance = 1;
     private float chaseRange = 1;
-    private int spawncount=1;
+    private int spawncount=5;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
+
+
+    public GameObject enemyGroup;
+    public GameObject defendObject;
+
+    private Dictionary<int, List<BehaviorTree>> enemyBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
+    private Health[] enemyHealth;
+
+    private enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
+    private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
+    private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;
+    private int spawnBossCount = 1;
+    private int spawnMoveRange = 1;
+
     public override void OnStartServer()
     {
         mainCamera = Camera.main;
@@ -32,12 +48,17 @@ public class SpawnEnemies : NetworkBehaviour
         if (FindObjectOfType<NetworkManager>().numPlayers == 1){
 
             //SpawnEnemyBase();
+            StartCoroutine(loadBoss(2f));
 
             while (spawncount > 0)
             {
                 InvokeRepeating("SpawnEnemy", 0.1f, this.spawnInterval);
                 spawncount--;
             }
+
+            InvokeRepeating("addBehaviourToMilitary", 5f, 6000000f);
+            InvokeRepeating("TryDefend", 10f, 6000000f);
+            //InvokeRepeating("TrySurround", 30f, 6000000f);
         }
     }
 
@@ -86,7 +107,29 @@ public class SpawnEnemies : NetworkBehaviour
             //InvokeRepeating("TryShoot", 1f, 1f);
     }
 
-    private void  TryMove()
+    private IEnumerator loadBoss(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        if (spawnBossCount > 0)
+        {
+            GameObject unit;
+            NavMeshAgent agent = null;
+
+            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            Vector3 spawnPosition = points[2].transform.position;
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+            unit = Instantiate(bossPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            unit.name = "Boss";
+            NetworkServer.Spawn(unit, player.connectionToClient);
+            unit.GetComponent<Targeter>().CmdSetAttackType(Targeter.AttackType.Slash);
+
+            unit.GetComponent<Unit>().unitType = Unit.UnitType.HERO;
+            agent = unit.GetComponent<NavMeshAgent>();
+            agent.SetDestination(spawnPosition + spawnOffset);
+        }
+    }
+    private void TryMove()
     {
         
         GameObject target = GameObject.FindGameObjectWithTag("Player");
@@ -113,7 +156,6 @@ public class SpawnEnemies : NetworkBehaviour
 
            NetworkServer.Spawn(projectileInstance, player.connectionToClient);
         }
-
     }
     private bool CanFireAtTarget(Vector3 target, GameObject enemy)
     {
@@ -156,4 +198,116 @@ public class SpawnEnemies : NetworkBehaviour
 
         return pos;
     }
+
+  
+    private void addBehaviourToMilitary()
+    {
+
+        GameObject boss = null;
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject child in armies)
+        {
+            if (child.gameObject.name.Contains("Boss")) { boss = child; }
+            child.transform.parent = enemyGroup.transform;
+        }
+
+        for (int i = 0; i < enemyGroup.transform.childCount; ++i)
+        {
+            var child = enemyGroup.transform.GetChild(i);
+            var agentTrees = child.GetComponents<BehaviorTree>();
+            for (int j = 0; j < agentTrees.Length; ++j)
+            {
+                var group = agentTrees[j].Group;
+
+                agentTrees[j].SetVariableValue("newTargetName", "Player");
+                if (j == (int)BehaviorSelectionType.Hold || j == (int)BehaviorSelectionType.Defend)
+                {
+                    agentTrees[j].SetVariableValue("newDefendObject", defendObject);
+                }
+                if (!child.gameObject.name.Contains("Boss"))
+                {
+                    agentTrees[j].SetVariableValue("newLeader", boss);
+                }
+                else
+                {
+                    agentTrees[j].SetVariableValue("newLeader", null);
+                }
+
+                List<BehaviorTree> groupBehaviorTrees;
+                if (!enemyBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
+                {
+                    groupBehaviorTrees = new List<BehaviorTree>();
+                    enemyBehaviorTreeGroup.Add(group, groupBehaviorTrees);
+                }
+                groupBehaviorTrees.Add(agentTrees[j]);
+            }
+        }
+
+    }
+
+    public void TryAttack()
+    {
+        prevSelectionType = selectionType;
+        selectionType = BehaviorSelectionType.Attack;
+        SelectionChanged();
+    }
+    public void TryDefend()
+    {
+        prevSelectionType = selectionType;
+        selectionType = BehaviorSelectionType.Defend;
+        SelectionChanged();
+    }
+    public void TryAmbush()
+    {
+        prevSelectionType = selectionType;
+        selectionType = BehaviorSelectionType.Ambush;
+        SelectionChanged();
+    }
+    public void TryRetreat()
+    {
+        prevSelectionType = selectionType;
+        selectionType = BehaviorSelectionType.Retreat;
+        SelectionChanged();
+
+    }
+    public void TryFlank()
+    {
+        prevSelectionType = selectionType;
+        selectionType = BehaviorSelectionType.Flank;
+        SelectionChanged();
+
+    }
+    public void TrySurround()
+    {
+        prevSelectionType = selectionType;
+        selectionType = BehaviorSelectionType.Surround;
+        SelectionChanged();
+
+    }
+
+    private void SelectionChanged()
+    {
+        StopCoroutine("EnableBehavior");
+        for (int i = 0; i < enemyBehaviorTreeGroup[(int)prevSelectionType].Count; ++i)
+        {
+            enemyBehaviorTreeGroup[(int)prevSelectionType][i].DisableBehavior();
+        }
+
+        StartCoroutine("EnableBehavior");
+    }
+
+    private IEnumerator EnableBehavior()
+    {
+        //defendObject.SetActive(false);
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < enemyBehaviorTreeGroup[(int)selectionType].Count; ++i)
+        {
+            enemyBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
+            //Debug.Log($"(int)selectionType {(int)selectionType} / {i} ==== {agentBehaviorTreeGroup[(int)selectionType][i]}");
+        }
+    }
+
+
 }
