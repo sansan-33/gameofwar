@@ -8,54 +8,14 @@ using BehaviorDesigner.Runtime.Tasks;
 public class BehaviorSelection : MonoBehaviour
     {
         public GameObject agentGroup;
-        public GameObject enemyGroup;
         public GameObject defendObject;
        
         private Dictionary<int, List<BehaviorTree>> agentBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
-        private Dictionary<int, List<BehaviorTree>> enemyBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
-        private Health[] enemyHealth;
-
+      
         private enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
         private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
         private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;
 
-        public void StartAgent()
-        {
-            for (int i = 0; i < agentGroup.transform.childCount; ++i)
-            {
-                var child = agentGroup.transform.GetChild(i);
-                var agentTrees = child.GetComponents<BehaviorTree>();
-                for (int j = 0; j < agentTrees.Length; ++j)
-                {
-                    var group = agentTrees[j].Group;
-                    List<BehaviorTree> groupBehaviorTrees;
-                    if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
-                    {
-                        groupBehaviorTrees = new List<BehaviorTree>();
-                        agentBehaviorTreeGroup.Add(group, groupBehaviorTrees);
-                    }
-                    groupBehaviorTrees.Add(agentTrees[j]);
-                }
-            }
-            //enemyHealth = enemyGroup.GetComponentsInChildren<Health>();
-            var behaviorTrees = enemyGroup.GetComponentsInChildren<BehaviorTree>();
-            for (int i = 0; i < behaviorTrees.Length; ++i)
-            {
-                List<BehaviorTree> list;
-                if (enemyBehaviorTreeGroup.TryGetValue(behaviorTrees[i].Group, out list))
-                {
-                    list.Add(behaviorTrees[i]);
-                }
-                else
-                {
-                    list = new List<BehaviorTree>();
-                    list.Add(behaviorTrees[i]);
-                    enemyBehaviorTreeGroup[behaviorTrees[i].Group] = list;
-                }
-            }
-
-            SelectionChanged();
-        }
 
         public void Start ()
         {
@@ -200,38 +160,35 @@ public class BehaviorSelection : MonoBehaviour
             for (int i = 0; i < agentBehaviorTreeGroup[(int)prevSelectionType].Count; ++i) {
                 agentBehaviorTreeGroup[(int)prevSelectionType][i].DisableBehavior();
             }
-            
-            if (enemyBehaviorTreeGroup.ContainsKey((int)prevSelectionType)) {
-                var trees = enemyBehaviorTreeGroup[(int)prevSelectionType];
-                for (int i = 0; i < trees.Count; ++i) {
-                    trees[i].DisableBehavior();
-                }
-            }
-          
             StartCoroutine("EnableBehavior");
         }
 
-        private IEnumerator EnableBehavior()
-        {
-            //defendObject.SetActive(false);
+    private IEnumerator EnableBehavior()
+    {
+        //defendObject.SetActive(false);
 
-            yield return new WaitForSeconds(0.1f);
-        
-            if (enemyBehaviorTreeGroup.ContainsKey((int)selectionType)) {
-                var trees = enemyBehaviorTreeGroup[(int)selectionType];
-                for (int i = 0; i < trees.Count; ++i) {
-                    //Debug.Log($"trees {i} {trees[i]}");
-                    trees[i].EnableBehavior();
-                }
-            }
-        
-            //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
-            for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i) {
-                agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
-                //Debug.Log($"(int)selectionType {(int)selectionType} / {i} ==== {agentBehaviorTreeGroup[(int)selectionType][i]}");
-            }
+        yield return new WaitForSeconds(0.1f);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+        foreach (GameObject army in armies)
+        {
+            army.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
+
         }
 
+
+        //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
+        for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i)
+        {
+            agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
+            //Debug.Log($"(int)selectionType {(int)selectionType} / {i} ==== {agentBehaviorTreeGroup[(int)selectionType][i]}");
+        }
+
+        foreach (GameObject army in armies)
+        {
+            army.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("run");
+
+        }
+    }
         
 
         

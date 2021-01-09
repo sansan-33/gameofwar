@@ -52,7 +52,7 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
             cmdDamageText(other.transform.position);
             cmdCMVirtual();
             damageToDeals = strengthWeakness.calculateDamage(Unit.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
-            Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
+            //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             health.DealDamage(damageToDeals);
         }
 

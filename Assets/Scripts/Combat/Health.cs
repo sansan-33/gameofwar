@@ -76,7 +76,7 @@ public class Health : NetworkBehaviour, IDamageable
 
     public bool IsAlive()
     {
-        return true;
+        return currentHealth > 0;
     }
     #endregion
 }

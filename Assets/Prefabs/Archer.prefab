@@ -10,7 +10,7 @@ Animator:
   m_GameObject: {fileID: 6643767373836382971}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 88ca18530ce29457688162f0e92519a8, type: 3}
-  m_Controller: {fileID: 9100000, guid: 9aed75fe1cfc44a4cb7d15ddd9c17891, type: 2}
+  m_Controller: {fileID: 9100000, guid: cede57b56a9864d53ba981eca9495a12, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -55,6 +55,7 @@ MonoBehaviour:
   fireRange: 10
   fireRate: 1
   rotationSpeed: 100
+  unitNetworkAnimator: {fileID: 5421310974061289945}
   repeatAttackDelay: 1
   attackAngle: 1
 --- !u!1001 &870753408038986206
@@ -71,6 +72,18 @@ PrefabInstance:
     - target: {fileID: 4108518710800716, guid: b98ccf7ae43840c4e9a6f91a1f95bd6c, type: 3}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108518710800716, guid: b98ccf7ae43840c4e9a6f91a1f95bd6c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108518710800716, guid: b98ccf7ae43840c4e9a6f91a1f95bd6c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4108518710800716, guid: b98ccf7ae43840c4e9a6f91a1f95bd6c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4108518710800716, guid: b98ccf7ae43840c4e9a6f91a1f95bd6c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -140,6 +153,18 @@ PrefabInstance:
     - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_LocalPosition.x

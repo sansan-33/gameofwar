@@ -14,6 +14,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     [SerializeField] private float fireRange = 300f;
     [SerializeField] private float fireRate = 1f;
     [SerializeField] private float rotationSpeed = 100f;
+    [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
 
     private float lastFireTime;
 
@@ -60,8 +61,6 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
                 projectilePrefab, projectileSpawnPoint.position, projectileRotation);
         
         NetworkServer.Spawn(projectileInstance, connectionToClient);
-
-
             
     }
 
@@ -90,6 +89,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     public void Attack(Vector3 targetPosition)
     {
         //Debug.Log("unit firing now ");
+        unitNetworkAnimator.SetTrigger("attack");
         FireProjectile(targetPosition);
         lastAttackTime = Time.time;
     }

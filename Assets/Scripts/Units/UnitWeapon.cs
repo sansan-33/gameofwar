@@ -18,6 +18,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     [SerializeField] private GameObject attackPoint;
     [SerializeField] private float attackRange=5f;
     [SerializeField] private LayerMask layerMask = new LayerMask();
+    [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
+
     private int id;
     private int damageToDealOriginal ;
     
@@ -153,6 +155,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     public void Attack(Vector3 targetPosition)
     {
         Debug.Log("unit weapon attacking now ");
+        unitNetworkAnimator.SetTrigger("attack");
         Attack();
         lastAttackTime = Time.time;
     }

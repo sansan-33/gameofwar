@@ -32,8 +32,7 @@ public class SpawnEnemies : NetworkBehaviour
     public GameObject defendObject;
 
     private Dictionary<int, List<BehaviorTree>> enemyBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
-    private Health[] enemyHealth;
-
+   
     private enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
     private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
     private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;

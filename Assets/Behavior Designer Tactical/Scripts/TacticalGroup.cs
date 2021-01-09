@@ -129,7 +129,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             // Clear the old group.
             targets.Clear();
             targetTransforms.Clear();
-            Debug.Log($"Agent {Owner} checking target group value {targetGroup}");    
+            //Debug.Log($"Agent {Owner} checking target group value {targetGroup}");    
             if (leader.Value == null) {
                 if (targetGroup.Value != null && targetGroup.Value.Count > 0) {
                     for (int i = 0; i < targetGroup.Value.Count; ++i) {
