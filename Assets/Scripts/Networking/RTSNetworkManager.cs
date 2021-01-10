@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class RTSNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject unitBasePrefab = null;
-    [SerializeField] private GameObject mainPrefab = null;
-
+    [SerializeField] private GameObject archerPrefab = null;
+    [SerializeField] private GameObject knightPrefab = null;
+    [SerializeField] private GameObject heroPrefab = null;
+    [SerializeField] private GameObject spearmanPrefab = null;
+ 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
 
     public static event Action ClientOnConnected;
@@ -18,6 +22,11 @@ public class RTSNetworkManager : NetworkManager
     private bool isGameInProgress = false;
 
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
+
+    private int spawnMoveRange = 1;
+
+    private Dictionary<Unit.UnitType, int> militaryList = new Dictionary<Unit.UnitType, int>();
+    private Dictionary<Unit.UnitType, GameObject> unitDict = new Dictionary<Unit.UnitType, GameObject>();
 
     #region Server
 
@@ -83,6 +92,7 @@ public class RTSNetworkManager : NetworkManager
             foreach(RTSPlayer player in Players)
             {
                 Vector3 pos = GetStartPosition().position;
+                /*
                 GameObject baseInstance = Instantiate(
                     unitBasePrefab,
                     pos,
@@ -90,17 +100,41 @@ public class RTSNetworkManager : NetworkManager
                 baseInstance.tag = "PlayerBase";
                 NetworkServer.Spawn(baseInstance, player.connectionToClient);
 
-                /*
-                GameObject mainCharInstance = Instantiate(
-                mainPrefab.gameObject,
-                pos,
-                Quaternion.identity);
-                NetworkServer.Spawn(mainCharInstance, player.connectionToClient);
                 */
-       
+                unitDict.Add(Unit.UnitType.ARCHER, archerPrefab);
+                unitDict.Add(Unit.UnitType.HERO, heroPrefab);
+                unitDict.Add(Unit.UnitType.KNIGHT, knightPrefab);
+                unitDict.Add(Unit.UnitType.SPEARMAN, spearmanPrefab);
+
+                militaryList.Add(Unit.UnitType.ARCHER,  4 );
+                militaryList.Add(Unit.UnitType.SPEARMAN, 0 );
+                militaryList.Add(Unit.UnitType.KNIGHT,  0 );
+                militaryList.Add(Unit.UnitType.HERO ,  1 );
+     
+                foreach(Unit.UnitType unitType in militaryList.Keys ) {
+                    StartCoroutine(loadMilitary(2f, player, pos, unitDict[unitType], unitType.ToString() , militaryList[unitType]));
+                }
+
             }
         }
     }
+
+    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount)
+    {
+        yield return new WaitForSeconds(waitTime);
+        while (spawnCount > 0)
+        {
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+            spawnOffset.y = spawnPosition.y;
+            GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            unit.name = unitName;
+            NetworkServer.Spawn(unit, player.connectionToClient);
+            unit.GetComponent<Unit>().unitType = Unit.UnitType.HERO;
+            unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
+            spawnCount--;
+        }
+    }
+
 
     #endregion
 

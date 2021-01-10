@@ -25,7 +25,6 @@ public class BehaviorSelection : MonoBehaviour
         private void addBehaviourToMilitary()
         {
 
-
             GameObject hero=null;
             //defendObject = GameObject.FindGameObjectWithTag("PlayerBase");
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
@@ -40,24 +39,24 @@ public class BehaviorSelection : MonoBehaviour
                 var child = agentGroup.transform.GetChild(i);
                 //Debug.Log($" {i} {child} ");
                 var agentTrees = child.GetComponents<BehaviorTree>();
-            for (int j = 0; j < agentTrees.Length; ++j)
-            {
-                var group = agentTrees[j].Group;
-
-                agentTrees[j].SetVariableValue("newTargetName", "Enemy");
-                if (j == (int)BehaviorSelectionType.Hold || j == (int)BehaviorSelectionType.Defend)
+                for (int j = 0; j < agentTrees.Length; ++j)
                 {
-                    agentTrees[j].SetVariableValue("newDefendObject", defendObject);
-                }
-                if (!child.gameObject.name.Contains("Hero")) {
-                    agentTrees[j].SetVariableValue("newLeader", hero);
-                }
-                else
-                {
-                    agentTrees[j].SetVariableValue("newLeader", null);
-                }
+                    var group = agentTrees[j].Group;
 
-                List<BehaviorTree> groupBehaviorTrees;
+                    agentTrees[j].SetVariableValue("newTargetName", "Enemy");
+                    if (j == (int)BehaviorSelectionType.Hold || j == (int)BehaviorSelectionType.Defend)
+                    {
+                        agentTrees[j].SetVariableValue("newDefendObject", defendObject);
+                    }
+                    if (!child.gameObject.name.Contains("Hero")) {
+                        agentTrees[j].SetVariableValue("newLeader", hero);
+                    }
+                    else
+                    {
+                        agentTrees[j].SetVariableValue("newLeader", null);
+                    }
+
+                    List<BehaviorTree> groupBehaviorTrees;
                     if (!agentBehaviorTreeGroup.TryGetValue(group, out groupBehaviorTrees))
                     {
                         groupBehaviorTrees = new List<BehaviorTree>();
@@ -67,7 +66,7 @@ public class BehaviorSelection : MonoBehaviour
                 }
             }
 
-    }
+        }
 
         private string Description()
         {
