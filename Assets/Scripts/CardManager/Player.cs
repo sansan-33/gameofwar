@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace At0m1c.Blackjack
-{
+
 
     public class Player : MonoBehaviour
     {
@@ -14,11 +13,11 @@ namespace At0m1c.Blackjack
 
         public string playerName = "Player";
         public int chips = 100;
-
-        [Header("References")]
+    int i = 1;
+    [Header("References")]
         [SerializeField] Transform cardParent;
-
-        [Header("Layout References")]
+        [SerializeField] Transform button;
+    [Header("Layout References")]
         [SerializeField] Transform singleHandStart;
         [SerializeField] Transform splitHandStartLeft;
         [SerializeField] Transform splitHandStartRight;
@@ -33,8 +32,10 @@ namespace At0m1c.Blackjack
         public bool leftBust = false;
         public bool rightBust = false;
         public int handTotal;
-
-        public bool dealer = false;
+    float x = (float)-45;
+    int l = 1;
+    
+    public bool dealer = false;
         public int[] pot = new int[2];
         [SerializeField] Text chipsText;
         [SerializeField] Text pot1Text;
@@ -52,10 +53,10 @@ namespace At0m1c.Blackjack
 
         public bool CanSplit()
         {
-            Debug.Log($"Left hand count {playerHand[0].Count} | right hand count {playerHand[1].Count}");
+           // Debug.Log($"Left hand count {playerHand[0].Count} | right hand count {playerHand[1].Count}");
             if (playerHand[0].Count == 2 && playerHand[1].Count == 0)
             {
-                Debug.Log($"CanSplit {playerHand[0][0].cardFace.numbers == playerHand[0][1].cardFace.numbers}");
+               // Debug.Log($"CanSplit {playerHand[0][0].cardFace.numbers == playerHand[0][1].cardFace.numbers}");
                 return playerHand[0][0].cardFace.numbers == playerHand[0][1].cardFace.numbers;
             }
             return false;
@@ -72,7 +73,7 @@ namespace At0m1c.Blackjack
                 StartCoroutine(MoveCardTo(playerHand[0][0].transform, splitHandStartLeft.position));
                 StartCoroutine(MoveCardTo(playerHand[1][0].transform, splitHandStartRight.position));
 
-                Transfer(-2, 1);
+            Transfer(-2, 1);
             }
         }
 
@@ -160,7 +161,7 @@ namespace At0m1c.Blackjack
 
                 //Calculate aces
                 //Two aces (11) will always cause bust, therefore add 1 for every ace until the last one then determine if it is 1 or 11
-                Debug.Log($"{playerName} aces {aces}");
+               // Debug.Log($"{playerName} aces {aces}");
                 for (int i = 0; i < aces; i++)
                 {
                     if (dealer)
@@ -178,19 +179,19 @@ namespace At0m1c.Blackjack
                     {
                         if (i < aces - 1)
                         {
-                            Debug.Log($"{playerName} | More aces to come, adding 1");
+                            //Debug.Log($"{playerName} | More aces to come, adding 1");
                             total += 1;
                         }
                         else
                         {
                             if (total < 11)
                             {
-                                Debug.Log($"{playerName} | Total is {total}, last ace, adding 11");
+                               // Debug.Log($"{playerName} | Total is {total}, last ace, adding 11");
                                 total += 11;
                             }
                             else
                             {
-                                Debug.Log($"{playerName} | Total is {total}, adding 1");
+                               // Debug.Log($"{playerName} | Total is {total}, adding 1");
                                 total += 1;
                             }
                         }
@@ -207,7 +208,7 @@ namespace At0m1c.Blackjack
                         card.FadeOut();
                     }
                 }
-                Debug.Log($"{playerName} hand total {total}");
+              //  Debug.Log($"{playerName} hand total {total}");
             }
 
             handTotal = handTotals[0];
@@ -216,23 +217,27 @@ namespace At0m1c.Blackjack
 
         public void AddCard(Card card, bool left = true)
         {
+           // Debug.Log($"Add Card {card}");
             card.SetOwner(this);
             card.transform.SetParent(cardParent);
             if (!handSplit)
             {
                 playerHand[0].Add(card);
-                StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + (playerHand[0].Count * cardOffset), card, playerHand[0].IndexOf(card)));
+           
+            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position/* + (playerHand[0].Count * cardOffset*/, card, playerHand[0].IndexOf(card)));
             }
             else
             {
                 if (left)
-                {
-                    playerHand[0].Add(card);
+            {
+                
+                playerHand[0].Add(card);
                     StartCoroutine(MoveCardTo(card.transform, splitHandStartLeft.position + ((playerHand[0].Count - 1) * cardOffset), card, playerHand[0].IndexOf(card)));
                 }
                 else
-                {
-                    playerHand[1].Add(card);
+            {
+                
+                playerHand[1].Add(card);
                     StartCoroutine(MoveCardTo(card.transform, splitHandStartRight.position + ((playerHand[1].Count - 1) * cardOffset), card, playerHand[1].IndexOf(card)));
                 }
             }
@@ -242,30 +247,40 @@ namespace At0m1c.Blackjack
         IEnumerator MoveCardTo(Transform cardTransform, Vector3 targetPosition, Card card = null, int index = 0)
         {
             Vector3 v360 = new Vector3(0, 0, 180);
-            while ((cardTransform.position - targetPosition).sqrMagnitude > 0.00000001f)
-            {
-                cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPosition, Time.deltaTime * cardMoveSpeed);
-                cardTransform.localEulerAngles = Vector3.Lerp(cardTransform.localEulerAngles, v360, Time.deltaTime * 5);
+           // while ((cardTransform.position - targetPosition).sqrMagnitude > 0.00000001f)
+        {
+            
+            //cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPosition, Time.deltaTime * cardMoveSpeed);
+            
+              //  cardTransform.localEulerAngles = Vector3.Lerp(cardTransform.localEulerAngles, v360, Time.deltaTime * 5);
                 yield return null;
             }
-            cardTransform.position = targetPosition;
-            cardTransform.localEulerAngles = Vector3.zero;
+        
+            cardTransform.position = new Vector3(x, 50,-13);
+         x += (float)5;
+      
+        //   cardTransform.localEulerAngles = targetPosition;
 
-            //Flip Card
-            card?.Flip(index);
-            yield return null;
+        //Flip Card
+        card?.Flip(index);
+        var rotationVector = transform.rotation.eulerAngles;
+        rotationVector.x = 90;
+        cardTransform.rotation = Quaternion.Euler(rotationVector);
+        cardTransform.localScale += new Vector3((float)0.5, 25, 1);
+      
+         yield return null;
         }
-
-        IEnumerator RemoveFromTable(Transform cardTransform, Vector3 targetPosition)
+    
+    IEnumerator RemoveFromTable(Transform cardTransform, Vector3 targetPosition)
         {
             Vector3 v360 = new Vector3(0, 0, 180);
             while ((cardTransform.position - targetPosition).sqrMagnitude > 0.00000001f)
             {
-                cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPosition, Time.deltaTime * cardMoveSpeed);
+               // cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPosition, Time.deltaTime * cardMoveSpeed);
                 cardTransform.localEulerAngles = Vector3.Lerp(cardTransform.localEulerAngles, v360, Time.deltaTime * 5);
                 yield return null;
             }
-            cardTransform.position = targetPosition;
+           // cardTransform.position = targetPosition;
             cardTransform.localEulerAngles = Vector3.zero;
 
             Destroy(cardTransform.gameObject);
@@ -273,4 +288,3 @@ namespace At0m1c.Blackjack
 
     }
 
-}

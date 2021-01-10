@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace At0m1c.Blackjack
-{
 
     [System.Serializable]
     public struct CardFace
@@ -41,7 +39,7 @@ namespace At0m1c.Blackjack
 
         [SerializeField] List<CardFaceCoords> cardFaceCoords = new List<CardFaceCoords>();
 
-        [SerializeField] Player dealer;
+     //   [SerializeField] Player dealer;
         [SerializeField] List<Player> players = new List<Player>();
 
         [SerializeField] List<CardFace> cardDeck = new List<CardFace>();
@@ -49,22 +47,17 @@ namespace At0m1c.Blackjack
 
         bool cardSpawned = false;
         Card lastCard;
-
+    int numbers = 0;
         [Header("Testing")]
-        [SerializeField] Button testDeal;
-        [SerializeField] Button testReset;
-        [SerializeField] Button testSplit;
+       
         [SerializeField] Button testHit;
-        [SerializeField] Button testHitLeft;
-        [SerializeField] Button testHitRight;
-        [SerializeField] Button testReveal;
+       
 
-        [SerializeField] Text dealerCountText;
-        [SerializeField] Text playerCountText;
+    
 
         void Awake()
         {
-            dealer.SetAsDealer();
+          //  dealer.SetAsDealer();
             ShuffleDeck();
             DealBegin();
         }
@@ -102,6 +95,7 @@ namespace At0m1c.Blackjack
             {
                 if (card.cardFace.suit == cardFace.suit && card.cardFace.numbers == cardFace.numbers)
                 {
+                Debug.Log(card);
                     return card;
                 }
             }
@@ -125,6 +119,7 @@ namespace At0m1c.Blackjack
             { //Check for bust
 
                 lastCard = Instantiate(cardPrefab).GetComponent<Card>();
+              //  Debug.Log($"1 DealingCard -- > last card | {lastCard} |?? ");
                 lastCard.transform.localScale = Vector3.zero;
 
                 if (cardDeck.Count < 10)
@@ -132,8 +127,10 @@ namespace At0m1c.Blackjack
                     ShuffleDeck();
                 }
                 CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count - 1)];
+            
                 cardDeckUsed.Add(randomCard);
                 lastCard.GetComponent<Card>().SetCard(randomCard, GetCardFaceCoord(randomCard));
+
                 cardDeck.Remove(randomCard);
 
                 cardSpawned = false;
@@ -148,13 +145,16 @@ namespace At0m1c.Blackjack
 
                 cardDispenserAnimator.SetBool("Dealing", false);
 
-                //Player takes card
-                player.AddCard(lastCard, left);
+            //Player takes card
+           // Debug.Log($"2 DealingCard -- > Try Player add card | {lastCard} | ");
 
+            player.AddCard(lastCard, left);
+            numbers++;
+            lastCard.setputtonposition(numbers);
             }
         }
 
-        void CalculateHands()
+       /* void CalculateHands()
         {
             int dealerTotal = dealer.CalculateHands(out bool dealerBlackjack)[0]; //Dealer cannot split hands
             if (dealerTotal <= 16 && !dealerBlackjack)
@@ -210,7 +210,7 @@ namespace At0m1c.Blackjack
                 player.pot[0] = 0;
                 player.pot[1] = 0;
             }
-        }
+        }*/
 
         IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
         {
@@ -239,23 +239,23 @@ namespace At0m1c.Blackjack
 
             if (reveal)
             {
-                Reveal();
+                //Reveal();
             }
             if (player.dealer)
             {
-                dealerCountText.text = player.handTotal.ToString();
+               
             }
             else
             {
                 if (player.CanSplit())
                 {
-                    testSplit.gameObject.SetActive(true);
+                   
                 }
                 else
                 {
-                    testSplit.gameObject.SetActive(false);
+                    
                 }
-                playerCountText.text = player.handTotal.ToString();
+                
             }
         }
 
@@ -269,16 +269,14 @@ namespace At0m1c.Blackjack
         public void DealBegin()
         {
             //Deal two cards to player
-            StartCoroutine(DealCards(2, 0f, 0.5f, players[0]));
-            StartCoroutine(DealCards(2, 1f, 0.5f, dealer));
+            StartCoroutine(DealCards(3, 0f, 0.5f, players[0]));
+          //  StartCoroutine(DealCards(2, 1f, 0.5f, dealer));
 
             players[0].Transfer(-2, 0);
 
-            testDeal.gameObject.SetActive(false);
+            //testHit.gameObject.SetActive(false);
 
-            testHit.gameObject.SetActive(true);
-
-            testReveal.gameObject.SetActive(true);
+           
         }
 
         [ContextMenu("Split Player Hand")]
@@ -305,7 +303,7 @@ namespace At0m1c.Blackjack
             StartCoroutine(DealCards(1, 0f, 0.5f, players[0]));
         }
 
-        [ContextMenu("Hit")]
+      /*  [ContextMenu("Hit")]
         public void HitLeft()
         {
             StartCoroutine(DealCards(1, 0f, 0.5f, players[0], true));
@@ -324,14 +322,6 @@ namespace At0m1c.Blackjack
             dealer.Reveal();
             CalculateHands();
 
-         //   testReset.gameObject.SetActive(true);
-
-          //testDeal.gameObject.SetActive(false);
-            //testHit.gameObject.SetActive(false);
-            //testSplit.gameObject.SetActive(false);
-          //  testReveal.gameObject.SetActive(false);
-           // testHitLeft.gameObject.SetActive(false);
-           // testHitRight.gameObject.SetActive(false);
         }
 
         [ContextMenu("Reset")]
@@ -340,15 +330,6 @@ namespace At0m1c.Blackjack
             players.ForEach(player => player.Reset());
             dealer.Reset();
 
-           // testDeal.gameObject.SetActive(true);
-
-            //testReset.gameObject.SetActive(false);
-            //testHit.gameObject.SetActive(false);
-            //testSplit.gameObject.SetActive(false);
-            //testReveal.gameObject.SetActive(false);
-            //testHitLeft.gameObject.SetActive(false);
-            //testHitRight.gameObject.SetActive(false);
-        }
+        }*/
 
     }
-}

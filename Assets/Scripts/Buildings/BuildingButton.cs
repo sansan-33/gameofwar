@@ -10,6 +10,7 @@ using UnityEngine.UI;
 
 public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpHandler
 {
+    [SerializeField] private GameObject DestroyParent = null;
     [SerializeField] private GameObject unitProgressImageParent = null;
     [SerializeField] private Building building = null;
     [SerializeField] private Unit unit = null;
@@ -262,7 +263,9 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
             }
 
             Destroy(unitPreviewInstance);
-        }catch(Exception){}
+            Destroy(DestroyParent);
+        }
+        catch(Exception){}
     }
 
     private void UpdateBuildingPreview()

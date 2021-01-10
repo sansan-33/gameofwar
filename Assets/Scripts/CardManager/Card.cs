@@ -1,36 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace At0m1c.Blackjack
+public class Card : MonoBehaviour
 {
-
-    public class Card : MonoBehaviour
-    {
+    
+    
         bool flipped = false;
         Animator animator;
         Player owner;
 
         public CardFace cardFace;
+    public CardFaceCoords coord;
         [SerializeField] Renderer cardRenderer;
         Material cardFrontMat;
+    float X = (float)90;
+    
+    [SerializeField] Transform button;
+    [SerializeField] GameObject gameobject;
 
-        void Awake()
+
+    void Awake()
         {
             animator = GetComponent<Animator>();
             cardFrontMat = cardRenderer.materials[0];
         }
 
         public void SetCard(CardFace _cardFace, CardFaceCoords coord)
+    {
+
+        
+           cardFace = _cardFace;
+        
+        
+        if (coord != null)
         {
-            cardFace = _cardFace;
-            if (coord != null)
-            {
-                cardFrontMat.SetTextureOffset("_BaseMap", coord.coord);
+            
+            cardFrontMat.SetTextureOffset("_BaseMap", coord.coord);
                 cardRenderer.materials[0] = cardFrontMat;
             }
         }
+   
+   
+    public void OnPointerDown()
+    {
+        Debug.Log(this.cardFace.suit);
+        Debug.Log(this.cardFace.numbers);
 
+    }
+    
         public void FadeOut()
         {
             StartCoroutine(FadeOutCard());
@@ -77,7 +96,20 @@ namespace At0m1c.Blackjack
                 animator.SetTrigger("Flip");
                 flipped = true;
             }
+        
+    }
+    public void setputtonposition(int number)
+    {
+        while (number > 0)
+        {
+            button.transform.position = new Vector3(X, 230, 0);
+          
+            X += 90;
+            number--;
         }
+      
+    }
+
     }
 
     public enum Card_Suits
@@ -104,4 +136,3 @@ namespace At0m1c.Blackjack
         Queen,
         King
     }
-}
