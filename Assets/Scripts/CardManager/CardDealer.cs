@@ -268,6 +268,7 @@ using UnityEngine.UI;
         [ContextMenu("Play Blackjack")]
         public void DealBegin()
         {
+        Debug.Log(2);
             //Deal two cards to player
             StartCoroutine(DealCards(3, 0f, 0.5f, players[0]));
           //  StartCoroutine(DealCards(2, 1f, 0.5f, dealer));

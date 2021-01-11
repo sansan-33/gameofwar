@@ -17,6 +17,9 @@ public class RTSPlayer : NetworkBehaviour
     private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     private string displayName;
+    [SyncVar(hook = nameof(ClientHandlePlayerIDUpdated))]
+    private int playerID = 0;
+
 
     public event Action<int> ClientOnResourcesUpdated;
 
@@ -26,7 +29,6 @@ public class RTSPlayer : NetworkBehaviour
     private Color teamColor = new Color();
     private List<Unit> myUnits = new List<Unit>();
     private List<Building> myBuildings = new List<Building>();
-    private int playerID = 0;
 
     public int GetPlayerID()
     {
@@ -255,6 +257,11 @@ public class RTSPlayer : NetworkBehaviour
     }
 
     private void ClientHandleDisplayNameUpdated(string oldDisplayName, string newDisplayName)
+    {
+        ClientOnInfoUpdated?.Invoke();
+    }
+
+    private void ClientHandlePlayerIDUpdated(int oldPlayerID, int newPlayerID)
     {
         ClientOnInfoUpdated?.Invoke();
     }

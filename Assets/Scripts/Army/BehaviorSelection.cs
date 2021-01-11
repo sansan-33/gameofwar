@@ -17,31 +17,25 @@ public class BehaviorSelection :  NetworkBehaviour
         private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
         private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;
         private RTSPlayer player;
+        private int playerid = 0;
+        private int enemyid = 0;
+        private string enemyTag = "";
 
         void Start()
         {
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-            Debug.Log($" BehaviorSelection --> player id {player.GetPlayerID()} {player.GetDisplayName()} ");
+            playerid = player.GetPlayerID();
+            enemyid = playerid == 0 ? 1 : 0;
+            enemyTag = "Player" + enemyid;
+            Debug.Log($" BehaviorSelection --> player id {playerid} / enemyTag {enemyTag}");
+            StartCoroutine("AssignTagTB");
         }
-        public override void OnStartServer()
-        {
-            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-            Debug.Log($"1 BehaviorSelection -->   startMilitaryTB / player id {player.GetPlayerID() } ");
-            //startMilitaryTB();
-            InvokeRepeating("startMilitaryTB", 5f, 6000000f);
-            //InvokeRepeating("StartAgent", 5f, 6000000f);
-        }
+
         private void startMilitaryTB()
         {
 
             GameObject hero=null;
-            int playerid = player.GetPlayerID();
-            string enemyTag = "Player" + (playerid  == 0 ? "1" : "0") ;
-
-            defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerid);
-            Debug.Log($"1.1 Defend Object {defendObject} ");
-
-
+            
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
             Debug.Log($"2 Object with Player tag   {armies.Length} ");
 
@@ -210,7 +204,52 @@ public class BehaviorSelection :  NetworkBehaviour
 
         }
     }
-        
+    private IEnumerator AssignTagTB()
+    {
+        yield return new WaitForSeconds(10f);
+        GameObject[] playerBases = GameObject.FindGameObjectsWithTag("PlayerBase");
+        foreach (GameObject playerBase in playerBases)
+        {
+            if (playerBase.TryGetComponent<Unit>(out Unit unit))
+            {
+                if (unit.hasAuthority)
+                {
+                    playerBase.tag = "PlayerBase" + playerid;
+                    defendObject = playerBase;
+                    Debug.Log($"1.1.1 Defend Object | {defendObject} | playerBase {playerBase }? ");
 
+                }
+                else
+                {
+                    playerBase.tag = "PlayerBase" + enemyid;
+                }
+            }
+        }
+        yield return new WaitForSeconds(1f);
+
+        //defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerid);
+        Debug.Log($"1.1 Defend Object | {defendObject} | ? ");
+
+
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+        Debug.Log($"AssignTagTB --> Armies Size: {armies.Length }");
+        foreach (GameObject army in armies)
+        {
+            if (army.TryGetComponent<Unit>(out Unit unit))
+            {
+                Debug.Log($"Checking unit: {unit } / unit.hasAuthority {unit.hasAuthority}");
+
+                if (unit.hasAuthority) {
+                    army.tag = "Player" + playerid;
+                }
+                else {
+                    army.tag = enemyTag;
+                }
+            }
+        }
+        yield return new WaitForSeconds(3f);
+        startMilitaryTB();
+    }
         
 }
+ 

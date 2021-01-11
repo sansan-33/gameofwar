@@ -3,6 +3,7 @@ using BehaviorDesigner.Runtime.Tasks;
 using Tooltip = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 using HelpURL = BehaviorDesigner.Runtime.Tasks.HelpURLAttribute;
 
+
 namespace BehaviorDesigner.Runtime.Tactical.Tasks
 {
     [TaskCategory("Tactical")]
