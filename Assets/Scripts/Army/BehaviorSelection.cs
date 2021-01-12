@@ -5,8 +5,9 @@ using System.Text.RegularExpressions;
 using BehaviorDesigner.Runtime;
 using BehaviorDesigner.Runtime.Tasks;
 using Mirror;
+using UnityEngine.SceneManagement;
 
-public class BehaviorSelection :  NetworkBehaviour
+public class BehaviorSelection : MonoBehaviour
 {
         public GameObject agentGroup;
         private GameObject defendObject;
@@ -22,19 +23,50 @@ public class BehaviorSelection :  NetworkBehaviour
         private string enemyTag = "";
         private string PLAYERTAG = "";
 
-        void Start()
-        {
-            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+
+    // called zero
+    void Start()
+    {
+        Debug.Log("Start");
+    }
+
+    // called first
+    void OnEnable()
+    {
+        Debug.Log("OnEnable called");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    // called second
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("OnSceneLoaded: " + scene.name);
+        Debug.Log(mode);
+    }
+
+    // called when the game is terminated
+    void OnDisable()
+    {
+        Debug.Log("OnDisable");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // called zero
+    void Awake()
+    {
+        Debug.Log("Awake");
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             playerid = player.GetPlayerID();
             enemyid = playerid == 0 ? 1 : 0;
             enemyTag = "Player" + enemyid;
             PLAYERTAG = "Player" + playerid;
 
-            Debug.Log($" BehaviorSelection --> player id {playerid} / enemyTag {enemyTag}");
+            Debug.Log($"1 BehaviorSelection --> player id {playerid} / enemyTag {enemyTag}");
             StartCoroutine("AssignTagTB");
-        }
+            Debug.Log($"2 called BehaviorSelection");
 
-        private void startMilitaryTB()
+    }
+    private void startMilitaryTB()
         {
 
             GameObject hero=null;
@@ -174,20 +206,13 @@ public class BehaviorSelection :  NetworkBehaviour
 
     private void SelectionChanged()
     {
-        StopCoroutine("CmdEnableBehavior");
+        StopCoroutine("EnableBehavior");
         for (int i = 0; i < agentBehaviorTreeGroup[(int)prevSelectionType].Count; ++i) {
             agentBehaviorTreeGroup[(int)prevSelectionType][i].DisableBehavior();
         }
-        StartCoroutine("CmdEnableBehavior");
+        StartCoroutine("EnableBehavior");
     }
-    [Command]
-    public void CmdEnableBehavior()
-    {
-        ServerEnableBehavior();
-    }
-
-    [Server]
-    private IEnumerator ServerEnableBehavior()
+    private IEnumerator EnableBehavior()
     {
         //defendObject.SetActive(false);
 
@@ -212,8 +237,11 @@ public class BehaviorSelection :  NetworkBehaviour
 
     private IEnumerator AssignTagTB()
     {
-        yield return new WaitForSeconds(10f);
+        Debug.Log($"1.2 AssignTagTB | {defendObject} | ? ");
+        yield return new WaitForSeconds(3f);
+        Debug.Log($"1.3");
         GameObject[] playerBases = GameObject.FindGameObjectsWithTag("PlayerBase");
+        Debug.Log($"1.4 playerBases size: {playerBases.Length}");
         foreach (GameObject playerBase in playerBases)
         {
             if (playerBase.TryGetComponent<Unit>(out Unit unit))
@@ -234,11 +262,11 @@ public class BehaviorSelection :  NetworkBehaviour
         yield return new WaitForSeconds(1f);
 
         //defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerid);
-        Debug.Log($"1.1 Defend Object | {defendObject} | ? ");
+        Debug.Log($"1.3 Defend Object | {defendObject} | ? ");
 
 
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-        Debug.Log($"AssignTagTB --> Armies Size: {armies.Length }");
+        Debug.Log($"1.4 AssignTagTB --> Armies Size: {armies.Length }");
         foreach (GameObject army in armies)
         {
             if (army.TryGetComponent<Unit>(out Unit unit))
@@ -253,9 +281,9 @@ public class BehaviorSelection :  NetworkBehaviour
                 }
             }
         }
-        yield return new WaitForSeconds(3f);
         startMilitaryTB();
+        yield return new WaitForSeconds(0.1f);
     }
-        
+
 }
  

@@ -10,7 +10,7 @@ namespace BehaviorDesigner.Runtime.Tactical
     {
         private static int ignoreRaycast = ~(1 << LayerMask.NameToLayer("Ignore Raycast"));
 
-        protected Transform transform;
+        public Transform transform;
         private IAttackAgent attackAgent;
         private Transform targetTransform = null;
         private IDamageable targetDamagable = null;
