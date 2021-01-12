@@ -31,15 +31,15 @@ public class Card : MonoBehaviour
         public void SetCard(CardFace _cardFace, CardFaceCoords coord, string cardid)
     {
         
-        GameObject other = GameObject.FindGameObjectWithTag("Card(clone)");
-        BehaviorSelection a = other.GetComponent<BehaviorSelection>();
-        string attack = "attack";
-        if (cardid == attack)
-        {
+       // GameObject other = GameObject.FindGameObjectWithTag("Card(clone)");
+        //BehaviorSelection a = other.GetComponent<BehaviorSelection>();
+        //string attack = "attack";
+      //  if (cardid == attack)
+        //{
             
-            gameobject.onClick.AddListener(a.TryAttack); //subscribe to the onClick 
+        //    gameobject.onClick.AddListener(a.TryAttack); //subscribe to the onClick 
           
-        }
+       // }
         
              //subscribe to the onClick
        

@@ -257,8 +257,9 @@ MonoBehaviour:
       numbers: 12
     _coord: {x: 4, y: 7}
   players:
-  - {fileID: 0}
+  - {fileID: -8209060698620193296, guid: 8088e0aaf709443abbf96095f0aea78c, type: 3}
   cardDeck: []
+  attackType: []
   cardDeckUsed: []
   testHit: {fileID: 0}
 --- !u!1 &4662178991453117280
@@ -427,6 +428,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BG
       objectReference: {fileID: 0}
+    - target: {fileID: 8592262858285301151, guid: 3f795295713aa43718badf6c515510cd, type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f795295713aa43718badf6c515510cd, type: 3}
 --- !u!4 &6631136002019465275 stripped
@@ -496,6 +501,10 @@ PrefabInstance:
     - target: {fileID: 2068810399220974159, guid: 3f795295713aa43718badf6c515510cd, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8592262858285301151, guid: 3f795295713aa43718badf6c515510cd, type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f795295713aa43718badf6c515510cd, type: 3}

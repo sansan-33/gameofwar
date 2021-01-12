@@ -147,7 +147,7 @@ using UnityEngine.UI;
                 cardDispenserAnimator.SetBool("Dealing", false);
 
             //Player takes card
-           // Debug.Log($"2 DealingCard -- > Try Player add card | {lastCard} | ");
+            Debug.Log($"2 DealingCard -- > Try Player add card | {lastCard} | ");
 
             player.AddCard(lastCard, left);
             numbers++;
