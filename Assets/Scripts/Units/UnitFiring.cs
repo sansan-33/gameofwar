@@ -88,7 +88,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
 
     public void Attack(Vector3 targetPosition)
     {
-        //Debug.Log("unit firing now ");
+        Debug.Log("unit firing now ");
         unitNetworkAnimator.SetTrigger("attack");
         FireProjectile(targetPosition);
         lastAttackTime = Time.time;

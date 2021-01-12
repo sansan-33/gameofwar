@@ -62,6 +62,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     offset.x += separation.Value * ((formationIndex / groupCount) % 2 == 0 ? -1 : 1) * (((groupIndex / 2) + 1));
                     destination = TransformPoint(destination, offset, Quaternion.LookRotation(attackCenter - destination));
                 }
+                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdMove(destination);
                 tacticalAgent.SetDestination(destination);
                 // Set AttackPosition to true when the agent arrived at the destination. This will put the agent in attack mode and start to rotate towards
                 // the target.

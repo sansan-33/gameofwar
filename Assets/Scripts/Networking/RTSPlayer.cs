@@ -19,7 +19,8 @@ public class RTSPlayer : NetworkBehaviour
     private string displayName;
     [SyncVar(hook = nameof(ClientHandlePlayerIDUpdated))]
     private int playerID = 0;
-
+    [SyncVar(hook = nameof(ClientHandleEnemyIDUpdated))]
+    private int enemyID = 0;
 
     public event Action<int> ClientOnResourcesUpdated;
 
@@ -33,6 +34,10 @@ public class RTSPlayer : NetworkBehaviour
     public int GetPlayerID()
     {
         return playerID;
+    }
+    public int GetEnemyID()
+    {
+        return enemyID;
     }
     public string GetDisplayName()
     {
@@ -118,7 +123,11 @@ public class RTSPlayer : NetworkBehaviour
     {
         this.playerID = id;
     }
-
+    [Server]
+    public void SetEnemyID(int id)
+    {
+        this.enemyID = id;
+    }
     [Server]
     public void SetDisplayName(string displayName)
     {
@@ -262,6 +271,10 @@ public class RTSPlayer : NetworkBehaviour
     }
 
     private void ClientHandlePlayerIDUpdated(int oldPlayerID, int newPlayerID)
+    {
+        ClientOnInfoUpdated?.Invoke();
+    }
+    private void ClientHandleEnemyIDUpdated(int oldEnemyID, int newEnemyID)
     {
         ClientOnInfoUpdated?.Invoke();
     }

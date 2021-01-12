@@ -25,8 +25,6 @@ public class KnightDisplay : NetworkBehaviour
     
     private void ClientHandlePlayerUpdated()
     {
-        
-      
      
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
