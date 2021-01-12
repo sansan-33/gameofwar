@@ -13,12 +13,16 @@ public class TotalHealthDisplay : NetworkBehaviour
     [SerializeField] private TMP_Text TotalEnermyhealths = null;
     private int militarySize = 0;
     private int EnermymilitarySize = 0;
-    float unitTimer = 1;
     int MaxmilitarySize = 0;
-    int a = 0;
     int MaxEnermymilitarySize = 0;
-    int b = 0;
     private float progressImageVelocity;
+    RTSPlayer player;
+
+    public override void OnStartClient()
+    {
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+
+    }
     private void Update()
     {
 
@@ -26,19 +30,12 @@ public class TotalHealthDisplay : NetworkBehaviour
         totalEnermyhealth();
 
     }
-    private void UnitTimer()
-    {
-
-        unitTimer += Time.deltaTime;
-    }
     private void TotalPlayerHealthdisplay()
     {
 
         militarySize = 0;
-
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-
-
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + player.GetPlayerID() );
+        if(armies is null || armies.Length ==0) { return;  } 
 
         foreach (GameObject army in armies)
         {
@@ -60,12 +57,9 @@ public class TotalHealthDisplay : NetworkBehaviour
     }
     private void totalEnermyhealth()
     {
-
         
-            EnermymilitarySize = 0;
-        
-
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        EnermymilitarySize = 0;
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID());
         foreach (GameObject EnermyArmy in enemies)
         {
             float newProgress;
@@ -81,7 +75,6 @@ public class TotalHealthDisplay : NetworkBehaviour
             TotalEnermyhealth.fillAmount = newProgress;
         }
 
-        b++;
     }
 
 

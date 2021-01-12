@@ -84,6 +84,7 @@ public class RTSNetworkManager : NetworkManager
             UnityEngine.Random.Range(0f, 1f)
         ));
         player.SetPlayerID(Players.Count - 1);
+        player.SetEnemyID(player.GetPlayerID() == 0 ? 1 : 0);
         player.SetPartyOwner(Players.Count == 1);
     }
 

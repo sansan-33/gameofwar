@@ -15,8 +15,11 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
     [SerializeField] private string unitType;
     private int damageToDealOriginal;
     private StrengthWeakness strengthWeakness;
-    void Start()
+    RTSPlayer player;
+
+    public override void OnStartClient()
     {
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         damageToDealOriginal += damageToDeals;
         rb.velocity = transform.forward * launchForce;
         strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
@@ -34,8 +37,8 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
         damageToDeals = damageToDealOriginal;
         // Not attack same connection client object except AI Enemy
         if (FindObjectOfType<NetworkManager>().numPlayers == 1) {
-            if (other.tag == "Enemy" && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
-            if (other.tag == "Player" && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
+            if (other.tag == "Player" + player.GetEnemyID() && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
+            if (other.tag == "Player" + player.GetPlayerID() && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
         }
         else // Multi player seneriao
         {

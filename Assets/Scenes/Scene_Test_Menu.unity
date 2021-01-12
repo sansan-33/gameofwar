@@ -1053,9 +1053,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 262426523}
+      - m_Target: {fileID: 979161283}
         m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: goToMainMenu
+        m_MethodName: GoToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3563,7 +3563,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 979161281}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37d0e39478a17eb40a932a63e05e0d87, type: 3}
+  m_Script: {fileID: 11500000, guid: eb1784096f94740edb2536e67cf8caad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1018539297
@@ -5789,7 +5789,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 979161283}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: GoToHeroDeckMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1592962427
 GameObject:
   m_ObjectHideFlags: 0
