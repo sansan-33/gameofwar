@@ -20,7 +20,7 @@ public class BehaviorSelection : MonoBehaviour
         private RTSPlayer player;
         private int playerid = 0;
         private int enemyid = 0;
-        private string enemyTag = "";
+        private string ENEMYTAG = "";
         private string PLAYERTAG = "";
 
 
@@ -59,11 +59,11 @@ public class BehaviorSelection : MonoBehaviour
         //Debug.Log("Awake");
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerid = player.GetPlayerID();
-        enemyid = playerid == 0 ? 1 : 0;
-        enemyTag = "Player" + enemyid;
+        enemyid = player.GetEnemyID();
+        ENEMYTAG = "Player" + enemyid;
         PLAYERTAG = "Player" + playerid;
 
-        //Debug.Log($"1 BehaviorSelection --> player id {playerid} / enemyTag {enemyTag}");
+        //Debug.Log($"1 BehaviorSelection --> player id {playerid} / ENEMYTAG {ENEMYTAG}");
         StartCoroutine("AssignTagTB");
         //Debug.Log($"2 called BehaviorSelection");
 
@@ -96,7 +96,7 @@ public class BehaviorSelection : MonoBehaviour
                 {
                     var group = agentTrees[j].Group;
 
-                    agentTrees[j].SetVariableValue("newTargetName", enemyTag);
+                    agentTrees[j].SetVariableValue("newTargetName", ENEMYTAG);
                     if (j == (int)BehaviorSelectionType.Hold || j == (int)BehaviorSelectionType.Defend)
                     {
                         agentTrees[j].SetVariableValue("newDefendObject", defendObject);
@@ -277,7 +277,7 @@ public class BehaviorSelection : MonoBehaviour
                     army.tag = PLAYERTAG;
                 }
                 else {
-                    army.tag = enemyTag;
+                    army.tag = ENEMYTAG;
                 }
             }
         }
