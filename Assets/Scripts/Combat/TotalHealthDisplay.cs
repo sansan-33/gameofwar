@@ -25,14 +25,14 @@ public class TotalHealthDisplay : NetworkBehaviour
     }
     private void Update()
     {
-        Debug.Log("TotalHealthDisplay --> IS server only ?");
+        if (player is null) { return; }
         TotalPlayerHealthdisplay();
         totalEnermyhealth();
 
     }
     private void TotalPlayerHealthdisplay()
     {
-
+        
         militarySize = 0;
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + player.GetPlayerID() );
         if(armies is null || armies.Length ==0) { return;  } 

@@ -8,7 +8,6 @@ using UnityEngine;
 public class UnitWeapon : NetworkBehaviour, IAttackAgent
 {
    
-    [SerializeField] private Unit units = null;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private int damageToDeal = 1;
     [SerializeField] private float destroyAfterSeconds = 1f;
@@ -130,14 +129,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
             NetworkServer.Spawn(cam, connectionToClient);
         }
     }
-    [Server]
-    private void DestroySelf()
-    {
-        Destroy(gameObject);
-        //NetworkServer.Destroy(gameObject);
-    }
-
-    public float AttackDistance()
+     public float AttackDistance()
     {
         return attackRange;
     }
@@ -154,7 +146,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
     public void Attack(Vector3 targetPosition)
     {
-        Debug.Log("unit weapon attacking now ");
+        //Debug.Log("unit weapon attacking now ");
         unitNetworkAnimator.SetTrigger("attack");
         Attack();
         lastAttackTime = Time.time;

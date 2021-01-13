@@ -108,7 +108,7 @@ public class RTSNetworkManager : NetworkManager
                 baseInstance.SetActive(true);
                 NetworkServer.Spawn(baseInstance, player.connectionToClient);
 
-                Debug.Log($"What is unitbase tag | {baseInstance.tag} | playerID |{player.GetPlayerID()}|  ? ");               
+                //Debug.Log($"What is unitbase tag | {baseInstance.tag} | playerID |{player.GetPlayerID()}|  ? ");               
                 militaryList.Clear();
                 militaryList.Add(Unit.UnitType.ARCHER,  4 );
                 militaryList.Add(Unit.UnitType.SPEARMAN, 0 );

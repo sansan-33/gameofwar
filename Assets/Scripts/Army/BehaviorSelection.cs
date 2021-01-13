@@ -83,12 +83,12 @@ public class BehaviorSelection : MonoBehaviour
                 }
             }
 
-            Debug.Log($"agentGroup. .childCount  {agentGroup.transform.childCount} ");
+            //Debug.Log($"agentGroup. .childCount  {agentGroup.transform.childCount} ");
             
             for (int i = 0; i < agentGroup.transform.childCount; ++i)
             {
                 var child = agentGroup.transform.GetChild(i);
-                Debug.Log($" {i} {child} ");
+                //Debug.Log($" {i} {child} ");
                 var agentTrees = child.GetComponents<BehaviorTree>();
                 for (int j = 0; j < agentTrees.Length; ++j)
                 {
@@ -221,16 +221,17 @@ public class BehaviorSelection : MonoBehaviour
         foreach (GameObject army in armies)
         {
             army.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
-
         }
         //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
         for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i)
         {
-            agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
+            if(agentBehaviorTreeGroup[(int)selectionType][i] != null)
+                agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
             //Debug.Log($"(int)selectionType {(int)selectionType} / {i} ==== {agentBehaviorTreeGroup[(int)selectionType][i]}");
         }
         foreach (GameObject army in armies)
         {
+            //Debug.Log($"BS -> EnableBehavior -> NetworkAnimator -> {army} -> run");
             army.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("run");
         }
     }
@@ -251,7 +252,6 @@ public class BehaviorSelection : MonoBehaviour
                     playerBase.tag = "PlayerBase" + playerid;
                     defendObject = playerBase;
                     //Debug.Log($"1.1.1 Defend Object | {defendObject} | playerBase {playerBase }? ");
-
                 }
                 else
                 {
@@ -261,17 +261,13 @@ public class BehaviorSelection : MonoBehaviour
         }
         yield return new WaitForSeconds(1f);
 
-        //defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerid);
-        //Debug.Log($"1.3 Defend Object | {defendObject} | ? ");
-
-
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
         //Debug.Log($"1.4 AssignTagTB --> Armies Size: {armies.Length }");
         foreach (GameObject army in armies)
         {
             if (army.TryGetComponent<Unit>(out Unit unit))
             {
-                Debug.Log($"Checking unit: {unit } / unit.hasAuthority {unit.hasAuthority}");
+                //Debug.Log($"Checking unit: {unit } / unit.hasAuthority {unit.hasAuthority}");
 
                 if (unit.hasAuthority) {
                     army.tag = PLAYERTAG;
