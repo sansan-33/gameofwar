@@ -25,7 +25,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     }
     private void Update()
     {
-
+        Debug.Log("TotalHealthDisplay --> IS server only ?");
         TotalPlayerHealthdisplay();
         totalEnermyhealth();
 
