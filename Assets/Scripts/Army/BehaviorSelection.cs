@@ -205,6 +205,13 @@ public class BehaviorSelection : MonoBehaviour
             SelectionChanged();
 
         }
+    public void TryTB(int type)
+    {
+        type = type % System.Enum.GetNames(typeof(BehaviorSelectionType)).Length;
+        prevSelectionType = selectionType;
+        selectionType = (BehaviorSelectionType) type;
+        SelectionChanged();
+    }
 
     private void SelectionChanged()
     {
