@@ -217,7 +217,7 @@ public class Player : MonoBehaviour
 
     public void AddCard(Card card, bool left = true)
     {
-        // Debug.Log($"Add Card {card}");
+         Debug.Log($"Add Card {card}");
         card.SetOwner(this);
         card.transform.SetParent(cardParent);
         if (!handSplit)

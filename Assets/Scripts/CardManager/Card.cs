@@ -15,7 +15,7 @@ public class Card : MonoBehaviour
     public CardFaceCoords coord;
         [SerializeField] Renderer cardRenderer;
         Material cardFrontMat;
-    float X = (float)90;
+    float X = (float)-800;
     
     [SerializeField] Transform button;
     [SerializeField] GameObject gameobject;
@@ -100,10 +100,15 @@ public class Card : MonoBehaviour
     }
     public void setputtonposition(int number)
     {
+       
         while (number > 0)
         {
-            button.transform.position = new Vector3(X, 230, 0);
-          
+            Debug.Log($"before-->{button.transform.position}");
+            button.transform.position = new Vector3(X, 600, 0);
+            button.position= new Vector3(X, 600, 0);
+            button.localPosition= new Vector3(X, 63, 0);
+            Debug.Log($"after-->{button.transform.position}");
+            Debug.Log(button);
             X += 90;
             number--;
         }

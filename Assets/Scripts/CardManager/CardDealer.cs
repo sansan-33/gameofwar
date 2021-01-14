@@ -138,10 +138,10 @@ using UnityEngine.UI;
                 //Play dealing animation first
                 cardDispenserAnimator.SetTrigger("Deal");
                 //Card slides out to a point in front of the dispenser
-                while (!cardSpawned)
-                {
+              //  while (!cardSpawned)
+             //  {
                     yield return null;
-                }
+               // }
 
                 cardDispenserAnimator.SetBool("Dealing", false);
 
