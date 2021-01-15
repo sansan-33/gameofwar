@@ -27,7 +27,6 @@ public class RTSNetworkManager : NetworkManager
 
     private Dictionary<Unit.UnitType, int> militaryList = new Dictionary<Unit.UnitType, int>();
     private Dictionary<Unit.UnitType, GameObject> unitDict = new Dictionary<Unit.UnitType, GameObject>();
-    private int playerID = 0;
     #region Server
 
     public override void OnServerConnect(NetworkConnection conn)
@@ -99,16 +98,8 @@ public class RTSNetworkManager : NetworkManager
             foreach (RTSPlayer player in Players)
             {
                 Vector3 pos = GetStartPosition().position;
-
-                GameObject baseInstance = Instantiate(
-                    unitBasePrefab,
-                    pos,
-                    Quaternion.identity);
-                baseInstance.tag = "PlayerBase" + player.GetPlayerID() ;
-                baseInstance.SetActive(true);
-                NetworkServer.Spawn(baseInstance, player.connectionToClient);
-
                 //Debug.Log($"What is unitbase tag | {baseInstance.tag} | playerID |{player.GetPlayerID()}|  ? ");               
+                SetupBase(pos, player);
                 militaryList.Clear();
                 militaryList.Add(Unit.UnitType.ARCHER, 3);
                 militaryList.Add(Unit.UnitType.SPEARMAN, 0);
@@ -117,10 +108,22 @@ public class RTSNetworkManager : NetworkManager
 
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
-                    StartCoroutine(loadMilitary(2f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));
+                    StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));
                 }
             }
         }
+    }
+
+    private void SetupBase(Vector3 pos, RTSPlayer player)
+    {
+        GameObject baseInstance = Instantiate(
+                   unitBasePrefab,
+                   pos,
+                   Quaternion.identity);
+        baseInstance.SetActive(true);
+        //The Tag will not be set in client machine
+        //baseInstance.tag = "PlayerBase" + player.GetPlayerID();
+        NetworkServer.Spawn(baseInstance, player.connectionToClient);
     }
 
     private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount)
@@ -134,8 +137,6 @@ public class RTSNetworkManager : NetworkManager
             unit.name = unitName;
             unit.tag = "Player" + player.GetPlayerID();
             NetworkServer.Spawn(unit, player.connectionToClient);
-            unit.GetComponent<Unit>().unitType = Unit.UnitType.HERO;
-            unit.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
             spawnCount--;
         }
     }

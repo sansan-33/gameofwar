@@ -54,7 +54,7 @@ public class BehaviorSelection : MonoBehaviour
     // called zero
     void Awake()
     {
-        if (agentGroup is null || agentGroup.GetComponentsInChildren<Unit>().Length > 0 ) { return; }
+        //if (agentGroup is null || agentGroup.GetComponentsInChildren<Unit>().Length > 0 ) { return; }
 
         //Debug.Log("Awake");
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
@@ -254,6 +254,7 @@ public class BehaviorSelection : MonoBehaviour
         //Debug.Log($"1.2 AssignTagTB | {defendObject} | ? ");
         yield return new WaitForSeconds(3f);
         //Debug.Log($"1.3");
+        
         GameObject[] playerBases = GameObject.FindGameObjectsWithTag("PlayerBase");
         //Debug.Log($"1.4 playerBases size: {playerBases.Length}");
         foreach (GameObject playerBase in playerBases)
@@ -272,6 +273,8 @@ public class BehaviorSelection : MonoBehaviour
                 }
             }
         }
+        
+        //defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerid);
         yield return new WaitForSeconds(1f);
 
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");

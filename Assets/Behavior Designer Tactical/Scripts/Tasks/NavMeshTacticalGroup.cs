@@ -38,7 +38,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 destinationSet = true;
                 destination.y = navMeshAgent.destination.y;
                 if (navMeshAgent.destination != destination) {
-                    navMeshAgent.SetDestination(destination);
+                    //navMeshAgent.SetDestination(destination);
                     navMeshAgent.isStopped = false;
                 }
             }

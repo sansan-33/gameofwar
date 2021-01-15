@@ -43,7 +43,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
         //    lastFireTime = Time.time;
         //}
     }
-
+    [Server]
     private void FireProjectile(Vector3 targetPosition)
     {
         
@@ -70,6 +70,11 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
         return (targeter.GetTarget().transform.position - transform.position).sqrMagnitude
             <= fireRange * fireRange;
     }
+    [Command]
+    private void CmdFireProjectile(Vector3 targetPosition)
+    {
+        FireProjectile(targetPosition);
+    }
 
     public float AttackDistance()
     {
@@ -90,7 +95,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     {
         //Debug.Log("unit firing now ");
         unitNetworkAnimator.SetTrigger("attack");
-        FireProjectile(targetPosition);
+        CmdFireProjectile(targetPosition);
         lastAttackTime = Time.time;
     }
 }
