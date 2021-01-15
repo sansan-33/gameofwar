@@ -62,7 +62,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     offset.x += separation.Value * ((formationIndex / groupCount) % 2 == 0 ? -1 : 1) * (((groupIndex / 2) + 1));
                     destination = TransformPoint(destination, offset, Quaternion.LookRotation(attackCenter - destination));
                 }
-                if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 1f, NavMesh.AllAreas))
                 {
                     tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdMove(destination);
                     tacticalAgent.SetDestination(destination);

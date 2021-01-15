@@ -47,6 +47,8 @@ public class Card : MonoBehaviour
     {
         Debug.Log(this.cardFace.suit);
         Debug.Log(this.cardFace.numbers);
+        GameObject agentGroup = GameObject.FindGameObjectWithTag("AgentGroup");
+        agentGroup.GetComponent<BehaviorSelection>().TryTB((int) this.cardFace.numbers);
 
     }
     

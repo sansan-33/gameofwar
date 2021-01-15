@@ -9,8 +9,8 @@ using UnityEngine.SceneManagement;
 
 public class BehaviorSelection : MonoBehaviour
 {
-        public GameObject agentGroup;
-        private GameObject defendObject;
+        public GameObject agentGroup = null;
+        private GameObject defendObject = null;
        
         private Dictionary<int, List<BehaviorTree>> agentBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
       
@@ -54,7 +54,7 @@ public class BehaviorSelection : MonoBehaviour
     // called zero
     void Awake()
     {
-        if (agentGroup is null) { return; }
+        if (agentGroup is null || agentGroup.GetComponentsInChildren<Unit>().Length > 0 ) { return; }
 
         //Debug.Log("Awake");
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
@@ -207,9 +207,11 @@ public class BehaviorSelection : MonoBehaviour
         }
     public void TryTB(int type)
     {
+        Debug.Log($"Try TB card {type} b4 mod");
         type = type % System.Enum.GetNames(typeof(BehaviorSelectionType)).Length;
         prevSelectionType = selectionType;
         selectionType = (BehaviorSelectionType) type;
+        Debug.Log($"Try TB selectionType {selectionType} , card {type}");
         SelectionChanged();
     }
 
@@ -231,7 +233,7 @@ public class BehaviorSelection : MonoBehaviour
         GameObject[] armies = GameObject.FindGameObjectsWithTag(PLAYERTAG);
         foreach (GameObject army in armies)
         {
-            army.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("wait");
+            army.GetComponent<Unit>().GetUnitMovement().unitNetworkAnimator.SetTrigger("run");
         }
         //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
         for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i)

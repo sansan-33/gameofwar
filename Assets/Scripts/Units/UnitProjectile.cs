@@ -4,7 +4,7 @@ using BehaviorDesigner.Runtime.Tactical;
 using Mirror;
 using UnityEngine;
 
-public class UnitProjectile : NetworkBehaviour, IAttackAgent
+public class UnitProjectile : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb = null;
     [SerializeField] private int damageToDeals = 0;
@@ -34,6 +34,7 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
 
+        Debug.Log($" Hitted object {other.tag}, Attacker type is {unitType} ");
         damageToDeals = damageToDealOriginal;
         // Not attack same connection client object except AI Enemy
         if (FindObjectOfType<NetworkManager>().numPlayers == 1) {
@@ -84,24 +85,5 @@ public class UnitProjectile : NetworkBehaviour, IAttackAgent
     {
         NetworkServer.Destroy(gameObject);
     }
-
-    public float AttackDistance()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public bool CanAttack()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public float AttackAngle()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Attack(Vector3 targetPosition)
-    {
-        throw new System.NotImplementedException();
-    }
+   
 }

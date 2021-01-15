@@ -104,15 +104,15 @@ public class RTSNetworkManager : NetworkManager
                     unitBasePrefab,
                     pos,
                     Quaternion.identity);
-                //baseInstance.tag = "PlayerBase" + player.GetPlayerID() ;
+                baseInstance.tag = "PlayerBase" + player.GetPlayerID() ;
                 baseInstance.SetActive(true);
                 NetworkServer.Spawn(baseInstance, player.connectionToClient);
 
                 //Debug.Log($"What is unitbase tag | {baseInstance.tag} | playerID |{player.GetPlayerID()}|  ? ");               
                 militaryList.Clear();
-                militaryList.Add(Unit.UnitType.ARCHER, 4);
+                militaryList.Add(Unit.UnitType.ARCHER, 3);
                 militaryList.Add(Unit.UnitType.SPEARMAN, 0);
-                militaryList.Add(Unit.UnitType.KNIGHT, 0);
+                militaryList.Add(Unit.UnitType.KNIGHT, 1);
                 militaryList.Add(Unit.UnitType.HERO, 1);
 
                 foreach (Unit.UnitType unitType in militaryList.Keys)

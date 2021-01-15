@@ -53,8 +53,8 @@ public class SpawnEnemies : NetworkBehaviour
             StartCoroutine(loadEnemy(2f));
             
             InvokeRepeating("addBehaviourToMilitary", 5f, 6000000f);
-            //InvokeRepeating("TryDefend", 10f, 6000000f);
-            InvokeRepeating("TryFlank", 5f, 6000000f);
+            InvokeRepeating("TryDefend", 10f, 6000000f);
+            //InvokeRepeating("TryFlank", 5f, 6000000f);
         }
     }
    

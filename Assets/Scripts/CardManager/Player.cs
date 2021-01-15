@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     public bool leftBust = false;
     public bool rightBust = false;
     public int handTotal;
-    float x = (float)-45;
+    float x = (float)-28;
     int l = 1;
 
     public bool dealer = false;
@@ -256,7 +256,7 @@ public class Player : MonoBehaviour
             yield return null;
         }
 
-        cardTransform.position = new Vector3(x, 50, (float)-22.7);
+        cardTransform.position = new Vector3(x, 38, (float)-22.7);
         x += (float)5;
 
         //   cardTransform.localEulerAngles = targetPosition;
