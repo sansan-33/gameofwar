@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
@@ -18,8 +19,8 @@ public class Card : MonoBehaviour
     float X = (float)-800;
     
     [SerializeField] Transform button;
-    [SerializeField] GameObject gameobject;
-
+    [SerializeField] Image gameobject;
+    [SerializeField] List<Sprite> sprite = new List<Sprite>();
 
     void Awake()
         {
@@ -29,11 +30,14 @@ public class Card : MonoBehaviour
 
         public void SetCard(CardFace _cardFace, CardFaceCoords coord)
     {
+        
 
-        
-           cardFace = _cardFace;
-        
-        
+        cardFace = _cardFace;
+        int a = (int)cardFace.numbers;
+       // gameobject = GetComponent<Button>();
+        Debug.Log(a);
+        gameobject.sprite = sprite[a];
+      
         if (coord != null)
         {
             
@@ -45,6 +49,14 @@ public class Card : MonoBehaviour
    
     public void OnPointerDown()
     {
+        Destroy(gameObject);
+        GameObject[] b = GameObject.FindGameObjectsWithTag("Card(clone)");
+        foreach (GameObject cards in b)
+        {
+            Vector3 cardsTransform = cards.transform.localPosition;
+            cardsTransform -= new Vector3(90, 0, 0);
+            cards.transform.localPosition = cardsTransform;
+        }
         Debug.Log(this.cardFace.suit);
         Debug.Log(this.cardFace.numbers);
         GameObject agentGroup = GameObject.FindGameObjectWithTag("AgentGroup");
