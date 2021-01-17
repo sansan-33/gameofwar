@@ -38,6 +38,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 destinationSet = true;
                 destination.y = navMeshAgent.destination.y;
                 if (navMeshAgent.destination != destination) {
+                    navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdTrigger("run");
                     navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdMove(destination);
                     //navMeshAgent.SetDestination(destination);
                     navMeshAgent.isStopped = false;

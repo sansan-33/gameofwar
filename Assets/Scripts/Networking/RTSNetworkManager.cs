@@ -67,7 +67,7 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(Unit.UnitType.SAMPLE, sampleUnitPrefab);
 
 
-        ServerChangeScene("SampleScene");
+        ServerChangeScene("Scene_Map_01");
     }
 
     public override void OnServerAddPlayer(NetworkConnection conn)
@@ -113,7 +113,7 @@ public class RTSNetworkManager : NetworkManager
                     StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));
                 }
             }
-        }else if (SceneManager.GetActiveScene().name.StartsWith("SampleScene"))
+        }else if (SceneManager.GetActiveScene().name.StartsWith("Scene_Testing_01"))
         {
          
             foreach (RTSPlayer player in Players)
