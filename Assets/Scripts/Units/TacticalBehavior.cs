@@ -159,7 +159,7 @@ public class TacticalBehavior : MonoBehaviour
         selectionType = (BehaviorSelectionType)type;
         SelectionChanged();
     }
-
+    
     private void SelectionChanged()
     {
         if (agentGroup is null) { return; }
@@ -179,7 +179,7 @@ public class TacticalBehavior : MonoBehaviour
                 agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
         }
     }
-    private IEnumerator DisableBehavior()
+    public IEnumerator DisableBehavior()
     {
         yield return new WaitForSeconds(0.1f);
         for (int i = 0; i < agentBehaviorTreeGroup[(int)prevSelectionType].Count; ++i)

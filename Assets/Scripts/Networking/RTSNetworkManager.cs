@@ -108,6 +108,7 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Add(Unit.UnitType.SPEARMAN, 0);
                 militaryList.Add(Unit.UnitType.KNIGHT, 0);
                 militaryList.Add(Unit.UnitType.HERO, 1);
+                militaryList.Add(Unit.UnitType.SAMPLE, 0);
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
                     StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));
@@ -121,9 +122,9 @@ public class RTSNetworkManager : NetworkManager
                 Vector3 pos = GetStartPosition().position;
                 SetupBase(pos, player);
                 militaryList.Clear();
-                //militaryList.Add(Unit.UnitType.SAMPLE, 3);
-                militaryList.Add(Unit.UnitType.ARCHER, 2);
-                militaryList.Add(Unit.UnitType.HERO, 1);
+                militaryList.Add(Unit.UnitType.SAMPLE, 3);
+                //militaryList.Add(Unit.UnitType.ARCHER, 2);
+                //militaryList.Add(Unit.UnitType.HERO, 1);
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
                     StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));

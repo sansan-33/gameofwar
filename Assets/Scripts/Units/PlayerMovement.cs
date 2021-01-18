@@ -27,6 +27,7 @@ public class PlayerMovement : NetworkBehaviour
 
     public override void OnStartAuthority()
     {
+        Debug.Log("PlayerMovement OnStartAuthority");
         mainCamera = Camera.main;
     }
 
@@ -45,7 +46,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else if (Mouse.current.rightButton.isPressed)
         {
-            StartCoroutine("DisableBehavior");
+            GameObject.FindObjectOfType<TacticalBehavior>().DisableBehavior();
             CmdMove(hit.point);
         }
         else { return; }
