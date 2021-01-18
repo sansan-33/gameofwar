@@ -54,6 +54,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             var groupCount = dualFlank.Value ? 3 : 2;
 
             if (!tacticalAgent.AttackPosition) {
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("! attack pos");
+
                 var groupIndex = formationIndex % groupCount;
                 var destination = TransformPoint(attackCenter, destinationOffset, centerRotation);
                 // Arrange the agents in a row to prevent two agents from trying to move to the same destination.
@@ -63,18 +65,17 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     destination = TransformPoint(destination, offset, Quaternion.LookRotation(attackCenter - destination));
                 }
                 //Debug.Log($" agent {tacticalAgent.transform.GetComponent<Unit>().unitType } move to  {destination}   ");
-
-                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("run");
                 tacticalAgent.SetDestination(destination);
                 
                 // Set AttackPosition to true when the agent arrived at the destination. This will put the agent in attack mode and start to rotate towards
                 // the target.
                 if (tacticalAgent.HasArrived()) {
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Arrived");
                     tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("wait");
                     tacticalAgent.AttackPosition = true;
                 }
             } else if (MoveToAttackPosition()) {
-                //Debug.Log($" Flank inside move to attack position  ");
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("in position");
                 // The agent isn't in position yet. One case of MoveToAttackPosition returning false is when the agent still needs to rotate to face the target.
                 inPosition = true;
                 // Notify the leader when the agent is in position.
@@ -86,6 +87,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             }
             //Debug.Log($" agent {tacticalAgent.transform.GetComponent<Unit>().unitType} inPosition {inPosition}   " );
             if (inPosition && (canAttack || !waitForAttack.Value)) {
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack");
                 tacticalAgent.TryAttack();
             }
 

@@ -21,7 +21,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         public SharedFloat maxDistance = 15;
 
         private float theta;
-
+      
         protected override void AddAgentToGroup(Behavior agent, int index)
         {
             base.AddAgentToGroup(agent, index);
@@ -58,6 +58,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     // The target is within distance. Keep moving towards it.
                     tacticalAgent.AttackPosition = true;
                     if (MoveToAttackPosition()) {
+                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack");
                         tacticalAgent.TryAttack();
                     }
                 }
@@ -81,6 +82,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
             // The agent isn't attacking. Move near the defend object.
             if (!tacticalAgent.AttackPosition) {
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("! Attack pos");
                 var targetPosition = defendObject.Value.transform.TransformPoint(radius.Value * Mathf.Sin(theta * formationIndex), 0, radius.Value * Mathf.Cos(theta * formationIndex));
                 tacticalAgent.UpdateRotation(true);
                 tacticalAgent.SetDestination(targetPosition);
@@ -89,6 +91,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     var direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;
                     tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Arrived");
                     tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("defend");
                 }
             }

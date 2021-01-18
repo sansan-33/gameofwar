@@ -35,7 +35,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 0
   animator: {fileID: 345512721264273463}
---- !u!114 &8450668065450848169
+--- !u!114 &2198364058252221153
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,17 +44,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 6066761372371802492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84a29c67bf37c814794c341e2cb37e29, type: 3}
+  m_Script: {fileID: 11500000, guid: 34dcfa190e50d4d4cb14ae09c506761c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
   targeter: {fileID: 8101672447202448}
-  projectilePrefab: {fileID: 4320547883732887694, guid: 1f417d3b8d95c42019ae44358c2e75e7, type: 3}
-  projectileSpawnPoint: {fileID: 7821941015997486556}
-  fireRange: 10
-  fireRate: 1
-  rotationSpeed: 100
+  damageToDeal: 5
+  destroyAfterSeconds: 1
+  textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
+  camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
+  camFreeLookPrefab: {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
+  attackPoint: {fileID: 9209867609052111376}
+  attackRange: 10
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
   repeatAttackDelay: 1
   attackAngle: 1
 --- !u!1001 &619569005086212312
@@ -292,8 +297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e990a82b8ec27834486de09cfb0df054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &7821941015997486556 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8663785943906713466, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+--- !u!1 &9209867609052111376 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7739131720492845238, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
   m_PrefabInstance: {fileID: 1492642562928962214}
   m_PrefabAsset: {fileID: 0}

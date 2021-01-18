@@ -20,7 +20,7 @@ public class StrengthWeakness : MonoBehaviour
     }
     public int calculateDamage(Unit.UnitType player, Unit.UnitType enemy, int damage)
     {
-        Debug.Log($"calculateDamage player {player} vs  enemy {enemy}");
+        //Debug.Log($"calculateDamage player {player} vs  enemy {enemy}");
         int damageResult = damage;
         Unit.UnitType[]  dict = strengthWeakness[player];
         if (dict[0] == enemy || dict[0] == Unit.UnitType.HERO)
