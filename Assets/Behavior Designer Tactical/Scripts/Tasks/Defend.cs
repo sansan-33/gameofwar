@@ -21,7 +21,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         public SharedFloat maxDistance = 15;
 
         private float theta;
-      
+        private string TASKNAME = "Defend";
+
         protected override void AddAgentToGroup(Behavior agent, int index)
         {
             base.AddAgentToGroup(agent, index);
@@ -58,12 +59,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     // The target is within distance. Keep moving towards it.
                     tacticalAgent.AttackPosition = true;
                     if (MoveToAttackPosition()) {
-                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack");
+                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME +  ": Attack");
                         tacticalAgent.TryAttack();
                     }
                 }
             } else {
                 // Loop through the possible target transforms and determine which transform is the closest to each agent.
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": searching target");
                 for (int i = targetTransforms.Count - 1; i > -1; --i) {
                     // The target has to be alive.
                     if (targets[i].IsAlive()) {
@@ -82,16 +84,16 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
             // The agent isn't attacking. Move near the defend object.
             if (!tacticalAgent.AttackPosition) {
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("! Attack pos");
                 var targetPosition = defendObject.Value.transform.TransformPoint(radius.Value * Mathf.Sin(theta * formationIndex), 0, radius.Value * Mathf.Cos(theta * formationIndex));
                 tacticalAgent.UpdateRotation(true);
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": moving distance " + (int) Vector3.Distance(tacticalAgent.transform.position, targetPosition) );
                 tacticalAgent.SetDestination(targetPosition);
                 if (tacticalAgent.HasArrived()) {
                     // Face away from the defending object.
                     var direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;
                     tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
-                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Arrived");
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived");
                     tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("defend");
                 }
             }

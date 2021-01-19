@@ -21,9 +21,9 @@ public class CinemachineShake : NetworkBehaviour {
     //public static CinemachineShake Instance { get; private set; }
 
     [SerializeField] private CinemachineVirtualCamera cinemachineVirtualCamera;
-    private float shakeTimer=.1f;
-    private float shakeTimerTotal=.1f;
-    private float startingIntensity=15f;
+    private float shakeTimer=.05f;
+    private float shakeTimerTotal=1f;
+    private float startingIntensity=.01f;
 
     //private void Awake() {
     //    Instance = this;

@@ -8,13 +8,21 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] private Health health = null;
     [SerializeField] private GameObject healthBarParent = null;
     [SerializeField] private Image healthBarImage = null;
+    [SerializeField] private GameObject taskStatusParent = null;
+
+    private Quaternion startRotation;
 
     private void Awake()
     {
         health.ClientOnHealthUpdated += HandleHealthUpdated;
         healthBarParent.SetActive(true);
+        startRotation = healthBarParent.transform.rotation;
     }
-
+    void Update()
+    {
+        healthBarParent.transform.rotation = startRotation;
+        taskStatusParent.transform.rotation = startRotation;
+    }
     private void OnDestroy()
     {
         health.ClientOnHealthUpdated -= HandleHealthUpdated;
@@ -34,4 +42,6 @@ public class HealthDisplay : MonoBehaviour
     {
         healthBarImage.fillAmount = (float)currentHealth / maxHealth;
     }
+
+    
 }

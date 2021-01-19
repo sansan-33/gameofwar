@@ -171,8 +171,6 @@ public class TacticalBehavior : MonoBehaviour
     private IEnumerator EnableBehavior()
     {
         yield return new WaitForSeconds(0.1f);
-        GameObject[] armies = GameObject.FindGameObjectsWithTag(PLAYERTAG);
-        //Debug.Log($"(int)selectionType {(int)selectionType} agentBehaviorTreeGroup count {agentBehaviorTreeGroup.Count} ");
         for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i)
         {
             if (agentBehaviorTreeGroup[(int)selectionType][i] != null)

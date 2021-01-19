@@ -98,12 +98,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.yellow;
         //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
         if (m_Started)
         {
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale);
+            Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale * attackRange);
         }
     }
 
