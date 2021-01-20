@@ -111,113 +111,15 @@ public class Player : MonoBehaviour
         if (pot2Text != null) pot2Text.text = "Pot (Right): " + pot[1].ToString();
     }
 
-    public List<int> CalculateHands(out bool blackjack)
+    public void RemoveFirstCard()
     {
-        List<int> handTotals = new List<int>();
-        blackjack = false;
-
-        //Check for Blackjack
-        if (playerHand.Count == 1)
-        {
-            //A Blackjack, or natural, has a total of 21 in your first two cards. 
-            //A Blackjack is therefore an ace and any 10-valued card, with the additional requirement that these must be your first two cards.
-            if (playerHand[0].Count == 2)
-            {
-                if ((int)playerHand[0][0].cardFace.numbers == 0 && (int)playerHand[0][1].cardFace.numbers + 1 == 10)
-                {
-                    //BLACKJACK
-                    handTotals.Add(-1);
-                    blackjack = true;
-                    handTotal = handTotals[0];
-                    return handTotals;
-                }
-            }
-        }
-
-        bool left = false;
-        //No Blackjack, keep going
-        foreach (List<Card> cardHand in playerHand)
-        {
-            left = !left;
-            int total = 0;
-            int aces = 0;
-            foreach (Card card in cardHand)
-            {
-                int cardIndex = (int)card.cardFace.numbers;
-                if (cardIndex == 0) aces++;
-                else
-                {
-                    //All face cards are 10
-                    if (cardIndex + 1 >= 10)
-                    {
-                        total += 10;
-                    }
-                    else
-                    {
-                        total += cardIndex + 1;
-                    }
-                }
-            }
-
-            //Calculate aces
-            //Two aces (11) will always cause bust, therefore add 1 for every ace until the last one then determine if it is 1 or 11
-            // Debug.Log($"{playerName} aces {aces}");
-            for (int i = 0; i < aces; i++)
-            {
-                if (dealer)
-                {
-                    if (total + 11 >= 17)
-                    {
-                        total += 11;
-                    }
-                    else
-                    {
-                        total += 1;
-                    }
-                }
-                else
-                {
-                    if (i < aces - 1)
-                    {
-                        //Debug.Log($"{playerName} | More aces to come, adding 1");
-                        total += 1;
-                    }
-                    else
-                    {
-                        if (total < 11)
-                        {
-                            // Debug.Log($"{playerName} | Total is {total}, last ace, adding 11");
-                            total += 11;
-                        }
-                        else
-                        {
-                            // Debug.Log($"{playerName} | Total is {total}, adding 1");
-                            total += 1;
-                        }
-                    }
-                }
-            }
-
-            handTotals.Add(total);
-            if (total > 21)
-            {
-                if (left) leftBust = true;
-                else rightBust = true;
-                foreach (Card card in cardHand)
-                {
-                    card.FadeOut();
-                }
-            }
-            //  Debug.Log($"{playerName} hand total {total}");
-        }
-
-        handTotal = handTotals[0];
-        return handTotals;
+        if(playerHand[0].Count > 0)
+            playerHand[0].RemoveAt(0);
     }
 
     public void AddCard(Card card, bool left = true)
     {
-         Debug.Log($"Add Card {card}");
+        Debug.Log($"Add Card {card}");
         card.SetOwner(this);
         card.transform.SetParent(cardParent);
         if (!handSplit)
@@ -241,9 +143,73 @@ public class Player : MonoBehaviour
                 StartCoroutine(MoveCardTo(card.transform, splitHandStartRight.position + ((playerHand[1].Count - 1) * cardOffset), card, playerHand[1].IndexOf(card)));
             }
         }
-        CalculateHands(out bool bj);
+        mergeCard(card);
     }
+    public void mergeCard(Card card)
+    {
+        Debug.Log($"number card player in Hand  {playerHand[0].Count}");
+        //IF only one card in Hand, ignore merge
+        if (playerHand[0].Count == 1) { return; }
+        int lastCardBefore = playerHand[0].Count - 2;
+        //for (int i = 0; i < playerHand[0].Count - 1; i++)
+        //{
 
+            if (playerHand[0][lastCardBefore].cardFace.numbers == card.cardFace.numbers && playerHand[0][lastCardBefore].GetComponentInChildren<Image>().color != Color.gray)
+            {
+                Debug.Log($"try merge");
+
+                //card.destroy();
+                playerHand[0][lastCardBefore + 1].destroy();
+                playerHand[0][lastCardBefore].GetComponentInChildren<Image>().color = Color.gray;
+                playerHand[0][lastCardBefore].GetComponentInChildren<Image>().tag = "Card(clone gray)";
+                playerHand[0].RemoveAt(lastCardBefore + 1);
+
+                /*
+                if (z == 1)
+                {
+                    buttons[buttons.Count - 2]
+                    .transform.localPosition =
+                    new Vector3(buttons[buttons.Count - 2]
+                    .transform.localPosition.x - 100, -200, 0);
+                }
+                z++;
+                */
+                //bigMerge(cardbefore, buttons[buttons.Count - 2]);
+            }
+        //}
+    }
+    /*
+    public void bigMerge(Card cardbefore, Button button)
+    {
+        Debug.Log(3);
+        if (b >= 2)
+        {
+            Debug.Log(cards[cards.IndexOf(cardbefore) - 1]);
+            if (cards[cards.IndexOf(cardbefore) - 1] != null)
+            {
+                Card cardBeforeMore = cards[cards.IndexOf(cardbefore) - 1];
+                Debug.Log(2);
+                while ((int)cardBeforeMore.cardFace.numbers > 13)
+                {
+                    cardBeforeMore.cardFace.numbers -= 13;
+
+
+                }
+                if (cardbefore.cardFace.numbers == cardBeforeMore.cardFace.numbers && buttons[buttons.IndexOf(button) - 1].tag == "Card(clone Gray)")
+                {
+                    if (cardBeforeMore == null) { return; }
+                    cardbefore.GetComponent<Card>().destroy();
+                    buttons[buttons.Count - 1].GetComponent<Image>().color = Color.yellow;
+                    Debug.Log($"try big merge");
+                    Hitmerge();
+                }
+            }
+
+
+        }
+        Hitmerge();
+    }
+    */
     IEnumerator MoveCardTo(Transform cardTransform, Vector3 targetPosition, Card card = null, int index = 0)
     {
         Vector3 v360 = new Vector3(0, 0, 180);

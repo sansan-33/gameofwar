@@ -132,9 +132,9 @@ public class Card : MonoBehaviour
         }
         Debug.Log(this.cardFace.suit);
         Debug.Log(this.cardFace.numbers);
-        GameObject agentGroup = GameObject.FindGameObjectWithTag("AgentGroup");
-        agentGroup.GetComponent<BehaviorSelection>().TryTB((int)this.cardFace.numbers);
+        GameObject.FindObjectOfType<TacticalBehavior>().TryTB((int)this.cardFace.numbers);
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
+        this.GetComponentInParent<Player>().RemoveFirstCard();
         DealManagers.GetComponent<CardDealer>().Hit();
 
     }
@@ -221,22 +221,16 @@ public class Card : MonoBehaviour
     public void setbuttonposition(int number)
     {
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
-        DealManagers.GetComponent<CardDealer>().mergeCard(this, button);
-        if(number==10000) { cardTimer -= 5;Debug.Log(1212121); number = 1; }
+        //DealManagers.GetComponent<CardDealer>().mergeCard(this, button);
         while (number > 0)
         {
-            cardTimer += 5;
             button.transform.localPosition= new Vector3(X, -200, 0);
-          
             X += 100;
             number--;
         }
-        cardTimer++;
-     //   cardTiming(cardTimer);
-       
     }
 
-    }
+}
 
     public enum Card_Suits
     {
