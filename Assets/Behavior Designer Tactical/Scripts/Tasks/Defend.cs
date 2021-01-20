@@ -55,7 +55,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     tacticalAgent.TargetTransform = null;
                     tacticalAgent.TargetDamagable = null;
                     tacticalAgent.AttackPosition = false;
-                } else {
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": target gets too far away from the defend object");
+                }
+                else {
                     // The target is within distance. Keep moving towards it.
                     tacticalAgent.AttackPosition = true;
                     if (MoveToAttackPosition()) {

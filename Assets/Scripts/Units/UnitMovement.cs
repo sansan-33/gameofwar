@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,6 +10,8 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private float chaseRange = 10f;
     [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
+    [SerializeField] public LineRenderer lineRenderer = null;
+    [SerializeField] public GameObject circleMarker = null;
 
     private float stoppingDistance = 1f;
     #region Server
@@ -27,8 +31,9 @@ public class UnitMovement : NetworkBehaviour
     private void Update()
     {
         GameStartCountDown();
+        /*
         Targetable target = targeter.GetTarget();
-        
+
         if (target != null)
         {
             if (agent.remainingDistance < getStoppingDistance()) {
@@ -55,6 +60,7 @@ public class UnitMovement : NetworkBehaviour
         if (agent.remainingDistance > getStoppingDistance()) { return; }
 
         agent.ResetPath();
+        */
     }
     [Command]
     public void CmdTrigger(string animationType)
@@ -66,6 +72,32 @@ public class UnitMovement : NetworkBehaviour
     public void ServerTrigger(string animationType)
     {
         unitNetworkAnimator.SetTrigger(animationType);
+    }
+    [Command]
+    public void CmdHideLine()
+    {
+        ServerHideLine();
+    }
+    public void ServerHideLine()
+    {
+        circleMarker.SetActive(false);
+        lineRenderer.enabled = false;
+    }
+    [Command]
+    public void CmdShowLine()
+    {
+        ServerShowLine();
+    }
+    [Server]
+    public void ServerShowLine()
+    {
+        if (agent.path.corners.Length < 2) return;
+        lineRenderer.enabled = true;
+        lineRenderer.sharedMaterial.SetColor("_Color", Color.gray);
+        lineRenderer.positionCount = agent.path.corners.Length;
+        lineRenderer.SetPositions(agent.path.corners);
+        circleMarker.SetActive(true);
+        circleMarker.transform.position = agent.destination;
     }
 
     [Command]
