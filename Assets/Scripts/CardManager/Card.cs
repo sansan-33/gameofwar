@@ -83,28 +83,11 @@ public class Card : MonoBehaviour
     {
         Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} ");
         Destroy(gameObject);
-        GameObject[] b = GameObject.FindGameObjectsWithTag("Card(clone)");
-        foreach (GameObject cards in b)
-        {
-
-            Vector3 cardsTransform = cards.transform.localPosition;
-            cardsTransform -= new Vector3(90, 0, 0);
-            cards.transform.localPosition = cardsTransform;
-        }
-        GameObject[] g = GameObject.FindGameObjectsWithTag("Card(clone gray)");
-        foreach (GameObject cards in g)
-        {
-
-            Vector3 cardsTransform = cards.transform.localPosition;
-            cardsTransform -= new Vector3(90, 0, 0);
-            cards.transform.localPosition = cardsTransform;
-        }
-        Debug.Log(this.cardFace.suit);
-        Debug.Log(this.cardFace.numbers);
-        GameObject.FindObjectOfType<TacticalBehavior>().TryTB((int)this.cardFace.numbers);
+        GameObject.FindGameObjectWithTag("UnitSpawner").GetComponent<SpawnMilitary>().SpawnUnit( (Unit.UnitType) (int)this.cardFace.numbers, (int) this.cardFace.star + 1);
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
         this.GetComponentInParent<Player>().RemoveFirstCard();
         DealManagers.GetComponent<CardDealer>().Hit();
+
 
     }
 

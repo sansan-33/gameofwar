@@ -17,10 +17,10 @@ public class SpawnMilitary : NetworkBehaviour
     private float spawnInterval = 60000f;
     private int spawnMoveRange = 1;
 
-    private int spawnArcherCount=2;
-    private int spawnFootmanCount = 0;
-    private int spawnKnightCount = 0;
-    private int spawnHeroCount = 1;
+    private int initArcherCount = 0;
+    private int initFootmanCount = 0;
+    private int initKnightCount = 0;
+    private int initHeroCount = 0;
 
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
@@ -28,12 +28,12 @@ public class SpawnMilitary : NetworkBehaviour
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-        if (FindObjectOfType<NetworkManager>().numPlayers == 1) { 
-            
-            StartCoroutine(loadArcher(2f));
-            StartCoroutine(loadHero(2f));
-            StartCoroutine(loadKnight(2f));
-            StartCoroutine(loadFootman(2f));
+        if (FindObjectOfType<NetworkManager>().numPlayers == 1) {
+
+            StartCoroutine(loadArcher(initArcherCount, 2f));
+            StartCoroutine(loadHero(initFootmanCount, 2f));
+            StartCoroutine(loadKnight(initKnightCount, 2f));
+            StartCoroutine(loadFootman(initHeroCount, 2f));
             //InvokeRepeating("TrySlash", 10f, 2f);
             //InvokeRepeating("TryShoot", 3f, 10f);
         }
@@ -43,7 +43,28 @@ public class SpawnMilitary : NetworkBehaviour
     {
        
     }
-    private IEnumerator loadArcher(float waitTime)
+    public void SpawnUnit(Unit.UnitType unitType, int numberOfUnit)
+    {
+        switch (unitType)
+        {
+            case Unit.UnitType.ARCHER:
+                StartCoroutine(loadArcher(numberOfUnit, 1f));
+                break;
+            case Unit.UnitType.HERO:
+                StartCoroutine(loadHero(numberOfUnit, 1f));
+                break;
+            case Unit.UnitType.KNIGHT:
+                StartCoroutine(loadKnight(numberOfUnit, 1f));
+                break;
+           case Unit.UnitType.SPEARMAN:
+                StartCoroutine(loadFootman(numberOfUnit, 1f));
+                break;
+
+        }
+    }
+
+
+    private IEnumerator loadArcher(int spawnArcherCount , float waitTime)
     {
 
         yield return new WaitForSeconds(waitTime);
@@ -68,7 +89,7 @@ public class SpawnMilitary : NetworkBehaviour
         }
     }
 
-    private IEnumerator loadFootman(float waitTime)
+    private IEnumerator loadFootman(int spawnFootmanCount , float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnFootmanCount > 0)
@@ -93,7 +114,7 @@ public class SpawnMilitary : NetworkBehaviour
             spawnFootmanCount--;
         }
     }
-    private IEnumerator loadKnight(float waitTime)
+    private IEnumerator loadKnight(int spawnKnightCount, float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnKnightCount > 0)
@@ -118,7 +139,7 @@ public class SpawnMilitary : NetworkBehaviour
         }
 
     }
-    private IEnumerator loadHero(float waitTime)
+    private IEnumerator loadHero(int spawnHeroCount ,float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         if (spawnHeroCount > 0)
@@ -142,39 +163,5 @@ public class SpawnMilitary : NetworkBehaviour
         }
     }
     
-    public GameObject findNearest(string enemyTag, int range)
-    {
-
-        GameObject target = null;
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-        float shortesDistance = Mathf.Infinity;
-        Vector3 pos;
-        GameObject otherPlayerEnemy = null;
-        //Debug.Log($"enemies {enemies.Length}");
-        foreach (GameObject enemy in enemies)
-        {
-
-            //Debug.Log($"enemy {enemy} / hasAuthority {enemy.GetComponent<Unit>().hasAuthority} , num players : {FindObjectOfType<NetworkManager>().numPlayers }");
-            if (FindObjectOfType<NetworkManager>().numPlayers > 1 && enemy.GetComponent<Unit>().hasAuthority) { continue; }
-            if (enemy != null && enemy != this.gameObject)
-            {
-                otherPlayerEnemy = enemy;
-                //Debug.Log($"otherPlayerEnemy {otherPlayerEnemy}");
-                float distanceToEnemy = Vector3.Distance(transform.position, otherPlayerEnemy.transform.position);
-                //targetEnemy = nearestEnemy.GetComponent<Enemy>();
-                if (distanceToEnemy < shortesDistance && distanceToEnemy <= range)
-                {
-                    shortesDistance = distanceToEnemy;
-                    target = otherPlayerEnemy;
-                }
-            }
-            //Debug.Log($"target {target} ");
-        }
-        pos = target.transform.position;
-        target.transform.Find("SelectedHighlight").gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        target.transform.Find("SelectedHighlight").gameObject.GetComponent<SpriteRenderer>().color = UnityEngine.Random.ColorHSV();
-
-        return target;
-    }
-
+   
 }

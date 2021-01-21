@@ -42,6 +42,7 @@ public class CardDealer : MonoBehaviour
     int b = -2;
     int z = 0;
     private int MAX_CARD_NUMBER = 13;
+    private int MAXTOTALHAND = 6;
     [SerializeField] Transform cardDispenserSpawn;
     [SerializeField] Animator cardDispenserAnimator;
     [SerializeField] GameObject cardPrefab;
@@ -127,6 +128,8 @@ public class CardDealer : MonoBehaviour
         cardDeckUsed.Add(randomCard);
 
         lastCard.GetComponent<Card>().SetCard(randomCard, GetCardFaceCoord(randomCard));
+        lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.suit.ToString();
+
 
         // cardDeck.Remove(randomCard);
 
@@ -167,20 +170,21 @@ public class CardDealer : MonoBehaviour
             yield return null;
         }
 
-        for (int i = 0; i < numberOfCards; i++)
+        int handTotal = player.GetHandTotal();
+        Debug.Log($"DealCards ==> handTotal: {handTotal} MAXTOTALHAND :{MAXTOTALHAND}  Players count {players.Count} ");
+        while (handTotal < MAXTOTALHAND)
         {
             if (players.Count > 0)
             {
-
-                DealCard(player, j, left);
+                DealCard(player, 1, left);
             }
-
             currentWait = waitTime;
             while (currentWait > 0)
             {
                 currentWait -= Time.deltaTime;
                 yield return null;
             }
+            handTotal = player.GetHandTotal();
         }
 
     }

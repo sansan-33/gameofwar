@@ -24,8 +24,9 @@ public class Player : MonoBehaviour
     [SerializeField] Transform splitHandStartRight;
 
     [Header("Settings")]
-    [SerializeField] Vector3 cardOffset = new Vector3(0.005f, 0.005f, 0.005f); //5mm
+    [SerializeField] float cardOffset = 60f;
     [SerializeField] float cardMoveSpeed = 10;
+    [SerializeField] int MAXCARDSTAR = 2;
 
     [Header("Debug")]
     [SerializeField] List<List<Card>> playerHand = new List<List<Card>>();
@@ -114,123 +115,98 @@ public class Player : MonoBehaviour
 
     public void RemoveFirstCard()
     {
-        if(playerHand[0].Count > 0)
+        if (playerHand[0].Count > 0)
+        {
+            playerHand[0][0].destroy();
             playerHand[0].RemoveAt(0);
+        }
+        int i = 1;
+        foreach (Card card in playerHand[0])
+        {
+            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(i * cardOffset, 0, 0), card));
+            i++;
+        }
     }
-
+    public void RemoveLastCard()
+    {
+        if (playerHand[0].Count > 0)
+        {
+            playerHand[0][playerHand[0].Count - 1].destroy();
+            playerHand[0].RemoveAt(playerHand[0].Count - 1);
+        }
+    }
+    public int GetHandTotal()
+    {
+        return playerHand.Count > 0 ? playerHand[0].Count : 0;
+    }
     public void AddCard(Card card, bool left = true)
     {
-        //Debug.Log($"Add Card {card}");
+        Debug.Log($"AddCard ==> {card.cardFace.suit.ToString() }");
         card.SetOwner(this);
         card.transform.SetParent(cardParent);
-        if (!handSplit)
-        {
-            playerHand[0].Add(card);
+        playerHand[0].Add(card);
 
-            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position/* + (playerHand[0].Count * cardOffset*/, card, playerHand[0].IndexOf(card)));
-        }
-        else
-        {
-            if (left)
-            {
+        StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0), card));
+        StartCoroutine(mergeCard());
 
-                playerHand[0].Add(card);
-                StartCoroutine(MoveCardTo(card.transform, splitHandStartLeft.position + ((playerHand[0].Count - 1) * cardOffset), card, playerHand[0].IndexOf(card)));
-            }
-            else
-            {
-
-                playerHand[1].Add(card);
-                StartCoroutine(MoveCardTo(card.transform, splitHandStartRight.position + ((playerHand[1].Count - 1) * cardOffset), card, playerHand[1].IndexOf(card)));
-            }
-        }
-        //mergeCard(card);
     }
-    public void mergeCard(Card card)
+    IEnumerator mergeCard()
     {
-        Debug.Log($"number card player in Hand  {playerHand[0].Count}");
+        //Debug.Log($"Start merge cards in hand  {playerHand[0].Count}");
         //At least 2 cards in Hand, otherwise  ignore merge
-        if (! (playerHand[0].Count >= 2) ) { return; }
+        if (!(playerHand[0].Count >= 2)) { yield return null; }
         int lastCardBefore = playerHand[0].Count - 2;
         int maxmerge = playerHand[0].Count - 1;
-        while (maxmerge > 0) {
-            if (lastCardBefore < 0) { return; }
+        Card beforeNewCard;
+        Card card;
+        while (maxmerge > 0)
+        {
+            if (lastCardBefore < 0) { yield return null; }
+            beforeNewCard = playerHand[0][lastCardBefore];
+            card = playerHand[0][lastCardBefore + 1];
             // Check if last card before is same card number and same card star  
-            Debug.Log($"Card Number {playerHand[0][lastCardBefore].cardFace.numbers} Star: {playerHand[0][lastCardBefore].cardFace.star} VS Number {card.cardFace.numbers} Star {card.cardFace.star} ");
-            if (playerHand[0][lastCardBefore].cardFace.numbers == card.cardFace.numbers && playerHand[0][lastCardBefore].cardFace.star == card.cardFace.star)
+            //Debug.Log($"Card {beforeNewCard.cardFace.suit} Star: {beforeNewCard.cardFace.star} VS Card {card.cardFace.suit} Star {card.cardFace.star} ");
+            if (beforeNewCard.cardFace.suit == card.cardFace.suit && beforeNewCard.cardFace.star == card.cardFace.star && ((int)beforeNewCard.cardFace.star + 1) < MAXCARDSTAR)
             {
-                playerHand[0][lastCardBefore + 1].destroy();
-                // Text is setting + 2 , becuase the enum cardFace.star start with 0 
-                playerHand[0][lastCardBefore].cardStar.text = "" + ((int) card.cardFace.star + 2);
-                Debug.Log($" star {playerHand[0][lastCardBefore].cardStar.text} / {((int)card.cardFace.star + 2)}  ");
-                playerHand[0][lastCardBefore].cardFace.star = (Card_Stars) ((int) card.cardFace.star) + 1;
-                playerHand[0].RemoveAt(lastCardBefore + 1);
+                //Increase 1 star to before card,  Text is setting + 2 , becuase the enum cardFace.star start with 0 
+                beforeNewCard.cardStar.text = "" + ((int)card.cardFace.star + 2);
+                beforeNewCard.cardFace.star = (Card_Stars)((int)card.cardFace.star) + 1;
+                playerHand[0][lastCardBefore] = beforeNewCard;
+                //Debug.Log($"Merged card {lastCardBefore } ==> star {beforeNewCard.cardStar.text}  ");
+
+                //playerHand[0][lastCardBefore + 1].destroy();
+                //playerHand[0].RemoveAt(lastCardBefore + 1);
+                //yield return new WaitForSeconds(0.5f);
+                RemoveLastCard();
+
                 lastCardBefore = playerHand[0].Count - 2;
             }
             maxmerge--;
+            Debug.Log($"Card in hand  {PrintAllCards(playerHand[0])} , checking card index {lastCardBefore} / {lastCardBefore + 1} , megre round remain : {maxmerge} ");
         }
+        yield return new WaitForSeconds(1f);
     }
-    /*
-    public void bigMerge(Card cardbefore, Button button)
+    private string PrintAllCards(List<Card> cards)
     {
-        Debug.Log(3);
-        if (b >= 2)
+        string result = "";
+        for (int i = 0; i < cards.Count; i++)
         {
-            Debug.Log(cards[cards.IndexOf(cardbefore) - 1]);
-            if (cards[cards.IndexOf(cardbefore) - 1] != null)
-            {
-                Card cardBeforeMore = cards[cards.IndexOf(cardbefore) - 1];
-                Debug.Log(2);
-                while ((int)cardBeforeMore.cardFace.numbers > 13)
-                {
-                    cardBeforeMore.cardFace.numbers -= 13;
-
-
-                }
-                if (cardbefore.cardFace.numbers == cardBeforeMore.cardFace.numbers && buttons[buttons.IndexOf(button) - 1].tag == "Card(clone Gray)")
-                {
-                    if (cardBeforeMore == null) { return; }
-                    cardbefore.GetComponent<Card>().destroy();
-                    buttons[buttons.Count - 1].GetComponent<Image>().color = Color.yellow;
-                    Debug.Log($"try big merge");
-                    Hitmerge();
-                }
-            }
-
-
+            result += "" + (i + 1) + ":" + cards[i].cardFace.suit + ":" + cards[i].cardFace.star + ",";
         }
-        Hitmerge();
+
+        return result;
     }
-    */
-    IEnumerator MoveCardToOLD(Transform cardTransform, Vector3 targetPosition, Card card = null, int index = 0)
+
+    IEnumerator MoveCardTo(Transform cardTransform, Vector3 targetPosition, Card card = null)
     {
-        Vector3 v360 = new Vector3(0, 0, 180);
-        if (cardTransform != null)
+        //IF Card is not merged
+        if (card != null)
         {
-            //while ((cardTransform.position - targetPosition).sqrMagnitude > 0.00000001f)
-            //{
-            cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPosition, Time.deltaTime * cardMoveSpeed);
-            cardTransform.localEulerAngles = Vector3.Lerp(cardTransform.localEulerAngles, v360, Time.deltaTime * 5);
-            yield return null;
-            //}
-            cardTransform.position = targetPosition;
-            cardTransform.localEulerAngles = Vector3.zero;
-
-            //Flip Card
-            card?.Flip(index);
+            card.cardSpawnButton.transform.position = targetPosition;
         }
-        yield return null;
-    }
-
-    IEnumerator MoveCardTo(Transform cardTransform, Vector3 targetPosition, Card card = null, int index = 0)
-    {
         yield return new WaitForSeconds(0.5f);
-        Vector3 pos = new Vector3(cardPosX, 400, 0);
-        cardPosX += 40;
-        card.cardSpawnButton.transform.position = pos;
-        Debug.Log($"Card Button Position {card.cardSpawnButton.transform.position} {card.transform.localScale}");
-        yield return null;
     }
+
 
     IEnumerator RemoveFromTable(Transform cardTransform, Vector3 targetPosition)
     {
