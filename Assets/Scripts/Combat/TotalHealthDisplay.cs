@@ -11,6 +11,10 @@ public class TotalHealthDisplay : NetworkBehaviour
     [SerializeField] private Image TotalEnermyhealth = null;
     [SerializeField] private TMP_Text TotalPlayerhealths = null;
     [SerializeField] private TMP_Text TotalEnermyhealths = null;
+    [SerializeField] private TMP_Text PlayerName = null;
+    [SerializeField] private TMP_Text EnemyName = null;
+    [SerializeField] private TMP_Text YourName = null;
+
     private int militarySize = 0;
     private int EnermymilitarySize = 0;
     int MaxmilitarySize = 0;
@@ -21,7 +25,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     public override void OnStartClient()
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-
+        YourName.text = "Player" + player.GetPlayerID();
     }
     private void Update()
     {
@@ -36,7 +40,8 @@ public class TotalHealthDisplay : NetworkBehaviour
         militarySize = 0;
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + player.GetPlayerID());
         if (armies is null || armies.Length == 0) { return; }
-
+        PlayerName.text = "Player" + player.GetPlayerID();
+        EnemyName.text = "Player" + player.GetEnemyID();
         foreach (GameObject army in armies)
         {
             float newProgress;
