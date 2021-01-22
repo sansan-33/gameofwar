@@ -30,6 +30,7 @@ public class RTSNetworkManager : NetworkManager
     private Dictionary<Unit.UnitType, GameObject> unitDict = new Dictionary<Unit.UnitType, GameObject>();
     #region Server
 
+   
     public override void OnServerConnect(NetworkConnection conn)
     {
         if (!isGameInProgress) { return; }
@@ -133,7 +134,7 @@ public class RTSNetworkManager : NetworkManager
                 //militaryList.Add(Unit.UnitType.HERO, 1);
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
-                    StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));
+                    StartCoroutine(loadMilitary(0.1f, player, pos, UnitDictionary.unitDict[unitType], unitType.ToString(), militaryList[unitType]));
                 }
             }
         }

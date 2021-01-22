@@ -115,25 +115,31 @@ public class Player : MonoBehaviour
 
     public void RemoveFirstCard()
     {
+        RemoveCardAt(0, true );
+    }
+    public void RemoveCardAt(int index)
+    {
+        RemoveCardAt(index, true);
+    }
+    public void RemoveCardAt(int index, bool isShiftCard)
+    {
         if (playerHand[0].Count > 0)
         {
-            playerHand[0][0].destroy();
-            playerHand[0].RemoveAt(0);
+            playerHand[0][index].destroy();
+            playerHand[0].RemoveAt(index);
         }
+        if (!isShiftCard) { return; }
         int i = 1;
         foreach (Card card in playerHand[0])
         {
+            card.cardPlayerHandIndex = i-1;
             StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(i * cardOffset, 0, 0), card));
             i++;
         }
     }
     public void RemoveLastCard()
     {
-        if (playerHand[0].Count > 0)
-        {
-            playerHand[0][playerHand[0].Count - 1].destroy();
-            playerHand[0].RemoveAt(playerHand[0].Count - 1);
-        }
+        RemoveCardAt(playerHand[0].Count - 1, false);
     }
     public int GetHandTotal()
     {
@@ -144,6 +150,7 @@ public class Player : MonoBehaviour
         Debug.Log($"AddCard ==> {card.cardFace.suit.ToString() }");
         card.SetOwner(this);
         card.transform.SetParent(cardParent);
+        card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
 
         StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0), card));
@@ -184,7 +191,7 @@ public class Player : MonoBehaviour
             maxmerge--;
             Debug.Log($"Card in hand  {PrintAllCards(playerHand[0])} , checking card index {lastCardBefore} / {lastCardBefore + 1} , megre round remain : {maxmerge} ");
         }
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.2f);
     }
     private string PrintAllCards(List<Card> cards)
     {

@@ -119,6 +119,48 @@ public class TacticalBehavior : MonoBehaviour
         }
 
     }
+    
+    public void TryTB(int type)
+    {
+        type = type % System.Enum.GetNames(typeof(BehaviorSelectionType)).Length;
+        prevSelectionType = selectionType;
+        selectionType = (BehaviorSelectionType)type;
+        SelectionChanged();
+    }
+    public void TryReinforce()
+    {
+        selectionType = prevSelectionType;
+        StartCoroutine("AssignTagTB");
+        
+        SelectionChanged();
+    }
+    
+    private void SelectionChanged()
+    {
+        if (agentGroup is null) { return; }
+
+        StopCoroutine("EnableBehavior");
+        StartCoroutine("DisableBehavior");
+        StartCoroutine("EnableBehavior");
+    }
+    private IEnumerator EnableBehavior()
+    {
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i)
+        {
+            if (agentBehaviorTreeGroup[(int)selectionType][i] != null)
+                agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
+        }
+    }
+    public IEnumerator DisableBehavior()
+    {
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < agentBehaviorTreeGroup[(int)prevSelectionType].Count; ++i)
+        {
+            agentBehaviorTreeGroup[(int)prevSelectionType][i].DisableBehavior();
+        }
+
+    }
     public void TryAttack()
     {
         prevSelectionType = selectionType;
@@ -152,39 +194,6 @@ public class TacticalBehavior : MonoBehaviour
         SelectionChanged();
 
     }
-    public void TryTB(int type)
-    {
-        type = type % System.Enum.GetNames(typeof(BehaviorSelectionType)).Length;
-        prevSelectionType = selectionType;
-        selectionType = (BehaviorSelectionType)type;
-        SelectionChanged();
-    }
-    
-    private void SelectionChanged()
-    {
-        if (agentGroup is null) { return; }
 
-        StopCoroutine("EnableBehavior");
-        StartCoroutine("DisableBehavior");
-        StartCoroutine("EnableBehavior");
-    }
-    private IEnumerator EnableBehavior()
-    {
-        yield return new WaitForSeconds(0.1f);
-        for (int i = 0; i < agentBehaviorTreeGroup[(int)selectionType].Count; ++i)
-        {
-            if (agentBehaviorTreeGroup[(int)selectionType][i] != null)
-                agentBehaviorTreeGroup[(int)selectionType][i].EnableBehavior();
-        }
-    }
-    public IEnumerator DisableBehavior()
-    {
-        yield return new WaitForSeconds(0.1f);
-        for (int i = 0; i < agentBehaviorTreeGroup[(int)prevSelectionType].Count; ++i)
-        {
-            agentBehaviorTreeGroup[(int)prevSelectionType][i].DisableBehavior();
-        }
-
-    }
     #endregion
 }

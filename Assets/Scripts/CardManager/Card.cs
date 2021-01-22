@@ -17,16 +17,18 @@ public class Card : MonoBehaviour
 
     public CardFace cardFace;
     public CardFaceCoords coord;
+    public int cardPlayerHandIndex = 0;
+
     [SerializeField] Renderer cardRenderer;
     Material cardFrontMat;
-    float X = (float)-800;
+
     public int a;
     public float cardTimer = 0;
     [SerializeField] List<Sprite> sprite = new List<Sprite>();
     private GameObject unitPreviewInstance;
     private Renderer unitRendererInstance;
     private Camera mainCamera;
-
+    
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
 
@@ -81,11 +83,12 @@ public class Card : MonoBehaviour
 
     public void OnPointerDown()
     {
-        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} ");
+        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
         Destroy(gameObject);
         GameObject.FindGameObjectWithTag("UnitSpawner").GetComponent<SpawnMilitary>().SpawnUnit( (Unit.UnitType) (int)this.cardFace.numbers, (int) this.cardFace.star + 1);
+        GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce();
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
-        this.GetComponentInParent<Player>().RemoveFirstCard();
+        this.GetComponentInParent<Player>().RemoveCardAt(this.cardPlayerHandIndex);
         DealManagers.GetComponent<CardDealer>().Hit();
 
 

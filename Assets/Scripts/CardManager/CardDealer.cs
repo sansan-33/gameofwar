@@ -200,7 +200,7 @@ public class CardDealer : MonoBehaviour
     {
 
         //Deal two cards to player
-        StartCoroutine(DealCards(3, 0f, 0.5f, 1, players[0]));
+        StartCoroutine(DealCards(3, 0f, 0.1f, 1, players[0]));
         //  StartCoroutine(DealCards(2, 1f, 0.5f, dealer));
 
         players[0].Transfer(-2, 0);
