@@ -8,6 +8,8 @@ public class UnitFactory : NetworkBehaviour
 {
     [SerializeField] private GameObject archerPrefab = null;
     [SerializeField] private GameObject knightPrefab = null;
+    [SerializeField] private GameObject magePrefab = null;
+    [SerializeField] private GameObject cavalryPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
     [SerializeField] private GameObject spearmanPrefab = null;
     [SerializeField] private GameObject sampleUnitPrefab = null;
@@ -33,8 +35,10 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(Unit.UnitType.HERO, heroPrefab);
         unitDict.Add(Unit.UnitType.KNIGHT, knightPrefab);
         unitDict.Add(Unit.UnitType.SPEARMAN, spearmanPrefab);
-        unitDict.Add(Unit.UnitType.SAMPLE, sampleUnitPrefab);
-   
+        unitDict.Add(Unit.UnitType.MAGE, magePrefab);
+        unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
+
+
         if (FindObjectOfType<NetworkManager>().numPlayers == 1) {
 
             CmdSpawnUnit(Unit.UnitType.ARCHER, initArcherCount, 0) ;

@@ -87,12 +87,14 @@ public class Card : MonoBehaviour
     {
         Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
         Destroy(gameObject);
+        int type  = (int) cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                localFactory.CmdSpawnUnit((Unit.UnitType)(int)this.cardFace.numbers, (int)this.cardFace.star + 1, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID() );
+                localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID() );
                 Debug.Log($"Card Awake Authority ? == > {factroy.GetComponent<UnitFactory>().hasAuthority} local factory ? {localFactory.hasAuthority} PLayer ID { NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID()}");
             }
         }

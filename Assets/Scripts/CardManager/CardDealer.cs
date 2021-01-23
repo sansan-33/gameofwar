@@ -123,8 +123,8 @@ public class CardDealer : MonoBehaviour
 
         lastCard = Instantiate(cardPrefab).GetComponent<Card>();
 
-        // CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count - 13)];
-        CardFace randomCard = cardDeck[1];
+        CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
+        //CardFace randomCard = cardDeck[3];
         cardDeckUsed.Add(randomCard);
 
         lastCard.GetComponent<Card>().SetCard(randomCard, GetCardFaceCoord(randomCard));

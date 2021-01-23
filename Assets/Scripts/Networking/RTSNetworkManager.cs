@@ -66,9 +66,7 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(Unit.UnitType.HERO, heroPrefab);
         unitDict.Add(Unit.UnitType.KNIGHT, knightPrefab);
         unitDict.Add(Unit.UnitType.SPEARMAN, spearmanPrefab);
-        unitDict.Add(Unit.UnitType.SAMPLE, sampleUnitPrefab);
-
-
+       
         ServerChangeScene("Scene_Map_01");
     }
 
@@ -112,7 +110,6 @@ public class RTSNetworkManager : NetworkManager
                     militaryList.Add(Unit.UnitType.ARCHER, 2);
                     militaryList.Add(Unit.UnitType.KNIGHT, 0);
                     militaryList.Add(Unit.UnitType.HERO, 1);
-                    militaryList.Add(Unit.UnitType.SAMPLE, 0);
                 }
                 else
                 {

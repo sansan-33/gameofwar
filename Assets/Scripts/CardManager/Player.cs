@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform splitHandStartRight;
 
     [Header("Settings")]
-    [SerializeField] float cardOffset = 60f;
+    [SerializeField] float cardOffset = 100f;
     [SerializeField] float cardMoveSpeed = 10;
     [SerializeField] int MAXCARDSTAR = 2;
 
