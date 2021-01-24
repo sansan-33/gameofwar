@@ -17,6 +17,8 @@ public class Player : MonoBehaviour
     int i = 1;
     [Header("References")]
     [SerializeField] Transform cardParent;
+    [SerializeField] Transform cardSlotParent;
+    [SerializeField] CardSlot cardSlot;
     [SerializeField] Transform button;
     [Header("Layout References")]
     [SerializeField] Transform singleHandStart;
@@ -137,6 +139,37 @@ public class Player : MonoBehaviour
             i++;
         }
     }
+    public void moveCardAt(int cardMovingindex, bool isMoveLeft)
+    {
+        if (playerHand[0].Count > 0)
+        {if(playerHand[0].Count< cardMovingindex) { return; }
+            if (isMoveLeft == true)
+            {
+                Debug.Log($"isMoveLeft{cardMovingindex}");
+                Card cardBefore = playerHand[0][cardMovingindex - 1];
+
+                playerHand[0][cardMovingindex -1] = playerHand[0][cardMovingindex];
+                playerHand[0][cardMovingindex] = cardBefore;
+                playerHand[0][cardMovingindex ].cardPlayerHandIndex++;
+                playerHand[0][cardMovingindex-1].cardPlayerHandIndex--;
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + 1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
+
+            }
+            else
+            {
+                Debug.Log($"isMoveRight{cardMovingindex}");
+                Card cardAfter = playerHand[0][cardMovingindex + 1];
+
+                playerHand[0][cardMovingindex + 1] = playerHand[0][cardMovingindex];
+                playerHand[0][cardMovingindex] = cardAfter;
+                playerHand[0][cardMovingindex].cardPlayerHandIndex--;
+                playerHand[0][cardMovingindex + 1].cardPlayerHandIndex++;
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + 1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
+                Debug.Log(cardMovingindex + 1 * cardOffset);
+
+            }
+        }
+    }
     public void RemoveLastCard()
     {
         RemoveCardAt(playerHand[0].Count - 1, false);
@@ -147,12 +180,15 @@ public class Player : MonoBehaviour
     }
     public void AddCard(Card card, bool left = true)
     {
+        
         //Debug.Log($"AddCard ==> {card.cardFace.suit.ToString() }");
         card.SetOwner(this);
-        card.transform.SetParent(cardParent);
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
-
+       CardSlot cardslot= Instantiate(cardSlot).GetComponent<CardSlot>();
+        cardslot.transform.SetParent(cardSlotParent);
+        cardslot.transform.position = singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0);
+        card.transform.SetParent(cardslot.transform);
         StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0), card));
         StartCoroutine(mergeCard());
 

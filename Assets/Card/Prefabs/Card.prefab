@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 2499959925977156652}
   - component: {fileID: 7982075831719405309}
   - component: {fileID: 4062796193168424272}
+  - component: {fileID: 4338021780630065523}
+  - component: {fileID: 8255005299634054446}
   m_Layer: 5
   m_Name: spawnButton
   m_TagString: Untagged
@@ -133,6 +135,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &4338021780630065523
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872181511125864227}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &8255005299634054446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872181511125864227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d07eafc93f0c433e88a9d464eaec5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardParent: {fileID: 4590956966355113817}
+  cardPlayerHandIndex: 0
 --- !u!1 &2068810399220974159
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +172,7 @@ GameObject:
   - component: {fileID: 5036420661487880797}
   - component: {fileID: 2065506493702474041}
   - component: {fileID: 4590956966355113817}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -208,6 +236,7 @@ MonoBehaviour:
       numbers: 0
       star: 0
     _coord: {x: 0, y: 0}
+  cardPlayerHandIndex: 0
   cardRenderer: {fileID: 5401589614665477150}
   a: 0
   cardTimer: 0
@@ -239,7 +268,7 @@ GameObject:
   - component: {fileID: 3350097730905035682}
   - component: {fileID: 8203938898961254550}
   - component: {fileID: 1595785716830596354}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CardCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +366,7 @@ GameObject:
   - component: {fileID: 1723370161393906574}
   - component: {fileID: 4059134568187611315}
   - component: {fileID: 8240628691007913380}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: star
   m_TagString: CardStar
   m_Icon: {fileID: 0}
@@ -605,6 +634,10 @@ PrefabInstance:
     - target: {fileID: 2296910769419145809, guid: f45c7b63df3c44897831ac87d39059b5, type: 3}
       propertyPath: m_Name
       value: CardModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296910769419145809, guid: f45c7b63df3c44897831ac87d39059b5, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2296910769419145809, guid: f45c7b63df3c44897831ac87d39059b5, type: 3}
       propertyPath: m_IsActive
