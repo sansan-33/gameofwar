@@ -22,7 +22,7 @@ public class SpawnEnemies : NetworkBehaviour
     private GameObject enemy;
     private float stoppingDistance = 1;
     private float chaseRange = 1;
-    private int spawncount=3;
+    private int initSpawnCount=3;
     private float lastFireTime;
     [SerializeField] private float fireRate = 6000f;
     private RTSPlayer player;
@@ -49,12 +49,13 @@ public class SpawnEnemies : NetworkBehaviour
         if (FindObjectOfType<NetworkManager>().numPlayers == 1){
 
             SpawnEnemyBase();
-            StartCoroutine(loadBoss(2f));
-            StartCoroutine(loadEnemy(2f));
+            StartCoroutine(loadBoss(1f));
+            StartCoroutine(loadEnemy(2f, false, initSpawnCount));
             
-            InvokeRepeating("addBehaviourToMilitary", 5f, 6000000f);
-            InvokeRepeating("TryDefend", 10f, 6000000f);
-            //InvokeRepeating("TryFlank", 5f, 6000000f);
+            InvokeRepeating("addBehaviourToMilitary", 5f, 25f);
+            InvokeRepeating("TryAttack", 6f, 30f);
+            StartCoroutine(loadEnemy(30f, true, 1));
+
         }
     }
    
@@ -67,23 +68,28 @@ public class SpawnEnemies : NetworkBehaviour
         defendObject.SetActive(true);
         NetworkServer.Spawn(defendObject, player.connectionToClient);
     }
-    private IEnumerator loadEnemy(float waitTime)
+    private IEnumerator loadEnemy(float waitTime, bool repeat, int spawncount)
     {
-        yield return new WaitForSeconds(waitTime);
-        while (spawncount > 0)
+        while (true)
         {
-            GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            yield return new WaitForSeconds(waitTime);
+            int repeatCount = spawncount;
+            while (repeatCount > 0)
+            {
+                GameObject[] points = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
-            Vector3 spawnPosition = points[3].transform.position;
-            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
-            spawnOffset.y = spawnPosition.y;
-            enemy = Instantiate(enemyPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
-            enemy.tag = ENEMY_TAG;
-            enemy.GetComponent<Unit>().unitType = Unit.UnitType.SPEARMAN;
+                Vector3 spawnPosition = points[3].transform.position;
+                Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
+                spawnOffset.y = spawnPosition.y;
+                enemy = Instantiate(enemyPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+                enemy.tag = ENEMY_TAG;
+                enemy.GetComponent<Unit>().unitType = Unit.UnitType.SPEARMAN;
 
-            //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
-            NetworkServer.Spawn(enemy, player.connectionToClient);
-            spawncount--;
+                //Debug.Log($"spawnEnemy connectionToClient {player.connectionToClient}");
+                NetworkServer.Spawn(enemy, player.connectionToClient);
+                repeatCount--;
+            }
+            if (!repeat) break;
         }
     }
 

@@ -117,11 +117,7 @@ public class Player : MonoBehaviour
     {
         RemoveCardAt(0, true );
     }
-    public void RemoveCardAt(int index)
-    {
-        RemoveCardAt(index, true);
-    }
-    public void RemoveCardAt(int index, bool isShiftCard)
+    public void RemoveCardAt(int index, bool isShiftCard = true)
     {
         if (playerHand[0].Count > 0)
         {

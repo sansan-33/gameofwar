@@ -22,6 +22,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
         private float theta;
         private string TASKNAME = "Defend";
+        private int HEARTBEAT = 0;
 
         protected override void AddAgentToGroup(Behavior agent, int index)
         {
@@ -47,7 +48,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (baseStatus != TaskStatus.Running || !started) {
                 return baseStatus;
             }
-
             // Attack the target if the agent has a target.
             if (tacticalAgent.TargetTransform != null) {
                 // Stop attacking if the target gets too far away from the defend object.
@@ -61,7 +61,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     // The target is within distance. Keep moving towards it.
                     tacticalAgent.AttackPosition = true;
                     if (MoveToAttackPosition()) {
-                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME +  ": Attack");
+                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME +  ": Attack " + HEARTBEAT++);
                         tacticalAgent.TryAttack();
                     }
                 }

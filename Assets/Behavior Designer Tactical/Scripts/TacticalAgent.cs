@@ -107,7 +107,8 @@ namespace BehaviorDesigner.Runtime.Tactical
         public bool TryAttack()
         {
             if (attackAgent.CanAttack()) {
-                attackAgent.Attack(targetTransform.position);
+                attackAgent.Attack(targetTransform.GetComponent<Targetable>().GetAimAtPoint().position);
+                //attackAgent.Attack(targetTransform.position);
                 return true;
             }
             return false;

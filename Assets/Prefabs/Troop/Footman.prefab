@@ -50,7 +50,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   targeter: {fileID: 5348392228992179263}
-  damageToDeal: 4
+  damageToDeal: 10
   destroyAfterSeconds: 1
   textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
@@ -195,7 +195,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4355114074065400, guid: e1d0d384bf6275a41a82fa312a7e2939, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4355114074065400, guid: e1d0d384bf6275a41a82fa312a7e2939, type: 3}
       propertyPath: m_LocalPosition.z
@@ -274,6 +274,10 @@ PrefabInstance:
       propertyPath: targeterAttackType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2018631892820340176, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2278323069818987186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.81
@@ -317,6 +321,10 @@ PrefabInstance:
     - target: {fileID: 4649854274305143336, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Speed
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143336, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_Radius
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
@@ -382,9 +390,17 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5065429258744081884, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5531517098549734394, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: maxHealth
-      value: 300
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076828184158107258, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6960025489075234182, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder

@@ -16,6 +16,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
         private Quaternion direction;
         private Vector3 safeOffset;
+        private string TASKNAME = "Retreat";
 
         protected override void AddAgentToGroup(Behavior agent, int index)
         {
@@ -48,6 +49,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             FindAttackTarget();
             if (tacticalAgent.CanSeeTarget()) {
                 if (tacticalAgent.RotateTowardsPosition(tacticalAgent.TargetTransform.position)) {
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = Attacking ");
                     tacticalAgent.TryAttack();
                 }
             } else {
@@ -59,9 +61,10 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if ((attackCenter - transform.position).magnitude < safeDistance.Value) {
                 safe = false;
                 var targetPosition = TransformPoint(transform.position, safeOffset, direction);
-                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("run");
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": moving distance " + (int)Vector3.Distance(tacticalAgent.transform.position, targetPosition));
                 tacticalAgent.SetDestination(targetPosition);
             } else {
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = STOP ");
                 tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("wait");
                 tacticalAgent.Stop();
             }

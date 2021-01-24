@@ -38,13 +38,6 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(Unit.UnitType.MAGE, magePrefab);
         unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
 
-
-        if (FindObjectOfType<NetworkManager>().numPlayers == 1) {
-
-            CmdSpawnUnit(Unit.UnitType.ARCHER, initArcherCount, 0) ;
-            CmdSpawnUnit(Unit.UnitType.HERO, initHeroCount, 0);
-        }
-
     }
     private void Update()
     {

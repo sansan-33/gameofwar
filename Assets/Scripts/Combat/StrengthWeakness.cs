@@ -16,6 +16,7 @@ public class StrengthWeakness : MonoBehaviour
         strengthWeakness.Add(Unit.UnitType.KNIGHT, new Unit.UnitType[] { Unit.UnitType.ARCHER, Unit.UnitType.SPEARMAN });
         strengthWeakness.Add(Unit.UnitType.SPEARMAN, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
         strengthWeakness.Add(Unit.UnitType.HERO, new Unit.UnitType[] { Unit.UnitType.HERO, Unit.UnitType.HERO }); // HERO Strength to all , weak to HEROR only
+        strengthWeakness.Add(Unit.UnitType.CAVALRY, new Unit.UnitType[] { Unit.UnitType.MAGE, Unit.UnitType.KNIGHT });
 
     }
     public int calculateDamage(Unit.UnitType player, Unit.UnitType enemy, int damage)

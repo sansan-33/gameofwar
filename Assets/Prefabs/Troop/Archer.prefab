@@ -55,7 +55,6 @@ MonoBehaviour:
   fireRange: 15
   fireRate: 1
   rotationSpeed: 100
-  unitNetworkAnimator: {fileID: 2823272602263675945}
   repeatAttackDelay: 1
   attackAngle: 1
 --- !u!1001 &5425026195499733804
@@ -270,6 +269,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.92
       objectReference: {fileID: 0}
+    - target: {fileID: 4395472799289261401, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143336, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Speed
       value: 9
@@ -332,7 +335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5531517098549734394, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: maxHealth
-      value: 250
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6960025489075234182, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8663785943906713466, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_LocalPosition.x

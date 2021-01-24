@@ -107,9 +107,9 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(Unit.UnitType.ARCHER, 2);
-                    militaryList.Add(Unit.UnitType.KNIGHT, 0);
-                    militaryList.Add(Unit.UnitType.HERO, 1);
+                    //militaryList.Add(Unit.UnitType.ARCHER, 2);
+                    militaryList.Add(Unit.UnitType.KNIGHT, 1);
+                    //militaryList.Add(Unit.UnitType.HERO, 1);
                 }
                 else
                 {
