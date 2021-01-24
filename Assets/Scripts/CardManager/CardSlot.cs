@@ -35,5 +35,6 @@ public class CardSlot : MonoBehaviour, IDropHandler
             Debug.Log("Remover");
             item = null;
         }
+
     }
 }

@@ -10,6 +10,7 @@ public class RTSNetworkManager : NetworkManager
 {
     [SerializeField] private GameObject unitBasePrefab = null;
     [SerializeField] private GameObject archerPrefab = null;
+    [SerializeField] private GameObject miniSkeletonPrefab = null;
     [SerializeField] private GameObject knightPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
     [SerializeField] private GameObject spearmanPrefab = null;
@@ -66,9 +67,7 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(Unit.UnitType.HERO, heroPrefab);
         unitDict.Add(Unit.UnitType.KNIGHT, knightPrefab);
         unitDict.Add(Unit.UnitType.SPEARMAN, spearmanPrefab);
-        unitDict.Add(Unit.UnitType.SAMPLE, sampleUnitPrefab);
-
-
+        unitDict.Add(Unit.UnitType.MINISKELETON, miniSkeletonPrefab);
         ServerChangeScene("Scene_Map_01");
     }
 
@@ -109,10 +108,9 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(Unit.UnitType.ARCHER, 2);
-                    militaryList.Add(Unit.UnitType.KNIGHT, 0);
-                    militaryList.Add(Unit.UnitType.HERO, 1);
-                    militaryList.Add(Unit.UnitType.SAMPLE, 0);
+                    //militaryList.Add(Unit.UnitType.ARCHER, 2);
+                    militaryList.Add(Unit.UnitType.KNIGHT, 1);
+                    //militaryList.Add(Unit.UnitType.HERO, 1);
                 }
                 else
                 {

@@ -25,6 +25,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         private Vector3 destinationOffset;
         private bool inPosition;
         private string TASKNAME = "Flank";
+        private int HEARTBEAT = 0;
 
         protected override void FormationUpdated(int index)
         {
@@ -87,7 +88,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             }
             //Debug.Log($" agent {tacticalAgent.transform.GetComponent<Unit>().unitType} inPosition {inPosition}   " );
             if (inPosition && (canAttack || !waitForAttack.Value)) {
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Attack");
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Attack " + HEARTBEAT++);
                 tacticalAgent.TryAttack();
             }
 

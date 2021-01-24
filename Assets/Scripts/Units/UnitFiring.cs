@@ -46,18 +46,13 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     private void FireProjectile(Vector3 targetPosition)
     {
         
-        Quaternion targetRotation =
-            Quaternion.LookRotation(targetPosition - transform.position);
+        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
 
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         
-            Quaternion projectileRotation = Quaternion.LookRotation(
-                targetPosition - projectileSpawnPoint.position);
+        Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
 
-        GameObject projectileInstance = Instantiate(
-                projectilePrefab, projectileSpawnPoint.position, projectileRotation);
+        GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileRotation);
         
         NetworkServer.Spawn(projectileInstance, connectionToClient);
             

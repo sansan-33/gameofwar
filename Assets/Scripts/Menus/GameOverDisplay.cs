@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class GameOverDisplay : MonoBehaviour
 {
-    [SerializeField] private GameObject gameOverDisplayParent = null;
+    [SerializeField] public Canvas gameOverDisplayParent;
     [SerializeField] private TMP_Text winnerNameText = null;
     private float Timer = 1830;
     private void Update()
@@ -42,21 +42,19 @@ public class GameOverDisplay : MonoBehaviour
     private void ClientHandleGameOver(string winner)
     {
         winnerNameText.text = $"{winner} Has Won!";
-
-        gameOverDisplayParent.SetActive(true);
+        gameOverDisplayParent.enabled = true;
     }
     private void ClientHandleGameOverdraw()
     {
         winnerNameText.text = $"Draw!";
-
-        gameOverDisplayParent.SetActive(true);
+        gameOverDisplayParent.enabled = true;
     }
     public void ClientHandleGameOverResign()
     {
-       
-        winnerNameText.text = $"Someone give up";
-        Debug.Log(winnerNameText.text);
-        gameOverDisplayParent.SetActive(true);
         
+        if (gameOverDisplayParent == null) { gameOverDisplayParent = GetComponentInChildren<Canvas>(); }
+        Debug.Log($"ClientHandleGameOverResign {gameOverDisplayParent.name}");
+        winnerNameText.text = $"Someone give up";
+        gameOverDisplayParent.enabled = true;
     }
 }

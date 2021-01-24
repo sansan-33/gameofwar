@@ -17,8 +17,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (baseStatus != TaskStatus.Running || !started) {
                 return baseStatus;
             }
-
+            tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : moving to target ");
             if (MoveToAttackPosition()) {
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : in position ");
                 tacticalAgent.TryAttack();
             }
 

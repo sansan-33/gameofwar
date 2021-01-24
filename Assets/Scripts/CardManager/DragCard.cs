@@ -121,5 +121,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private void Update()
     {
 
+
     }
 }

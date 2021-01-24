@@ -55,7 +55,7 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}");
             damageToDeals = strengthWeakness.calculateDamage(Unit.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal);
-            if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
+            //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             health.DealDamage(damageToDeals);

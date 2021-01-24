@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform splitHandStartRight;
 
     [Header("Settings")]
-    [SerializeField] float cardOffset = 60f;
+    [SerializeField] float cardOffset = 100f;
     [SerializeField] float cardMoveSpeed = 10;
     [SerializeField] int MAXCARDSTAR = 2;
 
@@ -119,11 +119,7 @@ public class Player : MonoBehaviour
     {
         RemoveCardAt(0, true );
     }
-    public void RemoveCardAt(int index)
-    {
-        RemoveCardAt(index, true);
-    }
-    public void RemoveCardAt(int index, bool isShiftCard)
+    public void RemoveCardAt(int index, bool isShiftCard = true)
     {
         if (playerHand[0].Count > 0)
         {

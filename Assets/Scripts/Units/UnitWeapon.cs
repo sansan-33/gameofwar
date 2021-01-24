@@ -50,6 +50,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     [Command]
     public void Attack()
     {
+        //Debug.Log($"Attacker {targeter} attacking .... ");
+
         damageToDeal = damageToDealOriginal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
@@ -59,21 +61,23 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
         //Check when there is a new collider coming into contact with the box
         while (i < hitColliders.Length)
         {
-            other = hitColliders[i];
-            
+            other = hitColliders[i++];
+               
             if (FindObjectOfType<NetworkManager>().numPlayers == 1)
             {
-                if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {return;}  //check to see if it belongs to the player, if it does, do nothing
-                if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) {return;}  //check to see if it belongs to the player, if it does, do nothing
+                //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
+                if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {continue;}  //check to see if it belongs to the player, if it does, do nothing
+                if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+
             }
             else // Multi player seneriao
             {
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
-                    if (networkIdentity.connectionToClient == connectionToClient) { return; }  //check to see if it belongs to the player, if it does, do nothing
+                    if (networkIdentity.connectionToClient == connectionToClient) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 }
             }
-            //Debug.Log($"Attack {targeter} --> Enemy {other} tag {other.tag}");
+            //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
 
             if (other.TryGetComponent<Health>(out Health health))
             {
@@ -83,11 +87,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
                 //Debug.Log($"Strength Weakness damage {damageToDeal}");
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                 cmdDamageText(other.transform.position, damageToDeal, damageToDealOriginal);
-                if (damageToDeal > damageToDealOriginal) { cmdCMVirtual(); }
+                //if (damageToDeal > damageToDealOriginal) { cmdCMVirtual(); }
                 //cmdCMFreeLook();
                 break;
             }
-            i++;
+
         }
 
     }
@@ -168,7 +172,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
     public void Attack(Vector3 targetPosition)
     {
-        //Debug.Log("unit weapon attacking now ");
+        //Debug.Log($"unit {targeter.transform.GetComponent<Unit>().name } attacking now ");
         targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
         Attack();
         lastAttackTime = Time.time;
