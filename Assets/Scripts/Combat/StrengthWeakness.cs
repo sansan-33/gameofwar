@@ -29,8 +29,10 @@ public class StrengthWeakness : MonoBehaviour
         if (dict[0] == enemy || dict[0] == Unit.UnitType.HERO)
             damageResult = damage * StrengthDamage;
         else if (dict[1] == enemy)
+        {
             damageResult = damage / WeaknessDamage;
-
+            damageResult = damageResult > 0 ? damageResult : 1;
+        }
         return damageResult;
     }
 }
