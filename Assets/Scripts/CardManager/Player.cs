@@ -220,6 +220,7 @@ public class Player : MonoBehaviour
 
                 lastCardBefore = playerHand[0].Count - 2;
             }
+            lastCardBefore--;
             maxmerge--;
             //Debug.Log($"Card in hand  {PrintAllCards(playerHand[0])} , checking card index {lastCardBefore} / {lastCardBefore + 1} , megre round remain : {maxmerge} ");
         }
