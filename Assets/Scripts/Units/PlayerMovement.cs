@@ -42,11 +42,11 @@ public class PlayerMovement : NetworkBehaviour
 
         if (Mouse.current.leftButton.isPressed)
         {
-            GameObject.FindObjectOfType<TacticalBehavior>().TryTB(3);
+            GameObject.FindObjectOfType<TacticalBehavior>().TryTB(3,0);
         }
         else if (Mouse.current.rightButton.isPressed)
         {
-            GameObject.FindObjectOfType<TacticalBehavior>().DisableBehavior();
+            GameObject.FindObjectOfType<TacticalBehavior>().DisableBehavior(0);
             CmdMove(hit.point);
         }
         else { return; }

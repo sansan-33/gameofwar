@@ -31,7 +31,7 @@ public class UnitFactory : NetworkBehaviour
    
     public override void OnStartClient()
     {
-        Debug.Log("Unit Factory Initialize the unitDic");
+        //Debug.Log("Unit Factory Initialize the unitDic");
         unitDict.Clear();
         unitDict.Add(Unit.UnitType.ARCHER, archerPrefab);
         unitDict.Add(Unit.UnitType.HERO, heroPrefab);
@@ -46,15 +46,15 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnit(Unit.UnitType unitType, int numberOfUnit, int playerID)
+    public void CmdSpawnUnit(Unit.UnitType unitType, int numberOfUnit, int playerID, bool spawnAuthority)
     {
-        Debug.Log($" CmdSpawnUnit Player ID {playerID} ");
+        //Debug.Log($" CmdSpawnUnit Player ID {playerID} ");
         Vector3 spawnPosition = GameObject.FindGameObjectWithTag("PlayerBase" + playerID ).transform.position ;
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), numberOfUnit));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), numberOfUnit, spawnAuthority));
         
     }
     [Server]
-    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount)
+    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority )
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
@@ -64,7 +64,9 @@ public class UnitFactory : NetworkBehaviour
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
             unit.name = unitName;
             unit.tag = "Player" + playerID;
-            NetworkServer.Spawn(unit, connectionToClient);
+            if(hasAuthority)
+                NetworkServer.Spawn(unit, connectionToClient);
+            
             spawnCount--;
         }
     }

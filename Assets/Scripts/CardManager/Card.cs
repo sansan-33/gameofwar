@@ -30,7 +30,9 @@ public class Card : MonoBehaviour
     private Renderer unitRendererInstance;
     private Camera mainCamera;
     private UnitFactory localFactory;
-
+    int playerID = 0;
+    int enemyID = 0;
+    
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
 
@@ -39,6 +41,9 @@ public class Card : MonoBehaviour
         mainCamera = Camera.main;
         animator = GetComponent<Animator>();
         cardFrontMat = cardRenderer.materials[0];
+        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        playerID = player.GetPlayerID();
+        enemyID = player.GetEnemyID();
     }
     public void Update()
     {
@@ -85,25 +90,23 @@ public class Card : MonoBehaviour
 
     public void OnPointerDown()
     {
-        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
+        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
         Destroy(gameObject);
-        int type  = (int) cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
-
-        foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
-        {
-            if (factroy.GetComponent<UnitFactory>().hasAuthority)
+        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+        if (localFactory == null) {
+            foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
             {
-                localFactory = factroy.GetComponent<UnitFactory>();
-                localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID() );
-                Debug.Log($"Card Awake Authority ? == > {factroy.GetComponent<UnitFactory>().hasAuthority} local factory ? {localFactory.hasAuthority} PLayer ID { NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID()}");
+                if (factroy.GetComponent<UnitFactory>().hasAuthority)
+                {
+                    localFactory = factroy.GetComponent<UnitFactory>();
+                }
             }
         }
-        GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce();
+        localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, playerID, true );
+        GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
         this.GetComponentInParent<Player>().RemoveCardAt(this.cardPlayerHandIndex);
         DealManagers.GetComponent<CardDealer>().Hit();
-
-
     }
 
     public void FadeOut()
