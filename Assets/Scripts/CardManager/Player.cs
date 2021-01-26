@@ -140,9 +140,11 @@ public class Player : MonoBehaviour
     public void moveCardAt(int cardMovingindex, bool isMoveLeft)
     {
         if (playerHand[0].Count > 0)
-        {if(playerHand[0].Count< cardMovingindex) { return; }
+        {
+           
             if (isMoveLeft == true)
             {
+                if (cardMovingindex == 0) { return; }
                 Debug.Log($"isMoveLeft{cardMovingindex}");
                 Card cardBefore = playerHand[0][cardMovingindex - 1];
 
@@ -150,11 +152,12 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardBefore;
                 playerHand[0][cardMovingindex ].cardPlayerHandIndex++;
                 playerHand[0][cardMovingindex-1].cardPlayerHandIndex--;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + cardOffsetRight) * cardOffset + 200, 0, 0), playerHand[0][cardMovingindex]));
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex+1) * cardOffset + cardOffsetRight, 0, 0), playerHand[0][cardMovingindex]));
 
             }
             else
             {
+                if (playerHand[0].Count-1 < cardMovingindex+1) { return; }
                 Debug.Log($"isMoveRight{cardMovingindex}");
                 Card cardAfter = playerHand[0][cardMovingindex + 1];
 
@@ -162,7 +165,7 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardAfter;
                 playerHand[0][cardMovingindex].cardPlayerHandIndex--;
                 playerHand[0][cardMovingindex + 1].cardPlayerHandIndex++;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + cardOffsetRight) * cardOffset + 200, 0, 0), playerHand[0][cardMovingindex]));
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex+1) * cardOffset  +cardOffsetRight, 0, 0), playerHand[0][cardMovingindex]));
                 Debug.Log(cardMovingindex + 1 * cardOffset);
 
             }

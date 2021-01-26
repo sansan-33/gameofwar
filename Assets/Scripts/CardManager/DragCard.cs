@@ -43,6 +43,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
          
         cardPlayerHandIndex = CardParent.GetComponent<Card>().cardPlayerHandIndex;
+
         transform.position = Input.mousePosition;
        
         if (transform.position.y!= startPosition.y)
@@ -56,12 +57,12 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         if(transform.position.x > 990)
         {
             Vector3 maxlimit = new Vector3 (900, transform.position.y, transform.position.y);
-            transform.position = maxlimit;
+            //transform.position = maxlimit;
         }
         if (transform.position.x < 620)
         {
             Vector3 maxlimit = new Vector3(500, transform.position.y, transform.position.y);
-            transform.position = maxlimit;
+           // transform.position = maxlimit;
         }
         if (SecBeforePosition.x - transform.position.x > 0)
         {
@@ -74,7 +75,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             if (SpaceBetweenTwoCard >= 29&& SpaceBetweenTwoCard <= 31)
             {
                 Debug.Log("Moving card left to right");
-                cardBeforeTransform -= 60;
+                cardBeforeTransform -= 90;
                 CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex,true);
                 cardAfterTransform = transform.position.x + 30;
             }
@@ -88,14 +89,14 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             Debug.Log("moveing right");
             //move right
             
-                 SpaceBetweenTwoCard = transform.position.x - cardAfterTransform;
+                 SpaceBetweenTwoCard = cardAfterTransform - transform.position.x;
             Debug.Log(SpaceBetweenTwoCard);
-                if (SpaceBetweenTwoCard >= -31&& SpaceBetweenTwoCard <= -29)
+                if (SpaceBetweenTwoCard >= 29&& SpaceBetweenTwoCard <= 31)
                 {
                     Debug.Log("Moving card right to left");
-                    cardAfterTransform = transform.position.x + 90;
+                    cardAfterTransform = transform.position.x + 120;
                     CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex, false);
-                cardBeforeTransform = transform.position.x+30;
+                cardBeforeTransform = transform.position.x+60;
             }
             
 

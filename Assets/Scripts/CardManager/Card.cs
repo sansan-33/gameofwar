@@ -115,8 +115,6 @@ public class Card : MonoBehaviour
             }
         }
 
-        GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce();
-      
 
         localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, playerID, true );
         GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
