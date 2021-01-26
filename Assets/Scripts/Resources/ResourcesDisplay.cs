@@ -9,38 +9,52 @@ public class ResourcesDisplay : MonoBehaviour
 {
     [SerializeField] private TMP_Text resourcesText = null;
     [SerializeField] private Image healthBarImage = null;
-    private RTSPlayer player;
-    int maxresources = 0;
-
+    int maxEleixer = 0;
+    int currentEleixer;
     private void Start()
     {
-        /*
-        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+      
+        // player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-        ClientHandleResourcesUpdated(player.GetResources());
+        // ClientHandleResourcesUpdated(player.GetResources());
 
-        player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated;
-        */
-    }
+        // player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated;
+
+    }/*
 
     private void OnDestroy()
     {
-        //player.ClientOnResourcesUpdated -= ClientHandleResourcesUpdated;
+        player.ClientOnResourcesUpdated -= ClientHandleResourcesUpdated;
     }
 
     private void ClientHandleResourcesUpdated(int resources)
     {
-        /*
+        
         int currentresources;
         
-        currentresources = resources;
+        currentresources = player.resources;
         if (currentresources > maxresources)
         {
            
             maxresources = currentresources;
         }
         healthBarImage.fillAmount = (float)currentresources / (float) maxresources;
-        */
+        Debug.Log($"{currentresources}/{maxresources}");
 
+    }*/
+    private void Update()
+    {
+        GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
+
+        currentEleixer = DealManagers.GetComponent<CardDealer>().eleixer;
+
+
+
+        if (currentEleixer > maxEleixer)
+        {
+
+            maxEleixer = currentEleixer;
+        }
+        healthBarImage.fillAmount = (float)currentEleixer / (float)maxEleixer;
     }
 }

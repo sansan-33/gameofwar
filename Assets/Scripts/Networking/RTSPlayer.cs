@@ -12,7 +12,7 @@ public class RTSPlayer : NetworkBehaviour
     [SerializeField] private float unitRangeLimit = 5f;
     [SerializeField] private int halfOfScreenSize = 4;
     [SyncVar(hook = nameof(ClientHandleResourcesUpdated))]
-    private int resources = 1000;
+    public int resources = 10;
     [SyncVar(hook = nameof(AuthorityHandlePartyOwnerStateUpdated))]
     private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
@@ -27,11 +27,12 @@ public class RTSPlayer : NetworkBehaviour
 
     public static event Action ClientOnInfoUpdated;
     public static event Action<bool> AuthorityOnPartyOwnerStateUpdated;
-
+   private float ResourcesTimer = 1f;
+   public int Resources;
     private Color teamColor = new Color();
     private List<Unit> myUnits = new List<Unit>();
     private List<Building> myBuildings = new List<Building>();
-
+    
     public int GetEnemyID()
     {
         return enemyID;

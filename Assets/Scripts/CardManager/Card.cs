@@ -21,6 +21,7 @@ public class Card : MonoBehaviour
     public int cardPlayerHandIndex = 0;
 
     [SerializeField] Renderer cardRenderer;
+    [SerializeField] RTSPlayer RTSPlayer;
     Material cardFrontMat;
 
     public int a;
@@ -40,7 +41,10 @@ public class Card : MonoBehaviour
         animator = GetComponent<Animator>();
         cardFrontMat = cardRenderer.materials[0];
     }
-    public void Update()
+    
+
+    
+        public void Update()
     {
         cardTiming();
 
@@ -85,6 +89,12 @@ public class Card : MonoBehaviour
 
     public void OnPointerDown()
     {
+        GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
+        if (DealManagers.GetComponent<CardDealer>().eleixer < 1)
+        {
+            return;
+        }
+        DealManagers.GetComponent<CardDealer>().eleixer -= ((int)this.cardFace.star+1);
         Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
         Destroy(gameObject);
         int type  = (int) cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
@@ -99,7 +109,7 @@ public class Card : MonoBehaviour
             }
         }
         GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce();
-        GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
+      
         this.GetComponentInParent<Player>().RemoveCardAt(this.cardPlayerHandIndex);
         DealManagers.GetComponent<CardDealer>().Hit();
 
