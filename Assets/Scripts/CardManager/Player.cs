@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] float cardOffset = 100f;
-    [SerializeField] float cardOffsetRight = 400f;
     [SerializeField] float cardMoveSpeed = 10;
     [SerializeField] int MAXCARDSTAR = 2;
 
@@ -133,7 +132,7 @@ public class Player : MonoBehaviour
         foreach (Card card in playerHand[0])
         {
             card.cardPlayerHandIndex = i-1;
-            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(i * cardOffset+ cardOffsetRight, 0, 0), card));
+            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(i * cardOffset, 0, 0), card));
             i++;
         }
     }
@@ -152,7 +151,7 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardBefore;
                 playerHand[0][cardMovingindex ].cardPlayerHandIndex++;
                 playerHand[0][cardMovingindex-1].cardPlayerHandIndex--;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex+1) * cardOffset + cardOffsetRight, 0, 0), playerHand[0][cardMovingindex]));
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex+1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
 
             }
             else
@@ -165,7 +164,7 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardAfter;
                 playerHand[0][cardMovingindex].cardPlayerHandIndex--;
                 playerHand[0][cardMovingindex + 1].cardPlayerHandIndex++;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex+1) * cardOffset  +cardOffsetRight, 0, 0), playerHand[0][cardMovingindex]));
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex+1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
                 Debug.Log(cardMovingindex + 1 * cardOffset);
 
             }
@@ -201,11 +200,11 @@ public class Player : MonoBehaviour
         {
             cardslot = Instantiate(cardSlot).GetComponent<CardSlot>();
             cardslot.transform.SetParent(cardSlotParent);
-            cardslot.transform.position = singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset + cardOffsetRight, 0, 0);
+            cardslot.transform.position = singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset , 0, 0);
             totalCardSlot++;
         }
         card.transform.SetParent(cardslot.transform);
-        StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset + cardOffsetRight, 0, 0), card));
+        StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0), card));
         StartCoroutine(mergeCard());
 
     }
