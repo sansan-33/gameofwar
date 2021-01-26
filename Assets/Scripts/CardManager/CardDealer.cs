@@ -34,7 +34,9 @@ public class CardFaceCoords
 
 public class CardDealer : MonoBehaviour
 {
-
+    public int maxEleixer = 10;
+    private float eleixerTimer = 1f;
+    public int eleixer = 10;
     public List<Card> cards;
     public List<Button> buttons;
     public int i = 1;
@@ -42,7 +44,7 @@ public class CardDealer : MonoBehaviour
     int b = -2;
     int z = 0;
     private int MAX_CARD_NUMBER = 13;
-    private int MAXTOTALHAND = 6;
+    public int MAXTOTALHAND = 6;
     [SerializeField] Transform cardDispenserSpawn;
     [SerializeField] Animator cardDispenserAnimator;
     [SerializeField] GameObject cardPrefab;
@@ -67,7 +69,16 @@ public class CardDealer : MonoBehaviour
         ShuffleDeck();
         DealBegin();
     }
-
+    private void Update()
+    {
+        eleixerTimer -= Time.deltaTime;
+        if (eleixerTimer <= 0&& eleixer< maxEleixer)
+        {
+            //eleixer += 1;
+            eleixerTimer = 1f;
+        }
+        
+    }
     void ShuffleDeck()
     {
         cardDeckUsed.Clear();

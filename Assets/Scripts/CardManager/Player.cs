@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     public delegate void PlayerHandEvents();
     public PlayerHandEvents OnPlayerHandReveal;
-
+    private CardSlot cardslot;
     public string playerName = "Player";
     public int chips = 100;
     int i = 1;
@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     [Header("Settings")]
     [SerializeField] float cardOffset = 100f;
+    [SerializeField] float cardOffsetRight = 400f;
     [SerializeField] float cardMoveSpeed = 10;
     [SerializeField] int MAXCARDSTAR = 2;
 
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
     public int handTotal;
     float cardPosX = (float) 100;
     int l = 1;
-
+    int totalCardSlot = 0;
     public bool dealer = false;
     public int[] pot = new int[2];
     [SerializeField] Text chipsText;
@@ -124,6 +125,7 @@ public class Player : MonoBehaviour
         if (playerHand[0].Count > 0)
         {
             playerHand[0][index].destroy();
+            Debug.Log(index);
             playerHand[0].RemoveAt(index);
         }
         if (!isShiftCard) { return; }
@@ -131,7 +133,7 @@ public class Player : MonoBehaviour
         foreach (Card card in playerHand[0])
         {
             card.cardPlayerHandIndex = i-1;
-            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(i * cardOffset, 0, 0), card));
+            StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(i * cardOffset+ cardOffsetRight, 0, 0), card));
             i++;
         }
     }
@@ -148,7 +150,7 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardBefore;
                 playerHand[0][cardMovingindex ].cardPlayerHandIndex++;
                 playerHand[0][cardMovingindex-1].cardPlayerHandIndex--;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + 1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + cardOffsetRight) * cardOffset + 200, 0, 0), playerHand[0][cardMovingindex]));
 
             }
             else
@@ -160,15 +162,25 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardAfter;
                 playerHand[0][cardMovingindex].cardPlayerHandIndex--;
                 playerHand[0][cardMovingindex + 1].cardPlayerHandIndex++;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + 1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
+                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.position + new Vector3((cardMovingindex + cardOffsetRight) * cardOffset + 200, 0, 0), playerHand[0][cardMovingindex]));
                 Debug.Log(cardMovingindex + 1 * cardOffset);
 
             }
         }
     }
-    public void RemoveLastCard()
+    public void RemoveLastCard(int index)
     {
-        RemoveCardAt(playerHand[0].Count - 1, false);
+        if(index== playerHand[0].Count - 1&& playerHand[0].Count-1 == 6)
+        {
+            Debug.Log($"index  last {index}");
+            RemoveCardAt(index, false);
+        }
+        else
+        {
+            Debug.Log($"index not last{ index}");
+            RemoveCardAt(index, true);
+        }
+        
     }
     public int GetHandTotal()
     {
@@ -176,21 +188,28 @@ public class Player : MonoBehaviour
     }
     public void AddCard(Card card, bool left = true)
     {
-        
+        GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
         //Debug.Log($"AddCard ==> {card.cardFace.suit.ToString() }");
         card.SetOwner(this);
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
-       CardSlot cardslot= Instantiate(cardSlot).GetComponent<CardSlot>();
-        cardslot.transform.SetParent(cardSlotParent);
-        cardslot.transform.position = singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0);
+        
+        if (totalCardSlot <= DealManagers.GetComponent<CardDealer>().MAXTOTALHAND)
+        {
+            cardslot = Instantiate(cardSlot).GetComponent<CardSlot>();
+            cardslot.transform.SetParent(cardSlotParent);
+            cardslot.transform.position = singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset + cardOffsetRight, 0, 0);
+            totalCardSlot++;
+        }
         card.transform.SetParent(cardslot.transform);
-        StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0), card));
+        StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset + cardOffsetRight, 0, 0), card));
         StartCoroutine(mergeCard());
 
     }
     IEnumerator mergeCard()
     {
+        Debug.Log($"Calling Mereg {PrintAllCards(playerHand[0])}");
+
         //Debug.Log($"Start merge cards in hand  {playerHand[0].Count}");
         //At least 2 cards in Hand, otherwise  ignore merge
         if (!(playerHand[0].Count >= 2)) { yield return null; }
@@ -204,27 +223,31 @@ public class Player : MonoBehaviour
             beforeNewCard = playerHand[0][lastCardBefore];
             card = playerHand[0][lastCardBefore + 1];
             // Check if last card before is same card number and same card star  
-            //Debug.Log($"Card {beforeNewCard.cardFace.suit} Star: {beforeNewCard.cardFace.star} VS Card {card.cardFace.suit} Star {card.cardFace.star} ");
+            Debug.Log($"Card {beforeNewCard.cardFace.suit} Star: {beforeNewCard.cardFace.star} VS Card {card.cardFace.suit} Star {card.cardFace.star} ");
             if (beforeNewCard.cardFace.suit == card.cardFace.suit && beforeNewCard.cardFace.star == card.cardFace.star && ((int)beforeNewCard.cardFace.star + 1) < MAXCARDSTAR)
             {
                 //Increase 1 star to before card,  Text is setting + 2 , becuase the enum cardFace.star start with 0 
                 beforeNewCard.cardStar.text = "" + ((int)card.cardFace.star + 2);
                 beforeNewCard.cardFace.star = (Card_Stars)((int)card.cardFace.star) + 1;
                 playerHand[0][lastCardBefore] = beforeNewCard;
-                //Debug.Log($"Merged card {lastCardBefore } ==> star {beforeNewCard.cardStar.text}  ");
+                Debug.Log($"Merged card {lastCardBefore } ==> star {beforeNewCard.cardStar.text}  ");
 
                 //playerHand[0][lastCardBefore + 1].destroy();
                 //playerHand[0].RemoveAt(lastCardBefore + 1);
                 //yield return new WaitForSeconds(0.5f);
-                RemoveLastCard();
+                RemoveLastCard(lastCardBefore + 1);
 
-                lastCardBefore = playerHand[0].Count - 2;
+                //lastCardBefore = playerHand[0].Count - 2;
             }
             lastCardBefore--;
             maxmerge--;
-            //Debug.Log($"Card in hand  {PrintAllCards(playerHand[0])} , checking card index {lastCardBefore} / {lastCardBefore + 1} , megre round remain : {maxmerge} ");
+            Debug.Log($"Leaving Card in hand  {PrintAllCards(playerHand[0])} , checking card index {lastCardBefore} / {lastCardBefore + 1} , megre round remain : {maxmerge} ");
         }
         yield return new WaitForSeconds(0.2f);
+    }
+    public void dragCardMerge()
+    {
+        StartCoroutine(mergeCard());
     }
     private string PrintAllCards(List<Card> cards)
     {

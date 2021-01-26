@@ -44,7 +44,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
          
         cardPlayerHandIndex = CardParent.GetComponent<Card>().cardPlayerHandIndex;
         transform.position = Input.mousePosition;
-        
+       
         if (transform.position.y!= startPosition.y)
         {
             float x = transform.position.x;
@@ -53,12 +53,12 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             transform.position = new Vector3(x, y, z);
         }
        
-        if(transform.position.x > 930)
+        if(transform.position.x > 990)
         {
             Vector3 maxlimit = new Vector3 (900, transform.position.y, transform.position.y);
             transform.position = maxlimit;
         }
-        if (transform.position.x < 560)
+        if (transform.position.x < 620)
         {
             Vector3 maxlimit = new Vector3(500, transform.position.y, transform.position.y);
             transform.position = maxlimit;
@@ -106,7 +106,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         Debug.Log("OnEndDrag");
         objBeingDraged = null;
-
+        CardParent.GetComponentInParent<Player>().dragCardMerge();
         canvasGroup.blocksRaycasts = true;
         if (transform.parent == itemDraggerParent)
         {
