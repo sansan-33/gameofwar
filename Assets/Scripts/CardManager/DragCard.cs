@@ -90,7 +90,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             //move right
             
                  SpaceBetweenTwoCard = cardAfterTransform - transform.position.x;
-            Debug.Log(SpaceBetweenTwoCard);
+        
                 if (SpaceBetweenTwoCard <= 31)
                 {
                     Debug.Log("Moving card right to left");
