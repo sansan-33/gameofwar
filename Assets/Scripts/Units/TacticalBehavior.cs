@@ -145,8 +145,9 @@ public class TacticalBehavior : MonoBehaviour
     public void TryReinforce(int playerID, int enemyID)
     {
         selectionType = prevSelectionType;
-        
+        // assign tag for new spawn instance, e.g. click on card
         StartCoroutine(AssignTag());
+        // put unit under player / enemy behavior list
         StartCoroutine(TacticalFormation(playerID, enemyID));
         
         SelectionChanged(playerID);
