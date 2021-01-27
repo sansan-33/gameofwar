@@ -12,7 +12,6 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject cavalryPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
     [SerializeField] private GameObject spearmanPrefab = null;
-    [SerializeField] private GameObject sampleUnitPrefab = null;
     [SerializeField] private GameObject miniSkeletonUnitPrefab = null;
     [SerializeField] private GameObject giantUnitPrefab = null;
 
@@ -41,7 +40,6 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
         unitDict.Add(Unit.UnitType.MINISKELETON, miniSkeletonUnitPrefab);
         unitDict.Add(Unit.UnitType.GIANT, giantUnitPrefab);
-        unitDict.Add(Unit.UnitType.SAMPLEUNIT , sampleUnitPrefab);
     }
     private void Update()
     {
