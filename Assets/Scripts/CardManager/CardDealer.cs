@@ -140,7 +140,7 @@ public class CardDealer : MonoBehaviour
 
         lastCard.GetComponent<Card>().SetCard(randomCard, GetCardFaceCoord(randomCard));
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.suit.ToString();
-        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[(int)randomCard.suit];
+       // lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[(int)randomCard.suit];
          Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
 
 

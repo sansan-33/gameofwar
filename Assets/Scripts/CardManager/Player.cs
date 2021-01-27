@@ -196,7 +196,7 @@ public class Player : MonoBehaviour
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
         
-        if (totalCardSlot <= DealManagers.GetComponent<CardDealer>().MAXTOTALHAND)
+        if (totalCardSlot < DealManagers.GetComponent<CardDealer>().MAXTOTALHAND)
         {
             cardslot = Instantiate(cardSlot).GetComponent<CardSlot>();
             cardslot.transform.SetParent(cardSlotParent);
