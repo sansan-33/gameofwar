@@ -13,13 +13,16 @@ public class SpawnEnemies : MonoBehaviour
     private TacticalBehavior tacticalBehavior;
     void Awake()
     {
-        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        enemyID = player.GetEnemyID();
-        playerID = player.GetPlayerID();
-        tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
-        SpawnEnemyBase();
-        InvokeRepeating("LoadEnemies", 2f, 99999999999f);
-        StartCoroutine(TryTactical(TacticalBehavior.BehaviorSelectionType.Defend));
+        if (FindObjectOfType<NetworkManager>().numPlayers == 1)
+        {
+            RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+            enemyID = player.GetEnemyID();
+            playerID = player.GetPlayerID();
+            tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
+            SpawnEnemyBase();
+            InvokeRepeating("LoadEnemies", 2f, 99999999999f);
+            StartCoroutine(TryTactical(TacticalBehavior.BehaviorSelectionType.Defend));
+        }
     }
 
     public void LoadEnemies()

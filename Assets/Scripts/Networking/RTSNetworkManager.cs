@@ -111,7 +111,6 @@ public class RTSNetworkManager : NetworkManager
                     //militaryList.Add(Unit.UnitType.ARCHER, 2);
                     //militaryList.Add(Unit.UnitType.KNIGHT, 1);
                     militaryList.Add(Unit.UnitType.MINISKELETON, 10);
-                    
                     //militaryList.Add(Unit.UnitType.HERO, 1);
                 }
                 else

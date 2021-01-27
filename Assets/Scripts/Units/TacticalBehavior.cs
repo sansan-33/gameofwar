@@ -69,7 +69,8 @@ public class TacticalBehavior : MonoBehaviour
                 if (unit.hasAuthority) { army.tag = PLAYERTAG; }
                 else {
                     //Only Assing Enemy Base Tag if mulitplayer
-                    if (FindObjectOfType<NetworkManager>().numPlayers > 1)
+                    Debug.Log($"Army Enemy Tag , Number of player {FindObjectOfType<NetworkManager>().numPlayers } ");
+                    //if (FindObjectOfType<NetworkManager>().numPlayers > 1)
                         army.tag = ENEMYTAG;
                 }
             }
@@ -144,6 +145,8 @@ public class TacticalBehavior : MonoBehaviour
     public void TryReinforce(int playerID, int enemyID)
     {
         selectionType = prevSelectionType;
+        
+        StartCoroutine(AssignTag());
         StartCoroutine(TacticalFormation(playerID, enemyID));
         
         SelectionChanged(playerID);
