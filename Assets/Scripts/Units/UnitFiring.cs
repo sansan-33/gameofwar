@@ -25,23 +25,6 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     // The last time the agent attacked
     private float lastAttackTime;
 
-    [ServerCallback]
-    private void Update()
-    {
-
-        Targetable target = targeter.GetTarget();
-
-        if (target == null) { return; }
-        //Debug.Log($"targeter targeterAttackType {targeter.targeterAttackType}");
-        if (targeter.targeterAttackType != Targeter.AttackType.Shoot) { return; }
-        if (!CanFireAtTarget()) { return; }
-
-        //if (Time.time > (1 / fireRate) + lastFireTime)
-        //{
-        //    Attack(target.transform.position);
-        //    lastFireTime = Time.time;
-        //}
-    }
     [Server]
     private void FireProjectile(Vector3 targetPosition)
     {
@@ -88,8 +71,8 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     public void Attack(Vector3 targetPosition)
     {
         //Debug.Log("unit firing now ");
+        lastAttackTime = Time.time;
         targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
         CmdFireProjectile(targetPosition);
-        lastAttackTime = Time.time;
     }
 }

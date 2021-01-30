@@ -34,23 +34,18 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
     private StrengthWeakness strengthWeakness;
     RTSPlayer player;
 
-    public override void OnStartServer()
+    public override void OnStartAuthority()
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         damageToDealOriginal += damageToDeal;
-        lastAttackTime = -repeatAttackDelay;
+        //lastAttackTime = -repeatAttackDelay;
         strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
     }
-    [ServerCallback]
-    private void Update()
-    {
-        
-    }
-
+    
     [Command]
-    public void Attack()
+    public void cmdAttack()
     {
         //Debug.Log($"Attacker {targeter} attacking .... ");
 
@@ -70,7 +65,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
                 //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {continue;}  //check to see if it belongs to the player, if it does, do nothing
                 if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-
+                
             }
             else // Multi player seneriao
             {
@@ -172,6 +167,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
     public bool CanAttack()
     {
+        //Debug.Log($"{lastAttackTime} + {repeatAttackDelay} < {Time.time} ");
         return lastAttackTime + repeatAttackDelay < Time.time;
     }
 
@@ -182,9 +178,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
     public void Attack(Vector3 targetPosition)
     {
-        //Debug.Log($"unit {targeter.transform.GetComponent<Unit>().name } attacking now ");
-        targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
-        Attack();
         lastAttackTime = Time.time;
+        //Debug.Log($"unit {targeter.transform.GetComponent<Unit>().name } attacking now, lastAttackTime: {lastAttackTime} ");
+        targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
+        cmdAttack();
+
     }
 }
