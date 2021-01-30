@@ -35,7 +35,7 @@ public class CardFaceCoords
 public class CardDealer : MonoBehaviour
 {
     public int maxEleixer = 10;
-    private float eleixerTimer = 1f;
+    private float eleixerTimer = 2f;
     public int eleixer = 10;
     public List<Card> cards;
     public List<Button> buttons;
@@ -74,7 +74,7 @@ public class CardDealer : MonoBehaviour
         eleixerTimer -= Time.deltaTime;
         if (eleixerTimer <= 0 )
         {
-            eleixerTimer = 1f;
+            eleixerTimer = 2f;
             if (eleixer < maxEleixer)
             {
                 eleixer += 1;
