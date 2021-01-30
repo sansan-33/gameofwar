@@ -78,10 +78,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
 
             if (other.TryGetComponent<Health>(out Health health))
             {
-                //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
+                Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 damageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 health.DealDamage(damageToDeal);
-                //Debug.Log($"Strength Weakness damage {damageToDeal}");
+                Debug.Log($"Strength Weakness damage {damageToDeal}");
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                 cmdDamageText(other.transform.position, damageToDeal, damageToDealOriginal);
                 cmdSpecialEffect(other.transform.position);
