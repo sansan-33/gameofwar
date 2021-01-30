@@ -47,14 +47,7 @@ public class ResourcesDisplay : MonoBehaviour
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
 
         currentEleixer = DealManagers.GetComponent<CardDealer>().eleixer;
-
-
-
-        if (currentEleixer > maxEleixer)
-        {
-
-            maxEleixer = currentEleixer;
-        }
+        maxEleixer = DealManagers.GetComponent<CardDealer>().maxEleixer;
         healthBarImage.fillAmount = (float)currentEleixer / (float)maxEleixer;
     }
 }
