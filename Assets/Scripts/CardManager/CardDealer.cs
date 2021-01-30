@@ -144,7 +144,10 @@ public class CardDealer : MonoBehaviour
 
         lastCard.GetComponent<Card>().SetCard(randomCard, GetCardFaceCoord(randomCard));
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.suit.ToString();
-        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[(int)randomCard.numbers];
+        int cardnumber = (int)randomCard.numbers;
+        cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;
+
+        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
          Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
 
 
