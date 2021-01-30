@@ -74,7 +74,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
              SpaceBetweenTwoCard = cardBeforeTransform - transform.position.x;
             if (SpaceBetweenTwoCard >= 29)
             {
-                Debug.Log("Moving card left to right");
+                //Moving card left to right
                 cardBeforeTransform -= 90;
                 CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex,true);
                 cardAfterTransform = transform.position.x + 30;
