@@ -23,12 +23,12 @@ public class Health : NetworkBehaviour, IDamageable
     {
         currentHealth = maxHealth;
 
-        UnitBase.ServerOnPlayerDie += ServerHandlePlayerDie;
+        UnitBase.ServerOnPlayerDie += ServerHandlePlayerDie;  // subscribe the the event
     }
 
     public override void OnStopServer()
     {
-        UnitBase.ServerOnPlayerDie -= ServerHandlePlayerDie;
+        UnitBase.ServerOnPlayerDie -= ServerHandlePlayerDie; // unsubscribe the the event
     }
 
     [Server]
@@ -53,7 +53,7 @@ public class Health : NetworkBehaviour, IDamageable
 
         if (currentHealth != 0) { return; }
 
-        ServerOnDie?.Invoke();
+        ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke 
     }
 
     #endregion
