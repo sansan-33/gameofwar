@@ -97,10 +97,10 @@ public class CardDealer : MonoBehaviour
         // }
     }
 
-    void DealCard(Player player, int j, bool left = true)
+    void DealCard(Player player,  bool left = true)
     {
         //Debug.Log("Dealing Card to " + player.playerName);
-        StartCoroutine(DealingCard(player, j, left));
+        StartCoroutine(DealingCard(player, left));
     }
 
     public void SpawnCard()
@@ -133,7 +133,7 @@ public class CardDealer : MonoBehaviour
         cardSpawned = true;
     }
 
-    IEnumerator DealingCard(Player player, int j, bool left = true)
+    IEnumerator DealingCard(Player player, bool left = true)
     {
 
         lastCard = Instantiate(cardPrefab).GetComponent<Card>();
@@ -177,7 +177,7 @@ public class CardDealer : MonoBehaviour
         //}
     }
 
-    IEnumerator DealCards(int numberOfCards, float delay, float waitTime, int j, Player player, bool left = true, bool reveal = false)
+    IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
     {
         float currentWait = waitTime;
 
@@ -193,7 +193,7 @@ public class CardDealer : MonoBehaviour
         {
             if (players.Count > 0)
             {
-                DealCard(player, 1, left);
+                DealCard(player, left);
             }
             currentWait = waitTime;
             while (currentWait > 0)
@@ -217,7 +217,7 @@ public class CardDealer : MonoBehaviour
     {
 
         //Deal two cards to player
-        StartCoroutine(DealCards(3, 0f, 0.1f, 1, players[0]));
+        StartCoroutine(DealCards(3, 0f, 0.1f,players[0]));
         //  StartCoroutine(DealCards(2, 1f, 0.5f, dealer));
 
         players[0].Transfer(-2, 0);
@@ -230,8 +230,8 @@ public class CardDealer : MonoBehaviour
         if (players.Count > 0)
         {
             players[0].SplitHand();
-            StartCoroutine(DealCards(7, 0f, 0.5f, 1, players[0], true));
-            StartCoroutine(DealCards(7, 0.5f, 0.5f, 1, players[0], false));
+            StartCoroutine(DealCards(7, 0f, 0.5f,  players[0], true));
+            StartCoroutine(DealCards(7, 0.5f, 0.5f,  players[0], false));
 
         }
     }
@@ -242,12 +242,12 @@ public class CardDealer : MonoBehaviour
         float Timer = 1;
         while (Timer > 0) { Timer -= Time.deltaTime; }
 
-        StartCoroutine(DealCards(1, 0f, 0.5f, 1, players[0]));
+        StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
     }
     public void Hitmerge()
     {
 
-        StartCoroutine(DealCards(1, 0f, 0.5f, 12345, players[0]));
+        StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
     }
 
 }

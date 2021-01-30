@@ -221,6 +221,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void TrySurround(int playerID)
     {
+        Debug.Log(1);
         TryTB((int)BehaviorSelectionType.Surround, playerID);
     }
 

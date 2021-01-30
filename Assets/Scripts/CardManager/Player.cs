@@ -144,7 +144,7 @@ public class Player : MonoBehaviour
             if (isMoveLeft == true)
             {
                 if (cardMovingindex == 0) { return; }
-                Debug.Log($"isMoveLeft{cardMovingindex}");
+               
                 Card cardBefore = playerHand[0][cardMovingindex - 1];
 
                 playerHand[0][cardMovingindex -1] = playerHand[0][cardMovingindex];
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour
             else
             {
                 if (playerHand[0].Count-1 < cardMovingindex+1) { return; }
-                Debug.Log($"isMoveRight{cardMovingindex}");
+               
                 Card cardAfter = playerHand[0][cardMovingindex + 1];
 
                 playerHand[0][cardMovingindex + 1] = playerHand[0][cardMovingindex];
@@ -200,8 +200,9 @@ public class Player : MonoBehaviour
         {
             cardslot = Instantiate(cardSlot).GetComponent<CardSlot>();
             cardslot.transform.SetParent(cardSlotParent);
-            cardslot.transform.position = singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset , 0, 0);
             totalCardSlot++;
+            cardslot.transform.position = singleHandStart.position + new Vector3(totalCardSlot * cardOffset , 0, 0);
+            
         }
         card.transform.SetParent(cardslot.transform);
         StartCoroutine(MoveCardTo(card.transform, singleHandStart.position + new Vector3(playerHand[0].Count * cardOffset, 0, 0), card));
