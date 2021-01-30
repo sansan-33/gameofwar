@@ -160,7 +160,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
             NetworkServer.Spawn(cam, connectionToClient);
         }
     }
-     public float AttackDistance()
+    public float AttackDistance()
     {
         return attackRange;
     }
