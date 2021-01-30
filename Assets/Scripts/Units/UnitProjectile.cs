@@ -13,6 +13,7 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
+    [SerializeField] private GameObject specialEffectPrefab = null;
     private int damageToDealOriginal;
     private StrengthWeakness strengthWeakness;
     RTSPlayer player;
@@ -55,6 +56,7 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}");
             damageToDeals = strengthWeakness.calculateDamage(Unit.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal);
+            cmdSpecialEffect(other.transform.position);
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
@@ -91,6 +93,12 @@ public class UnitProjectile : NetworkBehaviour
             cam.GetComponent<CinemachineShake>().ShakeCamera();
             NetworkServer.Spawn(cam, connectionToClient);
         }
+    }
+    [Command]
+    private void cmdSpecialEffect(Vector3 position)
+    {
+        GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
+        NetworkServer.Spawn(effect, connectionToClient);
     }
     [Server]
     private void DestroySelf()
