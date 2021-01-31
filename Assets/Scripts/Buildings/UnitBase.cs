@@ -31,9 +31,10 @@ public class UnitBase : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        ServerOnPlayerDie?.Invoke(connectionToClient.connectionId);
+        if (connectionToClient != null)
+            ServerOnPlayerDie?.Invoke(connectionToClient.connectionId);
 
-        if(gameObject != null ) NetworkServer.Destroy(gameObject);
+        NetworkServer.Destroy(gameObject);
     }
 
     #endregion

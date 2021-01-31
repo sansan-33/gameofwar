@@ -31,7 +31,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     {
         if (player is null) { return; }
         TotalPlayerHealthdisplay();
-        totalEnermyhealth();
+        TotalEnemyHealth();
 
     }
     private void TotalPlayerHealthdisplay()
@@ -60,7 +60,7 @@ public class TotalHealthDisplay : NetworkBehaviour
 
 
     }
-    private void totalEnermyhealth()
+    private void TotalEnemyHealth()
     {
 
         EnermymilitarySize = 0;
