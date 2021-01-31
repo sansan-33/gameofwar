@@ -58,7 +58,6 @@ public class TotalHealthDisplay : NetworkBehaviour
             TotalPlayerhealths.text = militarySize.ToString();
         }
 
-
     }
     private void TotalEnemyHealth()
     {
