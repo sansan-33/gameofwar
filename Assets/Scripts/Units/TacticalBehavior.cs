@@ -43,7 +43,7 @@ public class TacticalBehavior : MonoBehaviour
         GameObject[] playerBases = GameObject.FindGameObjectsWithTag("PlayerBase");
         foreach (GameObject playerBase in playerBases)
         {
-            if (playerBase.TryGetComponent<Unit>(out Unit unit))
+            if (playerBase.TryGetComponent<UnitBase>(out UnitBase unit))
             {
                 if (unit.hasAuthority)
                 {

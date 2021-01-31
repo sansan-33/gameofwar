@@ -11,9 +11,46 @@ public class GameOverHandler : NetworkBehaviour
     public static event Action<string> ClientOnGameOver;
 
     private List<UnitBase> bases = new List<UnitBase>();
+    private Dictionary<string, List<Unit>> units = new Dictionary<string, List<Unit>>();
+
+    private string PLAYERTAG = "Player0";
+    private string ENEMYTAG = "Player1";
 
     #region Server
 
+    public override void OnStartServer()
+    {
+        Unit.ServerOnUnitSpawned += ServerHandleUnitSpawned;
+        Unit.ServerOnUnitDespawned += ServerHandleUnitDespawned;
+        units.Add(PLAYERTAG, new List<Unit>());
+        units.Add(ENEMYTAG, new List<Unit>());
+    }
+
+    public override void OnStopServer()
+    {
+        Unit.ServerOnUnitSpawned -= ServerHandleUnitSpawned;
+        Unit.ServerOnUnitDespawned -= ServerHandleUnitDespawned;
+    }
+
+    [Server]
+    private void ServerHandleUnitSpawned(Unit  unit )
+    {
+        units[unit.tag].Add(unit );
+    }
+
+    [Server]
+    private void ServerHandleUnitDespawned(Unit unit)
+    {
+        Debug.Log($"Total Units {unit.tag} count {units[unit.tag].Count}");
+        units[unit.tag].Remove(unit);
+
+        if (units[unit.tag].Count != 0 ) { return; }
+
+        RpcGameOver($"Player {unit.tag}");
+
+        ServerOnGameOver?.Invoke();
+    }
+    /*
     public override void OnStartServer()
     {
         UnitBase.ServerOnBaseSpawned += ServerHandleBaseSpawned;
@@ -45,6 +82,7 @@ public class GameOverHandler : NetworkBehaviour
 
         ServerOnGameOver?.Invoke();
     }
+    */
 
     #endregion
 
