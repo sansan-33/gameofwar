@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7982075831719405309}
   - component: {fileID: 4062796193168424272}
   - component: {fileID: 4338021780630065523}
-  - component: {fileID: 8255005299634054446}
   m_Layer: 5
   m_Name: spawnButton
   m_TagString: Untagged
@@ -147,20 +146,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &8255005299634054446
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 872181511125864227}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d07eafc93f0c433e88a9d464eaec5f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CardParent: {fileID: 4590956966355113817}
-  cardPlayerHandIndex: 0
 --- !u!1 &1193748962618828412
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +232,8 @@ GameObject:
   - component: {fileID: 7383104584368745480}
   - component: {fileID: 2065506493702474041}
   - component: {fileID: 4590956966355113817}
+  - component: {fileID: 6625243188359057124}
+  - component: {fileID: 7822742786630516621}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -336,6 +323,32 @@ MonoBehaviour:
   cardStar: {fileID: 8240628691007913380}
   cardSpawnButton: {fileID: 4062796193168424272}
   charIcon: {fileID: 8036289248297233899}
+--- !u!114 &6625243188359057124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068810399220974159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d07eafc93f0c433e88a9d464eaec5f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CardParent: {fileID: 4590956966355113817}
+  cardPlayerHandIndex: 0
+--- !u!225 &7822742786630516621
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068810399220974159}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2409127944443092717
 GameObject:
   m_ObjectHideFlags: 0

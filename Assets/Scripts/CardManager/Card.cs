@@ -53,7 +53,8 @@ public class Card : MonoBehaviour
         public void Update()
     {
         cardTiming();
-
+   
+        
         if (unitPreviewInstance == null) { return; }
 
     }
@@ -118,11 +119,12 @@ public class Card : MonoBehaviour
 
 
         localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, playerID, true );
-        GameObject.FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
+        FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
         
 
-        this.GetComponentInParent<Player>().RemoveCardAt(this.cardPlayerHandIndex);
+        this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         DealManagers.GetComponent<CardDealer>().Hit();
+       
     }
 
     public void FadeOut()

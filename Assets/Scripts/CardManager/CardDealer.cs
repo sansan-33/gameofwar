@@ -135,7 +135,7 @@ public class CardDealer : MonoBehaviour
 
     IEnumerator DealingCard(Player player, bool left = true)
     {
-
+       
         lastCard = Instantiate(cardPrefab).GetComponent<Card>();
 
         CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
@@ -196,6 +196,7 @@ public class CardDealer : MonoBehaviour
         {
             if (players.Count > 0)
             {
+               
                 DealCard(player, left);
             }
             currentWait = waitTime;
@@ -244,7 +245,7 @@ public class CardDealer : MonoBehaviour
     {
         float Timer = 1;
         while (Timer > 0) { Timer -= Time.deltaTime; }
-
+     
         StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
     }
     public void Hitmerge()
