@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
         if (pot2Text != null) pot2Text.text = "Pot (Right): " + pot[1].ToString();
     }
 
-    public void RemoveFirstCard()
+   /* public void RemoveFirstCard()
     {
         RemoveCardAt(0, true );
     }
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
             StartCoroutine(MoveCardTo(card.transform, singleHandStart.transform.position + new Vector3(i * cardOffset, 0, 0), card));
             i++;
         }
-    }
+    }*/
     public void moveCardAt(int cardMovingindex, bool isMoveLeft)
     {
         if (playerHand[0].Count > 0)
@@ -151,8 +151,7 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardBefore;
                 playerHand[0][cardMovingindex ].cardPlayerHandIndex++;
                 playerHand[0][cardMovingindex-1].cardPlayerHandIndex--;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.transform.position + new Vector3((cardMovingindex+1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
-
+                moveTwoCard(cardMovingindex);
             }
             else
             {
@@ -164,8 +163,7 @@ public class Player : MonoBehaviour
                 playerHand[0][cardMovingindex] = cardAfter;
                 playerHand[0][cardMovingindex].cardPlayerHandIndex--;
                 playerHand[0][cardMovingindex + 1].cardPlayerHandIndex++;
-                StartCoroutine(MoveCardTo(playerHand[0][cardMovingindex].transform, singleHandStart.transform.position + new Vector3((cardMovingindex+1) * cardOffset, 0, 0), playerHand[0][cardMovingindex]));
-                //Debug.Log(cardMovingindex + 1 * cardOffset);
+                moveTwoCard(cardMovingindex);
 
             }
         }
@@ -175,12 +173,12 @@ public class Player : MonoBehaviour
         if(index== playerHand[0].Count - 1&& playerHand[0].Count-1 == 6)
         {
             //Debug.Log($"index  last {index}");
-            RemoveCardAt(index, false);
+            moveCard(index,true);
         }
         else
         {
             //Debug.Log($"index not last{ index}");
-            RemoveCardAt(index, true);
+            moveCard(index,false);
         }
         
     }
@@ -204,7 +202,7 @@ public class Player : MonoBehaviour
             RectTransform rt = cardslot.GetComponent<RectTransform>();//= new Vector3(300, 150, 0) + new Vector3(totalCardSlot * cardOffset, 0, 0);
             rt.anchoredPosition = new Vector3(-710, 95, 0) + new Vector3(totalCardSlot * (cardOffset*2), 0, 0);
             // cardslot.transform.position = new Vector3(1000, 150, 0) + new Vector3(totalCardSlot * cardOffset , 0, 0);
-            Debug.Log(cardslot);
+            
 
             cardSlotlist.Add(cardslot);
            
@@ -273,10 +271,10 @@ public class Player : MonoBehaviour
         //IF Card is not merged
         if (card != null)
         {
-            Debug.Log(targetPosition);
+            
             RectTransform rt = card.GetComponent<RectTransform>();
             rt.anchoredPosition = new Vector3(-80,100,0);
-            Debug.Log(rt.anchoredPosition);
+          
             //card.cardSpawnButton.transform.position = targetPosition;
         }
         yield return new WaitForSeconds(0.5f);
@@ -297,5 +295,30 @@ public class Player : MonoBehaviour
 
         Destroy(cardTransform.gameObject);
     }
-
+    public void moveCard(int index, bool isShiftCard = true)
+    {
+        Debug.Log(index);
+        
+        if (playerHand[0].Count > 0)
+        {
+            playerHand[0][index].destroy();
+            //Debug.Log(index);
+            playerHand[0].RemoveAt(index);
+        }
+        if (!isShiftCard) { return; }
+        int i = 0;
+        foreach(Card card in playerHand[0])
+        {
+            card.cardPlayerHandIndex = i;
+            card.transform.SetParent(cardSlotlist[i].transform);
+            card.GetComponent<RectTransform>().anchoredPosition = new Vector3(-80, 100, 0);
+            i++;
+        }
+              
+    }
+    public void moveTwoCard(int index)
+    {
+        playerHand[0][index].transform.SetParent(cardSlotlist[index].transform);
+        playerHand[0][index].GetComponent<RectTransform>().anchoredPosition = new Vector3(-80, 100, 0);
+    }
 }

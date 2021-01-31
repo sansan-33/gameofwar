@@ -33,7 +33,7 @@ public class UnitBase : NetworkBehaviour
     {
         ServerOnPlayerDie?.Invoke(connectionToClient.connectionId);
 
-        NetworkServer.Destroy(gameObject);
+        if(gameObject != null ) NetworkServer.Destroy(gameObject);
     }
 
     #endregion
