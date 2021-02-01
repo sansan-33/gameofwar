@@ -14,7 +14,7 @@ public class DamagePopup : MonoBehaviour
         tmp_text.text = transform.root.gameObject.GetComponent<DamageTextHolder>().displayText;
         tmp_text.color = transform.root.gameObject.GetComponent<DamageTextHolder>().displayColor;
         tmp_text.DOFade( 0f, 5.7f );
-        transform.DOMove( transform.position + Vector3.up, 1.75f ).OnComplete( () => {
+        transform.DOMove( transform.position + 2 *(Vector3.up) , 1.75f ).OnComplete( () => {
             Destroy(transform.root.gameObject);
         } );
         

@@ -12,7 +12,6 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     [SerializeField] private GameObject projectilePrefab = null;
     [SerializeField] private Transform projectileSpawnPoint = null;
     [SerializeField] private float fireRange = 300f;
-    [SerializeField] private float fireRate = 1f;
     [SerializeField] private float rotationSpeed = 100f;
 
     private float lastFireTime;
