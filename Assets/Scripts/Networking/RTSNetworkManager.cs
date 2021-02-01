@@ -110,10 +110,10 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(Unit.UnitType.SPEARMAN, 3);
+                    militaryList.Add(Unit.UnitType.ARCHER, 3);
                     //militaryList.Add(Unit.UnitType.GIANT, 1);
                     //militaryList.Add(Unit.UnitType.MINISKELETON, 10);
-                   // militaryList.Add(Unit.UnitType.HERO, 1);
+                    //militaryList.Add(Unit.UnitType.HERO, 1);
                     //militaryList.Add(Unit.UnitType.SAMPLEUNIT, 5);
 
                 }

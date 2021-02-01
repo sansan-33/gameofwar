@@ -51,7 +51,7 @@ public class SpawnEnemies : MonoBehaviour
     {
         Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
         StartCoroutine(tacticalBehavior.TacticalFormation(enemyID, playerID));
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(5f);
         tacticalBehavior.TryTB((int) type , enemyID);
     }
 

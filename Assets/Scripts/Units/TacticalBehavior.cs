@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BehaviorDesigner.Runtime;
 using Mirror;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TacticalBehavior : MonoBehaviour
 {
@@ -69,9 +70,8 @@ public class TacticalBehavior : MonoBehaviour
                 if (unit.hasAuthority) { army.tag = PLAYERTAG; }
                 else {
                     //Only Assing Enemy Base Tag if mulitplayer
-                    //Debug.Log($"Army Enemy Tag , Number of player {FindObjectOfType<NetworkManager>().numPlayers } ");
                     //if (FindObjectOfType<NetworkManager>().numPlayers > 1)
-                        army.tag = ENEMYTAG;
+                    army.tag = ENEMYTAG;
                 }
             }
         }
@@ -88,9 +88,12 @@ public class TacticalBehavior : MonoBehaviour
         
         foreach (GameObject child in armies)
         {
+            // Set Higher Priority value will avoid lower value 
+            child.GetComponent<NavMeshAgent>().avoidancePriority = 70;
+
             //if (child.GetComponent<Unit>().hasAuthority)
             //{
-                if (i == 0)
+            if (i == 0)
                 {
                     hero = child;
                     hero.name = "LEADER";
