@@ -138,8 +138,10 @@ public class Player : MonoBehaviour
             i++;
         }
     }*/
-    public void moveCardAt(int cardMovingindex, bool isMoveLeft)
+    public void moveCardAt(int cardMovingindex, string direction)
     {
+
+        bool isMoveLeft = direction == "left" ? true : false;
         if (playerHand[0].Count > 0)
         {
            
