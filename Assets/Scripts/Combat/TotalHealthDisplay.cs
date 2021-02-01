@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public class TotalHealthDisplay : NetworkBehaviour
 {
-    [SerializeField] private Image TotalPlayerhealth = null;
-    [SerializeField] private Image TotalEnermyhealth = null;
-    [SerializeField] private TMP_Text TotalPlayerhealths = null;
-    [SerializeField] private TMP_Text TotalEnermyhealths = null;
+    [SerializeField] private Image TotalPlayerHealthBar = null;
+    [SerializeField] private Image TotalEnemyHealthBar = null;
+    [SerializeField] private TMP_Text TotalPlayerHealths = null;
+    [SerializeField] private TMP_Text TotalEnemyHealths = null;
     [SerializeField] private TMP_Text PlayerName = null;
     [SerializeField] private TMP_Text EnemyName = null;
     [SerializeField] private TMP_Text YourName = null;
@@ -21,6 +21,17 @@ public class TotalHealthDisplay : NetworkBehaviour
     int MaxEnermymilitarySize = 0;
     private float progressImageVelocity;
     RTSPlayer player;
+
+
+    private void Start()
+    {
+        GameOverHandler.ClientOnGameOver += SetTotalHealthToDie;
+    }
+
+    private void OnDestroy()
+    {
+        GameOverHandler.ClientOnGameOver -= SetTotalHealthToDie;
+    }
 
     public override void OnStartClient()
     {
@@ -54,8 +65,8 @@ public class TotalHealthDisplay : NetworkBehaviour
             }
 
             newProgress = (float)militarySize / (float)MaxmilitarySize;
-            TotalPlayerhealth.fillAmount = newProgress;
-            TotalPlayerhealths.text = militarySize.ToString();
+            TotalPlayerHealthBar.fillAmount = newProgress;
+            TotalPlayerHealths.text = militarySize.ToString();
         }
 
     }
@@ -75,11 +86,24 @@ public class TotalHealthDisplay : NetworkBehaviour
             }
 
             newProgress = (float)EnermymilitarySize / (float)MaxEnermymilitarySize;
-            TotalEnermyhealths.text = EnermymilitarySize.ToString();
-            TotalEnermyhealth.fillAmount = newProgress;
+            TotalEnemyHealths.text = EnermymilitarySize.ToString();
+            TotalEnemyHealthBar.fillAmount = newProgress;
         }
 
     }
+    public void SetTotalHealthToDie(string winnerTag)
+    {
 
+        if (winnerTag == "Player1")
+        {
+            TotalPlayerHealthBar.fillAmount = 0f;
+            TotalPlayerHealths.text = "0";
+        }
+        else
+        {
+            TotalEnemyHealths.text = "0";
+            TotalEnemyHealthBar.fillAmount = 0f;
+        }
+    }
 
 }

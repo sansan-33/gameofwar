@@ -33,8 +33,8 @@ public class SpawnEnemies : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                localFactory.CmdSpawnUnit(Unit.UnitType.MAGE,  1 , enemyID, unitAuthority);
-                localFactory.CmdSpawnUnit(Unit.UnitType.MINISKELETON, 10, enemyID, unitAuthority);
+                localFactory.CmdSpawnUnit(Unit.UnitType.GIANT,  1 , enemyID, unitAuthority);
+                //localFactory.CmdSpawnUnit(Unit.UnitType.MINISKELETON, 10, enemyID, unitAuthority);
             }
         }
     }
