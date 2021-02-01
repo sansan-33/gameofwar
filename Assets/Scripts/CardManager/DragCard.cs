@@ -29,7 +29,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         Debug.Log("OnBeginDrag");
         objBeingDraged = gameObject;
-         cardBeforeTransform = transform.position.x;
+        cardBeforeTransform = transform.position.x;
         cardAfterTransform = transform.position.x + 60;
         startPosition = transform.position;
         startParent = transform.parent;
@@ -41,11 +41,13 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-         
-        cardPlayerHandIndex = CardParent.GetComponent<Card>().cardPlayerHandIndex;
 
+
+        // Get the dragged  card index 
+        cardPlayerHandIndex = CardParent.GetComponent<Card>().cardPlayerHandIndex;
+        // Dragged Card position map to mouse position
         transform.position = Input.mousePosition;
-       
+        //Block Moving Up and Down, Allow Horizontal Move only.
         if (transform.position.y!= startPosition.y)
         {
             float x = transform.position.x;
@@ -53,53 +55,36 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             float z = transform.position.z;
             transform.position = new Vector3(x, y, z);
         }
-       
-        if(transform.position.x > 990)
-        {
-            Vector3 maxlimit = new Vector3 (900, transform.position.y, transform.position.y);
-            //transform.position = maxlimit;
-        }
-        if (transform.position.x < 620)
-        {
-            Vector3 maxlimit = new Vector3(500, transform.position.y, transform.position.y);
-           // transform.position = maxlimit;
-        }
-        if (SecBeforePosition.x - transform.position.x > 0)
+
+        ShiftNeighbourCard();
+
+    }
+    public void ShiftNeighbourCard()
+    {
+        //Detect Card Direction
+        if (SecBeforePosition.x - transform.position.x > 0)   //move left
         {
             SecBeforePosition = transform.position;
-            //moveing left
-            //move left
-
-           
-             SpaceBetweenTwoCard = cardBeforeTransform - transform.position.x;
+            SpaceBetweenTwoCard = cardBeforeTransform - transform.position.x;
             if (SpaceBetweenTwoCard >= 29)
             {
                 //Moving card left to right
-                cardBeforeTransform -= 90;
-                CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex,true);
+                cardBeforeTransform -= 90; //update card before position 
+                CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex, "left");
                 cardAfterTransform = transform.position.x + 30;
             }
-
-
         }
-
-        else
+        else //move right
         {
             SecBeforePosition = transform.position;
-          //moveing right
-            //move right
-            
-                 SpaceBetweenTwoCard = cardAfterTransform - transform.position.x;
-        
-                if (SpaceBetweenTwoCard <= 31)
-                {
-                    //Moving card right to left
-                    cardAfterTransform = transform.position.x + 120;
-                    CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex, false);
-                cardBeforeTransform = transform.position.x+60;
+            SpaceBetweenTwoCard = cardAfterTransform - transform.position.x;
+            if (SpaceBetweenTwoCard <= 31)
+            {
+                //Moving card right to left
+                cardAfterTransform = transform.position.x + 120;
+                CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex, "right");
+                cardBeforeTransform = transform.position.x + 60;
             }
-            
-
         }
     }
 

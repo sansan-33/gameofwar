@@ -43,6 +43,7 @@ public class GameOverDisplay : MonoBehaviour
     {
         winnerNameText.text = $"{winner} Has Won!";
         gameOverDisplayParent.enabled = true;
+
     }
     private void ClientHandleGameOverdraw()
     {
