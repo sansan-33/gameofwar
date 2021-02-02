@@ -7,19 +7,20 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 {
     public static GameObject objBeingDraged;
     [SerializeField] Card CardParent;
-    public Vector3 startPosition;
     public Transform startParent;
-    private CanvasGroup canvasGroup;
     private Transform itemDraggerParent;
-    public int cardPlayerHandIndex = 0;
-    float SpaceBetweenTwoCard;
-    Vector3 nowPosition;
-    Vector3 SecBeforePosition;
-    float cardAfterTransform;
-    float cardBeforeTransform;
+    
+    public Vector2 startPos;
+    public string direction;
+    public bool directionChosen;
+    [SerializeField] private GameObject DragPoint;
+    [SerializeField] private LayerMask layerMask = new LayerMask();
+    private bool m_Started = true;
+    private int dragRange = 80;
+    private float lastXPos = 0;
+
     private void Start()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
         itemDraggerParent = GameObject.FindGameObjectWithTag("CardDraggerParent").transform;
     }
 
@@ -28,77 +29,69 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
-        objBeingDraged = gameObject;
-        cardBeforeTransform = transform.position.x;
-        cardAfterTransform = transform.position.x + 60;
-        startPosition = transform.position;
-        startParent = transform.parent;
-        transform.SetParent(itemDraggerParent);
-        SecBeforePosition = startPosition;
-        canvasGroup.blocksRaycasts = false;
-
+        startPos = this.transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-
-
-        // Get the dragged  card index 
-        cardPlayerHandIndex = CardParent.GetComponent<Card>().cardPlayerHandIndex;
-        // Dragged Card position map to mouse position
-        transform.position = Input.mousePosition;
-        //Block Moving Up and Down, Allow Horizontal Move only.
-        if (transform.position.y!= startPosition.y)
-        {
-            float x = transform.position.x;
-            float y = startPosition.y;
-            float z = transform.position.z;
-            transform.position = new Vector3(x, y, z);
-        }
-
-        ShiftNeighbourCard();
-
+        direction = Input.mousePosition.x > lastXPos ? "right" : "left";
+        MoveCard();
+        ShiftCard();
+        lastXPos = Input.mousePosition.x;
     }
-    public void ShiftNeighbourCard()
+    private void MoveCard()
     {
-        //Detect Card Direction
-        if (SecBeforePosition.x - transform.position.x > 0)   //move left
+        this.transform.position = new Vector3(Input.mousePosition.x, startPos.y, 0f);
+    }
+    private void ShiftCard()
+    {
+        int dragCardPlayerHandIndex = this.GetComponent<Card>().cardPlayerHandIndex;
+        Collider[] hitColliders = Physics.OverlapBox(DragPoint.transform.position, transform.localScale * dragRange, Quaternion.identity, layerMask);
+        int i = 0;
+        Collider other;
+        //Check when there is a new collider coming into contact with the box
+        while (i < hitColliders.Length)
         {
-            SecBeforePosition = transform.position;
-            SpaceBetweenTwoCard = cardBeforeTransform - transform.position.x;
-            if (SpaceBetweenTwoCard >= 29)
+            other = hitColliders[i++];
+            if (other.TryGetComponent<Card>(out Card hittedCard))
             {
-                //Moving card left to right
-                cardBeforeTransform -= 90; //update card before position 
-                CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex, "left");
-                cardAfterTransform = transform.position.x + 30;
-            }
-        }
-        else //move right
-        {
-            SecBeforePosition = transform.position;
-            SpaceBetweenTwoCard = cardAfterTransform - transform.position.x;
-            if (SpaceBetweenTwoCard <= 31)
-            {
-                //Moving card right to left
-                cardAfterTransform = transform.position.x + 120;
-                CardParent.GetComponentInParent<Player>().moveCardAt(cardPlayerHandIndex, "right");
-                cardBeforeTransform = transform.position.x + 60;
+                if (dragCardPlayerHandIndex == hittedCard.cardPlayerHandIndex) { continue; }
+                Debug.Log($"Shift Card  {dragCardPlayerHandIndex } to  {hittedCard.cardPlayerHandIndex } / direction {direction} ");
+                CardParent.GetComponentInParent<Player>().moveCardAt(dragCardPlayerHandIndex , direction );
             }
         }
     }
-
+    /*
+    private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
+    {
+        if (other.TryGetComponent<Card>(out Card card))
+        {
+            if (this.cardPlayerHandIndex == card.cardPlayerHandIndex) { return; }
+            Debug.Log($" OnTriggerEnter move card from {this.cardPlayerHandIndex} to  {card.cardPlayerHandIndex}");
+            CardParent.GetComponentInParent<Player>().moveCardAt(card.cardPlayerHandIndex, direction.magnitude > 0 ? "left" : "right");
+        }
+    }
+    */
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("OnEndDrag");
-        objBeingDraged = null;
         CardParent.GetComponentInParent<Player>().dragCardMerge();
-        canvasGroup.blocksRaycasts = true;
         if (transform.parent == itemDraggerParent)
         {
-            Debug.Log("drop failer");
-           transform.position = startPosition;
-            transform.SetParent(startParent);
+           Debug.Log("drop failer");
+           transform.position = startPos;
+           transform.SetParent(startParent);
+        }
+    }
+    //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+        if (m_Started)
+        {
+            //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+            Gizmos.DrawWireCube(DragPoint.transform.position, transform.localScale * dragRange);
         }
     }
 
@@ -106,7 +99,36 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     private void Update()
     {
+        // Track a single touch as a direction control.
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
 
+            // Handle finger movements based on touch phase.
+            switch (touch.phase)
+            {
+                // Record initial touch position.
+                case TouchPhase.Began:
+                    startPos = touch.position;
+                    directionChosen = false;
+                    break;
+
+                // Determine direction by comparing the current touch position with the initial one.
+                case TouchPhase.Moved:
+                    direction = touch.position.x > lastXPos ? "right" : "left";  //touch.position - startPos;
+                    lastXPos = touch.position.x;
+                    break;
+
+                // Report that a direction has been chosen when the finger is lifted.
+                case TouchPhase.Ended:
+                    directionChosen = true;
+                    break;
+            }
+        }
+        if (directionChosen)
+        {
+            // Something that uses the chosen direction...
+        }
 
     }
 }
