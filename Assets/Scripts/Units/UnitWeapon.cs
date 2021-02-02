@@ -40,7 +40,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
         calculatedDamageToDeal = damageToDeal;
         //lastAttackTime = -repeatAttackDelay;
         strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
-        Debug.Log($"Is strengthWeakness is null ? {strengthWeakness == null}");
+        //Debug.Log($"Is strengthWeakness is null ? {strengthWeakness == null}");
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
     }

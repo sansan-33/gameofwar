@@ -148,7 +148,7 @@ public class CardDealer : MonoBehaviour
         cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;
 
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
-         Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
+        //Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
 
 
         // cardDeck.Remove(randomCard);
