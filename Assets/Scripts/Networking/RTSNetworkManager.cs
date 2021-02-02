@@ -17,6 +17,9 @@ public class RTSNetworkManager : NetworkManager
     [SerializeField] private GameObject sampleUnitPrefab = null;
     [SerializeField] private GameObject unitFactoryPrefab = null;
     [SerializeField] private GameObject giantPrefab = null;
+    [SerializeField] private GameObject magePrefab = null;
+    [SerializeField] private GameObject cavalryPrefab = null;
+
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
 
     public static event Action ClientOnConnected;
@@ -69,7 +72,8 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(Unit.UnitType.SPEARMAN, spearmanPrefab);
         unitDict.Add(Unit.UnitType.MINISKELETON, miniSkeletonPrefab);
         unitDict.Add(Unit.UnitType.GIANT, giantPrefab);
-
+        unitDict.Add(Unit.UnitType.MAGE, magePrefab);
+        unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
         ServerChangeScene("Scene_Map_02");
     }
 
@@ -110,10 +114,10 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(Unit.UnitType.ARCHER, 3);
+                    //militaryList.Add(Unit.UnitType.ARCHER, 3);
                     //militaryList.Add(Unit.UnitType.GIANT, 1);
-                    //militaryList.Add(Unit.UnitType.MINISKELETON, 10);
-                    //militaryList.Add(Unit.UnitType.HERO, 1);
+                    //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
+                    militaryList.Add(Unit.UnitType.SPEARMAN, 1);
                     //militaryList.Add(Unit.UnitType.SAMPLEUNIT, 5);
 
                 }
