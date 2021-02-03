@@ -9,6 +9,7 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] private GameObject healthBarParent = null;
     [SerializeField] private Image healthBarImage = null;
     [SerializeField] private GameObject taskStatusParent = null;
+    [SerializeField] private GameObject leaderFrame = null;
 
     private Quaternion startRotation;
 
@@ -36,6 +37,11 @@ public class HealthDisplay : MonoBehaviour
     private void OnMouseExit()
     {
         //healthBarParent.SetActive(false);
+    }
+
+    public void EnableLeaderIcon()
+    {
+        leaderFrame.SetActive(true);
     }
 
     private void HandleHealthUpdated(int currentHealth, int maxHealth)

@@ -13,7 +13,6 @@ public class Unit : NetworkBehaviour
     [SerializeField] private Health health = null;
     [SerializeField] private UnitMovement unitMovement = null;
     [SerializeField] private int id = -1;
-    [SerializeField] private bool isEmeny = false;
     [SerializeField] private TMP_Text taskStatus;
     [SerializeField] private int price = 100;
     [SerializeField] private Targeter targeter = null;
@@ -46,10 +45,6 @@ public class Unit : NetworkBehaviour
     public Targeter GetTargeter()
     {
         return targeter;
-    }
-    public bool isEnemy()
-    {
-        return isEmeny;
     }
     #region Server
     public int GetId()

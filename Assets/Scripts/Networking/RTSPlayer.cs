@@ -195,7 +195,6 @@ public class RTSPlayer : NetworkBehaviour
 
     private void ServerHandleUnitSpawned(Unit unit)
     {
-        if (unit.isEnemy()) { return; }
         if (unit.connectionToClient.connectionId != connectionToClient.connectionId) { return; }
 
         myUnits.Add(unit);
@@ -203,9 +202,6 @@ public class RTSPlayer : NetworkBehaviour
 
     private void ServerHandleUnitDespawned(Unit unit)
     {
-
-        if (!unit.isEnemy() && unit.connectionToClient.connectionId != connectionToClient.connectionId) { return; }
-
         myUnits.Remove(unit);
     }
 

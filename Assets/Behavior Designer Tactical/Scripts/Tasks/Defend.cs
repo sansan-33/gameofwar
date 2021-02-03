@@ -99,6 +99,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("defend");
                 }
             }
+            if (base.leader.Value != null)
+                base.leader.Value.GetComponent<HealthDisplay>().EnableLeaderIcon();
+
 
             return TaskStatus.Running;
         }

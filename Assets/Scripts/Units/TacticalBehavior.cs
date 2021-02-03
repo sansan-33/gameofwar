@@ -204,7 +204,10 @@ public class TacticalBehavior : MonoBehaviour
     {
         TrySurround(playerid);
     }
-
+    public void TryShootAndScoot()
+    {
+        TryShootAndScoot(playerid);
+    }
     public void TryAttack(int playerID)
     {
         TryTB((int)BehaviorSelectionType.Attack, playerID);
@@ -226,6 +229,9 @@ public class TacticalBehavior : MonoBehaviour
     {
         TryTB((int)BehaviorSelectionType.Surround, playerID);
     }
-
+    public void TryShootAndScoot(int playerID)
+    {
+        TryTB((int)BehaviorSelectionType.ShootAndScoot, playerID);
+    }
     #endregion
 }
