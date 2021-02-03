@@ -23,6 +23,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 tacticalAgent.TryAttack();
             }
 
+            if (base.leader.Value != null)
+                base.leader.Value.GetComponent<HealthDisplay>().EnableLeaderIcon();
+
             return TaskStatus.Running;
         }
     }

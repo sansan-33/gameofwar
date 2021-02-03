@@ -89,7 +89,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                 cmdDamageText(other.transform.position, calculatedDamageToDeal , damageToDeal );
                 cmdSpecialEffect(other.transform.position);
-                if (calculatedDamageToDeal > damageToDeal ) { cmdCMVirtual(); }
+                //if (calculatedDamageToDeal > damageToDeal ) { cmdCMVirtual(); }
                 //cmdCMFreeLook();
                 if(!IsAreaOfEffect)
                     break;

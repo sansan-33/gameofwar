@@ -50,7 +50,9 @@ public class UnitFactory : NetworkBehaviour
     {
         //Debug.Log($" CmdSpawnUnit Player ID {playerID} ");
         Vector3 spawnPosition = GameObject.FindGameObjectWithTag("PlayerBase" + playerID ).transform.position ;
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), numberOfUnit, spawnAuthority));
+        int unitsize = 1;
+        if(Unit.UnitSize.TryGetValue(unitType , out int value)){ unitsize = value; }
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition , unitDict[unitType], unitType.ToString(), numberOfUnit * unitsize, spawnAuthority));
         
     }
     [Server]
