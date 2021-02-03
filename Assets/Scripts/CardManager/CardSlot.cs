@@ -19,16 +19,14 @@ public class CardSlot : MonoBehaviour, IDropHandler
             item = DragCard.objBeingDraged;
             item.transform.SetParent(transform);
            
-            item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80,100);
+            //item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80,100);
             cardNow = item;
         }
         else
         {
-            //item.transform.position = item.GetComponent<DragCard>().startPosition;
-            //item = DragCard.objBeingDraged;
-           // item.transform.SetParent(transform);
-            //item.transform.position = transform.position;
+            item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 100);
         }
+       
     }
 
     private void Update()

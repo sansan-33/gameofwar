@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform singleHandStart;
     [SerializeField] Transform splitHandStartLeft;
     [SerializeField] Transform splitHandStartRight;
-
+    public float screenOffset;
     [Header("Settings")]
     [SerializeField] float cardOffset = 100f;
     [SerializeField] float cardMoveSpeed = 10;
@@ -48,7 +48,12 @@ public class Player : MonoBehaviour
    
     void Awake()
     {
-       
+        if (Screen.height <= 2500 && Screen.width <= 1500)
+        {
+           
+            cardOffset /= 2;
+            screenOffset = 360;
+        }
         Reset();
     }
 
@@ -204,7 +209,7 @@ public class Player : MonoBehaviour
             cardslot.transform.SetParent(cardSlotParent);
             totalCardSlot++;
             RectTransform rt = cardslot.GetComponent<RectTransform>();//= new Vector3(300, 150, 0) + new Vector3(totalCardSlot * cardOffset, 0, 0);
-            rt.anchoredPosition = new Vector3(-710, 95, 0) + new Vector3(totalCardSlot * (cardOffset*2), 0, 0);
+            rt.anchoredPosition = new Vector3(-710, 95, 0) + new Vector3(totalCardSlot * (cardOffset*2)+ screenOffset, 0, 0);
             // cardslot.transform.position = new Vector3(1000, 150, 0) + new Vector3(totalCardSlot * cardOffset , 0, 0);
             
 
@@ -304,7 +309,7 @@ public class Player : MonoBehaviour
     }
     public void moveCard(int index, bool isShiftCard = true)
     {
-        Debug.Log(1);
+        
         if (playerHand[0].Count > 0)
         {
             playerHand[0][index].destroy();
@@ -312,16 +317,15 @@ public class Player : MonoBehaviour
             playerHand[0].RemoveAt(index);
             
         }
-        Debug.Log(2);
+   
         //if (!isShiftCard) { return; }
         int i = 0;
-        Debug.Log(3);
+        
         foreach (Card card in playerHand[0])
         {
             card.cardPlayerHandIndex = i;
             card.transform.SetParent(cardSlotlist[i].transform);
-            Debug.Log(4);
-            Debug.Log(cardSlotlist);
+        
             card.GetComponent<RectTransform>().anchoredPosition = new Vector3(-80, 100, 0);
             i++;
         }
@@ -334,6 +338,6 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-      
+        
     }
 }

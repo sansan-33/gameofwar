@@ -13,13 +13,18 @@ public class ResourcesDisplay : MonoBehaviour
     int currentEleixer;
     private void Start()
     {
-      
-        // player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-        // ClientHandleResourcesUpdated(player.GetResources());
+        if (Screen.height <= 2500 && Screen.width <= 1500)
+        {
 
-        // player.ClientOnResourcesUpdated += ClientHandleResourcesUpdated;
+            
 
+            RectTransform rt = this.GetComponent<RectTransform>();
+
+
+            rt.anchoredPosition = new Vector3(-177, 30, 0);
+            rt.sizeDelta = new Vector2(300, (float)22.5);
+        }
     }/*
 
     private void OnDestroy()
