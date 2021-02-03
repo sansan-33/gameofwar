@@ -51,8 +51,8 @@ public class Player : MonoBehaviour
         if (Screen.height <= 3000 && Screen.width <= 2000)
         {
            
-            cardOffset /= 2;
-            screenOffset = 360;
+           // cardOffset /= 2;
+           // screenOffset = 360;
         }
         Reset();
     }

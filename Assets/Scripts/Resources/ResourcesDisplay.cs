@@ -14,17 +14,17 @@ public class ResourcesDisplay : MonoBehaviour
     private void Start()
     {
 
-        if (Screen.height <= 3000 && Screen.width <= 2000)
-        {
+        //if (Screen.height <= 3000 && Screen.width <= 2000)
+       // {
 
             
 
-            RectTransform rt = this.GetComponent<RectTransform>();
+          //  RectTransform rt = this.GetComponent<RectTransform>();
 
 
-            rt.anchoredPosition = new Vector3(-177, 30, 0);
-            rt.sizeDelta = new Vector2(300, (float)22.5);
-        }
+          //  rt.anchoredPosition = new Vector3(-177, 30, 0);
+           // rt.sizeDelta = new Vector2(300, (float)22.5);
+        //}
     }/*
 
     private void OnDestroy()

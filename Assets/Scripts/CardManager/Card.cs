@@ -96,7 +96,7 @@ public class Card : MonoBehaviour
 
     public void OnPointerDown()
     {
-        Debug.Log(cardPlayerHandIndex);
+        
         GameObject DealManagers = GameObject.FindGameObjectWithTag("DealManager");
         if (DealManagers.GetComponent<CardDealer>().eleixer < (int)this.cardFace.star + 1)
         {
