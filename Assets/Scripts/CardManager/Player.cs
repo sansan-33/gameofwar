@@ -48,12 +48,7 @@ public class Player : MonoBehaviour
    
     void Awake()
     {
-        if (Screen.height <= 3000 && Screen.width <= 2000)
-        {
-           
-           // cardOffset /= 2;
-           // screenOffset = 360;
-        }
+        
         Reset();
     }
 

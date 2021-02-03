@@ -40,6 +40,7 @@ public class Card : MonoBehaviour
 
     void Awake()
     {
+        
         mainCamera = Camera.main;
         animator = GetComponent<Animator>();
         cardFrontMat = cardRenderer.materials[0];
@@ -53,8 +54,8 @@ public class Card : MonoBehaviour
         public void Update()
     {
         cardTiming();
-   
-        
+
+       this.GetComponent<RectTransform>().localScale = new Vector2((float)0.8, (float)0.8);
         if (unitPreviewInstance == null) { return; }
 
     }
