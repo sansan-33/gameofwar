@@ -106,6 +106,8 @@ public class Card : MonoBehaviour
         //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
 
         Destroy(gameObject);
+        this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
+        DealManagers.GetComponent<CardDealer>().Hit();
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
       //  Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
         if (localFactory == null) {
@@ -122,8 +124,7 @@ public class Card : MonoBehaviour
         FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
         
 
-        this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
-        DealManagers.GetComponent<CardDealer>().Hit();
+       
        
     }
 

@@ -7,7 +7,7 @@ public class ResourcesLayout : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (Screen.height <= 2500 && Screen.width <= 1500)
+        if (Screen.height <= 3000 && Screen.width <= 2000)
         {
 
             

@@ -18,7 +18,7 @@ public class CardLayout : MonoBehaviour
         if (cardindex == 3) { this.GetComponent<RectTransform>().anchoredPosition = new Vector3(-306, 206, 0); }
         if (cardindex == 4) { this.GetComponent<RectTransform>().anchoredPosition = new Vector3(-182, 206, 0); }
         if (cardindex == 5) { this.GetComponent<RectTransform>().anchoredPosition = new Vector3(-82, 206, 0); }
-        if (Screen.height <= 2500 && Screen.width <= 1500)
+        if (Screen.height <= 3000 && Screen.width <= 2000)
         {
          
             this.GetComponent<RectTransform>().localScale = new Vector3((float)0.3, (float)0.3, (float)0.3);
