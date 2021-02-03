@@ -86,7 +86,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     UpdateInPosition(formationIndex, true);
                 }
             }
-            Debug.Log($" agent leader : index {base.leaderGroupIndex} target {base.targetTag}  " );
             if (inPosition && (canAttack || !waitForAttack.Value)) {
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Attack " + HEARTBEAT++);
                 tacticalAgent.TryAttack();
