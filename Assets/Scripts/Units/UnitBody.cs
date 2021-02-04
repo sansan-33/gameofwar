@@ -16,6 +16,6 @@ public class UnitBody : MonoBehaviour, IBody
 
     public void SetUnitSize(int star)
     {
-        unitTransform.localScale = new Vector3(star, star, star);
+        unitTransform.localScale += new Vector3(star, star, star);
     }
 }
