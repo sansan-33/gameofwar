@@ -46,17 +46,17 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnit(Unit.UnitType unitType, int numberOfUnit, int playerID, bool spawnAuthority)
+    public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority)
     {
         //Debug.Log($" CmdSpawnUnit Player ID {playerID} ");
         Vector3 spawnPosition = GameObject.FindGameObjectWithTag("PlayerBase" + playerID ).transform.position ;
         int unitsize = 1;
         if(Unit.UnitSize.TryGetValue(unitType , out int value)){ unitsize = value; }
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition , unitDict[unitType], unitType.ToString(), numberOfUnit * unitsize, spawnAuthority));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition , unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority , star ));
         
     }
     [Server]
-    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority )
+    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star )
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
@@ -66,6 +66,7 @@ public class UnitFactory : NetworkBehaviour
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
             unit.name = unitName;
             unit.tag = "Player" + playerID;
+            unit = powerUp(unit , star);
             // Cannot remove this one otherwise Tactical Behavior error
             //if(spawnAuthority)
                 NetworkServer.Spawn(unit, connectionToClient);
@@ -73,5 +74,10 @@ public class UnitFactory : NetworkBehaviour
             spawnCount--;
         }
     }
-   
+    private GameObject powerUp(GameObject unit , int star)
+    {
+        unit.GetComponent<Health>().ScaleMaxHealth(star * star);
+        unit.GetComponent<IAttack>().ScaleDamageDeal(star * star);
+        return unit;
+    }   
 }

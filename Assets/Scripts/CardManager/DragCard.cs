@@ -33,7 +33,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("OnBeginDrag");
+        //Debug.Log("OnBeginDrag");
         startPos = this.transform.position;
         lastXPos = Input.mousePosition.x;
     }
@@ -105,7 +105,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     */
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("OnEndDrag");
+        //Debug.Log("OnEndDrag");
         objBeingDraged = null;
         CardParent.GetComponentInParent<Player>().dragCardMerge();
         if (transform.parent == itemDraggerParent)

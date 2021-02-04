@@ -5,7 +5,7 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 
-public class UnitWeapon : NetworkBehaviour, IAttackAgent
+public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 {
    
     [SerializeField] private Targeter targeter = null;
@@ -187,5 +187,15 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent
         targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
         TryAttack();
 
+    }
+
+    public void ScaleAttackDelay(int factor)
+    {
+        repeatAttackDelay =  repeatAttackDelay * factor ;
+    }
+
+    public void ScaleDamageDeal(float factor)
+    {
+        damageToDeal =  (int)  (damageToDeal * factor);
     }
 }

@@ -39,7 +39,11 @@ public class Health : NetworkBehaviour, IDamageable
         DealDamage(currentHealth);
     }
 
-    
+    public void ScaleMaxHealth(float factor)
+    {
+        maxHealth = (int) (maxHealth * factor);
+        currentHealth = maxHealth;
+    }
     
     public void DealDamage(int damageAmount)
     {
