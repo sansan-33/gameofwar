@@ -55,7 +55,7 @@ public class Card : MonoBehaviour
     {
         cardTiming();
 
-       this.GetComponent<RectTransform>().localScale = new Vector2((float)0.8, (float)0.8);
+       this.GetComponent<RectTransform>().localScale = new Vector2((float)1.8, (float)1.8);
         if (unitPreviewInstance == null) { return; }
 
     }

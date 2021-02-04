@@ -204,7 +204,7 @@ public class Player : MonoBehaviour
             cardslot.transform.SetParent(cardSlotParent);
             totalCardSlot++;
             RectTransform rt = cardslot.GetComponent<RectTransform>();//= new Vector3(300, 150, 0) + new Vector3(totalCardSlot * cardOffset, 0, 0);
-            rt.anchoredPosition = new Vector3(-710, 95, 0) + new Vector3(totalCardSlot * (cardOffset*2)+ screenOffset, 0, 0);
+            rt.anchoredPosition = new Vector3(-1100, 250, 0) + new Vector3(totalCardSlot * (cardOffset*2)+ screenOffset, 0, 0);
             // cardslot.transform.position = new Vector3(1000, 150, 0) + new Vector3(totalCardSlot * cardOffset , 0, 0);
             
 
