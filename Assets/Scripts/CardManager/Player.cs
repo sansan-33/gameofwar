@@ -140,7 +140,7 @@ public class Player : MonoBehaviour
     }*/
     public void moveCardAt(int cardMovingindex, string direction)
     {
-        Debug.Log($"{cardMovingindex},{ direction}");
+       
         bool isMoveLeft = direction == "left" ? true : false;
         if (playerHand[0].Count > 0)
         {
