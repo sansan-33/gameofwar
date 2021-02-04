@@ -6,7 +6,7 @@ using UnityEngine;
 using BehaviorDesigner.Runtime.Tactical;
 using System;
 
-public class UnitFiring : NetworkBehaviour, IAttackAgent
+public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 {
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private GameObject projectilePrefab = null;
@@ -15,6 +15,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
     [SerializeField] private float rotationSpeed = 100f;
 
     private float lastFireTime;
+    private float damageToDealFactor;
 
     // The amount of time it takes for the agent to be able to attack again
     public float repeatAttackDelay;
@@ -35,7 +36,9 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
         Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
 
         GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileRotation);
-        
+
+        projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDealFactor);
+
         NetworkServer.Spawn(projectileInstance, connectionToClient);
             
     }
@@ -73,5 +76,14 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent
         lastAttackTime = Time.time;
         targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
         CmdFireProjectile(targetPosition);
+    }
+    public void ScaleAttackDelay(int factor)
+    {
+        repeatAttackDelay = repeatAttackDelay * factor;
+    }
+
+    public void ScaleDamageDeal(float factor)
+    {
+        damageToDealFactor = factor;
     }
 }

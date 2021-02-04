@@ -30,7 +30,10 @@ public class UnitProjectile : NetworkBehaviour
     {
         Invoke(nameof(DestroySelf), destroyAfterSeconds);
     }
-
+    public void SetDamageToDeal(float newDamageToDealFactor)
+    {
+        damageToDealOriginal = (int) (damageToDealOriginal * newDamageToDealFactor);
+    }
     [ServerCallback]
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {

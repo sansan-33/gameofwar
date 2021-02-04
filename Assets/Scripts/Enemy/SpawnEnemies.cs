@@ -20,7 +20,7 @@ public class SpawnEnemies : MonoBehaviour
             playerID = player.GetPlayerID();
             tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
             SpawnEnemyBase();
-            InvokeRepeating("LoadEnemies", 2f, 30f);
+            InvokeRepeating("LoadEnemies", 2f, 20f);
             
         }
     }
@@ -33,7 +33,7 @@ public class SpawnEnemies : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN,  3 , enemyID, unitAuthority);
+                localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN,  1 , enemyID, unitAuthority);
                 //localFactory.CmdSpawnUnit(Unit.UnitType.MINISKELETON, 10, enemyID, unitAuthority);
                 StartCoroutine(TryTactical(TacticalBehavior.BehaviorSelectionType.Defend));
             }

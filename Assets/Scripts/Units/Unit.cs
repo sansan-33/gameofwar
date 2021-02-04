@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Unit : NetworkBehaviour
+public class Unit : NetworkBehaviour 
 {
     [SerializeField] private GameObject buildingPreview = null;
     [SerializeField] private int resourceCost = 10;
@@ -121,6 +121,5 @@ public class Unit : NetworkBehaviour
     {
         Deselect();
     }
-
     #endregion
 }
