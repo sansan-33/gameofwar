@@ -200,4 +200,5 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         Debug.Log($"Scale Damage {this.GetComponent<Unit>().unitType} {damageToDeal} {factor} ");
         damageToDeal =  (int)  (damageToDeal * factor);
     }
+
 }

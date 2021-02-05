@@ -77,7 +77,16 @@ public class UnitFactory : NetworkBehaviour
     private GameObject powerUp(GameObject unit , int star)
     {
         unit.GetComponent<Health>().ScaleMaxHealth(star);
-        unit.GetComponent<IAttack>().ScaleDamageDeal((star-1) * 3);
+       
+        if (star == 1)
+        {
+            unit.GetComponent<IAttack>().ScaleDamageDeal(star);
+        }
+        else
+        {
+            unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 3);
+        }
+       
         unit.GetComponentInChildren<IBody>().SetRenderMaterial(star);
         //unit.GetComponentInChildren<IBody>().SetUnitSize(star);
 
