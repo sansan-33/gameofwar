@@ -34,7 +34,7 @@ public class CardFaceCoords
 
 public class CardDealer : MonoBehaviour
 {
-    public int maxEleixer = 10;
+    public int maxEleixer = 5;
     private float eleixerTimer = 3f;
     public int eleixer = 0;
     public List<Card> cards;
