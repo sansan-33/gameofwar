@@ -84,7 +84,7 @@ public class UnitFactory : NetworkBehaviour
         }
         else
         {
-            unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 3);
+            unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 4);
         }
        
         unit.GetComponentInChildren<IBody>().SetRenderMaterial(star);
