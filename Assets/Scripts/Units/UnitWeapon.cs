@@ -85,7 +85,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 }
                 calculatedDamageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 health.DealDamage(calculatedDamageToDeal);
-                //Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
+                if(calculatedDamageToDeal == 0)
+                    Debug.Log($"Damage is ZERO {this.GetComponent<Unit>().unitType} vs {other.GetComponent<Unit>().unitType}  = damage: {damageToDeal} /  {calculatedDamageToDeal}");
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                 cmdDamageText(other.transform.position, calculatedDamageToDeal , damageToDeal );
                 cmdSpecialEffect(other.transform.position);
@@ -196,6 +197,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
     public void ScaleDamageDeal(float factor)
     {
+        Debug.Log($"Scale Damage {this.GetComponent<Unit>().unitType} {damageToDeal} {factor} ");
         damageToDeal =  (int)  (damageToDeal * factor);
     }
 }
