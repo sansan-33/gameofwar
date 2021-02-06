@@ -6,7 +6,6 @@ using UnityEngine.AI;
 
 public class UnitFactory : NetworkBehaviour
 {
-    [SerializeField] private List<Transform> spawnPoints = null;
     [SerializeField] private GameObject archerPrefab = null;
     [SerializeField] private GameObject knightPrefab = null;
     [SerializeField] private GameObject magePrefab = null;
@@ -44,7 +43,8 @@ public class UnitFactory : NetworkBehaviour
     [Command]
     public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority)
     {
-        Vector3 spawnPosition = spawnPoints[playerID].position;
+        //Vector3 spawnPosition = spawnPoints[playerID].position;
+        Vector3 spawnPosition = NetworkManager.startPositions[playerID].position ;
         Debug.Log($" CmdSpawnUnit Player ID {playerID} at postion {spawnPosition}");
         int unitsize = 1;
         if(Unit.UnitSize.TryGetValue(unitType , out int value)){ unitsize = value; }
