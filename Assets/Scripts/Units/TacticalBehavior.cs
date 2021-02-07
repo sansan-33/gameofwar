@@ -55,7 +55,7 @@ public class TacticalBehavior : MonoBehaviour
                 else
                 {
                     //Only Assing Enemy Base Tag if mulitplayer
-                    if(FindObjectOfType<RTSNetworkManager>().Players.Count > 1)
+                    if(((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
                         playerBase.tag = "PlayerBase" + enemyid;
                 }
             }
@@ -71,7 +71,7 @@ public class TacticalBehavior : MonoBehaviour
                 if (unit.hasAuthority) { army.tag = PLAYERTAG; }
                 else {
                     //Only Assing Enemy Base Tag if mulitplayer
-                    //if (FindObjectOfType<RTSNetworkManager>().Players.Count > 1)
+                    //if (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
                     army.tag = ENEMYTAG;
                 }
             }

@@ -12,9 +12,8 @@ public class KnightDisplay : NetworkBehaviour
 
     private void Start()
     {
+        if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-
-        
     }
     private void Update()
     {

@@ -14,13 +14,13 @@ public class SpawnEnemies : MonoBehaviour
     void Awake()
     {
         if (NetworkClient.connection.identity == null) { return; }
-        Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {FindObjectOfType<RTSNetworkManager>().Players.Count  } ");
-        if (FindObjectOfType<RTSNetworkManager>().Players.Count == 1)
+        Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
             RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             enemyID = player.GetEnemyID();
             playerID = player.GetPlayerID();
-            Debug.Log($"Number of player : {FindObjectOfType<RTSNetworkManager>().Players.Count} enemyID {enemyID} playerID {playerID} ");
+            Debug.Log($"Number of player : {((RTSNetworkManager)NetworkManager.singleton).Players.Count} enemyID {enemyID} playerID {playerID} ");
 
             tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
             SpawnEnemyBase();

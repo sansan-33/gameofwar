@@ -36,6 +36,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
     public override void OnStartAuthority()
     {
+        if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         calculatedDamageToDeal = damageToDeal;
         strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
@@ -62,8 +63,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         while (i < hitColliders.Length)
         {
             other = hitColliders[i++];
-               
-            if (FindObjectOfType<RTSNetworkManager>().Players.Count == 1)
+            //((RTSNetworkManager)NetworkManager.singleton).Players   
+            if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
                 Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {continue;}  //check to see if it belongs to the player, if it does, do nothing

@@ -35,6 +35,7 @@ public class TotalHealthDisplay : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         YourName.text = "Player" + player.GetPlayerID();
     }

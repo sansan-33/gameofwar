@@ -48,15 +48,12 @@ public class CardCounter : NetworkBehaviour, IPointerClickHandler
     [Server]
     private void unitTimers()
     {
+        if (NetworkClient.connection.identity == null) { return; }
+
         Button btn = this.gameObject.GetComponent<Button>();
         
-
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
 
-
-        
-
-       
         if (queuedUnits == 0) { return; }
 
         unitTimer += Time.deltaTime;

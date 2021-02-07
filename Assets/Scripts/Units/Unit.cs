@@ -58,7 +58,7 @@ public class Unit : NetworkBehaviour
     }
     public void SetTaskStatus(string status)
     {
-        taskStatus.text = status;
+        //taskStatus.text = status;
     }
     public override void OnStartServer()
     {

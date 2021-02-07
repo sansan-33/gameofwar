@@ -20,6 +20,7 @@ public class UnitProjectile : NetworkBehaviour
 
     public override void OnStartClient()
     {
+        if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         damageToDealOriginal += damageToDeals;
         rb.velocity = transform.forward * launchForce;
@@ -41,7 +42,7 @@ public class UnitProjectile : NetworkBehaviour
         //Debug.Log($" Hitted object {other.tag}, Attacker type is {unitType} ");
         damageToDeals = damageToDealOriginal;
         // Not attack same connection client object except AI Enemy
-        if (FindObjectOfType<RTSNetworkManager>().Players.Count == 1) {
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1) {
             if (other.tag == "Player" + player.GetEnemyID() && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
             if (other.tag == "Player" + player.GetPlayerID() && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
         }

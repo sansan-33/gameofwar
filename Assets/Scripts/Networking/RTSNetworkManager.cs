@@ -52,9 +52,10 @@ public class RTSNetworkManager : NetworkManager
 
         base.OnServerDisconnect(conn);
     }
-
+    
     public override void OnStopServer()
     {
+    
         Players.Clear();
 
         isGameInProgress = false;
@@ -148,12 +149,11 @@ public class RTSNetworkManager : NetworkManager
     }
     private void SetupUnitFactory(Vector3 pos, RTSPlayer player)
     {
-        GameObject baseInstance = Instantiate(
+        GameObject factoryInstance = Instantiate(
                    unitFactoryPrefab,
                    pos,
                    Quaternion.identity);
-        baseInstance.SetActive(true);
-        NetworkServer.Spawn(baseInstance, player.connectionToClient);
+        NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
 
     private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount)
@@ -192,7 +192,9 @@ public class RTSNetworkManager : NetworkManager
 
     public override void OnStopClient()
     {
+        Debug.Log($"RTS Network Manager OnStopClient ============================== ");
         Players.Clear();
+        isGameInProgress = false;
     }
 
     #endregion
