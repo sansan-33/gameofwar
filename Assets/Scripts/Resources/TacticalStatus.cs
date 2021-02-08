@@ -10,7 +10,7 @@ public class TacticalStatus : MonoBehaviour
     private TacticalBehavior tb;
 
     // Start is called before the first frame update
-    void Start()
+    public void Awake()
     {
         tb = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
     }

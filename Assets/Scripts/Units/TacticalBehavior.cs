@@ -89,7 +89,8 @@ public class TacticalBehavior : MonoBehaviour
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
         int i = 0;
         defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerID);
-        
+        behaviorTreeGroups[playerID].Clear();
+
         foreach (GameObject child in armies)
         {
             // Set Higher Priority value will avoid lower value 
@@ -192,9 +193,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public string GetTacticalStatus()
     {
-        string output = String.Format(" Current Tactical {0}  {1} , Group size {2} vs {3} ", playerType, enemyType, playerBehaviorTreeGroup[1].Count, enemyBehaviorTreeGroup[1].Count);
-        Debug.Log(output);
-        return output;
+        return String.Format(" Tactical {0} Vs {1} , Group size {2} vs {3} ", playerType, enemyType, playerBehaviorTreeGroup[1].Count, (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1) ? 0 : enemyBehaviorTreeGroup[1].Count );
     }
     public void TryAttack()
     {
