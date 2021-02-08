@@ -30,6 +30,7 @@ public class RTSPlayer : NetworkBehaviour
     private float ResourcesTimer = 1f;
     public int Resources;
     private Color teamColor = new Color();
+    private Color teamEnemyColor = new Color();
     private List<Unit> myUnits = new List<Unit>();
     private List<Building> myBuildings = new List<Building>();
     
@@ -59,6 +60,11 @@ public class RTSPlayer : NetworkBehaviour
     public Color GetTeamColor()
     {
         return teamColor;
+    }
+
+    public Color GetTeamEnemyColor()
+    {
+        return teamEnemyColor;
     }
 
     public int GetResources()
@@ -147,6 +153,12 @@ public class RTSPlayer : NetworkBehaviour
     public void SetTeamColor(Color newTeamColor)
     {
         teamColor = newTeamColor;
+    }
+
+    [Server]
+    public void SetTeamEnemyColor(Color newTeamColor)
+    {
+        teamEnemyColor = newTeamColor;
     }
 
     [Server]

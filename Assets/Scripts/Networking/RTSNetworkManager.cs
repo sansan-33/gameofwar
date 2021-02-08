@@ -26,7 +26,7 @@ public class RTSNetworkManager : NetworkManager
     public static event Action ClientOnDisconnected;
 
     private bool isGameInProgress = false;
-    private List<Color> teamsColor = new List<Color>() { new Color(0,0,0), new Color(255,255,255)  };
+    private List<Color> teamsColor = new List<Color>() { new Color(0f,0f,1f), new Color(1,0,0,255)};
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
 
     private int spawnMoveRange = 1;
@@ -88,10 +88,10 @@ public class RTSNetworkManager : NetworkManager
         Players.Add(player);
 
         player.SetDisplayName($"Player {Players.Count}");
-
         player.SetTeamColor(teamsColor[Players.Count-1]);
         player.SetPlayerID(Players.Count - 1);
         player.SetEnemyID(player.GetPlayerID() == 0 ? 1 : 0);
+        player.SetTeamEnemyColor(teamsColor[player.GetEnemyID()]);
         player.SetPartyOwner(Players.Count == 1);
     }
 
@@ -162,6 +162,7 @@ public class RTSNetworkManager : NetworkManager
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
             unit.name = unitName;
             unit.tag = "Player" + player.GetPlayerID();
+            unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
             NetworkServer.Spawn(unit, player.connectionToClient);
             spawnCount--;
         }

@@ -23,6 +23,7 @@ public class SpawnEnemies : MonoBehaviour
             enemyID = player.GetEnemyID();
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamColor();
+            teamColor = player.GetTeamEnemyColor();
             Debug.Log($"Number of player : {((RTSNetworkManager)NetworkManager.singleton).Players.Count} enemyID {enemyID} playerID {playerID} ");
 
             tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
