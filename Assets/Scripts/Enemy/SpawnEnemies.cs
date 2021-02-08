@@ -10,6 +10,8 @@ public class SpawnEnemies : MonoBehaviour
     private bool unitAuthority = false;
     private int enemyID = 0;
     private int playerID = 0;
+    private Color teamColor;
+
     private TacticalBehavior tacticalBehavior;
     void Awake()
     {
@@ -20,6 +22,7 @@ public class SpawnEnemies : MonoBehaviour
             RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             enemyID = player.GetEnemyID();
             playerID = player.GetPlayerID();
+            teamColor = player.GetTeamColor();
             Debug.Log($"Number of player : {((RTSNetworkManager)NetworkManager.singleton).Players.Count} enemyID {enemyID} playerID {playerID} ");
 
             tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
@@ -37,7 +40,7 @@ public class SpawnEnemies : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN,  1 , enemyID, unitAuthority);
+                localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN,  1 , enemyID, unitAuthority, teamColor);
                 //localFactory.CmdSpawnUnit(Unit.UnitType.MINISKELETON, 10, enemyID, unitAuthority);
                 StartCoroutine(TryTactical(TacticalBehavior.BehaviorSelectionType.Defend));
             }

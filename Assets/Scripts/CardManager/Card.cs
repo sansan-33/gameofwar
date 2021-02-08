@@ -33,7 +33,8 @@ public class Card : MonoBehaviour
     private UnitFactory localFactory;
     int playerID = 0;
     int enemyID = 0;
-    
+    Color teamColor;
+
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
@@ -47,6 +48,7 @@ public class Card : MonoBehaviour
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
         enemyID = player.GetEnemyID();
+        teamColor = player.GetTeamColor();
     }
     
 
@@ -121,7 +123,7 @@ public class Card : MonoBehaviour
             }
         }
 
-        localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, playerID, true );
+        localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
         FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
         
 

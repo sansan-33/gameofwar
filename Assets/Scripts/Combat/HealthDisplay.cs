@@ -49,5 +49,9 @@ public class HealthDisplay : MonoBehaviour
         healthBarImage.fillAmount = (float)currentHealth / maxHealth;
     }
 
-    
+    public void SetHealthBarColor (Color newColor)
+    {
+        healthBarImage.color = newColor;
+    }
+
 }

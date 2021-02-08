@@ -41,18 +41,18 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority)
+    public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
         //Vector3 spawnPosition = spawnPoints[playerID].position;
         Vector3 spawnPosition = NetworkManager.startPositions[playerID].position ;
         Debug.Log($" CmdSpawnUnit Player ID {playerID} at postion {spawnPosition}");
         int unitsize = 1;
         if(Unit.UnitSize.TryGetValue(unitType , out int value)){ unitsize = value; }
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition , unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority , star ));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition , unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority , star,  teamColor));
         
     }
     [Server]
-    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star )
+    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
@@ -68,7 +68,7 @@ public class UnitFactory : NetworkBehaviour
             Debug.Log($" ServerSpwanUnit Player ID {playerID} {unitName}");
 
             NetworkServer.Spawn(unit, connectionToClient);
-            RpcTag(unit, playerID, unitName, star);
+            RpcTag(unit, playerID, unitName, star, teamColor);
             RpcPowerUp(unit, star);
             spawnCount--;
         }
@@ -105,10 +105,11 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(Unit.UnitType.GIANT, giantUnitPrefab);
     }
     [ClientRpc]
-    void RpcTag(GameObject unit, int playerID, string unitName, int star)
+    void RpcTag(GameObject unit, int playerID, string unitName, int star, Color teamColor)
     {
         unit.name = unitName;
         unit.tag = "Player" + playerID;
+        unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
     }
     [ClientRpc]
     void RpcPowerUp(GameObject unit , int star)
