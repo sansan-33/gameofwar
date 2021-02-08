@@ -22,10 +22,10 @@ public class StrengthWeakness : MonoBehaviour
         strengthWeakness.Add(Unit.UnitType.GIANT, new Unit.UnitType[] { Unit.UnitType.MAGE, Unit.UnitType.ARCHER });
 
     }
-    public int calculateDamage(Unit.UnitType player, Unit.UnitType enemy, int damage)
+    public float calculateDamage(Unit.UnitType player, Unit.UnitType enemy, float damage)
     {
         //Debug.Log($"calculateDamage player {player} vs  enemy {enemy} , original damage {damage} ");
-        int damageResult = damage;
+        float damageResult = damage;
         Unit.UnitType[]  dict = strengthWeakness[player];
         if (dict[0] == enemy || dict[0] == Unit.UnitType.HERO)
             damageResult = damage * StrengthDamage;

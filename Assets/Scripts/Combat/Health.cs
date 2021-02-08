@@ -11,7 +11,7 @@ public class Health : NetworkBehaviour, IDamageable
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int defense = 0;
     [SyncVar(hook = nameof(HandleHealthUpdated))]
-    private int currentHealth;
+    private float currentHealth;
     
     public event Action ServerOnDie;
 
@@ -36,7 +36,7 @@ public class Health : NetworkBehaviour, IDamageable
     {
         if (connectionToClient.connectionId != connectionId) { return; }
 
-        DealDamage(currentHealth);
+        DealDamage(currentHealth,this.GetComponent<Unit>(),3);
     }
 
     public void ScaleMaxHealth(float factor)
@@ -45,7 +45,7 @@ public class Health : NetworkBehaviour, IDamageable
         currentHealth = maxHealth;
     }
     
-    public void DealDamage(int damageAmount)
+    public void DealDamage(float damageAmount,Unit unit,int IsUnitWeapon)
     {
       
         if (currentHealth == 0) { return; }
@@ -56,7 +56,14 @@ public class Health : NetworkBehaviour, IDamageable
         currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
 
         if (currentHealth != 0) { return; }
-
+        if (IsUnitWeapon == 0)
+        {
+            unit.GetComponent<UnitWeapon>().powerUpAfterKill();
+        }else if(IsUnitWeapon == 1)
+        {
+            unit.GetComponent<UnitProjectile>().powerUpAfterKill();
+        }
+        
         ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke 
     }
 
@@ -64,11 +71,11 @@ public class Health : NetworkBehaviour, IDamageable
 
     #region Client
 
-    private void HandleHealthUpdated(int oldHealth, int newHealth)
+    private void HandleHealthUpdated(float oldHealth, float newHealth)
     {
-        ClientOnHealthUpdated?.Invoke(newHealth, maxHealth);
+        ClientOnHealthUpdated?.Invoke((int)newHealth, (int)maxHealth);
     }
-    public int getCurrentHealth()
+    public float getCurrentHealth()
     {
         return currentHealth;
     }

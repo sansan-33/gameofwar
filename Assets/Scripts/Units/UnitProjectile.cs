@@ -7,14 +7,14 @@ using UnityEngine;
 public class UnitProjectile : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb = null;
-    [SerializeField] private int damageToDeals = 0;
+    [SerializeField] private float damageToDeals = 0;
     [SerializeField] private float destroyAfterSeconds = 5f;
     [SerializeField] private float launchForce = 10f;
     [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
     [SerializeField] private GameObject specialEffectPrefab = null;
-    private int damageToDealOriginal;
+    private float damageToDealOriginal;
     private StrengthWeakness strengthWeakness;
     RTSPlayer player;
 
@@ -64,13 +64,13 @@ public class UnitProjectile : NetworkBehaviour
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
-            health.DealDamage(damageToDeals);
+            health.DealDamage(damageToDeals, this.GetComponent<Unit>(),1);
         }
 
         DestroySelf();
     }
     [Command]
-    private void cmdDamageText(Vector3 targetPos, int damageToDeals, int damageToDealOriginal)
+    private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         Color textColor;
@@ -109,5 +109,11 @@ public class UnitProjectile : NetworkBehaviour
     {
         NetworkServer.Destroy(gameObject);
     }
-   
+    public void powerUpAfterKill()
+    {
+        float upGradeAmount = (float)1.1;
+        damageToDeals *= upGradeAmount;
+    }
+    
+    
 }

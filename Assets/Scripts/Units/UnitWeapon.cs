@@ -9,7 +9,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 {
    
     [SerializeField] private Targeter targeter = null;
-    [SerializeField] private int damageToDeal = 1;
+    [SerializeField] private float damageToDeal = 1;
     [SerializeField] private float destroyAfterSeconds = 1f;
     [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject camPrefab = null;
@@ -21,7 +21,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private bool IsAreaOfEffect = false;
 
     private int id;
-    private int calculatedDamageToDeal ;
+    private float calculatedDamageToDeal ;
     
     bool m_Started;
     // The amount of time it takes for the agent to be able to attack again
@@ -117,12 +117,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
 
     [Command]
-    public void CmdDealDamage(GameObject enemy,  int damge)
+    public void CmdDealDamage(GameObject enemy,  float damge)
     {
-        enemy.GetComponent<Health>().DealDamage(damge);
+        enemy.GetComponent<Health>().DealDamage(damge,this.GetComponent<Unit>(),0);
     }
     [Command]   
-    private void cmdDamageText(Vector3 targetPos, int damageNew , int damgeOld)
+    private void cmdDamageText(Vector3 targetPos, float damageNew , float damgeOld)
     {
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         Color textColor;
@@ -205,5 +205,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         Debug.Log($"Scale Damage {this.GetComponent<Unit>().unitType} {damageToDeal} {factor} ");
         damageToDeal =  (int)  (damageToDeal * factor);
     }
-
+    public void powerUpAfterKill()
+    {
+      
+        float upGradeAmount = (float)1.1;
+        damageToDeal *= upGradeAmount;
+        
+    }
+   
 }
