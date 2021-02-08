@@ -15,10 +15,10 @@ public class TotalHealthDisplay : NetworkBehaviour
     [SerializeField] private TMP_Text EnemyName = null;
     [SerializeField] private TMP_Text YourName = null;
 
-    private int militarySize = 0;
-    private int EnermymilitarySize = 0;
-    int MaxmilitarySize = 0;
-    int MaxEnermymilitarySize = 0;
+    private float militarySize = 0;
+    private float EnermymilitarySize = 0;
+    float MaxmilitarySize = 0;
+    float MaxEnermymilitarySize = 0;
     private float progressImageVelocity;
     RTSPlayer player;
 
