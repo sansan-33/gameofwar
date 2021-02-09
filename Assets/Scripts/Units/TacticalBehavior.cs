@@ -105,13 +105,13 @@ public class TacticalBehavior : MonoBehaviour
             //child.GetComponent<NavMeshAgent>().avoidancePriority = 70;
             //if (child.GetComponent<Unit>().hasAuthority)
             //{
-            if (i == 0)
-                {
+            if (i == 0){
                     hero = child;
                     hero.name = "LEADER";
-                }
-                child.transform.parent = group[playerID].transform;
-                i++;
+            }
+            child.name = i + ") " + child.name;
+            child.transform.parent = group[playerID].transform;
+            i++;
             //}
         }
 

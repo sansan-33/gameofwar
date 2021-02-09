@@ -87,7 +87,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
             }
             if (inPosition && (canAttack || !waitForAttack.Value)) {
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Attack " + HEARTBEAT++);
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Attack " + tacticalAgent.TargetTransform.name + " - "  + HEARTBEAT++);
                 tacticalAgent.TryAttack();
             }
             if (base.leader.Value != null)
