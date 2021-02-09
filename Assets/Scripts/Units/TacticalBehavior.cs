@@ -193,7 +193,15 @@ public class TacticalBehavior : MonoBehaviour
     }
     public string GetTacticalStatus()
     {
-        return String.Format(" Tactical {0} Vs {1} , Group size {2} vs {3} ", playerType, enemyType, playerBehaviorTreeGroup[1].Count, (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1) ? 0 : enemyBehaviorTreeGroup[1].Count );
+        var sb = new System.Text.StringBuilder();
+        GameObject[] armies = GameObject.FindGameObjectsWithTag(PLAYERTAG);
+
+        foreach (GameObject army in armies) {
+            
+            sb.Append( String.Format("{0} - {1} \n", army.name , army.GetComponent<Unit>().GetTaskStatus().text )) ;
+        }
+
+        return sb.ToString();
     }
     public void TryAttack()
     {
