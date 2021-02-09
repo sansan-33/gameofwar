@@ -111,6 +111,7 @@ public class UnitProjectile : NetworkBehaviour
     }
     public void powerUpAfterKill()
     {
+        GetComponent<HealthDisplay>().KillText();
         float upGradeAmount = (float)1.1;
         damageToDeals *= upGradeAmount;
     }

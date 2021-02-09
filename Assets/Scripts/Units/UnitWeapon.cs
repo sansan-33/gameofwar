@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 {
-   
+    
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private float damageToDeal = 1;
     [SerializeField] private float destroyAfterSeconds = 1f;
@@ -207,7 +207,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
     public void powerUpAfterKill()
     {
-      
+        GetComponent<HealthDisplay>().KillText();
         float upGradeAmount = (float)1.1;
         damageToDeal *= upGradeAmount;
         

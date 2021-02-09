@@ -1001,11 +1001,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9b38562ffce085428b1710277254aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  killText: {fileID: 4889098023844545597}
   health: {fileID: 5531517098549734394}
   healthBarParent: {fileID: 3087878123819642891}
   healthBarImage: {fileID: 3087878124407815446}
   taskStatusParent: {fileID: 5889752831062375512}
   leaderFrame: {fileID: 8188815753419749526}
+  kills: 0
 --- !u!114 &1910679349635884098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1938,6 +1940,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1620868315474620945, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 1620868315474620950, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
       propertyPath: m_Name
       value: HealthBarCanvas
@@ -1950,8 +1956,23 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7791737109650208296, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+--- !u!114 &4889098023844545597 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9186695979592926752, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}
+  m_PrefabInstance: {fileID: 4369657044579697181}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3087878124407815446 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1620868314868891403, guid: 54a600264b0fb014e8d938a5d48d1bdb, type: 3}

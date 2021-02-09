@@ -37,7 +37,6 @@ MonoBehaviour:
   projectilePrefab: {fileID: 4320547883732887694, guid: 1f417d3b8d95c42019ae44358c2e75e7, type: 3}
   projectileSpawnPoint: {fileID: 3166756337450527598}
   fireRange: 15
-  fireRate: 1
   rotationSpeed: 100
   repeatAttackDelay: 1
   attackAngle: 1
@@ -321,6 +320,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3087878123819642892, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 3087878124407815444, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Layer
       value: 10
@@ -341,6 +344,10 @@ PrefabInstance:
       propertyPath: health
       value: 
       objectReference: {fileID: 2236743152648994798}
+    - target: {fileID: 3843459825319120970, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: killText
+      value: 
+      objectReference: {fileID: 1157697552736440361}
     - target: {fileID: 3843459825319120970, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: healthBarImage
       value: 
@@ -367,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 6809420229542229777}
     - target: {fileID: 4395472799289261401, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143336, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Speed
@@ -548,5 +555,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1157697552736440361 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4889098023844545597, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+  m_PrefabInstance: {fileID: 6037470530282476564}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

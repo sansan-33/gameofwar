@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthDisplay : MonoBehaviour
 {
+    [SerializeField] private TMP_Text killText = null;
     [SerializeField] private Health health = null;
     [SerializeField] private GameObject healthBarParent = null;
     [SerializeField] private Image healthBarImage = null;
     [SerializeField] private GameObject taskStatusParent = null;
     [SerializeField] private GameObject leaderFrame = null;
-
+    public int kills;
     private Quaternion startRotation;
 
     private void Awake()
@@ -53,5 +55,10 @@ public class HealthDisplay : MonoBehaviour
     {
         healthBarImage.color = newColor;
     }
-
+    public void KillText()
+    {
+        kills++;
+        killText.text = kills.ToString();
+        Debug.Log(killText.text);
+    }
 }
