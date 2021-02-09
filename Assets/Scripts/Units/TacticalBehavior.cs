@@ -105,11 +105,16 @@ public class TacticalBehavior : MonoBehaviour
             //child.GetComponent<NavMeshAgent>().avoidancePriority = 70;
             //if (child.GetComponent<Unit>().hasAuthority)
             //{
+            if (child.name.Contains(")"))
+            {
+                child.name = child.name.Substring(child.name.IndexOf(")") + 2 );
+            }
             if (i == 0){
                     hero = child;
                     hero.name = "LEADER";
             }
-            child.name = i + ") " + child.name;
+            child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
+            child.name = "(" + i + ")\t" + child.name;
             child.transform.parent = group[playerID].transform;
             i++;
             //}
@@ -207,7 +212,7 @@ public class TacticalBehavior : MonoBehaviour
 
         foreach (GameObject army in armies) {
             
-            sb.Append( String.Format("{0} \t\t {1} \n", army.name.Length > 6 ? army.name.Substring(0,6): army.name, army.GetComponent<Unit>().GetTaskStatus().text )) ;
+            sb.Append( String.Format("{0} \t\t {1} \n", army.name, army.GetComponent<Unit>().GetTaskStatus().text )) ;
         }
 
         return sb.ToString();
