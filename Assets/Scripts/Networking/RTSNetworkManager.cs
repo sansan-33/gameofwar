@@ -26,7 +26,7 @@ public class RTSNetworkManager : NetworkManager
     public static event Action ClientOnDisconnected;
 
     private bool isGameInProgress = false;
-    private List<Color> teamsColor = new List<Color>() { new Color(0f,0f,1f), new Color(1f,0f,0f)};
+    private List<Color> teamsColor = new List<Color>() { new Color(0f,0.6f,1f), new Color(1f,0f,0f)};
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
 
     private int spawnMoveRange = 1;
