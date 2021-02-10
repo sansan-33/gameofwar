@@ -100,7 +100,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public IEnumerator TacticalFormation(int playerID, int enemyID)
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         GameObject hero = null;
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerID);
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
@@ -114,16 +114,16 @@ public class TacticalBehavior : MonoBehaviour
             //child.GetComponent<NavMeshAgent>().avoidancePriority = 70;
             //if (child.GetComponent<Unit>().hasAuthority)
             //{
-            if (child.name.Contains(")"))
+            if (child.name.Contains("]"))
             {
-                child.name = child.name.Substring(child.name.IndexOf(")") + 2 );
+                child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
             }
             if (i == 0){
                     hero = child;
                     hero.name = "LEADER";
             }
             child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
-            child.name = "(" + i + ")\t" + child.name;
+            child.name = "[" + i + "]\t" + child.name;
             child.transform.parent = group[playerID].transform;
             i++;
             //}
@@ -233,6 +233,11 @@ public class TacticalBehavior : MonoBehaviour
 
         return sb.ToString();
     }
+    public BehaviorSelectionType GetBehaviorSelectionType()
+    {
+        return selectionType;
+    }
+
     public void TryAttack()
     {
         TryAttack(playerid);
