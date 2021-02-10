@@ -40,7 +40,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         calculatedDamageToDeal = damageToDeal;
         strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
-        Debug.Log($"Is strengthWeakness is null ? {strengthWeakness == null}");
+        //Debug.Log($"Is strengthWeakness is null ? {strengthWeakness == null}");
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
     }
@@ -66,20 +66,20 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             //((RTSNetworkManager)NetworkManager.singleton).Players   
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
-                Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
+                //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {continue;}  //check to see if it belongs to the player, if it does, do nothing
                 if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 
             }
             else // Multi player seneriao
             {
-                Debug.Log($"Multi player seneriao ");
+                //Debug.Log($"Multi player seneriao ");
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
                     if (networkIdentity.hasAuthority ) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 }
             }
-            Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
+            //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
 
             if (other.TryGetComponent<Health>(out Health health))
             {
@@ -207,7 +207,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
     public void ScaleDamageDeal(float factor)
     {
-        Debug.Log($"Scale Damage {this.GetComponent<Unit>().unitType} {damageToDeal} {factor} ");
+        //Debug.Log($"Scale Damage {this.GetComponent<Unit>().unitType} {damageToDeal} {factor} ");
         damageToDeal =  (int)  (damageToDeal * factor);
     }
     public void powerUpAfterKill()

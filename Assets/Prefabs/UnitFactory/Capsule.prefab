@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3566724839051673120}
   - component: {fileID: 6120489122721430602}
   - component: {fileID: 932161899603166168}
+  - component: {fileID: 586061659349634038}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: PlayerBase
@@ -183,6 +184,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   health: {fileID: 6120489122721430602}
+--- !u!114 &586061659349634038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154580023765660033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e98c7ec4938b43069d8001d0920774f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8456951353164582101
 GameObject:
   m_ObjectHideFlags: 0
