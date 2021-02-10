@@ -17,8 +17,7 @@ public class Health : NetworkBehaviour, IDamageable
 
     public event Action<int, int> ClientOnHealthUpdated;
 
-    public static float healingSpeed=0.1f;
-
+    
     #region Server
 
     public override void OnStartServer()
@@ -49,7 +48,7 @@ public class Health : NetworkBehaviour, IDamageable
     public void Healing(float healAmount)
     {
         if (currentHealth >= maxHealth) { return; }
-        currentHealth += healAmount;
+        currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
     }
     public bool DealDamage(float damageAmount)
     {
