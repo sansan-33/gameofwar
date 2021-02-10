@@ -119,7 +119,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command]
     public void CmdDealDamage(GameObject enemy,  float damge)
     {
-        enemy.GetComponent<Health>().DealDamage(damge,this.GetComponent<Unit>(),0);
+       bool iskill =  enemy.GetComponent<Health>().DealDamage(damge);
+        if (iskill == true)
+        {
+            powerUpAfterKill();
+            RpcpowerUpAfterKill();
+        }
     }
     [Command]   
     private void cmdDamageText(Vector3 targetPos, float damageNew , float damgeOld)
@@ -207,10 +212,17 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
     public void powerUpAfterKill()
     {
-        GetComponent<HealthDisplay>().KillText();
+        GetComponent<HealthDisplay>().HandleKillText();
         float upGradeAmount = (float)1.1;
         damageToDeal *= upGradeAmount;
         
     }
-   
+    [ClientRpc]
+    public void RpcpowerUpAfterKill()
+    {
+        GetComponent<HealthDisplay>().HandleKillText();
+        float upGradeAmount = (float)1.1;
+        damageToDeal *= upGradeAmount;
+
+    }
 }

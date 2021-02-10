@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tactical;
 using Mirror;
@@ -14,10 +15,11 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
     [SerializeField] private GameObject specialEffectPrefab = null;
+    public static event Action onKilled;
     private float damageToDealOriginal;
     private StrengthWeakness strengthWeakness;
     RTSPlayer player;
-
+    
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }
@@ -64,7 +66,14 @@ public class UnitProjectile : NetworkBehaviour
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
-            health.DealDamage(damageToDeals, this.GetComponent<Unit>(),1);
+           bool iskilled = health.DealDamage(damageToDeals);
+            if (iskilled == true)
+            {
+                onKilled?.Invoke();
+                powerUpAfterKill();
+                RpcpowerUpAfterKill();
+            }
+
         }
 
         DestroySelf();
@@ -111,10 +120,16 @@ public class UnitProjectile : NetworkBehaviour
     }
     public void powerUpAfterKill()
     {
-        GetComponent<HealthDisplay>().KillText();
+        GetComponent<HealthDisplay>().HandleKillText();
         float upGradeAmount = (float)1.1;
         damageToDeals *= upGradeAmount;
     }
-    
-    
+    [ClientRpc]
+    public void RpcpowerUpAfterKill()
+    {
+        GetComponent<HealthDisplay>().HandleKillText();
+        float upGradeAmount = (float)1.1;
+        damageToDeals *= upGradeAmount;
+    }
+
 }

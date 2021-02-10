@@ -55,7 +55,7 @@ public class HealthDisplay : MonoBehaviour
     {
         healthBarImage.color = newColor;
     }
-    public void KillText()
+    public void HandleKillText()
     {
         kills++;
         killText.text = kills.ToString();

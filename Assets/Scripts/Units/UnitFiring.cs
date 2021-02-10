@@ -13,7 +13,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private Transform projectileSpawnPoint = null;
     [SerializeField] private float fireRange = 300f;
     [SerializeField] private float rotationSpeed = 100f;
-
+   
     private float lastFireTime;
     private float damageToDealFactor;
 
@@ -24,7 +24,16 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 
     // The last time the agent attacked
     private float lastAttackTime;
-
+    private void Start()
+    {
+        UnitProjectile.onKilled += OnHandleKilled;
+        UnitProjectile.onKilled += RpcOnHandleKilled;
+    }
+    private void OnDestroy()
+    {
+        UnitProjectile.onKilled -= OnHandleKilled;
+        UnitProjectile.onKilled -= RpcOnHandleKilled;
+    }
     [Server]
     private void FireProjectile(Vector3 targetPosition)
     {
@@ -86,4 +95,14 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     {
         damageToDealFactor = factor;
     }
+    public void OnHandleKilled()
+    {
+        GetComponent<HealthDisplay>().HandleKillText();
+    }
+    [ClientRpc]
+    public void RpcOnHandleKilled()
+    {
+        GetComponent<HealthDisplay>().HandleKillText();
+    }
+
 }
