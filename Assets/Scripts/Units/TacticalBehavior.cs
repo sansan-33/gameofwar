@@ -178,6 +178,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void TryReinforcePlayer(Unit unit)
     {
+        if (unit.tag == ENEMYTAG) { return; }
         Debug.Log($"Auto Reinforce ..... {unit.name}");
         if(unit.name.ToLower().Contains("leader"))
             TryReinforce(playerid, enemyid);
