@@ -16,7 +16,7 @@ public class SpawnEnemies : MonoBehaviour
     void Awake()
     {
         if (NetworkClient.connection.identity == null) { return; }
-        Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");
+        //Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
             RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
@@ -24,7 +24,7 @@ public class SpawnEnemies : MonoBehaviour
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
-            Debug.Log($"Number of player : {((RTSNetworkManager)NetworkManager.singleton).Players.Count} enemyID {enemyID} playerID {playerID} ");
+            //Debug.Log($"Number of player : {((RTSNetworkManager)NetworkManager.singleton).Players.Count} enemyID {enemyID} playerID {playerID} ");
 
             tacticalBehavior = GameObject.FindObjectOfType<TacticalBehavior>();
             SpawnEnemyBase();
@@ -58,7 +58,7 @@ public class SpawnEnemies : MonoBehaviour
 
     private IEnumerator TryTactical(TacticalBehavior.BehaviorSelectionType type)
     {
-        Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
+        //Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
         StartCoroutine(tacticalBehavior.TacticalFormation(enemyID, playerID));
         yield return new WaitForSeconds(5f);
         tacticalBehavior.TryTB((int) type , enemyID);

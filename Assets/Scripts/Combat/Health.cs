@@ -49,7 +49,7 @@ public class Health : NetworkBehaviour, IDamageable
     public void Healing(float healAmount)
     {
         if (currentHealth >= maxHealth) { return; }
-        currentHealth += healAmount;
+        currentHealth = Mathf.Min(currentHealth + healingSpeed, maxHealth);
     }
     public bool DealDamage(float damageAmount)
     {
