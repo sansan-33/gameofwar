@@ -48,7 +48,8 @@ public class Health : NetworkBehaviour, IDamageable
     }
     public void Healing(float healAmount)
     {
-        currentHealth += currentHealth * healAmount;
+        if (currentHealth >= maxHealth) { return; }
+        currentHealth += healAmount;
     }
     public bool DealDamage(float damageAmount)
     {
