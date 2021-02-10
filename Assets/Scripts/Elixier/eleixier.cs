@@ -8,7 +8,7 @@ using static TacticalBehavior;
 public class eleixier : MonoBehaviour
 {
     [SerializeField] TMP_Text eleixerTimerImage;
-    public int maxEleixer = 5;
+    public int maxEleixer = 10;
     public float maxEleixerTimer;
     private float eleixerTimer = 3f;
     public int eleixer = 0;
@@ -37,13 +37,15 @@ public class eleixier : MonoBehaviour
        
         if (selectionType== BehaviorSelectionType.Attack|| selectionType == BehaviorSelectionType.Flank)
         {
-            maxEleixerTimer = 2f;
+            maxEleixerTimer = 1.5f;
+            eleixerTimerImage.text = "X 2 eleixer";
         }
         else
         {
             maxEleixerTimer = 3f;
+            eleixerTimerImage.text = "X 1 eleixer";
         }
-        eleixerTimerImage.text = $"1 eleixer per {maxEleixerTimer} secound";
+       
 
     }
 }

@@ -52,18 +52,21 @@ public class Card : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        Debug.Log($"{eleixers.eleixer},{this.cardFace.star + 1}");
-        if (eleixers.eleixer < (int)this.cardFace.star + 1)
+        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+        int uniteleixer = 1;
+        if (Unit.UnitEleixer.TryGetValue((Unit.UnitType)type, out int value)) { uniteleixer = value; }
+        
+        if (eleixers.eleixer < uniteleixer)
         {
             return;
         }
-        eleixers.eleixer -= (int)this.cardFace.star+1;
+        eleixers.eleixer -= uniteleixer;
         //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
 
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
-        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+        
         //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
         if (localFactory == null) {
             foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))

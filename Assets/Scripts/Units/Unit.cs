@@ -21,6 +21,14 @@ public class Unit : NetworkBehaviour
 
     public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT };
     public static Dictionary<UnitType, int> UnitSize  = new Dictionary<UnitType, int>() { {UnitType.MINISKELETON , 10} };
+    public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>() { { UnitType.GIANT, 7 },
+        {UnitType.CAVALRY, 5 },
+        {UnitType.ARCHER, 4 },
+        { UnitType.HERO, 3 },
+        { UnitType.KNIGHT, 3 },
+        { UnitType.MAGE, 5 },
+        { UnitType.MINISKELETON, 3 },
+        { UnitType.SPEARMAN, 3 }};
     public UnitType unitType;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
