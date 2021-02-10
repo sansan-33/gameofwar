@@ -81,6 +81,8 @@ public class RTSNetworkManager : NetworkManager
 
     public override void OnServerAddPlayer(NetworkConnection conn)
     {
+
+        Debug.Log($"RTS Network Manager OnServerAddPlayer Player Count {Players.Count} ============== ");
         base.OnServerAddPlayer(conn);
 
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
