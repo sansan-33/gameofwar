@@ -19,7 +19,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             }
             tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : moving to target ");
             if (MoveToAttackPosition()) {
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : in position ");
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : " + tacticalAgent.TargetTransform.name );
                 tacticalAgent.TryAttack();
             }
 
