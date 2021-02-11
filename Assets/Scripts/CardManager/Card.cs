@@ -17,7 +17,7 @@ public class Card : MonoBehaviour
     public int cardPlayerHandIndex = 0;
 
     [SerializeField] Renderer cardRenderer;
-    
+    [SerializeField] TMP_Text eleixerText;
     public float cardTimer = 0;
     [SerializeField] public List<Sprite> sprite = new List<Sprite>();
     private Camera mainCamera;
@@ -42,6 +42,7 @@ public class Card : MonoBehaviour
         enemyID = player.GetEnemyID();
         teamColor = player.GetTeamColor();
         dealManagers = GameObject.FindGameObjectWithTag("DealManager");
+      
     }
     public void Update()
     {
@@ -54,6 +55,7 @@ public class Card : MonoBehaviour
     {
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
         int uniteleixer = 1;
+        Debug.Log($"{eleixers.eleixer},{ uniteleixer}");
         if (Unit.UnitEleixer.TryGetValue((Unit.UnitType)type, out int value)) { uniteleixer = value; }
         
         if (eleixers.eleixer < uniteleixer)

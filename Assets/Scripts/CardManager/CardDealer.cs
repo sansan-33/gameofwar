@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 
 [System.Serializable]
@@ -34,9 +35,7 @@ public class CardFaceCoords
 
 public class CardDealer : MonoBehaviour
 {
-    public int maxEleixer = 5;
-    private float eleixerTimer = 3f;
-    public int eleixer = 0;
+    
     public List<Card> cards;
     public List<Button> buttons;
     public int i = 1;
@@ -50,7 +49,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] GameObject cardPrefab;
 
     [SerializeField] List<CardFaceCoords> cardFaceCoords = new List<CardFaceCoords>();
-
+    [SerializeField] GameObject costText;
     [SerializeField] List<Player> players = new List<Player>();
 
     [SerializeField] List<CardFace> cardDeck = new List<CardFace>();
@@ -69,20 +68,7 @@ public class CardDealer : MonoBehaviour
         ShuffleDeck();
         DealBegin();
     }
-    private void Update()
-    {
-        eleixerTimer -= Time.deltaTime;
-        if (eleixerTimer <= 0 )
-        {
-            eleixerTimer = 3f;
-            if (eleixer < maxEleixer)
-            {
-                eleixer += 1;
-
-            }
-        }
-        
-    }
+    
     void ShuffleDeck()
     {
         cardDeckUsed.Clear();
@@ -133,7 +119,10 @@ public class CardDealer : MonoBehaviour
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
         int cardnumber = (int)randomCard.numbers;
         cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;
-
+        int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+        int uniteleixer = 1;
+        if (Unit.UnitEleixer.TryGetValue((Unit.UnitType)type, out int value)) { uniteleixer = value; }
+        
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         //Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
 
@@ -163,9 +152,14 @@ public class CardDealer : MonoBehaviour
             {
                 numbers = 3;
             }
-           
-            // ============================
-        //}
+
+        // ============================
+       
+        costText = GameObject.FindGameObjectWithTag("Eleixier");
+        Debug.Log(costText);
+        costText.GetComponent<TextMeshProUGUI>().text = uniteleixer.ToString();
+        Debug.Log(costText.GetComponent<TextMeshProUGUI>().text);
+        costText.tag = "Untagged";
     }
 
     IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
