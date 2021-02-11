@@ -29,12 +29,16 @@ public class GameOverDisplay : MonoBehaviour
 
     public void LeaveGame()
     {
+
+        Debug.Log($"Leave Game NetworkServer.active : {NetworkServer.active} && NetworkClient.isConnected {NetworkClient.isConnected}");
         if (NetworkServer.active && NetworkClient.isConnected)
         {
+            Debug.Log("NetworkManager.singleton.StopHost()");
             NetworkManager.singleton.StopHost();
         }
         else
         {
+            Debug.Log("NetworkManager.singleton.StopClient()");
             NetworkManager.singleton.StopClient();
         }
     }

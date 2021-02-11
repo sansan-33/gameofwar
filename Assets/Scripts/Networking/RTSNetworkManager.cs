@@ -38,7 +38,7 @@ public class RTSNetworkManager : NetworkManager
    
     public override void OnServerConnect(NetworkConnection conn)
     {
-        Debug.Log("Server Connected ============== ");
+        Debug.Log($"Server Connected ==============isGameInProgress {isGameInProgress} / Players {Players.Count}");
         if (!isGameInProgress) { return; }
 
         conn.Disconnect();
@@ -46,19 +46,31 @@ public class RTSNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
+        Debug.Log($"1. OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
 
         Players.Remove(player);
+        Debug.Log($"2. OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
 
         base.OnServerDisconnect(conn);
+
+        isGameInProgress = false;
+        NetworkServer.DisconnectAllConnections();
+        NetworkManager.singleton.StopServer();
+        NetworkServer.DestroyPlayerForConnection(conn);
+        NetworkServer.RemovePlayerForConnection(conn, true);
+        base.StopServer();
+        Debug.Log($"3. OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
+
     }
-    
+
     public override void OnStopServer()
     {
-    
         Players.Clear();
 
         isGameInProgress = false;
+
+        Debug.Log($"OnStopServer ============== isGameInProgress {isGameInProgress} / Players {Players.Count}");
     }
 
     public void StartGame()
@@ -193,8 +205,6 @@ public class RTSNetworkManager : NetworkManager
     {
         Debug.Log($"RTS Network Manager OnStopClient ============================== ");
         Players.Clear();
-        isGameInProgress = false;
-        //NetworkManager.singleton.StartHost();
     }
     #endregion
 }

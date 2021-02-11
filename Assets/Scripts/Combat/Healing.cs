@@ -10,7 +10,7 @@ public class Healing : NetworkBehaviour
     private RTSPlayer player;
     private GameObject capsule;
     private int healingRange = 5;
-    private int repeatHealingDelay = 2;
+    private int repeatHealingDelay = 1;
     private float lastHealingTime;
     private int healingAmount = 1;
 
