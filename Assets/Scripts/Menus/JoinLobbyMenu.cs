@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using TMPro;
@@ -26,11 +27,24 @@ public class JoinLobbyMenu : MonoBehaviour
     public void Join()
     {
         string address = addressInput.text;
-
+        int port = 7777;
+        if (address.Contains(":"))
+        {
+            port = Int32.Parse(address.Split(':')[1]);
+            address = address.Split(':')[0];
+        }
         NetworkManager.singleton.networkAddress = address;
-        NetworkManager.singleton.StartClient();
+        NetworkManager.singleton.StartClient(GetUri(address , port));
 
         joinButton.interactable = false;
+    }
+    public Uri GetUri(string address, int port)
+    {
+        UriBuilder builder = new UriBuilder();
+        builder.Scheme = "tcp4";
+        builder.Host = address;
+        builder.Port = port;
+        return builder.Uri;
     }
 
     private void HandleClientConnected()

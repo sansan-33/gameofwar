@@ -156,9 +156,9 @@ public class CardDealer : MonoBehaviour
         // ============================
        
         costText = GameObject.FindGameObjectWithTag("Eleixier");
-        Debug.Log(costText);
+        //Debug.Log(costText);
         costText.GetComponent<TextMeshProUGUI>().text = uniteleixer.ToString();
-        Debug.Log(costText.GetComponent<TextMeshProUGUI>().text);
+        //Debug.Log(costText.GetComponent<TextMeshProUGUI>().text);
         costText.tag = "Untagged";
     }
 

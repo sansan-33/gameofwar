@@ -588,22 +588,24 @@ namespace Mirror
         /// </summary>
         public void StopServer()
         {
+            Debug.Log("1 StopServer");
             if (!NetworkServer.active)
                 return;
 
+            Debug.Log("2 StopServer");
             if (authenticator != null)
                 authenticator.OnServerAuthenticated.RemoveListener(OnServerAuthenticated);
 
             OnStopServer();
-
+            Debug.Log("NetworkManager StopServer");
             logger.Log("NetworkManager StopServer");
             isNetworkActive = false;
             NetworkServer.Shutdown();
-
+            Debug.Log("Shutdown");
             // set offline mode BEFORE changing scene so that FinishStartScene
             // doesn't think we need initialize anything.
             mode = NetworkManagerMode.Offline;
-
+            Debug.Log($"offlineScene {offlineScene}");
             if (!string.IsNullOrEmpty(offlineScene))
             {
                 ServerChangeScene(offlineScene);

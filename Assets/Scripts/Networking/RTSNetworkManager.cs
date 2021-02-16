@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -46,21 +47,21 @@ public class RTSNetworkManager : NetworkManager
 
     public override void OnServerDisconnect(NetworkConnection conn)
     {
-        Debug.Log($"1. OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
 
         Players.Remove(player);
-        Debug.Log($"2. OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
-
-        base.OnServerDisconnect(conn);
 
         isGameInProgress = false;
-        NetworkServer.DisconnectAllConnections();
-        NetworkManager.singleton.StopServer();
-        NetworkServer.DestroyPlayerForConnection(conn);
-        NetworkServer.RemovePlayerForConnection(conn, true);
-        base.StopServer();
-        Debug.Log($"3. OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
+        Debug.Log($"OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
+
+        if (Players.Count == 0)
+        {
+            Debug.Log("HandleEndGame ..");
+            StartCoroutine(HandleEndGame());
+        }
+        // Will not call automatically
+        //NetworkManager.singleton.StopServer();
+        //Debug.Log($"5. OnServerDisconnect NetworkManager.singleton.StopServer ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
 
     }
 
@@ -72,7 +73,12 @@ public class RTSNetworkManager : NetworkManager
 
         Debug.Log($"OnStopServer ============== isGameInProgress {isGameInProgress} / Players {Players.Count}");
     }
-
+    public IEnumerator HandleEndGame()
+    {
+        Debug.Log($"HandleEndGame Application.Quit()");
+        yield return new WaitForSeconds(5f);
+        Application.Quit();
+    }
     public void StartGame()
     {
         //if (Players.Count < 2) { return; }
@@ -203,7 +209,7 @@ public class RTSNetworkManager : NetworkManager
 
     public override void OnStopClient()
     {
-        Debug.Log($"RTS Network Manager OnStopClient ============================== ");
+        UnityEngine.Debug.Log($"RTS Network Manager OnStopClient ============================== ");
         Players.Clear();
     }
     #endregion

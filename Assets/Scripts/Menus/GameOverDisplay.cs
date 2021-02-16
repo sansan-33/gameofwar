@@ -38,7 +38,8 @@ public class GameOverDisplay : MonoBehaviour
         }
         else
         {
-            Debug.Log("NetworkManager.singleton.StopClient()");
+            Debug.Log("NetworkManager.singleton.StopClient() + StopHost");
+            NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
             NetworkManager.singleton.StopClient();
         }
     }

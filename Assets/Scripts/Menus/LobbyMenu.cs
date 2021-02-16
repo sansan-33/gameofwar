@@ -34,8 +34,7 @@ public class LobbyMenu : MonoBehaviour
     private void ClientHandleInfoUpdated()
     {
         List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
-        Debug.Log($"LobbyMenu player count {players.Count} ============== ");
-
+      
         for (int i = 0; i < players.Count; i++)
         {
             playerNameTexts[i].text = players[i].GetDisplayName();

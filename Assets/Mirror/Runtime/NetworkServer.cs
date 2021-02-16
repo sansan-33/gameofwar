@@ -93,9 +93,12 @@ namespace Mirror
         /// </summary>
         public static void Shutdown()
         {
+            Debug.Log("Network server Shutdown");
             if (initialized)
             {
+                Debug.Log("initialized");
                 DisconnectAll();
+                Debug.Log("DisconnectAll");
 
                 if (!dontListen)
                 {
@@ -105,18 +108,19 @@ namespace Mirror
                     // client is supposed to be shut down too!
                     Transport.activeTransport.ServerStop();
                 }
-
+                
                 Transport.activeTransport.OnServerDisconnected.RemoveListener(OnDisconnected);
                 Transport.activeTransport.OnServerConnected.RemoveListener(OnConnected);
                 Transport.activeTransport.OnServerDataReceived.RemoveListener(OnDataReceived);
                 Transport.activeTransport.OnServerError.RemoveListener(OnError);
+                Debug.Log("Transport remove listener");
 
                 initialized = false;
             }
             dontListen = false;
             active = false;
             handlers.Clear();
-
+            Debug.Log("handlers clear");
             CleanupNetworkIdentities();
             NetworkIdentity.ResetNextNetworkId();
         }
