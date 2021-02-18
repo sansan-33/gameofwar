@@ -15,7 +15,8 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private float rotationSpeed = 100f;
    
     private float lastFireTime;
-    private float damageToDealFactor;
+    private float damageToDealFactor = 1f;
+    private float powerUpFactor = 0.1f;
 
     // The amount of time it takes for the agent to be able to attack again
     public float repeatAttackDelay;
@@ -98,6 +99,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     public void OnHandleKilled()
     {
         GetComponent<HealthDisplay>().HandleKillText();
+        ScaleDamageDeal(damageToDealFactor + powerUpFactor);
     }
     [ClientRpc]
     public void RpcOnHandleKilled()
