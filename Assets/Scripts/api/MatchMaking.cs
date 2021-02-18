@@ -17,34 +17,34 @@ public class MatchMaking : MonoBehaviour
     private float apiCheckCountdown = API_CHECK_MAXTIME;
 
     // API url
-    private string url = "https://www.schoolapis.com:443/schools/";
-    private int schoolid = 5200;
+    private string urladdress = "http://192.168.2.181:8400";
+    private string service = "gameserver";
+    private string quitservice = "gameserver/quit";
+    private string status = "ready";
+    private string limit = "1";
     // resulting JSON from an API request
     private JSONNode jsonResult;
 
 
     void Start()
     {
-        //CheckLobbyStatus();
+        
     }
     void Update()
     {
-        //apiCheckCountdown -= Time.deltaTime;
-        //if (apiCheckCountdown <= 0)
-        //{
-        //    CheckLobbyStatus();
-        //    apiCheckCountdown = API_CHECK_MAXTIME;
-        //}
     }
     public void CheckLobbyStatus()
     {
         addressPanel.SetActive(true);
-        // get and set the data
-        StartCoroutine(GetData(serverIP.GetComponent<TMP_InputField>()));
-        
+        StartCoroutine(GetReadyServer(serverIP.GetComponent<TMP_InputField>()));
+    }
+    public void HandleQuitGame(string gameserverport)
+    {
+        Debug.Log($"HandleQuitGame {gameserverport}");
+        StartCoroutine(QuitGameServer(gameserverport));
     }
     // sends an API request - returns a JSON file
-    IEnumerator GetData(TMP_InputField tmp_text)
+    IEnumerator GetReadyServer(TMP_InputField tmp_text)
     {
         Debug.Log($"address text {tmp_text.text}");
         // create the web request and download handler
@@ -52,7 +52,7 @@ public class MatchMaking : MonoBehaviour
         webReq.downloadHandler = new DownloadHandlerBuffer();
 
         // build the url and query
-        webReq.url = string.Format("{0}{1}", url, schoolid);
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", urladdress, service, status, limit);
 
         // send the web request and wait for a returning result
         yield return webReq.SendWebRequest();
@@ -62,11 +62,29 @@ public class MatchMaking : MonoBehaviour
 
         // parse the raw string into a json result we can easily read
         jsonResult = JSON.Parse(rawJson);
-        Debug.Log($"jsonResult {webReq.url } {jsonResult["namehk"]}");
+        Debug.Log($"jsonResult {webReq.url } {jsonResult["port"]}");
         // display the results on screen
-        //tmp_text.text =  jsonResult["namehk"];
+        //gameserverport = jsonResult["port"];
+        tmp_text.text = jsonResult["serverip"] + ":" + jsonResult["port"];
     }
+    IEnumerator QuitGameServer(string port)
+    {
+        Debug.Log($"QuitGameServer {port}");
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
 
+        // build the url and query
+        webReq.url = string.Format("{0}/{1}/{2}", urladdress, quitservice, port);
+        webReq.method = "put";
+        Debug.Log($"QuitGameServer {webReq.url }");
+        // send the web request and wait for a returning result
+        yield return webReq.SendWebRequest();
+
+        // convert the byte array to a string
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+
+       
+    }
 
 
 }

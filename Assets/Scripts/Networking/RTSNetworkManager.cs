@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using Mirror;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
@@ -25,18 +26,18 @@ public class RTSNetworkManager : NetworkManager
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
-
+   
     private bool isGameInProgress = false;
     private List<Color> teamsColor = new List<Color>() { new Color(0f,0.6f,1f), new Color(1f,0f,0f)};
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
 
+    private string urladdress = "http://192.168.2.181:8400";
     private int spawnMoveRange = 1;
 
     private Dictionary<Unit.UnitType, int> militaryList = new Dictionary<Unit.UnitType, int>();
     private Dictionary<Unit.UnitType, GameObject> unitDict = new Dictionary<Unit.UnitType, GameObject>();
-    #region Server
-
    
+    #region Server
     public override void OnServerConnect(NetworkConnection conn)
     {
         Debug.Log($"Server Connected ==============isGameInProgress {isGameInProgress} / Players {Players.Count}");
@@ -50,39 +51,32 @@ public class RTSNetworkManager : NetworkManager
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
 
         Players.Remove(player);
-
         isGameInProgress = false;
-        Debug.Log($"OnServerDisconnect ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
 
-        if (Players.Count == 0)
-        {
-            Debug.Log("HandleEndGame ..");
-            StartCoroutine(HandleEndGame());
+        if (Players.Count == 0){
+            StartCoroutine(HandleEndGame(Convert.ToString((int)NetworkManager.singleton.GetComponent<TelepathyTransport>().port)));
         }
-        // Will not call automatically
-        //NetworkManager.singleton.StopServer();
-        //Debug.Log($"5. OnServerDisconnect NetworkManager.singleton.StopServer ============== isGameInProgress {isGameInProgress} / Players {Players.Count} NetworkServer / base.numPlayers {base.numPlayers} ");
-
     }
 
     public override void OnStopServer()
     {
         Players.Clear();
-
         isGameInProgress = false;
-
-        Debug.Log($"OnStopServer ============== isGameInProgress {isGameInProgress} / Players {Players.Count}");
     }
-    public IEnumerator HandleEndGame()
+    public IEnumerator HandleEndGame(string port)
     {
-        Debug.Log($"HandleEndGame Application.Quit()");
-        yield return new WaitForSeconds(5f);
+        UnityWebRequest webReq = new UnityWebRequest();
+        // build the url and query
+        webReq.url = string.Format("{0}/{1}/{2}", urladdress, "gameserver/quit", port);
+        webReq.method = "put";
+        webReq.SendWebRequest();
+        yield return new WaitForSeconds(10f);
         Application.Quit();
     }
     public void StartGame()
     {
         //if (Players.Count < 2) { return; }
-
+       
         isGameInProgress = true;
 
         unitDict.Clear();
@@ -132,10 +126,10 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    //militaryList.Add(Unit.UnitType.ARCHER, 3);
+                    militaryList.Add(Unit.UnitType.ARCHER, 3);
                     //militaryList.Add(Unit.UnitType.GIANT, 1);
                     //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
-                    militaryList.Add(Unit.UnitType.SPEARMAN, 1);
+                    //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
                     //militaryList.Add(Unit.UnitType.SAMPLEUNIT, 5);
 
                 }
