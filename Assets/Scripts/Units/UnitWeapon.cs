@@ -16,10 +16,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private GameObject attackPoint;
     [SerializeField] private float attackRange=5f;
-    [SerializeField] private LayerMask layerMask = new LayerMask();
+    [SerializeField] public LayerMask layerMask = new LayerMask();
     [SerializeField] private GameObject specialEffectPrefab  = null;
     [SerializeField] private bool IsAreaOfEffect = false;
-
+    [SerializeField] private GameObject tacticalGroup;
     private int id;
     private float calculatedDamageToDeal ;
     
@@ -52,8 +52,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void TryAttack()
     {
         //Debug.Log($"Attacker {targeter} attacking .... ");
-
-        calculatedDamageToDeal = damageToDeal;
+      
+         calculatedDamageToDeal = damageToDeal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);

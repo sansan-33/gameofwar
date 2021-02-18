@@ -30,11 +30,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         public SharedBool useTargetBone;
         [Tooltip("The target's bone if the target is a humanoid")]
         public HumanBodyBones targetBone;
-
+        private int collisionCount = 0;
         private bool sendListenerEvent;
         private TaskStatus runStatus;
         private GameObject prevLeader;
-
+        public bool IsCollide = false;
         protected List<Behavior> formationTrees;
         protected TacticalAgent tacticalAgent;
         protected List<Transform> agents;
@@ -45,7 +45,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected Behavior leaderTree;
         protected List<IDamageable> targets = new List<IDamageable>();
         protected List<Transform> targetTransforms = new List<Transform>();
-
+        private LayerMask layerMask = LayerMask.GetMask("Unit");
         /// <summary>
         /// Listen for any agents that want to join the group.
         /// </summary>
@@ -400,15 +400,19 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             // IF this error means Agent Group Index is ZERO
             //Debug.Log($"FindAttackTarget --> | {tacticalAgent} | ? ");
-            if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive()) {
+            if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive() || isCollide())
+            {
                 Transform target = null;
                 IDamageable damageable = null;
                 ClosestTarget(transform, ref target, ref damageable);
-                if (useTargetBone.Value) {
+                if (useTargetBone.Value)
+                {
                     Animator targetAnimator;
-                    if ((targetAnimator = target.GetComponent<Animator>()) != null) {
+                    if ((targetAnimator = target.GetComponent<Animator>()) != null)
+                    {
                         var bone = targetAnimator.GetBoneTransform(targetBone);
-                        if (bone != null) {
+                        if (bone != null)
+                        {
                             target = bone;
                         }
                     }
@@ -417,7 +421,20 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 tacticalAgent.TargetDamagable = damageable;
             }
         }
-
+        public bool isCollide()
+        {
+            
+           
+            
+            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 5f, Quaternion.identity, layerMask);
+            if(hitColliders[0] != null)
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Moves the agent towards and rotates towards the target transform.
         /// </summary>
