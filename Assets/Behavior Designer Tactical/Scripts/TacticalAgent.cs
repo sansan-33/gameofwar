@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Mirror;
+using UnityEngine;
 
 
 namespace BehaviorDesigner.Runtime.Tactical
@@ -17,18 +18,21 @@ namespace BehaviorDesigner.Runtime.Tactical
         private bool attackPosition = false;
         private Vector3 attackOffset;
         private Vector3 targetOffset;
-
+        private TacticalAgent tacticalAgent;
         public IAttackAgent AttackAgent { get { return attackAgent; } }
         public Transform TargetTransform { get { return targetTransform; } set { targetTransform = value; } }
         public IDamageable TargetDamagable { get { return targetDamagable; } set { targetDamagable = value; } }
         public bool AttackPosition { get { return attackPosition; } set { attackPosition = value; } }
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
-
+        private LayerMask layerMask = LayerMask.GetMask("Unit");
+        RTSPlayer player;
+        Targeter targeter;
         /// <summary>
         /// Caches the component referneces.
         /// </summary>
-        public TacticalAgent(Transform agent)
+      
+    public TacticalAgent(Transform agent)
         {
             transform = agent;
             attackAgent = agent.GetComponent(typeof(IAttackAgent)) as IAttackAgent;
@@ -100,7 +104,54 @@ namespace BehaviorDesigner.Runtime.Tactical
             }
             return false;
         }
+        public bool isCollide(TacticalAgent tacticalAgents)
+        {
+            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+            tacticalAgent = tacticalAgents;
+            targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
+            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale, Quaternion.identity, layerMask);
+            int i = 0;
+            Collider other;
+            //Check when there is a new collider coming into contact with the box
+            while (i < hitColliders.Length)
+            {
+                other = hitColliders[i++];
+                
+                if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
+                {
+                    //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
+                    if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                    if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
 
+                }
+                else // Multi player seneriao
+                {
+                    //Debug.Log($"Multi player seneriao ");
+                    if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
+                    {
+                        if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                    }
+                }
+                //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
+                Debug.Log("change target");
+                    return true;
+
+            }
+            return false;
+            
+        }
+        //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
+        public  void OnDrawGizmos()
+        {
+            if (tacticalAgent == null || tacticalAgent.TargetTransform == null) { return; }
+            Gizmos.color = Color.red;
+            //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+            if (true)
+            {
+                //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+                Gizmos.DrawWireCube(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 1);
+            }
+        }
         /// <summary>
         /// Attacks the target.
         /// </summary>
@@ -127,5 +178,6 @@ namespace BehaviorDesigner.Runtime.Tactical
             }
             return ContainsTransform(target.parent, parent);
         }
+        
     }
 }

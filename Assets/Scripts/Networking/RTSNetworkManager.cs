@@ -126,7 +126,7 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(Unit.UnitType.ARCHER, 3);
+                    militaryList.Add(Unit.UnitType.SPEARMAN, 5);
                     //militaryList.Add(Unit.UnitType.GIANT, 1);
                     //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
                     //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
@@ -135,7 +135,7 @@ public class RTSNetworkManager : NetworkManager
                 }
                 else
                 {
-                    militaryList.Add(Unit.UnitType.SPEARMAN, 1);
+                    militaryList.Add(Unit.UnitType.SPEARMAN, 3);
                 }
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
