@@ -52,13 +52,17 @@ public class UnitProjectile : NetworkBehaviour
         {
             if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
             {
-                if (networkIdentity.connectionToClient == connectionToClient) { return; }  //check to see if it belongs to the player, if it does, do nothing
+                if (networkIdentity.hasAuthority) { return; }  //check to see if it belongs to the player, if it does, do nothing
+                //if (networkIdentity.connectionToClient == connectionToClient) { return; }  //check to see if it belongs to the player, if it does, do nothing
             }
 
         }
         //Debug.Log($"Health {other} / {other.GetComponent<Health>()} ");
         if (other.TryGetComponent<Health>(out Health health))
         {
+            //Destroy the arrow faster prevent showing arror after hit
+            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}");
             damageToDeals = strengthWeakness.calculateDamage(Unit.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal);
@@ -66,17 +70,12 @@ public class UnitProjectile : NetworkBehaviour
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
-           bool iskilled = health.DealDamage(damageToDeals);
-            if (iskilled == true)
-            {
+            bool iskilled = health.DealDamage(damageToDeals);
+            if (iskilled){
                 onKilled?.Invoke();
-                powerUpAfterKill();
-                RpcpowerUpAfterKill();
             }
-
+            //DestroySelf();
         }
-
-        DestroySelf();
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
@@ -118,18 +117,6 @@ public class UnitProjectile : NetworkBehaviour
     {
         NetworkServer.Destroy(gameObject);
     }
-    public void powerUpAfterKill()
-    {
-        GetComponent<HealthDisplay>().HandleKillText();
-        float upGradeAmount = (float)1.1;
-        damageToDeals *= upGradeAmount;
-    }
-    [ClientRpc]
-    public void RpcpowerUpAfterKill()
-    {
-        GetComponent<HealthDisplay>().HandleKillText();
-        float upGradeAmount = (float)1.1;
-        damageToDeals *= upGradeAmount;
-    }
+   
 
 }

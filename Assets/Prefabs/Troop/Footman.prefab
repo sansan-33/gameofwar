@@ -56,12 +56,13 @@ MonoBehaviour:
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   camFreeLookPrefab: {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
   attackPoint: {fileID: 3888158730288229055}
-  attackRange: 5
+  attackRange: 10
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
   specialEffectPrefab: {fileID: 1750940742320366, guid: aa5aad65fe5584a068dc9a795463210d, type: 3}
   IsAreaOfEffect: 0
+  tacticalGroup: {fileID: 0}
   repeatAttackDelay: 1
   attackAngle: 1
   strengthWeakness: {fileID: 0}
@@ -413,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143336, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Radius
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143340, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
