@@ -28,11 +28,12 @@ namespace BehaviorDesigner.Runtime.Tactical
         private LayerMask layerMask = LayerMask.GetMask("Unit");
         RTSPlayer player;
         Targeter targeter;
+        Collider other;
         /// <summary>
         /// Caches the component referneces.
         /// </summary>
-      
-    public TacticalAgent(Transform agent)
+
+        public TacticalAgent(Transform agent)
         {
             transform = agent;
             attackAgent = agent.GetComponent(typeof(IAttackAgent)) as IAttackAgent;
@@ -108,10 +109,11 @@ namespace BehaviorDesigner.Runtime.Tactical
         {
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             tacticalAgent = tacticalAgents;
+            if (tacticalAgents.TargetTransform == null) { Debug.Log("Null") ;return false; }
             targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
             Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale, Quaternion.identity, layerMask);
             int i = 0;
-            Collider other;
+            
             //Check when there is a new collider coming into contact with the box
             while (i < hitColliders.Length)
             {
@@ -133,12 +135,16 @@ namespace BehaviorDesigner.Runtime.Tactical
                     }
                 }
                 //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
-                Debug.Log("change target");
+                Debug.Log($"change target{tacticalAgent.TargetTransform}");
                     return true;
 
             }
             return false;
             
+        }
+        public IDamageable collideTarget()
+       {
+           return other.transform.GetComponent< IDamageable>();
         }
         //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
         public  void OnDrawGizmos()

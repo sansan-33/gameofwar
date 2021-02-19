@@ -392,7 +392,14 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
             }
         }
+        protected void CollideTarget(Transform collideTransform, IDamageable collideTarget, ref Transform targetTransform, ref IDamageable targetDamagable)
+        {
 
+            targetTransform = collideTransform;
+            targetDamagable = collideTarget;
+
+
+        }
         /// <summary>
         /// Finds a target transform closest to the agent.
         /// </summary>
@@ -400,28 +407,39 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             // IF this error means Agent Group Index is ZERO
             //Debug.Log($"FindAttackTarget --> | {tacticalAgent} | ? ");
-            if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive() || tacticalAgent.isCollide(tacticalAgent))
+            if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive()|| tacticalAgent.isCollide(tacticalAgent))
             {
                 Transform target = null;
                 IDamageable damageable = null;
-                ClosestTarget(transform, ref target, ref damageable);
-                if (useTargetBone.Value)
+               
+                if (tacticalAgent.isCollide(tacticalAgent))
                 {
-                    Animator targetAnimator;
-                    if ((targetAnimator = target.GetComponent<Animator>()) != null)
+                   IDamageable collideTarget = tacticalAgent.collideTarget();
+                    CollideTarget(transform, collideTarget, ref target, ref damageable);
+                }
+                else
+                {
+
+                    ClosestTarget(transform, ref target, ref damageable);
+                    if (useTargetBone.Value)
                     {
-                        var bone = targetAnimator.GetBoneTransform(targetBone);
-                        if (bone != null)
+                        Animator targetAnimator;
+                        if ((targetAnimator = target.GetComponent<Animator>()) != null)
                         {
-                            target = bone;
+                            var bone = targetAnimator.GetBoneTransform(targetBone);
+                            if (bone != null)
+                            {
+                                target = bone;
+                            }
                         }
                     }
+                    tacticalAgent.TargetTransform = target;
+                    tacticalAgent.TargetDamagable = damageable;
                 }
-                tacticalAgent.TargetTransform = target;
-                tacticalAgent.TargetDamagable = damageable;
+
             }
         }
-        
+
         /// <summary>
         /// Moves the agent towards and rotates towards the target transform.
         /// </summary>
