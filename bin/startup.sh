@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 20
+sleep 12
 
 
 if [ $# -eq 0 ] || [ $1 == "7777" ]; then

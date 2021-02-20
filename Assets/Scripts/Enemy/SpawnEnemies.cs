@@ -41,8 +41,10 @@ public class SpawnEnemies : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                localFactory.CmdSpawnUnit(Unit.UnitType.HERO,  1 , enemyID, unitAuthority, teamColor);
-                //localFactory.CmdSpawnUnit(Unit.UnitType.MINISKELETON, 10, enemyID, unitAuthority);
+                if(isUnitAlive(Unit.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length )
+                    localFactory.CmdSpawnUnit(Unit.UnitType.HERO,  1 , enemyID, unitAuthority, teamColor);
+                else
+                    localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN, 1, enemyID, unitAuthority, teamColor);
                 StartCoroutine(TryTactical(TacticalBehavior.BehaviorSelectionType.Defend));
             }
         }
@@ -63,5 +65,16 @@ public class SpawnEnemies : MonoBehaviour
         yield return new WaitForSeconds(5f);
         tacticalBehavior.TryTB((int)type, enemyID);
     }
-
+    private int isUnitAlive(Unit.UnitType unitType)
+    {
+        int isAlive = 0;
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player1");
+        foreach (GameObject child in armies)
+        {
+            if (child.GetComponent<Unit>().unitType == unitType) { 
+                isAlive++;
+            }
+        }
+        return isAlive;
+    }
 }

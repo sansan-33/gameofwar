@@ -127,6 +127,10 @@ public class TacticalBehavior : MonoBehaviour
             i++;
             //}
         }
+        if(heros.Count == 0 && armies.Length > 0)
+        {
+            heros.Add(armies[0]);
+        }
         //Debug.Log($"playerID {playerID} Heros size {heros.Count}");
         for (int j = 0; j < PlayerEnemyGroup[playerID].transform.childCount; ++j)
         {
@@ -145,7 +149,7 @@ public class TacticalBehavior : MonoBehaviour
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
                 }
-                if (!child.gameObject.name.ToUpper().Contains("LEADER"))
+                if (!child.gameObject.name.ToUpper().Contains("LEADER") && heros.Count >= rand + 1)
                 {
                     agentTrees[k].SetVariableValue("newLeader", heros[rand]);
                 }
