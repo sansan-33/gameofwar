@@ -397,8 +397,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
           
             targetTransform = collideTransform;
             targetDamagable = collideTarget;
-            Debug.Log($"ME{tacticalAgent.TargetTransform.name}|||||||||ENEMY{targetTransform.name}");
-
+            
         }
         /// <summary>
         /// Finds a target transform closest to the agent.
@@ -437,9 +436,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         }
          public override void OnDrawGizmos()
         {
-            Debug.Log("draw Gizmos");
+           
             if (tacticalAgent == null || tacticalAgent.TargetTransform == null) { return; }
-            Debug.Log("drawing Gizmos");
+            
             Gizmos.color = Color.red;
             //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
             if (true)
