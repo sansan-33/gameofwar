@@ -78,8 +78,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
                     if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                    if (player.GetPlayerID() == 1 ) { isFlipped = true; }
-                    Debug.Log(isFlipped);
+                  //  if (player.GetPlayerID() == 1 )
+                     isFlipped = true;
+                   
                 }
             }
             //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
@@ -96,7 +97,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 //Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
 
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
-                cmdDamageText(other.transform.position, calculatedDamageToDeal , damageToDeal, isFlipped );
+                cmdDamageText(other.transform.position, other.transform, calculatedDamageToDeal , damageToDeal, isFlipped);
                 cmdSpecialEffect(other.transform.position);
                 //if (calculatedDamageToDeal > damageToDeal ) { cmdCMVirtual(); }
                 //cmdCMFreeLook();
@@ -130,7 +131,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         }
     }
     [Command]   
-    private void cmdDamageText(Vector3 targetPos, float damageNew , float damgeOld, bool flipText)
+    private void cmdDamageText(Vector3 targetPos,Transform other , float damageNew , float damgeOld, bool flipText)
     {
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         Color textColor;
@@ -147,8 +148,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         }
         floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
         floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
+      
         NetworkServer.Spawn(floatingText, connectionToClient);
-        if (flipText) { TargetCommandText(floatingText); }
+        NetworkIdentity opponentIdentity = other.GetComponent<NetworkIdentity>();
+       
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText); }
 
     }
     [Command]
@@ -228,7 +232,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         damageToDeal *= upGradeAmount;
     }
     [TargetRpc]
-    public void TargetCommandText(GameObject floatingText)
+    public void TargetCommandText(NetworkConnection other , GameObject floatingText)
     {
         Debug.Log($"===============================  damage text ");
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180;

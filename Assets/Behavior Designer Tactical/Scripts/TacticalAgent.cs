@@ -114,7 +114,7 @@ namespace BehaviorDesigner.Runtime.Tactical
             targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
             Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale*2, Quaternion.identity, layerMask);
             int i = 0;
-            Debug.Log($"{tacticalAgent.TargetTransform.name}hitColliders.Length-->{hitColliders.Length}");
+       
             //Check when there is a new collider coming into contact with the box
             while (i < hitColliders.Length)
             {

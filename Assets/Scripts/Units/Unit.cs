@@ -25,7 +25,7 @@ public class Unit : NetworkBehaviour
         {UnitType.ARCHER, 4 },
         { UnitType.HERO, 3 },
         { UnitType.KNIGHT, 3 },
-        { UnitType.MAGE, 5 },
+        { UnitType.MAGE, 6 },
         { UnitType.MINISKELETON, 3 },
         { UnitType.SPEARMAN, 3 }};
     public UnitType unitType;
