@@ -25,6 +25,9 @@ public class UnitFactory : NetworkBehaviour
     private int initFootmanCount = 0;
     private int initKnightCount = 0;
     private int initHeroCount = 0;
+    private List<int> lastPlayerSpawnPoint = new List<int> {0,1};
+    private List<int> lastEnemySpawnPoint = new List<int> {2,3};
+    private int spawnPointIndex = 0;
 
     [SerializeField] private float fireRate = 6000f;
    
@@ -44,7 +47,13 @@ public class UnitFactory : NetworkBehaviour
     public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
         //Vector3 spawnPosition = spawnPoints[playerID].position;
-        Vector3 spawnPosition = NetworkManager.startPositions[playerID].position ;
+        //TODO spwan position should be based on leader / hero
+        int spawnPoint = 0;
+        if(playerID == 0)
+            spawnPoint = lastPlayerSpawnPoint[spawnPointIndex++ % 2];
+        else
+            spawnPoint = lastEnemySpawnPoint[spawnPointIndex++ % 2];
+        Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position ;
         //Debug.Log($" CmdSpawnUnit Player ID {playerID} at postion {spawnPosition}");
         int unitsize = 1;
         if(Unit.UnitSize.TryGetValue(unitType , out int value)){ unitsize = value; }

@@ -193,8 +193,6 @@ public class RTSPlayer : NetworkBehaviour
 
         if (unitToPlace == null) { return; }
 
-        if (resources < unitToPlace.GetPrice()) { return; }
-
         BoxCollider buildingCollider = unitToPlace.GetComponent<BoxCollider>();
 
         if (!CanPlaceBuilding(buildingCollider, point)) { return; }
@@ -204,7 +202,6 @@ public class RTSPlayer : NetworkBehaviour
 
         NetworkServer.Spawn(unitInstance, connectionToClient);
 
-        SetResources(resources - unitToPlace.GetPrice());
     }
 
     private void ServerHandleUnitSpawned(Unit unit)

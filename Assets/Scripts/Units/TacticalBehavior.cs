@@ -9,7 +9,7 @@ using UnityEngine.AI;
 
 public class TacticalBehavior : MonoBehaviour
 {
-    [SerializeField] List<GameObject> group = new List<GameObject>();
+    [SerializeField] List<GameObject> PlayerEnemyGroup = new List<GameObject>();
     private eleixier Eleixier;
     private RTSPlayer player;
     private int playerid = 0;
@@ -28,7 +28,7 @@ public class TacticalBehavior : MonoBehaviour
     private string enemyType = "";
     private Color teamColor;
     private Color teamEnemyColor;
-
+    
     #region Client
 
     public void Awake()
@@ -67,7 +67,6 @@ public class TacticalBehavior : MonoBehaviour
                 if (unit.hasAuthority)
                 {
                     playerBase.tag = "PlayerBase" + playerid;
-                    defendObject = playerBase;
                 }
                 else
                 {
@@ -102,13 +101,12 @@ public class TacticalBehavior : MonoBehaviour
     public IEnumerator TacticalFormation(int playerID, int enemyID)
     {
         yield return new WaitForSeconds(1f);
-        GameObject hero = null;
+        List<GameObject> heros = new List<GameObject>();
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerID);
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
         int i = 0;
-        defendObject = GameObject.FindGameObjectWithTag("PlayerBase" + playerID);
         behaviorTreeGroups[playerID].Clear();
-
+        int rand = 0;
         foreach (GameObject child in armies)
         {
             // Set Higher Priority value will avoid lower value 
@@ -119,20 +117,23 @@ public class TacticalBehavior : MonoBehaviour
             {
                 child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
             }
-            if (i == 0){
-                    hero = child;
-                    hero.name = "LEADER";
+            if (child.GetComponent<Unit>().unitType == Unit.UnitType.HERO){
+                heros.Add(child);
+                child.name = "LEADER" + heros.Count;
             }
             child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
             child.name = "[" + i + "]\t" + child.name;
-            child.transform.parent = group[playerID].transform;
+            child.transform.parent = PlayerEnemyGroup[playerID].transform;
             i++;
             //}
         }
-
-        for (int j = 0; j < group[playerID].transform.childCount; ++j)
+        //Debug.Log($"playerID {playerID} Heros size {heros.Count}");
+        for (int j = 0; j < PlayerEnemyGroup[playerID].transform.childCount; ++j)
         {
-            var child = group[playerID].transform.GetChild(j);
+            var child = PlayerEnemyGroup[playerID].transform.GetChild(j);
+            rand = rand == 0 ? 1 : 0; 
+            defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerID)[rand];
+            defendObject.name = "PlayerBase" + playerID + rand;
             //Debug.Log($" {i} {child} ");
             var agentTrees = child.GetComponents<BehaviorTree>();
             for (int k = 0; k < agentTrees.Length; ++k)
@@ -146,7 +147,7 @@ public class TacticalBehavior : MonoBehaviour
                 }
                 if (!child.gameObject.name.ToUpper().Contains("LEADER"))
                 {
-                    agentTrees[k].SetVariableValue("newLeader", hero);
+                    agentTrees[k].SetVariableValue("newLeader", heros[rand]);
                 }
                 else
                 {

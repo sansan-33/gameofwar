@@ -14,7 +14,6 @@ public class Unit : NetworkBehaviour
     [SerializeField] private UnitMovement unitMovement = null;
     [SerializeField] private int id = -1;
     [SerializeField] private TMP_Text taskStatus;
-    [SerializeField] private int price = 100;
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
@@ -59,10 +58,6 @@ public class Unit : NetworkBehaviour
     public int GetId()
     {
         return id;
-    }
-    public int GetPrice()
-    {
-        return price;
     }
     public void SetTaskStatus(string status)
     {

@@ -55,7 +55,7 @@ public class Card : MonoBehaviour
     {
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
         int uniteleixer = 1;
-        Debug.Log($"{eleixers.eleixer},{ uniteleixer}");
+        //Debug.Log($"{eleixers.eleixer},{ uniteleixer}");
         if (Unit.UnitEleixer.TryGetValue((Unit.UnitType)type, out int value)) { uniteleixer = value; }
         
         if (eleixers.eleixer < uniteleixer)

@@ -50,9 +50,7 @@ public class HealthDisplay : MonoBehaviour
     }
     public void HandleKillText()
     {
-        
         killText.text = kills.ToString();
         kills++;
-        Debug.Log(killText.text);
     }
 }

@@ -105,8 +105,7 @@ public class RTSNetworkManager : NetworkManager
         player.SetEnemyID(player.GetPlayerID() == 0 ? 1 : 0);
         player.SetTeamEnemyColor(teamsColor[player.GetEnemyID()]);
         player.SetPartyOwner(Players.Count == 1);
-        Debug.Log($"RTS Network Manager OnServerAddPlayer Player Count {Players.Count} ============== ");
-
+   
     }
 
     public override void OnServerSceneChanged(string sceneName)
@@ -122,11 +121,12 @@ public class RTSNetworkManager : NetworkManager
                 Vector3 pos = GetStartPosition().position;
                 //Debug.Log($"What is unitbase tag | {baseInstance.tag} | playerID |{player.GetPlayerID()}|  ? ");               
                 SetupBase(pos, player);
+                SetupBase(GetStartPosition().position, player);
                 SetupUnitFactory(pos, player);
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(Unit.UnitType.ARCHER, 3);
+                    militaryList.Add(Unit.UnitType.HERO, 2);
                     //militaryList.Add(Unit.UnitType.GIANT, 1);
                     //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
                     //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
@@ -154,7 +154,6 @@ public class RTSNetworkManager : NetworkManager
                    Quaternion.identity);
         baseInstance.SetActive(true);
         //The Tag will not be set in client machine
-        //baseInstance.tag = "PlayerBase" + player.GetPlayerID();
         NetworkServer.Spawn(baseInstance, player.connectionToClient);
     }
     private void SetupUnitFactory(Vector3 pos, RTSPlayer player)

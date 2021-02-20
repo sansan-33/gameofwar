@@ -38,17 +38,10 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     private float progressImageVelocity;
     private void Start()
     {
-        Input.simulateMouseWithTouches = true;
         mainCamera = Camera.main;
-
-       
-        
-
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         if (priceText == null) { return; }
         unitCollider = unit.GetComponent<BoxCollider>();
-       
-        priceText.text = unit.GetPrice().ToString();
     }
 
     private void Update()
@@ -73,72 +66,12 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     {
         Button btn = this.gameObject.GetComponent<Button>();
 
-
-        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-
-
-
-
-
         if (queuedUnits == 0) { return; }
 
         unitTimer += Time.deltaTime;
-        
-       /* if (player.GetResources() < ResourcesNeeded)
-        {
-
-            GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
-
-            foreach (GameObject card in cards)
-            {
-                card.GetComponent<Button>().interactable = false; Debug.Log(9);
-
-            }
-        }
-        if (player.GetResources() < ResourcesNeeded)
-        {
-
-            Debug.Log(8);
-        }
-        else
-        {
-
-
-            if (unitTimer > 5)
-            {
-
-
-                btn.interactable = true;
-
-
-            }
-        }
-
-        if (btn.interactable == false)
-        {
-
-
-            return;
-        }
-
-
-
-        if (player.GetResources() > ResourcesNeeded)
-        {
-
-            GameObject[] cards = GameObject.FindGameObjectsWithTag("Card");
-
-            foreach (GameObject card in cards)
-            {
-                card.GetComponent<Button>().interactable = true; ;
-
-            }
-        }
-       */
+      
         if (unitTimer > 5)
         {
-
-
             btn.interactable = true;
         }
 
@@ -146,10 +79,9 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
 
         // Debug.Log($"2 Produce Unit unitSpawnDuration {unitSpawnDuration} , unitTimer {unitTimer}");
         
-      queuedUnits--;
+        queuedUnits--;
         unitTimer = 0f;
         Screen.orientation = ScreenOrientation.Portrait;
-
       
     }
 
@@ -210,9 +142,6 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     public void onBeginDrag(PointerEventData eventData)
     {
 
-        Debug.Log($"Begin Drag");
-        if (player.GetResources() < unit.GetPrice()) { return; }
-
         unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
         unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
         //testing
@@ -238,8 +167,6 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     {
         
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
-
-        if (player.GetResources() < unit.GetPrice()) { return; }
 
         unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
         unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
