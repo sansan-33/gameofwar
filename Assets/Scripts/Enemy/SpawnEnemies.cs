@@ -6,7 +6,7 @@ public class SpawnEnemies : MonoBehaviour
 {
     [SerializeField] private GameObject capsulePrefab;
     private UnitFactory localFactory;
-  
+
     private bool unitAuthority = false;
     private int enemyID = 0;
     private int playerID = 0;
@@ -30,13 +30,12 @@ public class SpawnEnemies : MonoBehaviour
             SpawnEnemyBase("SpawnPointEnemy",0);
             SpawnEnemyBase("SpawnPointEnemy",1);
             InvokeRepeating("LoadEnemies", 2f, 20f);
-            
         }
     }
 
     public void LoadEnemies()
     {
-   
+
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
@@ -62,8 +61,7 @@ public class SpawnEnemies : MonoBehaviour
         //Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
         StartCoroutine(tacticalBehavior.TacticalFormation(enemyID, playerID));
         yield return new WaitForSeconds(5f);
-        tacticalBehavior.TryTB((int) type , enemyID);
+        tacticalBehavior.TryTB((int)type, enemyID);
     }
-
 
 }

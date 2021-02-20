@@ -111,7 +111,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         if (m_Started)
         {
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale * attackRange);
+            //Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale * attackRange);
         }
     }
 
