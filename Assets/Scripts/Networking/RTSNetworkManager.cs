@@ -136,7 +136,7 @@ public class RTSNetworkManager : NetworkManager
                 }
                 else
                 {
-                    militaryList.Add(Unit.UnitType.SPEARMAN, 3);
+                    militaryList.Add(Unit.UnitType.HERO, 2);
                 }
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
