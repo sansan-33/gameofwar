@@ -107,13 +107,14 @@ namespace BehaviorDesigner.Runtime.Tactical
         }
         public bool isCollide(TacticalAgent tacticalAgents)
         {
+          
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             tacticalAgent = tacticalAgents;
-            if (tacticalAgents.TargetTransform == null) { Debug.Log("Null") ;return false; }
+            if (tacticalAgents.TargetTransform == null) {return false; }
             targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
-            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale, Quaternion.identity, layerMask);
+            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale*2, Quaternion.identity, layerMask);
             int i = 0;
-            
+            Debug.Log($"{tacticalAgent.TargetTransform.name}hitColliders.Length-->{hitColliders.Length}");
             //Check when there is a new collider coming into contact with the box
             while (i < hitColliders.Length)
             {
@@ -135,7 +136,7 @@ namespace BehaviorDesigner.Runtime.Tactical
                     }
                 }
                 //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
-                Debug.Log($"change target{tacticalAgent.TargetTransform}");
+               
                     return true;
 
             }
@@ -147,17 +148,8 @@ namespace BehaviorDesigner.Runtime.Tactical
            return other.transform.GetComponent< IDamageable>();
         }
         //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
-        public  void OnDrawGizmos()
-        {
-            if (tacticalAgent == null || tacticalAgent.TargetTransform == null) { return; }
-            Gizmos.color = Color.red;
-            //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
-            if (true)
-            {
-                //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-                Gizmos.DrawWireCube(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 1);
-            }
-        }
+       
+       
         /// <summary>
         /// Attacks the target.
         /// </summary>

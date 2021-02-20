@@ -78,7 +78,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
                     if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                    if (player.GetPlayerID() == 0 ) { isFlipped = true; }
+                    if (player.GetPlayerID() == 1 ) { isFlipped = true; }
+                    Debug.Log(isFlipped);
                 }
             }
             //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");

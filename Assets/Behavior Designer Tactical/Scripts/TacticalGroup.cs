@@ -394,10 +394,10 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         }
         protected void CollideTarget(Transform collideTransform, IDamageable collideTarget, ref Transform targetTransform, ref IDamageable targetDamagable)
         {
-
+          
             targetTransform = collideTransform;
             targetDamagable = collideTarget;
-
+            Debug.Log($"ME{tacticalAgent.TargetTransform.name}|||||||||ENEMY{targetTransform.name}");
 
         }
         /// <summary>
@@ -405,21 +405,17 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         protected void FindAttackTarget()
         {
-            // IF this error means Agent Group Index is ZERO
-            //Debug.Log($"FindAttackTarget --> | {tacticalAgent} | ? ");
-            if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive()|| tacticalAgent.isCollide(tacticalAgent))
-            {
-                Transform target = null;
-                IDamageable damageable = null;
-               
-                if (tacticalAgent.isCollide(tacticalAgent))
-                {
-                   IDamageable collideTarget = tacticalAgent.collideTarget();
-                    CollideTarget(transform, collideTarget, ref target, ref damageable);
-                }
-                else
-                {
+            Transform target = null;
+            IDamageable damageable = null;
 
+            if (tacticalAgent.isCollide(tacticalAgent))
+            {
+                IDamageable collideTarget = tacticalAgent.collideTarget();
+                CollideTarget(transform, collideTarget, ref target, ref damageable);
+
+            } else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
+            {
+                
                     ClosestTarget(transform, ref target, ref damageable);
                     if (useTargetBone.Value)
                     {
@@ -435,11 +431,23 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                     tacticalAgent.TargetTransform = target;
                     tacticalAgent.TargetDamagable = damageable;
-                }
+                
 
             }
         }
-
+         public override void OnDrawGizmos()
+        {
+            Debug.Log("draw Gizmos");
+            if (tacticalAgent == null || tacticalAgent.TargetTransform == null) { return; }
+            Debug.Log("drawing Gizmos");
+            Gizmos.color = Color.red;
+            //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+            if (true)
+            {
+                //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+                Gizmos.DrawWireCube(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 2);
+            }
+        }
         /// <summary>
         /// Moves the agent towards and rotates towards the target transform.
         /// </summary>
