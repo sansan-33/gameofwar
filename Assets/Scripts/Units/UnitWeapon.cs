@@ -22,7 +22,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private GameObject tacticalGroup;
     private int id;
     private float calculatedDamageToDeal ;
-    
+    NetworkIdentity opponentIdentity;
     bool m_Started;
     // The amount of time it takes for the agent to be able to attack again
     public float repeatAttackDelay;
@@ -64,40 +64,44 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         while (i < hitColliders.Length)
         {
             other = hitColliders[i++];
-            //((RTSNetworkManager)NetworkManager.singleton).Players   
+            //((RTSNetworkManager)NetworkManager.singleton).Players
+            isFlipped = false;
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
                 //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {continue;}  //check to see if it belongs to the player, if it does, do nothing
                 if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                isFlipped = false;
+               
             }
             else // Multi player seneriao
             {
+                if (player.GetPlayerID() == 0 ) isFlipped = true;
                 //Debug.Log($"Multi player seneriao ");
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
                     if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                  //  if (player.GetPlayerID() == 1 )
-                     isFlipped = true;
-                   
                 }
             }
             //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
 
             if (other.TryGetComponent<Health>(out Health health))
             {
+                opponentIdentity = other.GetComponent<NetworkIdentity>();
+               
+              
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
-                if(strengthWeakness == null) {
+                if (strengthWeakness == null) {
                     strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
                 }
                 calculatedDamageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-
+                cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, isFlipped);
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 //Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
 
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
-                cmdDamageText(other.transform.position, other.transform, calculatedDamageToDeal , damageToDeal, isFlipped);
+               
+                
+                
                 cmdSpecialEffect(other.transform.position);
                 //if (calculatedDamageToDeal > damageToDeal ) { cmdCMVirtual(); }
                 //cmdCMFreeLook();
@@ -130,9 +134,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             RpcpowerUpAfterKill();
         }
     }
-    [Command]   
-    private void cmdDamageText(Vector3 targetPos,Transform other , float damageNew , float damgeOld, bool flipText)
+    [Command]
+    private void cmdDamageText(Vector3 targetPos, int playerId, float damageNew, float damgeOld, bool flipText)
     {
+        
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         Color textColor;
         string dmgText;
@@ -148,11 +153,13 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         }
         floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
         floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
-      
+        
         NetworkServer.Spawn(floatingText, connectionToClient);
-        NetworkIdentity opponentIdentity = other.GetComponent<NetworkIdentity>();
+
        
-        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText); }
+        if (opponentIdentity == null) { return; }
+      
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
 
     }
     [Command]
@@ -192,7 +199,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         //Debug.Log($"{lastAttackTime} + {repeatAttackDelay} < {Time.time} ");
         return lastAttackTime + repeatAttackDelay < Time.time;
     }
-
+    
     public float AttackAngle()
     {
         return attackAngle;
@@ -232,10 +239,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         damageToDeal *= upGradeAmount;
     }
     [TargetRpc]
-    public void TargetCommandText(NetworkConnection other , GameObject floatingText)
-    {
-        Debug.Log($"===============================  damage text ");
-        floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180;
+    public void TargetCommandText(NetworkConnection other , GameObject floatingText, NetworkIdentity others)
+    { 
+        floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180; 
+
+
     }
 
 }

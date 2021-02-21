@@ -80,7 +80,8 @@ public class Unit : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        NetworkServer.Destroy(gameObject);
+        
+       NetworkServer.Destroy(gameObject);
     }
 
     #endregion
