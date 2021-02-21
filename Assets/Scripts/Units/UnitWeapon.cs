@@ -156,12 +156,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         
         NetworkServer.Spawn(floatingText, connectionToClient);
 
+
        
         if (opponentIdentity == null) { return; }
       
-        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
-
-    }
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }    }
     [Command]
     private void cmdSpecialEffect(Vector3 position)
     {

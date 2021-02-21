@@ -14,6 +14,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject spearmanPrefab = null;
     [SerializeField] private GameObject miniSkeletonUnitPrefab = null;
     [SerializeField] private GameObject giantUnitPrefab = null;
+    [SerializeField] private GameObject kingPrefab = null;
 
     public Dictionary<Unit.UnitType, GameObject> unitDict = new Dictionary<Unit.UnitType, GameObject>();
 
@@ -26,7 +27,7 @@ public class UnitFactory : NetworkBehaviour
     private int initKnightCount = 0;
     private int initHeroCount = 0;
     private List<int> lastPlayerSpawnPoint = new List<int> {0,1};
-    private List<int> lastEnemySpawnPoint = new List<int> {2,3};
+    private List<int> lastEnemySpawnPoint = new List<int> {3,4};
     private int spawnPointIndex = 0;
 
     [SerializeField] private float fireRate = 6000f;
@@ -44,21 +45,26 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
+    public void CmdSpawnUnitWithPos(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor, Vector3 spawnPosition)
+    {
+        int unitsize = 1;
+        if (Unit.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor));
+    }
+    [Command]
     public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
         //Vector3 spawnPosition = spawnPoints[playerID].position;
         //TODO spwan position should be based on leader / hero
         int spawnPoint = 0;
-        if(playerID == 0)
+        if (playerID == 0)
             spawnPoint = lastPlayerSpawnPoint[spawnPointIndex++ % 2];
         else
             spawnPoint = lastEnemySpawnPoint[spawnPointIndex++ % 2];
-        Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position ;
-        //Debug.Log($" CmdSpawnUnit Player ID {playerID} at postion {spawnPosition}");
+        Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position;
         int unitsize = 1;
-        if(Unit.UnitSize.TryGetValue(unitType , out int value)){ unitsize = value; }
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition , unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority , star,  teamColor));
-        
+        if (Unit.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor));
     }
     [Server]
     private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor)
@@ -112,6 +118,8 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
         unitDict.Add(Unit.UnitType.MINISKELETON, miniSkeletonUnitPrefab);
         unitDict.Add(Unit.UnitType.GIANT, giantUnitPrefab);
+        unitDict.Add(Unit.UnitType.KING, kingPrefab);
+
     }
     [ClientRpc]
     void RpcTag(GameObject unit, int playerID, string unitName, int star, Color teamColor)

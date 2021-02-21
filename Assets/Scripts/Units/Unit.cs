@@ -18,7 +18,7 @@ public class Unit : NetworkBehaviour
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
 
-    public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT };
+    public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING };
     public static Dictionary<UnitType, int> UnitSize  = new Dictionary<UnitType, int>() { {UnitType.MINISKELETON , 10} };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>() { { UnitType.GIANT, 7 },
         {UnitType.CAVALRY, 5 },
@@ -27,7 +27,8 @@ public class Unit : NetworkBehaviour
         { UnitType.KNIGHT, 3 },
         { UnitType.MAGE, 6 },
         { UnitType.MINISKELETON, 3 },
-        { UnitType.SPEARMAN, 3 }};
+        { UnitType.SPEARMAN, 3 },
+        { UnitType.KING, 99 }};
     public UnitType unitType;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
