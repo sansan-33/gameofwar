@@ -21,6 +21,7 @@ public class RTSNetworkManager : NetworkManager
     [SerializeField] private GameObject giantPrefab = null;
     [SerializeField] private GameObject magePrefab = null;
     [SerializeField] private GameObject cavalryPrefab = null;
+    [SerializeField] private GameObject kingPrefab = null;
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
 
@@ -42,7 +43,6 @@ public class RTSNetworkManager : NetworkManager
     #region Server
     public override void OnServerConnect(NetworkConnection conn)
     {
-        Debug.Log($"Server Connected ==============isGameInProgress {isGameInProgress} / Players {Players.Count}");
         if (!isGameInProgress) { return; }
 
         conn.Disconnect();
@@ -90,6 +90,7 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(Unit.UnitType.GIANT, giantPrefab);
         unitDict.Add(Unit.UnitType.MAGE, magePrefab);
         unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
+        unitDict.Add(Unit.UnitType.KING, kingPrefab);
         ServerChangeScene("Scene_Map_02");
     }
 
@@ -125,16 +126,13 @@ public class RTSNetworkManager : NetworkManager
                 SetupBase(pos, player);
                 SetupBase(GetStartPosition().position, player);
                 SetupUnitFactory(pos, player);
+                //SetupKing(GetStartPosition().position, player);
+                StartCoroutine(loadMilitary(0.1f, player, GetStartPosition().position, unitDict[Unit.UnitType.KING], Unit.UnitType.KING.ToString(), 1));
+
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
                     militaryList.Add(Unit.UnitType.HERO, 2);
-                    //militaryList.Add(Unit.UnitType.SPEARMAN, 5);
-                    //militaryList.Add(Unit.UnitType.GIANT, 1);
-                    //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
-                    //militaryList.Add(Unit.UnitType.SPEARMAN, 1);
-                    //militaryList.Add(Unit.UnitType.SAMPLEUNIT, 5);
-
                 }
                 else
                 {
@@ -148,7 +146,7 @@ public class RTSNetworkManager : NetworkManager
         }
 
     }
-
+   
     private void SetupBase(Vector3 pos, RTSPlayer player)
     {
         GameObject baseInstance = Instantiate(

@@ -151,7 +151,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
       
         NetworkServer.Spawn(floatingText, connectionToClient);
         NetworkIdentity opponentIdentity = other.GetComponent<NetworkIdentity>();
-       
+        
         if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText); }
 
     }

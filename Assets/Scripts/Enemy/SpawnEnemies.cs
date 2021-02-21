@@ -41,7 +41,10 @@ public class SpawnEnemies : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                if(isUnitAlive(Unit.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length )
+                if (isUnitAlive(Unit.UnitType.KING) < 1){
+                    localFactory.CmdSpawnUnitWithPos(Unit.UnitType.KING, 1, enemyID, unitAuthority, teamColor, NetworkManager.startPositions[5].position);
+                }
+                if (isUnitAlive(Unit.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length )
                     localFactory.CmdSpawnUnit(Unit.UnitType.HERO,  1 , enemyID, unitAuthority, teamColor);
                 else
                     localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN, 1, enemyID, unitAuthority, teamColor);
@@ -57,7 +60,6 @@ public class SpawnEnemies : MonoBehaviour
         defendObject.tag = "PlayerBase" + enemyID;
         defendObject.SetActive(true);
     }
-
     private IEnumerator TryTactical(TacticalBehavior.BehaviorSelectionType type)
     {
         //Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
