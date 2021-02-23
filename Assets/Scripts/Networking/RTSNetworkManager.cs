@@ -127,20 +127,22 @@ public class RTSNetworkManager : NetworkManager
                 SetupBase(GetStartPosition().position, player);
                 SetupUnitFactory(pos, player);
                 //SetupKing(GetStartPosition().position, player);
-                StartCoroutine(loadMilitary(0.1f, player, GetStartPosition().position, unitDict[Unit.UnitType.KING], Unit.UnitType.KING.ToString(), 1));
-
+                
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
                     militaryList.Add(Unit.UnitType.HERO, 2);
+                    StartCoroutine(loadMilitary(0.1f, player, GetStartPosition().position, unitDict[Unit.UnitType.KING], Unit.UnitType.KING.ToString(), 1 , Quaternion.identity));
                 }
                 else
                 {
+                    Vector3 kingPos = GetStartPosition().position;
                     militaryList.Add(Unit.UnitType.HERO, 2);
+                    StartCoroutine(loadMilitary(0.1f, player, kingPos, unitDict[Unit.UnitType.KING], Unit.UnitType.KING.ToString(), 1, Quaternion.Euler(0, 180,0)   ));
                 }
                 foreach (Unit.UnitType unitType in militaryList.Keys)
                 {
-                    StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType]));
+                    StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType], Quaternion.identity));
                 }
             }
         }
@@ -166,14 +168,14 @@ public class RTSNetworkManager : NetworkManager
         NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
 
-    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount)
+    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, Quaternion rotation)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
             Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
             spawnOffset.y = spawnPosition.y;
-            GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
             unit.name = unitName;
             unit.tag = "Player" + player.GetPlayerID();
             unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());

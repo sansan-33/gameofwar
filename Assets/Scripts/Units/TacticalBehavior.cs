@@ -10,25 +10,36 @@ using UnityEngine.AI;
 public class TacticalBehavior : MonoBehaviour
 {
     [SerializeField] List<GameObject> PlayerEnemyGroup = new List<GameObject>();
+    public static event Action<List<GameObject>> LeaderUpdated;
     private eleixier Eleixier;
     private RTSPlayer player;
     private int playerid = 0;
     private int enemyid = 0;
     private string ENEMYTAG = "";
     private string PLAYERTAG = "";
-    private Dictionary<int, List<BehaviorTree>> playerBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
-    private Dictionary<int, List<BehaviorTree>> enemyBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
-    private Dictionary<int, Dictionary<int, List<BehaviorTree>>> behaviorTreeGroups = new Dictionary < int, Dictionary<int, List<BehaviorTree>>>();
+
+    private Dictionary<int, List<BehaviorTree>> leaderPlayerBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
+    private Dictionary<int, List<BehaviorTree>> leaderEnemyBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
+    private Dictionary<int, Dictionary<int, List<BehaviorTree>>> playerBehaviorTreeGroup = new Dictionary<int, Dictionary<int, List<BehaviorTree>>>();
+    private Dictionary<int, Dictionary<int, List<BehaviorTree>>> enemyBehaviorTreeGroup = new Dictionary<int, Dictionary<int, List<BehaviorTree>>>();
+
+    private Dictionary<int, Dictionary<int, Dictionary<int, List<BehaviorTree>>>> behaviorTreeGroups = new Dictionary<int, Dictionary < int, Dictionary<int, List<BehaviorTree>>>>();
+
+    private List<GameObject> leaders = new List<GameObject>();
+    private List<GameObject> leadersBackup = new List<GameObject>();
+
     private GameObject defendObject = null;
     public enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
     private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
     private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;
+    
 
     private string playerType = "";
     private string enemyType = "";
     private Color teamColor;
     private Color teamEnemyColor;
-    
+    private int selectedLeaderId = 0;
+    private int NOOFLEADERS = 2;
     #region Client
 
     public void Awake()
@@ -50,11 +61,13 @@ public class TacticalBehavior : MonoBehaviour
 
         Unit.ServerOnUnitDespawned += TryReinforcePlayer;
         Unit.ServerOnUnitSpawned += TryReinforcePlayer;
+        LeaderScrollList.LeaderSelected += HandleLeaderSelected;
     }
     public void OnDestroy()
     {
         Unit.ServerOnUnitDespawned -= TryReinforcePlayer;
         Unit.ServerOnUnitSpawned -= TryReinforcePlayer;
+        LeaderScrollList.LeaderSelected -= HandleLeaderSelected;
     }
     public IEnumerator AssignTag()
     {
@@ -101,44 +114,48 @@ public class TacticalBehavior : MonoBehaviour
     public IEnumerator TacticalFormation(int playerID, int enemyID)
     {
         yield return new WaitForSeconds(1f);
-        List<GameObject> heros = new List<GameObject>();
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerID);
+        List<GameObject> leaders = new List<GameObject>();
+        List<GameObject> leadersBackup = new List<GameObject>();
+
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
         int i = 0;
         behaviorTreeGroups[playerID].Clear();
-        int rand = 0;
+        int randLeader = 0;
         foreach (GameObject child in armies)
         {
-            // Set Higher Priority value will avoid lower value 
-            //child.GetComponent<NavMeshAgent>().avoidancePriority = 70;
-            //if (child.GetComponent<Unit>().hasAuthority)
-            //{
             if (child.name.Contains("]"))
             {
                 child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
             }
             if (child.GetComponent<Unit>().unitType == Unit.UnitType.HERO){
-                heros.Add(child);
-                child.name = "LEADER" + heros.Count;
+                leaders.Add(child);
+                child.name = "LEADER" + leaders.Count;
+            }else if(leaders.Count == 0 && child.GetComponent<Unit>().unitType != Unit.UnitType.KING && leadersBackup.Count < NOOFLEADERS) {
+                leadersBackup.Add(child);
+                child.name = "LEADER" + leadersBackup.Count;
             }
             child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
             child.name = "[" + i + "]\t" + child.name;
             child.transform.parent = PlayerEnemyGroup[playerID].transform;
             i++;
-            //}
         }
-        if(heros.Count == 0 && armies.Length > 0)
-        {
-            heros.Add(armies[0]);
+        if (leaders.Count == 0){
+            leaders.Clear();
+            foreach (GameObject gameObject in leadersBackup)
+            {
+                leaders.Add(gameObject);
+            }
         }
+        
         //Debug.Log($"playerID {playerID} Heros size {heros.Count}");
         for (int j = 0; j < PlayerEnemyGroup[playerID].transform.childCount; ++j)
         {
             var child = PlayerEnemyGroup[playerID].transform.GetChild(j);
-            rand = rand == 0 ? 1 : 0; 
-            defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerID)[rand];
-            defendObject.name = "PlayerBase" + playerID + rand;
-            //Debug.Log($" {i} {child} ");
+            //rr.GetNextItem();
+            randLeader = randLeader == 0 ? 1: 0; //rr.GetCurrentIndex(); 
+            defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerID)[randLeader];
+            defendObject.name = "PlayerBase" + playerID + randLeader;
             var agentTrees = child.GetComponents<BehaviorTree>();
             for (int k = 0; k < agentTrees.Length; ++k)
             {
@@ -149,27 +166,44 @@ public class TacticalBehavior : MonoBehaviour
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
                 }
-                if (!child.gameObject.name.ToUpper().Contains("LEADER") && heros.Count >= rand + 1)
+                if (!child.gameObject.name.ToUpper().Contains("LEADER") && leaders.Count >= randLeader + 1)
                 {
-                    agentTrees[k].SetVariableValue("newLeader", heros[rand]);
-                }
-                else
+                    agentTrees[k].SetVariableValue("newLeader", leaders[randLeader]);
+                } else
                 {
                     agentTrees[k].SetVariableValue("newLeader", null);
                 }
 
                 List<BehaviorTree> groupBehaviorTrees;
-                if (!behaviorTreeGroups[playerID].TryGetValue(group, out groupBehaviorTrees))
+                Dictionary<int ,  List<BehaviorTree>> leaderBehaviorTrees;
+                if (!behaviorTreeGroups[playerID].TryGetValue(randLeader, out leaderBehaviorTrees)) {
+                    leaderBehaviorTrees = new Dictionary<int, List<BehaviorTree>>();
+                    behaviorTreeGroups[playerID].Add(randLeader, leaderBehaviorTrees);
+                }
+                if (!behaviorTreeGroups[playerID][randLeader].TryGetValue(group, out groupBehaviorTrees))
                 {
                     groupBehaviorTrees = new List<BehaviorTree>();
-                    behaviorTreeGroups[playerID].Add(group, groupBehaviorTrees);
+                    leaderBehaviorTrees.Add(group, groupBehaviorTrees);
+                    //behaviorTreeGroups[playerID][randLeader].Add(group, groupBehaviorTrees);
                 }
                 groupBehaviorTrees.Add(agentTrees[k]);
+                //if (playerID == 0)
+                    //Debug.Log($" Leader Index {randLeader} tag {leaders[randLeader].tag} group {group} agent tree {k} {agentTrees[k]}");
+
             }
         }
-        
+
+        if(playerID == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
+            LeaderUpdated?.Invoke(leaders);
     }
-    
+    public void HandleLeaderSelected(int leaderId)
+    {
+        selectedLeaderId = leaderId;
+    }
+    public void TryTB(int type )
+    {
+        TryTB(type, playerid);
+    }
     public void TryTB(int type, int playerID)
     {
         type = type % System.Enum.GetNames(typeof(BehaviorSelectionType)).Length;
@@ -204,27 +238,28 @@ public class TacticalBehavior : MonoBehaviour
     {
         //if (agentGroup is null) { return; }
 
-        StopCoroutine(EnableBehavior(playerID));
-        StartCoroutine(DisableBehavior(playerID));
-        StartCoroutine(EnableBehavior(playerID));
+        StopCoroutine(EnableBehavior(playerID, selectedLeaderId));
+        StartCoroutine(DisableBehavior(playerID, selectedLeaderId));
+        StartCoroutine(EnableBehavior(playerID, selectedLeaderId));
         Eleixier.speedUpEleixier(GetBehaviorSelectionType());
     }
-    private IEnumerator EnableBehavior(int playerID)
+    private IEnumerator EnableBehavior(int playerID, int leaderID)
     {
         yield return new WaitForSeconds(0.1f);
         //Debug.Log($"EnableBehavior {selectionType} Unit Count { behaviorTreeGroups[playerID][(int)selectionType].Count} for player ID {playerID}");
-        for (int i = 0; i < behaviorTreeGroups[playerID][(int)selectionType].Count; ++i)
+        for (int i = 0; i < behaviorTreeGroups[playerID][leaderID][(int)selectionType].Count; ++i)
         {
-            if (behaviorTreeGroups[playerID][(int)selectionType][i] != null)
-                behaviorTreeGroups[playerID][(int)selectionType][i].EnableBehavior();
+            if (behaviorTreeGroups[playerID][leaderID][(int)selectionType][i] != null){
+                behaviorTreeGroups[playerID][leaderID][(int)selectionType][i].EnableBehavior();
+            }
         }
     }
-    public IEnumerator DisableBehavior(int playerID)
+    public IEnumerator DisableBehavior(int playerID, int leaderID)
     {
         yield return new WaitForSeconds(0.1f);
-        for (int i = 0; i < behaviorTreeGroups[playerID][(int)prevSelectionType].Count; ++i)
+        for (int i = 0; i < behaviorTreeGroups[playerID][leaderID][(int)prevSelectionType].Count; ++i)
         {
-            behaviorTreeGroups[playerID][(int)prevSelectionType][i].DisableBehavior();
+            behaviorTreeGroups[playerID][leaderID][(int)prevSelectionType][i].DisableBehavior();
         }
     }
     public string GetTacticalStatus()
@@ -244,55 +279,6 @@ public class TacticalBehavior : MonoBehaviour
     {
         return selectionType;
     }
-
-    public void TryAttack()
-    {
-        TryAttack(playerid);
-    }
-    public void TryDefend()
-    {
-        TryDefend(playerid);
-    }
-    public void TryRetreat()
-    {
-        TryRetreat(playerid);
-    }
-    public void TryFlank()
-    {
-        TryFlank(playerid);
-    }
-    public void TrySurround()
-    {
-        TrySurround(playerid);
-    }
-    public void TryShootAndScoot()
-    {
-        TryShootAndScoot(playerid);
-    }
-    public void TryAttack(int playerID)
-    {
-        TryTB((int)BehaviorSelectionType.Attack, playerID);
-    }
-    public void TryDefend(int playerID)
-    {
-        TryTB((int)BehaviorSelectionType.Defend, playerID);
-    }
-    public void TryRetreat(int playerID)
-    {
-        TryTB((int)BehaviorSelectionType.Retreat, playerID);
-
-    }
-    public void TryFlank(int playerID)
-    {
-        TryTB((int)BehaviorSelectionType.Flank, playerID);
-    }
-    public void TrySurround(int playerID)
-    {
-        TryTB((int)BehaviorSelectionType.Surround, playerID);
-    }
-    public void TryShootAndScoot(int playerID)
-    {
-        TryTB((int)BehaviorSelectionType.ShootAndScoot, playerID);
-    }
+   
     #endregion
 }
