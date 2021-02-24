@@ -118,6 +118,7 @@ public class TacticalBehavior : MonoBehaviour
        
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
         int i = 0;
+        System.Random rand = new System.Random();
         behaviorTreeGroups[playerID].Clear();
         int leaderUnitTypeID = 0;
         int randBase = 0;
@@ -188,7 +189,7 @@ public class TacticalBehavior : MonoBehaviour
         if (playerID == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
             LeaderUpdated?.Invoke(leaders);
         if (playerID == 1 && ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
-            selectedEnemyLeaderId = behaviorTreeGroups[playerID].ElementAt(0).Key;
+            selectedEnemyLeaderId = behaviorTreeGroups[playerID].ElementAt(rand.Next(0, 2)).Key;
         
     }
     public void HandleLeaderSelected(int leaderId)
