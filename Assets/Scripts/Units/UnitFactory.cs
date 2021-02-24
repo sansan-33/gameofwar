@@ -45,11 +45,13 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnitWithPos(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor, Vector3 spawnPosition)
+    public void CmdSpawnUnitWithPos(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor, Vector3 spawnPosition, Vector3 targetPosition)
     {
         int unitsize = 1;
         if (Unit.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor));
+        Quaternion unitRotation = Quaternion.LookRotation(targetPosition - spawnPosition);
+
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation));
     }
     [Command]
     public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
@@ -64,17 +66,17 @@ public class UnitFactory : NetworkBehaviour
         Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position;
         int unitsize = 1;
         if (Unit.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity));
     }
     [Server]
-    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor)
+    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
             Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
             spawnOffset.y = spawnPosition.y;
-            GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, Quaternion.identity) as GameObject;
+            GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
             unit.name = unitName;
             unit.tag = "Player" + playerID;
             powerUp(unit , star);

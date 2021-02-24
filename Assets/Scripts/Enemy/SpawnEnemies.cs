@@ -42,7 +42,7 @@ public class SpawnEnemies : MonoBehaviour
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
                 if (isUnitAlive(Unit.UnitType.KING) < 1){
-                    localFactory.CmdSpawnUnitWithPos(Unit.UnitType.KING, 1, enemyID, unitAuthority, teamColor, NetworkManager.startPositions[5].position);
+                    localFactory.CmdSpawnUnitWithPos(Unit.UnitType.KING, 1, enemyID, unitAuthority, teamColor, NetworkManager.startPositions[5].position, NetworkManager.startPositions[2].position);
                 }
                 if (isUnitAlive(Unit.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length )
                     localFactory.CmdSpawnUnit(Unit.UnitType.HERO,  1 , enemyID, unitAuthority, teamColor);
