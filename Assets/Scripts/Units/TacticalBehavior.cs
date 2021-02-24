@@ -189,7 +189,7 @@ public class TacticalBehavior : MonoBehaviour
         if (playerID == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
             LeaderUpdated?.Invoke(leaders);
         if (playerID == 1 && ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
-            selectedEnemyLeaderId = behaviorTreeGroups[playerID].ElementAt(rand.Next(0, 2)).Key;
+            selectedEnemyLeaderId = behaviorTreeGroups[playerID].ElementAt(rand.Next(0, behaviorTreeGroups[playerID].Count)).Key;
         
     }
     public void HandleLeaderSelected(int leaderId)
