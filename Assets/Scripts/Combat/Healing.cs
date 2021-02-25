@@ -31,7 +31,7 @@ public class Healing : NetworkBehaviour
 
         capsules = GameObject.FindGameObjectsWithTag("PlayerBase" + player.GetPlayerID());
 
-        if (tb.GetBehaviorSelectionType() != TacticalBehavior.BehaviorSelectionType.Defend) {
+        if (tb.GetBehaviorSelectionType(player.GetPlayerID()) != TacticalBehavior.BehaviorSelectionType.Defend) {
             foreach (GameObject capsule in capsules)
             {
                 cmdHealingPrefab(capsule, false);
