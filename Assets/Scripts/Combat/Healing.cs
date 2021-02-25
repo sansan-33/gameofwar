@@ -19,7 +19,7 @@ public class Healing : NetworkBehaviour
     {
         tb = FindObjectOfType<TacticalBehavior>();
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        lastHealingTime = Time.time;
+        lastHealingTime = Time.time + 5f;
     }
     // Update is called once per frame
    
@@ -28,6 +28,8 @@ public class Healing : NetworkBehaviour
         if (this.isLocalPlayer) { return; }
 
         if (!hasAuthority){return;}
+
+        if (lastHealingTime + repeatHealingDelay > Time.time) { return; }
 
         capsules = GameObject.FindGameObjectsWithTag("PlayerBase" + player.GetPlayerID());
 
@@ -39,8 +41,6 @@ public class Healing : NetworkBehaviour
             }
             return;
         }
-
-        if (lastHealingTime + repeatHealingDelay > Time.time) { return;  }
 
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + player.GetPlayerID());
         
