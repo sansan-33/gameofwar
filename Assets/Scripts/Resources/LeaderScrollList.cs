@@ -66,7 +66,7 @@ public class LeaderScrollList : MonoBehaviour
 
             UnitButton unitButton = newButton.GetComponent<UnitButton>();
             unitButton.Setup(item, this);
-            if (!toggleGroup.AnyTogglesOn() && i == 0) { newButton.GetComponent<Toggle>().isOn = true; }
+            if (!toggleGroup.AnyTogglesOn() && i == 0) { newButton.GetComponent<Toggle>().isOn = true; selectedLeaderIndex = item.id; RefreshHeader(); }
             newButton.GetComponent<Toggle>().group = toggleGroup;
         }
     }
@@ -86,7 +86,6 @@ public class LeaderScrollList : MonoBehaviour
     {
         itemList.Clear();
         Item item;
-        int i = 0;
         foreach (var leader in leaders)
         {
             item = new Item();

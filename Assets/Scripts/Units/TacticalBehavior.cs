@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using BehaviorDesigner.Runtime;
 using Mirror;
 using UnityEngine;
@@ -38,7 +39,6 @@ public class TacticalBehavior : MonoBehaviour
     private Color teamEnemyColor;
     private int selectedLeaderId = 0;
     private int selectedEnemyLeaderId = 0;
-    private int NOOFLEADERS = 2;
     #region Client
 
     public void Awake()
@@ -108,27 +108,27 @@ public class TacticalBehavior : MonoBehaviour
                 }
             }
         }
-
     }
     public IEnumerator TacticalFormation(int playerID, int enemyID)
     {
         yield return new WaitForSeconds(1f);
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerID);
         Dictionary<int , GameObject> leaders = new Dictionary<int, GameObject>();
-       
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
         int i = 0;
-        System.Random rand = new System.Random();
         behaviorTreeGroups[playerID].Clear();
         int leaderUnitTypeID = 0;
         int randBase = 0;
+        GameObject king = null;
         foreach (GameObject child in armies)
         {
             if (child.name.Contains("]"))
             {
                 child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
             }
-            if (!leaders.ContainsKey((int)child.GetComponent<Unit>().unitType) && child.GetComponent<Unit>().unitType != Unit.UnitType.KING)
+            if (child.GetComponent<Unit>().unitType == Unit.UnitType.KING){
+                king = child;
+            } else if (!leaders.ContainsKey((int)child.GetComponent<Unit>().unitType)   )
             {
                 leaders.Add((int) child.GetComponent<Unit>().unitType, child);
                 child.name = "LEADER" + leaders.Count;
@@ -147,8 +147,14 @@ public class TacticalBehavior : MonoBehaviour
             randBase = randBase == 0 ? 1 : 0;
             //Debug.Log($"randLeader {rr}/{randLeader}/{leaders.Count} randBase {randBase}");
 
-            defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerID)[randBase];
-            defendObject.name = "PlayerBase" + playerID + randBase;
+            if (child.GetComponent<Unit>().unitType == Unit.UnitType.HERO ) {
+                defendObject = king;
+                defendObject.name = "King";
+            }
+            else {
+                defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerID)[randBase];
+                defendObject.name = "PlayerBase" + playerID + randBase;
+            }
             var agentTrees = child.GetComponents<BehaviorTree>();
             for (int k = 0; k < agentTrees.Length; ++k)
             {
@@ -161,11 +167,8 @@ public class TacticalBehavior : MonoBehaviour
                 }
                 if (!child.gameObject.name.ToUpper().Contains("LEADER"))
                 {
-                    //agentTrees[k].SetVariableValue("newLeader", leaderlist[randLeader].Value);
                     agentTrees[k].SetVariableValue("newLeader", leaders[leaderUnitTypeID]);
-                }
-                else
-                {
+                } else {
                     agentTrees[k].SetVariableValue("newLeader", null);
                 }
 
@@ -184,13 +187,12 @@ public class TacticalBehavior : MonoBehaviour
       
             }
         }
-        //printTB();
+        printTB();
         
         if (playerID == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
             LeaderUpdated?.Invoke(leaders);
-        if (playerID == 1 && ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
-            selectedEnemyLeaderId = behaviorTreeGroups[playerID].ElementAt(rand.Next(0, behaviorTreeGroups[playerID].Count)).Key;
-        
+
+        setupLeaderID(playerID);
     }
     public void HandleLeaderSelected(int leaderId)
     {
@@ -284,22 +286,77 @@ public class TacticalBehavior : MonoBehaviour
     }
     void printTB()
     {
+        StringBuilder sb = new StringBuilder();
+
         foreach (var ids in behaviorTreeGroups)
         {
-            Debug.Log($"Player Enemy ID {ids.Key}");
+            sb.Append($"Player Enemy ID {ids.Key} \n");
             foreach (var leaders in ids.Value)
             {
-                Debug.Log($"leader id {leaders.Key}");
+                sb.Append($"\t leader id {leaders.Key} \n");
                 foreach (var groups in leaders.Value)
                 {
-                    Debug.Log($"group {groups.Key}");
+                    sb.Append($" \t\t group {groups.Key} \n");
                     foreach (var agent in groups.Value)
                     {
-                        Debug.Log($"agent {agent}");
+                        sb.Append($"\t\t\t agent {agent}\n");
                     }
                 }
             }
         }
-    }   
+        Debug.Log(sb.ToString());
+    }
+    void setupLeaderID(int playerID)
+    {
+        System.Random rand = new System.Random();
+
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
+        {
+            if (playerID == 1)
+                selectedEnemyLeaderId = behaviorTreeGroups[playerID].ElementAt(rand.Next(0, behaviorTreeGroups[playerID].Count)).Key;
+            else
+            {
+                if (selectedLeaderId == 0)
+                {
+                    selectedLeaderId = behaviorTreeGroups[playerID].ElementAt(0).Key;
+                }
+            }
+        }
+    }
+    void AttackOnlyUnit(int playerID, int enemyID)
+    {
+        int leaderUnitTypeID = 99;
+        for (int j = 0; j < PlayerEnemyGroup[playerID].transform.childCount; ++j)
+        {
+            var child = PlayerEnemyGroup[playerID].transform.GetChild(j);
+            if (child.GetComponent<Unit>().unitType == Unit.UnitType.SPEARMAN)
+            {
+                var agentTrees = child.GetComponents<BehaviorTree>();
+                for (int k = 0; k < agentTrees.Length; ++k)
+                {
+                    var group = agentTrees[k].Group;
+                    if (group != 0 || group != 3 ) { continue; }
+
+                    agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyID);
+                    agentTrees[k].SetVariableValue("newLeader", (j == 0) ? child : null );
+
+                    List<BehaviorTree> groupBehaviorTrees;
+                    Dictionary<int, List<BehaviorTree>> leaderBehaviorTrees;
+                    if (!behaviorTreeGroups[playerID].TryGetValue(leaderUnitTypeID, out leaderBehaviorTrees))
+                    {
+                        leaderBehaviorTrees = new Dictionary<int, List<BehaviorTree>>();
+                        behaviorTreeGroups[playerID].Add(leaderUnitTypeID, leaderBehaviorTrees);
+                    }
+                    if (!behaviorTreeGroups[playerID][leaderUnitTypeID].TryGetValue(group, out groupBehaviorTrees))
+                    {
+                        groupBehaviorTrees = new List<BehaviorTree>();
+                        leaderBehaviorTrees.Add(group, groupBehaviorTrees);
+                    }
+                    groupBehaviorTrees.Add(agentTrees[k]);
+
+                }
+            }
+        }
+    }
     #endregion
 }
