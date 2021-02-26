@@ -45,7 +45,7 @@ public class GameOverHandler : NetworkBehaviour
         units[unit.tag].Remove(unit);
 
         //if (units[unit.tag].Count != 0 ) { return; }
-        if (unit.unitType != Unit.UnitType.KING ) { return; }
+        if (unit.unitType != UnitMeta.UnitType.KING ) { return; }
 
         RpcGameOver($"{ (unit.tag == PLAYERTAG ? ENEMYTAG : PLAYERTAG) }");
 

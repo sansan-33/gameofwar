@@ -40,18 +40,18 @@ public class SpawnEnemies : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                if (isUnitAlive(Unit.UnitType.KING) < 1)
+                if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
                 {
-                    localFactory.CmdSpawnUnitWithPos(Unit.UnitType.KING, 1, enemyID, unitAuthority, teamColor, NetworkManager.startPositions[5].position, NetworkManager.startPositions[2].position);
+                    localFactory.CmdSpawnUnitWithPos(UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, NetworkManager.startPositions[5].position, NetworkManager.startPositions[2].position);
                 }
-                if (isUnitAlive(Unit.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length)
+                if (isUnitAlive(UnitMeta.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length)
                 {
-                    localFactory.CmdSpawnUnit(Unit.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
-                    StartCoroutine(TryTactical(Unit.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
+                    localFactory.CmdSpawnUnit(UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
+                    StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
                 }
                 else { 
-                    localFactory.CmdSpawnUnit(Unit.UnitType.SPEARMAN, 1, enemyID, unitAuthority, teamColor);
-                    StartCoroutine(TryTactical(Unit.UnitType.SPEARMAN, TacticalBehavior.BehaviorSelectionType.Attack));
+                    localFactory.CmdSpawnUnit(UnitMeta.UnitType.SPEARMAN, 1, enemyID, unitAuthority, teamColor);
+                    StartCoroutine(TryTactical(UnitMeta.UnitType.SPEARMAN, TacticalBehavior.BehaviorSelectionType.Attack));
                 }
             }
         }
@@ -64,14 +64,14 @@ public class SpawnEnemies : MonoBehaviour
         defendObject.tag = "PlayerBase" + enemyID;
         defendObject.SetActive(true);
     }
-    private IEnumerator TryTactical(Unit.UnitType unitType , TacticalBehavior.BehaviorSelectionType selectionType)
+    private IEnumerator TryTactical(UnitMeta.UnitType unitType , TacticalBehavior.BehaviorSelectionType selectionType)
     {
         //Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
         StartCoroutine(tacticalBehavior.TacticalFormation(enemyID, playerID));
         yield return new WaitForSeconds(5f);
         tacticalBehavior.TryTB((int)selectionType, enemyID, (int) unitType);
     }
-    private int isUnitAlive(Unit.UnitType unitType)
+    private int isUnitAlive(UnitMeta.UnitType unitType)
     {
         int isAlive = 0;
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player1");

@@ -30,9 +30,6 @@ public class TacticalBehavior : MonoBehaviour
     private GameObject defendObject = null;
     public enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
 
-    //private BehaviorSelectionType selectionType = BehaviorSelectionType.Attack;
-    //private BehaviorSelectionType prevSelectionType = BehaviorSelectionType.Attack;
-
     private Dictionary<int, Dictionary< int,  List<BehaviorSelectionType>>> leaderTacticalType = new Dictionary<int, Dictionary<int, List<BehaviorSelectionType>>>();
     private Color teamColor;
     private Color teamEnemyColor;
@@ -111,60 +108,62 @@ public class TacticalBehavior : MonoBehaviour
             }
         }
     }
-    public IEnumerator TacticalFormation(int playerID, int enemyID)
+    public IEnumerator TacticalFormation(int playerid, int enemyid)
     {
         yield return new WaitForSeconds(1f);
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
         Dictionary<int , GameObject> leaders = new Dictionary<int, GameObject>();
         //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
         int i = 0;
-        behaviorTreeGroups[playerID].Clear();
+        behaviorTreeGroups[playerid].Clear();
         int leaderUnitTypeID = 0;
         int randBase = 0;
         GameObject king = null;
         foreach (GameObject child in armies)
         {
+            leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
             if (child.name.Contains("]"))
             {
                 child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
             }
-            if (child.GetComponent<Unit>().unitType == Unit.UnitType.KING){
+            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING){
                 king = child;
-            } else if (!leaders.ContainsKey((int)child.GetComponent<Unit>().unitType)   )
+            } else if (!leaders.ContainsKey(leaderUnitTypeID))
             {
-                leaders.Add((int) child.GetComponent<Unit>().unitType, child);
+                leaders.Add(leaderUnitTypeID, child);
                 child.name = "LEADER" + leaders.Count;
+                LeaderTacticalType(playerid, leaderUnitTypeID, UnitMeta.DefaultUnitTactical[ (UnitMeta.UnitType) leaderUnitTypeID] );
             }
             child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
             child.name = "[" + i + "]\t" + child.name;
-            child.transform.parent = PlayerEnemyGroup[playerID].transform;
+            child.transform.parent = PlayerEnemyGroup[playerid].transform;
             i++;
         }
         List<KeyValuePair<int, GameObject>> leaderlist = leaders.ToList();
         //Debug.Log($"playerID {playerID} Heros size {heros.Count}");
-        for (int j = 0; j < PlayerEnemyGroup[playerID].transform.childCount; ++j)
+        for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
         {
-            var child = PlayerEnemyGroup[playerID].transform.GetChild(j);
+            var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
             leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
-            LeaderTacticalType(playerID, leaderUnitTypeID, BehaviorSelectionType.Defend);
+            //LeaderTacticalType(playerid, leaderUnitTypeID, BehaviorSelectionType.Defend);
 
             randBase = randBase == 0 ? 1 : 0;
             //Debug.Log($"randLeader {rr}/{randLeader}/{leaders.Count} randBase {randBase}");
 
-            if (child.GetComponent<Unit>().unitType == Unit.UnitType.HERO ) {
+            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO ) {
                 defendObject = king;
                 defendObject.name = "King";
             }
             else {
-                defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerID)[randBase];
-                defendObject.name = "PlayerBase" + playerID + randBase;
+                defendObject = GameObject.FindGameObjectsWithTag("PlayerBase" + playerid)[randBase];
+                defendObject.name = "PlayerBase" + playerid + randBase;
             }
             var agentTrees = child.GetComponents<BehaviorTree>();
             for (int k = 0; k < agentTrees.Length; ++k)
             {
                 var group = agentTrees[k].Group;
                 if (group == 1 || group ==2 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
-                agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyID);
+                agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyid);
                 if (k == (int)BehaviorSelectionType.Hold || k == (int)BehaviorSelectionType.Defend)
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
@@ -178,11 +177,11 @@ public class TacticalBehavior : MonoBehaviour
 
                 List<BehaviorTree> groupBehaviorTrees;
                 Dictionary<int ,  List<BehaviorTree>> leaderBehaviorTrees;
-                if (!behaviorTreeGroups[playerID].TryGetValue(leaderUnitTypeID, out leaderBehaviorTrees)) {
+                if (!behaviorTreeGroups[playerid].TryGetValue(leaderUnitTypeID, out leaderBehaviorTrees)) {
                     leaderBehaviorTrees = new Dictionary<int, List<BehaviorTree>>();
-                    behaviorTreeGroups[playerID].Add(leaderUnitTypeID, leaderBehaviorTrees);
+                    behaviorTreeGroups[playerid].Add(leaderUnitTypeID, leaderBehaviorTrees);
                 }
-                if (!behaviorTreeGroups[playerID][leaderUnitTypeID].TryGetValue(group, out groupBehaviorTrees))
+                if (!behaviorTreeGroups[playerid][leaderUnitTypeID].TryGetValue(group, out groupBehaviorTrees))
                 {
                     groupBehaviorTrees = new List<BehaviorTree>();
                     leaderBehaviorTrees.Add(group, groupBehaviorTrees);
@@ -193,10 +192,12 @@ public class TacticalBehavior : MonoBehaviour
         }
         printTB();
         
-        if (playerID == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
+        if (playerid == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
             LeaderUpdated?.Invoke(leaders);
 
-        InitSetupSelectedLeaderID(playerID);
+        InitSetupSelectedLeaderID(playerid);
+        AutoRun(playerid);
+
     }
     public void HandleLeaderSelected(int leaderId)
     {
@@ -334,13 +335,21 @@ public class TacticalBehavior : MonoBehaviour
     {
         return (playerID == 1 && ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1) ? selectedEnemyLeaderId : selectedLeaderId;
     }
+    void AutoRun(int playerid)
+    {
+        foreach (var leaderid in leaderTacticalType)
+        {
+            SelectionChanged(playerid , leaderid.Key);
+        }
+        //AttackOnlyUnit();
+    }
     void AttackOnlyUnit(int playerID, int enemyID)
     {
         int leaderUnitTypeID = 99;
         for (int j = 0; j < PlayerEnemyGroup[playerID].transform.childCount; ++j)
         {
             var child = PlayerEnemyGroup[playerID].transform.GetChild(j);
-            if (child.GetComponent<Unit>().unitType == Unit.UnitType.SPEARMAN) // ATTACK ONLY , cannot go back base
+            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN) // ATTACK ONLY , cannot go back base
             {
                 var agentTrees = child.GetComponents<BehaviorTree>();
                 for (int k = 0; k < agentTrees.Length; ++k)

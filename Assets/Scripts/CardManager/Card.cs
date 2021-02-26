@@ -53,10 +53,10 @@ public class Card : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
         //Debug.Log($"{eleixers.eleixer},{ uniteleixer}");
-        if (Unit.UnitEleixer.TryGetValue((Unit.UnitType)type, out int value)) { uniteleixer = value; }
+        if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
         
         if (eleixers.eleixer < uniteleixer)
         {
@@ -80,7 +80,7 @@ public class Card : MonoBehaviour
             }
         }
 
-        localFactory.CmdSpawnUnit((Unit.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
+        localFactory.CmdSpawnUnit((UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
         FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
        
     }

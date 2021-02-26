@@ -16,7 +16,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject giantUnitPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
 
-    public Dictionary<Unit.UnitType, GameObject> unitDict = new Dictionary<Unit.UnitType, GameObject>();
+    public Dictionary<UnitMeta.UnitType, GameObject> unitDict = new Dictionary<UnitMeta.UnitType, GameObject>();
 
     [SerializeField]
     private float spawnInterval = 60000f;
@@ -45,16 +45,16 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnitWithPos(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor, Vector3 spawnPosition, Vector3 targetPosition)
+    public void CmdSpawnUnitWithPos(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor, Vector3 spawnPosition, Vector3 targetPosition)
     {
         int unitsize = 1;
-        if (Unit.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
+        if (UnitMeta.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
         Quaternion unitRotation = Quaternion.LookRotation(targetPosition - spawnPosition);
 
         StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation));
     }
     [Command]
-    public void CmdSpawnUnit(Unit.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
+    public void CmdSpawnUnit(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
         //Vector3 spawnPosition = spawnPoints[playerID].position;
         //TODO spwan position should be based on leader / hero
@@ -65,7 +65,7 @@ public class UnitFactory : NetworkBehaviour
             spawnPoint = lastEnemySpawnPoint[spawnPointIndex++ % 2];
         Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position;
         int unitsize = 1;
-        if (Unit.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
+        if (UnitMeta.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
         StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity));
     }
     [Server]
@@ -124,15 +124,15 @@ public class UnitFactory : NetworkBehaviour
     {
 
         unitDict.Clear();
-        unitDict.Add(Unit.UnitType.ARCHER, archerPrefab);
-        unitDict.Add(Unit.UnitType.HERO, heroPrefab);
-        unitDict.Add(Unit.UnitType.KNIGHT, knightPrefab);
-        unitDict.Add(Unit.UnitType.SPEARMAN, spearmanPrefab);
-        unitDict.Add(Unit.UnitType.MAGE, magePrefab);
-        unitDict.Add(Unit.UnitType.CAVALRY, cavalryPrefab);
-        unitDict.Add(Unit.UnitType.MINISKELETON, miniSkeletonUnitPrefab);
-        unitDict.Add(Unit.UnitType.GIANT, giantUnitPrefab);
-        unitDict.Add(Unit.UnitType.KING, kingPrefab);
+        unitDict.Add(UnitMeta.UnitType.ARCHER, archerPrefab);
+        unitDict.Add(UnitMeta.UnitType.HERO, heroPrefab);
+        unitDict.Add(UnitMeta.UnitType.KNIGHT, knightPrefab);
+        unitDict.Add(UnitMeta.UnitType.SPEARMAN, spearmanPrefab);
+        unitDict.Add(UnitMeta.UnitType.MAGE, magePrefab);
+        unitDict.Add(UnitMeta.UnitType.CAVALRY, cavalryPrefab);
+        unitDict.Add(UnitMeta.UnitType.MINISKELETON, miniSkeletonUnitPrefab);
+        unitDict.Add(UnitMeta.UnitType.GIANT, giantUnitPrefab);
+        unitDict.Add(UnitMeta.UnitType.KING, kingPrefab);
 
     }
     [ClientRpc]

@@ -52,7 +52,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (tacticalAgent.TargetTransform != null) {
                 // Stop attacking if the target gets too far away from the defend object.
                 if ((transform.position - defendObject.Value.transform.position).magnitude > maxDistance.Value || !tacticalAgent.TargetDamagable.IsAlive()) {
-                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": target " + tacticalAgent.TargetTransform.name + "/" + tacticalAgent.TargetTransform.tag + "  gets too far away from the defend object - [" + (transform.position - defendObject.Value.transform.position).magnitude + " / " +  maxDistance.Value + "]" );
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": target " + tacticalAgent.TargetTransform.name + "/" + tacticalAgent.TargetTransform.tag + "  gets too far away from the DEFEND object - [" + (transform.position - defendObject.Value.transform.position).magnitude + " / " +  maxDistance.Value + "]" );
                     tacticalAgent.TargetTransform = null;
                     tacticalAgent.TargetDamagable = null;
                     tacticalAgent.AttackPosition = false;

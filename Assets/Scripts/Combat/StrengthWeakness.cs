@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StrengthWeakness : MonoBehaviour
 {
-    private Dictionary<Unit.UnitType, Unit.UnitType[]> strengthWeakness = new Dictionary<Unit.UnitType, Unit.UnitType[]>();
+    private Dictionary<UnitMeta.UnitType, UnitMeta.UnitType[]> strengthWeakness = new Dictionary<UnitMeta.UnitType, UnitMeta.UnitType[]>();
     //private Dictionary<string, string> weakness = new Dictionary<string, string>();
     private int StrengthDamage = 2;
     private int WeaknessDamage = 2;
@@ -12,23 +12,23 @@ public class StrengthWeakness : MonoBehaviour
     public void Start()
     {
         //DEFINE Strength Weakness of Player --> Strength , Weakness
-        strengthWeakness.Add(Unit.UnitType.ARCHER, new Unit.UnitType[] { Unit.UnitType.SPEARMAN, Unit.UnitType.KNIGHT } );
-        strengthWeakness.Add(Unit.UnitType.KNIGHT, new Unit.UnitType[] { Unit.UnitType.ARCHER, Unit.UnitType.SPEARMAN });
-        strengthWeakness.Add(Unit.UnitType.SPEARMAN, new Unit.UnitType[] { Unit.UnitType.KNIGHT, Unit.UnitType.ARCHER });
-        strengthWeakness.Add(Unit.UnitType.HERO, new Unit.UnitType[] { Unit.UnitType.HERO, Unit.UnitType.HERO }); // HERO Strength to all , weak to HEROR only
-        strengthWeakness.Add(Unit.UnitType.CAVALRY, new Unit.UnitType[] { Unit.UnitType.MAGE, Unit.UnitType.KNIGHT });
-        strengthWeakness.Add(Unit.UnitType.MINISKELETON, new Unit.UnitType[] { Unit.UnitType.HERO, Unit.UnitType.MAGE });
-        strengthWeakness.Add(Unit.UnitType.MAGE, new Unit.UnitType[] { Unit.UnitType.MINISKELETON, Unit.UnitType.KNIGHT });
-        strengthWeakness.Add(Unit.UnitType.GIANT, new Unit.UnitType[] { Unit.UnitType.MAGE, Unit.UnitType.ARCHER });
-        strengthWeakness.Add(Unit.UnitType.KING, new Unit.UnitType[] { Unit.UnitType.SPEARMAN, Unit.UnitType.KING });
+        strengthWeakness.Add(UnitMeta.UnitType.ARCHER, new UnitMeta.UnitType[] { UnitMeta.UnitType.SPEARMAN, UnitMeta.UnitType.KNIGHT } );
+        strengthWeakness.Add(UnitMeta.UnitType.KNIGHT, new UnitMeta.UnitType[] { UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.SPEARMAN });
+        strengthWeakness.Add(UnitMeta.UnitType.SPEARMAN, new UnitMeta.UnitType[] { UnitMeta.UnitType.KNIGHT, UnitMeta.UnitType.ARCHER });
+        strengthWeakness.Add(UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.HERO }); // HERO Strength to all , weak to HEROR only
+        strengthWeakness.Add(UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.MAGE, UnitMeta.UnitType.KNIGHT });
+        strengthWeakness.Add(UnitMeta.UnitType.MINISKELETON, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.MAGE });
+        strengthWeakness.Add(UnitMeta.UnitType.MAGE, new UnitMeta.UnitType[] { UnitMeta.UnitType.MINISKELETON, UnitMeta.UnitType.KNIGHT });
+        strengthWeakness.Add(UnitMeta.UnitType.GIANT, new UnitMeta.UnitType[] { UnitMeta.UnitType.MAGE, UnitMeta.UnitType.ARCHER });
+        strengthWeakness.Add(UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.SPEARMAN, UnitMeta.UnitType.KING });
 
     }
-    public float calculateDamage(Unit.UnitType player, Unit.UnitType enemy, float damage)
+    public float calculateDamage(UnitMeta.UnitType player, UnitMeta.UnitType enemy, float damage)
     {
         //Debug.Log($"calculateDamage player {player} vs  enemy {enemy} , original damage {damage} ");
         float damageResult = damage;
-        Unit.UnitType[]  dict = strengthWeakness[player];
-        if (dict[0] == enemy || dict[0] == Unit.UnitType.HERO)
+        UnitMeta.UnitType[]  dict = strengthWeakness[player];
+        if (dict[0] == enemy || dict[0] == UnitMeta.UnitType.HERO)
             damageResult = damage * StrengthDamage;
         else if (dict[1] == enemy)
         {

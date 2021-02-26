@@ -64,7 +64,7 @@ public class UnitProjectile : NetworkBehaviour
             gameObject.GetComponent<MeshRenderer>().enabled = false;
             gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}");
-            damageToDeals = strengthWeakness.calculateDamage(Unit.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
+            damageToDeals = strengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal);
             cmdSpecialEffect(other.transform.position);
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }

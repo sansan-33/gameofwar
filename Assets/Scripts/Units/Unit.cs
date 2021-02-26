@@ -19,18 +19,8 @@ public class Unit : NetworkBehaviour
     [SerializeField] private UnityEvent onDeselected = null;
     [SerializeField] private GameObject Cavalry;
     [SerializeField] private GameObject Knight;
-    public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING };
-    public static Dictionary<UnitType, int> UnitSize  = new Dictionary<UnitType, int>() { {UnitType.MINISKELETON , 10} };
-    public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>() { { UnitType.GIANT, 7 },
-        {UnitType.CAVALRY, 5 },
-        {UnitType.ARCHER, 4 },
-        { UnitType.HERO, 3 },
-        { UnitType.KNIGHT, 3 },
-        { UnitType.MAGE, 6 },
-        { UnitType.MINISKELETON, 3 },
-        { UnitType.SPEARMAN, 3 },
-        { UnitType.KING, 99 }};
-    public UnitType unitType;
+    
+    public UnitMeta.UnitType unitType;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
     private UnitFactory localFactory;
@@ -83,7 +73,7 @@ public class Unit : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        if(this.unitType == UnitType.CAVALRY&&i==0)
+        if(this.unitType == UnitMeta.UnitType.CAVALRY&&i==0)
         {
             
             if (localFactory == null)
@@ -152,7 +142,7 @@ public class Unit : NetworkBehaviour
     }
     private void ChangeType(Unit unit , UnitMovement unitMovement)
     {
-        unit.unitType = UnitType.KNIGHT;
+        unit.unitType = UnitMeta.UnitType.KNIGHT;
         unitMovement.GetNavMeshAgent().speed = 6;
     }
     [ClientRpc]

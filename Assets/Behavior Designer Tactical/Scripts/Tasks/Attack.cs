@@ -39,7 +39,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                 }
             }
-            if (tacticalAgent.transform.GetComponent<Unit>().unitType == UnitType.SPEARMAN && !tacticalAgent.transform.GetComponent<battleFieldRules>().IsInField(tacticalAgent.transform)&&i==0)
+            if (tacticalAgent.transform.GetComponent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN && !tacticalAgent.transform.GetComponent<battleFieldRules>().IsInField(tacticalAgent.transform)&&i==0)
             {
                 i++;
                 localFactory.powerUp(tacticalAgent.transform.GetComponent<GameObject>(),3);

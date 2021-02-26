@@ -119,9 +119,9 @@ public class CardDealer : MonoBehaviour
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
         int cardnumber = (int)randomCard.numbers;
         cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;
-        int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(Unit.UnitType)).Length;
+        int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
-        if (Unit.UnitEleixer.TryGetValue((Unit.UnitType)type, out int value)) { uniteleixer = value; }
+        if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
         
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         //Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
