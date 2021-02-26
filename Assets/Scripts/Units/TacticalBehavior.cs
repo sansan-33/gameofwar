@@ -30,6 +30,7 @@ public class TacticalBehavior : MonoBehaviour
     private GameObject defendObject = null;
     public enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
 
+    private Dictionary<int, GameObject> leaders = new Dictionary<int, GameObject>();
     private Dictionary<int, Dictionary< int,  List<BehaviorSelectionType>>> leaderTacticalType = new Dictionary<int, Dictionary<int, List<BehaviorSelectionType>>>();
     private Color teamColor;
     private Color teamEnemyColor;
@@ -112,8 +113,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
-        Dictionary<int , GameObject> leaders = new Dictionary<int, GameObject>();
-        //Debug.Log($"TacticalFormation armies size {armies.Length} for player id {playerID} ");
+        leaders.Clear();
         int i = 0;
         behaviorTreeGroups[playerid].Clear();
         int leaderUnitTypeID = 0;
@@ -132,21 +132,17 @@ public class TacticalBehavior : MonoBehaviour
             {
                 leaders.Add(leaderUnitTypeID, child);
                 child.name = "LEADER" + leaders.Count;
-                LeaderTacticalType(playerid, leaderUnitTypeID, UnitMeta.DefaultUnitTactical[ (UnitMeta.UnitType) leaderUnitTypeID] );
             }
             child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
             child.name = "[" + i + "]\t" + child.name;
             child.transform.parent = PlayerEnemyGroup[playerid].transform;
             i++;
         }
-        List<KeyValuePair<int, GameObject>> leaderlist = leaders.ToList();
-        //Debug.Log($"playerID {playerID} Heros size {heros.Count}");
         for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
         {
             var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
             leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
-            //LeaderTacticalType(playerid, leaderUnitTypeID, BehaviorSelectionType.Defend);
-
+          
             randBase = randBase == 0 ? 1 : 0;
             //Debug.Log($"randLeader {rr}/{randLeader}/{leaders.Count} randBase {randBase}");
 
@@ -190,7 +186,7 @@ public class TacticalBehavior : MonoBehaviour
       
             }
         }
-        printTB();
+        //printTB();
         
         if (playerid == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
             LeaderUpdated?.Invoke(leaders);
@@ -221,16 +217,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         if (unit.tag == ENEMYTAG) { return; }
         Debug.Log($"Auto Reinforce ..... {unit.name}");
-        if(unit.name.ToLower().Contains("leader"))
-            TryReinforce(PLAYERID, ENEMYID);
-    }
-    public void TryReinforce(int playerID, int enemyID)
-    {
-        // assign tag for new spawn instance, e.g. click on card
-        StartCoroutine(AssignTag());
-        // put unit under player / enemy behavior list
-        StartCoroutine(TacticalFormation(playerID, enemyID));
-        SelectionChanged(playerID , GetLeaderID(playerID));
+        StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
     
     private void SelectionChanged(int playerID, int leaderid)
@@ -240,26 +227,28 @@ public class TacticalBehavior : MonoBehaviour
         StartCoroutine(EnableBehavior(playerID, leaderid));
         Eleixier.speedUpEleixier(GetBehaviorSelectionType(playerID));
     }
-    private IEnumerator EnableBehavior(int playerID, int leaderID)
+    private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
         yield return new WaitForSeconds(0.1f);
-        int localSelectionType = (int)leaderTacticalType[playerID][leaderID][0];
-        for (int i = 0; i < behaviorTreeGroups[playerID][leaderID][localSelectionType].Count; ++i)
+        int localSelectionType = (int) GetLeaderBehaviorSelectionType(playerid, leaderid, true);
+        int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
+        for (int i = 0; i < agentCount; ++i)
         {
-            if (behaviorTreeGroups[playerID][leaderID][localSelectionType][i] != null)
+            if (behaviorTreeGroups[playerid][leaderid][localSelectionType][i] != null)
             {
-                behaviorTreeGroups[playerID][leaderID][localSelectionType][i].EnableBehavior();
+                behaviorTreeGroups[playerid][leaderid][localSelectionType][i].EnableBehavior();
             }
         }
     }
-    public IEnumerator DisableBehavior(int playerID, int leaderID)
+    public IEnumerator DisableBehavior(int playerid, int leaderid)
     {
         yield return new WaitForSeconds(0.1f);
-        int localSelectionType = (int)leaderTacticalType[playerID][leaderID][1];
-        Debug.Log($"DisableBehavior player enemy id {playerID} leaderid {leaderID} select type {localSelectionType} ");
-        for (int i = 0; i < behaviorTreeGroups[playerID][leaderID][localSelectionType].Count; ++i)
+        int localSelectionType = (int)GetLeaderBehaviorSelectionType(playerid, leaderid, false);
+        int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
+
+        for (int i = 0; i < agentCount; ++i)
         {
-            behaviorTreeGroups[playerID][leaderID][localSelectionType][i].DisableBehavior();
+            behaviorTreeGroups[playerid][leaderid][localSelectionType][i].DisableBehavior();
         }
     }
     public string GetTacticalStatus()
@@ -277,17 +266,24 @@ public class TacticalBehavior : MonoBehaviour
     }
     public BehaviorSelectionType GetBehaviorSelectionType(int playerid)
     {
-        return leaderTacticalType[playerid][GetLeaderID(playerid)][0];
+        return GetLeaderBehaviorSelectionType( playerid , GetLeaderID(playerid) , true ) ;
     }
-    public void LeaderTacticalType(int playerID, int leaderID, BehaviorSelectionType type)
+    public BehaviorSelectionType GetLeaderBehaviorSelectionType(int playerid, int leaderid, bool isCurrent)
+    {
+        if (leaderTacticalType[playerid].ContainsKey(leaderid))
+            return leaderTacticalType[playerid][leaderid][isCurrent ? 0 : 1];
+        else
+            return UnitMeta.DefaultUnitTactical[ (UnitMeta.UnitType) leaderid ];
+    }
+    public void LeaderTacticalType(int playerid, int leaderid, BehaviorSelectionType type)
     {
         List<BehaviorSelectionType> behaviorSelectionTypes;
-        if (!leaderTacticalType[playerID].TryGetValue(leaderID, out behaviorSelectionTypes))
+        if (!leaderTacticalType[playerid].TryGetValue(leaderid, out behaviorSelectionTypes))
         {
             behaviorSelectionTypes = new  List<BehaviorSelectionType>();
             behaviorSelectionTypes.Add(type);
             behaviorSelectionTypes.Add(type);
-            leaderTacticalType[playerID].Add(leaderID, behaviorSelectionTypes);
+            leaderTacticalType[playerid].Add(leaderid, behaviorSelectionTypes);
         }
         behaviorSelectionTypes[1] = behaviorSelectionTypes[0];
         behaviorSelectionTypes[0] = type;
@@ -301,7 +297,10 @@ public class TacticalBehavior : MonoBehaviour
             sb.Append($"Player Enemy ID {ids.Key} \n");
             foreach (var leaders in ids.Value)
             {
-                sb.Append($"\t leader id {leaders.Key} {leaderTacticalType[ids.Key][leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][leaders.Key][1]} )   \n");
+                if (!leaderTacticalType[ids.Key].ContainsKey(leaders.Key))
+                    sb.Append($"\t leader id {leaders.Key} default { UnitMeta.DefaultUnitTactical[ (UnitMeta.UnitType) leaders.Key  ]} (previous default : { UnitMeta.DefaultUnitTactical[(UnitMeta.UnitType)leaders.Key]} )   \n");
+                else
+                    sb.Append($"\t leader id {leaders.Key} {leaderTacticalType[ids.Key][leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][leaders.Key][1]} )   \n");
                 foreach (var groups in leaders.Value)
                 {
                     sb.Append($" \t\t group {groups.Key} \n");
@@ -337,9 +336,9 @@ public class TacticalBehavior : MonoBehaviour
     }
     void AutoRun(int playerid)
     {
-        foreach (var leaderid in leaderTacticalType)
+        foreach (var leaderid in leaders.Keys.ToList())
         {
-            SelectionChanged(playerid , leaderid.Key);
+            SelectionChanged(playerid , leaderid);
         }
         //AttackOnlyUnit();
     }

@@ -81,7 +81,7 @@ public class Card : MonoBehaviour
         }
 
         localFactory.CmdSpawnUnit((UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
-        FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
+        //FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
        
     }
     public void destroy()
