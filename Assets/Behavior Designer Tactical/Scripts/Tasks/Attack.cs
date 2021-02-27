@@ -29,34 +29,10 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
             if (base.leader.Value != null)
                 base.leader.Value.GetComponent<HealthDisplay>().EnableLeaderIcon();
-            if (localFactory == null)
-            {
-                foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
-                {
-                    if (factroy.GetComponent<UnitFactory>().hasAuthority)
-                    {
-                        localFactory = factroy.GetComponent<UnitFactory>();
-                    }
-                }
-            }
-            if (tacticalAgent.transform.GetComponent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN && !tacticalAgent.transform.GetComponent<battleFieldRules>().IsInField(tacticalAgent.transform)&&i==0)
-            {
-                i++;
-                localFactory.powerUp(tacticalAgent.transform.GetComponent<GameObject>(),3);
-
-                Scale(tacticalAgent.transform.GetComponent<GameObject>());
-                RpcScale(tacticalAgent.transform.GetComponent<GameObject>());
-            }
+          
             return TaskStatus.Running;
         }
-        private void Scale(GameObject tacticalAgent)
-        {
-            tacticalAgent.transform.localScale = new Vector3(3, 3, 3);
-        }
-        [ClientRpc]
-        private void RpcScale(GameObject tacticalAgent)
-        {
-            Scale(tacticalAgent);
-        }
+       
+        
     }
 }

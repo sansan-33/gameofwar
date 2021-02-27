@@ -270,6 +270,7 @@ GameObject:
   - component: {fileID: 1140377478757733173}
   - component: {fileID: 2018631892820340176}
   - component: {fileID: -4685004167748919957}
+  - component: {fileID: -251928997006652609}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Untagged
@@ -409,8 +410,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -449,8 +450,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -490,8 +491,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,8 +531,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,8 +571,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,8 +612,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -651,8 +652,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -691,8 +692,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,8 +732,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,8 +772,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,8 +812,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &4649854274305143333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,8 +853,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &1430969508781407035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1150,6 +1151,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50df5e2879d8844518abda053d97a392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-251928997006652609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4649854274305143770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4fb6c4bdc464e52b41b1f8d001d429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &5065429258744081884
 GameObject:
   m_ObjectHideFlags: 0

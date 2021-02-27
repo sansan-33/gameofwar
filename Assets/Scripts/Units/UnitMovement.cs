@@ -12,7 +12,7 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
     [SerializeField] public LineRenderer lineRenderer = null;
     [SerializeField] public GameObject circleMarker = null;
-
+    private UnitFactory localFactory;
     private float stoppingDistance = 1f;
     #region Server
     private float startTime = 3;
@@ -84,15 +84,43 @@ public class UnitMovement : NetworkBehaviour
     [Server]
     public void ServerMove(Vector3 position)
     {
-        position.y = agent.destination.y;
-        if (agent.destination != position)
+        if (localFactory == null)
         {
-            //Debug.Log($"ServerMove: {agent.destination} /  {position} ");
-            agent.SetDestination(position);
+            foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
+            {
+                if (factroy.GetComponent<UnitFactory>().hasAuthority)
+                {
+                    localFactory = factroy.GetComponent<UnitFactory>();
+                }
+            }
         }
-        
+        if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN && !GetComponentInParent<battleFieldRules>().IsInField(GetComponentInParent<Transform>())&& CompareTag("Player0"))
+        {
+
+            GetComponentInParent<UnitPowerUp>().powerUp(GetComponentInParent<Unit>(), 3);
+            GetComponentInParent<UnitPowerUp>().RpcPowerUp(GetComponentInParent<Transform>().gameObject, 3);
+            Scale(GetComponentInParent<Transform>());
+            RpcScale(GetComponentInParent<Transform>());
+
+            position.y = agent.destination.y;
+            if (agent.destination != position)
+            {
+                //Debug.Log($"ServerMove: {agent.destination} /  {position} ");
+                agent.SetDestination(position);
+            }
+
+        }
     }
-    public void OLDServerMove(Vector3 position)
+        private void Scale(Transform tacticalAgent)
+        {
+            tacticalAgent.transform.localScale = new Vector3(3, 3, 3);
+        }
+        [ClientRpc]
+        private void RpcScale(Transform tacticalAgent)
+        {
+            Scale(tacticalAgent);
+        }
+        public void OLDServerMove(Vector3 position)
     {
         targeter.ClearTarget();
 

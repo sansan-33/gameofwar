@@ -80,7 +80,8 @@ public class UnitFactory : NetworkBehaviour
             unit.name = unitName;
             unit.tag = "Player" + playerID;
             
-            powerUp(unit , star);
+            unit.GetComponent<UnitPowerUp>().powerUp(unit.GetComponent<Unit>() , star);
+            unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star);
             // Cannot remove this one otherwise Tactical Behavior error
             //if(spawnAuthority)
             //Debug.Log($" ServerSpwanUnit Player ID {playerID} {unitName}");
@@ -91,25 +92,7 @@ public class UnitFactory : NetworkBehaviour
             spawnCount--;
         }
     }
-    public GameObject powerUp(GameObject unit , int star)
-    {
-   
-        unit.GetComponent<Health>().ScaleMaxHealth(star);
-       
-        if (star == 1)
-        {
-            unit.GetComponent<IAttack>().ScaleDamageDeal(star);
-        }
-        else
-        {
-            unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 4);
-        }
-        
-        unit.GetComponentInChildren<IBody>().SetRenderMaterial(star);
-        //unit.GetComponentInChildren<IBody>().SetUnitSize(star);
-        RpcPowerUp(unit, star);
-        return unit;
-    }
+    
     public void Transform(GameObject Cavalry, GameObject Knight)
     {
         Cavalry.SetActive(false);
@@ -143,10 +126,5 @@ public class UnitFactory : NetworkBehaviour
         //Debug.Log($"RpcTag color is {teamColor}");
         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
     }
-    [ClientRpc]
-    void RpcPowerUp(GameObject unit , int star)
-    {
-        
-        powerUp(unit, star);
-    }
+   
 }
