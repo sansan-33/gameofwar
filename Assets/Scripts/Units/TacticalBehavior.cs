@@ -139,6 +139,7 @@ public class TacticalBehavior : MonoBehaviour
     public IEnumerator TacticalFormation(int playerid, int enemyid)
     {
         yield return new WaitForSeconds(0.1f);
+        float starttime = Time.time;
         if(playerid==0)
         Debug.Log($"TacticalFormation ============================ Start playerid {playerid}");
 
@@ -225,7 +226,7 @@ public class TacticalBehavior : MonoBehaviour
         InitSetupSelectedLeaderID(playerid);
         AutoRun(playerid);
         if (playerid == 0)
-            Debug.Log($"TacticalFormation ============================ End playerid {playerid} , Leader Count {leaders[playerid].Count} ");
+            Debug.Log($"TacticalFormation ============================ End {Time.time - starttime} sec. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
     }
     public void HandleLeaderSelected(int leaderId)
     {
@@ -243,6 +244,7 @@ public class TacticalBehavior : MonoBehaviour
     public void TryTB(int type, int playerid, int leaderid)
     {
         LeaderTacticalType(playerid, leaderid, (BehaviorSelectionType)type);
+        Eleixier.speedUpEleixier(GetBehaviorSelectionType(playerid));
         SelectionChanged(playerid, leaderid);
     }
     public void TryReinforcePlayer(Unit unit)
@@ -257,7 +259,6 @@ public class TacticalBehavior : MonoBehaviour
         StopCoroutine(EnableBehavior(playerID, leaderid));
         StartCoroutine(DisableBehavior(playerID, leaderid));
         StartCoroutine(EnableBehavior(playerID, leaderid));
-        Eleixier.speedUpEleixier(GetBehaviorSelectionType(playerID));
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {

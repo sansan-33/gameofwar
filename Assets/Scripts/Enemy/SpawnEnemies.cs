@@ -28,7 +28,7 @@ public class SpawnEnemies : MonoBehaviour
 
             SpawnEnemyBase("SpawnPointEnemy",0);
             SpawnEnemyBase("SpawnPointEnemy",1);
-            InvokeRepeating("LoadEnemies", 2f, 6f);
+            InvokeRepeating("LoadEnemies", 2f, 4f);
         }
     }
 
