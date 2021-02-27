@@ -65,14 +65,14 @@ public class TacticalBehavior : MonoBehaviour
         teamColor = player.GetTeamColor();
         teamEnemyColor = player.GetTeamEnemyColor();
        
-        Unit.ServerOnUnitDespawned += TryReinforcePlayer;
-        Unit.ServerOnUnitSpawned += TryReinforcePlayer;
+        Unit.AuthorityOnUnitSpawned += TryReinforcePlayer;
+        Unit.AuthorityOnUnitDespawned += TryReinforcePlayer;
         LeaderScrollList.LeaderSelected += HandleLeaderSelected;
     }
     public void OnDestroy()
     {
-        Unit.ServerOnUnitDespawned -= TryReinforcePlayer;
-        Unit.ServerOnUnitSpawned -= TryReinforcePlayer;
+        Unit.AuthorityOnUnitSpawned -= TryReinforcePlayer;
+        Unit.AuthorityOnUnitDespawned -= TryReinforcePlayer;
         LeaderScrollList.LeaderSelected -= HandleLeaderSelected;
     }
     public IEnumerator AssignTag()
@@ -253,7 +253,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void TryReinforcePlayer(Unit unit)
     {
-        if (unit.tag == ENEMYTAG) { return; }
+        //if (unit.tag == ENEMYTAG) { return; }
         Debug.Log($"Auto Reinforce ..... {unit.name}");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
@@ -395,10 +395,12 @@ public class TacticalBehavior : MonoBehaviour
         {
             if (type == 0)
             {
-                behaviorType =  ( (leaderid)  == (int)UnitMeta.UnitType.ARCHER) ? BehaviorSelectionType.Flank : BehaviorSelectionType.Attack;
+                behaviorType = ((leaderid) == (int)UnitMeta.UnitType.ARCHER) ? BehaviorSelectionType.Flank : BehaviorSelectionType.Attack;
             }
             else
+            {
                 behaviorType = BehaviorSelectionType.Defend;
+            }
             LeaderTacticalType(PLAYERID, leaderid, behaviorType);
             SelectionChanged(PLAYERID, leaderid);
         }
