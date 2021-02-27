@@ -88,7 +88,7 @@ public class UnitMovement : NetworkBehaviour
     [Server]
     public void ServerMove(Vector3 position)
     {
-        if ( !GetComponentInParent<battleFieldRules>().IsInField(GetComponentInParent<Transform>()) && CompareTag("Player0"))
+        if ( !GetComponentInParent<BattleFieldRules>().IsInField(GetComponentInParent<Transform>()) && CompareTag("Player0"))
         {
             if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN)
             {
