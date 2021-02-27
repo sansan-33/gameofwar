@@ -90,7 +90,7 @@ public class Unit : NetworkBehaviour
             localFactory.Transform(Cavalry, Knight);
             ChangeType(this,GetComponent<UnitMovement>());
             RpcChangeType(GetComponent<GameObject>());
-             i++;
+            i++;
         }
         else
         {
