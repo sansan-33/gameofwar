@@ -124,14 +124,14 @@ public class TacticalBehavior : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(0.1f);
-            defendObjects[0].Add(GameObject.FindGameObjectsWithTag("PlayerBase0")[0]);
-            defendObjects[0].Add(GameObject.FindGameObjectsWithTag("PlayerBase0")[1]);
-            defendObjects[1].Add(GameObject.FindGameObjectsWithTag("PlayerBase1")[0]);
-            defendObjects[1].Add(GameObject.FindGameObjectsWithTag("PlayerBase1")[1]);
             //Debug.Log($"playerBases: {playerBases.Length} / PlayerBase0: {GameObject.FindGameObjectsWithTag("PlayerBase0").Length} / PlayerBase1: {GameObject.FindGameObjectsWithTag("PlayerBase1").Length}");
-            if (playerBases.Length > 2 || (GameObject.FindGameObjectsWithTag("PlayerBase0").Length > 0 && GameObject.FindGameObjectsWithTag("PlayerBase1").Length > 0))
+            if ( GameObject.FindGameObjectsWithTag("PlayerBase0").Length > 0 && GameObject.FindGameObjectsWithTag("PlayerBase1").Length > 0)
             {
                 ISTAGGED = true;
+                defendObjects[0].Add(GameObject.FindGameObjectsWithTag("PlayerBase0")[0]);
+                defendObjects[0].Add(GameObject.FindGameObjectsWithTag("PlayerBase0")[1]);
+                defendObjects[1].Add(GameObject.FindGameObjectsWithTag("PlayerBase1")[0]);
+                defendObjects[1].Add(GameObject.FindGameObjectsWithTag("PlayerBase1")[1]);
                 yield return TacticalFormation(PLAYERID, ENEMYID);
             }
         }

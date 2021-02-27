@@ -16,6 +16,8 @@ public class BattleFieldRules : MonoBehaviour
     }
     public bool IsInField(Transform unit)
     {
+        return false;
+        /*
        
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
@@ -42,6 +44,7 @@ public class BattleFieldRules : MonoBehaviour
             //Debug.Log($"IsNotInFields-->{IsNotInField}");
             return IsNotInField;
         }
+        */
         
     }
     // Update is called once per frame

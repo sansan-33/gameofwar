@@ -85,48 +85,27 @@ public class UnitMovement : NetworkBehaviour
     {
         ServerMove(position);
     }
-    
     [Server]
     public void ServerMove(Vector3 position)
     {
-        bool CanPowerUp = false;
-        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
+        position.y = agent.destination.y;
+        if (agent.destination != position)
         {
-            if (CompareTag("Player0"))
-            {
-                CanPowerUp = true;
-            }
+            //Debug.Log($"ServerMove: {agent.destination} /  {position} ");
+            agent.SetDestination(position);
         }
-        else { CanPowerUp = true; }
-        if ( !GetComponentInParent<BattleFieldRules>().IsInField(GetComponentInParent<Transform>()) && CanPowerUp)
-        {
-            if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN)
-            {
-                GetComponentInParent<UnitPowerUp>().powerUp(GetComponentInParent<Unit>(), 3);
-                GetComponentInParent<UnitPowerUp>().RpcPowerUp(GetComponentInParent<Transform>().gameObject, 3);
-                Scale(GetComponentInParent<Transform>());
-                RpcScale(GetComponentInParent<Transform>());
-            }else if(GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
-            {
-                SetSpeed();
-            }
-
-        }
-            position.y = agent.destination.y;
-            if (agent.destination != position)
-            {
-                //Debug.Log($"ServerMove: {agent.destination} /  {position} ");
-                agent.SetDestination(position);
-            }
-
-        
     }
     [Command]
-    private void SetSpeed()
+    public void SetSpeed()
     {
-        GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
-        ResetSpeed(agent);
-        RpcResetSpeed(agent.transform.gameObject);
+        /*
+        if (agent.speed < 100)
+        {
+            GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
+            ResetSpeed(agent);
+            RpcResetSpeed(agent.transform.gameObject);
+        }
+        */
     }
     private void ResetSpeed(NavMeshAgent agent)
     {
@@ -137,15 +116,7 @@ public class UnitMovement : NetworkBehaviour
     {
         ResetSpeed(agent.GetComponent<UnitMovement>().GetNavMeshAgent());
     }
-    private void Scale(Transform tacticalAgent)
-    { 
-       tacticalAgent.transform.localScale = new Vector3(3, 3, 3);
-    }
-    [ClientRpc]
-    private void RpcScale(Transform tacticalAgent)
-    {
-       Scale(tacticalAgent);
-    }
+
     public void OLDServerMove(Vector3 position)
     {
         targeter.ClearTarget();
@@ -174,26 +145,7 @@ public class UnitMovement : NetworkBehaviour
         }
         
     }
-    [Command]
-    public void CmdMoveAttack(Vector3 position,  int speed)
-    {
-        ServerMoveAttack( position, speed);
-    }
-    [Server]
-    public void ServerMoveAttack(Vector3 position, int speed)
-    {
 
-        targeter.ClearTarget();
-
-        //if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas)) { return; }
-        //Debug.Log($"1 ServerMoveAttack position {position} / rotation {agent.transform.rotation}");
-
-        agent.speed = speed;
-        agent.SetDestination(position);
-        
-        //Debug.Log($"2 ServerMoveAttack position {position} / rotation {agent.transform.rotation}");
-    }
-   
     #endregion
     private float getStoppingDistance()
     {

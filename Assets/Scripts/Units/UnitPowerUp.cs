@@ -16,6 +16,36 @@ public class UnitPowerUp : NetworkBehaviour
     {
         
     }
+    [Command]
+    public void cmdPowerUp()
+    {
+        bool CanPowerUp = false;
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
+        {
+            if (CompareTag("Player0"))
+            {
+                CanPowerUp = true;
+            }
+        }else {
+            CanPowerUp = true;
+        }
+
+        if (!GetComponentInParent<BattleFieldRules>().IsInField(GetComponentInParent<Transform>()) && CanPowerUp)
+        {
+            if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN)
+            {
+                GetComponentInParent<UnitPowerUp>().powerUp(GetComponentInParent<Unit>(), 3);
+                GetComponentInParent<UnitPowerUp>().RpcPowerUp(GetComponentInParent<Transform>().gameObject, 3);
+                Scale(GetComponentInParent<Transform>());
+                RpcScale(GetComponentInParent<Transform>());
+            }
+            else if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
+            {
+                GetComponentInParent<Unit>().GetUnitMovement().SetSpeed();
+            }
+
+        }
+    }
     [Server]
     public Unit powerUp(Unit unit, int star)
     {
@@ -41,5 +71,14 @@ public class UnitPowerUp : NetworkBehaviour
     {
 
         powerUp(unit.GetComponent<Unit>(), star);
+    }
+    private void Scale(Transform tacticalAgent)
+    {
+        tacticalAgent.transform.localScale = new Vector3(3, 3, 3);
+    }
+    [ClientRpc]
+    private void RpcScale(Transform tacticalAgent)
+    {
+        Scale(tacticalAgent);
     }
 }
