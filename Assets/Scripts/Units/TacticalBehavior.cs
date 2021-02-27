@@ -2,12 +2,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using BehaviorDesigner.Runtime;
 using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
+using Debug = UnityEngine.Debug;
 
 public class TacticalBehavior : MonoBehaviour
 {
@@ -139,8 +141,9 @@ public class TacticalBehavior : MonoBehaviour
     public IEnumerator TacticalFormation(int playerid, int enemyid)
     {
         yield return new WaitForSeconds(0.1f);
-        float starttime = Time.time;
-        if(playerid==0)
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
+        if (playerid==0)
         Debug.Log($"TacticalFormation ============================ Start playerid {playerid}");
 
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
@@ -176,7 +179,7 @@ public class TacticalBehavior : MonoBehaviour
             leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
           
             randBase = randBase == 0 ? 1 : 0;
-            Debug.Log($"player id {playerid} randLeader {leaderUnitTypeID} randBase {randBase}");
+            //Debug.Log($"player id {playerid} randLeader {leaderUnitTypeID} randBase {randBase}");
 
             if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO ) {
                 defendObject = king;
@@ -225,8 +228,9 @@ public class TacticalBehavior : MonoBehaviour
 
         InitSetupSelectedLeaderID(playerid);
         AutoRun(playerid);
+        stopwatch.Stop();
         if (playerid == 0)
-            Debug.Log($"TacticalFormation ============================ End {Time.time - starttime} sec. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
+            Debug.Log($"TacticalFormation ============================ End {stopwatch.ElapsedMilliseconds} milli seconrds. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
     }
     public void HandleLeaderSelected(int leaderId)
     {
@@ -256,9 +260,13 @@ public class TacticalBehavior : MonoBehaviour
     
     private void SelectionChanged(int playerID, int leaderid)
     {
+        var stopwatch = new Stopwatch();
+        stopwatch.Start();
         StopCoroutine(EnableBehavior(playerID, leaderid));
         StartCoroutine(DisableBehavior(playerID, leaderid));
         StartCoroutine(EnableBehavior(playerID, leaderid));
+        stopwatch.Stop();
+        Debug.Log($"SelectionChanged total running time {stopwatch.ElapsedMilliseconds} milli seconrds");
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
@@ -375,7 +383,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         foreach (var leaderid in leaders[playerid].Keys.ToList())
         {
-            Debug.Log($"Auto Run leader {playerid} {leaderid}");
+            //Debug.Log($"Auto Run leader {playerid} {leaderid}");
             SelectionChanged(playerid , leaderid);
         }
         //AttackOnlyUnit();
