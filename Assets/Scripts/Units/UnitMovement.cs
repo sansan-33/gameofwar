@@ -12,6 +12,7 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
     [SerializeField] public LineRenderer lineRenderer = null;
     [SerializeField] public GameObject circleMarker = null;
+    [SerializeField] private GameObject specialEffectPrefab = null;
     public float OriginoSpeed;
     private float stoppingDistance = 1f;
     #region Server
@@ -98,6 +99,7 @@ public class UnitMovement : NetworkBehaviour
                 RpcScale(GetComponentInParent<Transform>());
             }else if(GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
             {
+                GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
                 agent.speed = 100;
             }
 
