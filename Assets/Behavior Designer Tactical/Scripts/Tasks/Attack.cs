@@ -23,7 +23,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             }
             tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : Searching target ");
             if (MoveToAttackPosition()) {
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : " + tacticalAgent.transform.GetComponent<battleFieldRules>().IsInField(tacticalAgent.transform)  + " " + tacticalAgent.TargetTransform.name + " (" + (int) (tacticalAgent.transform.position -  tacticalAgent.TargetTransform.position).sqrMagnitude + ")" );
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : " + tacticalAgent.transform.GetComponent<BattleFieldRules>().IsInField(tacticalAgent.transform)  + " " + tacticalAgent.TargetTransform.name + " (" + (int) (tacticalAgent.transform.position -  tacticalAgent.TargetTransform.position).sqrMagnitude + ")" );
                 tacticalAgent.TryAttack();
             }
 
