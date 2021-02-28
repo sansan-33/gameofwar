@@ -139,7 +139,7 @@ public class RTSNetworkManager : NetworkManager
                 else
                 {
                     Vector3 kingPos = GetStartPosition().position;
-                    militaryList.Add(UnitMeta.UnitType.KNIGHT, 2);
+                    militaryList.Add(UnitMeta.UnitType.SPEARMAN, 2);
                     StartCoroutine(loadMilitary(0.1f, player, kingPos, unitDict[UnitMeta.UnitType.KING], UnitMeta.UnitType.KING.ToString(), 1, Quaternion.Euler(0, 180,0)   ));
                 }
                 foreach (UnitMeta.UnitType unitType in militaryList.Keys)
