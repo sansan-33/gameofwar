@@ -7,7 +7,7 @@ public class CardLayout : MonoBehaviour
 {
     [SerializeField] int cardindex;
     [SerializeField] int x;
-    [SerializeField] int y=350;
+    [SerializeField] int y=-150;
     [SerializeField] Button cardPrefab;
     private float cardOffset=40;
     // Start is called before the first frame update

@@ -946,7 +946,6 @@ MonoBehaviour:
   unitNetworkAnimator: {fileID: 0}
   lineRenderer: {fileID: 2018631892820340176}
   circleMarker: {fileID: 3793294484934286102}
-  specialEffectPrefab: {fileID: 0}
   OriginoSpeed: 0
 --- !u!114 &2781902321850918506
 MonoBehaviour:
@@ -1156,6 +1155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  agent: {fileID: 4649854274305143336}
+  specialEffectPrefab: {fileID: 100000, guid: 3d4907e6bd39f474b8fd8220920e65c4, type: 3}
 --- !u!114 &-862902047010876210
 MonoBehaviour:
   m_ObjectHideFlags: 0

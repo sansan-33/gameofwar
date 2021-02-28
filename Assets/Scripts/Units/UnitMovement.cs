@@ -12,7 +12,6 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
     [SerializeField] public LineRenderer lineRenderer = null;
     [SerializeField] public GameObject circleMarker = null;
-    [SerializeField] private GameObject specialEffectPrefab = null;
     public float OriginoSpeed;
     private float stoppingDistance = 1f;
     #region Server
@@ -91,28 +90,8 @@ public class UnitMovement : NetworkBehaviour
         position.y = agent.destination.y;
         if (agent.destination != position)
         {
-            //Debug.Log($"ServerMove: {agent.destination} /  {position} ");
             agent.SetDestination(position);
         }
-    }
-    [Command]
-    public void SetSpeed()
-    {
-        if (agent.speed < 100)
-        {
-            GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
-            ResetSpeed(agent);
-            RpcResetSpeed(agent.transform.gameObject);
-        }
-    }
-    private void ResetSpeed(NavMeshAgent agent)
-    {
-        agent.speed = 100;
-    }
-    [ClientRpc]
-    private void RpcResetSpeed(GameObject agent)
-    {
-        ResetSpeed(agent.GetComponent<UnitMovement>().GetNavMeshAgent());
     }
 
     public void OLDServerMove(Vector3 position)

@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitPowerUp : NetworkBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private NavMeshAgent agent = null;
+    [SerializeField] private GameObject specialEffectPrefab = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     [Command]
     public void cmdPowerUp()
     {
@@ -43,7 +36,6 @@ public class UnitPowerUp : NetworkBehaviour
             {
                 //GetComponentInParent<Unit>().GetUnitMovement().SetSpeed();
             }
-
         }
     }
     [Server]
@@ -81,4 +73,24 @@ public class UnitPowerUp : NetworkBehaviour
     {
         Scale(tacticalAgent);
     }
+    [Command]
+    public void SetSpeed()
+    {
+        if (agent.speed < 100)
+        {
+            GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
+            ResetSpeed(agent);
+            RpcResetSpeed(agent.transform.gameObject);
+        }
+    }
+    private void ResetSpeed(NavMeshAgent agent)
+    {
+        agent.speed = 100;
+    }
+    [ClientRpc]
+    private void RpcResetSpeed(GameObject agent)
+    {
+        ResetSpeed(agent.GetComponent<UnitMovement>().GetNavMeshAgent());
+    }
+
 }
