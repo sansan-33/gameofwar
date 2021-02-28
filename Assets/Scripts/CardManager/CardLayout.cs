@@ -6,13 +6,12 @@ using UnityEngine.UI;
 public class CardLayout : MonoBehaviour
 {
     [SerializeField] int cardindex;
-    [SerializeField] int x;
-    [SerializeField] int y=-150;
     [SerializeField] Button cardPrefab;
     private float cardOffset=40;
     // Start is called before the first frame update
     void Start()
     {
+        int y = 100;
         if (cardindex == 0) { this.GetComponent<RectTransform>().anchoredPosition = new Vector3(-600, y, 0); }
         if (cardindex == 1) { this.GetComponent<RectTransform>().anchoredPosition = new Vector3(-500, y, 0); }
         if (cardindex == 2) { this.GetComponent<RectTransform>().anchoredPosition = new Vector3(-400, y, 0); }
