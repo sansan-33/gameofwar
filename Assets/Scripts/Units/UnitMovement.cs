@@ -12,13 +12,13 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
     [SerializeField] public LineRenderer lineRenderer = null;
     [SerializeField] public GameObject circleMarker = null;
-    public float OriginoSpeed;
+    public float originalSpeed;
     private float stoppingDistance = 1f;
     #region Server
     private float startTime = 3;
     private void Start()
     {
-        OriginoSpeed = agent.speed;
+        originalSpeed = agent.speed;
     }
     public override void OnStartServer()
     {

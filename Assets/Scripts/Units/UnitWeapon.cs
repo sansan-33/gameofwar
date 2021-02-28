@@ -99,7 +99,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 //Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
                 if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
                 {
-                    GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = GetComponentInParent<UnitMovement>().OriginoSpeed;
+                    GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = GetComponentInParent<UnitMovement>().originalSpeed;
                 }
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                

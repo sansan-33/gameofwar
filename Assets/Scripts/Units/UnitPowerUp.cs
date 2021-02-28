@@ -34,7 +34,7 @@ public class UnitPowerUp : NetworkBehaviour
             }
             else if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
             {
-                //GetComponentInParent<Unit>().GetUnitMovement().SetSpeed();
+                 SetSpeed();
             }
         }
     }
