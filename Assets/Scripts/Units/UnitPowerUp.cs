@@ -82,7 +82,6 @@ public class UnitPowerUp : NetworkBehaviour
     [Server]
     public void ServerSetSpeed()
     {
-        Debug.Log($"SetSpeed {agent.speed}");
         if (agent.speed < 100)
         {
             GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
