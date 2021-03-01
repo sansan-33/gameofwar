@@ -28,8 +28,8 @@ public class UnitBody : NetworkBehaviour, IBody
     private void ChangeType(Unit unit)
     {
         unit.GetComponentInParent<Health>().Transformhealth();
-        transform.Find("Horseman__Polyart_Standard").gameObject.SetActive(false);
-        //  gameObject.transform.GetChild(0).gameObject;
+        //transform.Find("Horseman__Polyart_Standard").gameObject.SetActive(false);
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
         changeBody.SetActive(true);
         unit.unitType = UnitMeta.UnitType.KNIGHT;
         unit.GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = 6;
