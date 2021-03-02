@@ -12,6 +12,7 @@ public class UnitBody : NetworkBehaviour, IBody
     [SerializeField] private GameObject changeBody;
     public void SetRenderMaterial(int star)
     {
+        Debug.Log("chage Colour");
         unitRenderer.sharedMaterial = material[star-1];
     }
 

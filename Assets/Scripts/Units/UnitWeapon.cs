@@ -75,7 +75,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             }
             else // Multi player seneriao
             {
-                if (player.GetPlayerID() == 0 ) isFlipped = true;
+                //if (player.GetPlayerID() == 0)
+                //{
+                    isFlipped = true;
+               // }
                 //Debug.Log($"Multi player seneriao ");
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
@@ -86,7 +89,16 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
             if (other.TryGetComponent<Health>(out Health health))
             {
-                opponentIdentity = other.GetComponent<NetworkIdentity>();
+               
+                if(player.GetPlayerID() == 1)
+                {
+                    opponentIdentity = GetComponent<NetworkIdentity>();
+                }
+                else
+                {
+                    opponentIdentity = other.GetComponent<NetworkIdentity>();
+                }
+                
                
               
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
@@ -94,12 +106,14 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
                 }
                 calculatedDamageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-                cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, isFlipped);
+                cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, opponentIdentity, isFlipped);
+                if (GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed == GetComponentInParent<UnitMovement>().maxSpeed) { calculatedDamageToDeal += 20; }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 //Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
                 if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
                 {
                     GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = GetComponentInParent<UnitMovement>().originalSpeed;
+                    GetComponentInParent<UnitPowerUp>().canSpawnEffect = true;
                 }
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                
@@ -138,7 +152,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         }
     }
     [Command]
-    private void cmdDamageText(Vector3 targetPos, int playerId, float damageNew, float damgeOld, bool flipText)
+    private void cmdDamageText(Vector3 targetPos, int playerId, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
     {
         
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
@@ -159,8 +173,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         
         NetworkServer.Spawn(floatingText, connectionToClient);
 
-
-       
+        
         if (opponentIdentity == null) { return; }
       
         if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }    }
@@ -243,7 +256,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
     [TargetRpc]
     public void TargetCommandText(NetworkConnection other , GameObject floatingText, NetworkIdentity others)
-    { 
+    {
+        Debug.Log("TargetCommandText");
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180; 
 
 

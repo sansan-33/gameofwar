@@ -9,7 +9,7 @@ public class UnitPowerUp : NetworkBehaviour
     [SerializeField] private NavMeshAgent agent = null;
     [SerializeField] private GameObject specialEffectPrefab = null;
     [SerializeField] private BattleFieldRules battleFieldRules = null;
-
+    public bool canSpawnEffect = true;
     private bool SPEARMANCanPowerUp = true;
     [Command]
     public void cmdPowerUp()
@@ -31,8 +31,8 @@ public class UnitPowerUp : NetworkBehaviour
         {
             if (unit.unitType == UnitMeta.UnitType.SPEARMAN&& SPEARMANCanPowerUp)
             {
-                powerUp(unit.gameObject, 3);
-                RpcPowerUp(unit.gameObject, 3);
+                ServerPowerUp(unit.gameObject, 3);
+                
                 Scale(unitTransform, unit.gameObject);
                 RpcScale(unitTransform, unit.gameObject);
                 SPEARMANCanPowerUp = false;
@@ -44,7 +44,12 @@ public class UnitPowerUp : NetworkBehaviour
         }
     }
     [Server]
-    public Unit powerUp(GameObject unit, int star)
+    public void ServerPowerUp(GameObject unit, int star)
+    {
+        Debug.Log("ServerPowerUp");
+        RpcPowerUp(unit.gameObject, 3);
+    }
+    public void powerUp(GameObject unit, int star)
     {
         //Debug.Log(unit);
         unit.GetComponent<Health>().ScaleMaxHealth(star);
@@ -57,16 +62,16 @@ public class UnitPowerUp : NetworkBehaviour
         {
             unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 3);
         }
-
+        Debug.Log("powerUp");
         unit.GetComponentInChildren<IBody>().SetRenderMaterial(star);
         //unit.GetComponentInChildren<IBody>().SetUnitSize(star);
 
-        return unit.GetComponent<Unit>();
+        //return unit.GetComponent<Unit>();
     }
     [ClientRpc]
     public void RpcPowerUp(GameObject unit, int star)
     {
-
+        Debug.Log("RpcPowerUp");
         powerUp(unit, star);
     }
     private void Scale(Transform unitTransform, GameObject unit)
@@ -82,17 +87,22 @@ public class UnitPowerUp : NetworkBehaviour
     [Server]
     public void ServerSetSpeed()
     {
-        if (agent.speed < 100)
+        if (agent.speed < GetComponent<UnitMovement>().maxSpeed)
         {
-            GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
             ResetSpeed(agent);
             RpcResetSpeed(agent.transform.gameObject);
+        }
+        if (canSpawnEffect)
+        {
+            GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
             NetworkServer.Spawn(specialEffect, connectionToClient);
+            canSpawnEffect = false;
         }
     }
     private void ResetSpeed(NavMeshAgent agent)
     {
-        agent.speed = 100;
+        agent.speed += 10;
+        Debug.Log(agent.speed);
     }
     [ClientRpc]
     private void RpcResetSpeed(GameObject agent)

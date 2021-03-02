@@ -80,8 +80,9 @@ public class UnitFactory : NetworkBehaviour
             unit.name = unitName;
             unit.tag = "Player" + playerID;
             
-            unit.GetComponent<UnitPowerUp>().powerUp(unit , star);
-            unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star);
+            unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit , star);
+            //unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star);
+            Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
             // Cannot remove this one otherwise Tactical Behavior error
             //if(spawnAuthority)
             //Debug.Log($" ServerSpwanUnit Player ID {playerID} {unitName}");
