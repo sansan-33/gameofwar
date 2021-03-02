@@ -18,9 +18,7 @@ public class Unit : NetworkBehaviour
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private UnityEvent onSelected = null;
     [SerializeField] private UnityEvent onDeselected = null;
-    [SerializeField] private GameObject Cavalry;
-    [SerializeField] private GameObject Knight;
-    
+   
     public UnitMeta.UnitType unitType;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
@@ -80,8 +78,7 @@ public class Unit : NetworkBehaviour
     {
         if(this.unitType == UnitMeta.UnitType.CAVALRY&&i==0)
         {
-            ChangeType(this, Cavalry, Knight);
-            RpcChangeType(this.transform.gameObject, Cavalry, Knight);
+            GetComponentInChildren<UnitBody>().ServeChangeType(this);
             i++;
         }
         else
@@ -132,18 +129,6 @@ public class Unit : NetworkBehaviour
     {
         Deselect();
     }
-    private void ChangeType(Unit unit , GameObject Cavalry, GameObject Knight)
-    {
-        unit.GetComponentInParent<Health>().Transformhealth();
-        Cavalry.SetActive(false);
-        Knight.SetActive(true);
-        unit.unitType = UnitMeta.UnitType.KNIGHT;
-        unit.GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = 6;
-    }
-    [ClientRpc]
-    private void RpcChangeType(GameObject unit, GameObject Cavalry, GameObject Knight)
-    {
-        ChangeType(unit.GetComponent<Unit>(), Cavalry, Knight);
-    }
+    
     #endregion
 }
