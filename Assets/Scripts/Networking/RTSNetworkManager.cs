@@ -24,6 +24,7 @@ public class RTSNetworkManager : NetworkManager
     [SerializeField] private GameObject kingPrefab = null;
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
+    [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -116,7 +117,9 @@ public class RTSNetworkManager : NetworkManager
         if (SceneManager.GetActiveScene().name.StartsWith("Scene_Map"))
         {
             GameOverHandler gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
+            GameBoardHandler gameBoardHandlerInstance = Instantiate(gameBoardHandlerPrefab);
 
+            NetworkServer.Spawn(gameBoardHandlerInstance.gameObject);
             NetworkServer.Spawn(gameOverHandlerInstance.gameObject);
 
             foreach (RTSPlayer player in Players)
@@ -131,20 +134,21 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
+                    militaryList.Add(UnitMeta.UnitType.SPEARMAN, 5);
+                    militaryList.Add(UnitMeta.UnitType.ARCHER, 3);
+                    militaryList.Add(UnitMeta.UnitType.CAVALRY, 2);
 
-                    militaryList.Add(UnitMeta.UnitType.CAVALRY, 1);
-
-                    StartCoroutine(loadMilitary(0.1f, player, GetStartPosition().position, unitDict[UnitMeta.UnitType.KING], UnitMeta.UnitType.KING.ToString(), 1 , Quaternion.identity));
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1 , Quaternion.identity));
                 }
                 else
                 {
                     Vector3 kingPos = GetStartPosition().position;
                     militaryList.Add(UnitMeta.UnitType.CAVALRY, 2);
-                    StartCoroutine(loadMilitary(0.1f, player, kingPos, unitDict[UnitMeta.UnitType.KING], UnitMeta.UnitType.KING.ToString(), 1, Quaternion.Euler(0, 180,0)   ));
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1, Quaternion.Euler(0, 180,0)));
                 }
                 foreach (UnitMeta.UnitType unitType in militaryList.Keys)
                 {
-                    StartCoroutine(loadMilitary(0.1f, player, pos, unitDict[unitType], unitType.ToString(), militaryList[unitType], Quaternion.identity));
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, unitType, militaryList[unitType], Quaternion.identity));
                 }
             }
         }
@@ -158,6 +162,7 @@ public class RTSNetworkManager : NetworkManager
                    pos,
                    Quaternion.identity);
         baseInstance.SetActive(true);
+        //baseInstance.tag = "Player" + player.GetPlayerID();
         //The Tag will not be set in client machine
         NetworkServer.Spawn(baseInstance, player.connectionToClient);
     }
@@ -170,16 +175,16 @@ public class RTSNetworkManager : NetworkManager
         NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
 
-    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, Quaternion rotation)
+    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, UnitMeta.UnitType unitType  , int spawnCount, Quaternion rotation)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
-            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
-            spawnOffset.y = spawnPosition.y;
-            GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
-            unit.name = unitName;
-            unit.tag = "Player" + player.GetPlayerID();
+            Vector3 spawnPosition = gameBoardHandlerInstance.GetUnitPosition(unitType, player.GetPlayerID());
+            Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
+            GameObject unit = Instantiate(unitDict[unitType], spawnPosition, rotation) as GameObject;
+            unit.name = unitType.ToString();
+            //unit.tag = "Player" + player.GetPlayerID();
             unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
             NetworkServer.Spawn(unit, player.connectionToClient);
             spawnCount--;

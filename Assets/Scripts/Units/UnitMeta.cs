@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class UnitMeta
 {
     public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING };
+    public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE};
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.MINISKELETON, 10 } };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
     {
@@ -28,5 +29,17 @@ public class UnitMeta
         { UnitType.MINISKELETON, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.GIANT, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend }
+    };
+    public static Dictionary<UnitType, UnitPosition> DefaultUnitPosition = new Dictionary<UnitType, UnitPosition>()
+    {
+        { UnitType.ARCHER, UnitPosition.MIDFIELDER } ,
+        { UnitType.KNIGHT, UnitPosition.MIDFIELDER } ,
+        { UnitType.MAGE, UnitPosition.MIDFIELDER } ,
+        { UnitType.CAVALRY, UnitPosition.DEFENDER} ,
+        { UnitType.SPEARMAN, UnitPosition.FORWARD },
+        { UnitType.HERO, UnitPosition.DEFENDER },
+        { UnitType.MINISKELETON, UnitPosition.FORWARD },
+        { UnitType.GIANT, UnitPosition.FORWARD },
+        { UnitType.KING, UnitPosition.GOALIE }
     };
 }
