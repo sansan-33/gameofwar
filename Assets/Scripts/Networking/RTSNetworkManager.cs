@@ -142,7 +142,8 @@ public class RTSNetworkManager : NetworkManager
                 }
                 else
                 {
-                    Vector3 kingPos = GetStartPosition().position;
+                    militaryList.Add(UnitMeta.UnitType.SPEARMAN, 5);
+                    militaryList.Add(UnitMeta.UnitType.ARCHER, 3);
                     militaryList.Add(UnitMeta.UnitType.CAVALRY, 2);
                     StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1, Quaternion.Euler(0, 180,0)));
                 }
@@ -180,11 +181,13 @@ public class RTSNetworkManager : NetworkManager
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
-            Vector3 spawnPosition = gameBoardHandlerInstance.GetUnitPosition(unitType, player.GetPlayerID());
-            Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
+            GameObject spawnPointObject = gameBoardHandlerInstance.GetSpawnPointObject(unitType, player.GetPlayerID());
+            Vector3 spawnPosition = spawnPointObject.transform.position;
+            //Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
             GameObject unit = Instantiate(unitDict[unitType], spawnPosition, rotation) as GameObject;
+            unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
             unit.name = unitType.ToString();
-            //unit.tag = "Player" + player.GetPlayerID();
+            unit.tag = "Player" + player.GetPlayerID();
             unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
             NetworkServer.Spawn(unit, player.connectionToClient);
             spawnCount--;

@@ -15,6 +15,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject miniSkeletonUnitPrefab = null;
     [SerializeField] private GameObject giantUnitPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
+    [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
     public Dictionary<UnitMeta.UnitType, GameObject> unitDict = new Dictionary<UnitMeta.UnitType, GameObject>();
 
@@ -31,14 +32,17 @@ public class UnitFactory : NetworkBehaviour
     private int spawnPointIndex = 0;
 
     [SerializeField] private float fireRate = 6000f;
-   
+
     public override void OnStartClient()
     {
         initUnitDict();
-    }
-    public override void OnStartServer()
-    {
-        initUnitDict();
+        if (gameBoardHandlerPrefab == null)
+        {
+            foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
+            {
+                gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
+            }
+        }
     }
     private void Update()
     {
@@ -51,7 +55,7 @@ public class UnitFactory : NetworkBehaviour
         if (UnitMeta.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
         Quaternion unitRotation = Quaternion.LookRotation(targetPosition - spawnPosition);
 
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation , 0));
     }
     [Command]
     public void CmdSpawnUnit(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
@@ -66,10 +70,14 @@ public class UnitFactory : NetworkBehaviour
         Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position;
         int unitsize = 1;
         if (UnitMeta.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity));
+
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
+        spawnPosition = spawnPointObject.transform.position;
+
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
     }
     [Server]
-    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation)
+    private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation, int spawnPointIndex)
     {
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
@@ -79,7 +87,8 @@ public class UnitFactory : NetworkBehaviour
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
             unit.name = unitName;
             unit.tag = "Player" + playerID;
-            
+            unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointIndex);
+
             unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit , star);
             //unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star);
             Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");

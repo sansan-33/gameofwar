@@ -18,8 +18,12 @@ public class GameBoardHandler : NetworkBehaviour
             playerGameBoards[i].initGameBoard();
         }
     }
-    public Vector3 GetUnitPosition(UnitMeta.UnitType unitType, int playerid)
+    public GameObject GetSpawnPointObject(UnitMeta.UnitType unitType, int playerid)
     {
         return playerGameBoards[playerid].GetUnitPoint(unitType);
+    }
+    public GameObject GetSpawnPointObjectByIndex(UnitMeta.UnitType unitType, int playerid, int index)
+    {
+        return playerGameBoards[playerid].GetUnitPointByIndex(unitType , index);
     }
 }

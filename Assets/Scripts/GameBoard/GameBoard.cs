@@ -5,16 +5,16 @@ using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
-    private Dictionary<UnitMeta.UnitPosition, List<UnitPoint>> board = new Dictionary<UnitMeta.UnitPosition, List<UnitPoint>>();
+    private Dictionary<UnitMeta.UnitPosition, List<SpawnPoint>> board = new Dictionary<UnitMeta.UnitPosition, List<SpawnPoint>>();
     private static Dictionary<UnitMeta.UnitPosition, int> roundRobinPointIndex = new Dictionary<UnitMeta.UnitPosition, int>();
     public void initGameBoard()
     {
-        foreach(UnitPoint unitPoint in transform.GetComponentsInChildren<UnitPoint>())
+        foreach(SpawnPoint unitPoint in transform.GetComponentsInChildren<SpawnPoint>())
         {
-            List<UnitPoint> unitTypePoints;
+            List<SpawnPoint> unitTypePoints;
             if (!board.TryGetValue(unitPoint.GetPointType(), out unitTypePoints))
             {
-                unitTypePoints = new List<UnitPoint>();
+                unitTypePoints = new List<SpawnPoint>();
                 board.Add(unitPoint.GetPointType(), unitTypePoints);
             }
             unitTypePoints.Add(unitPoint);
@@ -30,30 +30,34 @@ public class GameBoard : MonoBehaviour
             sb.Append($"Unit Position {unitPosition.Key} \n");
             foreach (var unitPoint in unitPosition.Value)
             {
-                sb.Append($"\t unitPoint  {unitPoint.GetPointType() }  :  {unitPoint.GetPosition() } \n");
+                sb.Append($"\t unitPoint  {unitPoint.GetPointType() }  :  {unitPoint.GetSpawnPointObject().transform.position } \n");
             }
         }
         Debug.Log(sb.ToString());
     }
-    public Vector3 GetUnitPoint(UnitMeta.UnitType unitType)
+    public GameObject GetUnitPoint(UnitMeta.UnitType unitType)
     {
         //return new Vector3(0, 0, 0);
         
-        if (!board.TryGetValue(UnitMeta.DefaultUnitPosition[unitType], out List<UnitPoint> points))
+        if (!board.TryGetValue(UnitMeta.DefaultUnitPosition[unitType], out List<SpawnPoint> points))
         {
-            return new Vector3(0, 0, 0);
+            return null;
         }
         
         if (!roundRobinPointIndex.TryGetValue(UnitMeta.DefaultUnitPosition[unitType], out int rr))
         {
-            Debug.Log($"GetUnitPoint not found {UnitMeta.DefaultUnitPosition[unitType]} ");
+            //Debug.Log($"GetUnitPoint not found {UnitMeta.DefaultUnitPosition[unitType]} ");
             roundRobinPointIndex.Add(UnitMeta.DefaultUnitPosition[unitType], 0);
         }
 
         rr = (rr + 1) % points.Count;
         roundRobinPointIndex[UnitMeta.DefaultUnitPosition[unitType]] = rr;
-        Debug.Log($"GetUnitPoint {UnitMeta.DefaultUnitPosition[unitType]} roundRobinPoint {rr}");    
-        return points[rr].GetPosition();
+        //Debug.Log($"GetUnitPoint {UnitMeta.DefaultUnitPosition[unitType]} roundRobinPoint {rr}");
+        points[rr].spawnPointIndex = rr;
+        return points[rr].GetSpawnPointObject();
     }
-
+    public GameObject GetUnitPointByIndex(UnitMeta.UnitType unitType, int index)
+    {
+        return board[UnitMeta.DefaultUnitPosition[unitType]][index].GetSpawnPointObject();
+    }
 }

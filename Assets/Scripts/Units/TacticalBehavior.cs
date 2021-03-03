@@ -38,6 +38,7 @@ public class TacticalBehavior : MonoBehaviour
     private Color teamEnemyColor;
     private int selectedLeaderId = 0;
     private int selectedEnemyLeaderId = 0;
+    private GameBoardHandler gameBoardHandlerPrefab = null;
     #region Client
 
     public void Awake()
@@ -68,6 +69,13 @@ public class TacticalBehavior : MonoBehaviour
         Unit.AuthorityOnUnitSpawned += TryReinforcePlayer;
         Unit.AuthorityOnUnitDespawned += TryReinforcePlayer;
         LeaderScrollList.LeaderSelected += HandleLeaderSelected;
+        if (gameBoardHandlerPrefab == null)
+        {
+            foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
+            {
+                gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
+            }
+        }
     }
     public void OnDestroy()
     {
@@ -143,20 +151,31 @@ public class TacticalBehavior : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        if (playerid==0)
-        Debug.Log($"TacticalFormation ============================ Start playerid {playerid}");
-
+        
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject defendObject;
+        if (playerid == 0)
+            Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Length}");
+
+        if (gameBoardHandlerPrefab == null)
+        {
+            foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
+            {
+                gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
+            }
+        }
+
         leaders[playerid].Clear();
         int i = 0;
         behaviorTreeGroups[playerid].Clear();
         int leaderUnitTypeID = 0;
         int randBase = 0;
         GameObject king = null;
+        float defendRadius = 0.1f;
         foreach (GameObject child in armies)
         {
             leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
+        
             if (child.name.Contains("]"))
             {
                 child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
@@ -177,17 +196,18 @@ public class TacticalBehavior : MonoBehaviour
         {
             var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
             leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
-          
             randBase = randBase == 0 ? 1 : 0;
-            //Debug.Log($"player id {playerid} randLeader {leaderUnitTypeID} randBase {randBase}");
 
-            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO ) {
+            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) {
                 defendObject = king;
                 defendObject.name = "King";
+                defendRadius = 3;
             }
             else {
-                defendObject = defendObjects[playerid][randBase];
-                defendObject.name = "PlayerBase" + playerid + randBase;
+                //Debug.Log($"Player {playerid} Unit {(UnitMeta.UnitType)leaderUnitTypeID } Spawn Point Index {child.GetComponent<Unit>().GetSpawnPointIndex()} gameBoardHandlerPrefab: {gameBoardHandlerPrefab == null} ");
+                defendObject = gameBoardHandlerPrefab.GetSpawnPointObjectByIndex( (UnitMeta.UnitType) leaderUnitTypeID , playerid, child.GetComponent<Unit>().GetSpawnPointIndex());
+                //defendObject = king;
+                defendRadius = 0.1f;
             }
             var agentTrees = child.GetComponents<BehaviorTree>();
             for (int k = 0; k < agentTrees.Length; ++k)
@@ -198,6 +218,7 @@ public class TacticalBehavior : MonoBehaviour
                 if (k == (int)BehaviorSelectionType.Hold || k == (int)BehaviorSelectionType.Defend)
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
+                    agentTrees[k].SetVariableValue("newRadius", defendRadius);
                 }
                 if (!child.gameObject.name.ToUpper().Contains("LEADER"))
                 {
@@ -254,7 +275,7 @@ public class TacticalBehavior : MonoBehaviour
     public void TryReinforcePlayer(Unit unit)
     {
         //if (unit.tag == ENEMYTAG) { return; }
-        Debug.Log($"Auto Reinforce ..... {unit.name}");
+        //Debug.Log($"Auto Reinforce ..... {unit.name}");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
     
@@ -266,7 +287,7 @@ public class TacticalBehavior : MonoBehaviour
         StartCoroutine(DisableBehavior(playerID, leaderid));
         StartCoroutine(EnableBehavior(playerID, leaderid));
         stopwatch.Stop();
-        Debug.Log($"SelectionChanged total running time {stopwatch.ElapsedMilliseconds} milli seconrds");
+        //Debug.Log($"SelectionChanged total running time {stopwatch.ElapsedMilliseconds} milli seconrds");
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {

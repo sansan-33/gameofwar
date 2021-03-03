@@ -22,10 +22,13 @@ public class Unit : NetworkBehaviour
     public UnitMeta.UnitType unitType;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
-    private UnitFactory localFactory;
     public static event Action<Unit> AuthorityOnUnitSpawned;
     public static event Action<Unit> AuthorityOnUnitDespawned;
     private int i = 0;
+
+    [SyncVar]
+    [SerializeField] private int spawnPointIndex = 0;
+
     public GameObject GetBuildingPreview()
     {
         return buildingPreview;
@@ -50,10 +53,17 @@ public class Unit : NetworkBehaviour
     {
         return targeter;
     }
-    #region Server
+    public int GetSpawnPointIndex( )
+    {
+        return spawnPointIndex;
+    }
     public int GetId()
     {
         return id;
+    }
+    public void SetSpawnPointIndex(int index)
+    {
+        spawnPointIndex = index;
     }
     public void SetTaskStatus(string status)
     {
@@ -72,6 +82,7 @@ public class Unit : NetworkBehaviour
 
         ServerOnUnitDespawned?.Invoke(this);
     }
+    #region Server
 
     [Server]
     private void ServerHandleDie()
