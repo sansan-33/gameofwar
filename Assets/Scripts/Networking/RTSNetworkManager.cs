@@ -175,7 +175,6 @@ public class RTSNetworkManager : NetworkManager
                    Quaternion.identity);
         NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
-
     private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, UnitMeta.UnitType unitType  , int spawnCount, Quaternion rotation)
     {
         yield return new WaitForSeconds(waitTime);
