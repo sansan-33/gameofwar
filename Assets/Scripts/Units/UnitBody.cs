@@ -10,11 +10,16 @@ public class UnitBody : NetworkBehaviour, IBody
     [SerializeField] private  Renderer unitRenderer;
     [SerializeField] private Transform unitTransform;
     [SerializeField] private GameObject changeBody;
+
     public void SetRenderMaterial(int star)
     {
-        unitRenderer.sharedMaterial = material[star-1];
+        int playerid = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
+        unitRenderer.sharedMaterial = material[playerid ==0 ? star - 1 : 3 + star - 1 ];
     }
-
+    public void SetRenderMaterial(int playerid, int star)
+    {
+        unitRenderer.sharedMaterial = material[playerid == 0 ? star - 1 : 3 + star - 1];
+    }
     public void SetUnitSize(int star)
     {
         unitTransform.localScale += new Vector3(star, star, star);
