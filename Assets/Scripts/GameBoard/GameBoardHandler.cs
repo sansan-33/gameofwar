@@ -11,7 +11,7 @@ public class GameBoardHandler : NetworkBehaviour
     {
         initPlayerGameBoard();
     }
-    void initPlayerGameBoard()
+    public void initPlayerGameBoard()
     {
         for (int i = 0; i < playerGameBoards.Count; i++)
         {

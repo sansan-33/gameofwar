@@ -69,13 +69,6 @@ public class TacticalBehavior : MonoBehaviour
         Unit.AuthorityOnUnitSpawned += TryReinforcePlayer;
         Unit.AuthorityOnUnitDespawned += TryReinforcePlayer;
         LeaderScrollList.LeaderSelected += HandleLeaderSelected;
-        if (gameBoardHandlerPrefab == null)
-        {
-            foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
-            {
-                gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
-            }
-        }
     }
     public void OnDestroy()
     {
@@ -131,6 +124,15 @@ public class TacticalBehavior : MonoBehaviour
                     }
                 }
             }
+            if (gameBoardHandlerPrefab == null)
+            {
+                foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
+                {
+                    gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
+                    if (PLAYERID == 1)
+                        gameBoardHandlerPrefab.initPlayerGameBoard();
+                }
+            }
             yield return new WaitForSeconds(0.1f);
             //Debug.Log($"playerBases: {playerBases.Length} / PlayerBase0: {GameObject.FindGameObjectsWithTag("PlayerBase0").Length} / PlayerBase1: {GameObject.FindGameObjectsWithTag("PlayerBase1").Length}");
             if ( GameObject.FindGameObjectsWithTag("PlayerBase0").Length > 0 && GameObject.FindGameObjectsWithTag("PlayerBase1").Length > 0)
@@ -142,6 +144,7 @@ public class TacticalBehavior : MonoBehaviour
                 defendObjects[1].Add(GameObject.FindGameObjectsWithTag("PlayerBase1")[1]);
                 yield return TacticalFormation(PLAYERID, ENEMYID);
             }
+
         }
         //Debug.Log("AssignTag ============================ END ");
 
@@ -156,14 +159,6 @@ public class TacticalBehavior : MonoBehaviour
         GameObject defendObject;
         if (playerid == 0)
             Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Length}");
-
-        if (gameBoardHandlerPrefab == null)
-        {
-            foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
-            {
-                gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
-            }
-        }
 
         leaders[playerid].Clear();
         int i = 0;
