@@ -133,7 +133,7 @@ public class TacticalBehavior : MonoBehaviour
                         gameBoardHandlerPrefab.initPlayerGameBoard();
                 }
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(2f);
             //Debug.Log($"playerBases: {playerBases.Length} / PlayerBase0: {GameObject.FindGameObjectsWithTag("PlayerBase0").Length} / PlayerBase1: {GameObject.FindGameObjectsWithTag("PlayerBase1").Length}");
             //if ( GameObject.FindGameObjectsWithTag("PlayerBase0").Length > 0 && GameObject.FindGameObjectsWithTag("PlayerBase1").Length > 0)
             //{
@@ -157,8 +157,8 @@ public class TacticalBehavior : MonoBehaviour
         
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject defendObject;
-        //if (playerid == 0)
-        //    Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Length}");
+        if (playerid == 999)
+            Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Length}");
 
         leaders[playerid].Clear();
         int i = 0;
@@ -238,15 +238,18 @@ public class TacticalBehavior : MonoBehaviour
             }
         }
         //printTB();
-        
+
         if (playerid == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
+        {
+            Debug.Log($"LeaderUpdated?.Invoke playerid {playerid} count {((RTSNetworkManager)NetworkManager.singleton).Players.Count} ");
             LeaderUpdated?.Invoke(leaders[playerid]);
+        }
 
         InitSetupSelectedLeaderID(playerid);
         AutoRun(playerid);
         stopwatch.Stop();
-        //if (playerid == 0)
-            //Debug.Log($"TacticalFormation ============================ End {stopwatch.ElapsedMilliseconds} milli seconrds. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
+        if (playerid == 999)
+            Debug.Log($"TacticalFormation ============================ End {stopwatch.ElapsedMilliseconds} milli seconrds. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
     }
     public void HandleLeaderSelected(int leaderId)
     {
@@ -269,7 +272,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void TryReinforcePlayer(Unit unit)
     {
-        //if (unit.tag == ENEMYTAG) { return; }
+        if (unit.tag == ENEMYTAG) { return; }
         //Debug.Log($"Auto Reinforce ..... {unit.name}");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
@@ -399,7 +402,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         foreach (var leaderid in leaders[playerid].Keys.ToList())
         {
-            //Debug.Log($"Auto Run leader {playerid} {leaderid}");
+            Debug.Log($"Auto Run leader {playerid} {leaderid}");
             SelectionChanged(playerid , leaderid);
         }
         //AttackOnlyUnit();

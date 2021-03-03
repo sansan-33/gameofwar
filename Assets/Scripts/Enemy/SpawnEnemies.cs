@@ -67,8 +67,8 @@ public class SpawnEnemies : MonoBehaviour
     private IEnumerator TryTactical(UnitMeta.UnitType unitType , TacticalBehavior.BehaviorSelectionType selectionType)
     {
         //Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");
-        StartCoroutine(tacticalBehavior.TacticalFormation(enemyID, playerID));
-        yield return new WaitForSeconds(5f);
+        //StartCoroutine(tacticalBehavior.TacticalFormation(enemyID, playerID));
+        yield return tacticalBehavior.TacticalFormation(enemyID, playerID);
         tacticalBehavior.TryTB((int)selectionType, enemyID, (int) unitType);
     }
     private int isUnitAlive(UnitMeta.UnitType unitType)
