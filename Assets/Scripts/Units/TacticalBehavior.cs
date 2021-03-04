@@ -94,7 +94,7 @@ public class TacticalBehavior : MonoBehaviour
                     if (unit.hasAuthority)
                     {
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
-                        unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject,1);
+                       // unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject,1);
                         army.tag = PLAYERTAG;
                     }
                     else
@@ -102,7 +102,7 @@ public class TacticalBehavior : MonoBehaviour
                         //Only Assing Enemy Base Tag if mulitplayer
                         //if (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamEnemyColor);
-                        unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject, 1);
+                        //unit.GetComponent<UnitBody>().SetRenderMaterial(1, 1);
                         army.tag = ENEMYTAG;
                     }
                 }
