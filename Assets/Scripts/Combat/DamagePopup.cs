@@ -13,10 +13,10 @@ public class DamagePopup : MonoBehaviour
 
         tmp_text.text = transform.root.gameObject.GetComponent<DamageTextHolder>().displayText;
         tmp_text.color = transform.root.gameObject.GetComponent<DamageTextHolder>().displayColor;
-        tmp_text.DOFade( 0f, 100000f );
+        tmp_text.DOFade( 0f, 5f );
         tmp_text.transform.rotation = transform.root.gameObject.GetComponent<DamageTextHolder>().displayRotation;
         transform.DOMove( transform.position + 2 *(Vector3.up) , 1.75f ).OnComplete( () => {
-            //Destroy(transform.root.gameObject);
+            Destroy(transform.root.gameObject);
         } );
         
     }

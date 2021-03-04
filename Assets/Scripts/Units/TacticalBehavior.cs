@@ -153,7 +153,15 @@ public class TacticalBehavior : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         var stopwatch = new Stopwatch();
         stopwatch.Start();
-        
+        if (gameBoardHandlerPrefab == null)
+        {
+            foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
+            {
+                gameBoardHandlerPrefab = board.GetComponent<GameBoardHandler>();
+                gameBoardHandlerPrefab.initPlayerGameBoard();
+            }
+        }
+
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject defendObject;
         if (playerid == 999)
