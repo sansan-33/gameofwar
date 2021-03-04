@@ -61,7 +61,14 @@ public class UnitFactory : NetworkBehaviour
     [Command]
     public void CmdSpawnUnit(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
-        CmdSpawnUnitRotation(unitType, star, playerID, spawnAuthority, teamColor, Quaternion.identity);
+        if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }
+
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
+        Vector3 spawnPosition = spawnPointObject.transform.position;
+
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+
+        //CmdSpawnUnitRotation(unitType, star, playerID, spawnAuthority, teamColor, Quaternion.identity);
     }
     [Server]
     private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation, int spawnPointIndex)
