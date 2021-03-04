@@ -10,13 +10,11 @@ using Random = UnityEngine.Random;
 
 public class RTSNetworkManager : NetworkManager
 {
-    [SerializeField] private GameObject unitBasePrefab = null;
     [SerializeField] private GameObject archerPrefab = null;
     [SerializeField] private GameObject miniSkeletonPrefab = null;
     [SerializeField] private GameObject knightPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
     [SerializeField] private GameObject spearmanPrefab = null;
-    [SerializeField] private GameObject sampleUnitPrefab = null;
     [SerializeField] private GameObject unitFactoryPrefab = null;
     [SerializeField] private GameObject giantPrefab = null;
     [SerializeField] private GameObject magePrefab = null;
@@ -155,18 +153,7 @@ public class RTSNetworkManager : NetworkManager
         }
 
     }
-   
-    private void SetupBase(Vector3 pos, RTSPlayer player)
-    {
-        GameObject baseInstance = Instantiate(
-                   unitBasePrefab,
-                   pos,
-                   Quaternion.identity);
-        baseInstance.SetActive(true);
-        //baseInstance.tag = "Player" + player.GetPlayerID();
-        //The Tag will not be set in client machine
-        NetworkServer.Spawn(baseInstance, player.connectionToClient);
-    }
+
     private void SetupUnitFactory(Vector3 pos, RTSPlayer player)
     {
         GameObject factoryInstance = Instantiate(

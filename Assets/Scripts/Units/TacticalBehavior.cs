@@ -67,13 +67,13 @@ public class TacticalBehavior : MonoBehaviour
         teamEnemyColor = player.GetTeamEnemyColor();
        
         Unit.AuthorityOnUnitSpawned += TryReinforcePlayer;
-        Unit.AuthorityOnUnitDespawned += TryReinforcePlayer;
+        Unit.AuthorityOnUnitDespawned += TryUpdateLeader;
         LeaderScrollList.LeaderSelected += HandleLeaderSelected;
     }
     public void OnDestroy()
     {
         Unit.AuthorityOnUnitSpawned -= TryReinforcePlayer;
-        Unit.AuthorityOnUnitDespawned -= TryReinforcePlayer;
+        Unit.AuthorityOnUnitDespawned -= TryUpdateLeader;
         LeaderScrollList.LeaderSelected -= HandleLeaderSelected;
     }
     public IEnumerator AssignTag()
@@ -275,7 +275,14 @@ public class TacticalBehavior : MonoBehaviour
         //Debug.Log($"Auto Reinforce ..... {unit.name}");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
-    
+    public void TryUpdateLeader(Unit unit)
+    {
+        if (unit.tag == ENEMYTAG) { return; }
+        if (!unit.name.ToLower().Contains("leader")) { return; }
+        Debug.Log($"Auto TryUpdateLeader ..... {unit.name} {unit.unitType} is killed !!!");
+        StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
+    }
+
     private void SelectionChanged(int playerID, int leaderid)
     {
         var stopwatch = new Stopwatch();

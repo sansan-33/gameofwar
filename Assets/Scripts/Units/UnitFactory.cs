@@ -49,32 +49,19 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnitWithPos(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor, Vector3 spawnPosition, Vector3 targetPosition)
+    public void CmdSpawnUnitRotation(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor,  Quaternion unitRotation)
     {
-        int unitsize = 1;
-        if (UnitMeta.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
-        Quaternion unitRotation = Quaternion.LookRotation(targetPosition - spawnPosition);
+        if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }
 
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation , 0));
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
+        Vector3 spawnPosition = spawnPointObject.transform.position;
+
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation , spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
     }
     [Command]
     public void CmdSpawnUnit(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
-        //Vector3 spawnPosition = spawnPoints[playerID].position;
-        //TODO spwan position should be based on leader / hero
-        int spawnPoint = 0;
-        if (playerID == 0)
-            spawnPoint = lastPlayerSpawnPoint[spawnPointIndex++ % 2];
-        else
-            spawnPoint = lastEnemySpawnPoint[spawnPointIndex++ % 2];
-        Vector3 spawnPosition = NetworkManager.startPositions[spawnPoint].position;
-        int unitsize = 1;
-        if (UnitMeta.UnitSize.TryGetValue(unitType, out int value)) { unitsize = value; }
-
-        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
-        spawnPosition = spawnPointObject.transform.position;
-
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+        CmdSpawnUnitRotation(unitType, star, playerID, spawnAuthority, teamColor, Quaternion.identity);
     }
     [Server]
     private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation, int spawnPointIndex)

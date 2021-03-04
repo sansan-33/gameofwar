@@ -26,8 +26,8 @@ public class SpawnEnemies : MonoBehaviour
             teamColor = player.GetTeamEnemyColor();
             //Debug.Log($"Number of player : {((RTSNetworkManager)NetworkManager.singleton).Players.Count} enemyID {enemyID} playerID {playerID} ");
 
-            SpawnEnemyBase("SpawnPointEnemy",0);
-            SpawnEnemyBase("SpawnPointEnemy",1);
+            //SpawnEnemyBase("SpawnPointEnemy",0);
+            //SpawnEnemyBase("SpawnPointEnemy",1);
             InvokeRepeating("LoadEnemies", 2f, 10f);
         }
     }
@@ -42,9 +42,9 @@ public class SpawnEnemies : MonoBehaviour
                 localFactory = factroy.GetComponent<UnitFactory>();
                 if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
                 {
-                    localFactory.CmdSpawnUnitWithPos(UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, NetworkManager.startPositions[5].position, NetworkManager.startPositions[2].position);
+                    localFactory.CmdSpawnUnitRotation(UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, Quaternion.Euler(0, 180, 0));
                 }
-                if (isUnitAlive(UnitMeta.UnitType.HERO) < GameObject.FindGameObjectsWithTag("PlayerBase" + enemyID).Length)
+                if (isUnitAlive(UnitMeta.UnitType.HERO) < 2)
                 {
                     localFactory.CmdSpawnUnit(UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
                     StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
