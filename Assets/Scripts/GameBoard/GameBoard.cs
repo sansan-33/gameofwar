@@ -19,7 +19,7 @@ public class GameBoard : MonoBehaviour
             }
             unitTypePoints.Add(unitPoint);
         }
-        printGameBoard();
+        //printGameBoard();
     }
     void printGameBoard()
     {

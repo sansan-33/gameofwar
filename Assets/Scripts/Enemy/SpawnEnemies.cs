@@ -56,14 +56,7 @@ public class SpawnEnemies : MonoBehaviour
             }
         }
     }
-
-    private void SpawnEnemyBase(string tag , int i)
-    {
-        Vector3 pos = GameObject.FindGameObjectsWithTag(tag)[i].transform.position;
-        GameObject defendObject = Instantiate(capsulePrefab, pos, Quaternion.identity);
-        defendObject.tag = "PlayerBase" + enemyID;
-        defendObject.SetActive(true);
-    }
+    
     private IEnumerator TryTactical(UnitMeta.UnitType unitType , TacticalBehavior.BehaviorSelectionType selectionType)
     {
         //Debug.Log($"Spawn Enemy TryTactical --> TacticalFormation enemyID {enemyID}");

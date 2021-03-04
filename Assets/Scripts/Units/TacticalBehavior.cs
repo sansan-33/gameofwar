@@ -75,22 +75,24 @@ public class TacticalBehavior : MonoBehaviour
     }
     public IEnumerator AssignTag()
     {
+        // Simulate RpcClientTag for player 1 
+        // Need to Assing Tag for player 1 in multi player mode
+        // Rpc Client Tag not implement in RTS Network Manager
         bool ISTAGGED = false;
         while (!ISTAGGED)
         {
-            Debug.Log("AssignTag ============================ START");
+            //Debug.Log("AssignTag ============================ START");
             yield return new WaitForSeconds(1f);
             
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-            Debug.Log($"Size of armies with [Player] Tag {armies.Length} ");
+            //Debug.Log($"1 Size of armies with Player Tag {armies.Length} ");
             foreach (GameObject army in armies)
             {
+                //Debug.Log($"Assign Tag for Client name {army.name} ");
                 if (army.TryGetComponent<Unit>(out Unit unit))
                 {
-                    Debug.Log("powerUp");
                     if (unit.hasAuthority)
                     {
-                        
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
                         unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject,1);
                         army.tag = PLAYERTAG;
@@ -105,17 +107,16 @@ public class TacticalBehavior : MonoBehaviour
                     }
                 }
             }
+            /*
             GameObject[] playerArmy  = GameObject.FindGameObjectsWithTag(PLAYERTAG);
-            Debug.Log($"Size of armies with [{PLAYERTAG}] Tag {playerArmy.Length} ");
             foreach (GameObject army in playerArmy)
             {
                 if (army.TryGetComponent<Unit>(out Unit unit))
                 {
                     unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject, 2);
                 }
-
             }
-
+            */
             if (gameBoardHandlerPrefab == null)
             {
                 foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
@@ -125,7 +126,7 @@ public class TacticalBehavior : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(2f);
-            Debug.Log($"player0: {GameObject.FindGameObjectsWithTag("Player0").Length} / Player2 : {GameObject.FindGameObjectsWithTag("Player1").Length}");
+            //Debug.Log($"player0: {GameObject.FindGameObjectsWithTag("Player0").Length} / Player2 : {GameObject.FindGameObjectsWithTag("Player1").Length}");
             if ( GameObject.FindGameObjectsWithTag("Player0").Length > 0 && GameObject.FindGameObjectsWithTag("Player1").Length > 0)
             {
                 ISTAGGED = true;
@@ -139,6 +140,7 @@ public class TacticalBehavior : MonoBehaviour
     public IEnumerator TacticalFormation(int playerid, int enemyid)
     {
         yield return new WaitForSeconds(0.1f);
+        if (gameBoardHandlerPrefab == null) { yield break; }
         var stopwatch = new Stopwatch();
         stopwatch.Start();
         
