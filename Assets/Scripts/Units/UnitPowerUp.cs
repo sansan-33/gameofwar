@@ -47,7 +47,7 @@ public class UnitPowerUp : NetworkBehaviour
     public void ServerPowerUp(GameObject unit, int star)
     {
         Debug.Log("ServerPowerUp");
-        RpcPowerUp(unit.gameObject, 3);
+        RpcPowerUp(unit.gameObject, star);
     }
     public void powerUp(GameObject unit, int star)
     {

@@ -78,18 +78,21 @@ public class TacticalBehavior : MonoBehaviour
         bool ISTAGGED = false;
         while (!ISTAGGED)
         {
-            //Debug.Log("AssignTag ============================ START");
+            Debug.Log("AssignTag ============================ START");
             yield return new WaitForSeconds(1f);
             
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-            //Debug.Log($"Size of armies with [Player] Tag {armies.Length} ");
+            Debug.Log($"Size of armies with [Player] Tag {armies.Length} ");
             foreach (GameObject army in armies)
             {
                 if (army.TryGetComponent<Unit>(out Unit unit))
                 {
+                    Debug.Log("powerUp");
                     if (unit.hasAuthority)
                     {
+                        
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
+                        unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject,1);
                         army.tag = PLAYERTAG;
                     }
                     else
@@ -97,10 +100,22 @@ public class TacticalBehavior : MonoBehaviour
                         //Only Assing Enemy Base Tag if mulitplayer
                         //if (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamEnemyColor);
+                        unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject, 1);
                         army.tag = ENEMYTAG;
                     }
                 }
             }
+            GameObject[] playerArmy  = GameObject.FindGameObjectsWithTag(PLAYERTAG);
+            Debug.Log($"Size of armies with [{PLAYERTAG}] Tag {playerArmy.Length} ");
+            foreach (GameObject army in playerArmy)
+            {
+                if (army.TryGetComponent<Unit>(out Unit unit))
+                {
+                    unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject, 2);
+                }
+
+            }
+
             if (gameBoardHandlerPrefab == null)
             {
                 foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
@@ -110,7 +125,7 @@ public class TacticalBehavior : MonoBehaviour
                 }
             }
             yield return new WaitForSeconds(2f);
-            //Debug.Log($"player0: {GameObject.FindGameObjectsWithTag("Player0").Length} / Player2 : {GameObject.FindGameObjectsWithTag("Player1").Length}");
+            Debug.Log($"player0: {GameObject.FindGameObjectsWithTag("Player0").Length} / Player2 : {GameObject.FindGameObjectsWithTag("Player1").Length}");
             if ( GameObject.FindGameObjectsWithTag("Player0").Length > 0 && GameObject.FindGameObjectsWithTag("Player1").Length > 0)
             {
                 ISTAGGED = true;
