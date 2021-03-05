@@ -62,7 +62,7 @@ public class UnitProjectile : NetworkBehaviour
         //Debug.Log($"Health {other} / {other.GetComponent<Health>()} ");
         if (other.TryGetComponent<Health>(out Health health))
         {
-            Debug.Log($"player {player} is == 1 {player.GetPlayerID() == 1}");
+            Debug.Log($"player ID {player.GetPlayerID()}");
             if (player.GetPlayerID() == 1)
             {
                 opponentIdentity = GetComponent<NetworkIdentity>();
