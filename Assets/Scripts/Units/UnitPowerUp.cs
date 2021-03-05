@@ -31,7 +31,7 @@ public class UnitPowerUp : NetworkBehaviour
         {
             if (unit.unitType == UnitMeta.UnitType.SPEARMAN&& SPEARMANCanPowerUp)
             {
-                ServerPowerUp(unit.gameObject, 3);
+                ServerPowerUp(unit.gameObject, 2);
                 
                 Scale(unitTransform, unit.gameObject);
                 RpcScale(unitTransform, unit.gameObject);
@@ -76,8 +76,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void Scale(Transform unitTransform, GameObject unit)
     {
-        unitTransform.localScale = new Vector3(2, 2, 2);
-        unit.GetComponent<IAttack>().ScaleAttackRange(1.5f) ;
+        unitTransform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
     }
     [ClientRpc]
     private void RpcScale(Transform unitTransform, GameObject unit)
