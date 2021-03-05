@@ -175,8 +175,9 @@ public class RTSNetworkManager : NetworkManager
             unit.name = unitType.ToString();
             unit.tag = "Player" + player.GetPlayerID();
             unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
-            unit.GetComponentInChildren<UnitBody>().SetRenderMaterial(player.GetPlayerID(), 2);
+            
             NetworkServer.Spawn(unit, player.connectionToClient);
+            unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
             spawnCount--;
         }
     }

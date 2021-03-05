@@ -18,11 +18,24 @@ public class UnitBody : NetworkBehaviour, IBody
 
         unitRenderer.sharedMaterial = material[playerid ==0 ? star - 2 : 3 + star - 2 ];
     }
-    public void SetRenderMaterial(int playerid, int star)
+    public void SetRenderMaterial(GameObject unit,int playerid, int star)
     {
         int index = playerid == 0 ? star - 1 : 3 + star - 1;
-  
-        unitRenderer.sharedMaterial = material[index];
+        Debug.Log($"SetRenderMaterial index-->{index}playerid-->{playerid}star-->{star}unit-->{unit}");
+        unit.GetComponent<UnitBody>().GetUnitRenderer().sharedMaterial = material[index];
+        Debug.Log(unit.GetComponent<UnitBody>().GetUnitRenderer());
+    }
+    [Server]
+    public void ServerChangeUnitRenderer(GameObject unit, int playerid, int star)
+    {
+        Debug.Log("ServerChangeUnitRenderer");
+        RpcChangeUnitRenderer(unit, playerid, star);
+    }
+    [ClientRpc]
+    public void RpcChangeUnitRenderer(GameObject unit, int playerid, int star)
+    {
+        Debug.Log("RpcChangeUnitRenderer");
+        SetRenderMaterial(unit,playerid,star);
     }
     public void SetUnitSize(int star)
     {
@@ -47,5 +60,9 @@ public class UnitBody : NetworkBehaviour, IBody
     private void RpcChangeType(GameObject unit)
     {
         ChangeType(unit.GetComponent<Unit>());
+    }
+    public Renderer GetUnitRenderer()
+    {
+        return unitRenderer;
     }
 }
