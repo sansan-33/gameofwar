@@ -63,7 +63,8 @@ public class UnitPowerUp : NetworkBehaviour
             unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 3);
         }
         Debug.Log("powerUp");
-        unit.GetComponentInChildren<IBody>().SetRenderMaterial(star);
+      
+        unit.GetComponentInChildren<UnitBody>().SetRenderMaterial(unit, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID(),star);
         //unit.GetComponentInChildren<IBody>().SetUnitSize(star);
 
         //return unit.GetComponent<Unit>();
