@@ -13,9 +13,9 @@ public class BattleFieldRules : MonoBehaviour
     }
     public bool IsInField()
     {
-        //return false;
+        return true;
 
-        if (unitTransform.GetComponent<NetworkIdentity>().hasAuthority)
+       /* if (unitTransform.GetComponent<NetworkIdentity>().hasAuthority)
         {
             if (MiddleLine.transform.position.z > unitTransform.position.z)
             {
@@ -36,7 +36,7 @@ public class BattleFieldRules : MonoBehaviour
             {
                 return false;
             }
-        }
+        }*/
     }
     // Update is called once per frame
     void Update()
