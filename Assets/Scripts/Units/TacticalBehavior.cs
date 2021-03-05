@@ -81,28 +81,29 @@ public class TacticalBehavior : MonoBehaviour
         bool ISTAGGED = false;
         while (!ISTAGGED)
         {
-            //Debug.Log("AssignTag ============================ START");
+            
             yield return new WaitForSeconds(1f);
             
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
-            //Debug.Log($"1 Size of armies with Player Tag {armies.Length} ");
+           
             foreach (GameObject army in armies)
             {
-                //Debug.Log($"Assign Tag for Client name {army.name} ");
+               // Debug.Log($"Assign Tag for Client name {army.name} ");
                 if (army.TryGetComponent<Unit>(out Unit unit))
                 {
                     if (unit.hasAuthority)
                     {
+                        
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
-                       // unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.transform.gameObject,1);
+                        unit.GetComponent<UnitBody>().SetRenderMaterial(unit.transform.gameObject, player.GetPlayerID(), 1); 
                         army.tag = PLAYERTAG;
                     }
                     else
                     {
                         //Only Assing Enemy Base Tag if mulitplayer
-                        //if (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
+                       
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamEnemyColor);
-                        //unit.GetComponent<UnitBody>().SetRenderMaterial(1, 1);
+                        //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit.transform.gameObject, player.GetPlayerID(), 1);
                         army.tag = ENEMYTAG;
                     }
                 }

@@ -177,6 +177,7 @@ public class RTSNetworkManager : NetworkManager
             unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
             
             NetworkServer.Spawn(unit, player.connectionToClient);
+          //  Debug.Log("loadMilitary");
             unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
             spawnCount--;
         }
