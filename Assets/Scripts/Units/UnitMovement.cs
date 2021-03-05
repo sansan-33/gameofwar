@@ -9,9 +9,7 @@ public class UnitMovement : NetworkBehaviour
     [SerializeField] public int maxSpeed = 100;
     [SerializeField] private NavMeshAgent agent = null;
     [SerializeField] private Targeter targeter = null;
-    [SerializeField] private float chaseRange = 10f;
     [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
-    [SerializeField] public LineRenderer lineRenderer = null;
     [SerializeField] public GameObject circleMarker = null;
     public float originalSpeed;
     private float stoppingDistance = 1f;
@@ -31,11 +29,13 @@ public class UnitMovement : NetworkBehaviour
     {
         GameOverHandler.ServerOnGameOver -= ServerHandleGameOver;
     }
-
+    public override void OnStartClient()
+    {
+        GameStartCountDown();
+    }
     [ServerCallback]
     private void Update()
     {
-        GameStartCountDown();
         /*
         Targetable target = targeter.GetTarget();
 
@@ -95,14 +95,6 @@ public class UnitMovement : NetworkBehaviour
         }
     }
 
-    public void OLDServerMove(Vector3 position)
-    {
-        targeter.ClearTarget();
-
-        if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas)) { return; }
-
-        agent.SetDestination(hit.position);
-    }
     [Server]
     private void ServerHandleGameOver()
     {
@@ -125,38 +117,7 @@ public class UnitMovement : NetworkBehaviour
     }
 
     #endregion
-    private float getStoppingDistance()
-    {
-        stoppingDistance = agent.stoppingDistance;
-        //Debug.Log($"targeter.targeterAttackType {targeter.targeterAttackType}");
-        if (targeter.targeterAttackType == Targeter.AttackType.Shoot)
-        {
-            stoppingDistance = 60f;
-        }
-        else
-        {
-            //stoppingDistance = agent.stoppingDistance;
-            stoppingDistance = 1f;
-        }
-
-        return stoppingDistance;
-    }
-    public void HideLine()
-    {
-        circleMarker.SetActive(false);
-        lineRenderer.enabled = false;
-    }
-    public void ShowLine()
-    {
-        if (agent.path.corners.Length < 2) return;
-
-        lineRenderer.enabled = true;
-        lineRenderer.sharedMaterial.SetColor("_Color", Color.gray);
-        lineRenderer.positionCount = agent.path.corners.Length;
-        lineRenderer.SetPositions(agent.path.corners);
-        circleMarker.SetActive(true);
-        circleMarker.transform.position = agent.destination;
-    }
+   
     public NavMeshAgent GetNavMeshAgent()
     {
         return agent;
