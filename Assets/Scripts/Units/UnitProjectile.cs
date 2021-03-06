@@ -95,7 +95,7 @@ public class UnitProjectile : NetworkBehaviour
             if (iskilled){
                 onKilled?.Invoke();
             }
-            //DestroySelf();
+            DestroySelf();
         }
     }
     [Command]
