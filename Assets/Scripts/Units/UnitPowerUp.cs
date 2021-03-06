@@ -80,7 +80,7 @@ public class UnitPowerUp : NetworkBehaviour
         {
             unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 3);
         }
-        Debug.Log("powerUp");
+        //Debug.Log("powerUp");
       
         unit.GetComponentInChildren<UnitBody>().SetRenderMaterial(unit, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID(),star);
         //unit.GetComponentInChildren<IBody>().SetUnitSize(star);
@@ -90,7 +90,7 @@ public class UnitPowerUp : NetworkBehaviour
     [ClientRpc]
     public void RpcPowerUp(GameObject unit, int star)
     {
-        Debug.Log("RpcPowerUp");
+        //Debug.Log("RpcPowerUp");
         powerUp(unit, star);
     }
     private void Scale(Transform unitTransform, GameObject unit)

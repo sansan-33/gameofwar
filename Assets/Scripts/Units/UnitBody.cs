@@ -14,7 +14,7 @@ public class UnitBody : NetworkBehaviour, IBody
     {
         int playerid = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
         int index = playerid == 0 ? star - 1 : 3 + star - 1;
-        Debug.Log(index);
+        //Debug.Log(index);
         unitRenderer.sharedMaterial = material[playerid ==0 ? star - 2 : 3 + star - 2 ];
     }
     public void SetRenderMaterial(GameObject unit,int playerid, int star)
@@ -27,13 +27,13 @@ public class UnitBody : NetworkBehaviour, IBody
     [Server]
     public void ServerChangeUnitRenderer(GameObject unit, int playerid, int star)
     {
-        Debug.Log("ServerChangeUnitRenderer");
+        //Debug.Log("ServerChangeUnitRenderer");
         RpcChangeUnitRenderer(unit, playerid, star);
     }
     [ClientRpc]
     public void RpcChangeUnitRenderer(GameObject unit, int playerid, int star)
     {
-        Debug.Log("RpcChangeUnitRenderer");
+        //Debug.Log("RpcChangeUnitRenderer");
         SetRenderMaterial(unit,playerid,star);
     }
     public void SetUnitSize(int star)
@@ -51,7 +51,7 @@ public class UnitBody : NetworkBehaviour, IBody
         unit.GetComponentInParent<Health>().Transformhealth();
         //transform.Find("Horseman__Polyart_Standard").gameObject.SetActive(false);
         gameObject.transform.GetChild(8).gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        Debug.Log(gameObject.transform.GetChild(8).gameObject.transform.GetChild(0));
+        //Debug.Log(gameObject.transform.GetChild(8).gameObject.transform.GetChild(0));
         changeBody.SetActive(true);
         unit.unitType = UnitMeta.UnitType.KNIGHT;
         unit.GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = 6;

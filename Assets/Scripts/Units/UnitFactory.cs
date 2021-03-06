@@ -92,7 +92,7 @@ public class UnitFactory : NetworkBehaviour
             RpcTag(unit, playerID, unitName, star, teamColor);
             unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit, star);
             //unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star);
-            Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
+            //Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
             spawnCount--;
         }
     }

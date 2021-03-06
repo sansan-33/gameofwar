@@ -87,10 +87,10 @@ public class Unit : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        Debug.Log("die");
+        
         if (this.unitType == UnitMeta.UnitType.CAVALRY&&i==0)
         {
-            Debug.Log("change type");
+           
             GetComponent<UnitBody>().ServeChangeType(this);
             i++;
         }
