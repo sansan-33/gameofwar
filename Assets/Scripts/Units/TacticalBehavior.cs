@@ -259,6 +259,7 @@ public class TacticalBehavior : MonoBehaviour
                 break;
             }
         }
+        Debug.Log($"TryTB type: {type} playerid: {PLAYERID} , leaderid: {leaderid}");
         TryTB(type, PLAYERID, leaderid);
     }
     public void TryTB(int type, int playerid)
@@ -274,7 +275,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void TryReinforcePlayer(Unit unit)
     {
-        if (unit.tag == ENEMYTAG) { return; }
+        //if (unit.tag == ENEMYTAG) { return; }
         //Debug.Log($"Auto Reinforce ..... {unit.name}");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
