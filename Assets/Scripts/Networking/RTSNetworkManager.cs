@@ -133,7 +133,7 @@ public class RTSNetworkManager : NetworkManager
                 if (player.GetPlayerID() == 0)
                 {
                     militaryList.Add(UnitMeta.UnitType.SPEARMAN, 3);
-                    militaryList.Add(UnitMeta.UnitType.ARCHER, 10);
+                    militaryList.Add(UnitMeta.UnitType.ARCHER, 3);
                     militaryList.Add(UnitMeta.UnitType.CAVALRY, 1);
 
                     StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1 , Quaternion.identity));
@@ -141,7 +141,7 @@ public class RTSNetworkManager : NetworkManager
                 else
                 {
                     militaryList.Add(UnitMeta.UnitType.SPEARMAN, 3);
-                    militaryList.Add(UnitMeta.UnitType.ARCHER, 10);
+                    militaryList.Add(UnitMeta.UnitType.ARCHER, 3);
                     militaryList.Add(UnitMeta.UnitType.CAVALRY, 1);
                     StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1, Quaternion.Euler(0, 180,0)));
                 }
