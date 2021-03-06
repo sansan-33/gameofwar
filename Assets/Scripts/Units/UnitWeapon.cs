@@ -147,8 +147,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
        bool iskill =  enemy.GetComponent<Health>().DealDamage(damge);
         if (iskill == true)
         {
-            powerUpAfterKill();
-            RpcpowerUpAfterKill();
+            powerUpAfterKill(this.transform.gameObject);
+            RpcpowerUpAfterKill(this.transform.gameObject);
         }
     }
     [Command]
@@ -240,17 +240,17 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         attackRange = attackRange * factor;
     }
-    public void powerUpAfterKill()
+    public void powerUpAfterKill(GameObject unit)
     {
-        GetComponent<HealthDisplay>().HandleKillText();
+        unit.GetComponent<HealthDisplay>().HandleKillText();
         float upGradeAmount = (float)1.1;
         damageToDeal *= upGradeAmount;
         
     }
     [ClientRpc]
-    public void RpcpowerUpAfterKill()
+    public void RpcpowerUpAfterKill(GameObject unit)
     {
-        GetComponent<HealthDisplay>().HandleKillText();
+        unit.GetComponent<HealthDisplay>().HandleKillText();
         float upGradeAmount = (float)1.1;
         damageToDeal *= upGradeAmount;
     }
