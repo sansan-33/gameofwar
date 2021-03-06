@@ -50,7 +50,8 @@ public class UnitBody : NetworkBehaviour, IBody
     {
         unit.GetComponentInParent<Health>().Transformhealth();
         //transform.Find("Horseman__Polyart_Standard").gameObject.SetActive(false);
-        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        gameObject.transform.GetChild(8).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        Debug.Log(gameObject.transform.GetChild(8).gameObject.transform.GetChild(0));
         changeBody.SetActive(true);
         unit.unitType = UnitMeta.UnitType.KNIGHT;
         unit.GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = 6;
