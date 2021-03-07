@@ -103,7 +103,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (base.leader.Value != null)
                 base.leader.Value.GetComponent<HealthDisplay>().EnableLeaderIcon();
 
-            tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().circleMarker.transform.localScale = new Vector3(radius.Value, radius.Value, radius.Value);
+            tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().circleMarker.SetActive(true);
+            tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().circleMarker.transform.localScale = new Vector3(defendRadius.Value / 100, defendRadius.Value / 100, defendRadius.Value / 100);
 
             return TaskStatus.Running;
         }
@@ -115,7 +116,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             defendObject = null;
             radius = 5;
             defendRadius = 10;
-            tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().circleMarker.transform.localScale = new Vector3(0.03f , 0.03f, 0.03f);
         }
     }
 }

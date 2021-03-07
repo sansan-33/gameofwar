@@ -29,7 +29,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
             if (base.leader.Value != null)
                 base.leader.Value.GetComponent<HealthDisplay>().EnableLeaderIcon();
-          
+
+            tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().circleMarker.SetActive(false);
+
             return TaskStatus.Running;
         }
        

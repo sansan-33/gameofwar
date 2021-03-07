@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class UnitMeta
 {
-    public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING };
+    public enum UnitType { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING, UNDEADHERO };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE};
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.MINISKELETON, 10 } };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
@@ -14,9 +14,10 @@ public class UnitMeta
         { UnitType.HERO, 3 },
         { UnitType.KNIGHT, 3 },
         { UnitType.MAGE, 6 },
-        { UnitType.MINISKELETON, 3 },
+        { UnitType.MINISKELETON, 2 },
         { UnitType.SPEARMAN, 3 },
-        { UnitType.KING, 99 }
+        { UnitType.KING, 99 },
+        { UnitType.UNDEADHERO, 3 }
     };
     public static Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType> DefaultUnitTactical = new Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType>()
     {
@@ -28,7 +29,8 @@ public class UnitMeta
         { UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.MINISKELETON, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.GIANT, TacticalBehavior.BehaviorSelectionType.Defend },
-        { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend }
+        { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend },
+        { UnitType.UNDEADHERO, TacticalBehavior.BehaviorSelectionType.Defend }
     };
     public static Dictionary<UnitType, UnitPosition> DefaultUnitPosition = new Dictionary<UnitType, UnitPosition>()
     {
@@ -40,6 +42,7 @@ public class UnitMeta
         { UnitType.HERO, UnitPosition.DEFENDER },
         { UnitType.MINISKELETON, UnitPosition.FORWARD },
         { UnitType.GIANT, UnitPosition.FORWARD },
-        { UnitType.KING, UnitPosition.GOALIE }
+        { UnitType.KING, UnitPosition.GOALIE },
+        { UnitType.UNDEADHERO, UnitPosition.FORWARD }
     };
 }

@@ -15,6 +15,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject miniSkeletonUnitPrefab = null;
     [SerializeField] private GameObject giantUnitPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
+    [SerializeField] private GameObject undeadHeroPrefab = null;
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
     public Dictionary<UnitMeta.UnitType, GameObject> unitDict = new Dictionary<UnitMeta.UnitType, GameObject>();
@@ -25,7 +26,6 @@ public class UnitFactory : NetworkBehaviour
 
     private int initArcherCount = 0;
     private int initFootmanCount = 0;
-    private int initKnightCount = 0;
     private int initHeroCount = 0;
     private List<int> lastPlayerSpawnPoint = new List<int> {0,1};
     private List<int> lastEnemySpawnPoint = new List<int> {3,4};
@@ -119,6 +119,7 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitType.MINISKELETON, miniSkeletonUnitPrefab);
         unitDict.Add(UnitMeta.UnitType.GIANT, giantUnitPrefab);
         unitDict.Add(UnitMeta.UnitType.KING, kingPrefab);
+        unitDict.Add(UnitMeta.UnitType.UNDEADHERO, undeadHeroPrefab);
 
     }
     [ClientRpc]
