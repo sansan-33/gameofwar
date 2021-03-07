@@ -112,6 +112,7 @@ public class TacticalBehavior : MonoBehaviour
             {
                 if (army.TryGetComponent<Unit>(out Unit unit))
                 {
+                    if(king !=null)
                     unit.SetTargeter(king.GetTargeter());
                 }
             }
