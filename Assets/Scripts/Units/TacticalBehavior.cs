@@ -188,7 +188,7 @@ public class TacticalBehavior : MonoBehaviour
                 defendRadius = 3;
             }
             else {
-                Debug.Log($"Player {playerid} Unit {(UnitMeta.UnitType)leaderUnitTypeID } Spawn Point Index {child.GetComponent<Unit>().GetSpawnPointIndex()} gameBoardHandlerPrefab: {gameBoardHandlerPrefab == null} ");
+                //Debug.Log($"Player {playerid} Unit {(UnitMeta.UnitType)leaderUnitTypeID } Spawn Point Index {child.GetComponent<Unit>().GetSpawnPointIndex()} gameBoardHandlerPrefab: {gameBoardHandlerPrefab == null} ");
                 defendObject = gameBoardHandlerPrefab.GetSpawnPointObjectByIndex( (UnitMeta.UnitType) leaderUnitTypeID , playerid, child.GetComponent<Unit>().GetSpawnPointIndex());
                 //defendObject = king;
                 defendRadius = 0.1f;
@@ -234,7 +234,7 @@ public class TacticalBehavior : MonoBehaviour
             LeaderUpdated?.Invoke(leaders[playerid]);
         }
 
-        InitSetupSelectedLeaderID(playerid);
+        //InitSetupSelectedLeaderID(playerid);
         AutoRun(playerid);
         stopwatch.Stop();
         if (playerid == 77)
@@ -259,7 +259,6 @@ public class TacticalBehavior : MonoBehaviour
                 break;
             }
         }
-        Debug.Log($"TryTB type: {type} playerid: {PLAYERID} , leaderid: {leaderid}");
         TryTB(type, PLAYERID, leaderid);
     }
     public void TryTB(int type, int playerid)

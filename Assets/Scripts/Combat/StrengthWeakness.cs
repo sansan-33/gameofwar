@@ -35,6 +35,6 @@ public class StrengthWeakness : MonoBehaviour
             damageResult = damage / WeaknessDamage;
             damageResult = damageResult > 0 ? damageResult : 1;
         }
-        return damageResult;
+        return (int)damageResult;
     }
 }

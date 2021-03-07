@@ -21,17 +21,23 @@ public class TacticalDisplay : MonoBehaviour
     }
     void Update()
     {
-        
         tacticalBarParent.transform.rotation = startRotation;
         StartCoroutine(LateCall());
     }
     private void OnDestroy()
     {
     }
-
     IEnumerator LateCall()
     {
         yield return new WaitForSeconds(2);
         gameObject.SetActive(false);
+    }
+    void OnEnable()
+    {
+        GameObject[] floatButtons = GameObject.FindGameObjectsWithTag("FloatButton");
+        foreach (GameObject btn in floatButtons) {
+            if(btn != this.gameObject)
+            btn.SetActive(false);
+        }
     }
 }

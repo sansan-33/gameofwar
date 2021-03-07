@@ -86,7 +86,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 if (isMove)
                 {
                     CardParent.GetComponentInParent<Player>().moveCardAt(dragCardPlayerHandIndex, direction);
-                    Debug.Log($"Shift Card  {dragCardPlayerHandIndex } to  {hittedCard.cardPlayerHandIndex } / direction {direction} ");
+                    //Debug.Log($"Shift Card  {dragCardPlayerHandIndex } to  {hittedCard.cardPlayerHandIndex } / direction {direction} ");
                     break;
                 }
             }
@@ -110,7 +110,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         CardParent.GetComponentInParent<Player>().dragCardMerge();
         if (transform.parent == itemDraggerParent)
         {
-           Debug.Log("drop failer");
+           //Debug.Log("drop failer");
            transform.position = startPos;
            transform.SetParent(startParent);
         }

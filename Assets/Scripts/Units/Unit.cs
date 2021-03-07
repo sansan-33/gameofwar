@@ -87,20 +87,8 @@ public class Unit : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-        
-        if (this.unitType == UnitMeta.UnitType.CAVALRY&&i==0)
-        {
-           
-            GetComponent<UnitBody>().ServeChangeType(this);
-            i++;
-        }
-        else
-        {
-            NetworkServer.Destroy(gameObject);
-        }
-       
+        NetworkServer.Destroy(gameObject);
     }
-
     #endregion
 
     #region Client

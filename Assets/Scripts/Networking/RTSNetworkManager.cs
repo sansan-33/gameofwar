@@ -72,7 +72,7 @@ public class RTSNetworkManager : NetworkManager
         webReq.method = "put";
         webReq.SendWebRequest();
         yield return new WaitForSeconds(10f);
-        Application.Quit();
+        //Application.Quit();
     }
     public void StartGame()
     {
