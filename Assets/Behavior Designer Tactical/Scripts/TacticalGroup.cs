@@ -430,8 +430,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                         }
                     }
                 }*/
-               // Debug.Log($"Tag-->{tacticalAgent.transform.tag}  {tacticalAgent.transform.GetComponent<Unit>().unitType}    {tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget()}");  
-                    tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform;
+                // Debug.Log($"Tag-->{tacticalAgent.transform.tag}  {tacticalAgent.transform.GetComponent<Unit>().unitType}    {tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget()}");  
+                if (tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform == null) { return; }
+                tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform;
 
                     tacticalAgent.TargetDamagable = damageable;
                 
