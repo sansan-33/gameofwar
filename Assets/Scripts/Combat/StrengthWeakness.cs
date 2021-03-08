@@ -12,15 +12,13 @@ public class StrengthWeakness : MonoBehaviour
     public void Start()
     {
         //DEFINE Strength Weakness of Player --> Strength , Weakness
-        strengthWeakness.Add(UnitMeta.UnitType.ARCHER, new UnitMeta.UnitType[] { UnitMeta.UnitType.SPEARMAN, UnitMeta.UnitType.KNIGHT } );
-        strengthWeakness.Add(UnitMeta.UnitType.KNIGHT, new UnitMeta.UnitType[] { UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.SPEARMAN });
-        strengthWeakness.Add(UnitMeta.UnitType.SPEARMAN, new UnitMeta.UnitType[] { UnitMeta.UnitType.KNIGHT, UnitMeta.UnitType.ARCHER });
+        strengthWeakness.Add(UnitMeta.UnitType.ARCHER, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK } );
+        strengthWeakness.Add(UnitMeta.UnitType.TANK, new UnitMeta.UnitType[] { UnitMeta.UnitType.CAVALRY, UnitMeta.UnitType.FOOTMAN });
+        strengthWeakness.Add(UnitMeta.UnitType.FOOTMAN, new UnitMeta.UnitType[] { UnitMeta.UnitType.TANK, UnitMeta.UnitType.MAGIC });
         strengthWeakness.Add(UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.HERO }); // HERO Strength to all , weak to HEROR only
-        strengthWeakness.Add(UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.MAGE, UnitMeta.UnitType.KNIGHT });
-        strengthWeakness.Add(UnitMeta.UnitType.MINISKELETON, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.MAGE });
-        strengthWeakness.Add(UnitMeta.UnitType.MAGE, new UnitMeta.UnitType[] { UnitMeta.UnitType.MINISKELETON, UnitMeta.UnitType.KNIGHT });
-        strengthWeakness.Add(UnitMeta.UnitType.GIANT, new UnitMeta.UnitType[] { UnitMeta.UnitType.MAGE, UnitMeta.UnitType.ARCHER });
-        strengthWeakness.Add(UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.SPEARMAN, UnitMeta.UnitType.KING });
+        strengthWeakness.Add(UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK });
+        strengthWeakness.Add(UnitMeta.UnitType.MAGIC, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK });
+        strengthWeakness.Add(UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.KING, UnitMeta.UnitType.KING });
 
     }
     public float calculateDamage(UnitMeta.UnitType player, UnitMeta.UnitType enemy, float damage)

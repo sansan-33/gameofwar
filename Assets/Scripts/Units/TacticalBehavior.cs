@@ -38,6 +38,7 @@ public class TacticalBehavior : MonoBehaviour
     private int selectedLeaderId = 0;
     private int selectedEnemyLeaderId = 0;
     private GameBoardHandler gameBoardHandlerPrefab = null;
+    private Dictionary<int, GameObject> KINGBOSS = new Dictionary<int, GameObject>();
     #region Client
 
     public void Start()
@@ -189,6 +190,7 @@ public class TacticalBehavior : MonoBehaviour
             }
             if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING){
                 king = child;
+                KINGBOSS[playerid] = king;
             } else if (!leaders[playerid].ContainsKey(leaderUnitTypeID))
             {
                 leaders[playerid].Add(leaderUnitTypeID, child);
@@ -209,8 +211,6 @@ public class TacticalBehavior : MonoBehaviour
                 defendObject = king;
                 defendObject.name = "King";
                 defendRadius = 3;
-                int radius = 5;
-                king.GetComponent<Unit>().GetUnitMovement().circleMarker.transform.localScale = new Vector3(radius / 100, radius / 100, radius / 100);
             }
             else {
                 //Debug.Log($"Player {playerid} Unit {(UnitMeta.UnitType)leaderUnitTypeID } Spawn Point Index {child.GetComponent<Unit>().GetSpawnPointIndex()} gameBoardHandlerPrefab: {gameBoardHandlerPrefab == null} ");
@@ -325,6 +325,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         int localSelectionType = (int) GetLeaderBehaviorSelectionType(playerid, leaderid, true);
+        if(localSelectionType == (int) BehaviorSelectionType.Defend) EnableDefendRadius(playerid);
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
         for (int i = 0; i < agentCount; ++i)
         {
@@ -464,7 +465,7 @@ public class TacticalBehavior : MonoBehaviour
         for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
         {
             var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
-            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.SPEARMAN) // ATTACK ONLY , cannot go back base
+            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.FOOTMAN) // ATTACK ONLY , cannot go back base
             {
                 var agentTrees = child.GetComponents<BehaviorTree>();
                 for (int k = 0; k < agentTrees.Length; ++k)
@@ -495,8 +496,22 @@ public class TacticalBehavior : MonoBehaviour
             }
         }
         LeaderTacticalType(playerid, leaderUnitTypeID, BehaviorSelectionType.Attack );
-        
-
+    }
+    private void EnableDefendRadius(int playerid)
+    {
+        Vector3 defendRadius = new Vector3(0.03f, 0.03f, 0.03f);
+        Vector3 radius = new Vector3(0.3f, 0.3f, 0.3f);
+        for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
+        {
+            var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
+            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) // ATTACK ONLY , cannot go back base
+            {
+                child.GetComponent<Unit>().GetUnitMovement().circleMarker.SetActive(true);
+                child.GetComponent<Unit>().GetUnitMovement().circleMarker.transform.localScale = defendRadius;
+                KINGBOSS[playerid].GetComponent<Unit>().GetUnitMovement().circleMarker.SetActive(true);
+                KINGBOSS[playerid].GetComponent<Unit>().GetUnitMovement().circleMarker.transform.localScale = radius;
+            }
+        }
     }
     #endregion
 }

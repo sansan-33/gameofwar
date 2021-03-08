@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class RTSNetworkManager : NetworkManager
 {
-    [SerializeField] private GameObject archerPrefab = null;
+    [SerializeField] private GameObject undeadArcherPrefab = null;
     [SerializeField] private GameObject miniSkeletonPrefab = null;
     [SerializeField] private GameObject knightPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
@@ -21,7 +21,7 @@ public class RTSNetworkManager : NetworkManager
     [SerializeField] private GameObject cavalryPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
     [SerializeField] private GameObject undeadHeroPrefab = null;
-    [SerializeField] private GameObject archerHumanPrefab = null;
+    [SerializeField] private GameObject archerPrefab = null;
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
@@ -38,8 +38,8 @@ public class RTSNetworkManager : NetworkManager
     private string urladdress = "http://192.168.2.181:8400";
     private int spawnMoveRange = 1;
 
-    private Dictionary<UnitMeta.UnitType, int> militaryList = new Dictionary<UnitMeta.UnitType, int>();
-    private Dictionary<UnitMeta.UnitType, GameObject> unitDict = new Dictionary<UnitMeta.UnitType, GameObject>();
+    private Dictionary<UnitMeta.UnitKey, int> militaryList = new Dictionary<UnitMeta.UnitKey, int>();
+    private Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
    
     #region Server
     public override void OnServerConnect(NetworkConnection conn)
@@ -52,7 +52,6 @@ public class RTSNetworkManager : NetworkManager
     public override void OnServerDisconnect(NetworkConnection conn)
     {
         RTSPlayer player = conn.identity.GetComponent<RTSPlayer>();
-
         Players.Remove(player);
         isGameInProgress = false;
 
@@ -83,17 +82,17 @@ public class RTSNetworkManager : NetworkManager
         isGameInProgress = true;
 
         unitDict.Clear();
-        unitDict.Add(UnitMeta.UnitType.ARCHER, archerPrefab);
-        unitDict.Add(UnitMeta.UnitType.HERO, heroPrefab);
-        unitDict.Add(UnitMeta.UnitType.KNIGHT, knightPrefab);
-        unitDict.Add(UnitMeta.UnitType.SPEARMAN, spearmanPrefab);
-        unitDict.Add(UnitMeta.UnitType.MINISKELETON, miniSkeletonPrefab);
-        unitDict.Add(UnitMeta.UnitType.GIANT, giantPrefab);
-        unitDict.Add(UnitMeta.UnitType.MAGE, magePrefab);
-        unitDict.Add(UnitMeta.UnitType.CAVALRY, cavalryPrefab);
-        unitDict.Add(UnitMeta.UnitType.KING, kingPrefab);
-        unitDict.Add(UnitMeta.UnitType.UNDEADHERO, undeadHeroPrefab);
-        unitDict.Add(UnitMeta.UnitType.ARCHERHUMAN, archerHumanPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADARCHER, undeadArcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.HERO, heroPrefab);
+        unitDict.Add(UnitMeta.UnitKey.KNIGHT, knightPrefab);
+        unitDict.Add(UnitMeta.UnitKey.SPEARMAN, spearmanPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MINISKELETON, miniSkeletonPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GIANT, giantPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MAGE, magePrefab);
+        unitDict.Add(UnitMeta.UnitKey.CAVALRY, cavalryPrefab);
+        unitDict.Add(UnitMeta.UnitKey.KING, kingPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ARCHER, archerPrefab);
         ServerChangeScene("Scene_Map_03");
     }
 
@@ -126,32 +125,27 @@ public class RTSNetworkManager : NetworkManager
 
             foreach (RTSPlayer player in Players)
             {
-                //Vector3 pos = GetStartPosition().position;
-                //Debug.Log($"What is unitbase tag | {baseInstance.tag} | playerID |{player.GetPlayerID()}|  ? ");               
-                //SetupBase(pos, player);
-                //SetupBase(GetStartPosition().position, player);
                 SetupUnitFactory(new Vector3(0,0,0), player);
-                //SetupKing(GetStartPosition().position, player);
-                
+
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(UnitMeta.UnitType.UNDEADHERO, 2);
-                    militaryList.Add(UnitMeta.UnitType.ARCHERHUMAN, 1);
-                    militaryList.Add(UnitMeta.UnitType.CAVALRY, 1);
+                    militaryList.Add(UnitMeta.UnitKey.HERO, 2);
+                    militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
+                    militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
 
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1 , Quaternion.identity));
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1 , Quaternion.identity));
                 }
                 else
                 {
-                    militaryList.Add(UnitMeta.UnitType.SPEARMAN, 2);
-                    militaryList.Add(UnitMeta.UnitType.ARCHER, 1);
-                    militaryList.Add(UnitMeta.UnitType.CAVALRY, 1);
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitType.KING, 1, Quaternion.Euler(0, 180,0)));
+                    militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 2);
+                    militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
+                    militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1, Quaternion.Euler(0, 180,0)));
                 }
-                foreach (UnitMeta.UnitType unitType in militaryList.Keys)
+                foreach (UnitMeta.UnitKey unitKey in militaryList.Keys)
                 {
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, unitType, militaryList[unitType], Quaternion.identity));
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, unitKey, militaryList[unitKey], Quaternion.identity));
                 }
             }
         }
@@ -166,17 +160,18 @@ public class RTSNetworkManager : NetworkManager
                    Quaternion.identity);
         NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
-    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, UnitMeta.UnitType unitType  , int spawnCount, Quaternion rotation)
+    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, UnitMeta.UnitKey unitKey  , int spawnCount, Quaternion rotation)
     {
+
         yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
-            GameObject spawnPointObject = gameBoardHandlerInstance.GetSpawnPointObject(unitType, player.GetPlayerID());
+            GameObject spawnPointObject = gameBoardHandlerInstance.GetSpawnPointObject(UnitMeta.KeyType[unitKey], player.GetPlayerID());
             Vector3 spawnPosition = spawnPointObject.transform.position;
             //Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
-            GameObject unit = Instantiate(unitDict[unitType], spawnPosition, rotation) as GameObject;
+            GameObject unit = Instantiate(unitDict[unitKey], spawnPosition, rotation) as GameObject;
             unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
-            unit.name = unitType.ToString();
+            unit.name = unitKey.ToString();
             unit.tag = "Player" + player.GetPlayerID();
             unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
             

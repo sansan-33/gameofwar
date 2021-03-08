@@ -53,7 +53,7 @@ public class UnitBody : NetworkBehaviour, IBody
         gameObject.transform.GetChild(8).gameObject.transform.GetChild(0).gameObject.SetActive(false);
         //Debug.Log(gameObject.transform.GetChild(8).gameObject.transform.GetChild(0));
         changeBody.SetActive(true);
-        unit.unitType = UnitMeta.UnitType.KNIGHT;
+        unit.unitType = UnitMeta.UnitType.TANK;
         unit.GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = 6;
     }
     [ClientRpc]

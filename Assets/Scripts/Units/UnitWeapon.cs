@@ -110,7 +110,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 if (GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed == GetComponentInParent<UnitMovement>().maxSpeed) { calculatedDamageToDeal += 20; }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 //Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
-                if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.KNIGHT)
+                if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.TANK)
                 {
                     GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = GetComponentInParent<UnitMovement>().originalSpeed;
                     GetComponentInParent<UnitPowerUp>().canSpawnEffect = true;

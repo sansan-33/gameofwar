@@ -42,16 +42,16 @@ public class SpawnEnemies : MonoBehaviour
                 localFactory = factroy.GetComponent<UnitFactory>();
                 if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
                 {
-                    localFactory.CmdSpawnUnitRotation(UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, Quaternion.Euler(0, 180, 0));
+                    localFactory.CmdSpawnUnitRotation(UnitMeta.Race.UNDEAD,  UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, Quaternion.Euler(0, 180, 0));
                 }
                 if (isUnitAlive(UnitMeta.UnitType.HERO) < 2)
                 {
-                    localFactory.CmdSpawnUnit(UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
                     StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
                 }
                 else { 
-                    localFactory.CmdSpawnUnit(UnitMeta.UnitType.SPEARMAN, 1, enemyID, unitAuthority, teamColor);
-                    StartCoroutine(TryTactical(UnitMeta.UnitType.SPEARMAN, TacticalBehavior.BehaviorSelectionType.Attack));
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, unitAuthority, teamColor);
+                    StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
                 }
             }
         }

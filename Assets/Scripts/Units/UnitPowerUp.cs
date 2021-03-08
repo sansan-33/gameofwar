@@ -31,7 +31,7 @@ public class UnitPowerUp : NetworkBehaviour
 
         if (!battleFieldRules.IsInField() && CanPowerUp)
         {
-            if (unit.unitType == UnitMeta.UnitType.SPEARMAN&& SPEARMANCanPowerUp)
+            if (unit.unitType == UnitMeta.UnitType.FOOTMAN && SPEARMANCanPowerUp)
             {
                 ServerPowerUp(unit.gameObject, 2);
                 
@@ -39,7 +39,7 @@ public class UnitPowerUp : NetworkBehaviour
                 RpcScale(unitTransform, unit.gameObject);
                 SPEARMANCanPowerUp = false;
             }
-            else if (unit.unitType == UnitMeta.UnitType.KNIGHT)
+            else if (unit.unitType == UnitMeta.UnitType.FOOTMAN)
             {
                 ServerSetSpeed();
             }

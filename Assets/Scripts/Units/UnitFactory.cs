@@ -12,14 +12,18 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject cavalryPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
     [SerializeField] private GameObject spearmanPrefab = null;
-    [SerializeField] private GameObject miniSkeletonUnitPrefab = null;
-    [SerializeField] private GameObject giantUnitPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
+    [SerializeField] private GameObject miniSkeletonPrefab = null;
+    [SerializeField] private GameObject giantPrefab = null;
+    [SerializeField] private GameObject riderPrefab = null;
     [SerializeField] private GameObject undeadHeroPrefab = null;
-    [SerializeField] private GameObject archerHumanPrefab = null;
+    [SerializeField] private GameObject undeadArcherPrefab = null;
+    [SerializeField] private GameObject undeadKingPrefab = null;
+    [SerializeField] private GameObject undeadLichPrefab = null;
+
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
-    public Dictionary<UnitMeta.UnitType, GameObject> unitDict = new Dictionary<UnitMeta.UnitType, GameObject>();
+    public Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
 
     [SerializeField]
     private float spawnInterval = 60000f;
@@ -61,24 +65,24 @@ public class UnitFactory : NetworkBehaviour
        
     }
     [Command]
-    public void CmdSpawnUnitRotation(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor,  Quaternion unitRotation)
+    public void CmdSpawnUnitRotation(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor,  Quaternion unitRotation)
     {
         if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }
 
         GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
         Vector3 spawnPosition = spawnPointObject.transform.position;
 
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation , spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, unitRotation , spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
     }
     [Command]
-    public void CmdSpawnUnit(UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
+    public void CmdSpawnUnit(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID, bool spawnAuthority, Color teamColor)
     {
         if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }
 
         GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
         Vector3 spawnPosition = spawnPointObject.transform.position;
 
-        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[unitType], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+        StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
 
         //CmdSpawnUnitRotation(unitType, star, playerID, spawnAuthority, teamColor, Quaternion.identity);
     }
@@ -111,17 +115,20 @@ public class UnitFactory : NetworkBehaviour
     {
 
         unitDict.Clear();
-        unitDict.Add(UnitMeta.UnitType.ARCHER, archerPrefab);
-        unitDict.Add(UnitMeta.UnitType.HERO, heroPrefab);
-        unitDict.Add(UnitMeta.UnitType.KNIGHT, knightPrefab);
-        unitDict.Add(UnitMeta.UnitType.SPEARMAN, spearmanPrefab);
-        unitDict.Add(UnitMeta.UnitType.MAGE, magePrefab);
-        unitDict.Add(UnitMeta.UnitType.CAVALRY, cavalryPrefab);
-        unitDict.Add(UnitMeta.UnitType.MINISKELETON, miniSkeletonUnitPrefab);
-        unitDict.Add(UnitMeta.UnitType.GIANT, giantUnitPrefab);
-        unitDict.Add(UnitMeta.UnitType.KING, kingPrefab);
-        unitDict.Add(UnitMeta.UnitType.UNDEADHERO, undeadHeroPrefab);
-        unitDict.Add(UnitMeta.UnitType.ARCHERHUMAN, archerPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ARCHER, archerPrefab);
+        unitDict.Add(UnitMeta.UnitKey.HERO, heroPrefab);
+        unitDict.Add(UnitMeta.UnitKey.KNIGHT, knightPrefab);
+        unitDict.Add(UnitMeta.UnitKey.SPEARMAN, spearmanPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MAGE, magePrefab);
+        unitDict.Add(UnitMeta.UnitKey.CAVALRY, cavalryPrefab);
+        unitDict.Add(UnitMeta.UnitKey.KING, kingPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MINISKELETON, miniSkeletonPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GIANT, giantPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADARCHER, undeadArcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
+        unitDict.Add(UnitMeta.UnitKey.LICH, magePrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADKING, kingPrefab);
 
     }
     [ClientRpc]
