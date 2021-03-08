@@ -107,12 +107,12 @@ namespace BehaviorDesigner.Runtime.Tactical
         }
         public bool isCollide(TacticalAgent tacticalAgents)
         {
-          
+            //Debug.Log(tacticalAgents.TargetTransform);
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             tacticalAgent = tacticalAgents;
-            if (tacticalAgents.TargetTransform == null) {return false; }
-            targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
-            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale*2, Quaternion.identity, layerMask);
+           // if (tacticalAgents.TargetTransform == null) {return false; }
+            //targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
+            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.transform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale*3, Quaternion.identity, layerMask);
             int i = 0;
        
             //Check when there is a new collider coming into contact with the box
@@ -123,8 +123,8 @@ namespace BehaviorDesigner.Runtime.Tactical
                 if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
                 {
                     //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
-                    if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                    if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                    if (other.tag == "Player" + player.GetPlayerID() && tacticalAgents.transform.tag == "Player" + player.GetPlayerID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                    if (other.tag == "Player" + player.GetEnemyID() && tacticalAgents.transform.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
 
                 }
                 else // Multi player seneriao
@@ -147,9 +147,13 @@ namespace BehaviorDesigner.Runtime.Tactical
        {
            return other.transform.GetComponent< IDamageable>();
         }
+        public Transform collideTargetTransform()
+        {
+            return other.transform;
+        }
         //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
-       
-       
+
+
         /// <summary>
         /// Attacks the target.
         /// </summary>

@@ -395,8 +395,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected void CollideTarget(Transform collideTransform, IDamageable collideTarget, ref Transform targetTransform, ref IDamageable targetDamagable)
         {
           
-            targetTransform = collideTransform;
-            targetDamagable = collideTarget;
+            
+            Debug.Log($"CollideTarget{targetTransform}");
             
         }
         /// <summary>
@@ -404,12 +404,17 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         protected void FindAttackTarget()
         {
+           
             Transform target = null;
             IDamageable damageable = null;
-            if (tacticalAgent.isCollide(tacticalAgent))
+            if ( tacticalAgent.isCollide(tacticalAgent))
             {
                 IDamageable collideTarget = tacticalAgent.collideTarget();
-                CollideTarget(transform, collideTarget, ref target, ref damageable);
+                Transform collideTargetTransform = tacticalAgent.collideTargetTransform();
+                tacticalAgent.TargetTransform = collideTargetTransform;
+                tacticalAgent.TargetDamagable = collideTarget;
+                //CollideTarget(transform, collideTarget, ref target, ref damageable);
+                //Debug.Log($"Change target to {tacticalAgent.TargetTransform}Tag-->{tacticalAgent.TargetTransform.tag}");
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
@@ -441,13 +446,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             Transform target = null;
             IDamageable damageable = null;
             //Debug.Log($"TG-->Tag{tacticalAgent.transform.tag}  {tacticalAgent.TargetTransform}");
-           // Debug.Log($"isAlive{tacticalAgent.TargetDamagable}");
-            //Debug.Log(tacticalAgent.TargetDamagable);
+            // Debug.Log($"isAlive{tacticalAgent.TargetDamagable}");
+           // Debug.Log($"{tacticalAgent.TargetTransform}");
             if (tacticalAgent.isCollide(tacticalAgent))
             {
                 IDamageable collideTarget = tacticalAgent.collideTarget();
                 CollideTarget(transform, collideTarget, ref target, ref damageable);
-               // Debug.Log($"Change target to {tacticalAgent.TargetTransform}");
+              
             } else if (tacticalAgent.TargetTransform == null )//|| !tacticalAgent.TargetDamagable.IsAlive())
             {
 
@@ -481,7 +486,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (true)
             {
                 //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-                Gizmos.DrawWireCube(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 2);
+                Gizmos.DrawWireCube(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 3);
             }
         }
         /// <summary>
