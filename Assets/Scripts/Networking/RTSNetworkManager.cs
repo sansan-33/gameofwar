@@ -133,6 +133,7 @@ public class RTSNetworkManager : NetworkManager
                     militaryList.Add(UnitMeta.UnitKey.HERO, 2);
                     militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
                     militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
+                    militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 1);
 
                     StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1 , Quaternion.identity));
                 }

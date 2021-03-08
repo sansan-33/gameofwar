@@ -25,7 +25,7 @@ public class SpawnEnemies : MonoBehaviour
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
            
-            InvokeRepeating("LoadEnemies", 2f, 10f);
+            InvokeRepeating("LoadEnemies", 2f, 6f);
         }
     }
 
@@ -41,15 +41,15 @@ public class SpawnEnemies : MonoBehaviour
                 {
                     localFactory.CmdSpawnUnitRotation(UnitMeta.Race.UNDEAD,  UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, Quaternion.Euler(0, 180, 0));
                 }
-                if (isUnitAlive(UnitMeta.UnitType.HERO) < 2)
-                {
-                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
-                    StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
-                }
-                else { 
+                //if (isUnitAlive(UnitMeta.UnitType.HERO) < 1)
+                //{
+                //    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
+                //    StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
+                //}
+                //else { 
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, unitAuthority, teamColor);
                     StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
-                }
+                //}
             }
         }
     }

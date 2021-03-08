@@ -42,7 +42,8 @@ public class GameOverHandler : NetworkBehaviour
     private void ServerHandleUnitDespawned(Unit unit)
     {
         //Debug.Log($"Total Units {unit.tag} count {units[unit.tag].Count}");
-        units[unit.tag].Remove(unit);
+        if (units.ContainsKey(unit.tag))
+            units[unit.tag].Remove(unit);
 
         //if (units[unit.tag].Count != 0 ) { return; }
         if (unit.unitType != UnitMeta.UnitType.KING ) { return; }
