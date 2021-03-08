@@ -94,17 +94,17 @@ public class TacticalBehavior : MonoBehaviour
                         //Debug.Log("unit.hasAuthority");
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
                         unit.GetComponent<UnitBody>().SetRenderMaterial(unit.transform.gameObject, player.GetPlayerID(), 1);
-                        army.tag = UnitMeta.PLAYERTAG;
+                        army.tag = "Player" + player.GetPlayerID();
                         if (unit.unitType == UnitMeta.UnitType.KING)
-                            army.tag = UnitMeta.KINGPLAYERTAG;
+                            army.tag = "King" + player.GetPlayerID();
                     }
                     else
                     {
                         //Only Assing Enemy Base Tag if mulitplayer
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamEnemyColor);
-                        army.tag = UnitMeta.ENEMYTAG;
+                        army.tag = "Player" + player.GetEnemyID();
                         if (unit.unitType == UnitMeta.UnitType.KING)
-                            army.tag = UnitMeta.KINGENEMYTAG;
+                            army.tag = "King" + player.GetEnemyID();
                     }
                 }
             }

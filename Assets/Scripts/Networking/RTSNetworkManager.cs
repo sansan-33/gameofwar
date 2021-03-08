@@ -19,8 +19,10 @@ public class RTSNetworkManager : NetworkManager
     [SerializeField] private GameObject giantPrefab = null;
     [SerializeField] private GameObject magePrefab = null;
     [SerializeField] private GameObject cavalryPrefab = null;
+    [SerializeField] private GameObject riderPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
     [SerializeField] private GameObject undeadHeroPrefab = null;
+    [SerializeField] private GameObject undeadKingPrefab = null;
     [SerializeField] private GameObject archerPrefab = null;
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
@@ -93,6 +95,9 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(UnitMeta.UnitKey.KING, kingPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
         unitDict.Add(UnitMeta.UnitKey.ARCHER, archerPrefab);
+        unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);
+
         ServerChangeScene("Scene_Map_03");
     }
 
@@ -139,10 +144,11 @@ public class RTSNetworkManager : NetworkManager
                 }
                 else
                 {
-                    militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 2);
-                    militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
-                    militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1, Quaternion.Euler(0, 180,0)));
+                    militaryList.Add(UnitMeta.UnitKey.MINISKELETON, 1);
+                    militaryList.Add(UnitMeta.UnitKey.UNDEADHERO, 2);
+                    militaryList.Add(UnitMeta.UnitKey.UNDEADARCHER, 1);
+                    militaryList.Add(UnitMeta.UnitKey.RIDER, 1);
+                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.UNDEADKING, 1, Quaternion.Euler(0, 180,0)));
                 }
                 foreach (UnitMeta.UnitKey unitKey in militaryList.Keys)
                 {
