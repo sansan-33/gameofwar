@@ -80,7 +80,6 @@ public class TacticalBehavior : MonoBehaviour
         // Need to Assing Tag for player 1 in multi player mode
         // Rpc Client Tag not implement in RTS Network Manager
         bool ISTAGGED = false;
-        Unit king = null ;
         while (!ISTAGGED)
         {
             yield return new WaitForSeconds(1f);
@@ -93,7 +92,6 @@ public class TacticalBehavior : MonoBehaviour
                // Debug.Log($"Assign Tag for Client name {army.name} ");
                 if (army.TryGetComponent<Unit>(out Unit unit))
                 {
-                    //Debug.Log("TryGetComponent<Unit>");
                     if (unit.hasAuthority)
                     {
                         //Debug.Log("unit.hasAuthority");
@@ -106,42 +104,9 @@ public class TacticalBehavior : MonoBehaviour
                         //Only Assing Enemy Base Tag if mulitplayer
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamEnemyColor);
                         army.tag = ENEMYTAG;
-                        if (unit.unitType == UnitMeta.UnitType.KING)
-                        {
-                            king = unit;
-                        }
-                        //Debug.Log($"TB-->{king}");
                     }
                 }
             }
-            
-            GameObject[] enemyArmy  = GameObject.FindGameObjectsWithTag(ENEMYTAG);
-            GameObject[] playerArmy = GameObject.FindGameObjectsWithTag(PLAYERTAG);
-            //Debug.Log($"playerArmy.Length-->{playerArmy.Length}");
-            foreach (GameObject army in enemyArmy)
-            {
-                //Debug.Log($"army-->{army}");
-                if (army.TryGetComponent<Unit>(out Unit unit))
-                {
-                    if (king == null&& unit.unitType == UnitMeta.UnitType.KING)
-                    {
-                        //Debug.Log($"CmdSetTarget in TB {unit.GetTargeter()}{army}");
-                       
-                        king = unit;
-                    }
-                        
-                   
-                }
-            }
-            foreach (GameObject army in playerArmy)
-            {
-                if (king != null)
-                {
-                    army.GetComponent<Unit>().GetTargeter().CmdSetTarget(king.transform.gameObject);
-                }
-                
-            }
-
 
             if (gameBoardHandlerPrefab == null)
             {
@@ -153,7 +118,7 @@ public class TacticalBehavior : MonoBehaviour
             }
             yield return new WaitForSeconds(2f);
             //Debug.Log($"player0: {GameObject.FindGameObjectsWithTag("Player0").Length} / Player2 : {GameObject.FindGameObjectsWithTag("Player1").Length}");
-            if ( GameObject.FindGameObjectsWithTag("Player0").Length > 0 && GameObject.FindGameObjectsWithTag("Player1").Length > 0 && king != null)
+            if ( GameObject.FindGameObjectsWithTag("Player0").Length > 0 && GameObject.FindGameObjectsWithTag("Player1").Length > 0 )
             {
                 ISTAGGED = true;
                 yield return TacticalFormation(PLAYERID, ENEMYID);

@@ -172,12 +172,11 @@ public class RTSNetworkManager : NetworkManager
             GameObject unit = Instantiate(unitDict[unitKey], spawnPosition, rotation) as GameObject;
             unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
             unit.name = unitKey.ToString();
-            unit.tag = "Player" + player.GetPlayerID();
-            unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
-            
+            //unit.tag = "Player" + player.GetPlayerID();
+            //unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
             NetworkServer.Spawn(unit, player.connectionToClient);
-          //  Debug.Log("loadMilitary");
-            unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
+            //Debug.Log("loadMilitary");
+            //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
             spawnCount--;
         }
     }

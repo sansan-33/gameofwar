@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class UnitMeta
 {
+    public static string PLAYERTAG = "Player0";
+    public static string ENEMYTAG = "Player1";
     public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING, UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH };
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, HERO, KING };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE};
