@@ -180,7 +180,7 @@ public class TacticalBehavior : MonoBehaviour
 
             if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) {
                 defendObject = king;
-                defendObject.name = "King";
+                defendObject.name = "KING";
                 defendRadius = 3;
             }
             else {
