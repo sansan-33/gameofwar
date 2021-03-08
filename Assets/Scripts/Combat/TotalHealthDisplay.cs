@@ -50,7 +50,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     {
 
         militarySize = 0;
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + player.GetPlayerID());
+        GameObject[] armies = GameObject.FindGameObjectsWithTag(UnitMeta.KINGPLAYERTAG);
         if (armies is null || armies.Length == 0) { return; }
         PlayerName.text = "Player" + player.GetPlayerID();
         EnemyName.text = "Player" + player.GetEnemyID();
@@ -75,7 +75,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     {
 
         EnermymilitarySize = 0;
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID());
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(UnitMeta.KINGENEMYTAG);
         foreach (GameObject EnermyArmy in enemies)
         {
             float newProgress;
