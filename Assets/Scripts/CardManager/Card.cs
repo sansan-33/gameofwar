@@ -80,7 +80,7 @@ public class Card : MonoBehaviour
             }
         }
 
-        localFactory.CmdSpawnUnit(UnitMeta.Race.HUMAN, (UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
+        localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
         //FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
        
     }

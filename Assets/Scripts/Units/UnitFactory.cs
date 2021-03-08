@@ -26,17 +26,8 @@ public class UnitFactory : NetworkBehaviour
     public Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
 
     [SerializeField]
-    private float spawnInterval = 60000f;
     private int spawnMoveRange = 1;
-
-    private int initArcherCount = 0;
-    private int initFootmanCount = 0;
-    private int initHeroCount = 0;
-    private List<int> lastPlayerSpawnPoint = new List<int> {0,1};
-    private List<int> lastEnemySpawnPoint = new List<int> {3,4};
     private int spawnPointIndex = 0;
-
-    [SerializeField] private float fireRate = 6000f;
 
     public override void OnStartClient()
     {
@@ -83,7 +74,7 @@ public class UnitFactory : NetworkBehaviour
         Vector3 spawnPosition = spawnPointObject.transform.position;
 
         StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
-
+        Debug.Log($" Race {race} type {unitType} Unit Key {UnitMeta.UnitRaceTypeKey[race][unitType]}");
         //CmdSpawnUnitRotation(unitType, star, playerID, spawnAuthority, teamColor, Quaternion.identity);
     }
     [Server]

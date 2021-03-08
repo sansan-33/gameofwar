@@ -64,10 +64,7 @@ public class SpawnEnemies : MonoBehaviour
     private int isUnitAlive(UnitMeta.UnitType unitType)
     {
         int isAlive = 0;
-        GameObject[] armies = GameObject.FindGameObjectsWithTag(UnitMeta.ENEMYTAG);
-        GameObject[] king = GameObject.FindGameObjectsWithTag(UnitMeta.KINGENEMYTAG);
-        if(armies.Length > 0 && king.Length > 0)
-        king.CopyTo(armies,0);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag(unitType == UnitMeta.UnitType.KING ? UnitMeta.KINGENEMYTAG : UnitMeta.ENEMYTAG);
         foreach (GameObject child in armies)
         {
             if (child.GetComponent<Unit>().unitType == unitType) { 
