@@ -199,6 +199,7 @@ public class TacticalBehavior : MonoBehaviour
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
                     agentTrees[k].SetVariableValue("newRadius", defendRadius);
+                    agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyid);
                 }
                 if (!child.gameObject.name.ToUpper().Contains("LEADER"))
                 {
@@ -294,7 +295,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
-        yield return new WaitForSeconds(0.1f);
+        if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
         int localSelectionType = (int) GetLeaderBehaviorSelectionType(playerid, leaderid, true);
         if(localSelectionType == (int) BehaviorSelectionType.Defend) EnableDefendRadius(playerid);
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
@@ -308,7 +309,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public IEnumerator DisableBehavior(int playerid, int leaderid)
     {
-        yield return new WaitForSeconds(0.1f);
+        if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
         int localSelectionType = (int)GetLeaderBehaviorSelectionType(playerid, leaderid, false);
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
 
