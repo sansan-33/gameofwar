@@ -406,18 +406,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             Transform target = null;
             IDamageable damageable = null;
-            //Debug.Log($"TG-->Tag{tacticalAgent.transform.tag}  {tacticalAgent.TargetTransform}");
-           // Debug.Log($"isAlive{tacticalAgent.TargetDamagable}");
-            //Debug.Log(tacticalAgent.TargetDamagable);
             if (tacticalAgent.isCollide(tacticalAgent))
             {
                 IDamageable collideTarget = tacticalAgent.collideTarget();
                 CollideTarget(transform, collideTarget, ref target, ref damageable);
-               // Debug.Log($"Change target to {tacticalAgent.TargetTransform}");
-            } else if (tacticalAgent.TargetTransform == null )//|| !tacticalAgent.TargetDamagable.IsAlive())
+            }
+            else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
 
-                /*ClosestTarget(transform, ref target, ref damageable);
+                ClosestTarget(transform, ref target, ref damageable);
                 if (useTargetBone.Value)
                 {
                     Animator targetAnimator;
@@ -429,14 +426,49 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                             target = bone;
                         }
                     }
-                }*/
+                }
+                tacticalAgent.TargetTransform = target;
+                tacticalAgent.TargetDamagable = damageable;
+
+            }
+        }
+
+        /// <summary>
+        /// Finds a target transform closest to the agent.
+        /// </summary>
+        protected void FindAttackTargetOLD()
+        {
+            Transform target = null;
+            IDamageable damageable = null;
+            //Debug.Log($"TG-->Tag{tacticalAgent.transform.tag}  {tacticalAgent.TargetTransform}");
+           // Debug.Log($"isAlive{tacticalAgent.TargetDamagable}");
+            //Debug.Log(tacticalAgent.TargetDamagable);
+            if (tacticalAgent.isCollide(tacticalAgent))
+            {
+                IDamageable collideTarget = tacticalAgent.collideTarget();
+                CollideTarget(transform, collideTarget, ref target, ref damageable);
+               // Debug.Log($"Change target to {tacticalAgent.TargetTransform}");
+            } else if (tacticalAgent.TargetTransform == null )//|| !tacticalAgent.TargetDamagable.IsAlive())
+            {
+
+                ClosestTarget(transform, ref target, ref damageable);
+                if (useTargetBone.Value)
+                {
+                    Animator targetAnimator;
+                    if ((targetAnimator = target.GetComponent<Animator>()) != null)
+                    {
+                        var bone = targetAnimator.GetBoneTransform(targetBone);
+                        if (bone != null)
+                        {
+                            target = bone;
+                        }
+                    }
+                }
+
                 // Debug.Log($"Tag-->{tacticalAgent.transform.tag}  {tacticalAgent.transform.GetComponent<Unit>().unitType}    {tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget()}");  
-                if (tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform == null) { return; }
-                tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform;
-
-                    tacticalAgent.TargetDamagable = damageable;
-                
-
+                //if (tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform == null) { return; }
+                //tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform;
+                //tacticalAgent.TargetDamagable = damageable;
             }
         }
          public override void OnDrawGizmos()
