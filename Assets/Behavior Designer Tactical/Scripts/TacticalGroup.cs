@@ -392,13 +392,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
             }
         }
-        protected void CollideTarget(Transform collideTransform, IDamageable collideTarget, ref Transform targetTransform, ref IDamageable targetDamagable)
-        {
-          
-            
-            Debug.Log($"CollideTarget{targetTransform}");
-            
-        }
+        
         /// <summary>
         /// Finds a target transform closest to the agent.
         /// </summary>
@@ -413,8 +407,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 Transform collideTargetTransform = tacticalAgent.collideTargetTransform();
                 tacticalAgent.TargetTransform = collideTargetTransform;
                 tacticalAgent.TargetDamagable = collideTarget;
-                //CollideTarget(transform, collideTarget, ref target, ref damageable);
-                //Debug.Log($"Change target to {tacticalAgent.TargetTransform}Tag-->{tacticalAgent.TargetTransform.tag}");
+                
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
@@ -451,7 +444,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (tacticalAgent.isCollide(tacticalAgent))
             {
                 IDamageable collideTarget = tacticalAgent.collideTarget();
-                CollideTarget(transform, collideTarget, ref target, ref damageable);
+                //CollideTarget(transform, collideTarget, ref target, ref damageable);
               
             } else if (tacticalAgent.TargetTransform == null )//|| !tacticalAgent.TargetDamagable.IsAlive())
             {

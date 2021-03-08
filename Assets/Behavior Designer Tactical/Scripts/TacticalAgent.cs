@@ -107,11 +107,10 @@ namespace BehaviorDesigner.Runtime.Tactical
         }
         public bool isCollide(TacticalAgent tacticalAgents)
         {
-            //Debug.Log(tacticalAgents.TargetTransform);
+          
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             tacticalAgent = tacticalAgents;
-           // if (tacticalAgents.TargetTransform == null) {return false; }
-            //targeter = tacticalAgent.TargetTransform.GetComponent<Targeter>();
+         
             Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.transform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale*3, Quaternion.identity, layerMask);
             int i = 0;
        
