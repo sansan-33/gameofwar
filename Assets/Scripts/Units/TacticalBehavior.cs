@@ -85,7 +85,7 @@ public class TacticalBehavior : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             
-            GameObject[] armies = GameObject.FindGameObjectsWithTag("Player");
+            GameObject[] armies = GameObject.FindGameObjectsWithTag("Unit");
             //Debug.Log($"army{armies.Length}");
             foreach (GameObject army in armies)
             {
@@ -106,8 +106,10 @@ public class TacticalBehavior : MonoBehaviour
                         //Only Assing Enemy Base Tag if mulitplayer
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamEnemyColor);
                         army.tag = ENEMYTAG;
-                        if(unit.unitType == UnitMeta.UnitType.KING)
-                        king = unit ;
+                        if (unit.unitType == UnitMeta.UnitType.KING)
+                        {
+                            king = unit;
+                        }
                         //Debug.Log($"TB-->{king}");
                     }
                 }
@@ -500,7 +502,7 @@ public class TacticalBehavior : MonoBehaviour
     private void EnableDefendRadius(int playerid)
     {
         Vector3 defendRadius = new Vector3(0.03f, 0.03f, 0.03f);
-        Vector3 radius = new Vector3(0.3f, 0.3f, 0.3f);
+        Vector3 radius = new Vector3(0.1f, 0.1f, 0.1f);
         for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
         {
             var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
