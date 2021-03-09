@@ -158,14 +158,12 @@ public class TacticalBehavior : MonoBehaviour
             {
                 child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
             }
-            //if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING){
-            //    king = child;
-            //    KINGBOSS[playerid] = king;
-            //}
             if (!leaders[playerid].ContainsKey(leaderUnitTypeID))
             {
                 leaders[playerid].Add(leaderUnitTypeID, child);
-                child.name = "LEADER" + leaders[playerid].Count;
+                child.GetComponent<Unit>().isLeader = true;
+                if(!child.name.Contains("*"))
+                    child.name = "*" + child.name;
             }
             child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
             child.name = "[" + i + "]\t" + child.name;
@@ -201,7 +199,7 @@ public class TacticalBehavior : MonoBehaviour
                     agentTrees[k].SetVariableValue("newRadius", defendRadius);
                     agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyid);
                 }
-                if (!child.gameObject.name.ToUpper().Contains("LEADER"))
+                if (!child.GetComponent<Unit>().isLeader )
                 {
                     agentTrees[k].SetVariableValue("newLeader", leaders[playerid][leaderUnitTypeID]);
                 } else {
@@ -223,7 +221,7 @@ public class TacticalBehavior : MonoBehaviour
       
             }
         }
-        printTB();
+        //printTB();
 
         if (playerid == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
         {
@@ -278,7 +276,7 @@ public class TacticalBehavior : MonoBehaviour
     public void TryUpdateLeader(Unit unit)
     {
         //if (unit.tag == ENEMYTAG) { return; }
-        if (!unit.name.ToLower().Contains("leader")) { return; }
+        if (! unit.isLeader) { return; }
         Debug.Log($"Auto TryUpdateLeader ..... {unit.name} {unit.unitType} is killed !!!");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
