@@ -52,7 +52,7 @@ public class Card : MonoBehaviour
         cardFace = _cardFace;
     }
     public void OnPointerDown()
-    {
+    {if(GetComponent<DragCard>().unitPreviewInstance != null) { return; }
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
         //Debug.Log($"{eleixers.eleixer},{ uniteleixer}");

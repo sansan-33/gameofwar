@@ -22,7 +22,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private float lastXPos = 0;
     private float deltaPos = 2f; // At least move 1 pixels
     private Dictionary<int, string> hittedDict = new Dictionary<int, string>();
-    private GameObject unitPreviewInstance;
+    public GameObject unitPreviewInstance;
     private UnitFactory localFactory;
     private CardDealer dealManagers;
     Transform SpawnLine;
@@ -184,9 +184,25 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
             {
+                int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+                int uniteleixer = 1; ;
+                if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
+                if (GetComponent<Card>().eleixers.eleixer < uniteleixer)
+                {
+                    this.transform.GetChild(1).gameObject.SetActive(true);
+                    this.transform.GetChild(2).gameObject.SetActive(true);
+                    this.transform.GetChild(4).gameObject.SetActive(true);
+                    this.transform.GetChild(5).gameObject.SetActive(true);
+                    Destroy(unitPreviewInstance);
+                    transform.position = startPos;
+                    transform.SetParent(startParent);
+                    return;
+                }
+                GetComponent<Card>().eleixers.eleixer -= uniteleixer;
                 Debug.Log("hit");
                 GetComponent<Card>().DropUnit(hit.point);
                 Destroy(this);
+                Destroy(unitPreviewInstance);
                 this.GetComponentInParent<Player>().moveCard(GetComponent<Card>().cardPlayerHandIndex);
                 dealManagers.GetComponent<CardDealer>().Hit();
             }
