@@ -314,6 +314,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 580f71d13732b48b8958ad089224dfb9, type: 3}
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
+  playerID: 0
   eleixers: {fileID: 0}
   cardStar: {fileID: 4389625973651984436}
   cardSpawnButton: {fileID: 4062796193168424272}
@@ -332,12 +333,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CardParent: {fileID: 4590956966355113817}
   startParent: {fileID: 0}
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 4096
   direction: 
   directionChosen: 0
   DragPoint: {fileID: 3853373262174020870}
   layerMask:
     serializedVersion: 2
     m_Bits: 32
+  unitPrefab: {fileID: 3461276531514663453, guid: 957e84e0d85334b2cafe41c35a784471, type: 3}
 --- !u!225 &7822742786630516621
 CanvasGroup:
   m_ObjectHideFlags: 0

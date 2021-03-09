@@ -10,7 +10,6 @@ public class UnitPowerUp : NetworkBehaviour
     [SerializeField] private GameObject specialEffectPrefab = null;
     [SerializeField] private BattleFieldRules battleFieldRules = null;
     public bool canSpawnEffect = true;
-    private bool SPEARMANCanPowerUp = true;
     public bool CanHalfSpeed = true;
     public bool CanTimeSpeed = true;
     [Command]
@@ -18,6 +17,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         Unit unit = GetComponentInParent<Unit>();
         Transform unitTransform = GetComponentInParent<Transform>();
+        
         bool CanPowerUp = false;
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
@@ -28,43 +28,41 @@ public class UnitPowerUp : NetworkBehaviour
         }else {
             CanPowerUp = true;
         }
-
+        
         if (!battleFieldRules.IsInField() && CanPowerUp)
         {
-            if (unit.unitType == UnitMeta.UnitType.FOOTMAN && SPEARMANCanPowerUp)
+            switch (unit.unitType)
             {
-                ServerPowerUp(unit.gameObject, 2);
-                
-                Scale(unitTransform, unit.gameObject);
-                RpcScale(unitTransform, unit.gameObject);
-                SPEARMANCanPowerUp = false;
-            }
-            else if (unit.unitType == UnitMeta.UnitType.FOOTMAN)
-            {
-                ServerSetSpeed();
+                case UnitMeta.UnitType.FOOTMAN :
+                    if (unit.isScaled) { break; }
+                    Debug.Log("FOOTMAN Scale Up");
+                    ServerPowerUp(unit.gameObject, 2);
+                    Scale(unitTransform, unit.gameObject);
+                    RpcScale(unitTransform, unit.gameObject);
+                    break;
+                case UnitMeta.UnitType.CAVALRY :
+                    ServerSetSpeed();
+                    break;
             }
         }
-       
+       /*
         if (battleFieldRules.IsInField() && CanHalfSpeed)
         {
-           
             agent.speed /= 2;
-            
             CanHalfSpeed = false;
             CanTimeSpeed = true;
         }
         else if(!battleFieldRules.IsInField() && CanTimeSpeed)
         {
             agent.speed *= 2;
-            
             CanTimeSpeed = false;
             CanHalfSpeed = true;
         }
+       */
     }
     [Server]
     public void ServerPowerUp(GameObject unit, int star)
     {
-        
         RpcPowerUp(unit.gameObject, star);
     }
     public void powerUp(GameObject unit, int star)
@@ -97,6 +95,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         unitTransform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
         unit.GetComponent<IAttack>().ScaleAttackRange(1.2f) ;
+        unit.GetComponent<Unit>().isScaled = true;
     }
     [ClientRpc]
     private void RpcScale(Transform unitTransform, GameObject unit)
@@ -108,8 +107,8 @@ public class UnitPowerUp : NetworkBehaviour
     {
         if (agent.speed < GetComponent<UnitMovement>().maxSpeed)
         {
-            ResetSpeed(agent);
-            RpcResetSpeed(agent.transform.gameObject);
+            SpeedUp(agent);
+            RpcSpeedUp(agent.transform.gameObject);
         }
         if (canSpawnEffect)
         {
@@ -118,15 +117,14 @@ public class UnitPowerUp : NetworkBehaviour
             canSpawnEffect = false;
         }
     }
-    private void ResetSpeed(NavMeshAgent agent)
+    private void SpeedUp(NavMeshAgent agent)
     {
         agent.speed += 10;
-       
     }
     [ClientRpc]
-    private void RpcResetSpeed(GameObject agent)
+    private void RpcSpeedUp(GameObject agent)
     {
-        ResetSpeed(agent.GetComponent<UnitMovement>().GetNavMeshAgent());
+        SpeedUp(agent.GetComponent<UnitMovement>().GetNavMeshAgent());
     }
 
 }

@@ -11,6 +11,7 @@ public class SpawnEnemies : MonoBehaviour
     private int enemyID = 0;
     private int playerID = 0;
     private Color teamColor;
+    private bool ISGAMEOVER = false;
 
     public TacticalBehavior tacticalBehavior;
     void Awake()
@@ -24,14 +25,14 @@ public class SpawnEnemies : MonoBehaviour
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
-           
             InvokeRepeating("LoadEnemies", 2f, 6f);
         }
+        GameOverHandler.ClientOnGameOver += HandleGameOver;
     }
 
     public void LoadEnemies()
     {
-
+        if (ISGAMEOVER) { return; }
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
@@ -72,5 +73,10 @@ public class SpawnEnemies : MonoBehaviour
             }
         }
         return isAlive;
+    }
+    public void HandleGameOver(string winner)
+    {
+        Debug.Log($"Spawn Enemies ==> HandleGameOver");
+        ISGAMEOVER = true;
     }
 }

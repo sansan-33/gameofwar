@@ -93,6 +93,12 @@ public class UnitFactory : NetworkBehaviour
             spawnCount--;
         }
     }
+    [Command]
+    public void CmdDropUnit(float waitTime, int playerID, Vector3 spawnPosition, UnitMeta.Race race, UnitMeta.UnitType unitType,string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation)
+    {
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
+        StartCoroutine(ServerSpwanUnit(waitTime, playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitName, spawnCount, spawnAuthority, star, teamColor, rotation, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+    }
     private void initUnitDict()
     {
 
@@ -124,5 +130,8 @@ public class UnitFactory : NetworkBehaviour
         unit.GetComponentInChildren<UnitBody>().ServerChangeUnitRenderer(unit,playerID, star);
         unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointIndex);
     }
-
+    public GameObject GetUnitPrefab(UnitMeta.Race race, UnitMeta.UnitType unitType)
+    {
+        return unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]];
+    }
 }

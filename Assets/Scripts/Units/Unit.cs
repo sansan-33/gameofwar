@@ -22,6 +22,7 @@ public class Unit : NetworkBehaviour
     public UnitMeta.UnitType unitType;
     public UnitMeta.Race race;
     public bool isLeader = false;
+    public bool isScaled = false;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
     public static event Action<Unit> AuthorityOnUnitSpawned;

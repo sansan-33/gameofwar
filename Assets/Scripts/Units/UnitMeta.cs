@@ -11,6 +11,7 @@ public class UnitMeta
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, HERO, KING };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE};
     public enum Race { HUMAN, UNDEAD, ELF, ALL };
+  
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 } };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
     {
@@ -84,6 +85,11 @@ public class UnitMeta
         { UnitKey.MINISKELETON , UnitType.FOOTMAN  },
         { UnitKey.UNDEADHERO , UnitType.HERO  },
         { UnitKey.UNDEADKING , UnitType.KING  }
+    };
+    public static Dictionary<UnitKey, bool> CanCollide = new Dictionary<UnitKey, bool>(){
+
+        { UnitKey.RIDER,true }
+
     };
 
 }

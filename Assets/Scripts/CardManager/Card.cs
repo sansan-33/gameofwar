@@ -23,7 +23,7 @@ public class Card : MonoBehaviour
     private Camera mainCamera;
     private UnitFactory localFactory;
     private GameObject dealManagers;
-    int playerID = 0;
+   public int playerID = 0;
     int enemyID = 0;
     Color teamColor;
     public eleixier eleixers;
@@ -83,6 +83,22 @@ public class Card : MonoBehaviour
         localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
         //FindObjectOfType<TacticalBehavior>().TryReinforce(playerID, enemyID);
        
+    }
+    public void DropUnit(Vector3 SpwanPoint)
+    {
+        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+        if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
+        if (localFactory == null)
+        {
+            foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
+            {
+                if (factroy.GetComponent<UnitFactory>().hasAuthority)
+                {
+                    localFactory = factroy.GetComponent<UnitFactory>();
+                }
+            }
+        }
+        localFactory.CmdDropUnit(0.1f, playerID, SpwanPoint, (UnitMeta.Race)playerID, (UnitMeta.UnitType)type, type.ToString(), unitsize,true, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
     }
     public void destroy()
     {
