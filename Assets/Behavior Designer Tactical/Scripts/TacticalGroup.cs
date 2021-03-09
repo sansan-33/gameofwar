@@ -401,7 +401,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
            
             Transform target = null;
             IDamageable damageable = null;
-            if ( tacticalAgent.isCollide(tacticalAgent))
+            if ( tacticalAgent.isCollide(tacticalAgent) && !UnitMeta.CanCollide.ContainsKey(  UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][tacticalAgent.transform.GetComponent<Unit>().unitType] ) )
             {
                 IDamageable collideTarget = tacticalAgent.collideTarget();
                 Transform collideTargetTransform = tacticalAgent.collideTargetTransform();
