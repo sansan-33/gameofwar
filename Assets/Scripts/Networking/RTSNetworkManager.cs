@@ -135,19 +135,19 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(UnitMeta.UnitKey.HERO, 2);
-                    militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
-                    militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
-                    militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 1);
+                    //militaryList.Add(UnitMeta.UnitKey.HERO, 2);
+                    //militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
+                    //militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
+                    //militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 1);
 
                     StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1 , Quaternion.identity));
                 }
                 else
                 {
-                    militaryList.Add(UnitMeta.UnitKey.MINISKELETON, 1);
-                    militaryList.Add(UnitMeta.UnitKey.UNDEADHERO, 2);
-                    militaryList.Add(UnitMeta.UnitKey.UNDEADARCHER, 1);
-                    militaryList.Add(UnitMeta.UnitKey.RIDER, 1);
+                    //militaryList.Add(UnitMeta.UnitKey.MINISKELETON, 1);
+                    //militaryList.Add(UnitMeta.UnitKey.UNDEADHERO, 2);
+                    //militaryList.Add(UnitMeta.UnitKey.UNDEADARCHER, 1);
+                    //militaryList.Add(UnitMeta.UnitKey.RIDER, 1);
                     StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.UNDEADKING, 1, Quaternion.Euler(0, 180,0)));
                 }
                 foreach (UnitMeta.UnitKey unitKey in militaryList.Keys)
