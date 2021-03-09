@@ -12,7 +12,7 @@ public class UnitPowerUp : NetworkBehaviour
     public bool canSpawnEffect = true;
     public bool CanHalfSpeed = true;
     public bool CanTimeSpeed = true;
-    bool CanPowerUp = false;
+    bool CanPowerUp = true;
     Unit unit;
     Transform unitTransform;
     public override void OnStartAuthority()
@@ -23,21 +23,13 @@ public class UnitPowerUp : NetworkBehaviour
     [Command]
     public void cmdPowerUp()
     {
-        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
-        {
-            if (CompareTag("Player0"))
-            {
-                CanPowerUp = true;
-            }
-        }
-        else
-        {
-            CanPowerUp = true;
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 && CompareTag("Player1")){
+            CanPowerUp = false;
         }
         Debug.Log($"cmdPowerUp CanPowerUp ? {CanPowerUp} battleFieldRules.IsInField() {battleFieldRules.IsInField()}");
         if (!battleFieldRules.IsInField() && CanPowerUp)
         {
-            Debug.Log($"cmdPowerUp {unit.unitType}");
+            //Debug.Log($"cmdPowerUp {unit.unitType}");
             switch (unit.unitType)
             {
                 case UnitMeta.UnitType.FOOTMAN :
