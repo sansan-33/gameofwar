@@ -223,7 +223,7 @@ public class TacticalBehavior : MonoBehaviour
       
             }
         }
-        printTB();
+        //printTB();
 
         if (playerid == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
         {

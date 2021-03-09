@@ -10,7 +10,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private float damageToDeal = 1;
-    [SerializeField] private float destroyAfterSeconds = 1f;
     [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private GameObject camFreeLookPrefab = null;
@@ -69,8 +68,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
                 //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
-                if (other.tag == "Player" + player.GetPlayerID() && targeter.tag == "Player" + player.GetPlayerID()) {continue;}  //check to see if it belongs to the player, if it does, do nothing
-                if (other.tag == "Player" + player.GetEnemyID() && targeter.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                if ( (other.tag == "Player" + player.GetPlayerID() || other.tag == "King" + player.GetPlayerID() ) && targeter.tag == "Player" + player.GetPlayerID() ) {continue;}  //check to see if it belongs to the player, if it does, do nothing
+                if ( (other.tag == "Player" + player.GetEnemyID() || other.tag == "King" + player.GetEnemyID() ) && targeter.tag == "Player" + player.GetEnemyID() ) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                
             }
             else // Multi player seneriao

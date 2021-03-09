@@ -51,8 +51,8 @@ public class UnitProjectile : NetworkBehaviour
         damageToDeals = damageToDealOriginal;
         // Not attack same connection client object except AI Enemy
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1) {
-            if (other.tag == "Player" + player.GetEnemyID() && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
-            if (other.tag == "Player" + player.GetPlayerID() && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
+            if ((other.tag == "Player" + player.GetEnemyID() || other.tag == "King" + player.GetEnemyID() ) && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
+            if ((other.tag == "Player" + player.GetPlayerID() || other.tag == "King" + player.GetPlayerID() ) && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
         }
         else // Multi player seneriao
         {

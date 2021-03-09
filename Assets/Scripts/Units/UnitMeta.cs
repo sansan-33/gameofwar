@@ -24,13 +24,13 @@ public class UnitMeta
     };
     public static Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType> DefaultUnitTactical = new Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType>()
     {
-        { UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Defend } ,
-        { UnitType.MAGIC, TacticalBehavior.BehaviorSelectionType.Defend } ,
-        { UnitType.CAVALRY, TacticalBehavior.BehaviorSelectionType.Defend } ,
-        { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Defend },
+        { UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack } ,
+        { UnitType.MAGIC, TacticalBehavior.BehaviorSelectionType.Attack } ,
+        { UnitType.CAVALRY, TacticalBehavior.BehaviorSelectionType.Attack } ,
+        { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack },
         { UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend },
-        { UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Defend },
-        { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend }
+        { UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack },
+        { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Attack }
     };
     public static Dictionary<UnitType, UnitPosition> DefaultUnitPosition = new Dictionary<UnitType, UnitPosition>()
     {
