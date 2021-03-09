@@ -165,8 +165,8 @@ public class TacticalBehavior : MonoBehaviour
                 if(!child.name.Contains("*"))
                     child.name = "*" + child.name;
             }
-            child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
-            child.name = "[" + i + "]\t" + child.name;
+            //child.name = child.name.Length > 6 ? child.name.Substring(0, 6) : child.name;
+            //child.name = "[" + i + "]\t" + child.name;
             child.transform.parent = PlayerEnemyGroup[playerid].transform;
             i++;
         }
