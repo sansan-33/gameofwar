@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    public GameObject MiddleLine;
     public static GameObject objBeingDraged;
     [SerializeField] Card CardParent;
     public Transform startParent;
@@ -18,6 +19,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public bool directionChosen;
     [SerializeField] private GameObject DragPoint;
     [SerializeField] private LayerMask layerMask = new LayerMask();
+    private GameObject whereCanNotPlaceUnitImage;
     private bool m_Started = true;
     private int dragRange = 50;
     private float lastXPos = 0;
@@ -30,9 +32,12 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     Camera mainCamera;
     [SerializeField] GameObject unitPrefab;
     public GameObject EmptyCard;
-
+    int i = 0;
     private void Start()
     {
+        whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage");
+   
+        MiddleLine = GameObject.FindGameObjectWithTag("MiddleLine");
         mainCamera = Camera.main;
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         //SpawnLine = GameObject.FindGameObjectWithTag("SpawnLine").transform;
@@ -40,6 +45,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         objBeingDraged = gameObject;
         itemDraggerParent = GameObject.FindGameObjectWithTag("CardDraggerParent").transform;
         transform.SetParent(itemDraggerParent);
+        
     }
 
     #region DragFunctions
@@ -54,8 +60,9 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-       // Debug.Log(Input.mousePosition);
-        TryDragCard(Input.mousePosition.x, Input.mousePosition.y);
+        
+            // Debug.Log(Input.mousePosition);
+            TryDragCard(Input.mousePosition.x, Input.mousePosition.y);
     }
     private void TryDragCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
     {
@@ -92,12 +99,13 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             if (spawnLinePos <= mouseOrTouchPosY - startPos.y)
             {
                 //Debug.Log($"call MoveUnitInstance mouseOrTouchPosX {mouseOrTouchPosX} mouseOrTouchPosY {mouseOrTouchPosY} ");
-                MoveUnitInstance(new Vector2(mouseOrTouchPosX, mouseOrTouchPosY));
+                MoveUnitInstance();
             }
             else
             {
                 //Debug.Log($"unitPreviewInstance{unitPreviewInstance}");
                 EmptyCard.GetComponentInChildren<Image>().color = Color.white;
+                whereCanNotPlaceUnitImage.SetActive(false);
                 if (unitPreviewInstance != null) { Destroy(unitPreviewInstance); }
             }
 
@@ -129,8 +137,11 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
         }
     }
-    private void MoveUnitInstance(Vector2 mousePos)
+    private void MoveUnitInstance()
     {
+        whereCanNotPlaceUnitImage.SetActive(true);
+        whereCanNotPlaceUnitImage.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, (Screen.height / 8) * 5);
+        whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, (Screen.height / 8)*2, 0);
         if (localFactory == null)
         {
             foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
@@ -186,6 +197,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
         if (unitPreviewInstance != null)
         {
+            whereCanNotPlaceUnitImage.SetActive(false);
             Ray ray = mainCamera.ScreenPointToRay(eventData.position);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
@@ -203,7 +215,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 }
                 GetComponent<Card>().eleixers.eleixer -= uniteleixer;
                 //Debug.Log("hit");
-                GetComponent<Card>().DropUnit(hit.point);
+                GetComponent<Card>().DropUnit(unitPreviewInstance.transform.position);
 
                 Destroy(unitPreviewInstance);
                 this.GetComponentInParent<Player>().moveCard(GetComponent<Card>().cardPlayerHandIndex);
@@ -244,12 +256,22 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 Ray ray = mainCamera.ScreenPointToRay(pos);
 
                 if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
-
-                unitPreviewInstance.transform.position = hit.point;
-
+           
+            if (hit.point.z > -70&&i>0)
+            {
+                unitPreviewInstance.transform.position = new Vector3(hit.point.x, hit.point.y,-71);
+                //Debug.Log(unitPreviewInstance.transform.position);
+                return;
+            }
+            else { unitPreviewInstance.transform.position = hit.point; }
+            //Debug.Log("suck");
+            
+            i++;
                 //Debug.Log(hit.point);
            
             }
             catch (Exception) { }
-        }
+        
+        //whereCanNotPlaceUnitImage.SetActive(false);
+    }
 } 
