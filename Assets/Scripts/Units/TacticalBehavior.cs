@@ -144,16 +144,13 @@ public class TacticalBehavior : MonoBehaviour
         //var stopwatch = new Stopwatch();
         //stopwatch.Start();
 
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + playerid);
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
-        string temp = king != null ? king.tag : "EMPTY";
-        if (playerid == 0) { 
-            Debug.Log($"Player id {playerid} , king {temp} ");
-            Debug.Log($"armies size b4 {armies.Length}");
-            armies.Append(king);
-            Debug.Log($"armies size after {armies.Length}");
-        }
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        armies.Add(king);
         GameObject defendObject;
+
         //if (playerid == 0)
         //    Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Length}");
 
@@ -199,9 +196,10 @@ public class TacticalBehavior : MonoBehaviour
             for (int k = 0; k < agentTrees.Length; ++k)
             {
                 var group = agentTrees[k].Group;
+                
                 if (group == 1 || group ==2 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
-                if (k == (int)BehaviorSelectionType.Hold || k == (int)BehaviorSelectionType.Defend)
+                if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
                     agentTrees[k].SetVariableValue("newRadius", defendRadius);
