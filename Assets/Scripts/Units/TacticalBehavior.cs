@@ -285,7 +285,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         //if (unit.tag == ENEMYTAG) { return; }
         if (! unit.isLeader) { return; }
-        Debug.Log($"Auto TryUpdateLeader ..... {unit.name} {unit.unitType} is killed !!!");
+        //Debug.Log($"Auto TryUpdateLeader ..... {unit.name} {unit.unitType} is killed !!!");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
 

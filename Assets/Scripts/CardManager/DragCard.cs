@@ -36,7 +36,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private void Start()
     {
         whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage");
-   
         MiddleLine = GameObject.FindGameObjectWithTag("MiddleLine");
         mainCamera = Camera.main;
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
@@ -45,7 +44,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         objBeingDraged = gameObject;
         itemDraggerParent = GameObject.FindGameObjectWithTag("CardDraggerParent").transform;
         transform.SetParent(itemDraggerParent);
-        
     }
 
     #region DragFunctions
@@ -105,6 +103,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             {
                 //Debug.Log($"unitPreviewInstance{unitPreviewInstance}");
                 EmptyCard.GetComponentInChildren<Image>().color = Color.white;
+                if (whereCanNotPlaceUnitImage == null) { whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage"); }
                 whereCanNotPlaceUnitImage.SetActive(false);
                 if (unitPreviewInstance != null) { Destroy(unitPreviewInstance); }
             }
@@ -139,6 +138,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     private void MoveUnitInstance()
     {
+        if (whereCanNotPlaceUnitImage == null) { whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage"); }
         whereCanNotPlaceUnitImage.SetActive(true);
         whereCanNotPlaceUnitImage.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, (Screen.height / 8) * 5);
         whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, (Screen.height / 8)*2, 0);

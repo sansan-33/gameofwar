@@ -122,8 +122,9 @@ namespace BehaviorDesigner.Runtime.Tactical
                 if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
                 {
                     //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
-                    if (other.tag == "Player" + player.GetPlayerID() && tacticalAgents.transform.tag == "Player" + player.GetPlayerID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                    if (other.tag == "Player" + player.GetEnemyID() && tacticalAgents.transform.tag == "Player" + player.GetEnemyID()) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                    //Check for either player0 or king0 collide their team member
+                    if (other.tag.Contains("" + player.GetPlayerID()) && tacticalAgents.transform.tag.Contains("" + player.GetPlayerID()) ) { continue; }  //check to see if it belongs to the player, if it does, do nothing
+                    if (other.tag.Contains("" + player.GetEnemyID()) && tacticalAgents.transform.tag.Contains("" + player.GetEnemyID())) { continue; }  //check to see if it belongs to the player, if it does, do nothing
 
                 }
                 else // Multi player seneriao

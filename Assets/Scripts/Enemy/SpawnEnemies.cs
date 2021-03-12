@@ -49,10 +49,15 @@ public class SpawnEnemies : MonoBehaviour
                 if (isUnitAlive(UnitMeta.UnitType.TANK) < 1) { 
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.TANK, 1, enemyID, unitAuthority, teamColor);
                 }
+                if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 2)
+                {
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.ARCHER, 1, enemyID, unitAuthority, teamColor);
+                }
                 if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 6)
                 {
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, unitAuthority, teamColor);
                 }
+                StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack));
