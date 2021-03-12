@@ -49,7 +49,7 @@ public class SpawnEnemies : MonoBehaviour
                 if (isUnitAlive(UnitMeta.UnitType.TANK) < 1) { 
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.TANK, 1, enemyID, unitAuthority, teamColor);
                 }
-                if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 2)
+                if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
                 {
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.ARCHER, 1, enemyID, unitAuthority, teamColor);
                 }

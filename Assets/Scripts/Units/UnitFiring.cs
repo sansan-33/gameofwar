@@ -46,7 +46,6 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
 
         GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileRotation);
-        Debug.Log(projectileInstance);
         projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDealFactor);
 
         NetworkServer.Spawn(projectileInstance, connectionToClient);
