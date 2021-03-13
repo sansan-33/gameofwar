@@ -621,8 +621,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,8 +661,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -702,8 +702,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -742,8 +742,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,8 +782,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,8 +823,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -863,8 +863,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143329
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -903,8 +903,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -933,7 +933,7 @@ MonoBehaviour:
       parentIndex: 
       startIndex: 
       variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Defend","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Defend","Instant":true,"SharedGameObjectdefendObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newDefendObject","IsShared":true,"NetworkSync":true},"SharedFloatradius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"newRadius","IsShared":true,"SinglemValue":3},"SharedFloatdefendRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedFloatmaxDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":15},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true,"NetworkSync":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":8},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"newTargetName","IsShared":true,"NetworkSync":true},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips","BooleanIsCollide":false},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true,"NetworkSync":true},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newDefendObject","IsShared":true,"NetworkSync":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"newRadius","IsShared":true,"SinglemValue":3},{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"newTargetName","IsShared":true,"NetworkSync":true}]}'
+      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.Defend","NodeData":{"Offset":"(0,120)"},"ID":1,"Name":"Defend","Instant":true,"SharedGameObjectdefendObject":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newDefendObject","IsShared":true,"NetworkSync":true},"SharedFloatradius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"newRadius","IsShared":true,"SinglemValue":3},"SharedFloatdefendRadius":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedFloatmaxDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":10},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true,"NetworkSync":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":8},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"newTargetName","IsShared":true,"NetworkSync":true},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips","BooleanIsCollide":false},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true,"NetworkSync":true},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newDefendObject","IsShared":true,"NetworkSync":true},{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"newRadius","IsShared":true,"SinglemValue":3},{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"newTargetName","IsShared":true,"NetworkSync":true}]}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -943,8 +943,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -983,8 +983,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,8 +1023,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &4649854274305143333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1064,8 +1064,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 0
-  showBehaviorDesignerGizmo: 0
+  gizmoViewMode: 2
+  showBehaviorDesignerGizmo: 1
 --- !u!114 &1430969508781407035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,8 +1285,6 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 100000, guid: 3d4907e6bd39f474b8fd8220920e65c4, type: 3}
   battleFieldRules: {fileID: -862902047010876210}
   canSpawnEffect: 1
-  CanHalfSpeed: 1
-  CanTimeSpeed: 1
 --- !u!114 &-862902047010876210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2708,14 +2706,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75507d4648c4d40a0a9223a7c93bac9d, type: 3}
---- !u!1 &3793294484934286102 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3884583551497602789, guid: 75507d4648c4d40a0a9223a7c93bac9d, type: 3}
-  m_PrefabInstance: {fileID: 93639997464501747}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1447566450408356991 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1538655543281787276, guid: 75507d4648c4d40a0a9223a7c93bac9d, type: 3}
+  m_PrefabInstance: {fileID: 93639997464501747}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3793294484934286102 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3884583551497602789, guid: 75507d4648c4d40a0a9223a7c93bac9d, type: 3}
   m_PrefabInstance: {fileID: 93639997464501747}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4369657044579697181
