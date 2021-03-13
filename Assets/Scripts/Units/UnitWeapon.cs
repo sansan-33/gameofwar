@@ -19,6 +19,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private GameObject specialEffectPrefab  = null;
     [SerializeField] private bool IsAreaOfEffect = false;
     private float calculatedDamageToDeal ;
+    public bool IsKingSP = false;
     NetworkIdentity opponentIdentity;
     bool m_Started;
     // The amount of time it takes for the agent to be able to attack again
@@ -146,6 +147,14 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         {
             powerUpAfterKill(this.transform.gameObject);
             RpcpowerUpAfterKill(this.transform.gameObject);
+            if(TryGetComponent<KingSP>(out KingSP king))
+            {
+                king.UpdateSPAmount();
+            }
+            if(IsKingSP == true)
+            {
+                GetComponent<KingSP>().FindAttackTargetInDistance();
+            }
         }
     }
     [Command]

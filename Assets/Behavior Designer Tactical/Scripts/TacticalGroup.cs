@@ -45,7 +45,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected Behavior leaderTree;
         protected List<IDamageable> targets = new List<IDamageable>();
         protected List<Transform> targetTransforms = new List<Transform>();
-        private Transform king;
+      
         /// <summary>
         /// Listen for any agents that want to join the group.
         /// </summary>
@@ -71,6 +71,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
             canAttack = false;
             runStatus = TaskStatus.Running;
+            
         }
 
         /// <summary>
@@ -78,33 +79,45 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         private void UpdateLeader()
         {
-            if (leader.Value == null) {
+            if (leader.Value == null)
+            {
                 formationIndex = 0;
                 AddAgentToGroup(Owner, 0);
                 FormationUpdated(0);
-            } else {
+            }
+            else
+            {
                 var leaderTrees = leader.Value.GetComponents<Behavior>();
-                if (leaderTrees.Length > 1) {
-                    for (int i = 0; i < leaderTrees.Length; ++i) {
-                        if (leaderTrees[i].Group == leaderGroupIndex.Value) {
+                if (leaderTrees.Length > 1)
+                {
+                    for (int i = 0; i < leaderTrees.Length; ++i)
+                    {
+                        if (leaderTrees[i].Group == leaderGroupIndex.Value)
+                        {
                             leaderTree = leaderTrees[i];
                             break;
                         }
                     }
-                } else if (leaderTrees.Length == 1) {
+                }
+                else if (leaderTrees.Length == 1)
+                {
                     leaderTree = leaderTrees[0];
                 }
 
-                if (leaderTree != null) {
+                if (leaderTree != null)
+                {
                     sendListenerEvent = true;
                 }
             }
             canAttack = false;
             prevLeader = leader.Value;
 
-            if (waitTime.Value == 0) {
+            if (waitTime.Value == 0)
+            {
                 StartGroup();
-            } else {
+            }
+            else
+            {
                 StartCoroutine(WaitForGroup());
             }
         }
@@ -130,25 +143,34 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             targets.Clear();
             targetTransforms.Clear();
             //Debug.Log($"Agent {Owner} checking target group value {targetGroup}");    
-            if (leader.Value == null) {
-                if (targetGroup.Value != null && targetGroup.Value.Count > 0) {
-                    for (int i = 0; i < targetGroup.Value.Count; ++i) {
+            if (leader.Value == null)
+            {
+                if (targetGroup.Value != null && targetGroup.Value.Count > 0)
+                {
+                    for (int i = 0; i < targetGroup.Value.Count; ++i)
+                    {
                         var damageable = (targetGroup.Value[i].GetComponentInParent(typeof(IDamageable)) as IDamageable);
-                        if (damageable != null) {
+                        if (damageable != null)
+                        {
                             AddTarget(targetGroup.Value[i].transform, damageable);
                         }
                     }
-                } else {
+                }
+                else
+                {
                     var foundAttackGroup = GameObject.FindGameObjectsWithTag(targetTag.Value);
-                    for (int i = 0; i < foundAttackGroup.Length; ++i) {
+                    for (int i = 0; i < foundAttackGroup.Length; ++i)
+                    {
                         var damageable = (foundAttackGroup[i].GetComponentInParent(typeof(IDamageable)) as IDamageable);
-                        if (damageable != null) {
+                        if (damageable != null)
+                        {
                             AddTarget(foundAttackGroup[i].transform, damageable);
                         }
                     }
                 }
 
-                if (targets.Count == 0) {
+                if (targets.Count == 0)
+                {
                     Debug.LogError("Error: no target GameObjects have been found. Ensure your targets implement the IDamageable interface.");
                 }
             }
@@ -172,12 +194,14 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected void StartListeningForOrders(Behavior agent)
         {
             // StartListeningForOrders is registered within OnAwake which could cause the callback to be executed when the task isn't active.
-            if (runStatus != TaskStatus.Running) {
+            if (runStatus != TaskStatus.Running)
+            {
                 return;
             }
 
             // If the leader has changed then reinitialize with the new leader.
-            if (prevLeader != leader.Value) {
+            if (prevLeader != leader.Value)
+            {
                 EndFormation();
                 UpdateLeader();
             }
@@ -192,19 +216,24 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// <param name="index">The index of the agent within the group.</param>
         protected virtual void AddAgentToGroup(Behavior agent, int index)
         {
-            if (leader.Value == null) {
-                if (formationTrees == null) {
+            if (leader.Value == null)
+            {
+                if (formationTrees == null)
+                {
                     formationTrees = new List<Behavior>();
                     agentsReady = new List<bool>();
                 }
 
                 // Notify the current agent of the existing agents.
-                for (int i = 0; i < formationTrees.Count; ++i) {
+                for (int i = 0; i < formationTrees.Count; ++i)
+                {
                     agent.SendEvent("AddAgentToGroup", formationTrees[i], i);
                 }
                 // Notify the current agent of the targets.
-                if (agent != Owner) {
-                    for (int i = 0; i < targets.Count; ++i) {
+                if (agent != Owner)
+                {
+                    for (int i = 0; i < targets.Count; ++i)
+                    {
                         agent.SendEvent("AddTarget", targetTransforms[i], targets[i]);
                     }
                 }
@@ -213,16 +242,20 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 agentsReady.Insert(index, false);
 
                 // Notify other agents that the current agent has joined the formation.
-                for (int i = 1; i < formationTrees.Count; ++i) {
+                for (int i = 1; i < formationTrees.Count; ++i)
+                {
                     formationTrees[i].SendEvent("AddAgentToGroup", formationTrees[index], index);
                     formationTrees[i].SendEvent("FormationUpdated", i);
                 }
-            } else {
+            }
+            else
+            {
                 sendListenerEvent = false;
             }
 
             // The agents array is maintained on both the leader and follower.
-            if (agents == null) {
+            if (agents == null)
+            {
                 agents = new List<Transform>();
             }
             agents.Insert(index, agent.transform);
@@ -236,19 +269,23 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected void UpdateInPosition(int index, bool inPosition)
         {
             // UpdateInPosition is registered within OnAwake which could cause the callback to be executed when the task isn't active.
-            if (runStatus != TaskStatus.Running) {
+            if (runStatus != TaskStatus.Running)
+            {
                 return;
             }
 
             agentsReady[index] = inPosition;
             var allReady = inPosition;
-            for (int i = 0; i < agentsReady.Count; ++i) {
-                if (agentsReady[i] != inPosition) {
+            for (int i = 0; i < agentsReady.Count; ++i)
+            {
+                if (agentsReady[i] != inPosition)
+                {
                     allReady = !inPosition;
                     break;
                 }
             }
-            if (allReady == inPosition) {
+            if (allReady == inPosition)
+            {
                 SendAttackEvent(inPosition);
             }
         }
@@ -259,7 +296,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// <param name="attack">Can the agent attack?</param>
         protected void SendAttackEvent(bool attack)
         {
-            for (int i = 0; i < formationTrees.Count; ++i) {
+            for (int i = 0; i < formationTrees.Count; ++i)
+            {
                 formationTrees[i].SendEvent("Attack", attack);
             }
         }
@@ -279,33 +317,39 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         public override TaskStatus OnUpdate()
         {
             // If the leader has changed then reinitialize with the new leader.
-            if (prevLeader != leader.Value) {
+            if (prevLeader != leader.Value)
+            {
                 EndFormation();
                 UpdateLeader();
             }
 
             // Send within OnUpdate to ensure the at least one leader behavior tree is active. If registered within OnStart there is a chance that the behavior tree
             // isn't active yet and will never receive the event.
-            if (sendListenerEvent) {
+            if (sendListenerEvent)
+            {
                 leaderTree.SendEvent("StartListeningForOrders", Owner);
                 return runStatus;
             }
 
             // There won't be any agents in the group if the group hasn't formed yet.
-            if (formationIndex == -1) {
+            if (formationIndex == -1)
+            {
                 return TaskStatus.Running;
             }
 
             // Remove any targets that are no logner alive
-            for (int i = targets.Count - 1; i > -1; --i) {
-                if (!targets[i].IsAlive()) {
+            for (int i = targets.Count - 1; i > -1; --i)
+            {
+                if (!targets[i].IsAlive())
+                {
                     targets.RemoveAt(i);
                     targetTransforms.RemoveAt(i);
                 }
             }
 
             // The task succeeded if no more targets are alive.
-            if (targets.Count == 0) {
+            if (targets.Count == 0)
+            {
                 return TaskStatus.Success;
             }
 
@@ -337,7 +381,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected Vector3 CenterAttackPosition()
         {
             var position = Vector3.zero;
-            for (int i = 0; i < targetTransforms.Count; ++i) {
+            for (int i = 0; i < targetTransforms.Count; ++i)
+            {
                 position += targetTransforms[i].position;
             }
             return position / targetTransforms.Count;
@@ -379,29 +424,41 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             var distance = float.MaxValue;
             var localDistance = 0f;
-            for (int i = targetTransforms.Count - 1; i > -1; --i) {
-                if (targets[i].IsAlive()) {
-                    if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance) {
+            for (int i = targetTransforms.Count - 1; i > -1; --i)
+            {
+                if (targets[i].IsAlive())
+                {
+                    if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance)
+                    {
                         distance = localDistance;
                         targetTransform = targetTransforms[i];
                         targetDamagable = targets[i];
                     }
-                } else {
+                }
+                else
+                {
                     targets.RemoveAt(i);
                     targetTransforms.RemoveAt(i);
                 }
             }
         }
         
+        /*public void KingSPTarget()
+        {
+            float Timer = 1;
+            while (Timer > 0) { Timer -= Time.deltaTime; }
+            tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<KingSP>().GetTargetTransform().transform;
+            tacticalAgent.TargetDamagable = tacticalAgent.transform.GetComponent<KingSP>().GetTargetTransform().transform.GetComponent<IDamageable>();
+        }*/
         /// <summary>
         /// Finds a target transform closest to the agent.
         /// </summary>
         protected void FindAttackTarget()
         {
-           
+
             Transform target = null;
             IDamageable damageable = null;
-            if ( tacticalAgent.isCollide(tacticalAgent) && !UnitMeta.CanCollide.ContainsKey(  UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][tacticalAgent.transform.GetComponent<Unit>().unitType] ) )
+            if (tacticalAgent.isCollide(tacticalAgent) && !UnitMeta.CanCollide.ContainsKey(UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][tacticalAgent.transform.GetComponent<Unit>().unitType]))
             {
                 //if (tacticalAgent.transform.name.ToLower().Contains("king"))
                 //    Debug.Log($"{tacticalAgent.transform.name} FindAttackTarget -- collide {tacticalAgent.collideTargetTransform().name} ");
@@ -409,7 +466,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 Transform collideTargetTransform = tacticalAgent.collideTargetTransform();
                 tacticalAgent.TargetTransform = collideTargetTransform;
                 tacticalAgent.TargetDamagable = collideTarget;
-                
+
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
@@ -444,13 +501,14 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             IDamageable damageable = null;
             //Debug.Log($"TG-->Tag{tacticalAgent.transform.tag}  {tacticalAgent.TargetTransform}");
             // Debug.Log($"isAlive{tacticalAgent.TargetDamagable}");
-           // Debug.Log($"{tacticalAgent.TargetTransform}");
+            // Debug.Log($"{tacticalAgent.TargetTransform}");
             if (tacticalAgent.isCollide(tacticalAgent))
             {
                 IDamageable collideTarget = tacticalAgent.collideTarget();
                 //CollideTarget(transform, collideTarget, ref target, ref damageable);
-              
-            } else if (tacticalAgent.TargetTransform == null )//|| !tacticalAgent.TargetDamagable.IsAlive())
+
+            }
+            else if (tacticalAgent.TargetTransform == null)//|| !tacticalAgent.TargetDamagable.IsAlive())
             {
 
                 ClosestTarget(transform, ref target, ref damageable);
@@ -473,11 +531,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 //tacticalAgent.TargetDamagable = damageable;
             }
         }
-         public override void OnDrawGizmos()
+        public override void OnDrawGizmos()
         {
-           
+
             if (tacticalAgent == null || tacticalAgent.TargetTransform == null) { return; }
-            
+
             Gizmos.color = Color.red;
             //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
             if (true)
@@ -492,18 +550,21 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected bool MoveToAttackPosition()
         {
             FindAttackTarget();
-            if (tacticalAgent.TargetTransform == null) {
+            if (tacticalAgent.TargetTransform == null)
+            {
                 return false;
             }
             if (!tacticalAgent.CanSeeTarget() ||
-                    Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance()) {
+                    Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
+            {
                 tacticalAgent.SetDestination(tacticalAgent.TargetTransform.position);
                 tacticalAgent.UpdateRotation(true);
                 tacticalAgent.AttackPosition = true;
                 //if(tacticalAgent.transform.name.ToLower().Contains("king"))
                 //    Debug.Log($"{tacticalAgent.transform.name} Can See Target {tacticalAgent.CanSeeTarget() } {tacticalAgent.TargetTransform.transform.name  } ? ");
             }
-            else {
+            else
+            {
                 tacticalAgent.Stop();
                 return tacticalAgent.RotateTowardsPosition(tacticalAgent.TargetTransform.position);
             }
@@ -523,26 +584,34 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         private void EndFormation()
         {
-            if (formationTrees != null) {
+            if (formationTrees != null)
+            {
                 // If the status is running then the leader task ended early. Send a status of failure to the group.
-                if (runStatus == TaskStatus.Running) {
+                if (runStatus == TaskStatus.Running)
+                {
                     runStatus = TaskStatus.Failure;
                 }
-                for (int i = 0; i < formationTrees.Count; ++i) {
+                for (int i = 0; i < formationTrees.Count; ++i)
+                {
                     formationTrees[i].SendEvent("OrdersFinished", runStatus);
                 }
                 formationTrees.Clear();
                 agentsReady.Clear();
-            } else {
-                if (leaderTree != null) {
+            }
+            else
+            {
+                if (leaderTree != null)
+                {
                     leaderTree.SendEvent("StopListeningToOrders", Owner);
                 }
             }
-            if (tacticalAgent != null) {
+            if (tacticalAgent != null)
+            {
                 tacticalAgent.UpdateRotation(true);
             }
             formationIndex = -1;
-            if (agents != null) {
+            if (agents != null)
+            {
                 agents.Clear();
             }
         }
@@ -554,7 +623,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected void StopListeningToOrders(Behavior agent)
         {
             // StopListeningToOrders is registered within OnAwake which could cause the callback to be executed when the task isn't active.
-            if (runStatus != TaskStatus.Running) {
+            if (runStatus != TaskStatus.Running)
+            {
                 return;
             }
 
@@ -570,12 +640,16 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected virtual int RemoveAgentFromGroup(Behavior agent)
         {
             var agentTransform = agent.transform;
-            for (int i = agents.Count - 1; i >= 0; --i) {
-                if (agents[i] == agentTransform) {
-                    if (prevLeader == null) {
+            for (int i = agents.Count - 1; i >= 0; --i)
+            {
+                if (agents[i] == agentTransform)
+                {
+                    if (prevLeader == null)
+                    {
                         formationTrees.RemoveAt(i);
                         agentsReady.RemoveAt(i);
-                        for (int j = 1; j < formationTrees.Count; ++j) {
+                        for (int j = 1; j < formationTrees.Count; ++j)
+                        {
                             formationTrees[j].SendEvent("StopListeningToOrders", agent);
                             formationTrees[j].SendEvent("FormationUpdated", j);
                         }
@@ -629,4 +703,5 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             return Quaternion.Inverse(rotation) * (position1 - position2);
         }
     }
+
 }
