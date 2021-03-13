@@ -51,8 +51,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void TryAttack()
     {
         //Debug.Log($"Attacker {targeter} attacking .... ");
-      
-         calculatedDamageToDeal = damageToDeal;
+        Unit unit = GetComponent<Unit>();
+        calculatedDamageToDeal = damageToDeal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
         Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
@@ -98,30 +98,26 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 {
                     opponentIdentity = other.GetComponent<NetworkIdentity>();
                 }
-                
                
-              
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 if (strengthWeakness == null) {
                     strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
                 }
-                calculatedDamageToDeal = strengthWeakness.calculateDamage(this.GetComponent<Unit>().unitType, other.GetComponent<Unit>().unitType, damageToDeal);
+                calculatedDamageToDeal = strengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, opponentIdentity, isFlipped);
-                if (GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed == GetComponentInParent<UnitMovement>().maxSpeed) { calculatedDamageToDeal += 20; }
+                if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 //if (targeter.tag.ToLower().Contains("king"))
                 //    Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
-                if (GetComponentInParent<Unit>().unitType == UnitMeta.UnitType.TANK)
+                if (unit.unitType == UnitMeta.UnitType.TANK)
                 {
-                    GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = GetComponentInParent<UnitMovement>().originalSpeed;
-                    GetComponentInParent<UnitPowerUp>().canSpawnEffect = true;
+                    unit.GetUnitMovement().GetNavMeshAgent().speed = unit.GetUnitMovement().originalSpeed;
+                    unit.GetUnitPowerUp().canSpawnEffect = true;
                 }
                 other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                
-                
-                
                 cmdSpecialEffect(other.transform.position);
-                if (calculatedDamageToDeal > damageToDeal ) { cmdCMVirtual(); }
+                if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmdCMVirtual(); }
                 //cmdCMFreeLook();
                 if(!IsAreaOfEffect)
                     break;

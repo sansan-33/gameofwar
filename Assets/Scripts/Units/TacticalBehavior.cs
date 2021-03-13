@@ -295,6 +295,21 @@ public class TacticalBehavior : MonoBehaviour
         StartCoroutine(DisableBehavior(playerID, leaderid));
         StartCoroutine(EnableBehavior(playerID, leaderid));
     }
+    public void StopTacticalBehavior(int playerID, UnitMeta.UnitType unitType)
+    {
+        int leaderid = 0;
+        foreach (var leader in leaders[PLAYERID])
+        {
+            if (leader.Value.GetComponent<Unit>().unitType == unitType)
+            {
+                leaderid = leader.Key;
+                break;
+            }
+        }
+        StopCoroutine(EnableBehavior(playerID, leaderid));
+        StartCoroutine(DisableBehavior(playerID, leaderid));
+        //StartCoroutine(EnableBehavior(playerID, leaderid));
+    }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
         if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
