@@ -301,6 +301,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void StopTacticalBehavior(int playerID, UnitMeta.UnitType unitType)
     {
+        Debug.Log($"StopTacticalBehavior {unitType} ");
         int leaderid = 0;
         foreach (var leader in leaders[PLAYERID])
         {
@@ -310,6 +311,7 @@ public class TacticalBehavior : MonoBehaviour
                 break;
             }
         }
+        Debug.Log($"StopTacticalBehavior {unitType} leaderid {leaderid}");
         StopCoroutine(EnableBehavior(playerID, leaderid));
         StartCoroutine(DisableBehavior(playerID, leaderid));
         //StartCoroutine(EnableBehavior(playerID, leaderid));
