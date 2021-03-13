@@ -104,7 +104,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 //Debug.Log($"unitPreviewInstance{unitPreviewInstance}");
                 EmptyCard.GetComponentInChildren<Image>().color = Color.white;
                 if (whereCanNotPlaceUnitImage == null) { whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage"); }
-                whereCanNotPlaceUnitImage.SetActive(false);
+                whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, 2000, 0);
                 if (unitPreviewInstance != null) { Destroy(unitPreviewInstance); }
             }
 
@@ -139,7 +139,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private void MoveUnitInstance()
     {
         if (whereCanNotPlaceUnitImage == null) { whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage"); }
-        whereCanNotPlaceUnitImage.SetActive(true);
+        //whereCanNotPlaceUnitImage.SetActive(true);
         whereCanNotPlaceUnitImage.GetComponent<RectTransform>().sizeDelta = new Vector2(Screen.width, (Screen.height / 8) * 5);
         whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, (Screen.height / 8)*2, 0);
         if (localFactory == null)
@@ -197,7 +197,8 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
         if (unitPreviewInstance != null)
         {
-            whereCanNotPlaceUnitImage.SetActive(false);
+            Destroy(unitPreviewInstance);
+            whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, 2000, 0);
             Ray ray = mainCamera.ScreenPointToRay(eventData.position);
 
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
@@ -208,7 +209,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 if (GetComponent<Card>().eleixers.eleixer < uniteleixer)
                 {
                     Debug.Log("hit");
-                    Destroy(unitPreviewInstance);
+                    //Destroy(unitPreviewInstance);
                     EmptyCard.GetComponentInChildren<Image>().color = Color.white;
                     transform.position = startPos;
                   //  transform.SetParent(startParent);
@@ -219,7 +220,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 
                 GetComponent<Card>().DropUnit(unitPreviewInstance.transform.position);
 
-                Destroy(unitPreviewInstance);
+               
                 Debug.Log("destroy card");
                 this.GetComponentInParent<Player>().moveCard(GetComponent<Card>().cardPlayerHandIndex);
                 dealManagers.GetComponent<CardDealer>().Hit();
