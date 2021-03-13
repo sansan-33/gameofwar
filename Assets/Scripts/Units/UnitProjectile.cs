@@ -16,18 +16,19 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
     [SerializeField] private GameObject specialEffectPrefab = null;
+    [SerializeField] private ElementalDamage.Element element;
     NetworkIdentity opponentIdentity;
     public static event Action onKilled;
-   // private float damageToDealOriginal;
     private StrengthWeakness strengthWeakness;
-    RTSPlayer player;
     int playerid = 0;
-
+    int enemyid = 0;
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }
-        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerid = player.GetPlayerID();
+        enemyid = player.GetEnemyID();
+        if (strengthWeakness == null) { strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>(); }
         //Debug.Log($"damageToDealOriginal {damageToDealOriginal}damageToDeals{damageToDeals}");
         //damageToDealOriginal += damageToDeals;
         //Debug.Log($"damageToDealOriginal after added{damageToDealOriginal}damageToDeals{damageToDeals}");
@@ -51,8 +52,8 @@ public class UnitProjectile : NetworkBehaviour
         damageToDeals = damageToDealOriginal;
         // Not attack same connection client object except AI Enemy
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1) {
-            if ((other.tag == "Player" + player.GetEnemyID() || other.tag == "King" + player.GetEnemyID() ) && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
-            if ((other.tag == "Player" + player.GetPlayerID() || other.tag == "King" + player.GetPlayerID() ) && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
+            if ((other.tag == "Player" + enemyid || other.tag == "King" + enemyid) && unitType == "Enemy" ) { return; }  //check to see if it belongs to the player, if it does, do nothing
+            if ((other.tag == "Player" + playerid || other.tag == "King" + playerid ) && unitType == "Player") { return; }  //check to see if it belongs to the player, if it does, do nothing
         }
         else // Multi player seneriao
         {
@@ -81,12 +82,13 @@ public class UnitProjectile : NetworkBehaviour
             //gameObject.GetComponent<MeshRenderer>().enabled = false;
             //gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}"); 
-            strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
+            if (strengthWeakness == null) { strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>(); }
             //Debug.Log($"before strengthWeakness{damageToDeals}");
             damageToDeals = strengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             //Debug.Log("call spawn text");
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
-            cmdSpecialEffect(other.transform.position);
+            cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
+            elementalEffect(element, other.transform.GetComponent<Unit>());
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($"health{health}other{other}");
@@ -97,6 +99,16 @@ public class UnitProjectile : NetworkBehaviour
             }
             DestroySelf();
         }
+    }
+    private void elementalEffect(ElementalDamage.Element element, Unit other)
+    {
+        switch (element)
+        {
+            case ElementalDamage.Element.ELECTRIC:
+                other.GetUnitPowerUp().cmdSpeedUp(-1);
+                break;
+        }
+
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
@@ -133,11 +145,9 @@ public class UnitProjectile : NetworkBehaviour
         }
     }
     [Command]
-    private void cmdSpecialEffect(Vector3 position)
+    private void cmdSpecialEffect(Vector3 position )
     {
-       
         GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
-        //Debug.Log(effect);
         NetworkServer.Spawn(effect, connectionToClient);
     }
     [Server]

@@ -6,19 +6,19 @@ using UnityEngine;
 public class Targeter : NetworkBehaviour
 {
     private Targetable target;
-    public enum AttackType { Shoot, Slash, Magic, Heal, Nothing };
-    public AttackType targeterAttackType;
+    [SerializeField] private Transform aimAtPoint = null;
 
     public Targetable GetTarget()
     {
-        //Debug.Log($"Targeter-->{target}");
         return target;
     }
-
+    public Transform GetAimAtPoint()
+    {
+        return aimAtPoint;
+    }
     public override void OnStartServer()
     {
         GameOverHandler.ServerOnGameOver += ServerHandleGameOver;
-        targeterAttackType = AttackType.Nothing;
     }
 
     public override void OnStopServer()
@@ -35,11 +35,6 @@ public class Targeter : NetworkBehaviour
         target = newTarget;
         //Debug.Log($"{this.transform.GetComponent<Unit>().unitType}Target-->{target}");
     }
-    [Command]
-    public void CmdSetAttackType( AttackType attackType)
-    {
-        targeterAttackType = attackType;
-    }
     [Server]
     public void ClearTarget()
     {
@@ -51,8 +46,5 @@ public class Targeter : NetworkBehaviour
     {
         ClearTarget();
     }
-    private void Update()
-    {
-        //Debug.Log($"Update Tag{this.tag}///////////////////////{this.transform.GetComponent<Unit>().unitType}Target-->{target}");
-    }
+    
 }

@@ -202,6 +202,10 @@ public class TacticalBehavior : MonoBehaviour
                 
                 if (group == 1 || group ==2 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
+                if(child.GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER )
+                    agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyid);
+                else
+                    agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
                 if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
@@ -297,8 +301,17 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void StopTacticalBehavior(int playerID, UnitMeta.UnitType unitType)
     {
-        //StopCoroutine(EnableBehavior(playerID, leaderid));
-        //StartCoroutine(DisableBehavior(playerID, leaderid));
+        int leaderid = 0;
+        foreach (var leader in leaders[PLAYERID])
+        {
+            if (leader.Value.GetComponent<Unit>().unitType == unitType)
+            {
+                leaderid = leader.Key;
+                break;
+            }
+        }
+        StopCoroutine(EnableBehavior(playerID, leaderid));
+        StartCoroutine(DisableBehavior(playerID, leaderid));
         //StartCoroutine(EnableBehavior(playerID, leaderid));
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
