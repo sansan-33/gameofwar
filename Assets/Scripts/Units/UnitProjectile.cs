@@ -16,6 +16,7 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
     [SerializeField] private GameObject specialEffectPrefab = null;
+    [SerializeField] private ElementalDamage.Element element;
     NetworkIdentity opponentIdentity;
     public static event Action onKilled;
     private StrengthWeakness strengthWeakness;
@@ -87,6 +88,7 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log("call spawn text");
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
             cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
+            elementalEffect(element, other.transform.GetComponent<Unit>());
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             //Debug.Log($"health{health}other{other}");
@@ -97,6 +99,16 @@ public class UnitProjectile : NetworkBehaviour
             }
             DestroySelf();
         }
+    }
+    private void elementalEffect(ElementalDamage.Element element, Unit other)
+    {
+        switch (element)
+        {
+            case ElementalDamage.Element.ELECTRIC:
+                other.GetUnitPowerUp().cmdSpeedUp(-1);
+                break;
+        }
+
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
@@ -133,10 +145,9 @@ public class UnitProjectile : NetworkBehaviour
         }
     }
     [Command]
-    private void cmdSpecialEffect(Vector3 position)
+    private void cmdSpecialEffect(Vector3 position )
     {
         GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
-        //Debug.Log(effect);
         NetworkServer.Spawn(effect, connectionToClient);
     }
     [Server]

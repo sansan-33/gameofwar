@@ -202,6 +202,10 @@ public class TacticalBehavior : MonoBehaviour
                 
                 if (group == 1 || group ==2 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
+                if(child.GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER )
+                    agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyid);
+                else
+                    agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
                 if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);

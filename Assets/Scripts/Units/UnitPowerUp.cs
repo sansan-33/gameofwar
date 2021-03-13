@@ -10,8 +10,8 @@ public class UnitPowerUp : NetworkBehaviour
     [SerializeField] private GameObject specialEffectPrefab = null;
     [SerializeField] private BattleFieldRules battleFieldRules = null;
     public bool canSpawnEffect = true;
-    public bool CanHalfSpeed = true;
-    public bool CanTimeSpeed = true;
+    //public bool CanHalfSpeed = true;
+    //public bool CanTimeSpeed = true;
     bool CanPowerUp = true;
     Unit unit;
     Transform unitTransform;
@@ -40,7 +40,7 @@ public class UnitPowerUp : NetworkBehaviour
                     RpcScale(unitTransform, unit.gameObject);
                     break;
                 case UnitMeta.UnitType.CAVALRY :
-                    ServerSetSpeed();
+                    ServerSetSpeed(10);
                     break;
             }
         }
@@ -58,6 +58,12 @@ public class UnitPowerUp : NetworkBehaviour
             CanHalfSpeed = true;
         }
        */
+    }
+    [Command]
+    public void cmdSpeedUp(int speed)
+    {
+        Debug.Log($"cmd speed up ? {speed}");
+        ServerSetSpeed(speed);
     }
     [Server]
     public void ServerPowerUp(GameObject unit, int star)
@@ -103,12 +109,12 @@ public class UnitPowerUp : NetworkBehaviour
         Scale(unitTransform, unit);
     }
     [Server]
-    public void ServerSetSpeed()
+    public void ServerSetSpeed(int speed)
     {
-        if (agent.speed < GetComponent<UnitMovement>().maxSpeed)
+        if (agent.speed < GetComponent<UnitMovement>().maxSpeed && agent.speed > 0)
         {
-            SpeedUp(agent);
-            RpcSpeedUp(agent.transform.gameObject);
+            SpeedUp(agent, speed);
+            RpcSpeedUp(agent.transform.gameObject, speed);
         }
         if (canSpawnEffect)
         {
@@ -117,14 +123,14 @@ public class UnitPowerUp : NetworkBehaviour
             canSpawnEffect = false;
         }
     }
-    private void SpeedUp(NavMeshAgent agent)
+    private void SpeedUp(NavMeshAgent agent, int speed)
     {
-        agent.speed += 10;
+        agent.speed += speed;
     }
     [ClientRpc]
-    private void RpcSpeedUp(GameObject agent)
+    private void RpcSpeedUp(GameObject agent, int speed)
     {
-        SpeedUp(agent.GetComponent<UnitMovement>().GetNavMeshAgent());
+        SpeedUp(agent.GetComponent<UnitMovement>().GetNavMeshAgent() , speed);
     }
 
 }
