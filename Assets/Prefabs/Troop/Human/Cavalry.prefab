@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &6154521498735348628
+--- !u!114 &2331498346448980663
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12,25 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f233e4c5d6f4aa6a1618016c2233f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile: {fileID: 11400000, guid: ebe305db6e17a48e3a8229baccac6581, type: 2}
-  profileSync: 0
+  profile: {fileID: 0}
+  profileSync: 1
   target: {fileID: 1578131097934126074}
   _active: 1
   executeInEditMode: 0
   ignoreFrames: 3
-  duration: 3
+  duration: 1
   continuous: 0
-  smooth: 0
+  smooth: 1
   checkWorldPosition: 0
-  minDistance: 0.5
+  minDistance: 0.1
   worldPositionRelativeOption: 0
   worldPositionRelativeTransform: {fileID: 0}
   checkScreenPosition: 1
-  minPixelDistance: 5
-  stepsBufferSize: 1023
-  maxStepsPerFrame: 25
+  minPixelDistance: 10
+  stepsBufferSize: 1024
+  maxStepsPerFrame: 34
   checkTime: 0
-  timeInterval: 1
+  timeInterval: 2
   checkCollisions: 0
   orientToSurface: 1
   ground: 0
@@ -43,9 +43,9 @@ MonoBehaviour:
   subMeshMask: -1
   colorOverTime:
     serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 1, g: 1, b: 1, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
+    key0: {r: 0.25735295, g: 0.3834132, b: 1, a: 1}
+    key1: {r: 0, g: 0, b: 1, a: 1}
+    key2: {r: 1, g: 1, b: 1, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
@@ -53,7 +53,7 @@ MonoBehaviour:
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
     ctime1: 65535
-    ctime2: 0
+    ctime2: 65535
     ctime3: 0
     ctime4: 0
     ctime5: 0
@@ -70,14 +70,14 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  colorSequence: 2
+  colorSequence: 0
   color: {r: 1, g: 1, b: 1, a: 1}
-  colorCycleDuration: 2
+  colorCycleDuration: 3
   pingPongSpeed: 1
   colorStartPalette:
     serializedVersion: 2
-    key0: {r: 0.11006278, g: 0.31151605, b: 1, a: 1}
-    key1: {r: 0, g: 0.275064, b: 1, a: 1}
+    key0: {r: 1, g: 0, b: 0, a: 1}
+    key1: {r: 0, g: 1, b: 0, a: 1}
     key2: {r: 0, g: 0, b: 1, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
@@ -85,7 +85,7 @@ MonoBehaviour:
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
     ctime0: 0
-    ctime1: 31804
+    ctime1: 32768
     ctime2: 65535
     ctime3: 0
     ctime4: 0
@@ -104,8 +104,8 @@ MonoBehaviour:
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
   cam: {fileID: 0}
-  effect: 0
-  texture: {fileID: 2800000, guid: 149c9fc2e4e4f45d9a2e1f3bb0ff9282, type: 3}
+  effect: 4
+  texture: {fileID: 2800000, guid: 5d67d51a1e4c947a2aaebc1c814a3b7c, type: 3}
   scale: {x: 1, y: 1, z: 1}
   scaleStartRandomMin: {x: 1, y: 1, z: 1}
   scaleStartRandomMax: {x: 1, y: 1, z: 1}
@@ -133,20 +133,20 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scaleUniform: 1
+  scaleUniform: 0
   localPositionRandomMin: {x: 0, y: 0, z: 0}
   localPositionRandomMax: {x: 0, y: 0, z: 0}
-  laserBandWidth: 0.1
+  laserBandWidth: 0.2
   laserIntensity: 20
-  laserFlash: 0.2
-  trailTint: {r: 0, g: 0, b: 0.1, a: 1}
+  laserFlash: 0.1
+  trailTint: {r: 0, g: 0, b: 0.6603774, a: 0.72156864}
   animationStates: 
   lookTarget: {fileID: 0}
   lookToCamera: 1
   textureCutOff: 0.5
-  normalThreshold: 0.3
+  normalThreshold: 0.1
   useLastAnimationState: 0
-  maxBatches: 50
+  maxBatches: 15
   meshPoolSize: 256
 --- !u!95 &4480517457696800008
 Animator:
@@ -494,6 +494,18 @@ PrefabInstance:
     - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.66
       objectReference: {fileID: 0}
     - target: {fileID: 4649854274305143349, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_LocalPosition.x
