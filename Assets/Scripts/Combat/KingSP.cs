@@ -35,7 +35,7 @@ public class KingSP : MonoBehaviour
     public void FindAttackTargetInDistance()
     {
         if(attackPoint == null) { return; }
-        if(SPAmount != SPCost) { return; }
+        //if(SPAmount != SPCost) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, transform.localScale * 15, Quaternion.identity, layerMask);
         var distance = float.MaxValue;
@@ -63,7 +63,7 @@ public class KingSP : MonoBehaviour
         }
         if(closestTarget == null) { return; }
         Debug.Log($"attack {closestTarget}");
-        GetComponent<UnitMovement>().CmdMove(hitCollider.transform.position);
+        GetComponent<UnitMovement>().CmdMove(closestTarget.transform.position);
         GetComponent<UnitWeapon>().IsKingSP = true;
         //Debug.Log(hitColliders.Length);
         //Debug.Log(player.GetPlayerID());
