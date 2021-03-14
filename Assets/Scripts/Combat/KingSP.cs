@@ -72,13 +72,15 @@ public class KingSP : MonoBehaviour
             
         }
         if(closestTarget == null) { SPAmount -= (int)SPCost; return; }
-        float Timer = 1.5f;
+        float Timer = 3f;
         while (Timer > 0) { Timer -= Time.deltaTime; }
 
         GetComponent<UnitWeapon>().ScaleDamageDeal(distance/100);
-       // Debug.Log($"distance{ distance} DashDamage{ GetComponent<UnitWeapon>().DashDamage}");
-        GetComponent<UnitPowerUp>().cmdSpeedUp(80);
-        GetComponent<UnitMovement>().CmdMove(closestTarget.transform.position);
+        // Debug.Log($"distance{ distance} DashDamage{ GetComponent<UnitWeapon>().DashDamage}");
+        // GetComponent<UnitPowerUp>().cmdSpeedUp(1000);
+
+        //GetComponent<UnitMovement>().CmdMove(closestTarget.transform.position);
+        transform.position = closestTarget.transform.position;
         GetComponent<UnitWeapon>().IsKingSP = true;
         IsSuperAttack = true;
         //Debug.Log(hitColliders.Length);

@@ -112,10 +112,16 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, opponentIdentity, isFlipped);
                 if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
+                if (IsKingSP == true)
+                {
+                    //GetComponent<KingSP>().IsSuperAttack = false;
+                }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
                 {
-                   // Debug.Log("ReScaleDamageDealing");
+                    
+                    cmdCMVirtual();
+                    //GetComponent<NavMeshAgent>().speed = GetComponent<UnitMovement>().originalSpeed;
                     ReScaleDamageDeal();
                 }
                 
@@ -168,8 +174,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             }
             if(IsKingSP == true)
             {
+
                
-                GetComponent<NavMeshAgent>().speed = GetComponent<UnitMovement>().originalSpeed;
                 GetComponent<KingSP>().FindAttackTargetInDistance();
             }
         }
