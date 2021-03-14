@@ -63,6 +63,7 @@ public class KingSP : MonoBehaviour
         }
         if(closestTarget == null) { return; }
         Debug.Log($"attack {closestTarget}");
+        GetComponent<UnitPowerUp>().cmdSpeedUp(20);
         GetComponent<UnitMovement>().CmdMove(closestTarget.transform.position);
         GetComponent<UnitWeapon>().IsKingSP = true;
         //Debug.Log(hitColliders.Length);

@@ -442,20 +442,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
             }
         }
-        
-        /*public void KingSPTarget()
-        {
-            float Timer = 1;
-            while (Timer > 0) { Timer -= Time.deltaTime; }
-            tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<KingSP>().GetTargetTransform().transform;
-            tacticalAgent.TargetDamagable = tacticalAgent.transform.GetComponent<KingSP>().GetTargetTransform().transform.GetComponent<IDamageable>();
-        }*/
         /// <summary>
         /// Finds a target transform closest to the agent.
         /// </summary>
         protected void FindAttackTarget()
         {
-
             Transform target = null;
             IDamageable damageable = null;
             if (tacticalAgent.isCollide(tacticalAgent) && !UnitMeta.CanCollide.ContainsKey(UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][tacticalAgent.transform.GetComponent<Unit>().unitType]))
