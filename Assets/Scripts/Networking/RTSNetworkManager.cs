@@ -135,7 +135,7 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(UnitMeta.UnitKey.HERO, 2);
+                    //militaryList.Add(UnitMeta.UnitKey.HERO, 2);
                     //militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
                     //militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
                     //militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 1);

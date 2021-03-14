@@ -113,7 +113,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         if (agent.speed < GetComponent<UnitMovement>().maxSpeed && agent.speed > 0)
         {
-            SpeedUp(agent, speed);
+            //SpeedUp(agent, speed);
             RpcSpeedUp(agent.transform.gameObject, speed);
         }
         if (canSpawnEffect)

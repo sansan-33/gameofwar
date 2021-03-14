@@ -4,6 +4,7 @@ using BehaviorDesigner.Runtime.Tactical;
 using Mirror;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 {
@@ -19,6 +20,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private GameObject specialEffectPrefab  = null;
     [SerializeField] private bool IsAreaOfEffect = false;
     private float calculatedDamageToDeal ;
+    private float originalDamage;
+    public float DashDamage = 0;
     public bool IsKingSP = false;
     NetworkIdentity opponentIdentity;
     bool m_Started;
@@ -43,6 +46,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         //Debug.Log($"Is strengthWeakness is null ? {strengthWeakness == null}");
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
+        originalDamage = damageToDeal;
     }
 
     // Commands are sent from player objects on the client to player objects on the server
@@ -107,10 +111,18 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 calculatedDamageToDeal = strengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, opponentIdentity, isFlipped);
                 if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
+                //calculatedDamageToDeal += DashDamage;
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
-                //if (targeter.tag.ToLower().Contains("king"))
-                //    Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
-                if (unit.unitType == UnitMeta.UnitType.TANK)
+                if (IsKingSP == true)
+                {
+                   // Debug.Log("ReScaleDamageDealing");
+                    ReScaleDamageDeal();
+                }
+                
+                    // DashDamage = 0;
+                    //if (targeter.tag.ToLower().Contains("king"))
+                    //    Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
+                    if (unit.unitType == UnitMeta.UnitType.TANK)
                 {
                     unit.GetUnitMovement().GetNavMeshAgent().speed = unit.GetUnitMovement().originalSpeed;
                     unit.GetUnitPowerUp().canSpawnEffect = true;
@@ -142,7 +154,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command]
     public void CmdDealDamage(GameObject enemy,  float damge)
     {
+        
+        //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
        bool iskill =  enemy.GetComponent<Health>().DealDamage(damge);
+        
         if (iskill == true)
         {
             powerUpAfterKill(this.transform.gameObject);
@@ -153,6 +168,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             }
             if(IsKingSP == true)
             {
+               
+                GetComponent<NavMeshAgent>().speed = GetComponent<UnitMovement>().originalSpeed;
                 GetComponent<KingSP>().FindAttackTargetInDistance();
             }
         }
@@ -242,6 +259,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         damageToDeal =  (int)  (damageToDeal * factor);
     }
+    public void ReScaleDamageDeal()
+    {
+        damageToDeal = originalDamage;
+    }
     public void ScaleAttackRange(float factor)
     {
         attackRange = attackRange * factor;
@@ -266,5 +287,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
 
     }
-
+    private void Update()
+    {
+       // if (name == "*KING"&&tag == "King0")
+       // {
+        //    Debug.Log($"Update DasdhDamage{DashDamage} name --> {name} KingSp = {IsKingSP}");
+       // }
+        
+    }
 }

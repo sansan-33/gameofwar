@@ -301,7 +301,7 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void StopTacticalBehavior(int playerID, UnitMeta.UnitType unitType)
     {
-        Debug.Log($"StopTacticalBehavior {unitType} ");
+       //Debug.Log($"StopTacticalBehavior {unitType} ");
         int leaderid = 0;
         foreach (var leader in leaders[PLAYERID])
         {
