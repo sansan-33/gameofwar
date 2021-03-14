@@ -62,18 +62,12 @@ public class Card : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        Debug.Log($" Card OnPointerDown ");
         if (GetComponent<DragCard>().unitPreviewInstance != null) { return; }
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-        Debug.Log($"eleixer {eleixers.eleixer}, { (UnitMeta.UnitType)type}:{ uniteleixer}");
-        if (eleixers.eleixer < uniteleixer)
-        {
-            return;
-        }
+        if (eleixers.eleixer < uniteleixer) { return; }
         eleixers.eleixer -= uniteleixer;
-        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / index {this.cardPlayerHandIndex} ");
         if(type != (int) UnitMeta.UnitType.WALL)
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
@@ -126,6 +120,10 @@ public enum Card_Stars
 public enum Card_Numbers
 { 
     ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL
+}
+public enum Card_Deck
+{
+    ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN
 }
 
 

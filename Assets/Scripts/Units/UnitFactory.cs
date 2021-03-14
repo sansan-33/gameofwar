@@ -91,8 +91,11 @@ public class UnitFactory : NetworkBehaviour
             //spawnOffset.y = spawnPosition.y;
             GameObject unit = Instantiate(unitPrefab, spawnPosition, rotation) as GameObject;
             NetworkServer.Spawn(unit, connectionToClient);
-            RpcTag(unit, playerID, unitName, star, teamColor, spawnPointIndex);
-            unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit, star);
+            if (unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.WALL)
+            {
+                RpcTag(unit, playerID, unitName, star, teamColor, spawnPointIndex);
+                unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit, star);
+            }
             //Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
             spawnCount--;
         }
@@ -131,7 +134,7 @@ public class UnitFactory : NetworkBehaviour
         unit.tag = ((unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
         //Debug.Log($"RpcTag color is {teamColor}");
         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
-        unit.GetComponentInChildren<UnitBody>().ServerChangeUnitRenderer(unit,playerID, star);
+        unit.GetComponentInChildren<UnitBody>().ServerChangeUnitRenderer(unit, playerID, star);
         unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointIndex);
     }
     public GameObject GetUnitPrefab(UnitMeta.Race race, UnitMeta.UnitType unitType)

@@ -83,7 +83,6 @@ public class SpawnEnemies : MonoBehaviour
                 isAlive++;
             }
         }
-        Debug.Log($"isUnitAlive {unitType} {isAlive}");
         return isAlive;
     }
     public void HandleGameOver(string winner)

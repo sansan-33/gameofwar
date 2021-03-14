@@ -18,6 +18,39 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 0}
   battleFieldRules: {fileID: 0}
   canSpawnEffect: 1
+--- !u!114 &3075716916448192096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7438937032517910368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a48b4fe81098f469ba877305cec45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  buildingPreview: {fileID: 0}
+  resourceCost: 10
+  health: {fileID: 7438937032517910377}
+  unitMovement: {fileID: 0}
+  unitPowerUp: {fileID: 4885380812970374901}
+  id: -1
+  taskStatus: {fileID: 0}
+  targeter: {fileID: 0}
+  onSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeselected:
+    m_PersistentCalls:
+      m_Calls: []
+  unitType: 5
+  race: 0
+  isLeader: 0
+  isScaled: 0
+  spawnPointIndex: 0
 --- !u!1001 &2252635435104134657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,3 +207,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6818829978409247740, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
   m_PrefabInstance: {fileID: 4151527679291841695}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7438937032517910377 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6818829978409247734, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+  m_PrefabInstance: {fileID: 4151527679291841695}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7438937032517910368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9720b78f991e38444b22ee6da4435ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

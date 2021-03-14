@@ -24,6 +24,7 @@ public class HealthDisplay : MonoBehaviour
     void Update()
     {
         healthBarParent.transform.rotation = startRotation;
+        if(taskStatusParent!=null)
         taskStatusParent.transform.rotation = startRotation;
     }
     private void OnDestroy()
