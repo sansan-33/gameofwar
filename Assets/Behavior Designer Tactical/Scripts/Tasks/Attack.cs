@@ -13,15 +13,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
     [TaskIcon("Assets/Behavior Designer Tactical/Editor/Icons/{SkinColor}AttackIcon.png")]
     public class Attack : NavMeshTacticalGroup
     {
-        private UnitFactory localFactory;
-        private int i = 0;
+        private int HEARTBEAT = 0;
+
         public override TaskStatus OnUpdate()
         {
             var baseStatus = base.OnUpdate();
             if (baseStatus != TaskStatus.Running || !started) {
                 return baseStatus;
             }
-            tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : Searching target ");
+            tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : Searching target " + HEARTBEAT++);
             if (MoveToAttackPosition()) {
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : "  + tacticalAgent.TargetTransform.name + " (" + (int) (tacticalAgent.transform.position -  tacticalAgent.TargetTransform.position).sqrMagnitude + ")" );
                 tacticalAgent.TryAttack();

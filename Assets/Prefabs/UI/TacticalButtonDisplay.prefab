@@ -483,7 +483,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3617820999361674003}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.6595416, y: 2.6595416, z: 0.8864972}
   m_Children: []
   m_Father: {fileID: 6254626941700526057}
@@ -491,7 +491,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.48000002, y: 0.51000005}
   m_AnchorMax: {x: 0.48000002, y: 0.51000005}
-  m_AnchoredPosition: {x: 1242.3374, y: -526.53784}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 80, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &4517454768850542265
@@ -679,16 +679,16 @@ MonoBehaviour:
   startParent: {fileID: 0}
   floorMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 4096
   direction: 
   directionChosen: 0
-  DragPoint: {fileID: 0}
+  DragPoint: {fileID: 3617820999361674003}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32
   unitPreviewInstance: {fileID: 0}
-  unitPrefab: {fileID: 0}
-  EmptyCard: {fileID: 0}
+  unitPrefab: {fileID: 3461276531514663453, guid: 957e84e0d85334b2cafe41c35a784471, type: 3}
+  EmptyCard: {fileID: 7305615468774818121}
 --- !u!114 &5966211739758400135
 MonoBehaviour:
   m_ObjectHideFlags: 0

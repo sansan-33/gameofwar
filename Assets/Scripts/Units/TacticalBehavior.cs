@@ -343,9 +343,9 @@ public class TacticalBehavior : MonoBehaviour
     }
     public string GetTacticalStatus()
     {
-        if ("Player" + PLAYERID is null || "Player" + PLAYERID == "") { return ""; }
+        //if ("Player" + PLAYERID is null || "Player" + PLAYERID == "") { return ""; }
         var sb = new System.Text.StringBuilder();
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + ENEMYID);
 
         foreach (GameObject army in armies) {
             

@@ -125,7 +125,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void SpeedUp(NavMeshAgent agent, int speed)
     {
-        if (agent.speed < 2  ) { return; }
+        if (agent.speed < 3  ) { return; }
         agent.speed += speed;
     }
     [ClientRpc]

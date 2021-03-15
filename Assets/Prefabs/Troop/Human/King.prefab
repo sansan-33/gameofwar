@@ -35,9 +35,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   attackPoint: {fileID: 4805549537288430608}
+  minAttackRange: 200
   SPCost: 10
   SPAmount: 0
-  attacklengh: 5
+  attackRange: 30
 --- !u!114 &6035191436232915732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53,7 +54,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   targeter: {fileID: 4430539764549980816}
-  damageToDeal: 5
+  damageToDeal: 10
   textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   camFreeLookPrefab: {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
@@ -64,6 +65,7 @@ MonoBehaviour:
     m_Bits: 1024
   specialEffectPrefab: {fileID: 1750940742320366, guid: aa5aad65fe5584a068dc9a795463210d, type: 3}
   IsAreaOfEffect: 1
+  DashDamage: 0
   IsKingSP: 0
   repeatAttackDelay: 1
   attackAngle: 1

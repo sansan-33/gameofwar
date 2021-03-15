@@ -10,10 +10,10 @@ using TMPro;
 public struct CardFace
 {
     public Card_Suits suit;
-    public Card_Deck numbers;
+    public Card_Numbers numbers;
     public Card_Stars star;
 
-    public CardFace(Card_Suits suit, Card_Deck numbers, Card_Stars star)
+    public CardFace(Card_Suits suit, Card_Numbers numbers, Card_Stars star)
     {
         this.suit = suit;
         this.numbers = numbers;
@@ -77,7 +77,7 @@ public class CardDealer : MonoBehaviour
         {
             foreach (Card_Deck number in Enum.GetValues(typeof(Card_Deck)))
             {
-                cardDeck.Add(new CardFace(suit, number, Card_Stars.Bronze));
+                cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze));
             }
         }
         // }

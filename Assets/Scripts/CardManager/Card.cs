@@ -72,7 +72,7 @@ public class Card : MonoBehaviour
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
-        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
+        //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
         localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
     }
     public void DropUnit(Vector3 SpwanPoint)

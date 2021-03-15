@@ -12,7 +12,7 @@ public class UnitMeta
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, ALL };
   
-    public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 }, { UnitType.WALL, 3 } };
+    public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitType, int> UnitSelfDestory = new Dictionary<UnitType, int>() { { UnitType.WALL, 30 }  };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
     {

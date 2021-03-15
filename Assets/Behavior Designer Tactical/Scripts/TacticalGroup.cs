@@ -449,20 +449,22 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             Transform target = null;
             IDamageable damageable = null;
-            if (tacticalAgent.isCollide(tacticalAgent) && !UnitMeta.CanCollide.ContainsKey(UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][tacticalAgent.transform.GetComponent<Unit>().unitType]))
+            Unit unit = tacticalAgent.transform.GetComponent<Unit>();
+
+            if (unit.GetUnitMovement().isCollide() && !UnitMeta.CanCollide.ContainsKey(UnitMeta.UnitRaceTypeKey[unit.race ][unit.unitType]))
             {
-                //if (tacticalAgent.transform.name.ToLower().Contains("king"))
-                //    Debug.Log($"{tacticalAgent.transform.name} FindAttackTarget -- collide {tacticalAgent.collideTargetTransform().name} ");
-                IDamageable collideTarget = tacticalAgent.collideTarget();
-                Transform collideTargetTransform = tacticalAgent.collideTargetTransform();
+                //if (tacticalAgent.transform.name.ToLower().Contains("tank"))
+                //    Debug.Log($"{tacticalAgent.transform.name}  -- collide {tacticalAgent.collideTargetTransform().name} ");
+                IDamageable collideTarget = unit.GetUnitMovement().collideTarget();
+                Transform collideTargetTransform = unit.GetUnitMovement().collideTargetTransform();
                 tacticalAgent.TargetTransform = collideTargetTransform;
                 tacticalAgent.TargetDamagable = collideTarget;
 
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
-                //if (tacticalAgent.transform.name.ToLower().Contains("king"))
-                //    Debug.Log($"FindAttackTarget -- ClosestTarget");
+                //if (tacticalAgent.transform.name.ToLower().Contains("tank") && tacticalAgent.TargetTransform != null  && !tacticalAgent.TargetDamagable.IsAlive())
+                //    Debug.Log($"{tacticalAgent.transform.name}  Target -- ClosestTarget -- {target.name} is not alive");
 
                 ClosestTarget(transform, ref target, ref damageable);
                 if (useTargetBone.Value)
@@ -479,47 +481,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 tacticalAgent.TargetTransform = target;
                 tacticalAgent.TargetDamagable = damageable;
+                //if (tacticalAgent.transform.name.ToLower().Contains("tank")  )
+                //    Debug.Log($"{tacticalAgent.transform.name} Found Attack Target -- ClosestTarget -- {target.name}");
 
             }
-        }
-
-        /// <summary>
-        /// Finds a target transform closest to the agent.
-        /// </summary>
-        protected void FindAttackTargetOLD()
-        {
-            Transform target = null;
-            IDamageable damageable = null;
-            //Debug.Log($"TG-->Tag{tacticalAgent.transform.tag}  {tacticalAgent.TargetTransform}");
-            // Debug.Log($"isAlive{tacticalAgent.TargetDamagable}");
-            // Debug.Log($"{tacticalAgent.TargetTransform}");
-            if (tacticalAgent.isCollide(tacticalAgent))
-            {
-                IDamageable collideTarget = tacticalAgent.collideTarget();
-                //CollideTarget(transform, collideTarget, ref target, ref damageable);
-
-            }
-            else if (tacticalAgent.TargetTransform == null)//|| !tacticalAgent.TargetDamagable.IsAlive())
-            {
-
-                ClosestTarget(transform, ref target, ref damageable);
-                if (useTargetBone.Value)
-                {
-                    Animator targetAnimator;
-                    if ((targetAnimator = target.GetComponent<Animator>()) != null)
-                    {
-                        var bone = targetAnimator.GetBoneTransform(targetBone);
-                        if (bone != null)
-                        {
-                            target = bone;
-                        }
-                    }
-                }
-
-                // Debug.Log($"Tag-->{tacticalAgent.transform.tag}  {tacticalAgent.transform.GetComponent<Unit>().unitType}    {tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget()}");  
-                //if (tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform == null) { return; }
-                //tacticalAgent.TargetTransform = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().transform;
-                //tacticalAgent.TargetDamagable = damageable;
+            else {
+                //if (tacticalAgent.transform.name.ToLower().Contains("tank"))
+                   // Debug.Log($"{tacticalAgent.transform.name} -- target is {tacticalAgent.TargetTransform.name} ");
             }
         }
         public override void OnDrawGizmos()
@@ -551,11 +519,14 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 tacticalAgent.SetDestination(tacticalAgent.TargetTransform.position);
                 tacticalAgent.UpdateRotation(true);
                 tacticalAgent.AttackPosition = true;
-                //if(tacticalAgent.transform.name.ToLower().Contains("king"))
-                //    Debug.Log($"{tacticalAgent.transform.name} Can See Target {tacticalAgent.CanSeeTarget() } {tacticalAgent.TargetTransform.transform.name  } ? ");
+                //if(tacticalAgent.transform.name.ToLower().Contains("tank") && tacticalAgent.transform.GetComponent<HealthDisplay>().kills > 0 )
+                //    Debug.Log($"{tacticalAgent.transform.name} Can See Target {tacticalAgent.CanSeeTarget() } {tacticalAgent.TargetTransform.transform.name  } distance {Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position)}? ");
             }
             else
             {
+                //if (tacticalAgent.transform.name.ToLower().Contains("tank"))
+                //    Debug.Log($"{tacticalAgent.transform.name} STOP ,  Can See Target {tacticalAgent.CanSeeTarget()} ");
+
                 tacticalAgent.Stop();
                 return tacticalAgent.RotateTowardsPosition(tacticalAgent.TargetTransform.position);
             }

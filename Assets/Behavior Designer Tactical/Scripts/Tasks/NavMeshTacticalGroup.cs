@@ -38,7 +38,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 destinationSet = true;
                 destination.y = navMeshAgent.destination.y;
                 navMeshAgent.GetComponentInParent<Unit>().GetUnitPowerUp().cmdPowerUp();
-                if (navMeshAgent.destination != destination) {
+                //Once they are coilled with others. their cannot move again even killed the target because the destination is the same
+                if (navMeshAgent.destination != destination || navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().isCollided) {
                     navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdTrigger("run");
                     navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdMove(destination);
                     //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().ShowLine();

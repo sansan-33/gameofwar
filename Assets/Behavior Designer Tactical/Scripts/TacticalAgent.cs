@@ -18,17 +18,12 @@ namespace BehaviorDesigner.Runtime.Tactical
         private bool attackPosition = false;
         private Vector3 attackOffset;
         private Vector3 targetOffset;
-        private TacticalAgent tacticalAgent;
         public IAttackAgent AttackAgent { get { return attackAgent; } }
         public Transform TargetTransform { get { return targetTransform; } set { targetTransform = value; } }
         public IDamageable TargetDamagable { get { return targetDamagable; } set { targetDamagable = value; } }
         public bool AttackPosition { get { return attackPosition; } set { attackPosition = value; } }
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
-        private LayerMask layerMask = LayerMask.GetMask("Unit");
-        RTSPlayer player;
-        Targeter targeter;
-        Collider other;
         /// <summary>
         /// Caches the component referneces.
         /// </summary>
@@ -105,55 +100,7 @@ namespace BehaviorDesigner.Runtime.Tactical
             }
             return false;
         }
-        public bool isCollide(TacticalAgent tacticalAgents)
-        {
-          
-            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-            tacticalAgent = tacticalAgents;
-         
-            Collider[] hitColliders = Physics.OverlapBox(tacticalAgent.transform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale*3, Quaternion.identity, layerMask);
-            int i = 0;
-       
-            //Check when there is a new collider coming into contact with the box
-            while (i < hitColliders.Length)
-            {
-                other = hitColliders[i++];
-                
-                if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
-                {
-                    //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
-                    //Check for either player0 or king0 collide their team member
-                    if (other.tag.Contains("" + player.GetPlayerID()) && tacticalAgents.transform.tag.Contains("" + player.GetPlayerID()) ) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                    if (other.tag.Contains("" + player.GetEnemyID()) && tacticalAgents.transform.tag.Contains("" + player.GetEnemyID())) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-
-                }
-                else // Multi player seneriao
-                {
-                    //Debug.Log($"Multi player seneriao ");
-                    if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
-                    {
-                        if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
-                    }
-                }
-                //Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
-               
-                    return true;
-
-            }
-            return false;
-            
-        }
-        public IDamageable collideTarget()
-       {
-           return other.transform.GetComponent< IDamageable>();
-        }
-        public Transform collideTargetTransform()
-        {
-            return other.transform;
-        }
-        //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
-
-
+     
         /// <summary>
         /// Attacks the target.
         /// </summary>

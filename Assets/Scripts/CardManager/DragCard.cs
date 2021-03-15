@@ -58,9 +58,8 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
 
     public void OnDrag(PointerEventData eventData)
     {
-        
-            // Debug.Log(Input.mousePosition);
-            TryDragCard(Input.mousePosition.x, Input.mousePosition.y);
+        //Debug.Log(Input.mousePosition);
+        TryDragCard(Input.mousePosition.x, Input.mousePosition.y);
     }
     private void TryDragCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
     {
@@ -80,7 +79,12 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         else
             transform.position = new Vector3(mouseOrTouchPosX, mouseOrTouchPosY, 0f);
 
-        ShiftCard(mouseOrTouchPosX, mouseOrTouchPosY);
+        if (spawnLinePos <= mouseOrTouchPosY - startPos.y){
+            MoveUnitInstance();
+        }
+        else{
+            ShiftCard(mouseOrTouchPosX, mouseOrTouchPosY);
+        }
         lastXPos = mouseOrTouchPosX;
     }
     private void ShiftCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
@@ -90,23 +94,17 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         int i = 0;
         Collider other;
         bool isMove = false;
+
         //Check when there is a new collider coming into contact with the box
         while (i < hitColliders.Length)
         {
             other = hitColliders[i++];
-            if (spawnLinePos <= mouseOrTouchPosY - startPos.y)
-            {
-                //Debug.Log($"call MoveUnitInstance mouseOrTouchPosX {mouseOrTouchPosX} mouseOrTouchPosY {mouseOrTouchPosY} ");
-                MoveUnitInstance();
-            }
-            else
-            {
-                //Debug.Log($"unitPreviewInstance{unitPreviewInstance}");
-                EmptyCard.GetComponentInChildren<Image>().color = Color.white;
-                if (whereCanNotPlaceUnitImage == null) { whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage"); }
-                whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, 2000, 0);
-                if (unitPreviewInstance != null) { Destroy(unitPreviewInstance); }
-            }
+            
+            //Debug.Log($"unitPreviewInstance{unitPreviewInstance}");
+            EmptyCard.GetComponentInChildren<Image>().color = Color.white;
+            if (whereCanNotPlaceUnitImage == null) { whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage"); }
+            whereCanNotPlaceUnitImage.GetComponent<RectTransform>().localPosition = new Vector3(0, 2000, 0);
+            if (unitPreviewInstance != null) { Destroy(unitPreviewInstance); }
 
             if (other.TryGetComponent<Card>(out Card hittedCard))
             {
@@ -152,44 +150,26 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 }
             }
         }
-        //Debug.Log($"MoveUnitInstance {mousePos}");
         EmptyCard.GetComponentInChildren<Image>().color = Color.black;
 
         // Create unit preview
         int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
+        //Debug.Log($"MoveUnitInstance {mousePos}");
+
         GameObject UnitPrefab = localFactory.GetUnitPrefab((UnitMeta.Race)GetComponent<Card>().playerID, (UnitMeta.UnitType)type);
         if (unitPreviewInstance == null)
         {
             unitPreviewInstance = Instantiate(unitPrefab);
-            int i = 0;
-            while (UnitPrefab.transform.GetChild(i).name != "Body")
-            {
-                i++;
-            }
-            Transform unitBody = Instantiate(UnitPrefab.transform.GetChild(i));
+            Transform unitBody = Instantiate(UnitPrefab.transform.Find("Body"));
             unitBody.SetParent(unitPreviewInstance.transform);
             //unitPreviewInstance.transform.SetParent(transform);
             unitPreviewInstance.transform.position = new Vector3();
             unitBody.position = new Vector3();
         }
         // unitPreviewInstance.transform.position = mousePos;
-       
         //Debug.Log(unitPreviewInstance.transform.position);
     }
-
-    /*
-     * 
-    private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
-    {
-        if (other.TryGetComponent<Card>(out Card card))
-        {
-            if (this.cardPlayerHandIndex == card.cardPlayerHandIndex) { return; }
-            Debug.Log($" OnTriggerEnter move card from {this.cardPlayerHandIndex} to  {card.cardPlayerHandIndex}");
-            CardParent.GetComponentInParent<Player>().moveCardAt(card.cardPlayerHandIndex, direction.magnitude > 0 ? "left" : "right");
-        }
-    }
-    */
     public void OnEndDrag(PointerEventData eventData)
     {
         //Debug.Log("OnEndDrag");
@@ -217,11 +197,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 }
                 
                 GetComponent<Card>().eleixers.eleixer -= uniteleixer;
-                
                 GetComponent<Card>().DropUnit(unitPreviewInstance.transform.position);
-
-               
-                Debug.Log("destroy card");
                 this.GetComponentInParent<Player>().moveCard(GetComponent<Card>().cardPlayerHandIndex);
                 dealManagers.GetComponent<CardDealer>().Hit();
             }
@@ -230,11 +206,9 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 EmptyCard.GetComponentInChildren<Image>().color = Color.white;
             }
         } else { 
-            Debug.Log("destroy card");
             CardParent.GetComponentInParent<Player>().dragCardMerge();
             if (transform.parent == itemDraggerParent)
             {
-                //Debug.Log("drop failer");
                 transform.position = startPos;
                 transform.SetParent(startParent);
             }

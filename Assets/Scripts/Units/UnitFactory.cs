@@ -78,8 +78,7 @@ public class UnitFactory : NetworkBehaviour
         Vector3 spawnPosition = spawnPointObject.transform.position;
 
         StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
-        //Debug.Log($" Race {race} type {unitType} Unit Key {UnitMeta.UnitRaceTypeKey[race][unitType]}");
-        //CmdSpawnUnitRotation(unitType, star, playerID, spawnAuthority, teamColor, Quaternion.identity);
+        
     }
     [Server]
     private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation, int spawnPointIndex)
