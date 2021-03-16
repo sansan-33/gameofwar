@@ -298,7 +298,7 @@ public class TacticalBehavior : MonoBehaviour
     public void TryReinforcePlayer(Unit unit)
     {
         //if (unit.tag == ENEMYTAG) { return; }
-        //Debug.Log($"Auto Reinforce ..... {unit.name}");
+        Debug.Log($"Auto Reinforce ..... tag {unit.tag} , name {unit.name}");
         StartCoroutine(TacticalFormation(PLAYERID, ENEMYID));
     }
     public void TryUpdateLeader(Unit unit)
@@ -330,14 +330,13 @@ public class TacticalBehavior : MonoBehaviour
         Debug.Log($"StopTacticalBehavior {unitType} leaderid {leaderid}");
         StopCoroutine(EnableBehavior(playerID, leaderid));
         StartCoroutine(DisableBehavior(playerID, leaderid));
-        //StartCoroutine(EnableBehavior(playerID, leaderid));
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
         if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
         int localSelectionType = (int) GetLeaderBehaviorSelectionType(playerid, leaderid, true);
         //if(localSelectionType == (int) BehaviorSelectionType.Defend) EnableDefendRadius(playerid);
-        if ((BehaviorSelectionType)localSelectionType == BehaviorSelectionType.Defend && GameObject.FindGameObjectsWithTag("Player" + (playerid == 0 ? 1 : 0) ).Length == 0) { yield break;  }
+        //if ((BehaviorSelectionType)localSelectionType == BehaviorSelectionType.Defend && GameObject.FindGameObjectsWithTag("Player" + (playerid == 0 ? 1 : 0) ).Length == 0) { yield break;  }
 
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
         for (int i = 0; i < agentCount; ++i)

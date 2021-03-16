@@ -42,21 +42,21 @@ public class SpawnEnemies : MonoBehaviour
                 {
                     localFactory.CmdSpawnUnitRotation(UnitMeta.Race.UNDEAD,  UnitMeta.UnitType.KING, 1, enemyID, unitAuthority, teamColor, Quaternion.Euler(0, 180, 0));
                 }
-               // if (isUnitAlive(UnitMeta.UnitType.HERO ) < 2)
-                //{
-                //    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
-               // }
+                if (isUnitAlive(UnitMeta.UnitType.HERO ) < 2)
+                {
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, unitAuthority, teamColor);
+                }
                 if (isUnitAlive(UnitMeta.UnitType.TANK) < 1) { 
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.TANK, 1, enemyID, unitAuthority, teamColor);
                 }
-                //if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
-                //{
-                //    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.ARCHER, 1, enemyID, unitAuthority, teamColor);
-               // }
-                //if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 12)
-                //{
-                //    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, unitAuthority, teamColor);
-                //}
+                if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
+                {
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.ARCHER, 1, enemyID, unitAuthority, teamColor);
+                }
+                if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 12)
+                { 
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, unitAuthority, teamColor);
+                }
                 StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
