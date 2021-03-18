@@ -20,7 +20,7 @@ public class UnitMeta
     public enum Race { HUMAN, UNDEAD, ELF, ALL };
   
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 } };
-    public static Dictionary<UnitType, float> DefendRadius = new Dictionary<UnitType, float>() { { UnitType.HERO, 5f }, { UnitType.KING, 5.5f } };
+    public static Dictionary<UnitType, float> DefendRadius = new Dictionary<UnitType, float>() { { UnitType.HERO, 7f }, { UnitType.KING, 7.5f } };
     public static Dictionary<UnitType, int> UnitSelfDestory = new Dictionary<UnitType, int>() { { UnitType.WALL, 30 }  };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
     {
