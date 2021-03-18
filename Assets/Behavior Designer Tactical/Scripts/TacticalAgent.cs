@@ -94,6 +94,11 @@ namespace BehaviorDesigner.Runtime.Tactical
             //    Debug.Log($"CanSeeTarget ray transform {transform}/{transform.TransformPoint(attackOffset)} , targetTransform {targetTransform}/{targetTransform.TransformPoint(targetOffset) }");
 
             if (Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit, ignoreRaycast)) {
+                if ( transform.TryGetComponent<Unit>( out Unit unit  ) )
+                {
+                    if(unit.unitType == UnitMeta.UnitType.ARCHER)
+                    return true; // special case for archer may stand far away and hitted same team player before target enemy
+                }
                 if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
                     Debug.Log($"Physics Linecast {transform.name} hit {hit.transform.name} target {targetTransform.name}");
 
@@ -119,6 +124,9 @@ namespace BehaviorDesigner.Runtime.Tactical
         public bool TryAttack()
         {
             if (attackAgent.CanAttack()) {
+                //if (transform.name.ToLower().Contains(debugTarget)) { 
+                //    Debug.Log($"{transform.name} Tactical Agent TryAttack CanAttack");
+                //}
                 attackAgent.Attack(targetTransform.GetComponent<Targetable>().GetAimAtPoint().position);
                 //attackAgent.Attack(targetTransform.position);
                 return true;

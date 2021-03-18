@@ -94,6 +94,7 @@ public class UnitMovement : NetworkBehaviour
         if (agent.destination != position)
         {
             agent.SetDestination(position);
+            agent.isStopped = false;
         }
     }
     [Command]
@@ -104,7 +105,28 @@ public class UnitMovement : NetworkBehaviour
     [Server]
     public void ServerRotate(Quaternion targetRotation)
     {
+        agent.updateRotation = false;
         agent.transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, agent.angularSpeed * Time.deltaTime);
+    }
+    [Command]
+    public void CmdStop()
+    {
+        //Debug.Log($"Command stop");
+        ServerStop();
+    }
+    [Server]
+    public void ServerStop()
+    {
+        //Debug.Log($"Server stop");
+        if (agent.hasPath)
+        {
+            //Debug.Log($"Server b4 stop agent {agent.transform.name} , original speed {agent.speed} velocity {agent.velocity} acceleration {agent.acceleration}");
+            //Unity Bug, velocity too fast and agent not stop immediately, need to set zero to force it stop
+            agent.velocity = new Vector3();
+            agent.ResetPath();
+            agent.isStopped = true;
+            //Debug.Log($"Server stop agent {agent.transform.name} , stooped speed {agent.speed} velocity {agent.velocity} acceleration {agent.acceleration} === stopped");
+        }
     }
     [Server]
     private void ServerHandleGameOver()
@@ -129,6 +151,10 @@ public class UnitMovement : NetworkBehaviour
     public NavMeshAgent GetNavMeshAgent()
     {
         return agent;
+    }
+    public bool HasArrived()
+    {
+        return agent.pathPending && (transform.position - agent.destination).magnitude <= agent.stoppingDistance;
     }
     public bool isCollide()
     {

@@ -23,7 +23,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             public NavMeshTacticalAgent(Transform agent) : base(agent)
             {
                 navMeshAgent = agent.GetComponent<NavMeshAgent>();
-
+                //navMeshAgent = navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().GetNavMeshAgent();
                 if (navMeshAgent.hasPath) {
                     navMeshAgent.ResetPath();
                     navMeshAgent.isStopped = true;
@@ -44,7 +44,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdMove(destination);
                     //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().ShowLine();
                     //navMeshAgent.SetDestination(destination);
-                    navMeshAgent.isStopped = false;
+                    //navMeshAgent.isStopped = false;
                 }
             }
             /// <summary>
@@ -52,9 +52,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override bool HasArrived()
             {
-                //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().HideLine();
                 navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdTrigger("wait");
-                return destinationSet && !navMeshAgent.pathPending && (transform.position - navMeshAgent.destination).magnitude <= navMeshAgent.stoppingDistance;
+                return destinationSet && navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().HasArrived();
             }
 
             /// <summary>
@@ -94,10 +93,14 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override void Stop()
             {
-                if (navMeshAgent.hasPath) {
-                    navMeshAgent.isStopped = true;
+                //if (navMeshAgent.hasPath) {
+                    //Debug.Log("1 Nav Mesh Tactical Stop --> has path");
+                    //navMeshAgent.isStopped = true;
                     destinationSet = false;
-                }
+                    navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdStop();
+                //}
+                //Debug.Log("2 Nav Mesh Tactical Stop again");
+                //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdStop();
             }
 
             /// <summary>

@@ -73,7 +73,7 @@ public class Card : MonoBehaviour
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
         //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
-        localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType) type , (int)this.cardFace.star + 1, playerID, true, teamColor );
+        localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, true, teamColor);
     }
     public void DropUnit(Vector3 SpwanPoint)
     {
@@ -89,8 +89,7 @@ public class Card : MonoBehaviour
                 }
             }
         }
-        UnitMeta.UnitType unitType = (UnitMeta.UnitType)type;
-        localFactory.CmdDropUnit(0.1f, playerID, SpwanPoint, (UnitMeta.Race)playerID, unitType, unitType.ToString(), unitsize,true, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
+        localFactory.CmdDropUnit(0.1f, playerID, SpwanPoint, (UnitMeta.Race)playerID, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize,true, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
     }
     public void destroy()
     {

@@ -105,7 +105,8 @@ public class UnitMeta
         { UnitKey.RIDER,true }
     };
     public static Dictionary<UnitKey, bool> ShakeCamera = new Dictionary<UnitKey, bool>(){
-        { UnitKey.CAVALRY,true }
+        { UnitKey.CAVALRY,true },
+        { UnitKey.RIDER,true }
     };
 
 }
