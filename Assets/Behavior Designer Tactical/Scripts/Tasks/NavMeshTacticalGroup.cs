@@ -22,8 +22,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public NavMeshTacticalAgent(Transform agent) : base(agent)
             {
-                navMeshAgent = agent.GetComponent<NavMeshAgent>();
-                //navMeshAgent = navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().GetNavMeshAgent();
+                //navMeshAgent = agent.GetComponent<NavMeshAgent>();
+                navMeshAgent = agent.GetComponentInParent<Unit>().GetUnitMovement().GetNavMeshAgent();
                 if (navMeshAgent.hasPath) {
                     navMeshAgent.ResetPath();
                     navMeshAgent.isStopped = true;
