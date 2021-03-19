@@ -31,7 +31,7 @@ public class Card : MonoBehaviour
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
 
-    void Awake()
+    public void Start()
     {
         eleixers = FindObjectOfType<eleixier>();
         if (NetworkClient.connection.identity == null) { return; }

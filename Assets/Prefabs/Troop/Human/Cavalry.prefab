@@ -183,7 +183,6 @@ MonoBehaviour:
   syncInterval: 0.1
   targeter: {fileID: 3384794076815612874}
   damageToDeal: 12
-  textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   camFreeLookPrefab: {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
   attackPoint: {fileID: 5851858037610966346}
@@ -198,6 +197,7 @@ MonoBehaviour:
   repeatAttackDelay: 2
   attackAngle: 1
   strengthWeakness: {fileID: 0}
+  damageTextObjectPool: {fileID: 620938155397449479, guid: 0dc27f666af6a473b9aae513a38b5663, type: 3}
 --- !u!114 &823461481101869344
 MonoBehaviour:
   m_ObjectHideFlags: 0

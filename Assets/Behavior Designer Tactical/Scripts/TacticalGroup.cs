@@ -534,6 +534,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
                     Debug.Log($"{tacticalAgent.transform.name} STOP ,  Can See Target {tacticalAgent.CanSeeTarget()} ");
 
+
                 tacticalAgent.Stop();
                 return tacticalAgent.RotateTowardsPosition(tacticalAgent.TargetTransform.position);
             }

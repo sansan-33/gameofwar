@@ -10,8 +10,9 @@ public class TacticalDisplay : MonoBehaviour
     [SerializeField] private GameObject tacticalBarParent = null;
     private Quaternion startRotation;
 
-    private void Awake()
+    public void Start()
     {
+        if (tacticalBarParent == null) { return; }
         tacticalBarParent.SetActive(false);
         startRotation = tacticalBarParent.transform.rotation;
         if (NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID() == 1 )

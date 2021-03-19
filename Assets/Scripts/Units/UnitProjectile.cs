@@ -12,7 +12,6 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private float damageToDealOriginal = 0;
     [SerializeField] private float destroyAfterSeconds = 5f;
     [SerializeField] private float launchForce = 10f;
-    [SerializeField] private GameObject textPrefab = null;
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
     [SerializeField] private GameObject specialEffectPrefab = null;
@@ -22,6 +21,7 @@ public class UnitProjectile : NetworkBehaviour
     private StrengthWeakness strengthWeakness;
     int playerid = 0;
     int enemyid = 0;
+    public SimpleObjectPool damageTextObjectPool;
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }
@@ -44,7 +44,7 @@ public class UnitProjectile : NetworkBehaviour
         //Debug.Log($"damageToDealOriginal {damageToDealOriginal}newDamageToDealFactor{newDamageToDealFactor}");
         damageToDealOriginal = (int) (damageToDealOriginal * newDamageToDealFactor);
     }
-    [ServerCallback]
+    
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
         bool isFlipped = false;
@@ -58,46 +58,46 @@ public class UnitProjectile : NetworkBehaviour
         else // Multi player seneriao
         {
             isFlipped = true;
-            if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
+            if (this.TryGetComponent<NetworkIdentity>(out NetworkIdentity ArrowNetworkIdentity))
             {
-                //Debug.Log($" Hitted object {other.tag} hasAuthority {networkIdentity.hasAuthority} // networkIdentity.connectionToClient: {networkIdentity.connectionToClient}  connectionToClient: {connectionToClient} ");
-                //if (networkIdentity.hasAuthority) { return; }  //check to see if it belongs to the player, if it does, do nothing
-                if (networkIdentity.connectionToClient == connectionToClient) { return; }  //check to see if it belongs to the player, if it does, do nothing
-            }
+                if (!ArrowNetworkIdentity.hasAuthority) { return; }
+                if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity OtherNetworkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
+                {
+                    //Debug.Log($" Hitted object {other.tag} {other.name} hasAuthority {OtherNetworkIdentity.hasAuthority}  OtherNetworkIdentity.connectionToClient: {OtherNetworkIdentity.connectionToClient}  connectionToClient: {connectionToClient} ");
+                    if (OtherNetworkIdentity.hasAuthority) { return; }  //check to see if it belongs to the player, if it does, do nothing
+                   
+                }
+             }
         }
-        //Debug.Log($"Health {other} / {other.GetComponent<Health>()} ");
+        //Debug.Log($"Health hitted {other.name} {other.tag} / arrow type {unitType } / {other.GetComponent<Health>()} ");
         if (other.TryGetComponent<Health>(out Health health))
         {
             //Debug.Log($"player ID {player.GetPlayerID()}");
             //Debug.Log(playerid);
-            if (playerid == 1)
-            {
-                opponentIdentity = GetComponent<NetworkIdentity>();
-            }
-            else
-            {
-                opponentIdentity = other.GetComponent<NetworkIdentity>();
-            }
-            //Destroy the arrow faster prevent showing arror after hit
-            //gameObject.GetComponent<MeshRenderer>().enabled = false;
-            //gameObject.transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
+            opponentIdentity = (playerid == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}"); 
             if (strengthWeakness == null) { strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>(); }
             //Debug.Log($"before strengthWeakness{damageToDeals}");
             damageToDeals = strengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             //Debug.Log("call spawn text");
+            
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
             cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
             elementalEffect(element, other.transform.GetComponent<Unit>());
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
             other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
-            //Debug.Log($"health{health}other{other}");
+            CmdDealDamage(other.gameObject, damageToDeals);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
-            bool iskilled = health.DealDamage(damageToDeals);
-            if (iskilled){
+            cmdDestroySelf();
+        }
+    }
+    [Command]
+    public void CmdDealDamage(GameObject enemy, float damge)
+    {
+        //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
+        if(enemy.TryGetComponent<Health>(out Health health)){
+            if(health.DealDamage(damge))
                 onKilled?.Invoke();
-            }
-            DestroySelf();
         }
     }
     private void elementalEffect(ElementalDamage.Element element, Unit other)
@@ -108,30 +108,14 @@ public class UnitProjectile : NetworkBehaviour
                 other.GetUnitPowerUp().cmdSpeedUp(-1);
                 break;
         }
-
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
     {
-        GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
-        //Debug.Log($"spawn {floatingText}");
-        Color textColor;
-        string dmgText;
-        if (damageToDeals > damageToDealOriginal)
-        {
-            textColor = floatingText.GetComponent<DamageTextHolder>().CriticalColor;
-            dmgText = damageToDeals + " Critical";
-        } else
-        {
-            textColor = floatingText.GetComponent<DamageTextHolder>().NormalColor;
-            dmgText = damageToDeals + "";
-        }
-        floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
-        floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
-        NetworkServer.Spawn(floatingText, connectionToClient);
+        GameObject text = SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
+        NetworkServer.Spawn(text, connectionToClient);
         if (opponentIdentity == null) { return; }
-
-        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, text, opponentIdentity); }
     }
 
     [Command]
@@ -150,9 +134,15 @@ public class UnitProjectile : NetworkBehaviour
         GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
     }
+    [Command]
+    private void cmdDestroySelf()
+    {
+         DestroySelf();
+    }
     [Server]
     private void DestroySelf()
     {
+        Debug.Log($"playerid {playerid} call DestroySelf");
         NetworkServer.Destroy(gameObject);
     }
     [TargetRpc]
@@ -160,6 +150,29 @@ public class UnitProjectile : NetworkBehaviour
     {
        // Debug.Log("TargetCommandText");
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180;
+    }
+    
+    private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
+    {
+        GameObject floatingText = damageTextObjectPool.GetObject();
+     
+        floatingText.transform.position = targetPos;
+        floatingText.transform.rotation = Quaternion.identity;
+        Color textColor;
+        string dmgText;
+        if (damageToDeals > damageToDealOriginal)
+        {
+            textColor = floatingText.GetComponent<DamageTextHolder>().CriticalColor;
+            dmgText = damageToDeals + " Critical";
+        }
+        else
+        {
+            textColor = floatingText.GetComponent<DamageTextHolder>().NormalColor;
+            dmgText = damageToDeals + "";
+        }
+        floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
+        floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
+        return floatingText;
     }
 
 }

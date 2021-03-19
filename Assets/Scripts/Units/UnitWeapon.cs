@@ -11,7 +11,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private float damageToDeal = 1;
-    [SerializeField] private GameObject textPrefab = null;
+    
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private GameObject attackPoint;
@@ -35,7 +35,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public StrengthWeakness strengthWeakness;
     RTSPlayer player;
     float upGradeAmount =  1.01f;
-
+    public SimpleObjectPool damageTextObjectPool;
 
     public override void OnStartAuthority()
     {
@@ -109,7 +109,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
                 }
                 calculatedDamageToDeal = strengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-                cmdDamageText(other.transform.position, player.GetPlayerID(), calculatedDamageToDeal, damageToDeal, opponentIdentity, isFlipped);
+                cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
+
                 if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
                 if (IsKingSP == true)
@@ -160,7 +161,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command]
     public void CmdDealDamage(GameObject enemy,  float damge)
     {
-        
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
        bool iskill =  enemy.GetComponent<Health>().DealDamage(damge);
         
@@ -174,38 +174,21 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             }
             if(IsKingSP == true)
             {
-
-               
                 GetComponent<KingSP>().FindAttackTargetInDistance();
             }
         }
     }
     [Command]
-    private void cmdDamageText(Vector3 targetPos, int playerId, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
+    private void cmdDamageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
     {
-        
-        GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
-        Color textColor;
-        string dmgText;
-        if (damageNew > damgeOld)
-        {
-            textColor = floatingText.GetComponent<DamageTextHolder>().CriticalColor;
-            dmgText = damageNew + " Critical";
-        }
-        else
-        {
-            textColor = floatingText.GetComponent<DamageTextHolder>().NormalColor;
-            dmgText = damageNew + "";
-        }
-        floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
-        floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
-        
-        NetworkServer.Spawn(floatingText, connectionToClient);
 
+        GameObject text = SetupDamageText(targetPos, damageNew, damgeOld);
+        NetworkServer.Spawn(text, connectionToClient);
         
         if (opponentIdentity == null) { return; }
      
-        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }    }
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, text, opponentIdentity); }
+    }
     [Command]
     private void cmdSpecialEffect(Vector3 position)
     {
@@ -300,5 +283,27 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         //    Debug.Log($"Update DasdhDamage{DashDamage} name --> {name} KingSp = {IsKingSP}");
        // }
         
+    }
+    private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
+    {
+        GameObject floatingText = damageTextObjectPool.GetObject();
+
+        floatingText.transform.position = targetPos;
+        floatingText.transform.rotation = Quaternion.identity;
+        Color textColor;
+        string dmgText;
+        if (damageToDeals > damageToDealOriginal)
+        {
+            textColor = floatingText.GetComponent<DamageTextHolder>().CriticalColor;
+            dmgText = damageToDeals + " Critical";
+        }
+        else
+        {
+            textColor = floatingText.GetComponent<DamageTextHolder>().NormalColor;
+            dmgText = damageToDeals + "";
+        }
+        floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
+        floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
+        return floatingText;
     }
 }
