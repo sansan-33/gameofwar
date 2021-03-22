@@ -21,7 +21,9 @@ public class UnitProjectile : NetworkBehaviour
     private StrengthWeakness strengthWeakness;
     int playerid = 0;
     int enemyid = 0;
-    public SimpleObjectPool damageTextObjectPool;
+    private SimpleObjectPool damageTextObjectPool;
+    private GameObject floatingText;
+
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }
@@ -29,10 +31,13 @@ public class UnitProjectile : NetworkBehaviour
         playerid = player.GetPlayerID();
         enemyid = player.GetEnemyID();
         if (strengthWeakness == null) { strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>(); }
+        damageTextObjectPool = GameObject.FindGameObjectWithTag("DamageTextObjectPool").GetComponent<SimpleObjectPool>();
+
         //Debug.Log($"damageToDealOriginal {damageToDealOriginal}damageToDeals{damageToDeals}");
         //damageToDealOriginal += damageToDeals;
         //Debug.Log($"damageToDealOriginal after added{damageToDealOriginal}damageToDeals{damageToDeals}");
-        rb.velocity = transform.forward * launchForce; 
+        rb.velocity = transform.forward * launchForce;
+        DamagePopup.clearText += clearDamageText;
     }
 
     public override void OnStartServer()
@@ -65,7 +70,6 @@ public class UnitProjectile : NetworkBehaviour
                 {
                     //Debug.Log($" Hitted object {other.tag} {other.name} hasAuthority {OtherNetworkIdentity.hasAuthority}  OtherNetworkIdentity.connectionToClient: {OtherNetworkIdentity.connectionToClient}  connectionToClient: {connectionToClient} ");
                     if (OtherNetworkIdentity.hasAuthority) { return; }  //check to see if it belongs to the player, if it does, do nothing
-                   
                 }
              }
         }
@@ -95,7 +99,7 @@ public class UnitProjectile : NetworkBehaviour
     public void CmdDealDamage(GameObject enemy, float damge)
     {
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
-        if(enemy.TryGetComponent<Health>(out Health health)){
+        if(enemy != null && enemy.TryGetComponent<Health>(out Health health)){
             if(health.DealDamage(damge))
                 onKilled?.Invoke();
         }
@@ -112,10 +116,10 @@ public class UnitProjectile : NetworkBehaviour
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
     {
-        GameObject text = SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
-        NetworkServer.Spawn(text, connectionToClient);
+        SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
+        NetworkServer.Spawn(floatingText, connectionToClient);
         if (opponentIdentity == null) { return; }
-        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, text, opponentIdentity); }
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
     }
 
     [Command]
@@ -137,12 +141,11 @@ public class UnitProjectile : NetworkBehaviour
     [Command]
     private void cmdDestroySelf()
     {
-         DestroySelf();
+        DestroySelf();
     }
     [Server]
     private void DestroySelf()
     {
-        Debug.Log($"playerid {playerid} call DestroySelf");
         NetworkServer.Destroy(gameObject);
     }
     [TargetRpc]
@@ -152,9 +155,9 @@ public class UnitProjectile : NetworkBehaviour
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180;
     }
     
-    private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
+    private void SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {
-        GameObject floatingText = damageTextObjectPool.GetObject();
+        floatingText = damageTextObjectPool.GetObject();
      
         floatingText.transform.position = targetPos;
         floatingText.transform.rotation = Quaternion.identity;
@@ -172,7 +175,11 @@ public class UnitProjectile : NetworkBehaviour
         }
         floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
         floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
-        return floatingText;
+         
+    }
+    private void clearDamageText()
+    {
+        damageTextObjectPool.ReturnObject(floatingText);
     }
 
 }

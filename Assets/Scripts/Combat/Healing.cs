@@ -30,7 +30,7 @@ public class Healing : NetworkBehaviour
         if (!hasAuthority){return;}
 
         if (lastHealingTime + repeatHealingDelay > Time.time) { return; }
-
+        /*
         capsules = GameObject.FindGameObjectsWithTag("PlayerBase" + player.GetPlayerID());
 
         if (tb.GetBehaviorSelectionType(player.GetPlayerID()) != TacticalBehavior.BehaviorSelectionType.Defend) {
@@ -55,7 +55,7 @@ public class Healing : NetworkBehaviour
                     cmdHealingPrefab(capsule, true);
                 }
             }
-        }
+        }*/
     }
     [Command]
     public void cmdHealing(GameObject unit , int amount)

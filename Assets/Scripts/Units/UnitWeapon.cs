@@ -35,7 +35,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public StrengthWeakness strengthWeakness;
     RTSPlayer player;
     float upGradeAmount =  1.01f;
-    public SimpleObjectPool damageTextObjectPool;
+    private SimpleObjectPool damageTextObjectPool;
+    private GameObject floatingText;
 
     public override void OnStartAuthority()
     {
@@ -43,10 +44,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         calculatedDamageToDeal = damageToDeal;
         strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
-        //Debug.Log($"Is strengthWeakness is null ? {strengthWeakness == null}");
+        damageTextObjectPool = GameObject.FindGameObjectWithTag("DamageTextObjectPool").GetComponent<SimpleObjectPool>();
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
         originalDamage = damageToDeal;
+        DamagePopup.clearText += clearDamageText;
     }
 
     // Commands are sent from player objects on the client to player objects on the server
@@ -89,9 +91,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 }
             }
-            if(targeter.tag.ToLower().Contains("footman"))
-            Debug.Log($"Attacker {targeter} --> Enemy {other} tag {other.tag}");
-
+         
             if (other.TryGetComponent<Health>(out Health health))
             {
                
@@ -182,12 +182,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private void cmdDamageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
     {
 
-        GameObject text = SetupDamageText(targetPos, damageNew, damgeOld);
-        NetworkServer.Spawn(text, connectionToClient);
+        SetupDamageText(targetPos, damageNew, damgeOld);
+        NetworkServer.Spawn(floatingText, connectionToClient);
         
         if (opponentIdentity == null) { return; }
      
-        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, text, opponentIdentity); }
+        if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
     }
     [Command]
     private void cmdSpecialEffect(Vector3 position)
@@ -284,9 +284,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
        // }
         
     }
-    private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
+    private void SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {
-        GameObject floatingText = damageTextObjectPool.GetObject();
+        floatingText = damageTextObjectPool.GetObject();
 
         floatingText.transform.position = targetPos;
         floatingText.transform.rotation = Quaternion.identity;
@@ -304,6 +304,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         }
         floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
         floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
-        return floatingText;
+    }
+    private void clearDamageText()
+    {
+        damageTextObjectPool.ReturnObject(floatingText);
     }
 }

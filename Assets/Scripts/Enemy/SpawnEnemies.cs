@@ -14,7 +14,7 @@ public class SpawnEnemies : MonoBehaviour
     private bool ISGAMEOVER = false;
 
     public TacticalBehavior tacticalBehavior;
-    void Awake()
+    void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
         //Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");

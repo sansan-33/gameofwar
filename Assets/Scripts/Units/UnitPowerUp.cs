@@ -62,7 +62,7 @@ public class UnitPowerUp : NetworkBehaviour
     [Command]
     public void cmdSpeedUp(int speed)
     {
-        Debug.Log($"cmd speed up ? {speed}");
+        //Debug.Log($"cmd speed up ? {speed}");
         ServerSetSpeed(speed);
     }
     [Server]

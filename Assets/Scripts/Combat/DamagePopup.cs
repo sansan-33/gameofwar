@@ -1,22 +1,25 @@
 ﻿using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using System;
 
 [RequireComponent(typeof(TMP_Text))]
 public class DamagePopup : MonoBehaviour
 {
+    public static event Action clearText;
+
     // Start is called before the first frame update
     void Start()
     {
         
         TMP_Text tmp_text = GetComponent<TMP_Text>();
-
         tmp_text.text = transform.root.gameObject.GetComponent<DamageTextHolder>().displayText;
         tmp_text.color = transform.root.gameObject.GetComponent<DamageTextHolder>().displayColor;
         tmp_text.DOFade( 0f, 5f );
         tmp_text.transform.rotation = transform.root.gameObject.GetComponent<DamageTextHolder>().displayRotation;
         transform.DOMove( transform.position + 2 *(Vector3.up) , 1.75f ).OnComplete( () => {
-            Destroy(transform.root.gameObject);
+            clearText?.Invoke();
+            //Destroy(transform.root.gameObject);
         } );
         
     }
