@@ -12,6 +12,8 @@ public class UnitMeta
      */
     public static string PLAYERTAG = "Player0";
     public static string ENEMYTAG = "Player1";
+    public static string BLUETEAM = "Blue";
+    public static string REDTEAM = "Red";
     public static string KINGPLAYERTAG = "King0";
     public static string KINGENEMYTAG = "King1";
     public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING, UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL };

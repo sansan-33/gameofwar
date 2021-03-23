@@ -11,14 +11,13 @@ public class CMFreeLook : NetworkBehaviour
 
     [SerializeField] private CinemachineFreeLook cinemachineFreeLook;
     Cinemachine.CinemachineImpulseSource source;
-    private float shakeTimer = 3f;
+    private float shakeTimer = 3000f;
     private float shakeTimerTotal = .1f;
     private float startingIntensity = 15f;
 
 
     public void ThirdCamera(GameObject main, GameObject enemy)
     {
-
 
         Transform tFollowTarget = main.transform;
         Transform tLookAtTarget = enemy.transform;
@@ -28,18 +27,14 @@ public class CMFreeLook : NetworkBehaviour
     }
     private void Update()
     {
+        /*
         if (shakeTimer > 0)
         {
             shakeTimer -= Time.deltaTime;
-
-
-        }
-
-        else
-        {
-
+        }else{
              Destroy(gameObject);
         }
+        */
     }
 
 }

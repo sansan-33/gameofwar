@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -8,6 +9,8 @@ public class GameOverDisplay : MonoBehaviour
 {
     [SerializeField] public Canvas gameOverDisplayParent;
     [SerializeField] private TMP_Text winnerNameText = null;
+    [SerializeField] private GameObject camFreeLookPrefab = null;
+
     private float Timer = 1830;
     private void Update()
     {
@@ -30,15 +33,12 @@ public class GameOverDisplay : MonoBehaviour
     public void LeaveGame()
     {
 
-        Debug.Log($"Leave Game NetworkServer.active : {NetworkServer.active} && NetworkClient.isConnected {NetworkClient.isConnected}");
         if (NetworkServer.active && NetworkClient.isConnected)
         {
-            Debug.Log("NetworkManager.singleton.StopHost()");
             NetworkManager.singleton.StopHost();
         }
         else
         {
-            Debug.Log("NetworkManager.singleton.StopClient() + StopHost");
             NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
             NetworkManager.singleton.StopClient();
         }
@@ -46,8 +46,14 @@ public class GameOverDisplay : MonoBehaviour
 
     private void ClientHandleGameOver(string winner)
     {
-        winnerNameText.text = $"{winner} Has Won!";
+        winnerNameText.text = $"{winner} Team";
         gameOverDisplayParent.enabled = true;
+        GameObject cam = Instantiate(camFreeLookPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
+        cam.GetComponent<CMFreeLook>().ThirdCamera(GameObject.FindGameObjectWithTag("King0"), GameObject.FindGameObjectWithTag("King0"));
+        winnerNameText.DOFade(0f, 5f);
+        winnerNameText.transform.DOMove(winnerNameText.transform.position + 2 * (Vector3.down), 1.75f).OnComplete(() => {
+            //Destroy(transform.root.gameObject);
+        });
 
     }
     private void ClientHandleGameOverdraw()
@@ -57,9 +63,7 @@ public class GameOverDisplay : MonoBehaviour
     }
     public void ClientHandleGameOverResign()
     {
-        
         if (gameOverDisplayParent == null) { gameOverDisplayParent = GetComponentInChildren<Canvas>(); }
-        Debug.Log($"ClientHandleGameOverResign {gameOverDisplayParent.name}");
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
     }

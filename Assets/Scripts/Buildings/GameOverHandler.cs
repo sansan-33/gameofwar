@@ -48,7 +48,7 @@ public class GameOverHandler : NetworkBehaviour
         //if (units[unit.tag].Count != 0 ) { return; }
         if (unit.unitType != UnitMeta.UnitType.KING ) { return; }
 
-        RpcGameOver($"{ (unit.tag == UnitMeta.KINGPLAYERTAG ? UnitMeta.ENEMYTAG : UnitMeta.PLAYERTAG) }");
+        RpcGameOver($"{ (unit.tag == UnitMeta.KINGPLAYERTAG ? UnitMeta.REDTEAM : UnitMeta.BLUETEAM) }");
 
         ServerOnGameOver?.Invoke();
     }
