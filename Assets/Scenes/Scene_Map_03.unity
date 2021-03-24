@@ -5125,6 +5125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverDisplayParent: {fileID: 315303063}
   winnerNameText: {fileID: 691966339}
+  camFreeLookPrefab: {fileID: 0}
 --- !u!4 &187208397
 Transform:
   m_ObjectHideFlags: 0
@@ -16452,6 +16453,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8209060698620193296, guid: 8088e0aaf709443abbf96095f0aea78c, type: 3}
+      propertyPath: cardSlot
+      value: 
+      objectReference: {fileID: 6641416256118448248, guid: 308c4a8e961b8491c836362eeec36c57, type: 3}
     - target: {fileID: -8209060698620193296, guid: 8088e0aaf709443abbf96095f0aea78c, type: 3}
       propertyPath: cardOffset
       value: 80
@@ -51171,6 +51176,10 @@ PrefabInstance:
     - target: {fileID: 5626908202925010955, guid: 54ec06da0d0fe447eb4646f507c4ec0d, type: 3}
       propertyPath: sceneId
       value: 3531140776
+      objectReference: {fileID: 0}
+    - target: {fileID: 7626754190098079910, guid: 54ec06da0d0fe447eb4646f507c4ec0d, type: 3}
+      propertyPath: sceneId
+      value: 3695276204
       objectReference: {fileID: 0}
     - target: {fileID: 8969964258203092740, guid: 54ec06da0d0fe447eb4646f507c4ec0d, type: 3}
       propertyPath: tb

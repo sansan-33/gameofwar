@@ -38,11 +38,6 @@ public class CardDealer : MonoBehaviour
     
     public List<Card> cards;
     public List<Button> buttons;
-    public int i = 1;
-    public int a = 2;
-    int b = -2;
-    int z = 0;
-    private int MAX_CARD_NUMBER = 13;
     public int MAXTOTALHAND = 6;
     [SerializeField] Transform cardDispenserSpawn;
     [SerializeField] Animator cardDispenserAnimator;
@@ -72,7 +67,6 @@ public class CardDealer : MonoBehaviour
     void ShuffleDeck()
     {
         cardDeckUsed.Clear();
-        // for (int i = 0; i < 6; i++) { //Shuffle in 6 decks
         foreach (Card_Suits suit in Enum.GetValues(typeof(Card_Suits)))
         {
             foreach (Card_Deck number in Enum.GetValues(typeof(Card_Deck)))
@@ -80,7 +74,6 @@ public class CardDealer : MonoBehaviour
                 cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze));
             }
         }
-        // }
     }
 
     void DealCard(Player player,  bool left = true)
@@ -201,25 +194,8 @@ public class CardDealer : MonoBehaviour
     [ContextMenu("Play Blackjack")]
     public void DealBegin()
     {
-
         //Deal two cards to player
         StartCoroutine(DealCards(3, 0f, 0.1f,players[0]));
-        //  StartCoroutine(DealCards(2, 1f, 0.5f, dealer));
-
-        players[0].Transfer(-2, 0);
-
-    }
-
-    [ContextMenu("Split Player Hand")]
-    public void Split()
-    {
-        if (players.Count > 0)
-        {
-            players[0].SplitHand();
-            StartCoroutine(DealCards(7, 0f, 0.5f,  players[0], true));
-            StartCoroutine(DealCards(7, 0.5f, 0.5f,  players[0], false));
-
-        }
     }
 
     [ContextMenu("Hit")]

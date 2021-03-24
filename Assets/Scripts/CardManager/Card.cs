@@ -10,13 +10,10 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    Animator animator;
     Player owner;
 
     public CardFace cardFace;
     public int cardPlayerHandIndex = 0;
-
-    [SerializeField] Renderer cardRenderer;
     [SerializeField] TMP_Text eleixerText;
     public float cardTimer = 0;
     [SerializeField] public List<Sprite> sprite = new List<Sprite>();
@@ -36,7 +33,6 @@ public class Card : MonoBehaviour
         eleixers = FindObjectOfType<eleixier>();
         if (NetworkClient.connection.identity == null) { return; }
         mainCamera = Camera.main;
-        animator = GetComponent<Animator>();
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
         //enemyID = player.GetEnemyID();
@@ -72,7 +68,7 @@ public class Card : MonoBehaviour
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
-        //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
+        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
         localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, true, teamColor);
     }
     public void DropUnit(Vector3 SpwanPoint)

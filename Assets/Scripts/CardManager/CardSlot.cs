@@ -10,15 +10,14 @@ public class CardSlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        /*
         GameObject cardNow;
-        Debug.Log("Drop");
-
         if (!item)
         {
             Debug.Log("Drop succes");
             item = DragCard.objBeingDraged;
             item.transform.SetParent(transform);
-           
+
             //item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80,100);
             cardNow = item;
         }
@@ -26,17 +25,18 @@ public class CardSlot : MonoBehaviour, IDropHandler
         {
             item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 100);
         }
-       
+        */
+
     }
 
     private void Update()
     {
+        /*
         if (item != null && item.transform.parent != transform)
         {
-            Debug.Log("Remover");
             item = null;
         }
-
+        */
     }
 
     internal object GetComponenInchild<T>()

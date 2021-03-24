@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-    public GameObject MiddleLine;
     public static GameObject objBeingDraged;
     [SerializeField] Card CardParent;
     public Transform startParent;
@@ -21,10 +20,10 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField] private LayerMask layerMask = new LayerMask();
     private GameObject whereCanNotPlaceUnitImage;
     private bool m_Started = true;
-    private int dragRange = 50;
+    private int dragRange = 40;
     private float lastXPos = 0;
     private float deltaPos = 2f; // At least move 1 pixels
-    private float spawnLinePos = 25f; // At least move 1 pixels
+    private float spawnLinePos = 120f; // At least move 1 pixels, difference between card position.y and mouse position.y
     private Dictionary<int, string> hittedDict = new Dictionary<int, string>();
     public GameObject unitPreviewInstance;
     private UnitFactory localFactory;
@@ -38,7 +37,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         
         whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage");
-        MiddleLine = GameObject.FindGameObjectWithTag("MiddleLine");
         mainCamera = Camera.main;
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         //SpawnLine = GameObject.FindGameObjectWithTag("SpawnLine").transform;
@@ -54,7 +52,9 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         //Debug.Log("OnBeginDrag");
         if (unitPreviewInstance != null) Destroy(unitPreviewInstance);
-        startPos = this.transform.position;
+        Debug.Log($"OnBeginDrag start.y {this.transform.position.y} cam.y {Camera.main.WorldToScreenPoint(this.transform.position).y}");
+
+        startPos =  this.transform.position;
         lastXPos = Input.mousePosition.x;
     }
 
@@ -68,8 +68,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         if (Mathf.Abs(mouseOrTouchPosX - lastXPos) < deltaPos) { return; } // At least move deltaPos pixels
 
         direction = mouseOrTouchPosX > lastXPos ? "right" : "left";
-
-        //Debug.Log($"On Drag Mouse Direction {mouseOrTouchPosX} lastPos {lastXPos}  , {direction} ");
 
         // Prevent drag card to the bottom.
         mouseOrTouchPosY = mouseOrTouchPosY < startPos.y ? startPos.y : mouseOrTouchPosY;
