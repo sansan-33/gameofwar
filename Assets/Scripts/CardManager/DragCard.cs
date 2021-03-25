@@ -29,7 +29,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     [SerializeField] GameObject unitPrefab;
     public GameObject EmptyCard;
     int i = 0;
-  
+    private bool IS_HITTED_TIMER = false;
     private void Start()
     {
         whereCanNotPlaceUnitImage = GameObject.FindGameObjectWithTag("WhereCanNotPlaceUnitImage");
@@ -67,18 +67,19 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         if (unitPreviewInstance != null)
             transform.position = startPos;
         else
-            transform.position = new Vector3(mouseOrTouchPosX, mouseOrTouchPosY, 0f);
+            transform.position = new Vector3(MouseSpeed(mouseOrTouchPosX , lastXPos) , mouseOrTouchPosY, 0f );
 
         if (spawnLinePos <= mouseOrTouchPosY - startPos.y){
             MoveUnitInstance();
         }
         else{
-            ShiftCard(mouseOrTouchPosX, mouseOrTouchPosY);
+            StartCoroutine(ShiftCard());
         }
         lastXPos = mouseOrTouchPosX;
     }
-    private void ShiftCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
+    private IEnumerator ShiftCard()
     {
+        if (IS_HITTED_TIMER) { yield break; }
         int dragCardPlayerHandIndex = this.GetComponent<Card>().cardPlayerHandIndex;
         Collider[] hitColliders = Physics.OverlapBox(DragPoint.transform.position, transform.localScale * dragRange, Quaternion.identity, layerMask);
         int i = 0;
@@ -95,7 +96,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             if (other.TryGetComponent<Card>(out Card hittedCard))
             {
                 if (dragCardPlayerHandIndex == hittedCard.cardPlayerHandIndex) { continue; }
-
+               
                 // Check whehter move card , new hitted card or old hitted card but different direction can move 
                 if (hittedDict.TryGetValue(hittedCard.cardPlayerHandIndex, out string hittedCardDirection)) // hiited card 
                 {
@@ -114,6 +115,10 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 {
                     //Debug.Log($"Shift Card  {dragCardPlayerHandIndex } to  {hittedCard.cardPlayerHandIndex } / direction {direction} ");
                     CardParent.GetComponentInParent<Player>().moveCardAt(dragCardPlayerHandIndex, direction);
+                    //Prevent moving 2 cards in  one hitted, need to wait 0.5 sec for next move
+                    IS_HITTED_TIMER = true;
+                    yield return new WaitForSeconds(0.5f);
+                    IS_HITTED_TIMER = false;
                     break;
                 }
             }
@@ -234,5 +239,10 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             catch (Exception) { }
         
         //whereCanNotPlaceUnitImage.SetActive(false);
+    }
+    private float MouseSpeed(float mouseXPosition, float lastXPos)
+    {
+        //float adjustedXPosition = mouseXPosition + (Mathf.Abs(mouseXPosition - lastXPos) / speed); 
+        return mouseXPosition;
     }
 } 

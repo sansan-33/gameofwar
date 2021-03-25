@@ -194,8 +194,6 @@ public class Player : MonoBehaviour
     {
         if (playerHand[0].Count > 0)
         {
-            //Debug.Log($"All cards in hand {PrintAllCards(playerHand[0])}");
-            //Debug.Log($"Remove At {index}, card {playerHand[0][index].cardFace.numbers} {playerHand[0][index].cardFace.star}  ");
             playerHand[0][index].destroy();
             playerHand[0].RemoveAt(index);
         }

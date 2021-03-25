@@ -10,6 +10,7 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] public Canvas gameOverDisplayParent;
     [SerializeField] private TMP_Text winnerNameText = null;
     [SerializeField] private GameObject camFreeLookPrefab = null;
+    [SerializeField] private Canvas cardDisplay = null;
 
     private float Timer = 1830;
     private void Update()
@@ -50,11 +51,12 @@ public class GameOverDisplay : MonoBehaviour
         gameOverDisplayParent.enabled = true;
         GameObject cam = Instantiate(camFreeLookPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
         cam.GetComponent<CMFreeLook>().ThirdCamera(GameObject.FindGameObjectWithTag("King0"), GameObject.FindGameObjectWithTag("King0"));
-        winnerNameText.DOFade(0f, 5f);
+        winnerNameText.DOFade(0f, 0.1f);
+        winnerNameText.DOFade(1f, 5f);
         winnerNameText.transform.DOMove(winnerNameText.transform.position + 2 * (Vector3.down), 1.75f).OnComplete(() => {
             //Destroy(transform.root.gameObject);
         });
-
+        cardDisplay.enabled = false;
     }
     private void ClientHandleGameOverdraw()
     {
