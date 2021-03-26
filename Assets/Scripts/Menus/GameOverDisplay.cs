@@ -47,10 +47,11 @@ public class GameOverDisplay : MonoBehaviour
 
     private void ClientHandleGameOver(string winner)
     {
+        GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + (winner.ToLower() == "blue" ? "0" : "1"));
         winnerNameText.text = $"{winner} Team";
         gameOverDisplayParent.enabled = true;
         GameObject cam = Instantiate(camFreeLookPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-        cam.GetComponent<CMFreeLook>().ThirdCamera(GameObject.FindGameObjectWithTag("King0"), GameObject.FindGameObjectWithTag("King0"));
+        cam.GetComponent<CMFreeLook>().ThirdCamera(winnerObject, winnerObject);
         winnerNameText.DOFade(0f, 0.1f);
         winnerNameText.DOFade(1f, 5f);
         winnerNameText.transform.DOMove(winnerNameText.transform.position + 2 * (Vector3.down), 1.75f).OnComplete(() => {

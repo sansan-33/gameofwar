@@ -14,7 +14,7 @@ public class Card : MonoBehaviour
 
     public CardFace cardFace;
     public int cardPlayerHandIndex = 0;
-    [SerializeField] TMP_Text eleixerText;
+    [SerializeField] public TMP_Text eleixerText;
     public float cardTimer = 0;
     [SerializeField] public List<Sprite> sprite = new List<Sprite>();
     private Camera mainCamera;

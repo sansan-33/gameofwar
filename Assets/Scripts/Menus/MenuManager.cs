@@ -11,11 +11,11 @@ public class MenuManager : MonoBehaviour
     }
     public void GoToHeroDeckMenu()
     {
-        SceneManager.LoadScene("Scene_hero_Menu");
+        SceneManager.LoadScene("Scene_Character_Menu");
     }
     public void GoToHeroMenu()
     {
-        SceneManager.LoadScene("Scene_Test_Menu");
+        SceneManager.LoadScene("Scene_Hero_Menu");
     }
     public void GoToStoryMenu()
     {
@@ -24,5 +24,9 @@ public class MenuManager : MonoBehaviour
     public void GoToSummonMenu()
     {
         SceneManager.LoadScene("summon");
+    }
+    public void GoToTeamMenu()
+    {
+        SceneManager.LoadScene("Scene_Team_Menu");
     }
 }

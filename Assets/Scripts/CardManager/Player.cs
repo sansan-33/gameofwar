@@ -108,7 +108,7 @@ public class Player : MonoBehaviour
     {
         return playerHand.Count > 0 ? playerHand[0].Count : 0;
     }
-    public void AddCard(Card card, bool left = true)
+    public IEnumerator AddCard(Card card, bool left = true)
     {
         //Debug.Log($"AddCard ==> {card.cardFace.suit.ToString() }");
         card.SetOwner(this);
@@ -116,8 +116,8 @@ public class Player : MonoBehaviour
         playerHand[0].Add(card);
       
         card.transform.SetParent(cardSlotlist[playerHand[0].Count-1].transform);
-        StartCoroutine(MoveCardTo(card.transform, cardSlotlist[playerHand[0].Count - 1].transform.position, card));
-        StartCoroutine(mergeCard());
+        yield return MoveCardTo(card.transform, cardSlotlist[playerHand[0].Count - 1].transform.position, card);
+        //StartCoroutine(mergeCard());
 
     }
     IEnumerator mergeCard()
@@ -139,16 +139,13 @@ public class Player : MonoBehaviour
             //Debug.Log($"Card {beforeNewCard.cardFace.suit} Star: {beforeNewCard.cardFace.star} VS Card {card.cardFace.suit} Star {card.cardFace.star} ");
             if (beforeNewCard.cardFace.numbers == card.cardFace.numbers && beforeNewCard.cardFace.star == card.cardFace.star && ((int)beforeNewCard.cardFace.star + 1) < MAXCARDSTAR)
             {
-                
                 //Increase 1 star to before card,  Text is setting + 2 , becuase the enum cardFace.star start with 0 
                 beforeNewCard.cardStar.text = "" + ((int)card.cardFace.star + 2);
                 beforeNewCard.cardFace.star = (Card_Stars)((int)card.cardFace.star) + 1;
                 playerHand[0][lastCardBefore] = beforeNewCard;
                 //Debug.Log($"Merged card {lastCardBefore } ==> star {beforeNewCard.cardStar.text}  ");
-
                 //playerHand[0][lastCardBefore + 1].destroy();
                 //playerHand[0].RemoveAt(lastCardBefore + 1);
-                //yield return new WaitForSeconds(0.5f);
                
                 RemoveLastCard(lastCardBefore + 1);
                 lastCardBefore = playerHand[0].Count - 2;
@@ -159,7 +156,7 @@ public class Player : MonoBehaviour
             maxmerge--;
             //Debug.Log($"Leaving Card in hand  {PrintAllCards(playerHand[0])} , checking card index {lastCardBefore} / {lastCardBefore + 1} , megre round remain : {maxmerge} ");
         }
-        yield return new WaitForSeconds(0.2f);
+        yield return null;
     }
     public void dragCardMerge()
     {
@@ -187,7 +184,7 @@ public class Player : MonoBehaviour
             cardTransform.position = targetPosition;
             cardTransform.localEulerAngles = Vector3.zero;
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return mergeCard();
     }
 
     public void moveCard(int index, bool isShiftCard = true)

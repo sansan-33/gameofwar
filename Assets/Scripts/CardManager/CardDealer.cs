@@ -52,7 +52,6 @@ public class CardDealer : MonoBehaviour
 
     bool cardSpawned = false;
     Card lastCard;
-    int numbers = 0;
     [Header("Testing")]
 
     [SerializeField] Button testHit;
@@ -101,7 +100,6 @@ public class CardDealer : MonoBehaviour
 
     IEnumerator DealingCard(Player player, bool left = true)
     {
-       
         lastCard = Instantiate(cardPrefab).GetComponent<Card>();
 
         CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
@@ -117,42 +115,11 @@ public class CardDealer : MonoBehaviour
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
         
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
-        //Debug.Log($"Char Sprite Index {(int)randomCard.suit}");
-
-
-        // cardDeck.Remove(randomCard);
-
+        lastCard.eleixerText.text = uniteleixer.ToString();
         cardSpawned = false;
-
-        //cardDispenserAnimator.SetBool("Dealing", true);
-        //Play dealing animation first
-
-        //cardDispenserAnimator.SetTrigger("Deal");
-        //Card slides out to a point in front of the dispenser
-        //  while (!cardSpawned)
-        yield return null;
-        // }
-
-        //cardDispenserAnimator.SetBool("Dealing", false);
-
         //Player takes card
+        yield return player.AddCard(lastCard, left);
        
-        player.AddCard(lastCard, left);
-        // ===================================== 
-        // Set Button
-        numbers++;
-        if (numbers >= 3)
-            {
-                numbers = 3;
-            }
-
-        // ============================
-       
-        costText = GameObject.FindGameObjectWithTag("Eleixier");
-        //Debug.Log(costText);
-        costText.GetComponent<TextMeshProUGUI>().text = uniteleixer.ToString();
-        //Debug.Log(costText.GetComponent<TextMeshProUGUI>().text);
-        costText.tag = "Untagged";
     }
 
     IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
@@ -171,8 +138,7 @@ public class CardDealer : MonoBehaviour
         {
             if (players.Count > 0)
             {
-               
-                DealCard(player, left);
+                yield return DealingCard(player, left);
             }
             currentWait = waitTime;
             while (currentWait > 0)
@@ -208,7 +174,6 @@ public class CardDealer : MonoBehaviour
     }
     public void Hitmerge()
     {
-
         StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
     }
 
