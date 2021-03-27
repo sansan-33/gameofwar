@@ -94,15 +94,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
          
             if (other.TryGetComponent<Health>(out Health health))
             {
-               
-                if(player.GetPlayerID() == 1)
-                {
-                    opponentIdentity = GetComponent<NetworkIdentity>();
-                }
-                else
-                {
-                    opponentIdentity = other.GetComponent<NetworkIdentity>();
-                }
+                opponentIdentity = (player.GetPlayerID() == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
                
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 if (strengthWeakness == null) {
