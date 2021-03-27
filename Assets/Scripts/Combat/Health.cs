@@ -10,6 +10,7 @@ public class Health : NetworkBehaviour, IDamageable
   
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int defense = 0;
+    [SerializeField] private Shield shield;
     [SyncVar(hook = nameof(HandleHealthUpdated))]
     private float currentHealth;
     
@@ -54,7 +55,12 @@ public class Health : NetworkBehaviour, IDamageable
     }
     public bool DealDamage(float damageAmount)
     {
-        //Debug.Log($"DealDamage{damageAmount}");
+        if (shield.shieldHealth > 0)
+        {
+            Debug.Log("attack shield");
+            shield.shieldHealth -= damageAmount;
+            return false;
+        }
         if (currentHealth != 0)
         {
             damageAmount -= defense;

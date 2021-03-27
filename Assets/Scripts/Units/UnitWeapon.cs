@@ -37,7 +37,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     float upGradeAmount =  1.01f;
     private SimpleObjectPool damageTextObjectPool;
     private GameObject floatingText;
-
+    private Unit unit;
     public override void OnStartAuthority()
     {
         if (NetworkClient.connection.identity == null) { return; }
@@ -58,7 +58,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void TryAttack()
     {
         //Debug.Log($"Attacker {targeter} attacking .... ");
-        Unit unit = GetComponent<Unit>();
+         unit = GetComponent<Unit>();
         calculatedDamageToDeal = damageToDeal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
@@ -105,14 +105,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
                 if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
-                if (IsKingSP == true)
-                {
-                    //GetComponent<KingSP>().IsSuperAttack = false;
-                }
+               
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
                 {
-                    
                     cmdCMVirtual();
                     //GetComponent<NavMeshAgent>().speed = GetComponent<UnitMovement>().originalSpeed;
                     ReScaleDamageDeal();
@@ -160,14 +156,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         {
             powerUpAfterKill(this.transform.gameObject);
             RpcpowerUpAfterKill(this.transform.gameObject);
-            if(TryGetComponent<KingSP>(out KingSP king))
+            if(unit.unitType == UnitMeta.UnitType.KING)
             {
-                king.UpdateSPAmount();
+               GetComponent<KingSP>().UpdateSPAmount();
             }
-            if(IsKingSP == true)
-            {
-                GetComponent<KingSP>().FindAttackTargetInDistance();
-            }
+           
         }
     }
     [Command]

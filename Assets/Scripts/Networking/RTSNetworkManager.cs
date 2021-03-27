@@ -98,7 +98,7 @@ public class RTSNetworkManager : NetworkManager
         unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);
 
-        ServerChangeScene("Scene_Map_02");
+        ServerChangeScene("Scene_Map_04");
     }
 
     public override void OnServerAddPlayer(NetworkConnection conn)
