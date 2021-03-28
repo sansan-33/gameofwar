@@ -9,8 +9,7 @@ public class KingSP : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask = new LayerMask();
     [SerializeField] private GameObject attackPoint;
-    [SerializeField] private SpCost spCost;
-
+    
     public int attackRange = 100;
     public int minAttackRange;
     public float SPCost = 10;
@@ -19,6 +18,7 @@ public class KingSP : MonoBehaviour
 
     private bool IsSuperAttack = false;
 
+    private SpCost spCost;
     private GameObject hitCollider;
     private Transform searchPoint;
     private RTSPlayer player;
@@ -30,7 +30,8 @@ public class KingSP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        searchPoint = attackPoint.transform;
+        spCost = FindObjectOfType<SpCost>();
+           searchPoint = attackPoint.transform;
         minAttackRange = (int)(transform.localScale.x * attackRange / 2);
         SPButton = GameObject.FindGameObjectWithTag("SPButton").GetComponent<Button>();
         SPButton.onClick.RemoveAllListeners();

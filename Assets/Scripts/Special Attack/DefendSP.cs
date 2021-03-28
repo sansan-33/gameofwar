@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class DefendSP : MonoBehaviour
 {
-    [SerializeField] private SpCost spCost;
+    private SpCost spCost;
 
     public float SPCost = 10;
     public int shieldHealths = 100;
     private Button SPButton;
     void Start()
     {
+        spCost = FindObjectOfType<SpCost>();
         SPButton = GameObject.FindGameObjectWithTag("SpDefend").GetComponent<Button>();
         SPButton.onClick.RemoveAllListeners();
         SPButton.onClick.AddListener(OnPointerDown);
