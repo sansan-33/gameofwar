@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
     int totalCardSlot = 0;
     Vector3 v360 = new Vector3(0, 0, 180);
     public Vector3 forbiddenAreaScale;
-    private GameObject forbiddenArea;
+    public GameObject forbiddenArea;
     private List<CardSlot> cardSlotlist = new List<CardSlot>();
    
     void Awake()

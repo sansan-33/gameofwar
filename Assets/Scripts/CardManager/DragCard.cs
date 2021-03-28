@@ -35,7 +35,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private bool IS_HITTED_TIMER = false;
     private void Start()
     {
-        forbiddenArea = GameObject.FindGameObjectWithTag("ForbiddenArea");
+        forbiddenArea = GetComponentInParent<Player>().forbiddenArea;
 
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerGround = GameObject.FindGameObjectWithTag("FightGround").GetComponent<PlayerGround>();
