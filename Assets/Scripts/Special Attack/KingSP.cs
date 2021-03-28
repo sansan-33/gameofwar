@@ -31,7 +31,7 @@ public class KingSP : MonoBehaviour
     void Start()
     {
         spCost = FindObjectOfType<SpCost>();
-           searchPoint = attackPoint.transform;
+        searchPoint = attackPoint.transform;
         minAttackRange = (int)(transform.localScale.x * attackRange / 2);
         SPButton = GameObject.FindGameObjectWithTag("SPButton").GetComponent<Button>();
         SPButton.onClick.RemoveAllListeners();

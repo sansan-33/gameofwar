@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -25,9 +26,9 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public GameObject unitPreviewInstance;
     private UnitFactory localFactory;
     private CardDealer dealManagers;
+    private RTSPlayer RTSplayer;
     Camera mainCamera;
-    private Transform middle;
-    
+   private PlayerGround playerGround;
     [SerializeField] GameObject unitPrefab;
     public GameObject EmptyCard;
     int i = 0;
@@ -35,9 +36,10 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private void Start()
     {
         forbiddenArea = GameObject.FindGameObjectWithTag("ForbiddenArea");
-        
-        
-        middle = GameObject.FindGameObjectWithTag("Middle").transform;
+
+        RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        playerGround = GameObject.FindGameObjectWithTag("FightGround").GetComponent<PlayerGround>();
+       
         mainCamera = Camera.main;
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         Input.simulateMouseWithTouches = false;
@@ -133,6 +135,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     private void MoveUnitInstance()
     {
+        playerGround.sortLayer(RTSplayer.GetPlayerID());
         forbiddenArea.transform.localScale = GetComponentInParent<Player>().forbiddenAreaScale;
         forbiddenArea.SetActive(true);
         if (localFactory == null)
@@ -167,6 +170,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        playerGround.resetLayer();
         forbiddenArea.SetActive(false);
         if (unitPreviewInstance != null)
         {
@@ -226,13 +230,9 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 Ray ray = mainCamera.ScreenPointToRay(pos);
             //if the floor layer is not floor it will not work!!!
             if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
-          
-            if (pos.y > middle.position.y)
-            {
-                return;
-            }
-            else {  unitPreviewInstance.transform.position = hit.point; }
-            i++; 
+   
+              unitPreviewInstance.transform.position = hit.point; 
+        
             }
             catch (Exception) { }
         
