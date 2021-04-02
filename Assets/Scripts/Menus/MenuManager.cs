@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private GameObject loginPopUp = null;
+    
     public void GoToMainMenu()
     {
         SceneManager.LoadScene("Scene_Main_Menu");
@@ -23,10 +23,14 @@ public class MenuManager : MonoBehaviour
     }
     public void GoToSummonMenu()
     {
-        SceneManager.LoadScene("summon");
+        SceneManager.LoadScene("Scene_Summon");
     }
     public void GoToTeamMenu()
     {
         SceneManager.LoadScene("Scene_Team_Menu");
+    }
+    public void GoToLogin()
+    {
+        loginPopUp.SetActive(true);
     }
 }

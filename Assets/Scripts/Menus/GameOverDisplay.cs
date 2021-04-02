@@ -57,6 +57,7 @@ public class GameOverDisplay : MonoBehaviour
         winnerNameText.transform.DOMove(winnerNameText.transform.position + 2 * (Vector3.down), 1.75f).OnComplete(() => {
             //Destroy(transform.root.gameObject);
         });
+        winnerNameText.color = winner.ToLower() == "blue" ? Color.blue : Color.red;
         cardDisplay.enabled = false;
     }
     private void ClientHandleGameOverdraw()

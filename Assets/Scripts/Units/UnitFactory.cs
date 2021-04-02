@@ -76,9 +76,9 @@ public class UnitFactory : NetworkBehaviour
 
         GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(unitType, playerID);
         Vector3 spawnPosition = spawnPointObject.transform.position;
-
+        if(playerID == 0)
+        Debug.Log($"unit factory race type ==>  {UnitMeta.UnitRaceTypeKey[race][unitType]} ");
         StartCoroutine(ServerSpwanUnit(0.1f, playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, spawnAuthority, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
-        
     }
     [Server]
     private IEnumerator ServerSpwanUnit(float waitTime, int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount, bool spawnAuthority, int star, Color teamColor, Quaternion rotation, int spawnPointIndex)

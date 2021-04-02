@@ -10,29 +10,15 @@ using TMPro;
 
 public class MatchMaking : MonoBehaviour
 {
-
-    private const float API_CHECK_MAXTIME = 10 * 60.0f; //10 minutes
     public GameObject addressPanel;
     public GameObject serverIP;
-    private float apiCheckCountdown = API_CHECK_MAXTIME;
-
+    
     // API url
-    private string urladdress = "http://192.168.2.181:8400";
-    private string service = "gameserver";
-    private string quitservice = "gameserver/quit";
     private string status = "ready";
     private string limit = "1";
     // resulting JSON from an API request
     private JSONNode jsonResult;
 
-
-    void Start()
-    {
-        
-    }
-    void Update()
-    {
-    }
     public void CheckLobbyStatus()
     {
         addressPanel.SetActive(true);
@@ -52,7 +38,7 @@ public class MatchMaking : MonoBehaviour
         webReq.downloadHandler = new DownloadHandlerBuffer();
 
         // build the url and query
-        webReq.url = string.Format("{0}/{1}/{2}/{3}", urladdress, service, status, limit);
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.gameServerService, status, limit);
 
         // send the web request and wait for a returning result
         yield return webReq.SendWebRequest();
@@ -74,7 +60,7 @@ public class MatchMaking : MonoBehaviour
         webReq.downloadHandler = new DownloadHandlerBuffer();
 
         // build the url and query
-        webReq.url = string.Format("{0}/{1}/{2}", urladdress, quitservice, port);
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.quitService, port);
         webReq.method = "put";
         Debug.Log($"QuitGameServer {webReq.url }");
         // send the web request and wait for a returning result
