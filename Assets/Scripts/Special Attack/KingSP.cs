@@ -71,8 +71,8 @@ public class KingSP : MonoBehaviour
                // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance && hitCollider.tag != "Player0" && hitCollider.tag != this.tag&& !targetList.Contains(hitCollider))
                 { 
-                    //if (localDistance > minAttackRange)
-                    //{
+                    if (localDistance > minAttackRange)
+                    {
                     findedTarget = true;
                     distance = localDistance;
                     closestTarget = hitCollider;
@@ -80,7 +80,7 @@ public class KingSP : MonoBehaviour
                     TB.StopTacticalBehavior(player.GetPlayerID(), GetComponent<Unit>().unitType);
                     // Move the searchPoint to the next target, so it will not search at the same point
                     searchPoint = closestTarget.transform;    
-                   // }
+                    }
                 } 
             }
             // if there is no more target is finded then break
