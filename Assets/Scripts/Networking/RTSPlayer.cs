@@ -25,6 +25,10 @@ public class RTSPlayer : NetworkBehaviour
     private Color teamColor = new Color();
     [SyncVar(hook = nameof(ClientHandleTeamEnemyColorUpdated))]
     private Color teamEnemyColor = new Color();
+    [SyncVar(hook = nameof(ClientHandleUserIDUpdated))]
+    private string userid = "1";
+    [SyncVar]
+    private string race = "HUMAN";
 
     public event Action<int> ClientOnResourcesUpdated;
 
@@ -44,21 +48,26 @@ public class RTSPlayer : NetworkBehaviour
     {
         return playerID;
     }
+    public string GetUserID()
+    {
+        return userid;
+    }
+    public string GetRace()
+    {
+        return race;
+    }
     public string GetDisplayName()
     {
         return displayName;
     }
-
     public bool GetIsPartyOwner()
     {
         return isPartyOwner;
     }
-
     public Transform GetCameraTransform()
     {
         return cameraTransform;
     }
-
     public Color GetTeamColor()
     {
         return teamColor;
@@ -138,7 +147,17 @@ public class RTSPlayer : NetworkBehaviour
     {
         this.playerID = id;
     }
-
+    [Server]
+    public void SetUserID(string userid)
+    {
+        this.userid = userid;
+    }
+    [Server]
+    public void SetRace(string race)
+    {
+        this.race = race;
+        Debug.Log($"rts player race {this.race}");
+    }
     [Server]
     public void SetDisplayName(string displayName)
     {
@@ -203,7 +222,11 @@ public class RTSPlayer : NetworkBehaviour
         NetworkServer.Spawn(unitInstance, connectionToClient);
 
     }
-
+    [Command]
+    public void CmdSetUserID(string userid)
+    {
+        SetUserID(userid);
+    }
     private void ServerHandleUnitSpawned(Unit unit)
     {
         if (unit.connectionToClient.connectionId != connectionToClient.connectionId) { return; }
@@ -296,6 +319,10 @@ public class RTSPlayer : NetworkBehaviour
     private void ClientHandleTeamEnemyColorUpdated(Color oldColor, Color newColor)
     {
         ClientOnInfoUpdated?.Invoke();
+    }
+    private void ClientHandleUserIDUpdated(string olduserid, string newuserid)
+    {
+        Debug.Log($"RTSPlayer userid updated {newuserid} ");
     }
     private void AuthorityHandlePartyOwnerStateUpdated(bool oldState, bool newState)
     {

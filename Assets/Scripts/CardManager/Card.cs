@@ -21,6 +21,7 @@ public class Card : MonoBehaviour
     private UnitFactory localFactory;
     private GameObject dealManagers;
     public int playerID = 0;
+    UnitMeta.Race playerRace;
     //int enemyID = 0;
     Color teamColor;
     public eleixier eleixers;
@@ -35,6 +36,8 @@ public class Card : MonoBehaviour
         mainCamera = Camera.main;
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
+        Debug.Log($"Card player race {player.GetRace()}");
+        playerRace =  (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace());
         //enemyID = player.GetEnemyID();
         teamColor = player.GetTeamColor();
         dealManagers = GameObject.FindGameObjectWithTag("DealManager");
@@ -68,8 +71,8 @@ public class Card : MonoBehaviour
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
-        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
-        localFactory.CmdSpawnUnit( (UnitMeta.Race) playerID, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, true, teamColor);
+        Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race {playerRace}/ PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
+        localFactory.CmdSpawnUnit( playerRace, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, true, teamColor);
     }
     public void DropUnit(Vector3 SpwanPoint)
     {

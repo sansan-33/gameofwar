@@ -29,6 +29,7 @@ public class LobbyMenu : MonoBehaviour
     private void HandleClientConnected()
     {
         lobbyUI.SetActive(true);
+        NetworkClient.connection.identity.GetComponent<RTSPlayer>().CmdSetUserID(StaticClass.UserID);
     }
 
     private void ClientHandleInfoUpdated()

@@ -103,6 +103,26 @@ public class UnitMeta
         { UnitKey.UNDEADKING , UnitType.KING  },
         { UnitKey.UNDEADWALL , UnitType.WALL }
     };
+    public static Dictionary<UnitKey, Race> KeyRace = new Dictionary<UnitKey, Race>() {
+
+        { UnitKey.ARCHER , Race.HUMAN } ,
+        { UnitKey.KNIGHT , Race.HUMAN } ,
+        { UnitKey.CAVALRY , Race.HUMAN} ,
+        { UnitKey.MAGE , Race.HUMAN},
+        { UnitKey.SPEARMAN , Race.HUMAN},
+        { UnitKey.HERO , Race.HUMAN},
+        { UnitKey.KING , Race.HUMAN },
+        { UnitKey.HUMANWALL , Race.HUMAN },
+
+        { UnitKey.UNDEADARCHER , Race.UNDEAD  } ,
+        { UnitKey.GIANT , Race.UNDEAD  } ,
+        { UnitKey.RIDER , Race.UNDEAD  } ,
+        { UnitKey.LICH , Race.UNDEAD },
+        { UnitKey.MINISKELETON , Race.UNDEAD  },
+        { UnitKey.UNDEADHERO , Race.UNDEAD  },
+        { UnitKey.UNDEADKING , Race.UNDEAD  },
+        { UnitKey.UNDEADWALL , Race.UNDEAD }
+    };
     public static Dictionary<UnitKey, bool> CanCollide = new Dictionary<UnitKey, bool>(){
         { UnitKey.RIDER,true }
     };

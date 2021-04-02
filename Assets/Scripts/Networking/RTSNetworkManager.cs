@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using Mirror;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -27,6 +29,7 @@ public class RTSNetworkManager : NetworkManager
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
+    private Dictionary<string, string> userTeamDict = new Dictionary<string, string>();
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -37,7 +40,6 @@ public class RTSNetworkManager : NetworkManager
     private List<Color> teamsColor = new List<Color>() { new Color(0f,0.6f,1f), new Color(1f,0f,0f)};
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
 
-    private string urladdress = "http://192.168.2.181:8400";
     private int spawnMoveRange = 1;
 
     private Dictionary<UnitMeta.UnitKey, int> militaryList = new Dictionary<UnitMeta.UnitKey, int>();
@@ -61,7 +63,6 @@ public class RTSNetworkManager : NetworkManager
             StartCoroutine(HandleEndGame(Convert.ToString((int)NetworkManager.singleton.GetComponent<TelepathyTransport>().port)));
         }
     }
-
     public override void OnStopServer()
     {
         Players.Clear();
@@ -71,11 +72,28 @@ public class RTSNetworkManager : NetworkManager
     {
         UnityWebRequest webReq = new UnityWebRequest();
         // build the url and query
-        webReq.url = string.Format("{0}/{1}/{2}", urladdress, "gameserver/quit", port);
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.quitService , port);
         webReq.method = "put";
         webReq.SendWebRequest();
         yield return new WaitForSeconds(10f);
         //Application.Quit();
+    }
+    public IEnumerator LoadUserTeam(string userid)
+    {
+        userTeamDict.Clear();
+        JSONNode jsonResult;
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.teamService, userid);
+        yield return webReq.SendWebRequest();
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+        jsonResult = JSON.Parse(rawJson);
+        if(jsonResult.Count > 0)
+        {
+            userTeamDict.Add(userid, jsonResult[0]["cardkey1"] + "," + jsonResult[0]["cardkey2"] + "," + jsonResult[0]["cardkey3"]);
+        }
+        Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+
     }
     public void StartGame()
     {
@@ -115,7 +133,6 @@ public class RTSNetworkManager : NetworkManager
         player.SetEnemyID(player.GetPlayerID() == 0 ? 1 : 0);
         player.SetTeamEnemyColor(teamsColor[player.GetEnemyID()]);
         player.SetPartyOwner(Players.Count == 1);
-   
     }
 
     public override void OnServerSceneChanged(string sceneName)
@@ -135,25 +152,25 @@ public class RTSNetworkManager : NetworkManager
                 militaryList.Clear();
                 if (player.GetPlayerID() == 0)
                 {
-                    militaryList.Add(UnitMeta.UnitKey.HERO, 2);
+                    //militaryList.Add(UnitMeta.UnitKey.HERO, 2);
                     //militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
                     //militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
                     //militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 1);
 
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1 , Quaternion.identity));
+                    //StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1 , Quaternion.identity));
                 }
                 else
                 {
                     //militaryList.Add(UnitMeta.UnitKey.MINISKELETON, 1);
-                    militaryList.Add(UnitMeta.UnitKey.UNDEADHERO, 2);
+                    //militaryList.Add(UnitMeta.UnitKey.UNDEADHERO, 2);
                     //militaryList.Add(UnitMeta.UnitKey.UNDEADARCHER, 1);
                     //militaryList.Add(UnitMeta.UnitKey.RIDER, 1);
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.UNDEADKING, 1, Quaternion.Euler(0, 180,0)));
+                    //StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.UNDEADKING, 1, Quaternion.Euler(0, 180,0)));
                 }
-                foreach (UnitMeta.UnitKey unitKey in militaryList.Keys)
-                {
-                    StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, unitKey, militaryList[unitKey], Quaternion.identity));
-                }
+                //foreach (UnitMeta.UnitKey unitKey in militaryList.Keys)
+                //{
+                StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, Quaternion.identity));
+                //}
             }
         }
 
@@ -167,24 +184,39 @@ public class RTSNetworkManager : NetworkManager
                    Quaternion.identity);
         NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
-    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, UnitMeta.UnitKey unitKey  , int spawnCount, Quaternion rotation)
+    private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, Quaternion rotation)
     {
-
+        yield return LoadUserTeam(player.GetUserID());
         yield return new WaitForSeconds(waitTime);
-        while (spawnCount > 0)
+        int spawnCount = 1;
+        string teams;
+        string[] teamArray = new string[] { UnitMeta.UnitKey.KING.ToString() }; //Default;
+        if (userTeamDict.TryGetValue(player.GetUserID(), out teams))
         {
-            GameObject spawnPointObject = gameBoardHandlerInstance.GetSpawnPointObject(UnitMeta.KeyType[unitKey], player.GetPlayerID());
-            Vector3 spawnPosition = spawnPointObject.transform.position;
-            //Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
-            GameObject unit = Instantiate(unitDict[unitKey], spawnPosition, rotation) as GameObject;
-            unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
-            unit.name = unitKey.ToString();
-            //unit.tag = "Player" + player.GetPlayerID();
-            //unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
-            NetworkServer.Spawn(unit, player.connectionToClient);
-            //Debug.Log("loadMilitary");
-            //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
-            spawnCount--;
+            teamArray = teams.Split(',');
+            player.SetRace(UnitMeta.KeyRace[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[0])].ToString());
+        }
+                
+        Debug.Log($"Userid {player.GetUserID()}, Team {teams}");
+        for (int i=0; i< teamArray.Length; i++ ){
+            spawnCount = 1;
+            UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[i]);
+            Debug.Log($"unitKey {unitKey}");
+            while (spawnCount > 0)
+            {
+                GameObject spawnPointObject = gameBoardHandlerInstance.GetSpawnPointObject(UnitMeta.KeyType[unitKey], player.GetPlayerID());
+                Vector3 spawnPosition = spawnPointObject.transform.position;
+                //Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
+                GameObject unit = Instantiate(unitDict[unitKey], spawnPosition, rotation) as GameObject;
+                unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
+                unit.name = unitKey.ToString();
+                //unit.tag = "Player" + player.GetPlayerID();
+                //unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
+                NetworkServer.Spawn(unit, player.connectionToClient);
+                //Debug.Log("loadMilitary");
+                //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
+                spawnCount--;
+            }
         }
     }
 

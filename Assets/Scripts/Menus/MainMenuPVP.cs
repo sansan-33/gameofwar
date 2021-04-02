@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MainMenuPVP : MonoBehaviour, IPointerClickHandler
@@ -10,7 +8,6 @@ public class MainMenuPVP : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         landingPagePanel.SetActive(false);
-
         Mirror.NetworkManager.singleton.StartHost();
     }
 
