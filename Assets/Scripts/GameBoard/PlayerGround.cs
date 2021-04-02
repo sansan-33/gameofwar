@@ -15,6 +15,7 @@ public class PlayerGround : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Test
         //player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
        // sortLayer();
     }
