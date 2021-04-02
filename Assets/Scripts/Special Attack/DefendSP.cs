@@ -23,18 +23,22 @@ public class DefendSP : MonoBehaviour
 
     public void OnPointerDown()
     {
+       
         //if(SPAmount < SPCost) {return;}
         spCost.SPAmount -= (int)SPCost;
         Unit[] shieldList;
         shieldList = FindObjectsOfType<Unit>();
-
+        
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
+        {
+           
+            foreach (Unit shield in shieldList)
             {
-                foreach (Unit shield in shieldList)
+               
+                if (shield.CompareTag("Player0") || shield.CompareTag("King0"))
                 {
-                    if (shield.CompareTag("Player0") || shield.CompareTag("King0"))
-                    {
-                      shield.GetComponent<Shield>().CmdSetShieldHealth(shieldHealths);
+                    
+                    shield.GetComponent<Shield>().CmdSetShieldHealth(shieldHealths);
                     }
                 }
             }

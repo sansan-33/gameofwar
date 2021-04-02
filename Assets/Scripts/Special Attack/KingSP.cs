@@ -30,10 +30,12 @@ public class KingSP : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         spCost = FindObjectOfType<SpCost>();
         searchPoint = attackPoint.transform;
         minAttackRange = (int)(transform.localScale.x * attackRange / 2);
         SPButton = GameObject.FindGameObjectWithTag("SPButton").GetComponent<Button>();
+        SPButton.tag = "Untagged";
         SPButton.onClick.RemoveAllListeners();
         SPButton.onClick.AddListener(FindAttackTargetInDistance);
         TB = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
@@ -41,10 +43,11 @@ public class KingSP : MonoBehaviour
    
     public void FindAttackTargetInDistance()
     {
+       
         if(attackPoint == null) { return; }
         //if(SPAmount < SPCost) {return;}
         spCost.SPAmount -= (int)SPCost;
-
+       
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
        
         GameObject closestTarget = null;
@@ -55,19 +58,21 @@ public class KingSP : MonoBehaviour
         targetList.Clear();
         while (haveTarget == true)
         {
+          
             bool findedTarget = false;
             //Search target in a distance
             Collider[] hitColliders = Physics.OverlapBox(searchPoint.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
             int i = 0;
             while (i < hitColliders.Length)
             {
+             
                 distance = float.MaxValue;
                 hitCollider = hitColliders[i++].transform.gameObject;
                // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance && hitCollider.tag != "Player0" && hitCollider.tag != this.tag&& !targetList.Contains(hitCollider))
                 { 
-                    //if (localDistance > minAttackRange)
-                    //{
+                    if (localDistance > minAttackRange)
+                    {
                     findedTarget = true;
                     distance = localDistance;
                     closestTarget = hitCollider;
@@ -75,7 +80,7 @@ public class KingSP : MonoBehaviour
                     TB.StopTacticalBehavior(player.GetPlayerID(), GetComponent<Unit>().unitType);
                     // Move the searchPoint to the next target, so it will not search at the same point
                     searchPoint = closestTarget.transform;    
-                   // }
+                    }
                 } 
             }
             // if there is no more target is finded then break
