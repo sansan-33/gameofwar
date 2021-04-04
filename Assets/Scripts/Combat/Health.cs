@@ -13,7 +13,9 @@ public class Health : NetworkBehaviour, IDamageable
     [SerializeField] private Shield shield;
     [SyncVar(hook = nameof(HandleHealthUpdated))]
     private float currentHealth;
-    
+    [SyncVar]
+    private float currentLevel;
+
     public event Action ServerOnDie;
 
     public event Action<int, int> ClientOnHealthUpdated;

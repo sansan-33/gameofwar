@@ -39,6 +39,7 @@ public class TacticalBehavior : MonoBehaviour
     private Dictionary<int, GameObject> KINGBOSS = new Dictionary<int, GameObject>();
     private float radius = 0.1f;
     private float newDefendRadius = 7f;
+    private static bool IS_STUNNED = false;
     #region Client
 
     public void Start()
@@ -145,6 +146,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         if (gameBoardHandlerPrefab == null) { yield break; }
+        if (IS_STUNNED) { yield break;}
         //var stopwatch = new Stopwatch();
         //stopwatch.Start();
 
@@ -166,7 +168,7 @@ public class TacticalBehavior : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length;
         behaviorTreeGroups[playerid].Clear();
         int leaderUnitTypeID = 0;
-     
+       
         
         foreach (GameObject child in armies)
         {
@@ -268,6 +270,10 @@ public class TacticalBehavior : MonoBehaviour
     public void HandleLeaderSelected(int leaderId)
     {
         selectedLeaderId = leaderId;
+    }
+    public void HandleStun(bool stun)
+    {
+        TacticalBehavior.IS_STUNNED = stun;
     }
     public void TryTB(int type )
     {

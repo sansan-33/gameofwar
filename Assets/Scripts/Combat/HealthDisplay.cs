@@ -10,8 +10,10 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] private Health health = null;
     [SerializeField] private GameObject healthBarParent = null;
     [SerializeField] private Image healthBarImage = null;
-    [SerializeField] private GameObject taskStatusParent = null;
     [SerializeField] private GameObject leaderFrame = null;
+    [SerializeField] private TMP_Text currentHealthText = null;
+    [SerializeField] private TMP_Text levelText = null;
+
     public int kills;
     private Quaternion startRotation;
 
@@ -24,8 +26,6 @@ public class HealthDisplay : MonoBehaviour
     void Update()
     {
         healthBarParent.transform.rotation = startRotation;
-        if(taskStatusParent!=null)
-        taskStatusParent.transform.rotation = startRotation;
     }
     private void OnDestroy()
     {
@@ -40,6 +40,7 @@ public class HealthDisplay : MonoBehaviour
     private void HandleHealthUpdated(int currentHealth, int maxHealth)
     {
         healthBarImage.fillAmount = (float)currentHealth / maxHealth;
+        currentHealthText.text = "" + currentHealth;
         if (currentHealth < maxHealth) {
             healthBarParent.SetActive(true);
         }
