@@ -120,13 +120,10 @@ public class GoldenSlash : MonoBehaviour
         float Timer = 3f;
         while (Timer > 0) { Timer -= Time.deltaTime; }
         // damage base on distance
-<<<<<<< HEAD:Assets/Scripts/Special Attack/KingSP.cs
+
         GetComponent<UnitWeapon>().ScaleDamageDeal(0,0,distance / 100);
         transform.position = closestTarget.transform.position;
-=======
-        GetComponent<UnitWeapon>().ScaleDamageDeal(distance / 100);
         GameObject.FindGameObjectWithTag("King" + player.GetPlayerID()).transform.position = closestTarget.transform.position;
->>>>>>> f589475b00caaa9fadc8b78afa04fea8fcb2521c:Assets/Scripts/Special Attack/GoldenSlash.cs
         // make the king attack in update
         IsSuperAttack = true;
     }
