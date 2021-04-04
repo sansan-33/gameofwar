@@ -42,7 +42,10 @@ public class Health : NetworkBehaviour, IDamageable
 
         DealDamage(currentHealth);
     }
-
+    public void SetUnitLevel(int level)
+    {
+        this.currentLevel = level;
+    }
     public void ScaleMaxHealth(int health, float factor)
     {
         maxHealth = health == 0 ? maxHealth : health;
@@ -74,14 +77,10 @@ public class Health : NetworkBehaviour, IDamageable
                     ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
                     return true;
                 }
-               
             }
-           
         }
-
         return false;
     }
-
     #endregion
 
     #region Client

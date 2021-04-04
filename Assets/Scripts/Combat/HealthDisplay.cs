@@ -45,7 +45,6 @@ public class HealthDisplay : MonoBehaviour
             healthBarParent.SetActive(true);
         }
     }
-
     public void SetHealthBarColor (Color newColor)
     {
         healthBarImage.color = newColor;
