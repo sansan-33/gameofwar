@@ -35,7 +35,7 @@ public class UnitPowerUp : NetworkBehaviour
             {
                 case UnitMeta.UnitType.FOOTMAN :
                     if (unit.isScaled) { break; }
-                    ServerPowerUp(unit.gameObject, 2);
+                    ServerPowerUp(unit.gameObject,2,0,0,0,0,0,0);
                     Scale(unitTransform, unit.gameObject);
                     RpcScale(unitTransform, unit.gameObject);
                     break;
@@ -44,20 +44,6 @@ public class UnitPowerUp : NetworkBehaviour
                     break;
             }
         }
-       /*
-        if (battleFieldRules.IsInField() && CanHalfSpeed)
-        {
-            agent.speed /= 2;
-            CanHalfSpeed = false;
-            CanTimeSpeed = true;
-        }
-        else if(!battleFieldRules.IsInField() && CanTimeSpeed)
-        {
-            agent.speed *= 2;
-            CanTimeSpeed = false;
-            CanHalfSpeed = true;
-        }
-       */
     }
     [Command]
     public void cmdSpeedUp(int speed)
@@ -66,35 +52,22 @@ public class UnitPowerUp : NetworkBehaviour
         ServerSetSpeed(speed);
     }
     [Server]
-    public void ServerPowerUp(GameObject unit, int star)
+    public void ServerPowerUp(GameObject unit, int star, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
-        RpcPowerUp(unit.gameObject, star);
+        RpcPowerUp(unit.gameObject, star, health, attack, repeatAttackDelay, speed, defense, special);
     }
-    public void powerUp(GameObject unit, int star)
+    public void powerUp(GameObject unit, int star, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
         //Debug.Log(unit);
-        unit.GetComponent<Health>().ScaleMaxHealth(star);
-
-        if (star == 1)
-        {
-            unit.GetComponent<IAttack>().ScaleDamageDeal(star);
-        }
-        else
-        {
-            unit.GetComponent<IAttack>().ScaleDamageDeal((star - 1) * 3);
-        }
-        //Debug.Log("powerUp");
-      
+        unit.GetComponent<Health>().ScaleMaxHealth(health, star);
+        unit.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
         unit.GetComponentInChildren<UnitBody>().SetRenderMaterial(unit, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID(),star);
-        //unit.GetComponentInChildren<IBody>().SetUnitSize(star);
-
-        //return unit.GetComponent<Unit>();
     }
     [ClientRpc]
-    public void RpcPowerUp(GameObject unit, int star)
+    public void RpcPowerUp(GameObject unit, int star, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
         //Debug.Log("RpcPowerUp");
-        powerUp(unit, star);
+        powerUp(unit, star, health, attack, repeatAttackDelay, speed, defense, special);
     }
     private void Scale(Transform unitTransform, GameObject unit)
     {

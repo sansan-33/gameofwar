@@ -71,8 +71,7 @@ public class Card : MonoBehaviour
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
-        //Debug.Log($"Card ==> OnPointerDown {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race {playerRace}/ PlayerHand index {this.cardPlayerHandIndex} playerID {playerID} localFactory is null ? {localFactory == null} ");
-        localFactory.CmdSpawnUnit( playerRace, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, true, teamColor);
+        localFactory.CmdSpawnUnit( playerRace, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, teamColor);
     }
     public void DropUnit(Vector3 SpwanPoint)
     {
@@ -88,7 +87,8 @@ public class Card : MonoBehaviour
                 }
             }
         }
-        localFactory.CmdDropUnit(0.1f, playerID, SpwanPoint, playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize,true, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
+        Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race {playerRace} / Card Stats {cardFace.stats}");
+        localFactory.CmdDropUnit(playerID, SpwanPoint, playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
     }
     public void destroy()
     {
@@ -114,6 +114,31 @@ public enum Card_Stars
     Bronze,
     Silver,
     Gold
+}
+public struct Card_Stats
+{
+    public int cardLevel;
+    public int health;
+    public int attack;
+    public float repeatAttackDelay;
+    public int speed;
+    public int defense;
+    public int special;
+
+    public Card_Stats(int cardLevel, int health, int attack, float repeatAttackDelay, int speed , int defense, int special )
+    {
+        this.cardLevel = cardLevel;
+        this.health = health;
+        this.attack = attack;
+        this.repeatAttackDelay = repeatAttackDelay;
+        this.speed = speed;
+        this.defense = defense;
+        this.special = special;
+    }
+    public override string ToString()
+    {
+        return "health:" + health + "\t attack:" + attack + "\t repeatAttackDelay:" + repeatAttackDelay + "\t speed:" + speed + "\t defense:" + defense + "\t special:" + special;
+    }
 }
 public enum Card_Numbers
 { 

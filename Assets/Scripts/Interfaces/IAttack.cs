@@ -16,7 +16,7 @@
         /// Returns the maximum angle that the agent can attack from.
         /// </summary>
         /// <returns>The maximum angle that the agent can attack from.</returns>
-        void ScaleDamageDeal(float factor);
+        void ScaleDamageDeal(int attack, float repeatAttackDelay, float factor);
 
         void ScaleAttackRange(float factor);
     }

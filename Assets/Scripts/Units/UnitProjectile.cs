@@ -44,9 +44,10 @@ public class UnitProjectile : NetworkBehaviour
     {
         Invoke(nameof(DestroySelf), destroyAfterSeconds);
     }
-    public void SetDamageToDeal(float newDamageToDealFactor)
+    public void SetDamageToDeal(int damageToDeal , float newDamageToDealFactor)
     {
         //Debug.Log($"damageToDealOriginal {damageToDealOriginal}newDamageToDealFactor{newDamageToDealFactor}");
+        this.damageToDeals = damageToDeal == 0 ? this.damageToDeals : damageToDeal;
         damageToDealOriginal = (int) (damageToDealOriginal * newDamageToDealFactor);
     }
     

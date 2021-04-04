@@ -15,6 +15,15 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public TMP_Text raceText;
     [SerializeField] public TMP_Text leveluprequirementText;
     [SerializeField] public TMP_Text nameText;
+    [Header("Card Statistic")]
+    [SerializeField] public TMP_Text healthValue;
+    [SerializeField] public TMP_Text attackValue;
+    [SerializeField] public TMP_Text attackDelayValue;
+    [SerializeField] public TMP_Text defenseValue;
+    [SerializeField] public TMP_Text speedValue;
+    [SerializeField] public TMP_Text specialValue;
+    [SerializeField] public TMP_Text powerValue;
+
     [SerializeField] public Image characterImage;
     [SerializeField] public Image unitTypeImage;
     [SerializeField] public Button levelUpButton;
@@ -24,7 +33,7 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public CharacterFullArt characterFullArt;
 
     private bool CANLEVELUP = false;
-
+    private static float LEVELUP_POWER = 1.1f;
 
     private void Start()
     {
@@ -68,6 +77,7 @@ public class HeroMenu : MonoBehaviour
         jsonResult = JSON.Parse(rawJson);
         if(jsonResult.Count> 0)
         {
+            double levelupfactor = Math.Pow(LEVELUP_POWER, Int32.Parse(jsonResult[0]["level"]));
             lvlText.text = jsonResult[0]["level"];
             expText.text = jsonResult[0]["exp"];
             leveluprequirementText.text = jsonResult[0]["leveluprequirement"];
@@ -87,6 +97,14 @@ public class HeroMenu : MonoBehaviour
                      stars.transform.GetChild(j).gameObject.SetActive(false);
                 }
             }
+            healthValue.text = "" + Double.Parse(jsonResult[0]["health"]) * levelupfactor;
+            attackValue.text = "" + jsonResult[0]["attack"] * levelupfactor;
+            attackDelayValue.text = jsonResult[0]["repeatattackdelay"];
+            defenseValue.text = "" + jsonResult[0]["defense"] * levelupfactor;
+            speedValue.text = jsonResult[0]["speed"];
+            specialValue.text = jsonResult[0]["special"];
+            powerValue.text = jsonResult[0]["power"];
+
         }
     }
 }

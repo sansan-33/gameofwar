@@ -232,8 +232,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         repeatAttackDelay =  repeatAttackDelay * factor ;
     }
-    public void ScaleDamageDeal(float factor)
+    public void ScaleDamageDeal(int attack, float repeatAttackDelay, float factor)
     {
+        damageToDeal = attack == 0 ? damageToDeal : attack;
+        this.repeatAttackDelay = repeatAttackDelay == 0 ? this.repeatAttackDelay : repeatAttackDelay;
         damageToDeal =  (int)  (damageToDeal * factor);
     }
     public void ReScaleDamageDeal()
@@ -263,14 +265,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180; 
 
 
-    }
-    private void Update()
-    {
-       // if (name == "*KING"&&tag == "King0")
-       // {
-        //    Debug.Log($"Update DasdhDamage{DashDamage} name --> {name} KingSp = {IsKingSP}");
-       // }
-        
     }
     private void SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {

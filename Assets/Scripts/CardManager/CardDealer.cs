@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using SimpleJSON;
+using UnityEngine.Networking;
+using System.Text;
+using Mirror;
 
 [System.Serializable]
 public struct CardFace
@@ -12,90 +15,59 @@ public struct CardFace
     public Card_Suits suit;
     public Card_Numbers numbers;
     public Card_Stars star;
+    public Card_Stats stats;
 
-    public CardFace(Card_Suits suit, Card_Numbers numbers, Card_Stars star)
+    public CardFace(Card_Suits suit, Card_Numbers numbers, Card_Stars star, Card_Stats stats)
     {
         this.suit = suit;
         this.numbers = numbers;
         this.star = star;
+        this.stats = stats;
     }
 }
-
-[System.Serializable]
-public class CardFaceCoords
-{
-    public CardFace cardFace;
-    [SerializeField] private Vector2 _coord;
-    public Vector2 coord
-    {
-        get { return new Vector2(_coord.y / 9, -(_coord.x / 6)); }
-        set { _coord = value; }
-    }
-}
-
 public class CardDealer : MonoBehaviour
 {
-    
-    public List<Card> cards;
-    public List<Button> buttons;
     public int MAXTOTALHAND = 6;
-    [SerializeField] Transform cardDispenserSpawn;
-    [SerializeField] Animator cardDispenserAnimator;
     [SerializeField] GameObject cardPrefab;
-
-    [SerializeField] List<CardFaceCoords> cardFaceCoords = new List<CardFaceCoords>();
-    [SerializeField] GameObject costText;
     [SerializeField] List<Player> players = new List<Player>();
-
     [SerializeField] List<CardFace> cardDeck = new List<CardFace>();
     [SerializeField] List<CardFace> cardDeckUsed = new List<CardFace>();
-
-    bool cardSpawned = false;
+    [SerializeField] public Dictionary<string, Card_Stats> userCardStatsDict = new Dictionary<string, Card_Stats>();
+    
     Card lastCard;
-    [Header("Testing")]
-
-    [SerializeField] Button testHit;
-
+    UnitMeta.Race UnitRace; 
     void Awake()
     {
         //  dealer.SetAsDealer();
-        ShuffleDeck();
-        DealBegin();
+        //ShuffleDeck();
+        //DealBegin();
     }
-    
-    void ShuffleDeck()
+    private void Start()
     {
+        StartCoroutine(ShuffleDeck());
+    }
+    IEnumerator ShuffleDeck()
+    {
+        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        UnitRace = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace());
+        yield return GetUserCard(player.GetUserID(), player.GetRace());
         cardDeckUsed.Clear();
+        string cardkey;
         foreach (Card_Suits suit in Enum.GetValues(typeof(Card_Suits)))
         {
             foreach (Card_Deck number in Enum.GetValues(typeof(Card_Deck)))
             {
-                cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze));
+                cardkey = UnitMeta.UnitRaceTypeKey[UnitRace][(UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), number.ToString())].ToString();
+                cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze, userCardStatsDict[ cardkey ]));
             }
         }
+        yield return DealCards(3, 0f, 0.1f, players[0]); 
     }
 
     void DealCard(Player player,  bool left = true)
     {
         //Debug.Log("Dealing Card to " + player.playerName);
         StartCoroutine(DealingCard(player, left));
-    }
-
-    public void SpawnCard()
-    {
-        //Triggered by animation event to ensure correct timing
-        StartCoroutine(EndOfFrame());
-    }
-
-    IEnumerator EndOfFrame()
-    {
-        yield return new WaitForEndOfFrame();
-
-        lastCard.transform.position = new Vector3(cardDispenserSpawn.position.x, cardDispenserSpawn.position.y, 0);
-        lastCard.transform.rotation = cardDispenserSpawn.rotation;
-        lastCard.transform.localScale = Vector3.one;
-
-        cardSpawned = true;
     }
 
     IEnumerator DealingCard(Player player, bool left = true)
@@ -116,7 +88,6 @@ public class CardDealer : MonoBehaviour
         
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         lastCard.eleixerText.text = uniteleixer.ToString();
-        cardSpawned = false;
         //Player takes card
         yield return player.AddCard(lastCard, left);
        
@@ -150,31 +121,31 @@ public class CardDealer : MonoBehaviour
         }
 
     }
-
-    /*
-    ================
-        TESTING
-    ================
-    */
-
-    [ContextMenu("Play Blackjack")]
-    public void DealBegin()
-    {
-        //Deal two cards to player
-        StartCoroutine(DealCards(3, 0f, 0.1f,players[0]));
-    }
-
-    [ContextMenu("Hit")]
     public void Hit()
     {
         float Timer = 1;
         while (Timer > 0) { Timer -= Time.deltaTime; }
-     
         StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
     }
-    public void Hitmerge()
+
+    // sends an API request - returns a JSON file
+    IEnumerator GetUserCard(string userid, string race)
     {
-        StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
+        userCardStatsDict.Clear();
+        JSONNode jsonResult;
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.cardService, userid, race);
+        yield return webReq.SendWebRequest();
+
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+        jsonResult = JSON.Parse(rawJson);
+        for (int i = 0; i < jsonResult.Count; i++)
+        {
+            if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
+                userCardStatsDict.Add(jsonResult[i]["cardkey"], new Card_Stats(jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatAttackDelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
+        }
+        Debug.Log($"jsonResult {webReq.url } {jsonResult}");
     }
 
 }

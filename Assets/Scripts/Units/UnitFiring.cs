@@ -15,6 +15,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private float rotationSpeed = 100f;
    
     private float lastFireTime;
+    private int damageToDeal = 0;
     private float damageToDealFactor = 1f;
     private float powerUpFactor = 0.1f;
 
@@ -46,7 +47,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
 
         GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileRotation);
-        projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDealFactor);
+        projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDeal, damageToDealFactor);
 
         NetworkServer.Spawn(projectileInstance, connectionToClient);
             
@@ -91,8 +92,10 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         repeatAttackDelay = repeatAttackDelay * factor;
     }
 
-    public void ScaleDamageDeal(float factor)
+    public void ScaleDamageDeal(int attack, float repeatAttackDelay, float factor)
     {
+        damageToDeal = attack == 0 ? damageToDeal : attack;
+        this.repeatAttackDelay = repeatAttackDelay == 0 ? this.repeatAttackDelay : repeatAttackDelay;
         damageToDealFactor = factor;
     }
     public void ScaleAttackRange(float factor)
@@ -102,7 +105,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     public void OnHandleKilled()
     {
         GetComponent<HealthDisplay>().HandleKillText();
-        ScaleDamageDeal(damageToDealFactor + powerUpFactor);
+        ScaleDamageDeal(0,0,damageToDealFactor + powerUpFactor);
     }
     [ClientRpc]
     public void RpcOnHandleKilled()

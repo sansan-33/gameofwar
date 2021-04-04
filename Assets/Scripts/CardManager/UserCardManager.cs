@@ -83,6 +83,7 @@ public class UserCardManager : MonoBehaviour
     // sends an API request - returns a JSON file
     IEnumerator GetUserCard(string userid)
     {
+        userCardDict.Clear();
         // resulting JSON from an API request
         JSONNode jsonResult;
         UnityWebRequest webReq = new UnityWebRequest();
@@ -102,7 +103,8 @@ public class UserCardManager : MonoBehaviour
         jsonResult = JSON.Parse(rawJson);
         for (int i = 0; i < jsonResult.Count; i++)
         {
-            userCardDict.Add(jsonResult[i]["cardkey"] , new UserCard(jsonResult[i]["cardkey"], jsonResult[i]["level"], jsonResult[i]["exp"], jsonResult[i]["specail"], jsonResult[i]["rarity"], jsonResult[i]["leveluprequirement"], jsonResult[i]["star"], jsonResult[i]["unittype"]) );
+            if(jsonResult[i]["cardkey"] !=null && jsonResult[i]["cardkey"].ToString().Length > 0  )
+                userCardDict.Add(jsonResult[i]["cardkey"] , new UserCard(jsonResult[i]["cardkey"], jsonResult[i]["level"], jsonResult[i]["exp"], jsonResult[i]["specail"], jsonResult[i]["rarity"], jsonResult[i]["leveluprequirement"], jsonResult[i]["star"], jsonResult[i]["unittype"]) );
         }
         UserCardLoaded?. Invoke(userid);
         Debug.Log($"jsonResult {webReq.url } {jsonResult}");
@@ -111,6 +113,7 @@ public class UserCardManager : MonoBehaviour
     // sends an API request - returns a JSON file
     IEnumerator GetAllCard(string sortby)
     {
+        allCardDict.Clear();
         // resulting JSON from an API request
         JSONNode jsonResult;
         UnityWebRequest webReq = new UnityWebRequest();
@@ -130,10 +133,10 @@ public class UserCardManager : MonoBehaviour
         jsonResult = JSON.Parse(rawJson);
         for (int i = 0; i < jsonResult.Count; i++)
         {
-            allCardDict.Add(jsonResult[i]["cardkey"], new UserCard(jsonResult[i]["cardkey"], "?", "?", "?", jsonResult[i]["rarity"], "?", jsonResult[i]["star"], jsonResult[i]["unittype"]));
+            if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
+                allCardDict.Add(jsonResult[i]["cardkey"], new UserCard(jsonResult[i]["cardkey"], "?", "?", "?", jsonResult[i]["rarity"], "?", jsonResult[i]["star"], jsonResult[i]["unittype"]));
         }
         Debug.Log($"jsonResult {webReq.url } {jsonResult}");
-
     }
 
 }
