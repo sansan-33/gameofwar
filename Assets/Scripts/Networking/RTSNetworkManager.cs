@@ -178,11 +178,11 @@ public class RTSNetworkManager : NetworkManager
             teamArray = teams.Split(',');
             player.SetRace(UnitMeta.KeyRace[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[0])].ToString());
         }
-        Debug.Log($"Userid {player.GetUserID()}, Team {teams}");
+        //Debug.Log($"Userid {player.GetUserID()}, Team {teams}");
         for (int i=0; i< teamArray.Length; i++ ){
             spawnCount = 1;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[i]);
-            Debug.Log($"unitKey {unitKey}");
+            //Debug.Log($"unitKey {unitKey}");
             while (spawnCount > 0)
             {
                 GameObject spawnPointObject = gameBoardHandlerInstance.GetSpawnPointObject(UnitMeta.KeyType[unitKey], player.GetPlayerID());

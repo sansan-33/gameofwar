@@ -55,7 +55,7 @@ public class UserCardManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().level.text = card.level;
             userCard.GetComponent<UserCardButton>().exp.text = card.exp;
             userCard.GetComponent<UserCardButton>().cardtype = card.unittype;
-            Debug.Log($"unitTypeArt {unitTypeArt.UnitTypeArtDictionary[card.unittype].type }");
+            //Debug.Log($"unitTypeArt {unitTypeArt.UnitTypeArtDictionary[card.unittype].type }");
             userCard.GetComponent<UserCardButton>().unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[card.unittype].image;
             userCard.GetComponent<UserCardButton>().rarity.text = card.rarity;
             userCard.GetComponent<UserCardButton>().leveluprequirement.text = card.leveluprequirement;
