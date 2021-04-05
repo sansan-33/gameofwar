@@ -22,7 +22,6 @@ public class Card : MonoBehaviour
     private GameObject dealManagers;
     public int playerID = 0;
     UnitMeta.Race playerRace;
-    //int enemyID = 0;
     Color teamColor;
     public eleixier eleixers;
     [SerializeField] public TMP_Text cardStar;
@@ -36,9 +35,7 @@ public class Card : MonoBehaviour
         mainCamera = Camera.main;
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
-        Debug.Log($"Card player race {player.GetRace()}");
         playerRace =  (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace());
-        //enemyID = player.GetEnemyID();
         teamColor = player.GetTeamColor();
         dealManagers = GameObject.FindGameObjectWithTag("DealManager");
     }

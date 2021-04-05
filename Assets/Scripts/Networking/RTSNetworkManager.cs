@@ -32,7 +32,7 @@ public class RTSNetworkManager : NetworkManager
 
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
-    private Dictionary<string, string> userTeamDict = new Dictionary<string, string>();
+    private Dictionary<string, JSONNode> userTeamDict = new Dictionary<string, JSONNode>();
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
@@ -43,9 +43,6 @@ public class RTSNetworkManager : NetworkManager
     private List<Color> teamsColor = new List<Color>() { new Color(0f,0.6f,1f), new Color(1f,0f,0f)};
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
 
-    private int spawnMoveRange = 1;
-
-    private Dictionary<UnitMeta.UnitKey, int> militaryList = new Dictionary<UnitMeta.UnitKey, int>();
     private Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
    
     #region Server
@@ -87,14 +84,11 @@ public class RTSNetworkManager : NetworkManager
         JSONNode jsonResult;
         UnityWebRequest webReq = new UnityWebRequest();
         webReq.downloadHandler = new DownloadHandlerBuffer();
-        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.teamService, userid);
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.teamCardService, userid);
         yield return webReq.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         jsonResult = JSON.Parse(rawJson);
-        if(jsonResult.Count > 0)
-        {
-            userTeamDict.Add(userid, jsonResult[0]["cardkey1"] + "," + jsonResult[0]["cardkey2"] + "," + jsonResult[0]["cardkey3"]);
-        }
+        userTeamDict.Add(userid, jsonResult);
         Debug.Log($"jsonResult {webReq.url } {jsonResult}");
 
     }
@@ -170,18 +164,15 @@ public class RTSNetworkManager : NetworkManager
     {
         yield return LoadUserTeam(player.GetUserID());
         yield return new WaitForSeconds(waitTime);
+        JSONNode userTeamCard;
         int spawnCount = 1;
-        string teams;
-        string[] teamArray = new string[] { UnitMeta.UnitKey.KING.ToString() }; //Default;
-        if (userTeamDict.TryGetValue(player.GetUserID(), out teams))
-        {
-            teamArray = teams.Split(',');
-            player.SetRace(UnitMeta.KeyRace[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[0])].ToString());
-        }
         //Debug.Log($"Userid {player.GetUserID()}, Team {teams}");
-        for (int i=0; i< teamArray.Length; i++ ){
+        for (int i = 0; i < userTeamDict[player.GetUserID()].Count ; i++) {
+
+            userTeamCard = userTeamDict[player.GetUserID()][i];
+            player.SetRace(userTeamCard["race"]);
             spawnCount = 1;
-            UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[i]);
+            UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userTeamCard["cardkey"]);
             //Debug.Log($"unitKey {unitKey}");
             while (spawnCount > 0)
             {
@@ -190,7 +181,7 @@ public class RTSNetworkManager : NetworkManager
                 //Debug.Log($"loadMilitary {unitType} spawnPosition {spawnPosition}");
                 GameObject unit = Instantiate(unitDict[unitKey], spawnPosition, rotation) as GameObject;
                 unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
-                unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit, 9, 9, 9999, 9, 9, 9, 9, 9);
+                unit.GetComponent<UnitPowerUp>().powerUp(unit, 1, userTeamCard["level"], userTeamCard["health"], userTeamCard["attack"], userTeamCard["repeatAttackDelay"], userTeamCard["speed"], userTeamCard["defense"], userTeamCard["special"]);
                 unit.name = unitKey.ToString();
                 //unit.tag = "Player" + player.GetPlayerID();
                 //unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());

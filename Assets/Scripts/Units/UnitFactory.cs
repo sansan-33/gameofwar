@@ -25,6 +25,17 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject undeadKingPrefab = null;
     [SerializeField] private GameObject undeadLichPrefab = null;
 
+    // god
+    [SerializeField] private GameObject godarcherPrefab = null;
+    [SerializeField] private GameObject godknightPrefab = null;
+    [SerializeField] private GameObject godmagePrefab = null;
+    [SerializeField] private GameObject godcavalryPrefab = null;
+    [SerializeField] private GameObject thorPrefab = null;
+    [SerializeField] private GameObject lokiPrefab = null;
+    [SerializeField] private GameObject godspearmanPrefab = null;
+    [SerializeField] private GameObject odinPrefab = null;
+    [SerializeField] private GameObject godwallPrefab = null;
+
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
     public Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
@@ -118,13 +129,14 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.LICH, undeadLichPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);
         unitDict.Add(UnitMeta.UnitKey.HUMANWALL, humanWallPrefab);
-        unitDict.Add(UnitMeta.UnitKey.GODARCHER, archerPrefab);
-        unitDict.Add(UnitMeta.UnitKey.THOR, heroPrefab);
-        unitDict.Add(UnitMeta.UnitKey.GODKNIGHT, knightPrefab);
-        unitDict.Add(UnitMeta.UnitKey.GODSPEARMAN, spearmanPrefab);
-        unitDict.Add(UnitMeta.UnitKey.GODMAGE, magePrefab);
-        unitDict.Add(UnitMeta.UnitKey.GODCAVALRY, cavalryPrefab);
-        unitDict.Add(UnitMeta.UnitKey.ODIN, kingPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GODARCHER, godarcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.THOR, thorPrefab);
+        unitDict.Add(UnitMeta.UnitKey.LOKI, lokiPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GODKNIGHT, godknightPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GODSPEARMAN, godspearmanPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GODMAGE, godmagePrefab);
+        unitDict.Add(UnitMeta.UnitKey.GODCAVALRY, godcavalryPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ODIN, odinPrefab);
     }
     [ClientRpc]
     void RpcTag(GameObject unit, int playerID, string unitName, int star, Color teamColor, int spawnPointIndex)

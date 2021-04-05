@@ -156,7 +156,6 @@ public class RTSPlayer : NetworkBehaviour
     public void SetRace(string race)
     {
         this.race = race;
-        Debug.Log($"rts player race {this.race}");
     }
     [Server]
     public void SetDisplayName(string displayName)
