@@ -65,6 +65,55 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 0
   animator: {fileID: 4240326461918956579}
+--- !u!114 &6478668992333785053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860431621525514400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c475b1dc9b0b43768963794057fa783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SPCost: 10
+  shieldHealths: 100
+  buttonTicket: 0
+--- !u!114 &2112438101498819082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860431621525514400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bacdf267d5f3a46138113652b5e9fd0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  attackPoint: {fileID: 8175276608820423201}
+  attackRange: 100
+  minAttackRange: 0
+  SPCost: 10
+--- !u!114 &2055985192531664264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860431621525514400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 857f01e13e3a545e79dc130b4706a85b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SPCost: 10
+  buttonTicket: 0
+  EnemyFrezzeTime: 3
 --- !u!1001 &323073214439444725
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -417,6 +466,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e990a82b8ec27834486de09cfb0df054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8175276608820423201 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6386733599415895687, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+  m_PrefabInstance: {fileID: 3014692229348437158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2310817853092107212 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 704806762722508650, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
