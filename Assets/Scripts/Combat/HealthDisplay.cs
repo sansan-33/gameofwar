@@ -54,4 +54,9 @@ public class HealthDisplay : MonoBehaviour
         killText.text = kills.ToString();
         kills++;
     }
+    public void SetUnitLevel(int level)
+    {
+        health.SetUnitLevel(level);
+        levelText.text = health.GetUnitLevel().ToString();
+    }
 }

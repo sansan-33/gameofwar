@@ -35,7 +35,7 @@ public class UnitPowerUp : NetworkBehaviour
             {
                 case UnitMeta.UnitType.FOOTMAN :
                     if (unit.isScaled) { break; }
-                    ServerPowerUp(unit.gameObject,2,0,0,0,0,0,0);
+                    ServerPowerUp(unit.gameObject,2,1,0,0,0,0,0,0);
                     Scale(unitTransform, unit.gameObject);
                     RpcScale(unitTransform, unit.gameObject);
                     break;
@@ -52,22 +52,23 @@ public class UnitPowerUp : NetworkBehaviour
         ServerSetSpeed(speed);
     }
     [Server]
-    public void ServerPowerUp(GameObject unit, int star, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void ServerPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
-        RpcPowerUp(unit.gameObject, star, health, attack, repeatAttackDelay, speed, defense, special);
+        RpcPowerUp(unit.gameObject, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special);
     }
-    public void powerUp(GameObject unit, int star, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void powerUp(GameObject unit, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
         //Debug.Log(unit);
+        unit.GetComponent<HealthDisplay>().SetUnitLevel(cardLevel);
         unit.GetComponent<Health>().ScaleMaxHealth(health, star);
         unit.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
         unit.GetComponentInChildren<UnitBody>().SetRenderMaterial(unit, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID(),star);
     }
     [ClientRpc]
-    public void RpcPowerUp(GameObject unit, int star, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void RpcPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
         //Debug.Log("RpcPowerUp");
-        powerUp(unit, star, health, attack, repeatAttackDelay, speed, defense, special);
+        powerUp(unit, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special);
     }
     private void Scale(Transform unitTransform, GameObject unit)
     {

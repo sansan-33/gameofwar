@@ -16,7 +16,7 @@ public class UnitMeta
     public static string REDTEAM = "Red";
     public static string KINGPLAYERTAG = "King0";
     public static string KINGENEMYTAG = "King1";
-    public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING, UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL, ODIN,THOR,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL};
+    public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING, UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL, ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL};
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, HERO, KING, ALL };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
@@ -121,6 +121,7 @@ public class UnitMeta
         { UnitKey.GODMAGE , UnitType.MAGIC},
         { UnitKey.GODSPEARMAN , UnitType.FOOTMAN},
         { UnitKey.THOR , UnitType.HERO},
+        { UnitKey.LOKI , UnitType.HERO},
         { UnitKey.ODIN , UnitType.KING },
         { UnitKey.GODWALL , UnitType.WALL },
     };
@@ -145,6 +146,7 @@ public class UnitMeta
         { UnitKey.UNDEADWALL , Race.UNDEAD },
 
         { UnitKey.THOR , Race.GOD},
+        { UnitKey.LOKI , Race.GOD},
         { UnitKey.ODIN , Race.GOD },
         { UnitKey.GODARCHER , Race.GOD } ,
         { UnitKey.GODKNIGHT , Race.GOD } ,

@@ -14,7 +14,7 @@ public class Health : NetworkBehaviour, IDamageable
     [SyncVar(hook = nameof(HandleHealthUpdated))]
     private float currentHealth;
     [SyncVar]
-    private float currentLevel;
+    private int currentLevel;
 
     public event Action ServerOnDie;
 
@@ -45,6 +45,10 @@ public class Health : NetworkBehaviour, IDamageable
     public void SetUnitLevel(int level)
     {
         this.currentLevel = level;
+    }
+    public int GetUnitLevel()
+    {
+        return this.currentLevel;
     }
     public void ScaleMaxHealth(int health, float factor)
     {
