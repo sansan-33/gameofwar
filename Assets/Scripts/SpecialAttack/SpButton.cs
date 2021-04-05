@@ -33,8 +33,11 @@ public class SpButton : MonoBehaviour
             button = Instantiate(buttonPrefab, transform);
             //Set button pos
             button.GetComponent<RectTransform>().anchoredPosition = new Vector3(FirstCardPos.anchoredPosition.x + buttonOffSet * buttonCount, FirstCardPos.anchoredPosition.y, 0);
-            //SpecialAttackDict.SpSprite.TryGetValue(spType, out sprite);
-            //button.GetComponent<Image>().sprite = sprite;
+            SpecialAttackDict.SpSprite.TryGetValue(spType, out sprite);
+            button.GetComponent<Image>().sprite = sprite;
+            SpecialAttackDict.ChildSpSprite.TryGetValue(spType, out sprite);
+           // button.GetComponentInChildren<Image>().sprite = sprite;
+            button.transform.GetChild(0).GetComponent<Image>().sprite = sprite;
             spawnedSpButton.Add(button);
             // tell unit where is the button in the list
             unit.SpBtnTicket = buttonCount - 1;

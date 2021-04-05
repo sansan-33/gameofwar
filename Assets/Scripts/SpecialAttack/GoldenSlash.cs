@@ -49,8 +49,6 @@ public class GoldenSlash : MonoBehaviour
         //if(SPAmount < SPCost) {return;}
         spCost.SPAmount -= (int)SPCost;
        
-      
-       
         GameObject closestTarget = null;
         bool haveTarget = true;
         var distance = float.MaxValue;
@@ -59,25 +57,20 @@ public class GoldenSlash : MonoBehaviour
         targetList.Clear();
         while (haveTarget == true)
         {
-          
             bool findedTarget = false;
             //Search target in a distance
             Collider[] hitColliders = Physics.OverlapBox(searchPoint.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
             int i = 0;
             while (i < hitColliders.Length)
             {
-             
                 distance = float.MaxValue;
                 hitCollider = hitColliders[i++].transform.gameObject;
                // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                 {
                     int id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
-                    Debug.Log($"id == {id}");
-                    Debug.Log($"Tag -->{hitCollider.tag} id --> {"Player" + id}");
                     if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
                         {
-                            
                             if (localDistance > minAttackRange)
                             {
                                 findedTarget = true;
@@ -88,9 +81,7 @@ public class GoldenSlash : MonoBehaviour
                                 // Move the searchPoint to the next target, so it will not search at the same point
                                 searchPoint = closestTarget.transform;
                             }
-                        }
-                    
-                   
+                        }                   
                 } 
             }
             // if there is no more target is finded then break
@@ -117,10 +108,10 @@ public class GoldenSlash : MonoBehaviour
     public void AttackTarget(float distance, Transform closestTarget)
     {
         // wait three secs the attack
-        float Timer = 3f;
-        while (Timer > 0) { Timer -= Time.deltaTime; }
+        //float Timer = 3f;
+        //while (Timer > 0) { Timer -= Time.deltaTime; }
         // damage base on distance
-        GetComponent<UnitWeapon>().ScaleDamageDeal(distance / 100);
+        GetComponent<UnitWeapon>().ScaleDamageDeal(0,0,distance / 100);
         GameObject.FindGameObjectWithTag("King" + player.GetPlayerID()).transform.position = closestTarget.transform.position;
         // make the king attack in update
         IsSuperAttack = true;

@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Stun : MonoBehaviour
 {
-    private Unit[] enemyList;
+    private List<GameObject> enemyList;
     private TacticalBehavior TB;
     private Button SPButton;
     private RTSPlayer player;
@@ -38,39 +39,46 @@ public class Stun : MonoBehaviour
     {
         //Debug.Log("OnPointerDown");
         spCost.SPAmount -= (int)SPCost;
-        
+
         //find all unit
-        enemyList = FindObjectsOfType<Unit>();
+        enemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
+
+        var a = GameObject.FindGameObjectsWithTag("King" + player.GetEnemyID());
+        if (a.Length > 0)
+            enemyList.AddRange(a);
        
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
            //Debug.Log("One Player Mide");
-            foreach (Unit unit in enemyList)
+            foreach (GameObject unit in enemyList)
             {  // Only Set on our side
                 //Debug.Log($"Tag -- > {unit.tag}");
-                if (unit.CompareTag("Player1") || unit.CompareTag("King1"))
-                {
+                
                     //stop enenmy
                     //Debug.Log("stop");
-                    unit.GetComponent<UnitMovement>().CmdStop();
-                    enemyReFightTimer = EnemyFrezzeTime;
-                    IsFrezzing = true;
-                 
-                }
+                unit.GetComponent<UnitMovement>().CmdStop();
+                enemyReFightTimer = EnemyFrezzeTime;
+                IsFrezzing = true;
+                CanUnFrezze = true;
+                TB.HandleStun(true);
+                TB.StopAllTacticalBehavior(player.GetPlayerID());
             }
         }
         else // Multi player seneriao
         {
             //Debug.Log($"OnPointerDown Defend SP Multi shieldList {shieldList.Length}");
-            foreach (Unit unit in enemyList)
+            foreach (GameObject unit in enemyList)
             {  // Only Set on our side
-                if (unit.CompareTag("Player" + player.GetEnemyID()) || unit.CompareTag("King" + player.GetEnemyID()))
-                {
-                    //stop enenmy
+
+                //stop enenmy
+               
                     unit.GetComponent<UnitMovement>().CmdStop();
                     enemyReFightTimer = EnemyFrezzeTime;
-                    IsFrezzing = true;
-                }
+                
+                IsFrezzing = true;
+                CanUnFrezze = true;
+                TB.HandleStun(true);
+                TB.StopAllTacticalBehavior(player.GetPlayerID());
             }
         }
     }
@@ -94,20 +102,24 @@ public class Stun : MonoBehaviour
     {
         if(enemyReFightTimer > 0)
         {
+            //Debug.Log($"Stop {enemyReFightTimer},tag is {tag}");
             enemyReFightTimer -= Time.deltaTime;
         }
-        else 
+        else if(CanUnFrezze == true)
         {
-            IsFrezzing = false;
+            Debug.Log("Awake");
+            //IsFrezzing = false;
+            //TB.HandleStun(false);
+            //CanUnFrezze = false;
+            //StartCoroutine(TB.TacticalFormation(player.GetPlayerID(), player.GetEnemyID()));
         }
        if(IsFrezzing == true)
        {
-            foreach (Unit unit in enemyList)
-            {  
-                if (unit.CompareTag("Player1") || unit.CompareTag("King1"))
-                {
-                    unit.GetComponent<UnitMovement>().CmdStop();  
-                }
+            foreach (GameObject unit in enemyList)
+            {
+                
+                //Debug.Log($"Stop unit tag is {unit.name}");
+                //unit.GetComponent<UnitMovement>().CmdStop(); 
             }
         }
     }

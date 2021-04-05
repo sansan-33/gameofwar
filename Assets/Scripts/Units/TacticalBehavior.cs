@@ -319,17 +319,31 @@ public class TacticalBehavior : MonoBehaviour
     {
        //Debug.Log($"StopTacticalBehavior {unitType} ");
         int leaderid = 0;
+       
+        
+            foreach (var leader in leaders[PLAYERID])
+            {
+                if (leader.Value.GetComponent<Unit>().unitType == unitType)
+                {
+                    leaderid = leader.Key;
+                    break;
+                }
+            }
+            //Debug.Log($"StopTacticalBehavior {unitType} leaderid {leaderid}");
+            StopCoroutine(EnableBehavior(playerID, leaderid));
+            StartCoroutine(DisableBehavior(playerID, leaderid));
+        
+        
+    }
+    public void StopAllTacticalBehavior(int playerId)
+    {
         foreach (var leader in leaders[PLAYERID])
         {
-            if (leader.Value.GetComponent<Unit>().unitType == unitType)
-            {
-                leaderid = leader.Key;
-                break;
-            }
+            int leaderid = leader.Key;
+            Debug.Log($"StopTacticalBehavior {leader.Value.name} leaderid {leaderid}");
+            StopCoroutine(EnableBehavior(playerId, leaderid));
+            StartCoroutine(DisableBehavior(playerId, leaderid));
         }
-        Debug.Log($"StopTacticalBehavior {unitType} leaderid {leaderid}");
-        StopCoroutine(EnableBehavior(playerID, leaderid));
-        StartCoroutine(DisableBehavior(playerID, leaderid));
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
@@ -337,7 +351,7 @@ public class TacticalBehavior : MonoBehaviour
         int localSelectionType = (int) GetLeaderBehaviorSelectionType(playerid, leaderid, true);
         //if(localSelectionType == (int) BehaviorSelectionType.Defend) EnableDefendRadius(playerid);
         //if ((BehaviorSelectionType)localSelectionType == BehaviorSelectionType.Defend && GameObject.FindGameObjectsWithTag("Player" + (playerid == 0 ? 1 : 0) ).Length == 0) { yield break;  }
-
+        
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
         for (int i = 0; i < agentCount; ++i)
         {
@@ -352,10 +366,11 @@ public class TacticalBehavior : MonoBehaviour
         if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
         int localSelectionType = (int)GetLeaderBehaviorSelectionType(playerid, leaderid, false);
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
-
+        //Debug.Log("DisableBehavior");
         for (int i = 0; i < agentCount; ++i)
         {
             behaviorTreeGroups[playerid][leaderid][localSelectionType][i].DisableBehavior();
+           
         }
     }
     public string GetTacticalStatus()
