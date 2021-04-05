@@ -56,7 +56,7 @@ public class SpawnEnemies : MonoBehaviour
                     card_Stats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.KING].ToString()];
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, card_Stats.cardLevel, card_Stats.health, card_Stats.attack, card_Stats.repeatAttackDelay, card_Stats.speed, card_Stats.defense, card_Stats.speed, teamColor);
                 }
-                /*
+               
                 if (isUnitAlive(UnitMeta.UnitType.TANK) < 1) {
                     card_Stats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.KING].ToString()];
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.TANK, 1, enemyID, card_Stats.cardLevel, card_Stats.health, card_Stats.attack, card_Stats.repeatAttackDelay, card_Stats.speed, card_Stats.defense, card_Stats.speed, teamColor);
@@ -71,7 +71,7 @@ public class SpawnEnemies : MonoBehaviour
                     card_Stats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.KING].ToString()];
                     localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, card_Stats.cardLevel, card_Stats.health, card_Stats.attack, card_Stats.repeatAttackDelay, card_Stats.speed, card_Stats.defense, card_Stats.speed, teamColor);
                 }
-                */
+               
                 StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
