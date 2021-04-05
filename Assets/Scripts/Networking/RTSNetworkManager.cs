@@ -154,29 +154,7 @@ public class RTSNetworkManager : NetworkManager
             foreach (RTSPlayer player in Players)
             {
                 SetupUnitFactory(new Vector3(0,0,0), player);
-
-                militaryList.Clear();
-                if (player.GetPlayerID() == 0)
-                {
-                    //militaryList.Add(UnitMeta.UnitKey.HERO, 2);
-                    //militaryList.Add(UnitMeta.UnitKey.ARCHER, 1);
-                    //militaryList.Add(UnitMeta.UnitKey.CAVALRY, 1);
-                    //militaryList.Add(UnitMeta.UnitKey.SPEARMAN, 1);
-
-                    //StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.KING, 1 , Quaternion.identity));
-                }
-                else
-                {
-                    //militaryList.Add(UnitMeta.UnitKey.MINISKELETON, 1);
-                    //militaryList.Add(UnitMeta.UnitKey.UNDEADHERO, 2);
-                    //militaryList.Add(UnitMeta.UnitKey.UNDEADARCHER, 1);
-                    //militaryList.Add(UnitMeta.UnitKey.RIDER, 1);
-                    //StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, UnitMeta.UnitKey.UNDEADKING, 1, Quaternion.Euler(0, 180,0)));
-                }
-                //foreach (UnitMeta.UnitKey unitKey in militaryList.Keys)
-                //{
                 StartCoroutine(loadMilitary(0.1f, player, gameBoardHandlerInstance, Quaternion.identity));
-                //}
             }
         }
 
@@ -202,7 +180,6 @@ public class RTSNetworkManager : NetworkManager
             teamArray = teams.Split(',');
             player.SetRace(UnitMeta.KeyRace[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), teamArray[0])].ToString());
         }
-                
         Debug.Log($"Userid {player.GetUserID()}, Team {teams}");
         for (int i=0; i< teamArray.Length; i++ ){
             spawnCount = 1;
