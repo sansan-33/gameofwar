@@ -31,7 +31,7 @@ public class SpawnEnemies : MonoBehaviour
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
             StartCoroutine(GetUserCard("-1",""));
-            InvokeRepeating("LoadEnemies", 2f, 3f);
+            InvokeRepeating("LoadEnemies", 3f, 3f);
         }
         GameOverHandler.ClientOnGameOver += HandleGameOver;
     }
