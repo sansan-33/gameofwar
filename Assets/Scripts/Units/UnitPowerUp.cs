@@ -58,8 +58,9 @@ public class UnitPowerUp : NetworkBehaviour
     }
     public void powerUp(GameObject unit, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
-        Debug.Log($"{unit.tag} : {unit.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
+        //Debug.Log($"{unit.tag} : {unit.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
         SetSpeed(speed,false);
+        unit.GetComponent<CardStats>().SetCardStats(cardLevel, health, attack, repeatAttackDelay,  speed,defense, special );
         unit.GetComponent<HealthDisplay>().SetUnitLevel(cardLevel);
         unit.GetComponent<Health>().ScaleMaxHealth(health, star);
         unit.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
