@@ -183,8 +183,6 @@ public class RTSNetworkManager : NetworkManager
                 unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex);
                 unit.GetComponent<UnitPowerUp>().powerUp(unit, 1, userTeamCard["level"], userTeamCard["health"], userTeamCard["attack"], userTeamCard["repeatAttackDelay"], userTeamCard["speed"], userTeamCard["defense"], userTeamCard["special"]);
                 unit.name = unitKey.ToString();
-                //unit.tag = "Player" + player.GetPlayerID();
-                //unit.GetComponent<HealthDisplay>().SetHealthBarColor(player.GetTeamColor());
                 NetworkServer.Spawn(unit, player.connectionToClient);
                 //Debug.Log("loadMilitary");
                 //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);

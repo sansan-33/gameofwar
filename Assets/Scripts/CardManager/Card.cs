@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour
@@ -112,31 +109,7 @@ public enum Card_Stars
     Silver,
     Gold
 }
-public struct Card_Stats
-{
-    public int cardLevel;
-    public int health;
-    public int attack;
-    public float repeatAttackDelay;
-    public int speed;
-    public int defense;
-    public int special;
 
-    public Card_Stats(int cardLevel, int health, int attack, float repeatAttackDelay, int speed , int defense, int special )
-    {
-        this.cardLevel = cardLevel;
-        this.health = health;
-        this.attack = attack;
-        this.repeatAttackDelay = repeatAttackDelay;
-        this.speed = speed;
-        this.defense = defense;
-        this.special = special;
-    }
-    public override string ToString()
-    {
-        return "health:" + health + "\t attack:" + attack + "\t repeatAttackDelay:" + repeatAttackDelay + "\t speed:" + speed + "\t defense:" + defense + "\t special:" + special;
-    }
-}
 public enum Card_Numbers
 { 
     ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL

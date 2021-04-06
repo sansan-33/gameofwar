@@ -920,6 +920,7 @@ GameObject:
   - component: {fileID: 1632355196208456466}
   - component: {fileID: 3698077258398265470}
   - component: {fileID: 3007018670020009129}
+  - component: {fileID: 720455803087774091}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Unit
@@ -1782,6 +1783,25 @@ MonoBehaviour:
   syncInterval: 0.1
   ShieldEffect: {fileID: 19800000, guid: ada5d62ffe762ce4fbccc70dcdbc9022, type: 3}
   shieldHealth: 0
+--- !u!114 &720455803087774091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460804451879552006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2dc7a7d0a2734ba7a943c2984916dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardLevel: 0
+  health: 0
+  attack: 0
+  repeatAttackDelay: 0
+  speed: 0
+  defense: 0
+  special: 0
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0
@@ -2676,7 +2696,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: -7153910212444640112, guid: f9e1fe3f7c5164c8a99bd0fb1329c48a, type: 3}
-  m_Type: 1
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0

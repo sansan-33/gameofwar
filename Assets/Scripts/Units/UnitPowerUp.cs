@@ -40,7 +40,7 @@ public class UnitPowerUp : NetworkBehaviour
                     RpcScale(unitTransform, unit.gameObject);
                     break;
                 case UnitMeta.UnitType.CAVALRY :
-                    ServerSetSpeed(10);
+                    ServerSetSpeed(10,false);
                     break;
             }
         }
@@ -49,7 +49,7 @@ public class UnitPowerUp : NetworkBehaviour
     public void cmdSpeedUp(int speed)
     {
         //Debug.Log($"cmd speed up ? {speed}");
-        ServerSetSpeed(speed);
+        ServerSetSpeed(speed,true);
     }
     [Server]
     public void ServerPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
@@ -58,7 +58,9 @@ public class UnitPowerUp : NetworkBehaviour
     }
     public void powerUp(GameObject unit, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
-        Debug.Log($"{unit.tag} : {unit.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
+        //Debug.Log($"{unit.tag} : {unit.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
+        SetSpeed(speed,false);
+        unit.GetComponent<CardStats>().SetCardStats(cardLevel, health, attack, repeatAttackDelay,  speed,defense, special );
         unit.GetComponent<HealthDisplay>().SetUnitLevel(cardLevel);
         unit.GetComponent<Health>().ScaleMaxHealth(health, star);
         unit.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
@@ -83,12 +85,16 @@ public class UnitPowerUp : NetworkBehaviour
         Scale(unitTransform, unit);
     }
     [Server]
-    public void ServerSetSpeed(int speed)
+    public void ServerSetSpeed(int speed, bool accumulate)
     {
-        if (agent.speed < GetComponent<UnitMovement>().maxSpeed && agent.speed > 0)
+        SetSpeed(speed, accumulate);
+    }
+    public void SetSpeed(int speed, bool accumulate)
+    {
+        if (agent.speed < GetComponent<UnitMovement>().maxSpeed && agent.speed >= 0)
         {
             //SpeedUp(agent, speed);
-            RpcSpeedUp(agent.transform.gameObject, speed);
+            RpcSpeedUp(agent.transform.gameObject, speed, accumulate);
         }
         if (canSpawnEffect)
         {
@@ -97,15 +103,15 @@ public class UnitPowerUp : NetworkBehaviour
             canSpawnEffect = false;
         }
     }
-    private void SpeedUp(NavMeshAgent agent, int speed)
+    private void SpeedUp(NavMeshAgent agent, int speed, bool accumulate)
     {
-        if (agent.speed < 3  ) { return; }
-        agent.speed += speed;
+        if (accumulate && agent.speed < 3  ) { return; }
+        agent.speed = accumulate ? agent.speed + speed : speed;
     }
     [ClientRpc]
-    private void RpcSpeedUp(GameObject agent, int speed)
+    private void RpcSpeedUp(GameObject agent, int speed, bool accumulate)
     {
-        SpeedUp(agent.GetComponent<UnitMovement>().GetNavMeshAgent() , speed);
+        SpeedUp(agent.GetComponent<UnitMovement>().GetNavMeshAgent() , speed, accumulate);
     }
 
 }

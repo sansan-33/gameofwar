@@ -15,9 +15,9 @@ public struct CardFace
     public Card_Suits suit;
     public Card_Numbers numbers;
     public Card_Stars star;
-    public Card_Stats stats;
+    public CardStats stats;
 
-    public CardFace(Card_Suits suit, Card_Numbers numbers, Card_Stars star, Card_Stats stats)
+    public CardFace(Card_Suits suit, Card_Numbers numbers, Card_Stars star, CardStats stats)
     {
         this.suit = suit;
         this.numbers = numbers;
@@ -32,7 +32,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] List<Player> players = new List<Player>();
     [SerializeField] List<CardFace> cardDeck = new List<CardFace>();
     [SerializeField] List<CardFace> cardDeckUsed = new List<CardFace>();
-    [SerializeField] public Dictionary<string, Card_Stats> userCardStatsDict = new Dictionary<string, Card_Stats>();
+    [SerializeField] public Dictionary<string, CardStats> userCardStatsDict = new Dictionary<string, CardStats>();
     
     Card lastCard;
     UnitMeta.Race UnitRace; 
@@ -143,7 +143,7 @@ public class CardDealer : MonoBehaviour
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
-                userCardStatsDict.Add(jsonResult[i]["cardkey"], new Card_Stats(jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatAttackDelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
+                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatAttackDelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
         }
         Debug.Log($"jsonResult {webReq.url } {jsonResult}");
     }
