@@ -47,7 +47,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     
    //[Command(requiresAuthority = false)]
-   [Command(ignoreAuthority = true)]
+    [Command(ignoreAuthority = true)]
     public void CmdPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
         //Debug.Log("CmdPowerUp");

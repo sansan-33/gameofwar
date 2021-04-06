@@ -65,6 +65,10 @@ public class Stun : MonoBehaviour
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
+                if(unit.TryGetComponent<UnitWeapon>(out UnitWeapon unitWeapon))
+                {
+                    unitWeapon.CMVirtual();
+                }
                 
                 //TB.StopAllTacticalBehavior(player.GetEnemyID());
             }
@@ -86,7 +90,10 @@ public class Stun : MonoBehaviour
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
-                Debug.Log($"stop {unit.name}");
+                if (unit.TryGetComponent<UnitWeapon>(out UnitWeapon unitWeapon))
+                {
+                    unitWeapon.CMVirtual();
+                }
                 //TB.StopAllTacticalBehavior(player.GetEnemyID());
             }
         }
@@ -123,6 +130,7 @@ public class Stun : MonoBehaviour
                 UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
                 UnitSpeedkeys.TryGetValue(unit, out int speed);
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special);
+               
                 //Debug.Log($"Awake {repeatAttackDelay}, {speed}");
             }
             // IsFrezzing = false;

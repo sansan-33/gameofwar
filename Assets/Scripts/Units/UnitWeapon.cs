@@ -96,7 +96,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
          
             if (other.TryGetComponent<Health>(out Health health))
             {
-                Debug.Log($"RtsPlayer -- > {player}");
+                //Debug.Log($"RtsPlayer -- > {player}");
                 opponentIdentity = (player.GetPlayerID() == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
                
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
@@ -183,7 +183,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
     }
-    [Command]
+    public void CMVirtual()
+    {
+        cmdCMVirtual();
+    }
+    [Command(ignoreAuthority = true)]
     private void cmdCMVirtual()
     {
         if(GameObject.Find("camVirtual") == null) {
