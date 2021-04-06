@@ -88,6 +88,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             }
             if (inPosition && (canAttack || !waitForAttack.Value)) {
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Attack " + (tacticalAgent.TargetTransform.name != null ? tacticalAgent.TargetTransform.name : "LOST TARGET" )+ " - "  + HEARTBEAT++);
+                //Debug.Log("flank");
                 tacticalAgent.TryAttack();
             }
             //if (base.leader.Value != null)

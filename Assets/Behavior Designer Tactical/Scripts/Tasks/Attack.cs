@@ -25,6 +25,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : Searching target " + HEARTBEAT++);
             if (MoveToAttackPosition()) {
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Attack : "  + tacticalAgent.TargetTransform.name + " (" + (int) (tacticalAgent.transform.position -  tacticalAgent.TargetTransform.position).sqrMagnitude + ") " + HEARTBEAT++);
+                if(tacticalAgent.transform.GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER) { Debug.Log("Archer attack"); }
                 tacticalAgent.TryAttack();
             }
 

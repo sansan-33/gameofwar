@@ -129,6 +129,7 @@ namespace BehaviorDesigner.Runtime.Tactical
                 //}
                 attackAgent.Attack(targetTransform.GetComponent<Targetable>().GetAimAtPoint().position);
                 //attackAgent.Attack(targetTransform.position);
+                //Debug.Log($"TryAttack");
                 return true;
             }
             return false;

@@ -2,6 +2,7 @@
 
 public class CardStats : MonoBehaviour
 {
+    public int star;
     public int cardLevel;
     public int health;
     public int attack;
@@ -10,12 +11,13 @@ public class CardStats : MonoBehaviour
     public int defense;
     public int special;
     public CardStats() { }
-    public CardStats(int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public CardStats(int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
-        SetCardStats(cardLevel,health,attack,repeatAttackDelay,speed,defense,special);
+        SetCardStats(star, cardLevel, health,attack,repeatAttackDelay,speed,defense,special);
     }
-    public void SetCardStats(int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void SetCardStats(int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
     {
+        this.star = star;
         this.cardLevel = cardLevel;
         this.health = health;
         this.attack = attack;

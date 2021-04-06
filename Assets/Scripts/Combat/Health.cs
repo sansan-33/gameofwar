@@ -65,7 +65,7 @@ public class Health : NetworkBehaviour, IDamageable
     {
         if (shield.shieldHealth > 0)
         {
-            Debug.Log("attack shield");
+            //Debug.Log("attack shield");
             shield.shieldHealth -= damageAmount;
             return false;
         }

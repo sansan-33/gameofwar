@@ -14,6 +14,7 @@ public class UnitMovement : NetworkBehaviour
     private Collider other;
     public bool isCollided = false;
     public float originalSpeed;
+    public bool IS_STUNNED = false;
     private float stoppingDistance = 1f;
     private RTSPlayer player;
     #region Server
@@ -68,6 +69,24 @@ public class UnitMovement : NetworkBehaviour
 
         agent.ResetPath();
         */
+        if (IS_STUNNED) { CmdStop(); }
+    }
+    [Command]
+    public void CmdTest()
+    {
+        Debug.Log("test");
+    }
+    [Command]
+    public void CmdStun()
+    {
+        Debug.Log("CmdStun");
+          ServerStun();
+    }
+    [Server]
+    public void ServerStun()
+    {
+        IS_STUNNED = true;
+        Debug.Log($"Uniut movement is stuned = {IS_STUNNED}");
     }
     [Command]
     public void CmdTrigger(string animationType)
@@ -196,4 +215,5 @@ public class UnitMovement : NetworkBehaviour
     {
         return other.transform;
     }
+
 }

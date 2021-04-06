@@ -142,11 +142,24 @@ public class TacticalBehavior : MonoBehaviour
         //Debug.Log("AssignTag ============================ END ");
 
     }
+    private void Update()
+    {/*
+        Unit[] units = FindObjectsOfType<Unit>();
+        foreach (Unit unit in units)
+        {
+            Debug.Log($"{unit.name}IS_STUNNED{unit.GetComponent<UnitMovement>().IS_STUNNED}");
+            if (unit.GetComponent<UnitMovement>().IS_STUNNED)
+            {
+                StopAllTacticalBehavior(ENEMYID);
+                
+            }
+        }*/
+    }
     public IEnumerator TacticalFormation(int playerid, int enemyid)
     {
         yield return new WaitForSeconds(0.1f);
         if (gameBoardHandlerPrefab == null) { yield break; }
-        if (IS_STUNNED) { yield break;}
+        
         //var stopwatch = new Stopwatch();
         //stopwatch.Start();
 
@@ -154,12 +167,22 @@ public class TacticalBehavior : MonoBehaviour
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
         List<GameObject> armies = new List<GameObject>();
         armies = units.ToList();
-        if(king!=null)
+        /*foreach(GameObject unit in units)
+        {
+            Debug.Log(unit.GetComponent<UnitMovement>().IS_STUNNED);
+            if (unit.GetComponent<UnitMovement>().IS_STUNNED)
+            {
+                StopAllTacticalBehavior(ENEMYID);
+                yield break;
+            }
+        }*/
+        
+        if (king!=null)
             armies.Add(king);
         GameObject defendObject;
-
+        
         if (playerid == 1)
-            Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Count}");
+           // Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Count}");
 
         leaders[playerid].Clear();
         int i = 0;
@@ -337,13 +360,14 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void StopAllTacticalBehavior(int playerId)
     {
-        foreach (var leader in leaders[PLAYERID])
+        foreach (var leader in leaders[playerId])
         {
             int leaderid = leader.Key;
-            Debug.Log($"StopTacticalBehavior {leader.Value.name} leaderid {leaderid}");
+            //Debug.Log($"StopTacticalBehavior {leader.Value.name} leaderid {leaderid}");
             StopCoroutine(EnableBehavior(playerId, leaderid));
             StartCoroutine(DisableBehavior(playerId, leaderid));
         }
+        //printTB();
     }
     private IEnumerator EnableBehavior(int playerid, int leaderid)
     {
@@ -370,7 +394,6 @@ public class TacticalBehavior : MonoBehaviour
         for (int i = 0; i < agentCount; ++i)
         {
             behaviorTreeGroups[playerid][leaderid][localSelectionType][i].DisableBehavior();
-           
         }
     }
     public string GetTacticalStatus()

@@ -15,7 +15,7 @@ public class Shield : NetworkBehaviour
     [Command]
     public void CmdSetShieldHealth(int shieldHealth)
     {
-        Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
+       // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
         this.shieldHealth = shieldHealth;
     }
     // Update is called once per frame

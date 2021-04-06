@@ -82,7 +82,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 
     public void Attack(Vector3 targetPosition)
     {
-        //Debug.Log("unit firing now ");
+        Debug.Log("firing attack");
         lastAttackTime = Time.time;
         targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
         CmdFireProjectile(targetPosition);
