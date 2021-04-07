@@ -17,11 +17,13 @@ public class SpecialAttackDict : MonoBehaviour
     };
     private void Start()
     {
+        SpSprite.Clear();
         SpSprite.Add(SpecialAttackType.Slash, sprite[0]);
         SpSprite.Add(SpecialAttackType.Shield, sprite[1]);
         SpSprite.Add(SpecialAttackType.Stun, sprite[2]);
         SpSprite.Add(SpecialAttackType.Lightling, sprite[3]);
 
+        ChildSpSprite.Clear();
         ChildSpSprite.Add(SpecialAttackType.Slash, childSprite[0]);
         ChildSpSprite.Add(SpecialAttackType.Shield, childSprite[1]);
         ChildSpSprite.Add(SpecialAttackType.Stun, childSprite[2]);

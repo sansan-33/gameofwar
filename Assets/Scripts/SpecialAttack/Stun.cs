@@ -37,9 +37,10 @@ public class Stun : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        Debug.Log("OnPointerDown");
+        //Debug.Log("OnPointerDown");
         spCost.SPAmount -= (int)SPCost;
-
+        UnitRepeatAttackDelaykeys.Clear();
+        UnitSpeedkeys.Clear();
         //find all unit
         enemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
 
