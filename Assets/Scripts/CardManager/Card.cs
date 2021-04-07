@@ -81,7 +81,7 @@ public class Card : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race {playerRace} / Card Stats {cardFace.stats}");
+        //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race {playerRace} / Card Stats {cardFace.stats}");
         localFactory.CmdDropUnit(playerID, SpwanPoint, playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
     }
     public void destroy()
