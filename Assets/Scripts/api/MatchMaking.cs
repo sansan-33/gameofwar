@@ -12,13 +12,13 @@ public class MatchMaking : MonoBehaviour
 {
     public GameObject addressPanel;
     public GameObject serverIP;
-    
+
     // API url
     private string status = "ready";
     private string limit = "1";
     // resulting JSON from an API request
     private JSONNode jsonResult;
-
+  
     public void CheckLobbyStatus()
     {
         addressPanel.SetActive(true);
@@ -68,9 +68,7 @@ public class MatchMaking : MonoBehaviour
 
         // convert the byte array to a string
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-
-       
     }
 
-
+    
 }

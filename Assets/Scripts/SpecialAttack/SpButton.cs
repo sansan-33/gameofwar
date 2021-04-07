@@ -49,6 +49,7 @@ public class SpButton : MonoBehaviour
         }
         
     }
+   
     public GameObject GetButton(int Ticket)
     {
         return spawnedSpButton[Ticket];

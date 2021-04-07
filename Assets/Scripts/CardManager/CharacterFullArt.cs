@@ -13,17 +13,17 @@ public class CharacterFullArt : MonoBehaviour
     public CharacterFullImage[] CharacterFullArtImages;
     public Dictionary<string, CharacterFullImage> CharacterFullArtDictionary = new Dictionary<string, CharacterFullImage>();
 
-    private void Start()
+    public void Start()
     {
         initDictionary();
     }
-    private void initDictionary()
+    public void initDictionary()
     {
         CharacterFullArtDictionary.Clear();
         foreach (CharacterFullImage image in CharacterFullArtImages)
         {
             CharacterFullArtDictionary.Add(image.name.ToString(), image);
-            //Debug.Log($"CharacterArtDictionary name added {image.name.ToString()} ");
+            Debug.Log($"CharacterArtDictionary name added {image.name.ToString()} ");
         }
     }
 }

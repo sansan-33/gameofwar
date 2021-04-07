@@ -6,7 +6,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
-using static UnitTypeArt;
 
 public class HeroMenu : MonoBehaviour
 {
