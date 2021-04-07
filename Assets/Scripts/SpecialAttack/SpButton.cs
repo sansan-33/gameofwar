@@ -25,10 +25,7 @@ public class SpButton : MonoBehaviour
         {
             spawnedButtonSpType.Add(spType);
             buttonCount++;
-            if (spType == SpecialAttackDict.SpecialAttackType.Stun)
-            {
-                Debug.Log(buttonCount);
-            }
+           
             // spawn the button 
             button = Instantiate(buttonPrefab, transform);
             //Set button pos
