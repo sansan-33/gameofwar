@@ -400,9 +400,9 @@ public class TacticalBehavior : MonoBehaviour
     {
         List<GameObject> troops;
         var sb = new System.Text.StringBuilder();
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + ENEMYID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
         troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + ENEMYID);
+        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
         if(armies.Length > 0)
         troops.AddRange(armies);
         foreach (GameObject army in troops) {
