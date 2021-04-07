@@ -17,7 +17,7 @@ namespace DigitalRuby.ThunderAndLightning
     /// <summary>
     /// Base lghtning bolt path script
     /// </summary>
-    public abstract class LightningBoltPathScriptBase : LightningBoltPrefabScriptBase
+    public class LightningBoltPathScriptBase : LightningBoltPrefabScriptBase
     {
         /// <summary>The game objects to follow for the lightning path</summary>
         [Header("Lightning Path Properties")]
@@ -32,7 +32,7 @@ namespace DigitalRuby.ThunderAndLightning
 
         [System.NonSerialized]
         private readonly List<GameObject> lastGizmos = new List<GameObject>();
-
+       
         private void DoGizmoCleanup()
         {
             if (gizmosCleanedUp)
