@@ -13,11 +13,11 @@ public class UnitTypeArt : MonoBehaviour
     public UnitTypeImage[] unitTypeImages;
     public Dictionary<string, UnitTypeImage> UnitTypeArtDictionary = new Dictionary<string, UnitTypeImage>();
 
-    private void Start()
+    public void Start()
     {
         initDictionary();
     }
-    private void initDictionary()
+    public void initDictionary()
     {
         UnitTypeArtDictionary.Clear();
         foreach (UnitTypeImage image in unitTypeImages)

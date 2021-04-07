@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using static CharacterArt;
-
+using static UnitTypeArt;
 public class SummonManager : MonoBehaviour 
 {
     [Header("Layout References")]
@@ -26,8 +26,16 @@ public class SummonManager : MonoBehaviour
     private static int cardMoveSpeed = 5000;
     Array UnitKeyValues = Enum.GetValues(typeof(UnitMeta.UnitKey));
     [SerializeField] public CharacterArt Arts;
+    [SerializeField] public UnitTypeArt unitTypeArt;
     private int SUMMON_COUNT=11;
-    
+
+    public void Start()
+    {
+        if (unitTypeArt.UnitTypeArtDictionary.Count < 1)
+        {
+            unitTypeArt.initDictionary();
+        }
+    }
     public void HandleSummon()
     {
         int summonCount = SUMMON_COUNT;
@@ -94,6 +102,7 @@ public class SummonManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().userLevelBar.SetActive(false);
             userCard.GetComponent<UserCardButton>().levelBadge.SetActive(false);
             userCard.GetComponent<UserCardButton>().rarity.text = jsonResult[i]["rarity"];
+            userCard.GetComponent<UserCardButton>().unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[jsonResult[i]["unittype"]].image;
             if (Int32.TryParse(jsonResult[i]["star"], out int star))
             {
                 for (int j = (userCard.GetComponent<UserCardButton>().star.transform.childCount -1 ) ; j > (star - 1); j--)
@@ -101,7 +110,7 @@ public class SummonManager : MonoBehaviour
                     userCard.GetComponent<UserCardButton>().star.transform.GetChild(j).gameObject.SetActive(false);
                 }
             }
-            if (jsonResult[i]["rarity"] == "SSR")
+            if (jsonResult[i]["rarity"] == "SSR" || jsonResult[i]["rarity"] == "UR" || jsonResult[i]["rarity"] == "LR")
             {
                 userCard.GetComponent<UserCardButton>().cardGlow.SetActive(true);
                 local_cardMoveSpeed =  cardMoveSpeed / 3;
