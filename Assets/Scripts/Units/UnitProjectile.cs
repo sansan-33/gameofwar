@@ -90,7 +90,7 @@ public class UnitProjectile : NetworkBehaviour
             cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
             elementalEffect(element, other.transform.GetComponent<Unit>());
             //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
-            other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
+            //other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             CmdDealDamage(other.gameObject, damageToDeals);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             cmdDestroySelf();

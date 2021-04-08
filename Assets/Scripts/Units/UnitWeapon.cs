@@ -125,7 +125,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     unit.GetUnitMovement().GetNavMeshAgent().speed = unit.GetUnitMovement().originalSpeed;
                     unit.GetUnitPowerUp().canSpawnEffect = true;
                 }
-                other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
+                //other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                
                 cmdSpecialEffect(other.transform.position);
                 if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmdCMVirtual(); }
