@@ -49,7 +49,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 return baseStatus;
             }
             // Attack the target if the agent has a target.
-            tacticalAgent.AttackPosition = false;
             if (tacticalAgent.TargetTransform != null) {
                 // Stop attacking if the target gets too far away from the defend object.
                 if ((transform.position - defendObject.Value.transform.position).magnitude > maxDistance.Value || !tacticalAgent.TargetDamagable.IsAlive()) {
@@ -74,7 +73,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 // tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": searching " + targetTransforms.Count + " target withing defend radius " + defendRadius.Value  + " .. " + HEARTBEAT++);
                 for (int i = targetTransforms.Count - 1; i > -1; --i) {
                     // The target has to be alive.
-                    //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": checking target " + targetTransforms[i].name  + ":" + i + "/" + targetTransforms.Count + " is alive ?"  + targets[i].IsAlive() + " .. " + HEARTBEAT++);
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": checking target " + targetTransforms[i].name  + ":" + i + "/" + targetTransforms.Count + " is alive ?"  + targets[i].IsAlive() + " .. " + HEARTBEAT++);
                     if (targets[i].IsAlive()) {
                         // Start attacking if the target gets too close.
                         if ((transform.position - targetTransforms[i].position).magnitude < defendRadius.Value) {

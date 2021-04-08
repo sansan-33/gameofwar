@@ -35,7 +35,7 @@ public class UnitPowerUp : NetworkBehaviour
             {
                 case UnitMeta.UnitType.FOOTMAN :
                     if (unit.isScaled) { break; }
-                    ServerPowerUp(unit.gameObject,2,1,0,0,0,0,0,0);
+                    ServerPowerUp(unit.gameObject,2,1,0,0,0,-1,0,0);
                     Scale(unitTransform, unit.gameObject);
                     RpcScale(unitTransform, unit.gameObject);
                     break;
@@ -100,7 +100,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     public void SetSpeed(int speed, bool accumulate)
     {
-        if (speed >= 0) { return; }
+        if (speed < 0) { return; }
         if (agent.speed < GetComponent<UnitMovement>().maxSpeed)
         {
             //SpeedUp(agent, speed);
