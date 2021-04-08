@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text;
 using SimpleJSON;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Networking;
@@ -101,9 +102,10 @@ public class SummonManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().lockImage.SetActive(false);
             userCard.GetComponent<UserCardButton>().userLevelBar.SetActive(false);
             userCard.GetComponent<UserCardButton>().levelBadge.SetActive(false);
-            userCard.GetComponent<UserCardButton>().rarity.text = jsonResult[i]["rarity"];
-            Debug.Log($"Summon rarity {(jsonResult[i]["rarity"] + "_background").ToLower()}");
+            
             userCard.transform.Find( (jsonResult[i]["rarity"] + "_background").ToLower()).gameObject.SetActive(true);
+            userCard.GetComponent<UserCardButton>().rarity.transform.Find( (jsonResult[i]["rarity"] + "_rare_background").ToLower()).gameObject.SetActive(true);
+            userCard.GetComponent<UserCardButton>().rarity.transform.Find( (jsonResult[i]["rarity"] + "_rare_background/text_rare_value").ToLower()).transform.GetComponent<TMP_Text>().text = jsonResult[i]["rarity"];
             userCard.GetComponent<UserCardButton>().unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[jsonResult[i]["unittype"]].image;
             if (Int32.TryParse(jsonResult[i]["star"], out int star))
             {

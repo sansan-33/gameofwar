@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using SimpleJSON;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -57,8 +58,11 @@ public class UserCardManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().cardtype = card.unittype;
             //Debug.Log($"unitTypeArt {unitTypeArt.UnitTypeArtDictionary[card.unittype].type }");
             userCard.GetComponent<UserCardButton>().unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[card.unittype].image;
-            userCard.GetComponent<UserCardButton>().rarity.text = card.rarity;
+
             userCard.transform.Find(card.rarity.ToLower() + "_background").gameObject.SetActive(true);
+            userCard.GetComponent<UserCardButton>().rarity.transform.Find(card.rarity.ToLower() + "_rare_background").gameObject.SetActive(true);
+            userCard.GetComponent<UserCardButton>().rarity.transform.Find(card.rarity.ToLower() + "_rare_background/text_rare_value").transform.GetComponent<TMP_Text>().text = card.rarity;
+
             userCard.GetComponent<UserCardButton>().leveluprequirement.text = card.leveluprequirement;
             if (IS_TEAM_MEMBER_SELECTION)
             {

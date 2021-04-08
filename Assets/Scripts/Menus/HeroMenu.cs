@@ -93,7 +93,7 @@ public class HeroMenu : MonoBehaviour
             {
                 for (int j = (stars.transform.childCount - 1); j > (star - 1); j--)
                 {
-                     stars.transform.GetChild(j).gameObject.SetActive(false);
+                     stars.transform.GetChild(j).Find("Active").gameObject.SetActive(false);
                 }
             }
             healthValue.text = "" + Math.Round(Double.Parse(jsonResult[0]["health"]) * levelupfactor);

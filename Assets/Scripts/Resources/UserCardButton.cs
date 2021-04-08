@@ -14,6 +14,7 @@ public class UserCardButton : MonoBehaviour
     public GameObject levelBadge;
     public GameObject star;
     public GameObject userCardFocus;
+    public GameObject rarity;
     public Image unitTypeImage;
 
     public string cardkey;
@@ -22,7 +23,6 @@ public class UserCardButton : MonoBehaviour
     public TMP_Text cardname;
     public TMP_Text level;
     public TMP_Text exp;
-    public TMP_Text rarity;
     public TMP_Text leveluprequirement;
     public bool IS_TEAM_MEMBER_SELECTION = false;
     public GameObject cardSlotParent;
