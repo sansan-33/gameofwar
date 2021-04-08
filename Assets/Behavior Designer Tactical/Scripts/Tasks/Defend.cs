@@ -49,6 +49,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 return baseStatus;
             }
             // Attack the target if the agent has a target.
+            tacticalAgent.AttackPosition = false;
+
             if (tacticalAgent.TargetTransform != null) {
                 // Stop attacking if the target gets too far away from the defend object.
                 if ((transform.position - defendObject.Value.transform.position).magnitude > maxDistance.Value || !tacticalAgent.TargetDamagable.IsAlive()) {
