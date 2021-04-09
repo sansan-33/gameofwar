@@ -12187,7 +12187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1784096f94740edb2536e67cf8caad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loginPopUp: {fileID: 0}
+  firebaseManager: {fileID: 0}
 --- !u!1 &1151119185
 GameObject:
   m_ObjectHideFlags: 0
@@ -19340,8 +19340,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 200}
-  m_SizeDelta: {x: 0, y: 30}
+  m_AnchoredPosition: {x: 0, y: 190}
+  m_SizeDelta: {x: 0, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1773806247
 MonoBehaviour:
@@ -23180,6 +23180,7 @@ MonoBehaviour:
   levelBadge: {fileID: 122190317}
   star: {fileID: 1044436375}
   userCardFocus: {fileID: 0}
+  rarity: {fileID: 0}
   unitTypeImage: {fileID: 356109869}
   cardkey: 
   cardtype: 
@@ -23187,7 +23188,6 @@ MonoBehaviour:
   cardname: {fileID: 0}
   level: {fileID: 1365080853}
   exp: {fileID: 4677107494790986740}
-  rarity: {fileID: 5775282840663451647}
   leveluprequirement: {fileID: 3619997198547547847}
   IS_TEAM_MEMBER_SELECTION: 0
   cardSlotParent: {fileID: 0}

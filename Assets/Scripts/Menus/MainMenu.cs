@@ -30,9 +30,9 @@ public class MainMenu : MonoBehaviour
     public void Start()
     {
         if (StaticClass.UserID == null || StaticClass.UserID.Length == 0)
-            StaticClass.UserID = "1";
+            StaticClass.UserID = "xzixng8YmdXR4eZxxKcJ3dnGi5q2";
 
-        userid.text = StaticClass.UserID;
+        userid.text = StaticClass.Username ?? "bigboss";
         
         HandleLoadTeam();
     }
@@ -49,6 +49,7 @@ public class MainMenu : MonoBehaviour
     IEnumerator LoadTeamLobby(bool start){
         if(!start && userTeamDict.Count < 1)
         yield return GetTeamInfo(StaticClass.UserID);
+        if (userTeamDict.Count < 1) { yield break; }
         string[] cardkeys = userTeamDict[userTeamDict.Keys.First()];
         if (characterFullArt.CharacterFullArtDictionary.Count < 1){
             characterFullArt.initDictionary();

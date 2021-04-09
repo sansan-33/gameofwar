@@ -24,7 +24,14 @@ public class FirebaseManager : MonoBehaviour
     public TMP_Text warningLoginText;
     [SerializeField] private GameObject loginPopUp = null;
 
-        //Firebase variables
+
+    //User Profile variables
+    [Header("Profile")]
+    [SerializeField] private TMP_Text usernameProfileText = null;
+    [SerializeField] private TMP_Text useridProfileText = null;
+    [SerializeField] private GameObject userProfilePopUp = null;
+
+    //Firebase variables
     [Header("Firebase")]
     public DependencyStatus dependencyStatus;
     public FirebaseAuth auth;
@@ -43,6 +50,30 @@ public class FirebaseManager : MonoBehaviour
         //Call the login coroutine passing the email and password
         StartCoroutine(Login(emailLoginField.text, passwordLoginField.text));
     }
+    //Function for the login button
+    public void HandleLoadUserProfile()
+    {
+        usernameProfileText.text = user.DisplayName;
+        useridProfileText.text = user.UserId;
+    }
+    //Function for the sign out button
+    public void HandleSignOut()
+    {
+        auth.SignOut();
+        userProfilePopUp.SetActive(false);
+        ClearRegisterFeilds();
+        ClearLoginFeilds();
+    }
+    public void ShowLoginProfile()
+    {
+        if (auth != null && auth.CurrentUser != null && user != null)
+        {
+            userProfilePopUp.SetActive(true);
+            HandleLoadUserProfile();
+        }
+        else
+            loginPopUp.SetActive(true);
+    }
     void Awake()
     {
         //Check that all of the necessary dependencies for Firebase are present on the system
@@ -59,6 +90,11 @@ public class FirebaseManager : MonoBehaviour
                 Debug.LogError("Could not resolve all Firebase dependencies: " + dependencyStatus);
             }
         });
+    }
+    void OnDestroy()
+    {
+        auth.StateChanged -= AuthStateChanged;
+        auth = null;
     }
     private void InitializeFirebase()
     {
@@ -77,12 +113,16 @@ public class FirebaseManager : MonoBehaviour
             if (!signedIn && user != null)
             {
                 Debug.Log("Signed out " + user.UserId);
+                StaticClass.UserID = "";
+                StaticClass.Username = "";
+                userid.text = "userid";
             }
             user = auth.CurrentUser;
             if (signedIn)
             {
-                Debug.Log("Signed in " + user.UserId);
+                Debug.Log("AuthStateChanged Signed in " + user.UserId + " username: " + user.DisplayName);
                 userid.text = user.DisplayName ?? "";
+                StaticClass.Username = user.DisplayName ?? "";
                 StaticClass.UserID = user.UserId;
                 authStateChanged?.Invoke(false);
             }
@@ -133,7 +173,7 @@ public class FirebaseManager : MonoBehaviour
             warningLoginText.text = "";
 
             loginPopUp.SetActive(false);
-
+            authStateChanged?.Invoke(false);
             ClearLoginFeilds();
             ClearRegisterFeilds();
 

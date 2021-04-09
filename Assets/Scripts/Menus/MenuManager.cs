@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private GameObject loginPopUp = null;
+    [SerializeField] private FirebaseManager firebaseManager = null;
     
     public void GoToMainMenu()
     {
@@ -31,6 +31,6 @@ public class MenuManager : MonoBehaviour
     }
     public void GoToLogin()
     {
-        loginPopUp.SetActive(true);
+        firebaseManager.ShowLoginProfile();
     }
 }
