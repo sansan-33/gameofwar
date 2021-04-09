@@ -17,6 +17,7 @@ public class Health : NetworkBehaviour, IDamageable
     private int currentLevel;
     private int lastDamageDeal;
     public event Action ServerOnDie;
+    public event Action ClientOnDie;
 
     public event Action<int, int, int> ClientOnHealthUpdated;
 
@@ -80,6 +81,7 @@ public class Health : NetworkBehaviour, IDamageable
                 if (currentHealth == 0)
                 {
                     ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
+                    ClientOnDie?.Invoke();
                     return true;
                 }
             }

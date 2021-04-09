@@ -71,6 +71,10 @@ public class UnitMovement : NetworkBehaviour
         */
         if (IS_STUNNED) { CmdStop(); }
     }
+    public void HandleDieAnnimation()
+    {
+        CmdTrigger("die");
+    }
     [Command]
     public void CmdTest()
     {

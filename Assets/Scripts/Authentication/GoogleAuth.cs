@@ -76,7 +76,6 @@ public class GoogleAuth : MonoBehaviour
     }
     public void SignUp(string email, string password)
     {
-        auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
             if (task.IsCanceled)
             {
