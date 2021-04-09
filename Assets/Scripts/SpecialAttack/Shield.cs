@@ -8,6 +8,7 @@ public class Shield : NetworkBehaviour
     [SerializeField] private ParticleSystem ShieldEffect;
     [SyncVar]
     public float shieldHealth = 0;
+    private bool CanSpawned = true;
     void Start()
     {
         
@@ -21,10 +22,10 @@ public class Shield : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(shieldHealth > 0)
+        if(shieldHealth > 0 && CanSpawned == true)
         {
-            Instantiate(ShieldEffect, this.transform).transform.localScale = new Vector3(5, 5, 5);
-
+            Instantiate(ShieldEffect, this.transform).transform.localScale = new Vector3(2, 2, 2);
+            CanSpawned = false;
         }
     }
 }
