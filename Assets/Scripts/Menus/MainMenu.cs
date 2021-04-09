@@ -16,15 +16,15 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public Image[] teamCardImages = new Image[3];
     private static Dictionary<string, string[]> userTeamDict = new Dictionary<string, string[]>();
     [SerializeField] public CharacterFullArt characterFullArt;
-    [SerializeField] private LoginManager loginManager;
+    [SerializeField] private FirebaseManager firebaseManager;
     
     private void Awake()
     {
-        loginManager.loginChanged += HandleLoadTeam;
+        firebaseManager.authStateChanged += HandleLoadTeam;
     }
     private void OnDestroy()
     {
-        loginManager.loginChanged -= HandleLoadTeam;
+        firebaseManager.authStateChanged -= HandleLoadTeam;
     }
 
     public void Start()
