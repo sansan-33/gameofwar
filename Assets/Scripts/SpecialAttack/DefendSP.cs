@@ -33,7 +33,7 @@ public class DefendSP : MonoBehaviour
     public void OnPointerDown()
     {
 
-        if (spCost.SPAmount < SPCost) { return; }
+        //if (spCost.SPAmount < SPCost) { return; }
         spCost.UpdateSPAmount(-SPCost);
         Unit[] shieldList;
         //find all unit

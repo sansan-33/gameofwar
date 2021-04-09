@@ -39,7 +39,7 @@ public class Stun : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        if (spCost.SPAmount < SPCost) { return; }
+        //if (spCost.SPAmount < SPCost) { return; }
         spCost.UpdateSPAmount(-SPCost);
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
@@ -102,7 +102,6 @@ public class Stun : MonoBehaviour
             {
                 
                     UnitWeapon.CMVirtualIsOn = false;
-                
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
                 UnitSpeedkeys.TryGetValue(unit, out int speed);
