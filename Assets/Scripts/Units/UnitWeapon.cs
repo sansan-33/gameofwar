@@ -24,6 +24,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private float originalDamage;
     public float DashDamage = 0;
     public bool IsKingSP = false;
+    public bool CMVirtualIsOn = false;
     NetworkIdentity opponentIdentity;
     bool m_Started;
     // The amount of time it takes for the agent to be able to attack again
@@ -159,10 +160,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         {
             powerUpAfterKill(this.transform.gameObject);
             RpcpowerUpAfterKill(this.transform.gameObject);
-            if(unit.unitType == UnitMeta.UnitType.KING)
-            {
-               spCost.UpdateSPAmount();
-            }
+
+               spCost.UpdateSPAmount(1);
+            
            
         }
     }
@@ -190,7 +190,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command(ignoreAuthority = true)]
     private void cmdCMVirtual()
     {
+        
         if(GameObject.Find("camVirtual") == null) {
+            Debug.Log("CmVirtual");
             //Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
             //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
             GameObject cam = Instantiate(camPrefab, new Vector3(0,0,0), Quaternion.Euler(new Vector3(0, 0, 0)));
@@ -294,5 +296,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private void clearDamageText()
     {
         damageTextObjectPool.ReturnObject(floatingText);
+    }
+    private void Update()
+    {
+        if (CMVirtualIsOn)
+        {
+            CMVirtual();
+        }
     }
 }

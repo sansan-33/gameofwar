@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Shield : NetworkBehaviour
 {
-    [SerializeField] private ParticleSystem ShieldEffect;
+    [SerializeField] public GameObject ShieldEffect;
     [SyncVar]
     public float shieldHealth = 0;
     private bool CanSpawned = true;
@@ -16,7 +16,8 @@ public class Shield : NetworkBehaviour
     [Command]
     public void CmdSetShieldHealth(int shieldHealth)
     {
-       // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
+        // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
+        CanSpawned = true;
         this.shieldHealth = shieldHealth;
     }
     // Update is called once per frame

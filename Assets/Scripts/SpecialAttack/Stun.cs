@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class Stun : MonoBehaviour
 {
+    private UnitWeapon UnitWeapon;
     private List<GameObject> enemyList;
     private TacticalBehavior TB;
     private Button SPButton;
@@ -14,10 +15,11 @@ public class Stun : MonoBehaviour
     private SpCost spCost;
 
     private float enemyReFightTimer = -10000;
-    public float SPCost = 10;
+    public int SPCost = 10;
     public int buttonTicket;
     private bool SpawnedButton;
     private bool CanUnFrezze = false;
+    private bool CMVirtualIsOn = false;
     public int EnemyFrezzeTime = 5;
     
     // Start is called before the first frame update
@@ -37,7 +39,8 @@ public class Stun : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        spCost.SPAmount -= (int)SPCost;
+        if (spCost.SPAmount < SPCost) { return; }
+        spCost.UpdateSPAmount(-SPCost);
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
         //find all enemy unit
@@ -58,9 +61,11 @@ public class Stun : MonoBehaviour
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
-                if (unit.TryGetComponent<UnitWeapon>(out UnitWeapon unitWeapon))
+                if (unit.TryGetComponent<UnitWeapon>(out UnitWeapon unitWeapon) && CMVirtualIsOn == false)
                 {
-                    unitWeapon.CMVirtual();
+                    CMVirtualIsOn = true;
+                    unitWeapon.CMVirtualIsOn = true;
+                    UnitWeapon = unitWeapon;
                 }
             }
         }
@@ -75,9 +80,11 @@ public class Stun : MonoBehaviour
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
-                if (unit.TryGetComponent<UnitWeapon>(out UnitWeapon unitWeapon))
+                if (unit.TryGetComponent<UnitWeapon>(out UnitWeapon unitWeapon) && CMVirtualIsOn == false)
                 {
-                    unitWeapon.CMVirtual();
+                    CMVirtualIsOn = true;
+                    unitWeapon.CMVirtualIsOn = true;
+                    UnitWeapon = unitWeapon;
                 }
             }
         }
@@ -93,6 +100,8 @@ public class Stun : MonoBehaviour
         {
             foreach (GameObject unit in enemyList)
             {
+                
+                    UnitWeapon.CMVirtualIsOn = false;
                 
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);

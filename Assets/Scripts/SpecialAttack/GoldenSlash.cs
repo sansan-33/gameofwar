@@ -12,7 +12,7 @@ public class GoldenSlash : MonoBehaviour
     
     public int attackRange = 100;
     public int minAttackRange;
-    public float SPCost = 10;
+    public int SPCost = 10;
 
     private Button SPButton;
 
@@ -47,9 +47,9 @@ public class GoldenSlash : MonoBehaviour
     {
         Debug.Log($"FindAttackTargetInDistance");
         if (attackPoint == null) { return; }
-        //if(SPAmount < SPCost) {return;}
-        spCost.SPAmount -= (int)SPCost;
-       
+        if(spCost.SPAmount < SPCost) {return;}
+        spCost.UpdateSPAmount(-SPCost);
+
         GameObject closestTarget = null;
         bool haveTarget = true;
         var distance = float.MaxValue;

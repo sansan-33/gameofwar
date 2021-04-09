@@ -12,7 +12,7 @@ public class DefendSP : MonoBehaviour
     private RTSPlayer player;
     private SpCost spCost;
 
-    public float SPCost = 10;
+    public int SPCost = 10;
     public int shieldHealths = 10000;
     public int buttonTicket;
     private bool SpawnedButton;
@@ -33,8 +33,8 @@ public class DefendSP : MonoBehaviour
     public void OnPointerDown()
     {
 
-        //if(SPAmount < SPCost) {return;}
-        spCost.SPAmount -= (int)SPCost;
+        if (spCost.SPAmount < SPCost) { return; }
+        spCost.UpdateSPAmount(-SPCost);
         Unit[] shieldList;
         //find all unit
         shieldList = FindObjectsOfType<Unit>();

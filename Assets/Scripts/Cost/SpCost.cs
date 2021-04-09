@@ -19,9 +19,10 @@ public class SpCost : MonoBehaviour
         SPImage = GameObject.FindGameObjectWithTag("SP Bar").GetComponent<Image>();
         SPText = GameObject.FindGameObjectWithTag("SP Text").GetComponent<TextMeshProUGUI>();
     }
-    public void UpdateSPAmount()
+    public void UpdateSPAmount(int cost)
     {
-        SPAmount++;
+        //Debug.Log("UpdateSPAmount");
+        SPAmount += cost;
         SPText.text = (string)SPAmount.ToString();
         SPImage.fillAmount = (float)SPAmount / MaxSpCost;
     }

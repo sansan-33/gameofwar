@@ -13,9 +13,9 @@ namespace DigitalRuby.ThunderAndLightning
 
         private int enemyCount = 0;
         public int attackRange = 100;
-        public int maxAttackrange = 1500;
         public int minAttackRange = 1000;
-        public float SPCost = 10;
+        public int maxAttackrange = 400;
+        public int SPCost = 10;
         private float lightlingTimer;
 
         private bool SpawnedButton;
@@ -54,9 +54,9 @@ namespace DigitalRuby.ThunderAndLightning
             targetList.Clear();
             startPointList.Clear();
             lightlingList.Clear();
-
-            spCost.SPAmount -= (int)SPCost;
-            searchPoint = GameObject.FindGameObjectWithTag("King" + player.GetPlayerID());
+            if (spCost.SPAmount < SPCost) { return; }
+            spCost.UpdateSPAmount(-SPCost);
+            searchPoint = gameObject;
             GameObject closestTarget = null;
             bool haveTarget = true;
             var distance = float.MaxValue;
@@ -76,26 +76,30 @@ namespace DigitalRuby.ThunderAndLightning
                     distance = float.MaxValue;
                     hitCollider = hitColliders[i++].transform.gameObject;
                     // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
-                    if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
+                    if ((localDistance = (hitCollider.transform.position - searchPoint.transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                     {
                         int id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
                         if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
-                        {
-                            if (localDistance > minAttackRange && localDistance < maxAttackrange)
+                        { 
+                            if ( localDistance < maxAttackrange)
                             {
                                 if (localDistance < distance)
                                 {
+                                   
                                     findedTarget = true;
                                     distance = localDistance;
                                     closestTarget = hitCollider;
                                     // Move the searchPoint to the next target, so it will not search at the same point
-                                    searchPoint = closestTarget;
+                                 
+                                    
                                 }
 
                             }
                         }
                     }
                 }
+                Debug.Log($"{searchPoint.name} -- > {localDistance}, --> {hitCollider.name}");
+                searchPoint = closestTarget;
                 // if there is no more target is finded then break
                 if (findedTarget == false)
                 {
@@ -109,7 +113,7 @@ namespace DigitalRuby.ThunderAndLightning
             if (closestTarget == null) { return; }
             for (int a = 0; a < targetList.ToArray().Length; a++)
             {
-
+                
                 Lightlings(startPointList.ToArray()[a], targetList.ToArray()[a]);
             }
             lightlingTimer = 5;
@@ -144,7 +148,6 @@ namespace DigitalRuby.ThunderAndLightning
                 {
                     Destroy(light);
                 }
-
             }
         }
     }
