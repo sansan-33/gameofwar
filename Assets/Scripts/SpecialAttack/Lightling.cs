@@ -128,14 +128,15 @@ namespace DigitalRuby.ThunderAndLightning
                 lightlingChild = lightling.transform.GetChild(0).gameObject;
                 lightlingChild.transform.position = new Vector3(startPoint.transform.position.x, startPoint.transform.position.y + 5,startPoint.transform.position.z);
                 lightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChild);
+                lightlingChilds = Instantiate(lightlingChild, lightling.transform);
+                lightlingChilds.transform.position = new Vector3(endPoint.transform.position.x, endPoint.transform.position.y + 5, endPoint.transform.position.z);
+                lightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChilds);
+                lightlingList.Add(lightlingChilds);
+                enemyCount++;
+                endPoint.GetComponent<Health>().OnElectricShock(electicDamage, electicShockDamage);
+                endPoint.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             }
-            lightlingChilds = Instantiate(lightlingChild, lightling.transform);
-            lightlingChilds.transform.position = new Vector3(endPoint.transform.position.x, endPoint.transform.position.y + 5, endPoint.transform.position.z);
-            lightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChilds);
-            lightlingList.Add(lightlingChilds);
-            enemyCount++;
-            endPoint.GetComponent<Health>().OnElectricShock(electicDamage,electicShockDamage);
-            endPoint.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
+           
         }
         public void Update()
         {

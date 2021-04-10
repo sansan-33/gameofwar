@@ -78,13 +78,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba40dd56b881c4c1aa09ccb82382fca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iceEffect: {fileID: 19800000, guid: 18204b98237ccb540808f2cd2d78c2c8, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
+  enemyList: []
   SPCost: 10
-  IceDamage: 50
+  IceDamage: 10
   attackRange: 100
-  shieldHealths: 10000
+  UnFrezzeTimer: 8
   buttonTicket: 0
 --- !u!1001 &3014692229348437158
 PrefabInstance:
