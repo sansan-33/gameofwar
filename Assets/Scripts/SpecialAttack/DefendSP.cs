@@ -38,7 +38,7 @@ public class DefendSP : MonoBehaviour
         Unit[] shieldList;
         //find all unit
         shieldList = FindObjectsOfType<Unit>();
-        enemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
+        //senemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
 
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
@@ -46,9 +46,10 @@ public class DefendSP : MonoBehaviour
             {  // Only Set on our side
                 if (shield.CompareTag("Player0") || shield.CompareTag("King0"))
                 {
+                    //Debug.Log($"Spawn Shield {shield.name}");
                     // Set shield health
                     shield.GetComponent<Shield>().CmdSetShieldHealth(shieldHealths);
-
+                    
                 }
             }
 

@@ -26,6 +26,7 @@ public class Ice : MonoBehaviour
     private bool IsFrezze = false;
     void Start()
     {
+        return;
         Health.IceHitUpdated += IceBreak;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
@@ -50,6 +51,7 @@ public class Ice : MonoBehaviour
     }
     public void OnPointerDown()
     {
+       
         enemyList.Clear();
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
