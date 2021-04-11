@@ -22,21 +22,32 @@ public class Shield : NetworkBehaviour
         // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
         CanSpawned = true;
         this.shieldHealth = shieldHealth;
-        
+        //
+        ServerSetShield(ShieldEffect);
+        // NetworkServer.Spawn(ShieldEffect, connectionToClient);//.transform.localScale = new Vector3(5, 5, 5);
+    }
+    private void ServerSetShield(GameObject ShieldEffect)
+    {
+        // Will not work at double player
         Instantiate(ShieldEffect, transform);
-        
     }
     // Update is called once per frame
     void Update()
     {
-        if(maxShieldHealth == 0 && FindObjectOfType<DefendSP>())
+        if (maxShieldHealth == 0 && FindObjectOfType<DefendSP>())
         {
             maxShieldHealth = FindObjectOfType<DefendSP>().shieldHealths;
         }
-        if (shieldHealth > 0)
+        if (shieldHealth >= 0)
         {
-            ShieldHealthBar.fillAmount = maxShieldHealth / shieldHealth;
+            ShieldHealthBar.fillAmount = shieldHealth / maxShieldHealth;
         }
+        if (shieldHealth > 0 && CanSpawned == true)
+        {
+            CanSpawned = false;
+            
+        }
+        
         
     }
 }

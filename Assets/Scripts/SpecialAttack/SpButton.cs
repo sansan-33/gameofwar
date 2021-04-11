@@ -26,7 +26,7 @@ public class SpButton : MonoBehaviour
         {
             spawnedButtonSpType.Add(spType);
             buttonCount++;
-
+            if(spType == SpecialAttackDict.SpecialAttackType.Shield) { Debug.Log(buttonCount); }
             // spawn the button
             CharacterImage characterImage = Arts.CharacterArtDictionary[unit.unitKey.ToString()];
             button = Instantiate(buttonPrefab, transform);
