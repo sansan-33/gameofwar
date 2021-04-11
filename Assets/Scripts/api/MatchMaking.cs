@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using SimpleJSON;
 using TMPro;
+using System.Net;
 
 public class MatchMaking : MonoBehaviour
 {
@@ -22,12 +23,19 @@ public class MatchMaking : MonoBehaviour
     public void CheckLobbyStatus()
     {
         addressPanel.SetActive(true);
-        StartCoroutine(GetReadyServer(serverIP.GetComponent<TMP_InputField>()));
+        //StartCoroutine(GetReadyServer(serverIP.GetComponent<TMP_InputField>()));
+        StartCoroutine(GetLocalServer(serverIP.GetComponent<TMP_InputField>()));
     }
     public void HandleQuitGame(string gameserverport)
     {
         Debug.Log($"HandleQuitGame {gameserverport}");
         StartCoroutine(QuitGameServer(gameserverport));
+    }
+    // sends an API request - returns a JSON file
+    IEnumerator GetLocalServer(TMP_InputField tmp_text)
+    {
+        tmp_text.text = GetLocalIPv4() + ":7777";
+        yield return null;
     }
     // sends an API request - returns a JSON file
     IEnumerator GetReadyServer(TMP_InputField tmp_text)
@@ -52,6 +60,7 @@ public class MatchMaking : MonoBehaviour
         // display the results on screen
         //gameserverport = jsonResult["port"];
         tmp_text.text = jsonResult["serverip"] + ":" + jsonResult["port"];
+       
     }
     IEnumerator QuitGameServer(string port)
     {
@@ -69,6 +78,12 @@ public class MatchMaking : MonoBehaviour
         // convert the byte array to a string
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
     }
+    public string GetLocalIPv4()
+    {
+        return Dns.GetHostEntry(Dns.GetHostName())
+            .AddressList.First(
+                f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            .ToString();
+    }
 
-    
 }
