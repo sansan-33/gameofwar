@@ -78,7 +78,7 @@ public class Health : NetworkBehaviour, IDamageable
         if(IsFrezze == true)
         {
             IsFrezze = false;
-            IceHitUpdated?.Invoke(gameObject);
+            UnFrezze();
         }
         if (currentHealth != 0)
         {
@@ -95,6 +95,14 @@ public class Health : NetworkBehaviour, IDamageable
             }
         }
         return false;
+    }
+    public void UnFrezze()
+    {
+        Ice ice = FindObjectOfType<Ice>();
+        ice.enemyList.Remove(gameObject);
+        CardStats cardStats = GetComponent<CardStats>();
+        GetComponent<UnitPowerUp>().CmdPowerUp(gameObject, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, ice.GetUnitRepeatAttackDelaykeys(gameObject), ice.GetUnitSpeedkeys(gameObject), cardStats.defense, cardStats.special);
+
     }
     private IEnumerator Die()
     {
