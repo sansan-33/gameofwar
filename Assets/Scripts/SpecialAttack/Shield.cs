@@ -11,6 +11,7 @@ public class Shield : NetworkBehaviour
     [SyncVar]
     public float shieldHealth = 0;
     private float maxShieldHealth;
+    [SyncVar]
     private bool CanSpawned = true;
     void Start()
     {
@@ -22,13 +23,21 @@ public class Shield : NetworkBehaviour
         // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
         CanSpawned = true;
         this.shieldHealth = shieldHealth;
-        //
-        ServerSetShield(ShieldEffect);
+        ServerSetShield();
         // NetworkServer.Spawn(ShieldEffect, connectionToClient);//.transform.localScale = new Vector3(5, 5, 5);
     }
-    private void ServerSetShield(GameObject ShieldEffect)
+    [Server]
+    public void ServerSetShield()
+    { 
+        RpcSetShield();
+    }
+    [ClientRpc]
+    public void RpcSetShield()
     {
-        // Will not work at double player
+        SetShield();
+    }
+    public void SetShield()
+    {
         Instantiate(ShieldEffect, transform);
     }
     // Update is called once per frame
@@ -42,6 +51,7 @@ public class Shield : NetworkBehaviour
         {
             ShieldHealthBar.fillAmount = shieldHealth / maxShieldHealth;
         }
+       // Debug.Log($"{shieldHealth}, {CanSpawned}");
         if (shieldHealth > 0 && CanSpawned == true)
         {
             CanSpawned = false;
