@@ -125,8 +125,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
             if (tacticalAgent == null && gameObject == agent.gameObject) {
                 tacticalAgent = new NavMeshTacticalAgent(agent.transform);
-                tacticalAgent.AttackOffset = attackOffset.Value;
-                tacticalAgent.TargetOffset = targetOffset.Value;
+                //tacticalAgent.AttackOffset = attackOffset.Value;
+                //tacticalAgent.TargetOffset = targetOffset.Value;
+                // Tactical Agent CanSeeTarget Physics.Linecast, if no offset, Giant cannot hit Loki
+                tacticalAgent.AttackOffset = new Vector3 (1f,1f,1f);
+                tacticalAgent.TargetOffset = new Vector3(1f, 1f, 1f);
             }
         }
     }

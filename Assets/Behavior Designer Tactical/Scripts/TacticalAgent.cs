@@ -94,11 +94,13 @@ namespace BehaviorDesigner.Runtime.Tactical
             if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
             {
                 //Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit );
-                //Debug.Log($"CanSeeTarget hit name {hit.collider.name},  transform {transform}/{transform.TransformPoint(attackOffset)} , targetTransform {targetTransform}/{targetTransform.TransformPoint(targetOffset) }");
+                //Debug.Log($"CanSeeTarget transform {transform}/ attackOffset {attackOffset} , targetTransform {targetTransform}/targetOffset {targetOffset}");
                 Debug.DrawLine(transform.TransformPoint(attackOffset) , targetTransform.TransformPoint(targetOffset), Color.blue);
             }
             if (transform.name.ToLower().Contains("loki") && ISDEBUG)
             {
+                //Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit );
+                //Debug.Log($"CanSeeTarget hit {hit.collider.name} , transform {transform}/ attackOffset {attackOffset} , targetTransform {targetTransform}/targetOffset {targetOffset}");
                 //Debug.DrawLine(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), Color.green);
             }
             if (Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit, ignoreRaycast)) {
