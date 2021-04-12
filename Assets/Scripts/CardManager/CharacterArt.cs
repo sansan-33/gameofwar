@@ -17,7 +17,7 @@ public class CharacterArt : MonoBehaviour
     {
         initDictionary();
     }
-    private void initDictionary()
+    public void initDictionary()
     {
         CharacterArtDictionary.Clear();
         foreach (CharacterImage image in CharacterArtImages)

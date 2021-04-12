@@ -33,7 +33,8 @@ public class CardDealer : MonoBehaviour
     [SerializeField] List<CardFace> cardDeck = new List<CardFace>();
     [SerializeField] List<CardFace> cardDeckUsed = new List<CardFace>();
     [SerializeField] public Dictionary<string, CardStats> userCardStatsDict = new Dictionary<string, CardStats>();
-    
+    [SerializeField] Card buttonWall;
+
     Card lastCard;
     UnitMeta.Race UnitRace; 
     void Awake()
@@ -49,7 +50,7 @@ public class CardDealer : MonoBehaviour
     IEnumerator ShuffleDeck()
     {
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        UnitRace = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace());
+        UnitRace = StaticClass.playerRace;
         yield return GetUserCard(player.GetUserID(), player.GetRace());
         cardDeckUsed.Clear();
         string cardkey;
@@ -61,6 +62,8 @@ public class CardDealer : MonoBehaviour
                 cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze, userCardStatsDict[ cardkey ]));
             }
         }
+        buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, userCardStatsDict[ UnitMeta.UnitRaceTypeKey[UnitRace][UnitMeta.UnitType.WALL].ToString() ]));
+        
         yield return DealCards(3, 0f, 0.1f, players[0]); 
     }
 
@@ -143,9 +146,19 @@ public class CardDealer : MonoBehaviour
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
-                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"],jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
+            {
+                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
+                if (jsonResult[i]["cardkey"].ToString().ToLower().Contains("wall"))
+                {
+                    string cardkey = jsonResult[i]["cardkey"];
+                    Debug.Log($"Wall {cardkey} stat {userCardStatsDict[cardkey] }");
+                } 
+            }
         }
-        Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        Debug.Log($"GetUserCard ==> {webReq.url } {jsonResult}");
     }
 
 }
+
+
+

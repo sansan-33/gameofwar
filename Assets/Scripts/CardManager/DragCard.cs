@@ -198,7 +198,10 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                 
                 GetComponent<Card>().eleixers.eleixer -= uniteleixer;
                 GetComponent<Card>().DropUnit(unitPreviewInstance.transform.position);
-                this.GetComponentInParent<Player>().moveCard(GetComponent<Card>().cardPlayerHandIndex);
+                // Special Checking for Wall Button Card not under Card Slot (player)
+                Player playerDeck = this.GetComponentInParent<Player>();
+                if (playerDeck !=null)
+                    playerDeck.moveCard(GetComponent<Card>().cardPlayerHandIndex);
                 dealManagers.GetComponent<CardDealer>().Hit();
                 
             }
