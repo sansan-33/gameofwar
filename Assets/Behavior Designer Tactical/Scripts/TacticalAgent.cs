@@ -99,7 +99,7 @@ namespace BehaviorDesigner.Runtime.Tactical
             }
             if (transform.name.ToLower().Contains("loki") && ISDEBUG)
             {
-                Debug.DrawLine(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), Color.green);
+                //Debug.DrawLine(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), Color.green);
             }
             if (Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit, ignoreRaycast)) {
                 
