@@ -91,12 +91,18 @@ namespace BehaviorDesigner.Runtime.Tactical
             }
            
             RaycastHit hit;
-            //if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
-            //    Debug.Log($"CanSeeTarget ray transform {transform}/{transform.TransformPoint(attackOffset)} , targetTransform {targetTransform}/{targetTransform.TransformPoint(targetOffset) }");
-
+            if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
+            {
+                //Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit );
+                //Debug.Log($"CanSeeTarget hit name {hit.collider.name},  transform {transform}/{transform.TransformPoint(attackOffset)} , targetTransform {targetTransform}/{targetTransform.TransformPoint(targetOffset) }");
+                Debug.DrawLine(transform.TransformPoint(attackOffset) , targetTransform.TransformPoint(targetOffset), Color.blue);
+            }
+            if (transform.name.ToLower().Contains("loki") && ISDEBUG)
+            {
+                Debug.DrawLine(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), Color.green);
+            }
             if (Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit, ignoreRaycast)) {
-                Debug.Log($"Physics Linecast {transform.name} hit {hit.transform.name} target {targetTransform.name}");
-
+                
                 if ( transform.TryGetComponent<Unit>( out Unit unit  ) )
                 {
                     if(unit.unitType == UnitMeta.UnitType.ARCHER)
