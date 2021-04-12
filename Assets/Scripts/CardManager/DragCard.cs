@@ -42,6 +42,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         mainCamera = Camera.main;
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         Input.simulateMouseWithTouches = false;
+        StaticClass.playerRace = RTSplayer.GetRace();
      }
 
     #region DragFunctions
