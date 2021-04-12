@@ -45,7 +45,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected Behavior leaderTree;
         protected List<IDamageable> targets = new List<IDamageable>();
         protected List<Transform> targetTransforms = new List<Transform>();
-        private string debugTarget = "archer";
+        private string debugTarget = "tank";
         private bool ISDEBUG = false;
 
         /// <summary>
@@ -527,7 +527,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 tacticalAgent.UpdateRotation(true);
                 tacticalAgent.AttackPosition = true;
                 if(tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
-                    Debug.Log($"{tacticalAgent.transform.name} Can See Target {tacticalAgent.CanSeeTarget() } {tacticalAgent.TargetTransform.transform.name  } distance {Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position)}? ");
+                    Debug.Log($"{tacticalAgent.transform.name} Can See Target {tacticalAgent.CanSeeTarget() } {tacticalAgent.TargetTransform.transform.name  } distance {Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position)} , AttackDistance() {tacticalAgent.AttackAgent.AttackDistance() }? ");
             }
             else
             {

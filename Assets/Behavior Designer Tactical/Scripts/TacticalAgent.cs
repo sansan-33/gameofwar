@@ -24,7 +24,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         public bool AttackPosition { get { return attackPosition; } set { attackPosition = value; } }
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
-        private string debugTarget = "archer";
+        private string debugTarget = "tank";
         private bool ISDEBUG = true;
         /// <summary>
         /// Caches the component referneces.
@@ -87,11 +87,14 @@ namespace BehaviorDesigner.Runtime.Tactical
         {
             var distance = (transform.position - targetTransform.position).magnitude;
             if (distance >= attackAgent.AttackDistance()) {
-                 return false;
+                if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
+                    Debug.Log($"CanSeeTarget distance {distance}, attackAgent.AttackDistance() {attackAgent.AttackDistance()}");
+
+                return false;
             }
             RaycastHit hit;
-            //if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
-            //    Debug.Log($"CanSeeTarget ray transform {transform}/{transform.TransformPoint(attackOffset)} , targetTransform {targetTransform}/{targetTransform.TransformPoint(targetOffset) }");
+            if (transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
+                Debug.Log($"CanSeeTarget ray transform {transform}/{transform.TransformPoint(attackOffset)} , targetTransform {targetTransform}/{targetTransform.TransformPoint(targetOffset) }");
 
             if (Physics.Linecast(transform.TransformPoint(attackOffset), targetTransform.TransformPoint(targetOffset), out hit, ignoreRaycast)) {
                 if ( transform.TryGetComponent<Unit>( out Unit unit  ) )

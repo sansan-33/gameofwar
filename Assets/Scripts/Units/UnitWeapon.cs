@@ -60,7 +60,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
     public void TryAttack()
     {
-        //Debug.Log($"Attacker {targeter} attacking .... ");
+        if (player.GetPlayerID() == 1) Debug.Log($"Attacker {targeter} attacking .... ");
          unit = GetComponent<Unit>();
         calculatedDamageToDeal = damageToDeal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
