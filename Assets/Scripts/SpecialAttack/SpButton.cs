@@ -15,9 +15,9 @@ public class SpButton : MonoBehaviour
     private List<GameObject> spawnedSpButton = new List<GameObject>();
     private Sprite sprite;
     private GameObject buttonChild;
-    void Start()
+    void Awake()
     {
-        
+        Arts.initDictionary();
     }
     public bool InstantiateSpButton(SpecialAttackDict.SpecialAttackType spType,Unit unit)
     {

@@ -9,17 +9,16 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
 
-    public delegate void PlayerHandEvents();
-    public PlayerHandEvents OnPlayerHandReveal;
     private CardSlot cardslot;
     [Header("References")]
     [SerializeField] Transform cardSlotParent;
     [SerializeField] CardSlot cardSlotPrefab;
     [SerializeField] CardDealer cardDealer;
-
+    
     [Header("Layout References")]
     [SerializeField] Transform singleHandStart;
     public float screenOffset;
+
     [Header("Settings")]
     [SerializeField] float cardOffset = 150f; // NO Effect to change here, need to set it in inspector
     [SerializeField] float cardMoveSpeed = 10;// NO Effect to change here, need to set it in inspector
@@ -29,8 +28,6 @@ public class Player : MonoBehaviour
     [SerializeField] List<List<Card>> playerHand = new List<List<Card>>();
     int totalCardSlot = 0;
     Vector3 v360 = new Vector3(0, 0, 180);
-    //public Vector3 forbiddenAreaScale;
-    //public MeshRenderer forbiddenArea;
     private List<CardSlot> cardSlotlist = new List<CardSlot>();
    
     void Awake()

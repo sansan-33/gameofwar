@@ -69,17 +69,8 @@ public class Card : MonoBehaviour
     {
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
-        if (localFactory == null)
-        {
-            foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
-            {
-                if (factroy.GetComponent<UnitFactory>().hasAuthority)
-                {
-                    localFactory = factroy.GetComponent<UnitFactory>();
-                }
-            }
-        }
-        //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / Card Stats {cardFace.stats}");
+        Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {SpwanPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
+        Debug.Log($"Card ==> DropUnit localFactory is null {localFactory == null} ");
         localFactory.CmdDropUnit(playerID, SpwanPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
     }
     public void destroy()
