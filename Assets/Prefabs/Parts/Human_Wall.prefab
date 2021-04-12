@@ -122,8 +122,10 @@ MonoBehaviour:
       m_Calls: []
   unitType: 5
   race: 0
+  unitKey: 14
   isLeader: 0
   isScaled: 0
+  SpBtnTicket: 0
   spawnPointIndex: 0
 --- !u!114 &4885380812970374901
 MonoBehaviour:
@@ -346,6 +348,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6818829978409247729, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6818829978409247730, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
       propertyPath: m_Size.x
       value: 4
@@ -433,6 +439,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6818829978409247730, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
     - {fileID: 6818829978409247741, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+    - {fileID: 6818829978409247729, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
 --- !u!1 &7438937032517910368 stripped
 GameObject:
