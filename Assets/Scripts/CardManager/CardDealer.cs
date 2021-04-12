@@ -143,7 +143,7 @@ public class CardDealer : MonoBehaviour
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
-                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"],jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatAttackDelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
+                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"],jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
         }
         Debug.Log($"jsonResult {webReq.url } {jsonResult}");
     }
