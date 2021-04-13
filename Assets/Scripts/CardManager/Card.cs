@@ -54,6 +54,8 @@ public class Card : MonoBehaviour
     public void OnPointerDown()
     {
         if (GetComponent<DragCard>().unitPreviewInstance != null) { return; }
+        if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
+
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
@@ -67,6 +69,7 @@ public class Card : MonoBehaviour
     }
     public void DropUnit(Vector3 SpwanPoint)
     {
+        if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {SpwanPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
