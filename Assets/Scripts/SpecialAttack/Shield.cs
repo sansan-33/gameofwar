@@ -8,9 +8,10 @@ public class Shield : NetworkBehaviour
 {
     [SerializeField] public GameObject ShieldEffect;
     [SerializeField] private Image ShieldHealthBar;
-    [SyncVar]
+    [SyncVar(hook = nameof(UpdateShieldHealth))]
     public float shieldHealth = 0;
     private float maxShieldHealth;
+    private GameObject shield;
     [SyncVar]
     private bool CanSpawned = true;
     void Start()
@@ -38,7 +39,19 @@ public class Shield : NetworkBehaviour
     }
     public void SetShield()
     {
-        Instantiate(ShieldEffect, transform);
+        shield = Instantiate(ShieldEffect, transform);
+    }
+    private void UpdateShieldHealth(float oldHealth, float newHealth)
+    {
+        //Debug.Log($"fillamout {ShieldHealthBar.fillAmount},health {shieldHealth}, max {maxShieldHealth}");
+        ShieldHealthBar.fillAmount = shieldHealth / maxShieldHealth;
+        if(shieldHealth <= 0)
+        {
+            Debug.Log($"destroy {ShieldEffect}");
+            Destroy(shield);
+
+
+        }
     }
     // Update is called once per frame
     void Update()
@@ -49,7 +62,7 @@ public class Shield : NetworkBehaviour
         }
         if (shieldHealth >= 0)
         {
-            ShieldHealthBar.fillAmount = shieldHealth / maxShieldHealth;
+           
         }
        // Debug.Log($"{shieldHealth}, {CanSpawned}");
         if (shieldHealth > 0 && CanSpawned == true)

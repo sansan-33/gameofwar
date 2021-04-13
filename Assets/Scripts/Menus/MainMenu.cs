@@ -51,7 +51,7 @@ public class MainMenu : MonoBehaviour
             teamCardImages[i].gameObject.SetActive(true);
             teamCardImages[i].sprite = characterFullArt.CharacterFullArtDictionary[cardkeys[i]].image;
         }
-        Debug.Log($"Load Team Lobby Done. StaticClass.Username: {StaticClass.Username}" );
+        //Debug.Log($"Load Team Lobby Done. StaticClass.Username: {StaticClass.Username}" );
     }
     // sends an API request - returns a JSON file
     IEnumerator GetTeamInfo(string userid)
@@ -90,7 +90,7 @@ public class MainMenu : MonoBehaviour
                 }
             }
         }
-        Debug.Log($"Team info {webReq.url } {jsonResult}");
+        //Debug.Log($"Team info {webReq.url } {jsonResult}");
 
     }
 }
