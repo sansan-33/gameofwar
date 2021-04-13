@@ -86,13 +86,13 @@ public class Ice : MonoBehaviour
                     //StopTacticalBehavior while using Special Attack
                     //Debug.Log(hitCollider);
                     enemyList.Add(hitCollider);
-                    // hitCollider.GetComponent<Health>().DealDamage(IceDamage);
+                    hitCollider.GetComponent<Health>().DealDamage(IceDamage);
                     hitCollider.GetComponent<Health>().IsFrezze = true;
                     CardStats cardStats = hitCollider.GetComponent<CardStats>();
                     UnitRepeatAttackDelaykeys.Add(hitCollider, cardStats.repeatAttackDelay);
                     UnitSpeedkeys.Add(hitCollider, cardStats.speed);
-                    hitCollider.GetComponent<UnitPowerUp>().CmdPowerUp(hitCollider, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
-                    Instantiate(iceEffect, hitCollider.transform);
+                    hitCollider.GetComponent<UnitPowerUp>().CmdPowerUp(hitCollider, cardStats.star, cardStats.cardLevel, (int)hitCollider.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
+                  
                         // Move the searchPoint to the next target, so it will not search at the same point
                         //searchPoint = closestTarget.transform;
                         // }
@@ -133,7 +133,9 @@ public class Ice : MonoBehaviour
         {
             foreach (GameObject unit in enemyList)
             {
-                Instantiate(iceEffect, unit.transform);
+                //Instantiate(iceEffect, unit.transform);
+                
+                FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(0, unit.transform);
             }
         }
     }
@@ -144,7 +146,7 @@ public class Ice : MonoBehaviour
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
         UnitSpeedkeys.TryGetValue(unit, out int speed);
         CardStats cardStats = unit.GetComponent<CardStats>();
-        unit.GetComponent<UnitPowerUp>().CmdPowerUp(hitCollider, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special);
+        unit.GetComponent<UnitPowerUp>().CmdPowerUp(hitCollider, cardStats.star, cardStats.cardLevel, (int)hitCollider.GetComponent<Health>().getCurrentHealth(), cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special);
     }
     public float GetUnitRepeatAttackDelaykeys(GameObject unit)
     {

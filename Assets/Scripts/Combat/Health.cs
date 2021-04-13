@@ -100,6 +100,7 @@ public class Health : NetworkBehaviour, IDamageable
     }
     public void UnFrezze()
     {
+        Debug.Log("Unfrezze");
         Ice ice = FindObjectOfType<Ice>();
         ice.enemyList.Remove(gameObject);
         CardStats cardStats = GetComponent<CardStats>();
