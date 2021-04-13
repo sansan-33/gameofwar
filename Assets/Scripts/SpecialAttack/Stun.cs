@@ -39,7 +39,7 @@ public class Stun : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        //if (spCost.SPAmount < SPCost && CanUnFrezze == false) { return; }
+        if (spCost.SPAmount < SPCost) { return; }
         spCost.UpdateSPAmount(-SPCost);
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();

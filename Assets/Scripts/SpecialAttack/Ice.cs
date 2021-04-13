@@ -54,7 +54,7 @@ public class Ice : MonoBehaviour
         enemyList.Clear();
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
-        //if(spCost.SPAmount < SPCost) {return;}
+        if(spCost.SPAmount < SPCost) {return;}
         spCost.UpdateSPAmount(-SPCost);
 
         GameObject closestTarget = null;
