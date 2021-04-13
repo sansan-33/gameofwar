@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +56,7 @@ public class MainMenu : MonoBehaviour
     // sends an API request - returns a JSON file
     IEnumerator GetTeamInfo(string userid)
     {
+        UnitMeta.UnitKey unitkey;
         if (userid == null || userid.Length == 0) { yield break; }
         userTeamDict.Clear();
         Debug.Log($"Get Team info after clear userTeamDict size: {userTeamDict.Count }");
@@ -77,6 +79,16 @@ public class MainMenu : MonoBehaviour
         {
             if(!userTeamDict.ContainsKey(jsonResult[i]["teamnumber"]))
                 userTeamDict.Add(jsonResult[i]["teamnumber"], new string[] { jsonResult[i]["cardkey1"] , jsonResult[i]["cardkey2"], jsonResult[i]["cardkey3"] });
+
+            for (int j = 1; j < 4; j++)
+            {
+                unitkey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[i]["cardkey" + j] );  
+                if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING)
+                {
+                    StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
+                    Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
+                }
+            }
         }
         Debug.Log($"Team info {webReq.url } {jsonResult}");
 

@@ -25,7 +25,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
         private string debugTarget = "tank";
-        private bool ISDEBUG = true;
+        private bool ISDEBUG = false;
         /// <summary>
         /// Caches the component referneces.
         /// </summary>

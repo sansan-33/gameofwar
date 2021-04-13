@@ -59,6 +59,7 @@ public class TeamManager : MonoBehaviour
                 if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING )
                 {
                     StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
+                    Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
             }
             //StaticClass.teamMembers = teamMembers;
