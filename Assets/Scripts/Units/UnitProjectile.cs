@@ -18,11 +18,9 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private ElementalDamage.Element element;
     NetworkIdentity opponentIdentity;
     public static event Action onKilled;
-    private StrengthWeakness strengthWeakness;
     int playerid = 0;
     int enemyid = 0;
-    private SimpleObjectPool damageTextObjectPool;
-    private GameObject floatingText;
+    [SerializeField] private GameObject textPrefab = null;
 
     public override void OnStartClient()
     {
@@ -30,14 +28,7 @@ public class UnitProjectile : NetworkBehaviour
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerid = player.GetPlayerID();
         enemyid = player.GetEnemyID();
-        if (strengthWeakness == null) { strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>(); }
-        damageTextObjectPool = GameObject.FindGameObjectWithTag("DamageTextObjectPool").GetComponent<SimpleObjectPool>();
-
-        //Debug.Log($"damageToDealOriginal {damageToDealOriginal}damageToDeals{damageToDeals}");
-        //damageToDealOriginal += damageToDeals;
-        //Debug.Log($"damageToDealOriginal after added{damageToDealOriginal}damageToDeals{damageToDeals}");
         rb.velocity = transform.forward * launchForce;
-        DamagePopup.clearText += clearDamageText;
     }
 
     public override void OnStartServer()
@@ -81,9 +72,8 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log(playerid);
             opponentIdentity = (playerid == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}"); 
-            if (strengthWeakness == null) { strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>(); }
             //Debug.Log($"before strengthWeakness{damageToDeals}");
-            damageToDeals = strengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
+            damageToDeals = StrengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             //Debug.Log("call spawn text");
             
             cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
@@ -117,7 +107,7 @@ public class UnitProjectile : NetworkBehaviour
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
     {
-        SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
+        GameObject floatingText = SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
         NetworkServer.Spawn(floatingText, connectionToClient);
         if (opponentIdentity == null) { return; }
         if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
@@ -156,10 +146,9 @@ public class UnitProjectile : NetworkBehaviour
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180;
     }
     
-    private void SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
+    private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {
-        floatingText = damageTextObjectPool.GetObject();
-     
+        GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         floatingText.transform.position = targetPos;
         floatingText.transform.rotation = Quaternion.identity;
         Color textColor;
@@ -176,11 +165,8 @@ public class UnitProjectile : NetworkBehaviour
         }
         floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
         floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
-         
+        return floatingText; 
     }
-    private void clearDamageText()
-    {
-        damageTextObjectPool.ReturnObject(floatingText);
-    }
+    
 
 }

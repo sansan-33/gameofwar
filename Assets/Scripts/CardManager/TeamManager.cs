@@ -96,7 +96,7 @@ public class TeamManager : MonoBehaviour
             }
             userTeamDict.Add(jsonResult[i]["teamnumber"], userCardArray);
         }
-        Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
 
     }
     public void SaveTeamFormation()

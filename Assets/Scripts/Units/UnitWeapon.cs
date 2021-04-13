@@ -34,11 +34,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
     // The last time the agent attacked
     private float lastAttackTime;
-    public StrengthWeakness strengthWeakness;
     RTSPlayer player;
     float upGradeAmount =  1.01f;
-    private SimpleObjectPool damageTextObjectPool;
-    private GameObject floatingText;
+    [SerializeField] private GameObject textPrefab = null;
+     
     private Unit unit;
     public override void OnStartAuthority()
     {
@@ -46,12 +45,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         calculatedDamageToDeal = damageToDeal;
         spCost = FindObjectOfType<SpCost>();
-        strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
-        damageTextObjectPool = GameObject.FindGameObjectWithTag("DamageTextObjectPool").GetComponent<SimpleObjectPool>();
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
         originalDamage = damageToDeal;
-        DamagePopup.clearText += clearDamageText;
     }
 
     // Commands are sent from player objects on the client to player objects on the server
@@ -101,10 +97,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 opponentIdentity = (player.GetPlayerID() == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
                
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
-                if (strengthWeakness == null) {
-                    strengthWeakness = GameObject.FindGameObjectWithTag("CombatSystem").GetComponent<StrengthWeakness>();
-                }
-                calculatedDamageToDeal = strengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
+                
+                calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
 
                 if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
@@ -170,7 +164,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private void cmdDamageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
     {
 
-        SetupDamageText(targetPos, damageNew, damgeOld);
+        GameObject floatingText = SetupDamageText(targetPos, damageNew, damgeOld);
         NetworkServer.Spawn(floatingText, connectionToClient);
         
         if (opponentIdentity == null) { return; }
@@ -267,13 +261,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         //Debug.Log("TargetCommandText");
         floatingText.GetComponent<DamageTextHolder>().displayRotation.y = 180; 
-
-
     }
-    private void SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
+    private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {
-        floatingText = damageTextObjectPool.GetObject();
-
+        //floatingText = damageTextObjectPool.GetObject();
+        GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         floatingText.transform.position = targetPos;
         floatingText.transform.rotation = Quaternion.identity;
         Color textColor;
@@ -290,11 +282,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         }
         floatingText.GetComponent<DamageTextHolder>().displayColor = textColor;
         floatingText.GetComponent<DamageTextHolder>().displayText = dmgText;
+        return floatingText;
     }
-    private void clearDamageText()
-    {
-        damageTextObjectPool.ReturnObject(floatingText);
-    }
+    
     private void Update()
     {
         if (CMVirtualIsOn)

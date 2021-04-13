@@ -33,8 +33,8 @@ public class LobbyMenu : MonoBehaviour
 
     private void ClientHandleInfoUpdated()
     {
-        List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
         NetworkClient.connection.identity.GetComponent<RTSPlayer>().CmdSetUserID(StaticClass.UserID);
+        List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
         for (int i = 0; i < players.Count; i++)
         {
             playerNameTexts[i].text = players[i].GetDisplayName();

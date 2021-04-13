@@ -78,7 +78,7 @@ public class RTSNetworkManager : NetworkManager
         yield return new WaitForSeconds(10f);
         //Application.Quit();
     }
-    public IEnumerator LoadUserTeam(string userid)
+    public IEnumerator LoadUserTeam(string userid, int playerid)
     {
         userTeamDict.Clear();
         JSONNode jsonResult;
@@ -88,7 +88,7 @@ public class RTSNetworkManager : NetworkManager
         yield return webReq.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         jsonResult = JSON.Parse(rawJson);
-        userTeamDict.Add(userid, jsonResult);
+        userTeamDict.Add(userid + "_" + playerid, jsonResult);
         Debug.Log($"jsonResult {webReq.url } {jsonResult}");
 
     }
@@ -162,14 +162,15 @@ public class RTSNetworkManager : NetworkManager
     }
     private IEnumerator loadMilitary(float waitTime, RTSPlayer player, GameBoardHandler gameBoardHandlerInstance, Quaternion rotation)
     {
-        yield return LoadUserTeam(player.GetUserID());
+        yield return LoadUserTeam(player.GetUserID() , player.GetPlayerID() );
         yield return new WaitForSeconds(waitTime);
         JSONNode userTeamCard;
         int spawnCount = 1;
+        string userkey = player.GetUserID() + "_" + player.GetPlayerID();
         //Debug.Log($"Userid {player.GetUserID()}, Team {teams}");
-        for (int i = 0; i < userTeamDict[player.GetUserID()].Count ; i++) {
+        for (int i = 0; i < userTeamDict[userkey].Count ; i++) {
 
-            userTeamCard = userTeamDict[player.GetUserID()][i];
+            userTeamCard = userTeamDict[userkey][i];
             player.SetRace(userTeamCard["race"]);
             spawnCount = 1;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userTeamCard["cardkey"]);

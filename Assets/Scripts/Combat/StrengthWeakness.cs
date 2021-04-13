@@ -2,26 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrengthWeakness : MonoBehaviour
+public class StrengthWeakness 
 {
-    private Dictionary<UnitMeta.UnitType, UnitMeta.UnitType[]> strengthWeakness = new Dictionary<UnitMeta.UnitType, UnitMeta.UnitType[]>();
-    //private Dictionary<string, string> weakness = new Dictionary<string, string>();
-    private int StrengthDamage = 2;
-    private int WeaknessDamage = 2;
+    private static int StrengthDamage = 2;
+    private static int WeaknessDamage = 2;
+    private static Dictionary<UnitMeta.UnitType, UnitMeta.UnitType[]> strengthWeakness = new Dictionary<UnitMeta.UnitType, UnitMeta.UnitType[]>() {
 
-    public void Start()
-    {
         //DEFINE Strength Weakness of Player --> Strength , Weakness
-        strengthWeakness.Add(UnitMeta.UnitType.ARCHER, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK } );
-        strengthWeakness.Add(UnitMeta.UnitType.TANK, new UnitMeta.UnitType[] { UnitMeta.UnitType.CAVALRY, UnitMeta.UnitType.FOOTMAN });
-        strengthWeakness.Add(UnitMeta.UnitType.FOOTMAN, new UnitMeta.UnitType[] { UnitMeta.UnitType.TANK, UnitMeta.UnitType.MAGIC });
-        strengthWeakness.Add(UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.HERO }); // HERO Strength to all , weak to HEROR only
-        strengthWeakness.Add(UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK });
-        strengthWeakness.Add(UnitMeta.UnitType.MAGIC, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK });
-        strengthWeakness.Add(UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.KING, UnitMeta.UnitType.KING });
-
-    }
-    public float calculateDamage(UnitMeta.UnitType player, UnitMeta.UnitType enemy, float damage)
+        { UnitMeta.UnitType.ARCHER, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK } },
+        { UnitMeta.UnitType.TANK, new UnitMeta.UnitType[] { UnitMeta.UnitType.CAVALRY, UnitMeta.UnitType.FOOTMAN }},
+        { UnitMeta.UnitType.FOOTMAN, new UnitMeta.UnitType[] { UnitMeta.UnitType.TANK, UnitMeta.UnitType.MAGIC }},
+        { UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.HERO }}, // HERO Strength to all , weak to HEROR only
+        { UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK }},
+        { UnitMeta.UnitType.MAGIC, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK }},
+        { UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.KING, UnitMeta.UnitType.KING } }
+    };
+    public static float calculateDamage(UnitMeta.UnitType player, UnitMeta.UnitType enemy, float damage)
     {
         //Debug.Log($"calculateDamage player {player} vs  enemy {enemy} , original damage {damage} ");
         float damageResult = damage;

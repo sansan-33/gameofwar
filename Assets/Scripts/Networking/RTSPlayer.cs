@@ -321,7 +321,7 @@ public class RTSPlayer : NetworkBehaviour
     }
     private void ClientHandleUserIDUpdated(string olduserid, string newuserid)
     {
-        Debug.Log($"RTSPlayer userid updated {newuserid} ");
+        //Debug.Log($"RTSPlayer userid updated {newuserid} ");
     }
     private void AuthorityHandlePartyOwnerStateUpdated(bool oldState, bool newState)
     {
