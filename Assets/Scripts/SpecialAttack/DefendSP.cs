@@ -18,7 +18,6 @@ public class DefendSP : MonoBehaviour
     private bool SpawnedButton;
     void Start()
     {
-        shieldHealths = 20;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         if (CompareTag("King" + player.GetEnemyID())|| CompareTag("Player" + player.GetEnemyID())) { return; }
         spCost = FindObjectOfType<SpCost>();
