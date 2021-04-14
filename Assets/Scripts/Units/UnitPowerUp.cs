@@ -106,12 +106,14 @@ public class UnitPowerUp : NetworkBehaviour
             //SpeedUp(agent, speed);
             RpcSpeedUp(agent.transform.gameObject, speed, accumulate);
         }
+        /*
         if (canSpawnEffect)
         {
             GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
             NetworkServer.Spawn(specialEffect, connectionToClient);
             canSpawnEffect = false;
         }
+        */
     }
     private void SpeedUp(NavMeshAgent agent, int speed, bool accumulate)
     {
