@@ -46,10 +46,8 @@ MonoBehaviour:
   IsAreaOfEffect: 1
   DashDamage: 100
   IsKingSP: 0
-  CMVirtualIsOn: 0
   repeatAttackDelay: 1
   attackAngle: 1
-  strengthWeakness: {fileID: 0}
   textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
 --- !u!114 &5766994632317373496
 MonoBehaviour:
@@ -79,6 +77,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 857f01e13e3a545e79dc130b4706a85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   SPCost: 10
   buttonTicket: 0
   EnemyFrezzeTime: 5
