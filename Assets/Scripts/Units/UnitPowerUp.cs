@@ -33,12 +33,14 @@ public class UnitPowerUp : NetworkBehaviour
             //Debug.Log($"cmdPowerUp {unit.unitType}");
             switch (unit.unitType)
             {
+                /*
                 case UnitMeta.UnitType.FOOTMAN :
                     if (unit.isScaled) { break; }
                     ServerPowerUp(unit.gameObject,2,1,0,0,0,-1,0,0);
                     Scale(unitTransform, unit.gameObject);
                     RpcScale(unitTransform, unit.gameObject);
                     break;
+                */
                 case UnitMeta.UnitType.CAVALRY :
                     ServerSetSpeed(10,false);
                     break;
