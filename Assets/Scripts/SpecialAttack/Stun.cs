@@ -29,12 +29,12 @@ public class Stun : NetworkBehaviour
         if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
         spCost = FindObjectOfType<SpCost>();
         //Instantiate SpButton and is it already spawned
-        SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Stun, GetComponent<Unit>());
+       /* SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Stun, GetComponent<Unit>());
         //SpButton will give unit a int to get back the button that it spwaned
         if (SpawnedButton) { SPButton = FindObjectOfType<SpButton>().GetButton(GetComponent<Unit>().SpBtnTicket).GetComponent<Button>(); }
         if (SPButton == null) { return; }
         SPButton.onClick.RemoveAllListeners();
-        SPButton.onClick.AddListener(OnPointerDown);
+        SPButton.onClick.AddListener(OnPointerDown);*/
     }
     public void OnPointerDown()
     {

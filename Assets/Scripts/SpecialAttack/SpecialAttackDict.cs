@@ -7,9 +7,18 @@ public class SpecialAttackDict : MonoBehaviour
     //[SerializeField] public Sprite[] sprite ;
     [SerializeField] public Sprite[] childSprite;
     public enum SpecialAttackType { Slash, Shield, Stun, Lightling, Ice };
+    public static Dictionary<UnitMeta.UnitKey, SpecialAttackType[]> unitSp = new Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>()
+    {
+        {UnitMeta.UnitKey.ARCHER, new[]{SpecialAttackType.Ice, SpecialAttackType.Lightling } }
+    } ;
+    public static Dictionary<string, Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>> userSp = new Dictionary<string, Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>>()
+    {
+        {"a",unitSp}
+
+    };
     [SerializeField] public static Dictionary<SpecialAttackType, Sprite> SpSprite = new Dictionary<SpecialAttackType, Sprite>()
     {
-
+        
     };
     public static Dictionary<SpecialAttackType, Sprite> ChildSpSprite = new Dictionary<SpecialAttackType, Sprite>()
     {
@@ -30,6 +39,9 @@ public class SpecialAttackDict : MonoBehaviour
         ChildSpSprite.Add(SpecialAttackType.Stun, childSprite[2]);
         ChildSpSprite.Add(SpecialAttackType.Lightling, childSprite[3]);
         ChildSpSprite.Add(SpecialAttackType.Ice, childSprite[4]);
-
+    }
+    public void SetUnitSp(string Id, UnitMeta.UnitKey unitKey, SpecialAttackType[] specialAttackTypes)
+    {
+         userSp.Add(Id, new Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>() { { unitKey, specialAttackTypes } });
     }
 }

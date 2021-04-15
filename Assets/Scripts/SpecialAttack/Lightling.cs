@@ -43,11 +43,11 @@ namespace DigitalRuby.ThunderAndLightning
         {
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
-            SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Lightling, GetComponent<Unit>());
+           /* SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Lightling, GetComponent<Unit>());
             if (SpawnedButton) { SPButton = FindObjectOfType<SpButton>().GetButton(GetComponent<Unit>().SpBtnTicket).GetComponent<Button>(); }
             if (SPButton == null) { return; }
             SPButton.onClick.RemoveAllListeners();
-            SPButton.onClick.AddListener(OnPointerDowns);
+            SPButton.onClick.AddListener(OnPointerDowns);*/
             spCost = FindObjectOfType<SpCost>();
             TB = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
         }
