@@ -10,19 +10,14 @@ public class Shield : NetworkBehaviour
     [SerializeField] private Image ShieldHealthBar;
     [SyncVar(hook = nameof(UpdateShieldHealth))]
     [HideInInspector] public float shieldHealth = 0;
-    [SyncVar]
-    private bool CanSpawned = true;
     private float maxShieldHealth;
+
     private GameObject shield;
-    void Start()
-    {
-        
-    }
+    private bool CanSpawned;
     [Command]
     public void CmdSetShieldHealth(int shieldHealth)
     {
         // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
-        CanSpawned = true;
         this.shieldHealth = shieldHealth;
         ServerSetShield();
         // NetworkServer.Spawn(ShieldEffect, connectionToClient);//.transform.localScale = new Vector3(5, 5, 5);
@@ -47,8 +42,8 @@ public class Shield : NetworkBehaviour
         ShieldHealthBar.fillAmount = shieldHealth / maxShieldHealth;
         if(shieldHealth <= 0)
         {
-          //  Debug.Log($"destroy {ShieldEffect}");
-          //  Destroy(shield);
+            //  Debug.Log($"destroy {ShieldEffect}");
+            //Destroy(shield);
             DestroyImmediate(shield, true);
 
         }
@@ -70,7 +65,5 @@ public class Shield : NetworkBehaviour
             CanSpawned = false;
             
         }
-        
-        
     }
 }

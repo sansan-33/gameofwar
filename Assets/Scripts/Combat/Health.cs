@@ -74,7 +74,7 @@ public class Health : NetworkBehaviour, IDamageable
             shield.shieldHealth -= damageAmount;
             return false;
         }
-        else { Destroy(shield.ShieldEffect); }
+        //else { Destroy(shield.ShieldEffect); }
         if(IsFrezze == true)
         {
             IsFrezze = false;
