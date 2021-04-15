@@ -51,6 +51,7 @@ public class Shield : NetworkBehaviour
         ShieldHealthBar.fillAmount = shieldHealth / maxShieldHealth;
         if(shieldHealth <= 0)
         {
+            Destroy(ShieldHealthBar);
             //  Debug.Log($"destroy {ShieldEffect}");
             //Destroy(shield);
             DestroyImmediate(shield, true);

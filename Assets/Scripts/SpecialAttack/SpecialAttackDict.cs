@@ -20,6 +20,7 @@ public class SpecialAttackDict : MonoBehaviour
     {
         
     };
+ 
     public static Dictionary<SpecialAttackType, Sprite> ChildSpSprite = new Dictionary<SpecialAttackType, Sprite>()
     {
 
