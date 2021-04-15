@@ -51,11 +51,16 @@ public class SpButtonManager : MonoBehaviour
             //Debug.Log($"one player mode {unit.tag}");
             if (unit.CompareTag("Player0") || unit.CompareTag("King0"))
             {
-                    unitSp.TryGetValue(unit.GetComponent<Unit>().unitKey, out SpecialAttackDict.SpecialAttackType type);
-                    unit.specialAttackTypes = type;
-                //Debug.Log("one player mode");
-                SpecialAttack = unit.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
-                InstantiateSpButton(unit.specialAttackTypes, unit.GetComponent<Unit>(), SpecialAttack);
+                    var gotValue = unitSp.TryGetValue(unit.GetComponent<Unit>().unitKey, out SpecialAttackDict.SpecialAttackType type);
+                    if (gotValue == true)
+                    {
+                        unit.specialAttackTypes = type;
+                        //Debug.Log("one player mode");
+                        SpecialAttack = unit.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
+
+                        InstantiateSpButton(unit.specialAttackTypes, unit.GetComponent<Unit>(), SpecialAttack);
+                    }
+                   
             }
         }
 
