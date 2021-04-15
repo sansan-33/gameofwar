@@ -6,7 +6,9 @@ using UnityEngine.UI;
 
 public class Shield : NetworkBehaviour
 {
-    [SerializeField] public GameObject ShieldEffect;
+
+    [SerializeField] private GameObject shieldBarParent = null;
+[SerializeField] public GameObject ShieldEffect;
     [SerializeField] private Image ShieldHealthBar;
     [SyncVar(hook = nameof(UpdateShieldHealth))]
     [HideInInspector] public float shieldHealth = 0;
@@ -14,6 +16,13 @@ public class Shield : NetworkBehaviour
 
     private GameObject shield;
     private bool CanSpawned;
+    private Quaternion startRotation;
+
+    private void Awake()
+    {
+        startRotation = shieldBarParent.transform.rotation;
+    }
+
     [Command]
     public void CmdSetShieldHealth(int shieldHealth)
     {
@@ -51,6 +60,7 @@ public class Shield : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        shieldBarParent.transform.rotation = startRotation;
         if (maxShieldHealth == 0 && FindObjectOfType<DefendSP>())
         {
             maxShieldHealth = FindObjectOfType<DefendSP>().shieldHealths;

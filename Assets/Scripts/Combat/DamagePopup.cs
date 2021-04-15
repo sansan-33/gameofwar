@@ -16,8 +16,8 @@ public class DamagePopup : MonoBehaviour
         tmp_text.DOFade( 0f, 5f );
         tmp_text.transform.rotation = transform.root.gameObject.GetComponent<DamageTextHolder>().displayRotation;
         transform.DOMove( transform.position + 2 *(Vector3.up) , 1.75f ).OnComplete( () => {
-            //Destroy(transform.root.gameObject);
-            Debug.Log("destroy text");
+            Destroy(transform.root.gameObject);
+            //Debug.Log("destroy text");
             //DestroyImmediate(transform.root.gameObject, true);
         } );
         
