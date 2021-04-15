@@ -37,6 +37,7 @@ public class SpButton : MonoBehaviour
                 {
                     foreach(SpecialAttackDict.SpecialAttackType type in unit.specialAttackTypes)
                     {
+                        Debug.Log($"Unit {unit.tag} {unit.name} type {type}");
                         InstantiateSpButton(type, unit.GetComponent<Unit>());
                     }
                    
@@ -78,7 +79,6 @@ public class SpButton : MonoBehaviour
             buttonChild.transform.GetChild(1).GetComponent<Image>().sprite = sprite;
             spawnedSpButton.Add(button);
             // tell unit where is the button in the list
-     
         
     }
    
