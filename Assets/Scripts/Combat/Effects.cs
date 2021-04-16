@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class Effects : MonoBehaviour
 {
-
     public GameObject[] effect;
     public Transform[] effectTransform;
 
     public Animator animator;
 
+    void start()
+    {
+        animator = GetComponent<Animator>();
+    }
     public void AttackEffect(int number)
     {
         animator.SetInteger("SkillNumber", number);
