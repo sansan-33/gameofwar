@@ -5,7 +5,7 @@ Shader "KriptoFX/RFX4/Decal"
 	{
 		[Header(Main Settings)]
 	[Space]
-	[PerRendererData] [HDR] _TintColor("Tint Color", Color) = (1,1,1,1)
+	[PerRendererData]	[HDR]_TintColor("Tint Color", Color) = (1,1,1,1)
 		_MainTex("Main Texture", 2D) = "white" {}
 	[Toggle(USE_ALPHA_POW)] _UseAlphaPow("Use Alpha Pow", Int) = 0
 		_AlphaPow("Alpha pow", Float) = 1
@@ -43,10 +43,10 @@ Shader "KriptoFX/RFX4/Decal"
 	}
 
 		Category{
-		Tags{ "Queue" = "Geometry+1"  "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+		Tags{ "Queue" = "Transparent-1"  "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Blend[_SrcMode][_DstMode]
 		Cull Front
-		ZTest[_ZTest1]
+		ZTest [_ZTest1]
 		ZWrite Off
 
 		SubShader{
@@ -178,6 +178,7 @@ Shader "KriptoFX/RFX4/Decal"
 		i.ray *= (_ProjectionParams.z / i.ray.z); // Far clip dist/viewspace distance
 
 		float depth = Linear01Depth(tex2Dproj(_CameraDepthTexture, i.screenUV));
+
 		float3 wpos = mul(unity_CameraToWorld, float4(i.ray * depth, 1)).xyz;
 		//float3 opos = mul(unity_WorldToObject, float4(wpos, 1)).xyz;
 		float3 opos = mul(UNITY_ACCESS_INSTANCED_PROP(_InverseTransformMatrix_arr, _InverseTransformMatrix), float4(wpos, 1)).xyz;
@@ -235,8 +236,7 @@ Shader "KriptoFX/RFX4/Decal"
 
 
 		half4 tintColor = UNITY_ACCESS_INSTANCED_PROP(_TintColor_arr, _TintColor);
-		tintColor.rgb = tintColor.rgb * tintColor.rgb * 2;
-
+		tintColor.rgb = tintColor.rgb * tintColor.rgb* 2;
 		half4 res = tex * tintColor;
 		res.rgb *= 2;
 	#ifdef USE_CUTOUT

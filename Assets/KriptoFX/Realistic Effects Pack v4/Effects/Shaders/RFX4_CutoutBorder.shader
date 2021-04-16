@@ -6,11 +6,11 @@ Shader "KriptoFX/RFX4/CutoutBorder"{
 	[HDR]_EmissionColor("Emission Color", Color) = (1,1,1,1)
 		_EmissionTex("Emission (A)", 2D) = "black" {}
 		_Cutoff("_Cutoff", Range(0,1)) = 0
-		//_Cutout2 ("Cutout2", Range(0,1)) = 0
-		[HDR]_BorderColor("Border Color", Color) = (1,1,1,1)
-		_CutoutThickness("Cutout Thickness", Range(0,1)) = 0.03
+			//_Cutout2 ("Cutout2", Range(0,1)) = 0
+			[HDR]_BorderColor("Border Color", Color) = (1,1,1,1)
+			_CutoutThickness("Cutout Thickness", Range(0,1)) = 0.03
 	}
-	SubShader
+		SubShader
 		{
 			Tags { "RenderType" = "Opaque" "Queue" = "AlphaTest-1"}
 			LOD 100
@@ -167,5 +167,5 @@ Shader "KriptoFX/RFX4/CutoutBorder"{
 				ENDCG
 			}
 		}
-	//Fallback "Transparent/Cutout/Diffuse"
+			//Fallback "Transparent/Cutout/Diffuse"
 }
