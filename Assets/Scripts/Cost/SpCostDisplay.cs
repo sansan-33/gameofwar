@@ -103,16 +103,15 @@ public class SpCostDisplay : MonoBehaviour
             }
             else
             {
-                switch (spCost)
+                if(spCost >= 35)
                 {
-                    case >= 35:
-                        Timer = waitTime;
-                        StartCoroutine(MinusSpCost(10));
-                        break;
-                    default:
-                        Timer = waitTime;
-                        StartCoroutine(AddSpCost());
-                        break;
+                    Timer = waitTime;
+                    StartCoroutine(MinusSpCost(10));
+                }
+                else
+                {
+                    Timer = waitTime;
+                    StartCoroutine(AddSpCost());
                 }
             }
         }
