@@ -102,14 +102,22 @@ public class TeamManager : MonoBehaviour
     }
     public void SaveTeamFormation()
     {
+        bool HasOneKing = false;
         string[] cardSlotKeys = new string[NOOFCARDSLOT];
         TeamCardButton teamCardBtn;
         for (int i = 0; i < NOOFCARDSLOT; i++)
         {
             teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
             cardSlotKeys[i] = teamCardBtn.cardSlotKey.text;
+            if(UnitMeta.KeyType[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), cardSlotKeys[i])] == UnitMeta.UnitType.KING){
+                HasOneKing = true;
+            }
         }
-        StartCoroutine(handleSaveTeamMember(StaticClass.UserID, cardSlotKeys[0], cardSlotKeys[1], cardSlotKeys[2]));
+        if (HasOneKing) {
+            StartCoroutine(handleSaveTeamMember(StaticClass.UserID, cardSlotKeys[0], cardSlotKeys[1], cardSlotKeys[2]));
+        } else {
+            popupMessageDisplay.displayText(2f, "Please select a King", false);
+        }
     }
     public void TeamChanged(string local_teamnumber)
     {
@@ -121,7 +129,7 @@ public class TeamManager : MonoBehaviour
     {
         UnityWebRequest webReq = new UnityWebRequest();
         webReq.downloadHandler = new DownloadHandlerBuffer();
-
+        JSONNode jsonResult;
         //   "/team/{userid}/{cardkey1}/{cardkey2}/{cardkey3}/{teamnumber}" , method = RequestMethod.PUT )
         webReq.url = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}", APIConfig.urladdress, APIConfig.teamService, userid, teamnumber, cardkey1, cardkey2, cardkey3);
         webReq.method = "put";
@@ -129,7 +137,10 @@ public class TeamManager : MonoBehaviour
         // send the web request and wait for a returning result
         yield return webReq.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-        popupMessageDisplay.displayText(2f,"Team Saved " + JSON.Parse(rawJson)["status"]);
+        Debug.Log($"rawJson {rawJson}");
+        jsonResult = JSON.Parse(rawJson); 
+        string status = jsonResult["status"];
+        popupMessageDisplay.displayText(2f,"Team Saved [" + status + "]"  , status.Contains("OK"));
     }
 }
 
