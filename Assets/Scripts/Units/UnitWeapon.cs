@@ -100,7 +100,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
 
-                if (unit.GetUnitMovement().GetNavMeshAgent().speed == unit.GetUnitMovement().maxSpeed) { calculatedDamageToDeal += 20; }
+                if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX ) ) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
                
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
@@ -116,7 +116,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     //    Debug.Log($"Strength Weakness damage {calculatedDamageToDeal}");
                     if (unit.unitType == UnitMeta.UnitType.TANK)
                 {
-                    unit.GetUnitMovement().GetNavMeshAgent().speed = unit.GetUnitMovement().originalSpeed;
+                    unit.GetUnitMovement().SetSpeed(UnitMeta.SpeedType.ORIGINAL , unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.ORIGINAL));
                     unit.GetUnitPowerUp().canSpawnEffect = true;
                 }
                 //other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
@@ -221,7 +221,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         lastAttackTime = Time.time;
         //Debug.Log($"unit {targeter.transform.GetComponent<Unit>().name } attacking now, lastAttackTime: {lastAttackTime} ");
-        targeter.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("attack");
+        targeter.transform.GetComponent<Unit>().GetUnitMovement().trigger("attack");
         TryAttack();
 
     }
