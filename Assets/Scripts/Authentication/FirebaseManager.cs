@@ -41,7 +41,12 @@ public class FirebaseManager : MonoBehaviour
 
     //Auto Login
     [Header("Auto Login")]
-    public static Dictionary<string, string[]> IPEmail = new Dictionary<string, string[]>() { { "192.168.2.181", new string []{"jack.33.wong@gmail.com","123456" } }, { "192.168.2.16", new string[] { "leonard.11.wong@gmail.com", "sw63qd" } }, { "192.168.2.124", new string[] { "louis.10.wong@gmail.com", "no name" } } };
+    public static Dictionary<string, string[]> IPEmail = new Dictionary<string, string[]>() {
+        { "192.168.2.181", new string []{"jack.33.wong@gmail.com","123456" } },
+        { "192.168.2.16", new string[] { "leonard.11.wong@gmail.com", "sw63qd" } },
+        { "192.168.2.124", new string[] { "louis.10.wong@gmail.com", "no name" } },
+        { "192.168.2.11", new string[] { "antheayip@gmail.com", "123456" } }
+    };
 
     public void HandleSignUp()
     {
