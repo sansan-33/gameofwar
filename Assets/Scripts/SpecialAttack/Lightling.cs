@@ -142,7 +142,7 @@ namespace DigitalRuby.ThunderAndLightning
                 lightlingList.Add(lightlingChilds);
                 enemyCount++;
                 endPoint.GetComponent<Health>().OnElectricShock(electicDamage, electicShockDamage);
-                endPoint.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
+                endPoint.transform.GetComponent<Unit>().GetUnitMovement().trigger("gethit");
            
            
         }

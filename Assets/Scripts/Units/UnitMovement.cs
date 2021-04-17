@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.AI;
 using BehaviorDesigner.Runtime.Tactical;
-public class UnitMovement : NetworkBehaviour
+public class UnitMovement : NetworkBehaviour , IUnitMovement
 {
     [SerializeField] public int maxSpeed = 100;
     [SerializeField] private NavMeshAgent agent = null;
@@ -18,7 +18,6 @@ public class UnitMovement : NetworkBehaviour
     private float stoppingDistance = 1f;
     private RTSPlayer player;
     #region Server
-    private float startTime = 3;
     private void Start()
     {
         originalSpeed = agent.speed;
@@ -34,60 +33,72 @@ public class UnitMovement : NetworkBehaviour
     public override void OnStartClient()
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        GameStartCountDown();
     }
     [ServerCallback]
     private void Update()
     {
-        /*
-        Targetable target = targeter.GetTarget();
-
-        if (target != null)
-        {
-            if (agent.remainingDistance < getStoppingDistance()) {
-                //Debug.Log($"Reset Path agent.remainingDistance {agent.remainingDistance}  > getStoppingDistance() {getStoppingDistance()} ");
-                agent.ResetPath();
-                return;
-            }
-
-            if ((target.transform.position - transform.position).sqrMagnitude > chaseRange * chaseRange)
-            {
-                agent.SetDestination(target.transform.position);
-            }
-            else if(agent.hasPath)
-            {
-                agent.ResetPath();
-            }
-
-            return;
-        }
-
-        if (!agent.hasPath) { return; }
-        //This is for moving to destination, not include any target.
-        //Debug.Log($"Unit Movement agent.remainingDistance : {agent.remainingDistance} / getStoppingDistance() : {getStoppingDistance()}");
-        if (agent.remainingDistance > getStoppingDistance()) { return; }
-
-        agent.ResetPath();
-        */
         if (IS_STUNNED) { CmdStop(); }
     }
-    public void HandleDieAnnimation()
+
+    public void trigger(string animationType)
     {
-        CmdTrigger("die");
+        CmdTrigger(animationType);
     }
-    /*
-    [Command]
-    public void CmdStun()
+    public void move(Vector3 position)
     {
-        Debug.Log("CmdStun");
-          ServerStun();
+        CmdMove(position);
     }
-    [Server]
-    public void ServerStun()
+    public void stop()
     {
-        IS_STUNNED = true;
-        Debug.Log($"Uniut movement is stuned = {IS_STUNNED}");
-    }*/
+        CmdStop();
+    }
+    public void rotate(Quaternion quaternion)
+    {
+        CmdRotate(quaternion);
+    }
+    public void updateRotation(bool update)
+    {
+        agent.updateRotation = update;
+    }
+    public float GetSpeed(UnitMeta.SpeedType speedType)
+    {
+        switch (speedType)
+        {
+            case UnitMeta.SpeedType.MAX:
+                return maxSpeed;
+            case UnitMeta.SpeedType.CURRENT:
+                return agent.speed;
+            case UnitMeta.SpeedType.ORIGINAL:
+                return originalSpeed;
+            default:
+                return 0;
+        }
+    }
+    public void SetSpeed(UnitMeta.SpeedType speedType ,float _speed)
+    {
+        switch (speedType)
+        {
+            case UnitMeta.SpeedType.MAX:
+                maxSpeed = (int) _speed;
+                break;
+            case UnitMeta.SpeedType.CURRENT:
+                agent.speed = _speed;
+                break;
+            case UnitMeta.SpeedType.ORIGINAL:
+                originalSpeed = _speed;
+                break;
+            default:
+                break;
+        }
+    }
+    public Vector3 GetVelocity()
+    {
+        return agent.velocity;
+    }
+    public void SetVelocity(Vector3 _velocity)
+    {
+        agent.velocity = _velocity;
+    }
     [Command]
     public void CmdTrigger(string animationType)
     {
@@ -152,18 +163,6 @@ public class UnitMovement : NetworkBehaviour
     {
         agent.ResetPath();
     }
-    private void GameStartCountDown()
-    {
-        startTime -= 1 * Time.deltaTime;
-        if (startTime <= 0)
-        {
-            startTime = 0;
-        }
-        if (startTime <= 3 && startTime > 0)
-        {
-            agent.ResetPath();
-        }
-    }
 
     #endregion
    
@@ -171,7 +170,7 @@ public class UnitMovement : NetworkBehaviour
     {
         return agent;
     }
-    public bool HasArrived()
+    public bool hasArrived()
     {
         return agent.pathPending && (transform.position - agent.destination).magnitude <= agent.stoppingDistance;
     }
@@ -206,10 +205,6 @@ public class UnitMovement : NetworkBehaviour
             return true;
         }
         return false;
-    }
-    public IDamageable collideTarget()
-    {
-        return other.transform.GetComponent<IDamageable>();
     }
     public Transform collideTargetTransform()
     {

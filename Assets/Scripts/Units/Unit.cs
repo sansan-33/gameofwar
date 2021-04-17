@@ -13,6 +13,7 @@ public class Unit : NetworkBehaviour
     [SerializeField] private int resourceCost = 10;
     [SerializeField] private Health health = null;
     [SerializeField] private UnitMovement unitMovement = null;
+    [SerializeField] private AstarAI astarAI = null;
     [SerializeField] private UnitPowerUp unitPowerUp = null;
     [SerializeField] private int id = -1;
     [SerializeField] private TMP_Text taskStatus;
@@ -44,7 +45,7 @@ public class Unit : NetworkBehaviour
     {
         return resourceCost;
     }
-    public UnitMovement GetUnitMovement()
+    public IUnitMovement GetUnitMovement()
     {
         return unitMovement;
     }

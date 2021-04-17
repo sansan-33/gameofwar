@@ -15,6 +15,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         private class NavMeshTacticalAgent : TacticalAgent
         {
             private NavMeshAgent navMeshAgent;
+            private Unit unit;
             private bool destinationSet;
 
             /// <summary>
@@ -23,11 +24,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             public NavMeshTacticalAgent(Transform agent) : base(agent)
             {
                 //navMeshAgent = agent.GetComponent<NavMeshAgent>();
-                navMeshAgent = agent.GetComponentInParent<Unit>().GetUnitMovement().GetNavMeshAgent();
-                if (navMeshAgent.hasPath) {
-                    navMeshAgent.ResetPath();
-                    navMeshAgent.isStopped = true;
-                }
+                unit = agent.GetComponentInParent<Unit>();
+                //if (navMeshAgent.hasPath) {
+                //    navMeshAgent.ResetPath();
+                //    navMeshAgent.isStopped = true;
+                //}
             }
 
             /// <summary>
@@ -35,17 +36,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override void SetDestination(Vector3 destination)
             {
-                destinationSet = true;
-                destination.y = navMeshAgent.destination.y;
-                navMeshAgent.GetComponentInParent<Unit>().GetUnitPowerUp().CmdUnitPowerUp();
-                navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdTrigger("run");
-                //Once they are coilled with others. their cannot move again even killed the target because the destination is the same
-                if (navMeshAgent.destination != destination || navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().isCollided) {
-                    //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdTrigger("run");
-                    navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdMove(destination);
-                    //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().ShowLine();
-                    //navMeshAgent.SetDestination(destination);
-                    //navMeshAgent.isStopped = false;
+                if (unit == null) { Debug.Log("NavMeshTacticalAgent ==> Unit is null"); }
+                unit.GetUnitPowerUp().CmdUnitPowerUp();
+                unit.GetUnitMovement().trigger("run");
+                if (! unit.GetUnitMovement().isCollide()) {
+                    unit.GetUnitMovement().move(destination);
                 }
             }
             /// <summary>
@@ -53,8 +48,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override bool HasArrived()
             {
-                navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdTrigger("wait");
-                return destinationSet && navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().HasArrived();
+                unit.GetUnitMovement().trigger("wait");
+                return unit.GetUnitMovement().hasArrived();
             }
 
             /// <summary>
@@ -62,11 +57,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override bool RotateTowards(Quaternion targetRotation)
             {
-                if (navMeshAgent.updateRotation) {
-                    navMeshAgent.updateRotation = false;
-                }
-                //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, navMeshAgent.angularSpeed * Time.deltaTime);
-                navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdRotate(targetRotation);
+                unit.GetUnitMovement().rotate(targetRotation);
                 if (Quaternion.Angle(transform.rotation, targetRotation) < AttackAgent.AttackAngle()) {
                     return true;
                 }
@@ -86,7 +77,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override void UpdateRotation(bool update)
             {
-                navMeshAgent.updateRotation = update;
+                unit.GetUnitMovement().updateRotation(update);
             }
 
             /// <summary>
@@ -94,14 +85,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override void Stop()
             {
-                //if (navMeshAgent.hasPath) {
-                    //Debug.Log("1 Nav Mesh Tactical Stop --> has path");
-                    //navMeshAgent.isStopped = true;
-                    destinationSet = false;
-                    navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdStop();
-                //}
-                //Debug.Log("2 Nav Mesh Tactical Stop again");
-                //navMeshAgent.GetComponentInParent<Unit>().GetUnitMovement().CmdStop();
+                unit.GetUnitMovement().stop();
             }
 
             /// <summary>
@@ -110,8 +94,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             public override void End()
             {
                 Stop();
-                navMeshAgent.updateRotation = true;
-                navMeshAgent.velocity = Vector3.zero;
+                unit.GetUnitMovement().updateRotation(true);
+                unit.GetUnitMovement().SetVelocity(Vector3.zero);
             }
         }
 

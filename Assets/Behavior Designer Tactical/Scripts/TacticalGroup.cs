@@ -459,8 +459,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             {
                 if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
                     Debug.Log($"{tacticalAgent.transform.name}  -- collide {unit.GetUnitMovement().collideTargetTransform().name} ");
-                IDamageable collideTarget = unit.GetUnitMovement().collideTarget();
                 Transform collideTargetTransform = unit.GetUnitMovement().collideTargetTransform();
+                IDamageable collideTarget = collideTargetTransform.GetComponent<IDamageable>();
                 tacticalAgent.TargetTransform = collideTargetTransform;
                 tacticalAgent.TargetDamagable = collideTarget;
 

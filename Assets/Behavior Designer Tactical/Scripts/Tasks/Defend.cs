@@ -88,7 +88,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                 }
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": No Target ==> Defend " + HEARTBEAT++);
-                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("defend");
+                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().trigger("defend");
             }
 
             // The agent isn't attacking. Move near the defend object.
@@ -103,7 +103,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     direction.y = 0;
                     tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
                     tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend " + HEARTBEAT++);
-                    tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("defend");
+                    tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().trigger("defend");
                 }
             }
             //if (base.leader.Value != null)
