@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
-namespace DigitalRuby.ThunderAndLightning
-{
+
     public class Lightling :  MonoBehaviour, ISpecialAttack
     {
         [SerializeField] private GameObject LightlingPrefab;
@@ -134,11 +133,11 @@ namespace DigitalRuby.ThunderAndLightning
                 lightling = Instantiate(LightlingPrefab);
                 lightlingChild = lightling.transform.GetChild(0).gameObject;
                 lightlingChild.transform.position = new Vector3(startPoint.transform.position.x, startPoint.transform.position.y + 5, startPoint.transform.position.z);
-                lightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChild);
+                //ightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChild);
             }
                 lightlingChilds = Instantiate(lightlingChild, lightling.transform);
                 lightlingChilds.transform.position = new Vector3(endPoint.transform.position.x, endPoint.transform.position.y + 5, endPoint.transform.position.z);
-                lightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChilds);
+                //lightling.GetComponent<LightningBoltPathScriptBase>().LightningPath.Add(lightlingChilds);
                 lightlingList.Add(lightlingChilds);
                 enemyCount++;
                 endPoint.GetComponent<Health>().OnElectricShock(electicDamage, electicShockDamage);
@@ -175,5 +174,5 @@ namespace DigitalRuby.ThunderAndLightning
             }
         }
     }
-}
+
         

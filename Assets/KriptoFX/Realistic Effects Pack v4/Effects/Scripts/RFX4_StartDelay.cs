@@ -23,9 +23,14 @@ public class RFX4_StartDelay : MonoBehaviour
         currentTime += Time.deltaTime;
         if (!isEnabled && currentTime >= Delay)
         {
-            isEnabled = true;
-            ActivatedGameObject.SetActive(true);
+            //isEnabled = true;
+           // ActivatedGameObject.SetActive(true);
           
         }
+    }
+    public void Enable()
+    {
+        isEnabled = true;
+        ActivatedGameObject.SetActive(true);
     }
 }

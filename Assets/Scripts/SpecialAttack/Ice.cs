@@ -6,10 +6,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Ice : MonoBehaviour, ISpecialAttack
-{
-    [SerializeField] public GameObject iceEffect;
-    [SerializeField] private LayerMask layerMask = new LayerMask();
-    public List<GameObject> enemyList = new List<GameObject>();
+{ 
+    [SerializeField] public LayerMask layerMask;
+    [HideInInspector]public List<GameObject> enemyList = new List<GameObject>();
     private List<GameObject> effectLists = new List<GameObject>();
     private Button SPButton;
     private RTSPlayer player;
@@ -19,9 +18,9 @@ public class Ice : MonoBehaviour, ISpecialAttack
     private SpCost spCost;
 
     public int SPCost = 10;
-    public int IceDamage;
+    public int IceDamage = 10;
     public int attackRange = 100;
-    public float UnFrezzeTimer = 3;
+    public float UnFrezzeTimer = 8;
     private float UnFrezzeTime;
     private float Timer = 5;
     private SpButtonManager SpButtonManager;
@@ -30,6 +29,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
     private bool IsFrezze = false;
     void Start()
     {
+        //layerMask = LayerMask.NameToLayer("Unit");
         Health.IceHitUpdated += IceBreak;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
@@ -77,7 +77,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         
             //bool findedTarget = false;
             //Search target in a distance
-            Collider[] hitColliders = Physics.OverlapBox(searchPoint.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(searchPoint.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
             int i = 0;
             while (i < hitColliders.Length)
             {
@@ -175,7 +175,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
     {
         if(unit == null) { return; }
         Debug.Log($"ice break {effect} {effect.transform.parent.name}");
-        effect.GetComponentInChildren<RFX4_StartDelay>().Delay = 0;
+        effect.GetComponentInChildren<RFX4_StartDelay>().Enable();
         //effect.GetComponentInChildren<RFX4_StartDelay>().Debusg(0);
         Debug.Log($"ice break{effect.GetComponentInChildren<RFX4_StartDelay>().Delay} {unit}");
         unit.GetComponent<Health>().IsFrezze = false;
