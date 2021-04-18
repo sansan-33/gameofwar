@@ -20,7 +20,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
     private bool SpawnedButton;
     private bool CanUnFrezze = false;
     private bool CMVirtualIsOn = false;
-    public int EnemyFrezzeTime = 5;
+    public int enemyFrezzeTime = 5;//second
     
     // Start is called before the first frame update
     void Start()
@@ -61,7 +61,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
             //stop enenmy
             foreach (GameObject unit in enemyList)
             {  
-                enemyReFightTimer = EnemyFrezzeTime;
+                enemyReFightTimer = enemyFrezzeTime;
                 CanUnFrezze = true;
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
@@ -77,7 +77,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
             //stop enenmy
             foreach (GameObject unit in enemyList)
             {
-                enemyReFightTimer = EnemyFrezzeTime;
+                enemyReFightTimer = enemyFrezzeTime;
                 CanUnFrezze = true;
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
