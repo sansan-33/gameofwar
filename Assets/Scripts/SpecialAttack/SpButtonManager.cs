@@ -10,6 +10,10 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] public LayerMask layerMask;
     [SerializeField] public CharacterArt Arts;
     [SerializeField] GameObject buttonPrefab;
+
+    [SerializeField] public GameObject lightningPrefab;
+
+
     public int buttonOffSet;
     public RectTransform FirstCardPos;
     private GameObject button;

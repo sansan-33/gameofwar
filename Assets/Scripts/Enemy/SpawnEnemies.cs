@@ -46,30 +46,30 @@ public class SpawnEnemies : MonoBehaviour
                 if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
                 {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.KING].ToString()];
-                    localFactory.CmdSpawnUnitRotation(UnitMeta.Race.UNDEAD,  UnitMeta.UnitType.KING, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.speed, teamColor, Quaternion.Euler(0, 180, 0));
+                    localFactory.CmdSpawnUnitRotation(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.KING, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, Quaternion.Euler(0, 180, 0)); ;
                 }
                 
                 if (isUnitAlive(UnitMeta.UnitType.HERO ) < 1)
                 {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.HERO].ToString()];
-                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.speed, teamColor);
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.HERO, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
                
                 if (isUnitAlive(UnitMeta.UnitType.TANK) < 1) {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.TANK].ToString()];
-                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.TANK, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.speed, teamColor);
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.TANK, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
                 /*
                 if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
                 {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.ARCHER].ToString()];
-                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.ARCHER, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.speed, teamColor);
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.ARCHER, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
                 
                 if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 12)
                 {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[UnitMeta.Race.UNDEAD][UnitMeta.UnitType.FOOTMAN].ToString()];
-                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.speed, teamColor);
+                    localFactory.CmdSpawnUnit(UnitMeta.Race.UNDEAD, UnitMeta.UnitType.FOOTMAN, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
                 */
                 StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
@@ -121,7 +121,7 @@ public class SpawnEnemies : MonoBehaviour
         {
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
             {
-                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"]));
+                userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"], jsonResult[i]["specialkey"], jsonResult[i]["passivekey"]));
             }
         }
         //Debug.Log($"Spawn enemies GetUserCard {webReq.url } {jsonResult}");

@@ -66,7 +66,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
-                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
+                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
                
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
@@ -82,7 +82,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
-                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special);
+                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
                 
             }
             CmdCMVirtual();
@@ -117,7 +117,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
                 UnitSpeedkeys.TryGetValue(unit, out int speed);
-                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special);
+                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
             }
             CanUnFrezze = false;
         }    

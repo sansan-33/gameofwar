@@ -65,7 +65,7 @@ public class Card : MonoBehaviour
         Destroy(gameObject);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
-        localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, teamColor);
+        localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)this.cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
     }
     public void DropUnit(Vector3 SpwanPoint)
     {
@@ -74,7 +74,7 @@ public class Card : MonoBehaviour
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {SpwanPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
         //Debug.Log($"Card ==> DropUnit localFactory is null {localFactory == null} ");
-        localFactory.CmdDropUnit(playerID, SpwanPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
+        localFactory.CmdDropUnit(playerID, SpwanPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
     }
     public void destroy()
     {

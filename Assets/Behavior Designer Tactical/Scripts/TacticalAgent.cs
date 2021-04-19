@@ -25,6 +25,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
         public bool IsEngaged = false;
+        public Vector3 lastDestination;
 
         private string debugTarget = "footman";
         private bool ISDEBUG = false;

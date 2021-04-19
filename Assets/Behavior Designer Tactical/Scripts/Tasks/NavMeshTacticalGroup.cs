@@ -17,7 +17,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             private NavMeshAgent navMeshAgent;
             private Unit unit;
             private bool destinationSet;
-
+            
             /// <summary>
             /// Caches the component references and initialize default values.
             /// </summary>
@@ -38,9 +38,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             {
                 //if (unit.GetUnitMovement().collided()) { return; }
                 //if (unit == null) { Debug.Log("NavMeshTacticalAgent ==> Unit is null"); return; }
-                unit.GetUnitPowerUp().CmdUnitPowerUp();
                 unit.GetUnitMovement().trigger("run");
-                unit.GetUnitMovement().move(destination);
+                Debug.Log($"NavMeshTacticalAgent {unit.name} ==> SetDestination {lastDestination} {destination} ");
+                if (lastDestination != destination) {
+                    lastDestination = destination;
+                    unit.GetUnitPowerUp().CmdUnitPowerUp();
+                     unit.GetUnitMovement().move(destination);
+                }
             }
             /// <summary>
             /// Has the agent arrived at its destination?

@@ -46,7 +46,8 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     [Server]
     public void ServerMove(Vector3 position)
     {
-        //Debug.Log($"ai.remainingDistance {ai.remainingDistance}");
+        //Debug.Log($"ServerMove destination {ai.destination} target {position} , save memory not start path");
+        if (ai.destination == position) { Debug.Log($"same destination {ai.destination} target {position} , save memory not start path"); }
         if (Time.time > lastRepath + repathRate && seeker.IsDone())
         {
             lastRepath = Time.time;

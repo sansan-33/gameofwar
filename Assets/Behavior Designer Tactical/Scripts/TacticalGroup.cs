@@ -46,7 +46,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected List<IDamageable> targets = new List<IDamageable>();
         protected List<Transform> targetTransforms = new List<Transform>();
         private string debugTarget = "tank";
-        private bool ISDEBUG = false;
+        private bool ISDEBUG = true;
 
         /// <summary>
         /// Listen for any agents that want to join the group.
@@ -466,7 +466,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 IDamageable collideTarget = collideTargetTransform.GetComponent<IDamageable>();
                 tacticalAgent.TargetTransform = collideTargetTransform;
                 tacticalAgent.TargetDamagable = collideTarget;
-
+                tacticalAgent.lastDestination = new Vector3();
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {

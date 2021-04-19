@@ -49,10 +49,10 @@ public class UnitPowerUp : NetworkBehaviour
     
    //[Command(requiresAuthority = false)]
     [Command(ignoreAuthority = true)]
-    public void CmdPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void CmdPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
         //Debug.Log($"CmdPowerUp Speed ==  > {speed}");
-        ServerPowerUp(unit.gameObject, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special);
+        ServerPowerUp(unit.gameObject, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
     }
     [Command]
     public void cmdSpeedUp(int speed)
@@ -61,26 +61,26 @@ public class UnitPowerUp : NetworkBehaviour
         ServerSetSpeed(speed,true);
     }
     [Server]
-    public void ServerPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void ServerPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
         //Debug.Log("ServerpowerUp");
-        RpcPowerUp(unit.gameObject, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special);
+        RpcPowerUp(unit.gameObject, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
     }
-    public void powerUp(GameObject unit, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void powerUp(GameObject unit, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
         //Debug.Log($"{unit.tag} : {unit.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
         SetSpeed(speed,false);
-        unit.GetComponent<CardStats>().SetCardStats(star, cardLevel, health, attack, repeatAttackDelay,  speed,defense, special );
+        unit.GetComponent<CardStats>().SetCardStats(star, cardLevel, health, attack, repeatAttackDelay,  speed,defense, special, specialkey, passivekey);
         unit.GetComponent<HealthDisplay>().SetUnitLevel(cardLevel, unit.GetComponent<Unit>().unitType );
         unit.GetComponent<Health>().ScaleMaxHealth(health, star);
         unit.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
         unit.GetComponentInChildren<UnitBody>().SetRenderMaterial(unit, NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID(),star);
     }
     [ClientRpc]
-    public void RpcPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special)
+    public void RpcPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
         //Debug.Log("RpcPowerUp");
-        powerUp(unit, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special);
+        powerUp(unit, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
     }
     private void Scale(Transform unitTransform, GameObject unit)
     {
