@@ -6,10 +6,12 @@ public class SpecialAttackDict : MonoBehaviour
 {
     //[SerializeField] public Sprite[] sprite ;
     [SerializeField] public Sprite[] childSprite;
-    public enum SpecialAttackType { Slash, Shield, Stun, Lightling, Ice };
+    public enum SpecialAttackType { SLASH, SHIELD, STUN, LIGHTNING, ICE };
+  
+
     public static Dictionary<UnitMeta.UnitKey, SpecialAttackType[]> unitSp = new Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>()
     {
-        {UnitMeta.UnitKey.ARCHER, new[]{SpecialAttackType.Ice, SpecialAttackType.Lightling } }
+        {UnitMeta.UnitKey.ARCHER, new[]{SpecialAttackType.ICE, SpecialAttackType.LIGHTNING } }
     } ;
     public static Dictionary<string, Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>> userSp = new Dictionary<string, Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>>()
     {
@@ -35,11 +37,11 @@ public class SpecialAttackDict : MonoBehaviour
         SpSprite.Add(SpecialAttackType.Ice, sprite[4]);*/
 
         ChildSpSprite.Clear();
-        ChildSpSprite.Add(SpecialAttackType.Slash, childSprite[0]);
-        ChildSpSprite.Add(SpecialAttackType.Shield, childSprite[1]);
-        ChildSpSprite.Add(SpecialAttackType.Stun, childSprite[2]);
-        ChildSpSprite.Add(SpecialAttackType.Lightling, childSprite[3]);
-        ChildSpSprite.Add(SpecialAttackType.Ice, childSprite[4]);
+        ChildSpSprite.Add(SpecialAttackType.SLASH, childSprite[0]);
+        ChildSpSprite.Add(SpecialAttackType.SHIELD, childSprite[1]);
+        ChildSpSprite.Add(SpecialAttackType.STUN, childSprite[2]);
+        ChildSpSprite.Add(SpecialAttackType.LIGHTNING, childSprite[3]);
+        ChildSpSprite.Add(SpecialAttackType.ICE, childSprite[4]);
     }
     public void SetUnitSp(string Id, UnitMeta.UnitKey unitKey, SpecialAttackType[] specialAttackTypes)
     {
