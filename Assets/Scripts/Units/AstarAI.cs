@@ -10,7 +10,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     private AIPath ai;
     public Path path;
 
-    public float speed = 2;
+    [SerializeField] public int maxSpeed = 100;
 
     public float nextWaypointDistance = 3;
 
@@ -18,7 +18,6 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public bool reachedEndOfPath;
 
-    [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
     bool IS_STUNNED = false;
     private RTSPlayer player;
     private Collider other;
@@ -31,7 +30,6 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         seeker = GetComponent<Seeker>();
         ai = GetComponent<AIPath>();
-        unitNetworkAnimator = GetComponent<NetworkAnimator>();
     }
     public override void OnStartClient()
     {
@@ -46,14 +44,15 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     [Server]
     public void ServerMove(Vector3 position)
     {
-        //Debug.Log($"ServerMove destination {ai.destination} target {position} , save memory not start path");
-        if (ai.destination == position) { Debug.Log($"same destination {ai.destination} target {position} , save memory not start path"); }
+        //if (ai.destination == position) { Debug.Log($"same destination {ai.destination} target {position} , save memory not start path"); }
         if (Time.time > lastRepath + repathRate && seeker.IsDone())
         {
             lastRepath = Time.time;
 
             // Start a new path to the targetPosition, call the the OnPathComplete function
             // when the path has been calculated (which may take a few frames depending on the complexity)
+            if(gameObject.name.ToLower().Contains("tank"))
+                Debug.Log($"ServerMove : {gameObject.name} move to destination {ai.destination} target {position} , save memory not start path");
             seeker.StartPath(transform.position, position, OnPathComplete);
         }
     }
@@ -128,7 +127,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         // Normalize it so that it has a length of 1 world unit
         Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
         // Multiply the direction by our desired speed to get a velocity
-        Vector3 velocity = dir * speed * speedFactor;
+        Vector3 velocity = dir * ai.maxSpeed * speedFactor;
 
         // Move the agent using the CharacterController component
         // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
@@ -136,21 +135,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
         // If you are writing a 2D game you may want to remove the CharacterController and instead modify the position directly
         transform.position += velocity * Time.deltaTime;
-    
+        
         if (IS_STUNNED) { CmdStop(); }
     }
-    
-    [Command]
-    public void CmdTrigger(string animationType)
-    {
-        ServerTrigger(animationType);
-    }
 
-    [Server]
-    public void ServerTrigger(string animationType)
-    {
-        unitNetworkAnimator.SetTrigger(animationType);
-    }
     [Command]
     public void CmdRotate(Quaternion targetRotation)
     {
@@ -211,11 +199,6 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         return false;
     }
 
-    public void trigger(string trigger)
-    {
-        CmdTrigger(trigger);
-    }
-
     public void move(Vector3 position)
     {
         CmdMove(position);
@@ -248,12 +231,32 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public float GetSpeed(UnitMeta.SpeedType speedType)
     {
-        return ai.maxSpeed;
+        if (ai == null) { ai = GetComponent<AIPath>(); }
+        switch (speedType)
+        {
+            case UnitMeta.SpeedType.MAX:
+                return this.maxSpeed;
+            case UnitMeta.SpeedType.CURRENT:
+                return ai.maxSpeed;
+            default:
+                return 0;
+        }
     }
 
-    public void SetSpeed(UnitMeta.SpeedType speedType, float speed)
+    public void SetSpeed(UnitMeta.SpeedType speedType, float _speed)
     {
-        ai.maxSpeed = speed;
+        if (ai == null) { ai = GetComponent<AIPath>(); }
+        switch (speedType)
+        {
+            case UnitMeta.SpeedType.MAX:
+                this.maxSpeed = (int)_speed;
+                break;
+            case UnitMeta.SpeedType.CURRENT:
+                ai.maxSpeed = _speed;
+                break;
+            default:
+                break;
+        }
     }
 
     public Vector3 GetVelocity()

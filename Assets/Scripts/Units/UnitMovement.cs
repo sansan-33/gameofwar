@@ -8,7 +8,6 @@ public class UnitMovement : NetworkBehaviour , IUnitMovement
 {
     [SerializeField] public int maxSpeed = 100;
     [SerializeField] private NavMeshAgent agent = null;
-    [SerializeField] public NetworkAnimator unitNetworkAnimator = null;
     [SerializeField] public GameObject circleMarker = null;
     private Collider other;
     public bool isCollided = false;
@@ -37,11 +36,6 @@ public class UnitMovement : NetworkBehaviour , IUnitMovement
     private void Update()
     {
         if (IS_STUNNED) { CmdStop(); }
-    }
-
-    public void trigger(string animationType)
-    {
-        CmdTrigger(animationType);
     }
     public void move(Vector3 position)
     {
@@ -98,18 +92,6 @@ public class UnitMovement : NetworkBehaviour , IUnitMovement
     {
         agent.velocity = _velocity;
     }
-    [Command]
-    public void CmdTrigger(string animationType)
-    {
-        ServerTrigger(animationType);
-    }
-
-    [Server]
-    public void ServerTrigger(string animationType)
-    {
-        unitNetworkAnimator.SetTrigger(animationType);
-    }
-    
     [Command]
     public void CmdMove(Vector3 position)
     {

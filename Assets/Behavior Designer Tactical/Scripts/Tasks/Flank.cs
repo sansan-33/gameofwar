@@ -72,7 +72,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 // the target.
                 if (tacticalAgent.HasArrived()) {
                     tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": Arrived " + HEARTBEAT++);
-                    tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().trigger("wait");
                     tacticalAgent.AttackPosition = true;
                 }
             } else if (MoveToAttackPosition()) {

@@ -221,9 +221,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         lastAttackTime = Time.time;
         //Debug.Log($"unit {targeter.transform.GetComponent<Unit>().name } attacking now, lastAttackTime: {lastAttackTime} ");
-        targeter.transform.GetComponent<Unit>().GetUnitMovement().trigger("attack");
+        targeter.transform.GetComponent<UnitAnimator>().SetBool("run", false);
+        targeter.transform.GetComponent<UnitAnimator>().SetBool("defend", false);
+        targeter.transform.GetComponent<UnitAnimator>().trigger("attack", repeatAttackDelay);
         TryAttack();
-
     }
     public void ScaleAttackDelay(int factor)
     {

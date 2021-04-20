@@ -102,7 +102,7 @@ public class UnitPowerUp : NetworkBehaviour
     public void SetSpeed(int speed, bool accumulate)
     {
         if (speed < 0) { return; }
-        if (GetComponent<UnitMovement>().GetSpeed(UnitMeta.SpeedType.CURRENT)   < GetComponent<UnitMovement>().maxSpeed)
+        if (GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)   < GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)  )
         {
             //SpeedUp(agent, speed);
             RpcSpeedUp(speed, accumulate);
@@ -118,9 +118,9 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void SpeedUp(int speed, bool accumulate)
     {
-        float currentSpeed = GetComponent<UnitMovement>().GetSpeed(UnitMeta.SpeedType.CURRENT);
-        if (accumulate && currentSpeed < 3  ) { return; }
-        GetComponent<UnitMovement>().SetSpeed(UnitMeta.SpeedType.CURRENT, accumulate ? currentSpeed + speed : speed);
+        float currentSpeed = GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT);
+        if (accumulate && currentSpeed < 1  ) { return; }
+        GetComponent<Unit>().GetUnitMovement().SetSpeed(UnitMeta.SpeedType.CURRENT, accumulate ? currentSpeed + speed : speed);
     }
     [ClientRpc]
     private void RpcSpeedUp( int speed, bool accumulate)

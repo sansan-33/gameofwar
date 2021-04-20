@@ -17,7 +17,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             private NavMeshAgent navMeshAgent;
             private Unit unit;
             private bool destinationSet;
-            
+            private Vector3 lastDestination;
+
             /// <summary>
             /// Caches the component references and initialize default values.
             /// </summary>
@@ -36,14 +37,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override void SetDestination(Vector3 destination)
             {
-                //if (unit.GetUnitMovement().collided()) { return; }
+                if (unit.GetUnitMovement().collided()) { lastDestination = new Vector3(); }
                 //if (unit == null) { Debug.Log("NavMeshTacticalAgent ==> Unit is null"); return; }
-                unit.GetUnitMovement().trigger("run");
-                //Debug.Log($"NavMeshTacticalAgent {unit.name} ==> SetDestination {lastDestination} {destination} ");
+                unit.GetComponent<UnitAnimator>().SetBool("run",true);
+                //if(unit.name.ToLower().Contains("tank"))
+                //Debug.Log($"NavMeshTacticalAgent {unit.name} ==> SetDestination {lastDestination} / {destination} / collided ? {unit.GetUnitMovement().collided()}");
                 if (lastDestination != destination) {
                     lastDestination = destination;
                     unit.GetUnitPowerUp().CmdUnitPowerUp();
-                     unit.GetUnitMovement().move(destination);
+                    unit.GetUnitMovement().move(destination);
                 }
             }
             /// <summary>
@@ -51,7 +53,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override bool HasArrived()
             {
-                unit.GetUnitMovement().trigger("wait");
                 return unit.GetUnitMovement().hasArrived();
             }
 

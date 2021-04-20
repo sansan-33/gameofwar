@@ -67,7 +67,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     destination = TransformPoint(attackCenter, offset, attackRotation);
                     detour = true;
                 }
-                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().trigger("run");
                 tacticalAgent.SetDestination(destination);
 
                 // The agents can't be in position if they are taking a detour.

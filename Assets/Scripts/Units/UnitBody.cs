@@ -54,7 +54,7 @@ public class UnitBody : NetworkBehaviour, IBody
         //Debug.Log(gameObject.transform.GetChild(8).gameObject.transform.GetChild(0));
         changeBody.SetActive(true);
         unit.unitType = UnitMeta.UnitType.TANK;
-        unit.GetComponentInParent<UnitMovement>().GetNavMeshAgent().speed = 6;
+        unit.GetUnitMovement().SetSpeed( UnitMeta.SpeedType.CURRENT, 6);
     }
     [ClientRpc]
     private void RpcChangeType(GameObject unit)

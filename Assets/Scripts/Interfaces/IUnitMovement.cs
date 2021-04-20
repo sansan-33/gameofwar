@@ -4,7 +4,6 @@ using static UnitMeta;
 public interface IUnitMovement
 {
     bool collided();
-    void trigger(string trigger);
     void move(Vector3 position);
     void stop();
     void rotate(Quaternion targetRotation);

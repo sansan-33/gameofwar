@@ -1057,6 +1057,7 @@ GameObject:
   - component: {fileID: 4733497917111374923}
   - component: {fileID: 1014293119696515951}
   - component: {fileID: 4949710644524271067}
+  - component: {fileID: 720658289876782571}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Unit
@@ -1747,7 +1748,6 @@ MonoBehaviour:
   syncInterval: 0.1
   maxSpeed: 100
   agent: {fileID: 2460804451879552500}
-  unitNetworkAnimator: {fileID: 0}
   circleMarker: {fileID: 6198479705541569738}
   isCollided: 0
   originalSpeed: 0
@@ -2024,7 +2024,7 @@ MonoBehaviour:
     visualizeSensitivity: 0
   targetCompatibility: {fileID: 0}
   maxAcceleration: -2.5
-  rotationSpeed: 360
+  rotationSpeed: 600
   slowdownDistance: 0.6
   pickNextWaypointDist: 2
   alwaysDrawGizmos: 0
@@ -2045,12 +2045,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  speed: 2
+  maxSpeed: 20
   nextWaypointDistance: 3
   reachedEndOfPath: 0
-  unitNetworkAnimator: {fileID: 0}
   isCollided: 0
-  repathRate: 5
+  repathRate: 1
+--- !u!114 &720658289876782571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460804451879552006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28b711c31caf648eab93aba8863e01bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  networkAnim: {fileID: 0}
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0

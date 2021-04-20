@@ -15,12 +15,14 @@ public class Card : MonoBehaviour
     [SerializeField] public List<Sprite> sprite = new List<Sprite>();
     private UnitFactory localFactory;
     private GameObject dealManagers;
+    private ParticlePool appearEffectPool;
     public int playerID = 0;
     Color teamColor;
     public eleixier eleixers;
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
+    
 
     public void Start()
     {
@@ -31,6 +33,7 @@ public class Card : MonoBehaviour
         //playerRace =  (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace());
         teamColor = player.GetTeamColor();
         dealManagers = GameObject.FindGameObjectWithTag("DealManager");
+        appearEffectPool = GameObject.FindGameObjectWithTag("EffectPool").GetComponent<ParticlePool>();
         StartCoroutine(SetLocalFactory());
     }
     IEnumerator SetLocalFactory()
@@ -72,6 +75,7 @@ public class Card : MonoBehaviour
         if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
+        appearEffectPool.UseParticles(SpwanPoint);
         //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {SpwanPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
         //Debug.Log($"Card ==> DropUnit localFactory is null {localFactory == null} ");
         localFactory.CmdDropUnit(playerID, SpwanPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);

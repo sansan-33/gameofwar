@@ -65,7 +65,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 tacticalAgent.SetDestination(targetPosition);
             } else {
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = STOP ");
-                tacticalAgent.transform.GetComponent<Unit>().GetUnitMovement().trigger("wait");
                 tacticalAgent.Stop();
             }
 

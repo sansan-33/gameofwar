@@ -466,7 +466,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 IDamageable collideTarget = collideTargetTransform.GetComponent<IDamageable>();
                 tacticalAgent.TargetTransform = collideTargetTransform;
                 tacticalAgent.TargetDamagable = collideTarget;
-                tacticalAgent.lastDestination = new Vector3();
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
@@ -528,6 +527,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             {
                 tacticalAgent.SetDestination(tacticalAgent.TargetTransform.position);
                 //tacticalAgent.UpdateRotation(true);
+                //tacticalAgent.RotateTowardsPosition(tacticalAgent.TargetTransform.position);
                 tacticalAgent.AttackPosition = true;
                 if(tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
                     Debug.Log($"{tacticalAgent.transform.name} Can See Target {tacticalAgent.CanSeeTarget() } {tacticalAgent.TargetTransform.transform.name  } distance {Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position)} , AttackDistance() {tacticalAgent.AttackAgent.AttackDistance() }? ");
