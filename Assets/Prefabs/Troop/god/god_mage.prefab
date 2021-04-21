@@ -77,7 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba40dd56b881c4c1aa09ccb82382fca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceEffect: {fileID: 19800000, guid: 18204b98237ccb540808f2cd2d78c2c8, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -154,8 +153,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5116467369505154468, guid: 7b4397c227e4673468d684501bca993c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6147901492396490019, guid: 7b4397c227e4673468d684501bca993c, type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8799168105205595684, guid: 7b4397c227e4673468d684501bca993c, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

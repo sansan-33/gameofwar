@@ -44,17 +44,25 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     [Server]
     public void ServerMove(Vector3 position)
     {
-        //if (ai.destination == position) { Debug.Log($"same destination {ai.destination} target {position} , save memory not start path"); }
-        if (Time.time > lastRepath + repathRate && seeker.IsDone())
-        {
-            lastRepath = Time.time;
-
-            // Start a new path to the targetPosition, call the the OnPathComplete function
-            // when the path has been calculated (which may take a few frames depending on the complexity)
-            if(gameObject.name.ToLower().Contains("tank"))
-                Debug.Log($"ServerMove : {gameObject.name} move to destination {ai.destination} target {position} , save memory not start path");
-            seeker.StartPath(transform.position, position, OnPathComplete);
+        position.y = 0;
+        if (ai.canMove && ai.destination == position) {
+            //if (gameObject.name.ToLower().Contains("tank"))
+            //    Debug.Log($"same destination {ai.destination} target {position} , save memory not start path");
+            return;
         }
+        ai.canMove = true;
+        //if (Time.time > lastRepath + repathRate && seeker.IsDone())
+        //{
+        //    lastRepath = Time.time;
+
+        // Start a new path to the targetPosition, call the the OnPathComplete function
+        // when the path has been calculated (which may take a few frames depending on the complexity)
+        if (gameObject.name.ToLower().Contains("tank"))
+                Debug.Log($"ServerMove : {gameObject.name} move from {transform.position} to target {position} /  {ai.destination}, save memory not start path");
+            ai.destination = position;
+            ai.SearchPath();
+            //seeker.StartPath(transform.position, position, OnPathComplete);
+        //}
     }
     public void OnPathComplete(Path p)
     {
@@ -127,7 +135,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         // Normalize it so that it has a length of 1 world unit
         Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
         // Multiply the direction by our desired speed to get a velocity
-        Vector3 velocity = dir * ai.maxSpeed * speedFactor;
+        Vector3 velocity = dir * ai.maxSpeed / 2 * speedFactor;
 
         // Move the agent using the CharacterController component
         // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
@@ -147,7 +155,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     [Server]
     public void ServerRotate(Quaternion targetRotation)
     {
-        ai.updateRotation = false;
+        //ai.updateRotation = false;
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed * Time.deltaTime);
     }
     [Command]
@@ -158,8 +166,8 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     [Server]
     public void ServerStop()
     {
-        ai.isStopped = true;
-        path = null;
+        //ai.isStopped = true;
+        ai.canMove = false;
     }
     [Server]
     private void ServerHandleGameOver()
@@ -216,7 +224,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public void updateRotation(bool update)
     {
-        ai.updateRotation = update;
+        //ai.updateRotation = update;
     }
 
     public bool hasArrived()

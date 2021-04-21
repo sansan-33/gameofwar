@@ -42,11 +42,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 unit.GetComponent<UnitAnimator>().SetBool("run",true);
                 //if(unit.name.ToLower().Contains("tank"))
                 //Debug.Log($"NavMeshTacticalAgent {unit.name} ==> SetDestination {lastDestination} / {destination} / collided ? {unit.GetUnitMovement().collided()}");
-                if (lastDestination != destination) {
+                //if (lastDestination != destination) {
                     lastDestination = destination;
                     unit.GetUnitPowerUp().CmdUnitPowerUp();
                     unit.GetUnitMovement().move(destination);
-                }
+                //}
             }
             /// <summary>
             /// Has the agent arrived at its destination?
