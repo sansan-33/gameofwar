@@ -1042,7 +1042,6 @@ GameObject:
   - component: {fileID: 2460804451879552505}
   - component: {fileID: 8177061792055659751}
   - component: {fileID: 6372428433142078116}
-  - component: {fileID: 8005040192889574617}
   - component: {fileID: 4916343252236571062}
   - component: {fileID: 8505953493549189610}
   - component: {fileID: 3342502367080700966}
@@ -1732,26 +1731,6 @@ MonoBehaviour:
   isScaled: 0
   SpBtnTicket: 0
   spawnPointIndex: 0
---- !u!114 &8005040192889574617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2460804451879552006}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eff1a628422e06343bfcc39ec2df72c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  maxSpeed: 100
-  agent: {fileID: 2460804451879552500}
-  circleMarker: {fileID: 6198479705541569738}
-  isCollided: 0
-  originalSpeed: 0
-  IS_STUNNED: 0
 --- !u!114 &4916343252236571062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3824,10 +3803,5 @@ PrefabInstance:
 --- !u!224 &8554547134998629283 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1538655543281787276, guid: 75507d4648c4d40a0a9223a7c93bac9d, type: 3}
-  m_PrefabInstance: {fileID: 7200618478717561391}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &6198479705541569738 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3884583551497602789, guid: 75507d4648c4d40a0a9223a7c93bac9d, type: 3}
   m_PrefabInstance: {fileID: 7200618478717561391}
   m_PrefabAsset: {fileID: 0}

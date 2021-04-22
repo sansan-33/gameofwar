@@ -6,7 +6,7 @@ using Mirror;
 
 public class AstarAI : NetworkBehaviour, IUnitMovement
 {
-    private Seeker seeker;
+    //private Seeker seeker;
     private AIPath ai;
     public Path path;
 
@@ -28,7 +28,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public void Start()
     {
-        seeker = GetComponent<Seeker>();
+        //seeker = GetComponent<Seeker>();
         ai = GetComponent<AIPath>();
     }
     public override void OnStartClient()
@@ -57,8 +57,8 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
         // Start a new path to the targetPosition, call the the OnPathComplete function
         // when the path has been calculated (which may take a few frames depending on the complexity)
-        if (gameObject.name.ToLower().Contains("tank"))
-                Debug.Log($"ServerMove : {gameObject.name} move from {transform.position} to target {position} /  {ai.destination}, save memory not start path");
+        //if (gameObject.name.ToLower().Contains("tank"))
+        //        Debug.Log($"ServerMove : {gameObject.name} move from {transform.position} to target {position} /  {ai.destination}, save memory not start path");
             ai.destination = position;
             ai.SearchPath();
             //seeker.StartPath(transform.position, position, OnPathComplete);
@@ -283,4 +283,5 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         return isCollided;
     }
+
 }

@@ -52552,6 +52552,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1031803706}
+  - component: {fileID: 1031803707}
   m_Layer: 0
   m_Name: =================== A* Pathfinder
   m_TagString: Untagged
@@ -52574,6 +52575,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1031803707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031803705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22a369013b2a4251bd0af3a38a1170f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1032566145
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88834,7 +88847,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectPrefab: {fileID: 5448099611804689530, guid: edc0a065124ca4fdcabc3029287c77d4, type: 3}
-  amount: 10
+  amount: 5
 --- !u!4 &1779305788
 Transform:
   m_ObjectHideFlags: 0
