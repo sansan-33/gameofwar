@@ -57,7 +57,7 @@ namespace DigitalRuby.ThunderAndLightning
             targetList.Clear();
             startPointList.Clear();
             lightlingList.Clear();
-            SpButtonManager.unitBtn.TryGetValue(GetComponent<Unit>().unitKey, out Button btn);
+            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
             if (spCost.useSpCost == true)
             {
                 //if (spCost.SPAmount < SPCost) { return; }
@@ -173,11 +173,6 @@ namespace DigitalRuby.ThunderAndLightning
                     }
                 }
             }
-        }
-
-        public void setUnit(Unit unit)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

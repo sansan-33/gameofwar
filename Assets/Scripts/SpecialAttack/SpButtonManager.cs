@@ -127,13 +127,13 @@ public class SpButtonManager : MonoBehaviour
 
 
         // Instantiate specialAttack
-        GameObject specialAttackButton = Instantiate(specialAttack, spPrefabParent);
-        ISpecialAttack iSpecialAttack = specialAttackButton.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
-        //SphereCollider sc = unit.gameObject.AddComponent<SphereCollider>() as SphereCollider;
-        ISpecialAttack sAttack = unit.gameObject.AddComponent(typeof(ISpecialAttack))  as ISpecialAttack;
-        sAttack = specialAttackButton.GetComponent<ISpecialAttack>();
-        //iSpecialAttack.setUnit(unit);
-        Debug.Log($"SpButtonManager InstantiateSpButton() specialAttackButton:{specialAttackButton}, iSpecialAttack:{iSpecialAttack}");
+
+        GameObject specialAttackObj = Instantiate(specialAttack, spPrefabParent);        
+
+        ISpecialAttack iSpecialAttack = specialAttackObj.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
+        specialAttackObj.transform.SetParent(unit.transform);
+        
+        Debug.Log($"SpButtonManager InstantiateSpButton() specialAttackObj:{specialAttackObj}, iSpecialAttack:{iSpecialAttack}");
 
 
         button.GetComponent<Button>().onClick.AddListener(iSpecialAttack.OnPointerDown);

@@ -19,7 +19,6 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
     private bool IsSuperAttack = false;
 
     private SpCost spCost;
-    private Unit unit;
     private GameObject hitCollider;
     private Transform searchPoint;
     private RTSPlayer player;
@@ -44,18 +43,11 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         TB = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
     }
 
-    public void setUnit(Unit unit)
-    {
-        this.unit = unit;
-
-    }
-
-
     public void OnPointerDown()
     {
         Debug.Log($"FindAttackTargetInDistance");
         if (attackPoint == null) { return; }
-        SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
+        SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
         if (spCost.useSpCost == true)
         {
             //if (spCost.SPAmount < SPCost) { return; }
@@ -93,7 +85,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
                                 distance = localDistance;
                                 closestTarget = hitCollider;
                                 //StopTacticalBehavior while using Special Attack
-                                TB.StopTacticalBehavior(player.GetPlayerID(), GetComponent<Unit>().unitType);
+                                TB.StopTacticalBehavior(player.GetPlayerID(), GetComponentInParent<Unit>().unitType);
                                 // Move the searchPoint to the next target, so it will not search at the same point
                                 searchPoint = closestTarget.transform;
                             }
