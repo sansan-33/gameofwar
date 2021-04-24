@@ -53,7 +53,7 @@ public class UnitAnimator : NetworkBehaviour
             if (clipLength > 0f)
             {
                 networkAnim.animator.speed = animSpeed / clipLength;
-                Debug.Log($" animationType {animationType} {animSpeed} clip name {clipName} {clipLength}");
+                //Debug.Log($" animationType {animationType} {animSpeed} clip name {clipName} {clipLength}");
             }
         }
         networkAnim.SetTrigger(animationType);

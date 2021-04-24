@@ -32,7 +32,8 @@ public class CinemachineShake : NetworkBehaviour {
     //    cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
     //}
 
-    public void ShakeCamera() {
+    public void ShakeCamera(float _shakeTime) {
+        this.shakeTime = _shakeTime;
         CinemachineBasicMultiChannelPerlin cinemachineBasicMultiChannelPerlin = 
             cinemachineVirtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         cinemachineBasicMultiChannelPerlin.m_AmplitudeGain = startingIntensity;

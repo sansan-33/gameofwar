@@ -111,10 +111,8 @@ public class Stun : NetworkBehaviour, ISpecialAttack
             Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
             //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
             GameObject cam = Instantiate(camPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-            cam.GetComponent<CinemachineShake>().shakeTime = enemyReFightTimer;
-            cam.GetComponent<CinemachineShake>().ShakeCamera();
-          
-           
+            //cam.GetComponent<CinemachineShake>().shakeTime = enemyReFightTimer;
+            cam.GetComponent<CinemachineShake>().ShakeCamera(enemyReFightTimer);
             NetworkServer.Spawn(cam, connectionToClient);
         }
     }

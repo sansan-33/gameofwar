@@ -119,7 +119,7 @@ public class UnitProjectile : NetworkBehaviour
         if (GameObject.Find("camVirtual") == null)
         {
             GameObject cam = Instantiate(camPrefab, new Vector2(0, 300), Quaternion.Euler(new Vector3(90, 0, 0)));
-            cam.GetComponent<CinemachineShake>().ShakeCamera();
+            cam.GetComponent<CinemachineShake>().ShakeCamera(0.5f);
             NetworkServer.Spawn(cam, connectionToClient);
         }
     }
