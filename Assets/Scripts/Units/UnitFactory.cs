@@ -41,7 +41,7 @@ public class UnitFactory : NetworkBehaviour
     public Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
 
     [SerializeField]
-    private int spawnMoveRange = 1;
+    private int spawnMoveRange = 1000;
    
     public override void OnStartClient()
     {
@@ -88,13 +88,15 @@ public class UnitFactory : NetworkBehaviour
     [Server]
     private IEnumerator ServerSpwanUnit(int playerID, Vector3 spawnPosition, GameObject unitPrefab, string unitName, int spawnCount,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey ,int star, Color teamColor, Quaternion rotation, int spawnPointIndex)
     {
-        float waitTime = 0.1f;
-        yield return new WaitForSeconds(waitTime);
+        //float waitTime = 0.1f;
+        int spawnCountOffset = 0;
+        //yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
-            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange;
-            //spawnOffset.y = spawnPosition.y;
+            Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange * spawnCountOffset;
+            spawnOffset.y = spawnPosition.y;
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
+            //Debug.Log($"Unit {unitName} Spawn position {spawnPosition} + spawnOffset  {spawnOffset} = unit position {spawnPosition + spawnOffset}");
             NetworkServer.Spawn(unit, connectionToClient);
             if (unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.WALL)
             {
@@ -103,7 +105,9 @@ public class UnitFactory : NetworkBehaviour
             }
             //Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
             spawnCount--;
+            spawnCountOffset += 2;
         }
+        yield return null;
     }
     [Command]
     public void CmdDropUnit(int playerID, Vector3 spawnPosition, UnitMeta.Race race, UnitMeta.UnitType unitType,string unitName, int spawnCount,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special,string specialkey, string passivekey , int star, Color teamColor, Quaternion rotation)

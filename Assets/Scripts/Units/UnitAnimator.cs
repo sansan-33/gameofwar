@@ -7,15 +7,16 @@ public class UnitAnimator : NetworkBehaviour
     [SerializeField] public Animator anim;
     AnimatorClipInfo[] m_CurrentClipInfo;
 
-    /*
     public override void OnStartServer()
     {
-        networkAnim = GetComponent<NetworkAnimator>();
-        anim = GetComponent<Animator>();
+        if (networkAnim == null || anim == null)
+        {
+            networkAnim = GetComponent<NetworkAnimator>();
+            anim = GetComponent<Animator>();
+        }
         //networkAnim.animator.SetFloat("MoveSpeed", speed); //will act as multiplier to the speed of the run animation clip
         //networkAnim.animator.SetBool("IsMoving", true);
     }
-    */
     public void trigger(string type)
     {
         float animSpeed = -1f; // Original Speed
