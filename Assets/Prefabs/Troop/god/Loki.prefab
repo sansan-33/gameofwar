@@ -61,7 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba40dd56b881c4c1aa09ccb82382fca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iceEffect: {fileID: 1979527227019656, guid: b780c48924835834894c395fe01f19c1, type: 3}
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -94,6 +93,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 720658289876782571, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 7707570322649849319}
+    - target: {fileID: 720658289876782571, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: networkAnim
+      value: 
+      objectReference: {fileID: 5766994632317373496}
     - target: {fileID: 988132111067734789, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: unitNetworkAnimator
       value: 
