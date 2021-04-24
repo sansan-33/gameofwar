@@ -13,7 +13,6 @@ public class Stun : NetworkBehaviour, ISpecialAttack
     private Button SPButton;
     private RTSPlayer player;
     private SpCost spCost;
-    private Unit unit;
 
     private float enemyReFightTimer = -10000;
     public int SPCost = 10;
@@ -43,22 +42,16 @@ public class Stun : NetworkBehaviour, ISpecialAttack
          SPButton.onClick.AddListener(OnPointerDown);*/
     }
 
-    public void setUnit(Unit unit)
-    {
-        this.unit = unit;
-
-    }
-
-
     public void OnPointerDown()
     {
         // start() spCost not pass to here, try to find here again
-        Debug.Log("OnPointerDown() try to find spCost");
-        spCost = FindObjectOfType<SpCost>();
-        Debug.Log($"OnPointerDown() spCost:{spCost}");
+        //Debug.Log("OnPointerDown() try to find spCost");
+        //spCost = FindObjectOfType<SpCost>();
+        //Debug.Log($"OnPointerDown() spCost:{spCost}");
 
-        Debug.Log($"Unit:{unit}, spCost:{spCost}");
-        SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
+        
+        Debug.Log($"Unit:{this.GetComponentInParent<Unit>().unitKey}, spCost:{spCost}");
+        SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
         if (spCost.useSpCost == true)
         {
             //if (spCost.SPAmount < SPCost) { return; }
@@ -81,14 +74,14 @@ public class Stun : NetworkBehaviour, ISpecialAttack
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
             //stop enenmy
-            foreach (GameObject aunit in enemyList)
+            foreach (GameObject unit in enemyList)
             {  
                 enemyReFightTimer = enemyFrezzeTime;
                 CanUnFrezze = true;
-                CardStats cardStats = unit.GetComponent<CardStats>();
-                UnitRepeatAttackDelaykeys.Add(aunit, cardStats.repeatAttackDelay);
-                UnitSpeedkeys.Add(aunit, cardStats.speed);
-                aunit.GetComponent<UnitPowerUp>().CmdPowerUp(aunit, cardStats.star, cardStats.cardLevel, (int)aunit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+                CardStats cardStats = GetComponentInParent<Unit>().GetComponent<CardStats>();
+                UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
+                UnitSpeedkeys.Add(unit, cardStats.speed);
+                unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
                
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
