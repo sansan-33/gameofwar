@@ -95,6 +95,7 @@ public class UnitFactory : NetworkBehaviour
         {
             Vector3 spawnOffset = Random.insideUnitSphere * spawnMoveRange * spawnCountOffset;
             spawnOffset.y = spawnPosition.y;
+            spawnOffset.z = spawnPosition.z;
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
             //Debug.Log($"Unit {unitName} Spawn position {spawnPosition} + spawnOffset  {spawnOffset} = unit position {spawnPosition + spawnOffset}");
             NetworkServer.Spawn(unit, connectionToClient);
