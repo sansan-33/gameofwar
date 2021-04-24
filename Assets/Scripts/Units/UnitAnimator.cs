@@ -21,7 +21,7 @@ public class UnitAnimator : NetworkBehaviour
     {
         float animSpeed = -1f; // Original Speed
         //networkAnim.animator.speed = animSpeed;
-        //networkAnim.SetTrigger(type);
+        networkAnim.SetTrigger(type);
         CmdTrigger(type, animSpeed);
     }
     public void trigger(string type, float animSpeed)

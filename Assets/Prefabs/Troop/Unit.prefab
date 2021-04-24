@@ -1056,6 +1056,7 @@ GameObject:
   - component: {fileID: 1014293119696515951}
   - component: {fileID: 4949710644524271067}
   - component: {fileID: 720658289876782571}
+  - component: {fileID: 5187453383860487590}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Unit
@@ -1950,7 +1951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   version: 4
-  radius: 3
+  radius: 1.5
   height: 2
   canMove: 1
   maxSpeed: 1
@@ -2021,6 +2022,33 @@ MonoBehaviour:
   syncInterval: 0.1
   networkAnim: {fileID: 0}
   anim: {fileID: 0}
+--- !u!114 &5187453383860487590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460804451879552006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 560112f876f5746c780eca0d404e7139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 2
+  radiusBackingField: 0.5
+  heightBackingField: 2
+  centerBackingField: 1
+  locked: 0
+  lockWhenNotMoving: 0
+  agentTimeHorizon: 2
+  obstacleTimeHorizon: 2
+  maxNeighbours: 10
+  layer: 1
+  collidesWith: 1
+  wallAvoidForce: 1
+  wallAvoidFalloff: 1
+  priority: 0.5
+  debug: 1
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0
