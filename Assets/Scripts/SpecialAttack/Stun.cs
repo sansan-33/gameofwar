@@ -13,6 +13,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
     private Button SPButton;
     private RTSPlayer player;
     private SpCost spCost;
+    private List<GameObject> effects;
 
     private float enemyReFightTimer = -10000;
     public int SPCost = 10;
@@ -44,12 +45,13 @@ public class Stun : NetworkBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
+        
         // start() spCost not pass to here, try to find here again
         //Debug.Log("OnPointerDown() try to find spCost");
         //spCost = FindObjectOfType<SpCost>();
         //Debug.Log($"OnPointerDown() spCost:{spCost}");
 
-        
+
         Debug.Log($"Unit:{this.GetComponentInParent<Unit>().unitKey}, spCost:{spCost}");
         SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
         if (spCost.useSpCost == true)
@@ -73,6 +75,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
        
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
+            GetComponentInParent<UnitWeapon>().CMVirtual();
             //stop enenmy
             foreach (GameObject unit in enemyList)
             {  
@@ -85,7 +88,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
-            CmdCMVirtual();
+            effects = FindObjectOfType<SpawnSpEffect>().GetEffect(1);
         }
         else // Multi player seneriao
         {
@@ -97,15 +100,23 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
+                Debug.Log($"cardStats.star :{cardStats.star}");
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
                 
             }
-            CmdCMVirtual();
+            FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
+            effects = FindObjectOfType<SpawnSpEffect>().GetEffect(1);
+            GetComponentInParent<UnitWeapon>().CMVirtual();
         }
     }
-    [Command]
-    private void CmdCMVirtual()
+    private void CMVIRTUAL()
     {
+        CmdCMVirtual();
+    }
+    [Command(ignoreAuthority = true)]
+    public void CmdCMVirtual()
+    {
+        Debug.Log("CmdCMVirtual");
         if (GameObject.Find("camVirtual") == null)
         {
             Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
@@ -132,6 +143,11 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 UnitSpeedkeys.TryGetValue(unit, out int speed);
                 unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
             }
+            foreach(GameObject effect in effects)
+            {
+                Destroy(effect);
+            }
+            effects.Clear();
             CanUnFrezze = false;
         }    
     }
