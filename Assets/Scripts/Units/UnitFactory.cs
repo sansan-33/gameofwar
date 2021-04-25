@@ -65,7 +65,16 @@ public class UnitFactory : NetworkBehaviour
             }
         }
     }
+    [Command]
+    public void CmdSpawnTeamUnit(UnitMeta.UnitKey unitKey, int star, int playerID, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor, Quaternion unitRotation)
+    {
+        if (!UnitMeta.UnitSize.TryGetValue(UnitMeta.KeyType[unitKey] , out int unitsize)) { unitsize = 1; }
 
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(UnitMeta.KeyType[unitKey], playerID);
+        Vector3 spawnPosition = spawnPointObject.transform.position;
+
+        StartCoroutine(ServerSpwanUnit(playerID, spawnPosition, unitDict[unitKey], UnitMeta.KeyType[unitKey].ToString(), unitsize, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, star, teamColor, unitRotation, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+    }
     [Command]
     public void CmdSpawnUnitRotation(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor,  Quaternion unitRotation)
     {
@@ -148,6 +157,7 @@ public class UnitFactory : NetworkBehaviour
     [ClientRpc]
     void RpcTag(GameObject unit, int playerID, string unitName, int star, Color teamColor, int spawnPointIndex)
     {
+        Debug.Log($"Rpc Tag {unit.name}");
         unit.name = unitName;
         //unit.tag = "Player" + playerID;
         unit.tag = ((unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;

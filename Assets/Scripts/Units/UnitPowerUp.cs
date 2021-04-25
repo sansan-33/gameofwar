@@ -64,6 +64,7 @@ public class UnitPowerUp : NetworkBehaviour
     public void ServerPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
         //Debug.Log("ServerpowerUp");
+        powerUp(unit, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
         RpcPowerUp(unit.gameObject, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
     }
     public void powerUp(GameObject unit, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
@@ -79,7 +80,7 @@ public class UnitPowerUp : NetworkBehaviour
     [ClientRpc]
     public void RpcPowerUp(GameObject unit, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
-        //Debug.Log("RpcPowerUp");
+        //Debug.Log($"{unit.tag} : {unit.name} RpcPowerUp health {health} ");
         powerUp(unit, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
     }
     private void Scale(Transform unitTransform, GameObject unit)

@@ -172,6 +172,7 @@ public class RTSNetworkManager : NetworkManager
 
             userTeamCard = userTeamDict[userkey][i];
             player.SetRace(userTeamCard["race"]);
+            /*
             spawnCount = 1;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userTeamCard["cardkey"]);
             //Debug.Log($"unitKey {unitKey}");
@@ -189,6 +190,7 @@ public class RTSNetworkManager : NetworkManager
                 //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
                 spawnCount--;
             }
+            */
         }
     }
 
