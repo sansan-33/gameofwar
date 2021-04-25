@@ -34,7 +34,7 @@ public class SpButtonManager : MonoBehaviour
 
     void Awake()
     {
-        Debug.Log("SpButtonManager Awake()");
+        //Debug.Log("SpButtonManager Awake()");
         Arts.initDictionary();
 
         SpecialAttackPrefab.Add(SpecialAttackType.LIGHTNING, lightningPrefab);
@@ -45,14 +45,22 @@ public class SpButtonManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("SpButtonManager void Start()");
+        //Debug.Log("SpButtonManager void Start()");
         unitBtn.Clear();
-        StartCoroutine(start());
+        //StartCoroutine(start());
+        CardDealer.UserCardLoaded += HandleButtonSetup;
     }
-
-    private IEnumerator start()
+    private void OnDestroy()
     {
-        Debug.Log("SpButtonManager IEnumerator Start()");
+        CardDealer.UserCardLoaded -= HandleButtonSetup;
+    }
+    private void HandleButtonSetup()
+    {
+        StartCoroutine(SpecialButtonSetup());
+    }
+    private IEnumerator SpecialButtonSetup()
+    {
+        Debug.Log("SpButtonManager IEnumerator SpecialButtonSetup");
         yield return new WaitForSeconds(2);
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             CardStats[] units;

@@ -8,6 +8,7 @@ using SimpleJSON;
 using UnityEngine.Networking;
 using System.Text;
 using Mirror;
+using System.Linq;
 
 [System.Serializable]
 public struct CardFace
@@ -33,8 +34,10 @@ public class CardDealer : MonoBehaviour
     [SerializeField] List<CardFace> cardDeck = new List<CardFace>();
     [SerializeField] List<CardFace> cardDeckUsed = new List<CardFace>();
     [SerializeField] public Dictionary<string, CardStats> userCardStatsDict = new Dictionary<string, CardStats>();
+    [SerializeField] public Dictionary<UnitMeta.UnitKey, Unit> playerUnitDict = new Dictionary<UnitMeta.UnitKey, Unit>();
     [SerializeField] Card buttonWall;
 
+    public static event Action UserCardLoaded;
     Card lastCard;
     UnitMeta.Race UnitRace; 
     void Awake()
@@ -51,7 +54,7 @@ public class CardDealer : MonoBehaviour
     {
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         UnitRace = StaticClass.playerRace;
-        yield return GetUserCard(player.GetUserID(), player.GetRace());
+        yield return GetUserCard(player.GetUserID(), player.GetRace(), player.GetPlayerID());
         cardDeckUsed.Clear();
         string cardkey;
         foreach (Card_Suits suit in Enum.GetValues(typeof(Card_Suits)))
@@ -132,8 +135,22 @@ public class CardDealer : MonoBehaviour
     }
 
     // sends an API request - returns a JSON file
-    IEnumerator GetUserCard(string userid, string race)
+    IEnumerator GetUserCard(string userid, string race, int playerid)
     {
+        //Debug.Log($"Card Dealer => Get User Card {userid}  / {playerid}");
+        yield return new WaitForSeconds(1f);
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
+        GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        if (king != null)
+            armies.Add(king);
+        foreach (GameObject child in armies)
+        {
+            playerUnitDict.Add(child.GetComponent<Unit>().unitKey, child.GetComponent<Unit>());
+        }
+        //Debug.Log($"Card Dealer => playerUnitDict {playerUnitDict.Count}");
+
         userCardStatsDict.Clear();
         JSONNode jsonResult;
         UnityWebRequest webReq = new UnityWebRequest();
@@ -143,21 +160,41 @@ public class CardDealer : MonoBehaviour
 
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         jsonResult = JSON.Parse(rawJson);
+
+        //Debug.Log($"GetUserCard ==> User Card Count {jsonResult.Count} ");
+        Unit unit;
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
             {
                 userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"], jsonResult[i]["specialkey"], jsonResult[i]["passivekey"]));
-                /*
-                if (jsonResult[i]["cardkey"].ToString().ToLower().Contains("wall"))
-                {
-                    string cardkey = jsonResult[i]["cardkey"];
-                    Debug.Log($"Wall {cardkey} stat {userCardStatsDict[cardkey] }");
+                if(playerUnitDict.TryGetValue( (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[i]["cardkey"])  , out unit)){
+                    //Debug.Log($"GetUserCard ==> Unit {unit.unitKey} ");
+                    if(unit.unitType == UnitMeta.UnitType.HERO || unit.unitType == UnitMeta.UnitType.KING )
+                       unit.GetComponent<CardStats>().SetCardStats(userCardStatsDict[jsonResult[i]["cardkey"]]);
                 }
-                */
             }
         }
+        UserCardLoaded?.Invoke();
         //Debug.Log($"GetUserCard ==> {webReq.url } {jsonResult}");
+    }
+    IEnumerable GetPlayerUnit(int playerid)
+    {
+        yield return new WaitForSeconds(0.1f);
+        Debug.Log($"======================== GetPlayerUnit ==> playerid {playerid} ");
+
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
+        GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        if (king != null)
+            armies.Add(king);
+        foreach (GameObject child in armies)
+        {
+            playerUnitDict.Add(child.GetComponent<Unit>().unitKey, child.GetComponent<Unit>());
+        }
+        Debug.Log($"GetPlayerUnit ==> Unit {playerUnitDict.Count} ");
+             
     }
 
 }
