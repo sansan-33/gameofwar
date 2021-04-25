@@ -60,7 +60,7 @@ public class SpButtonManager : MonoBehaviour
     }
     private IEnumerator SpecialButtonSetup()
     {
-        Debug.Log("SpButtonManager IEnumerator SpecialButtonSetup");
+        //Debug.Log("SpButtonManager IEnumerator SpecialButtonSetup");
         yield return new WaitForSeconds(2);
             player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             CardStats[] units;
@@ -76,25 +76,13 @@ public class SpButtonManager : MonoBehaviour
                    //Debug.Log($"one player mode {unit.tag}");
                     if (unit.CompareTag("Player0") || unit.CompareTag("King0"))
                     {
-                        //var gotValue = unitSp.TryGetValue(unit.GetComponent<Unit>().unitKey, out SpecialAttackDict.SpecialAttackType type);
-                        //if (gotValue == true)
-                        //{
-                        //   unit.specialAttackTypes = type;
-                        //Debug.Log("one player mode");
-
-                        
                         SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
-                        Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
+                       // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
                         GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
-
-                        Debug.Log($"1 player mode specialAttack: {specialAttack}");
-                        //SpecialAttack = unit.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
+                        //Debug.Log($"1 player mode specialAttack: {specialAttack}");
                         InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack);
-                    //}
-
                     }
                 }
-
             }
             else // Multi player seneriao
             {
@@ -103,12 +91,14 @@ public class SpButtonManager : MonoBehaviour
                 {  // Only Set on our side
                     if (unit.CompareTag("Player" + player.GetPlayerID()) || unit.CompareTag("King" + player.GetPlayerID()))
                     {
-                        //Debug.Log($"multi player mode unit.specialkey: {unit.specialkey}");
+                    //Debug.Log($"multi player mode unit.specialkey: {unit.specialkey}");
 
                     // Anthea 2021-04-22 need to change
-                        //SpecialAttack = unit.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
-                        //InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), SpecialAttack);
-
+                    SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
+                    Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]:");// {SpecialAttackPrefab[specialAttackType]}");
+                    GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
+                    //Debug.Log($"1 player mode specialAttack: {specialAttack}");
+                    InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack);
                     }
                 }
             }
@@ -116,10 +106,10 @@ public class SpButtonManager : MonoBehaviour
 
     public void InstantiateSpButton(SpecialAttackDict.SpecialAttackType spType, Unit unit, GameObject specialAttack)
     {
-        Debug.Log("SpButtonManager InstantiateSpButton()");
+        //Debug.Log("SpButtonManager InstantiateSpButton()");
 
         //only spawn one button for each type of Sp
-        Debug.Log($"spawn {spType}");
+        //Debug.Log($"spawn {spType}");
             buttonCount++;
             // if(spType == SpecialAttackDict.SpecialAttackType.Shield) { Debug.Log(buttonCount); }
             // spawn the button
@@ -141,7 +131,7 @@ public class SpButtonManager : MonoBehaviour
         ISpecialAttack iSpecialAttack = specialAttackObj.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
         specialAttackObj.transform.SetParent(unit.transform);
         
-        Debug.Log($"SpButtonManager InstantiateSpButton() specialAttackObj:{specialAttackObj}, iSpecialAttack:{iSpecialAttack}");
+       // Debug.Log($"SpButtonManager InstantiateSpButton() specialAttackObj:{specialAttackObj}, iSpecialAttack:{iSpecialAttack}");
 
 
         button.GetComponent<Button>().onClick.AddListener(iSpecialAttack.OnPointerDown);

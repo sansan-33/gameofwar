@@ -19,6 +19,7 @@ public class SpawnEnemies : MonoBehaviour
     public TacticalBehavior tacticalBehavior;
     void Start()
     {
+        Debug.Log("Start");
         if (NetworkClient.connection.identity == null) { return; }
         //Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
@@ -29,7 +30,8 @@ public class SpawnEnemies : MonoBehaviour
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
             StartCoroutine(GetUserCard("-1",""));
-            InvokeRepeating("LoadEnemies", 3f, 3f);
+            test("-1", "");
+            InvokeRepeating("LoadEnemies", 5f, 3f);
         }
         GameOverHandler.ClientOnGameOver += HandleGameOver;
     }
@@ -105,9 +107,15 @@ public class SpawnEnemies : MonoBehaviour
         //Debug.Log($"Spawn Enemies ==> HandleGameOver");
         ISGAMEOVER = true;
     }
+    private void test(string userid, string race)
+    {
+        Debug.Log($"test{userid } {race}");
+    }
     // sends an API request - returns a JSON file
     IEnumerator GetUserCard(string userid, string race)
     {
+
+        Debug.Log($"Spawn enemies GetUserCard {userid } jsonResult:{race}");
         userCardStatsDict.Clear();
         JSONNode jsonResult;
         UnityWebRequest webReq = new UnityWebRequest();
@@ -124,6 +132,7 @@ public class SpawnEnemies : MonoBehaviour
                 userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"], jsonResult[i]["specialkey"], jsonResult[i]["passivekey"]));
             }
         }
-        //Debug.Log($"Spawn enemies GetUserCard {webReq.url } {jsonResult}");
+
+        Debug.Log($"Spawn enemies GetUserCard {webReq.url } jsonResult: {jsonResult}");
     }
 }

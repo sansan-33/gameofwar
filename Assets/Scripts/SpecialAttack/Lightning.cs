@@ -10,8 +10,8 @@ namespace DigitalRuby.ThunderAndLightning
         [SerializeField] private GameObject LightlingPrefab;
         [SerializeField] private LayerMask layerMask = new LayerMask();
         [SerializeField] private GameObject attackPoint;
-        [SerializeField] private int electicDamage;
-        [SerializeField] private int electicShockDamage;
+        [SerializeField] private int electicDamage = 10;
+        [SerializeField] private int electicShockDamage = 10;
 
         private int enemyCount = 0;
         public int attackRange = 100;
@@ -41,7 +41,7 @@ namespace DigitalRuby.ThunderAndLightning
         // Start is called before the first frame update
         public void Start()
         {
-            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+               player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
             /* SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Lightling, GetComponent<Unit>());
             if (SpawnedButton) { SPButton = FindObjectOfType<SpButton>().GetButton(GetComponent<Unit>().SpBtnTicket).GetComponent<Button>(); }
@@ -54,6 +54,7 @@ namespace DigitalRuby.ThunderAndLightning
 
         public void OnPointerDown()
         {
+            Debug.Log(layerMask);
             targetList.Clear();
             startPointList.Clear();
             lightlingList.Clear();
@@ -66,7 +67,7 @@ namespace DigitalRuby.ThunderAndLightning
             }
             StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(10));
             spCost.UpdateSPAmount(-SPCost, null);
-            searchPoint = gameObject;
+            searchPoint = gameObject.transform.parent.gameObject;
             GameObject closestTarget = null;
             bool haveTarget = true;
             var distance = float.MaxValue;
@@ -74,6 +75,7 @@ namespace DigitalRuby.ThunderAndLightning
 
             while (haveTarget == true)
             {
+                
                 startPointList.Add(searchPoint);
                 bool findedTarget = false;
                 //Search target in a distance
@@ -81,16 +83,18 @@ namespace DigitalRuby.ThunderAndLightning
                 int i = 0;
                 while (i < hitColliders.Length)
                 {
+                    
                     distance = float.MaxValue;
                     hitCollider = hitColliders[i++].transform.gameObject;
+                    //Debug.Log($"searched target {hitCollider.name}");
                     // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                     if ((localDistance = (hitCollider.transform.position - searchPoint.transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                     {
                         int id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
                         if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
                         {
-                            if (localDistance < maxAttackrange)
-                            {
+                            //if (localDistance < maxAttackrange)
+                            //{
                                 if (localDistance < distance)
                                 {
 
@@ -102,7 +106,7 @@ namespace DigitalRuby.ThunderAndLightning
 
                                 }
 
-                            }
+                            //}
                         }
                     }
                 }
@@ -128,6 +132,7 @@ namespace DigitalRuby.ThunderAndLightning
         }
         public void Lightlings(GameObject startPoint, GameObject endPoint)
         {
+            
             GameObject lightlingChilds;
             if (enemyCount == 0)
             {

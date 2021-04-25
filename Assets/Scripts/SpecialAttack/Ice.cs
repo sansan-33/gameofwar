@@ -41,7 +41,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         if (SPButton == null) { return; }
         SPButton.onClick.RemoveAllListeners();
         SPButton.onClick.AddListener(OnPointerDown);*/
-        searchPoint = transform;
+        searchPoint = transform.parent.transform;
         UnFrezzeTime = UnFrezzeTimer;
     }
     private void OnDestroy()

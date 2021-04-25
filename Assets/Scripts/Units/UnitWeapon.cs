@@ -183,6 +183,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command(ignoreAuthority = true)]
     private void cmdCMVirtual()
     {
+        Debug.Log("CmdCMVirtual");
         if (GameObject.Find("camVirtual") == null) {
             //Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
             //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
