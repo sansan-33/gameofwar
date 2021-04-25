@@ -33,6 +33,10 @@ public class CardStats : MonoBehaviour
         this.passivekey = passivekey;
         this.special = special;
     }
+    public void SetCardStats(CardStats _cardStats)
+    {
+        SetCardStats(_cardStats.star, _cardStats.cardLevel, _cardStats.health, _cardStats.attack, _cardStats.repeatAttackDelay, _cardStats.speed, _cardStats.defense, _cardStats.special, _cardStats.specialkey , _cardStats.passivekey);
+    }
     public override string ToString()
     {
         return "health:" + health + "\t attack:" + attack + "\t repeatAttackDelay:" + repeatAttackDelay + "\t speed:" + speed + "\t defense:" + defense + "\t special:" + special + "\t specialkey:" + specialkey + "\t passivekey:" + passivekey;
