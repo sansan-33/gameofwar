@@ -17,6 +17,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] public GameObject icePrefab;
     [SerializeField] public GameObject stunPrefab;
     [SerializeField] public GameObject shieldPrefab;
+    [SerializeField] public GameObject slashPrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
    
@@ -41,6 +42,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.STUN, stunPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ICE, icePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SHIELD, shieldPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.SLASH, slashPrefab);
     }
 
     private void Start()
