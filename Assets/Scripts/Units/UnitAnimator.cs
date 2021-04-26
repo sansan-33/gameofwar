@@ -4,15 +4,14 @@ using UnityEngine;
 public class UnitAnimator : NetworkBehaviour
 {
     [SerializeField] public NetworkAnimator networkAnim;
-    [SerializeField] public Animator anim;
+    //[SerializeField] public Animator anim;
     AnimatorClipInfo[] m_CurrentClipInfo;
 
     public override void OnStartServer()
     {
-        if (networkAnim == null || anim == null)
+        if (networkAnim == null)
         {
             networkAnim = GetComponent<NetworkAnimator>();
-            anim = GetComponent<Animator>();
         }
         //networkAnim.animator.SetFloat("MoveSpeed", speed); //will act as multiplier to the speed of the run animation clip
         //networkAnim.animator.SetBool("IsMoving", true);
@@ -21,7 +20,7 @@ public class UnitAnimator : NetworkBehaviour
     {
         float animSpeed = -1f; // Original Speed
         //networkAnim.animator.speed = animSpeed;
-        networkAnim.SetTrigger(type);
+        //networkAnim.SetTrigger(type);
         CmdTrigger(type, animSpeed);
     }
     public void trigger(string type, float animSpeed)
@@ -62,7 +61,7 @@ public class UnitAnimator : NetworkBehaviour
     {
         Debug.Log($"111 Unit Animator {tag} {name} set bool {type} {state}" );
         //networkAnim.animator.SetBool(type, state);
-        anim.SetBool(type, state);
+        //anim.SetBool(type, state);
         //CmdSetBool(type, state);
     }
     [Command]
@@ -77,7 +76,7 @@ public class UnitAnimator : NetworkBehaviour
     {
         Debug.Log($"Unit Animator {tag} {name}  Server set bool {animationType} {state}");
         networkAnim.animator.SetBool(animationType, state);
-        anim.SetBool(animationType, state);
+        //anim.SetBool(animationType, state);
     }
 
 }

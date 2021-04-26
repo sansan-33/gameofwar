@@ -6,6 +6,7 @@ using SimpleJSON;
 using UnityEngine.Networking;
 using System.Text;
 using System;
+using System.Linq;
 
 public class TeamSpawner : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class TeamSpawner : MonoBehaviour
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
         teamColor = player.GetTeamColor();
-        StartCoroutine(loadMilitary(1f,player, Quaternion.identity)); //Quaternion.Euler(0, 180, 0)
+        StartCoroutine(loadMilitary(2f,player, Quaternion.identity)); //Quaternion.Euler(0, 180, 0)
 
     }
     private IEnumerator loadMilitary(float waitTime, RTSPlayer player, Quaternion rotation)
@@ -33,6 +34,19 @@ public class TeamSpawner : MonoBehaviour
         CardStats cardStats;
         JSONNode userTeamCard;
         string userkey = player.GetUserID() + "_" + player.GetPlayerID();
+        Dictionary<UnitMeta.UnitKey, Unit> playerUnitDict = new Dictionary<UnitMeta.UnitKey, Unit>();
+        Unit unit;
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + player.GetPlayerID());
+        GameObject king = GameObject.FindGameObjectWithTag("King" + player.GetPlayerID());
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        if (king != null)
+            armies.Add(king);
+        foreach (GameObject child in armies)
+        {
+            playerUnitDict.Add(child.GetComponent<Unit>().unitKey, child.GetComponent<Unit>());
+        }
+
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
@@ -43,12 +57,18 @@ public class TeamSpawner : MonoBehaviour
                     userTeamCard = userTeamDict[userkey][i];
                     UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), userTeamCard["cardkey"]);
                     cardStats = new CardStats( 1, userTeamCard["level"], userTeamCard["health"], userTeamCard["attack"], userTeamCard["repeatattackdelay"], userTeamCard["speed"], userTeamCard["defense"], userTeamCard["special"], userTeamCard["specialkey"], userTeamCard["passivekey"]);
-                    Debug.Log($"loadMilitary {unitKey} {UnitMeta.KeyType[unitKey]}");
-                    localFactory.CmdSpawnTeamUnit(unitKey, cardStats.star, playerID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, rotation); 
+                    // Debug.Log($"loadMilitary {unitKey} {UnitMeta.KeyType[unitKey]}");
+                    // localFactory.CmdSpawnTeamUnit(unitKey, cardStats.star, playerID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, rotation); 
+                    unit = playerUnitDict[unitKey];
+                    //unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit.gameObject, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+                    //unit.GetComponent<UnitPowerUp>().CmdTag(unit.gameObject, playerID, unitKey.ToString(), teamColor, unit.GetSpawnPointIndex(), cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+                    //unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit.gameObject, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+
                 }
             }
         }
     }
+
     public IEnumerator LoadUserTeam(string userid, int playerid)
     {
         userTeamDict.Clear();
@@ -63,4 +83,5 @@ public class TeamSpawner : MonoBehaviour
         Debug.Log($"LoadUserTeam jsonResult {webReq.url } {jsonResult}");
 
     }
+
 }

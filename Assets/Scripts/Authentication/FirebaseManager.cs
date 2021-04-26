@@ -108,7 +108,7 @@ public class FirebaseManager : MonoBehaviour
     }
     private void InitializeFirebase()
     {
-        Debug.Log("Setting up Firebase Auth");
+        //Debug.Log("Setting up Firebase Auth");
         //Set the authentication instance object
         auth = FirebaseAuth.DefaultInstance;
         auth.StateChanged += AuthStateChanged;
@@ -122,7 +122,7 @@ public class FirebaseManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         string ip = GetLocalIPv4();
-        Debug.Log($"Auto Login {ip} {IPEmail[ip][0]} {IPEmail[ip][1]} StaticClass.UserID {StaticClass.UserID}");
+        //Debug.Log($"Auto Login {ip} {IPEmail[ip][0]} {IPEmail[ip][1]} StaticClass.UserID {StaticClass.UserID}");
         //if (StaticClass.UserID == null || StaticClass.UserID.Length == 0 )
             yield return Login(IPEmail[ip][0], IPEmail[ip][1]);
     }
@@ -144,7 +144,7 @@ public class FirebaseManager : MonoBehaviour
                 StaticClass.Username = user.DisplayName ?? "";
                 StaticClass.UserID = user.UserId;
                 authStateChanged?.Invoke();
-                Debug.Log("AuthStateChanged Signed in " + user.UserId + " username: " + user.DisplayName + " StaticClass.Username " + StaticClass.Username);
+                //Debug.Log("AuthStateChanged Signed in " + user.UserId + " username: " + user.DisplayName + " StaticClass.Username " + StaticClass.Username);
             }
         }
     }
