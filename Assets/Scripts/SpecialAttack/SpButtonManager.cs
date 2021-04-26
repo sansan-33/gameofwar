@@ -95,7 +95,7 @@ public class SpButtonManager : MonoBehaviour
 
                     // Anthea 2021-04-22 need to change
                     SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
-                    Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]:");// {SpecialAttackPrefab[specialAttackType]}");
+                    //Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]:");// {SpecialAttackPrefab[specialAttackType]}");
                     GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
                     //Debug.Log($"1 player mode specialAttack: {specialAttack}");
                     InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack);

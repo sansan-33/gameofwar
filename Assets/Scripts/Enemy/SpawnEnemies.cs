@@ -19,7 +19,6 @@ public class SpawnEnemies : MonoBehaviour
     public TacticalBehavior tacticalBehavior;
     void Start()
     {
-        Debug.Log("Start");
         if (NetworkClient.connection.identity == null) { return; }
         //Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
@@ -115,7 +114,6 @@ public class SpawnEnemies : MonoBehaviour
     IEnumerator GetUserCard(string userid, string race)
     {
 
-        Debug.Log($"Spawn enemies GetUserCard {userid } jsonResult:{race}");
         userCardStatsDict.Clear();
         JSONNode jsonResult;
         UnityWebRequest webReq = new UnityWebRequest();
@@ -133,6 +131,6 @@ public class SpawnEnemies : MonoBehaviour
             }
         }
 
-        Debug.Log($"Spawn enemies GetUserCard {webReq.url } jsonResult: {jsonResult}");
+        //Debug.Log($"Spawn enemies GetUserCard {webReq.url } jsonResult: {jsonResult}");
     }
 }

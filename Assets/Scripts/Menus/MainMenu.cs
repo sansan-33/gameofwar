@@ -86,7 +86,7 @@ public class MainMenu : MonoBehaviour
                 if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING)
                 {
                     StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
-                    Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
+                    //Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
             }
         }

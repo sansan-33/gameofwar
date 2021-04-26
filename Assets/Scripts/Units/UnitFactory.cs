@@ -157,7 +157,7 @@ public class UnitFactory : NetworkBehaviour
     [ClientRpc]
     void RpcTag(GameObject unit, int playerID, string unitName, int star, Color teamColor, int spawnPointIndex)
     {
-        Debug.Log($"Rpc Tag {unit.name}");
+        Debug.Log($"Rpc Tag {playerID} {unit.name}");
         unit.name = unitName;
         //unit.tag = "Player" + playerID;
         unit.tag = ((unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
