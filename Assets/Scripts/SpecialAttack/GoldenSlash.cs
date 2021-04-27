@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GoldenSlash : MonoBehaviour, ISpecialAttack
 {
     [SerializeField] private LayerMask layerMask = new LayerMask();
-    [SerializeField] private GameObject attackPoint;
+    //[SerializeField] private GameObject attackPoint;
     
     public int attackRange = 100;
     public int minAttackRange;
@@ -38,15 +38,15 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         SPButton.onClick.RemoveAllListeners();
         SPButton.onClick.AddListener(FindAttackTargetInDistance);*/
         spCost = FindObjectOfType<SpCost>();
-        searchPoint = attackPoint.transform;
+        searchPoint = transform.parent.transform;
         minAttackRange = (int)(transform.localScale.x * attackRange / 2);
         TB = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
     }
 
     public void OnPointerDown()
     {
-        Debug.Log($"FindAttackTargetInDistance");
-        if (attackPoint == null) { return; }
+        Debug.Log($"GoldenSlash FindAttackTargetInDistance");
+       // if (attackPoint == null) { return; }
         SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
         if (spCost.useSpCost == true)
         {
@@ -100,7 +100,8 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
             distanceList.Add(distance);
             targetList.Add(closestTarget);
         }
-        searchPoint = attackPoint.transform;
+        //Debug.Log($"GoldenSlash exit while (haveTarget == true)");
+        searchPoint = transform.parent.transform;
         // if it doesnot find any target return
         if (closestTarget == null) {  return; }
         for (int a = 0; a < targetList.ToArray().Length; a++)
@@ -108,7 +109,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
 
             AttackTarget(distanceList.ToArray()[a], targetList.ToArray()[a].transform);
         }
-        GetComponent<UnitWeapon>().ReScaleDamageDeal();
+        GetComponentInParent<UnitWeapon>().ReScaleDamageDeal();
     }
     public void AttackTarget(float distance, Transform closestTarget)
     {
@@ -116,7 +117,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         //float Timer = 3f;
         //while (Timer > 0) { Timer -= Time.deltaTime; }
         // damage base on distance
-        GetComponent<UnitWeapon>().ScaleDamageDeal(0,0,distance / 100);
+        GetComponentInParent<UnitWeapon>().ScaleDamageDeal(0,0,distance / 100);
         GameObject.FindGameObjectWithTag("King" + player.GetPlayerID()).transform.position = closestTarget.transform.position;
         // make the king attack in update
         IsSuperAttack = true;
@@ -128,7 +129,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         if (true)
         {
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale * attackRange);
+            Gizmos.DrawWireCube(transform.parent.transform.position, transform.localScale * attackRange);
         }
     }
     
@@ -137,7 +138,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
     {
         if (IsSuperAttack)
         {
-            GetComponent<UnitWeapon>().TryAttack();
+            GetComponentInParent<UnitWeapon>().TryAttack();
         }
     }
 }
