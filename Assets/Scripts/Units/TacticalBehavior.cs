@@ -87,6 +87,9 @@ public class TacticalBehavior : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
+            //KINGBOSS[player.GetEnemyID()] = GameObject.FindGameObjectWithTag("King" + player.GetEnemyID());
+            //KINGBOSS[player.GetPlayerID()] = GameObject.FindGameObjectWithTag("King" + player.GetPlayerID());
+            
             GameObject[] armies = GameObject.FindGameObjectsWithTag("Unit");
             //Debug.Log($"army{armies.Length}");
             foreach (GameObject army in armies)
@@ -99,7 +102,7 @@ public class TacticalBehavior : MonoBehaviour
                     {
                         //Debug.Log("unit.hasAuthority");
                         unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
-                        unit.GetComponent<UnitBody>().SetRenderMaterial(unit.transform.gameObject, player.GetPlayerID(), 1);
+                        unit.GetComponent<UnitBody>().SetRenderMaterial(player.GetPlayerID(), 1);
                         army.tag = "Player" + player.GetPlayerID();
                         if (unit.unitType == UnitMeta.UnitType.KING)
                         {
@@ -120,7 +123,7 @@ public class TacticalBehavior : MonoBehaviour
                     }
                 }
             }
-
+            
             if (gameBoardHandlerPrefab == null)
             {
                 foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))

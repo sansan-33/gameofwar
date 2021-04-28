@@ -110,8 +110,7 @@ public class UnitFactory : NetworkBehaviour
             NetworkServer.Spawn(unit, connectionToClient);
             if (unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.WALL)
             {
-                RpcTag(unit, playerID, unitName, star, teamColor, spawnPointIndex);
-                unit.GetComponent<UnitPowerUp>().ServerPowerUp(unit, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
+                unit.GetComponent<UnitPowerUp>().PowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey);
             }
             //Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
             spawnCount--;
@@ -153,18 +152,6 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.ODIN, odinPrefab);
         unitDict.Add(UnitMeta.UnitKey.GODWALL, godwallPrefab);
 
-    }
-    [ClientRpc]
-    void RpcTag(GameObject unit, int playerID, string unitName, int star, Color teamColor, int spawnPointIndex)
-    {
-        Debug.Log($"Rpc Tag {playerID} {unit.name}");
-        unit.name = unitName;
-        //unit.tag = "Player" + playerID;
-        unit.tag = ((unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
-        //Debug.Log($"RpcTag color is {teamColor}");
-        unit.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
-        unit.GetComponentInChildren<UnitBody>().ServerChangeUnitRenderer(unit, playerID, star);
-        unit.GetComponent<Unit>().SetSpawnPointIndex(spawnPointIndex);
     }
     public GameObject GetUnitPrefab(UnitMeta.Race race, UnitMeta.UnitType unitType)
     {

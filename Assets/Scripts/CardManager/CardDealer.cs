@@ -183,9 +183,7 @@ public class CardDealer : MonoBehaviour
                     if (unit.unitType == UnitMeta.UnitType.HERO || unit.unitType == UnitMeta.UnitType.KING)
                     {
                         cardStats = userCardStatsDict[jsonResult[i]["cardkey"]];
-                        //unit.GetComponent<CardStats>().SetCardStats(cardStats);
-                        //unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit.gameObject, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
-                        unit.GetComponent<UnitPowerUp>().UnitTag(unit.gameObject, playerid, jsonResult[i]["cardkey"], cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+                        unit.GetComponent<UnitPowerUp>().PowerUp(playerid, jsonResult[i]["cardkey"],unit.GetComponent<Unit>().GetSpawnPointIndex(), cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
                     }
                 }
             }

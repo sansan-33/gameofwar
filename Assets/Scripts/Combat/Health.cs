@@ -106,15 +106,13 @@ public class Health : NetworkBehaviour, IDamageable
         ice.enemyList.Remove(gameObject);
         var effect = ice.GetEffect(num);
         effect.GetComponent<RFX4_StartDelay>().Delay = 0;
-        CardStats cardStats = GetComponent<CardStats>();
-        GetComponent<UnitPowerUp>().CmdPowerUp(gameObject, cardStats.star, cardStats.cardLevel, (int)getCurrentHealth(), cardStats.attack, ice.GetUnitRepeatAttackDelaykeys(gameObject), ice.GetUnitSpeedkeys(gameObject), cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+        GetComponent<UnitPowerUp>().SpecialEffect(ice.GetUnitRepeatAttackDelaykeys(gameObject), ice.GetUnitSpeedkeys(gameObject));
 
     }
     private IEnumerator Die()
     {
         GetComponent<UnitAnimator>().trigger("die");
-        CardStats cardStats = GetComponent<CardStats>();
-        GetComponent<UnitPowerUp>().CmdPowerUp(gameObject, cardStats.star, cardStats.cardLevel, cardStats.health, cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+        GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
 
         yield return new WaitForSeconds(5);
         ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke

@@ -49,7 +49,7 @@ public class HeroMenu : MonoBehaviour
     public void levelUpCard()
     {
         if (!CANLEVELUP) { return; }
-        StartCoroutine(handleLevelUpCard(StaticClass.CrossSceneInformation, "1", "1"));
+        StartCoroutine(handleLevelUpCard(StaticClass.CrossSceneInformation, StaticClass.UserID, "1"));
         CANLEVELUP = false;
         levelUpButton.image.color = Color.black;
     }

@@ -104,7 +104,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
                     CardStats cardStats = hitCollider.GetComponent<CardStats>();
                     UnitRepeatAttackDelaykeys.Add(hitCollider, cardStats.repeatAttackDelay);
                     UnitSpeedkeys.Add(hitCollider, cardStats.speed);
-                    hitCollider.GetComponent<UnitPowerUp>().CmdPowerUp(hitCollider, cardStats.star, cardStats.cardLevel, (int)hitCollider.GetComponent<Health>().getCurrentHealth(), cardStats.attack, Mathf.Infinity, 0, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey );
+                    hitCollider.GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
                     FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(0, hitCollider.transform);
                     // Move the searchPoint to the next target, so it will not search at the same point
                     //searchPoint = closestTarget.transform;
@@ -185,7 +185,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
         UnitSpeedkeys.TryGetValue(unit, out int speed);
         CardStats cardStats = unit.GetComponent<CardStats>();
-        unit.GetComponent<UnitPowerUp>().CmdPowerUp(unit, cardStats.star, cardStats.cardLevel, (int)unit.GetComponent<Health>().getCurrentHealth(), cardStats.attack, repeatAttackDelay, speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey);
+        unit.GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
     }
     public float GetUnitRepeatAttackDelaykeys(GameObject unit)
     {
