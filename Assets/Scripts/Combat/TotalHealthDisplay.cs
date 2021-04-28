@@ -48,33 +48,28 @@ public class TotalHealthDisplay : NetworkBehaviour
     }
     private void TotalPlayerHealthdisplay()
     {
-
         militarySize = 0;
-        GameObject[] armies = GameObject.FindGameObjectsWithTag(UnitMeta.KINGPLAYERTAG);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("King" + player.GetPlayerID());
         if (armies is null || armies.Length == 0) { return; }
         PlayerName.text = "Player" + player.GetPlayerID();
         EnemyName.text = "Player" + player.GetEnemyID();
         foreach (GameObject army in armies)
         {
             float newProgress;
-
             militarySize += army.GetComponent<Health>().getCurrentHealth();
             if (militarySize > MaxmilitarySize)
             {
-
                 MaxmilitarySize = militarySize;
             }
             newProgress = (float)militarySize / (float)MaxmilitarySize;
             TotalPlayerHealthBar.fillAmount = newProgress;
             TotalPlayerHealths.text = militarySize.ToString();
         }
-
     }
     private void TotalEnemyHealth()
     {
-
         EnermymilitarySize = 0;
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag(UnitMeta.KINGENEMYTAG);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("King" + player.GetEnemyID());
         foreach (GameObject EnermyArmy in enemies)
         {
             float newProgress;
