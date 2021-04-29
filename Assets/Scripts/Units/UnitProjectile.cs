@@ -100,13 +100,15 @@ public class UnitProjectile : NetworkBehaviour
         switch (element)
         {
             case ElementalDamage.Element.ELECTRIC:
-                other.GetUnitPowerUp().cmdSpeedUp(-1);
+                other.GetUnitPowerUp().cmdSpeedUp(-0.5f);
                 break;
         }
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
     {
+        targetPos.x = targetPos.x + 10;
+        targetPos.y = targetPos.y + 5;
         GameObject floatingText = SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
         NetworkServer.Spawn(floatingText, connectionToClient);
         if (opponentIdentity == null) { return; }

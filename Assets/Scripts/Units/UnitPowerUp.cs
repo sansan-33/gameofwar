@@ -59,18 +59,18 @@ public class UnitPowerUp : NetworkBehaviour
         Scale(unitTransform, unit);
     }
     [Command]
-    public void cmdSpeedUp(int speed)
+    public void cmdSpeedUp(float speed)
     {
         //Debug.Log($"cmd speed up ? {speed}");
         ServerSetSpeed(speed, true);
     }
     [Server]
-    public void ServerSetSpeed(int speed, bool accumulate)
+    public void ServerSetSpeed(float speed, bool accumulate)
     {
         SetSpeed(speed, accumulate);
         RpcSpeedUp(speed, accumulate);
     }
-    public void SetSpeed(int speed, bool accumulate)
+    public void SetSpeed(float speed, bool accumulate)
     {
         if (speed < 0) { return; }
         if (GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) < GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX))
@@ -87,14 +87,14 @@ public class UnitPowerUp : NetworkBehaviour
         }
         */
     }
-    private void SpeedUp(int speed, bool accumulate)
+    private void SpeedUp(float speed, bool accumulate)
     {
         float currentSpeed = GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT);
-        if (accumulate && currentSpeed < 1) { return; }
+        if (accumulate && currentSpeed <= 0.5) { return; }
         GetComponent<Unit>().GetUnitMovement().SetSpeed(UnitMeta.SpeedType.CURRENT, accumulate ? currentSpeed + speed : speed);
     }
     [ClientRpc]
-    private void RpcSpeedUp(int speed, bool accumulate)
+    private void RpcSpeedUp(float speed, bool accumulate)
     {
         SpeedUp(speed, accumulate);
     }

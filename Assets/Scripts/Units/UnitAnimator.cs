@@ -61,7 +61,7 @@ public class UnitAnimator : NetworkBehaviour
     {
         Debug.Log($"111 Unit Animator {tag} {name} set bool {type} {state}" );
         //networkAnim.animator.SetBool(type, state);
-        //anim.SetBool(type, state);
+        networkAnim.animator.SetBool(type, state);
         //CmdSetBool(type, state);
     }
     [Command]

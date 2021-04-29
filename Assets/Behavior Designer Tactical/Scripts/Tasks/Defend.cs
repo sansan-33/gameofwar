@@ -89,7 +89,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                 }
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": No Target ==> Defend " + HEARTBEAT++);
-                tacticalAgent.transform.GetComponent<UnitAnimator>().trigger("defend");
+                tacticalAgent.transform.GetComponent<UnitAnimator>().SetBool("run", false);
+                tacticalAgent.transform.GetComponent<UnitAnimator>().SetBool("defend",true);
             }
 
             // The agent isn't attacking. Move near the defend object.
@@ -100,12 +101,16 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 tacticalAgent.SetDestination(targetPosition);
                 if (tacticalAgent.HasArrived()) {
                     // Face away from the defending object.
-                    //var direction = targetPosition - defendObject.Value.transform.position;
-                    var direction = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().GetAimAtPoint().position - defendObject.Value.transform.position;
+                    var direction = new Vector3();
+                    if(tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget() != null)
+                        direction = tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget().GetAimAtPoint().position - defendObject.Value.transform.position;
+                    else
+                        direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;
                     tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
                     tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend Enemy" + tacticalAgent.transform.GetComponent<Unit>().GetTargeter().GetTarget() + ". " + HEARTBEAT++);
-                    tacticalAgent.transform.GetComponent<UnitAnimator>().trigger("defend");
+                    tacticalAgent.transform.GetComponent<UnitAnimator>().SetBool("run", false);
+                    tacticalAgent.transform.GetComponent<UnitAnimator>().SetBool("defend", true);
                 }
             }
             //if (base.leader.Value != null)
