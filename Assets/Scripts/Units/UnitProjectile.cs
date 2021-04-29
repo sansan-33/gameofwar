@@ -107,7 +107,7 @@ public class UnitProjectile : NetworkBehaviour
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal, NetworkIdentity opponentIdentity, bool flipText)
     {
-        targetPos.x = targetPos.x + 10;
+        targetPos.x = targetPos.x - 10;
         targetPos.y = targetPos.y + 5;
         GameObject floatingText = SetupDamageText(targetPos, damageToDeals, damageToDealOriginal);
         NetworkServer.Spawn(floatingText, connectionToClient);

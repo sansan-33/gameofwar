@@ -168,7 +168,7 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
         gameObject.GetComponentInChildren<UnitBody>().SetRenderMaterial(playerID , star);
         gameObject.GetComponent<Unit>().SetSpawnPointIndex(spawnPointIndex);
-        gameObject.GetComponent<Unit>().GetTargeter().SetTarget(GameObject.FindGameObjectWithTag("King" + (playerID == 0 ? 1 : 0)));
+        //gameObject.GetComponent<Unit>().GetTargeter().SetTarget(GameObject.FindGameObjectWithTag("King" + (playerID == 0 ? 1 : 0)));
     }
     [ClientRpc]
     public void RpcPowerUp(int playerID, string unitName, int spawnPointIndex, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
