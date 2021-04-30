@@ -44,6 +44,7 @@ public class Shield : NetworkBehaviour
     }
     public void SetShield()
     {
+        if(shield != null) { Destroy(shield); }
         shield = Instantiate(ShieldEffect, transform);
     }
     private void UpdateShieldHealth(float oldHealth, float newHealth)
