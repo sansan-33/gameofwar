@@ -31,6 +31,7 @@ public class FlipCamera : MonoBehaviour
             //lightPlayer1.enabled = false;
             //lightSecondaryPlayer1.enabled = false;
             groundPlayer1.SetActive(false);
+            StaticClass.IsFlippedCamera = false;
         }
         else
         {
@@ -42,6 +43,7 @@ public class FlipCamera : MonoBehaviour
             //lightPlayer0.enabled = false;
             //lightSecondaryPlayer0.enabled = false;
             groundPlayer0.SetActive(false);
+            StaticClass.IsFlippedCamera = true;
         }
      }
 }

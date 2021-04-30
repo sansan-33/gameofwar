@@ -8,4 +8,6 @@
     public static string gold { get; set; }
     public static string diamond { get; set; }
     public static UnitMeta.Race playerRace { get; set; }
+    public static bool IsFlippedCamera { get; set; }
+
 }

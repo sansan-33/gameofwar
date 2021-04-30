@@ -158,7 +158,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     public void HandlePowerUp(int playerID, string unitName, int spawnPointIndex, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)
     {
-        //Debug.Log($"{unit.tag} : {unit.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
+        Debug.Log($"StaticClass.IsFlippedCamera {StaticClass.IsFlippedCamera} , {gameObject.tag} : {gameObject.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
         gameObject.name = unitName;
         gameObject.tag = ((gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
         SetSpeed(speed,false);
@@ -168,7 +168,9 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, (star == 1) ? star : (star - 1) * 3);
         gameObject.GetComponentInChildren<UnitBody>().SetRenderMaterial(playerID , star);
         gameObject.GetComponent<Unit>().SetSpawnPointIndex(spawnPointIndex);
-        //gameObject.GetComponent<Unit>().GetTargeter().SetTarget(GameObject.FindGameObjectWithTag("King" + (playerID == 0 ? 1 : 0)));
+        if ( StaticClass.IsFlippedCamera ){
+            gameObject.GetComponent<HealthDisplay>().flipHealthBar();
+        }
     }
     [ClientRpc]
     public void RpcPowerUp(int playerID, string unitName, int spawnPointIndex, int star, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey)

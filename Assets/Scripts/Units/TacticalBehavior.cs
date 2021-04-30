@@ -146,46 +146,25 @@ public class TacticalBehavior : MonoBehaviour
         //Debug.Log("AssignTag ============================ END ");
 
     }
-    private void Update()
-    {/*
-        Unit[] units = FindObjectsOfType<Unit>();
-        foreach (Unit unit in units)
-        {
-            Debug.Log($"{unit.name}IS_STUNNED{unit.GetComponent<UnitMovement>().IS_STUNNED}");
-            if (unit.GetComponent<UnitMovement>().IS_STUNNED)
-            {
-                StopAllTacticalBehavior(ENEMYID);
-                
-            }
-        }*/
-    }
+   
     public IEnumerator TacticalFormation(int playerid, int enemyid)
     {
         yield return new WaitForSeconds(0.1f);
         if (gameBoardHandlerPrefab == null) { yield break; }
-        
+
         //var stopwatch = new Stopwatch();
         //stopwatch.Start();
 
+        GameObject defendObject;
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
         List<GameObject> armies = new List<GameObject>();
         armies = units.ToList();
-        /*foreach(GameObject unit in units)
-        {
-            Debug.Log(unit.GetComponent<UnitMovement>().IS_STUNNED);
-            if (unit.GetComponent<UnitMovement>().IS_STUNNED)
-            {
-                StopAllTacticalBehavior(ENEMYID);
-                yield break;
-            }
-        }*/
         
         if (king!=null)
             armies.Add(king);
-        GameObject defendObject;
         
-        if (playerid == 1)
+        //if (playerid == 1)
            // Debug.Log($"TacticalFormation ============================ Start playerid {playerid} armis size {armies.Count}");
 
         leaders[playerid].Clear();
@@ -195,8 +174,7 @@ public class TacticalBehavior : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length;
         behaviorTreeGroups[playerid].Clear();
         int leaderUnitTypeID = 0;
-       
-        
+               
         foreach (GameObject child in armies)
         {
             if (child == null) { continue; }
