@@ -12,7 +12,7 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private Canvas cardDisplay = null;
 
-    private float Timer = 1830;
+    private float Timer = 180;
     private void Update()
     {
         Timer -= Time.deltaTime;
