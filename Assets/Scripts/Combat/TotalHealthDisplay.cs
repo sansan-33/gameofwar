@@ -94,7 +94,7 @@ public class TotalHealthDisplay : NetworkBehaviour
     public void SetTotalHealthToDie(string winnerTag)
     {
 
-        if (winnerTag == "Player1")
+        if (winnerTag == UnitMeta.REDTEAM)
         {
             TotalPlayerHealthBar.fillAmount = 0f;
             TotalPlayerHealths.text = "0";

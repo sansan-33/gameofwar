@@ -92,6 +92,25 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0.008, y: 1.2590001, z: 0.003}
   m_TimeToStationary: 0.5
+--- !u!95 &2004129923983648802
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7438937032517910368}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 411a2ce8086ab457da9d2c96df0627e9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &2402829891058201369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,7 +144,6 @@ MonoBehaviour:
   buildingPreview: {fileID: 0}
   resourceCost: 10
   health: {fileID: 7438937032517910377}
-  unitMovement: {fileID: 0}
   astarAI: {fileID: 0}
   unitPowerUp: {fileID: 4885380812970374901}
   id: -1
@@ -161,25 +179,6 @@ MonoBehaviour:
   specialEffectPrefab: {fileID: 0}
   battleFieldRules: {fileID: 0}
   canSpawnEffect: 1
---- !u!95 &2004129923983648802
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7438937032517910368}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 411a2ce8086ab457da9d2c96df0627e9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!65 &3312325832818872932
 BoxCollider:
   m_ObjectHideFlags: 0

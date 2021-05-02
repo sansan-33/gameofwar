@@ -153,8 +153,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         // Create unit preview
         int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
-        //Debug.Log($"MoveUnitInstance {mousePos}");
-        //playerRace = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), StaticClass.playerRace) ;
         playerRace = StaticClass.playerRace;
         //Debug.Log($"MoveUnitInstance race {playerRace} type {type}");
         GameObject UnitPrefab = localFactory.GetUnitPrefab(playerRace, (UnitMeta.UnitType)type);
@@ -172,10 +170,8 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-      
         //forbiddenArea.GetComponent<MeshRenderer>().enabled = false;
-        if (unitPreviewInstance != null)
-        {
+        if (unitPreviewInstance != null){
            
             Destroy(unitPreviewInstance);
            
@@ -209,10 +205,11 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             {
                 EmptyCard.GetComponentInChildren<Image>().color = Color.white;
             }
-        } else { 
+        } else {
+            Vector3 pos = CardParent.GetComponentInParent<CardSlot>().transform.position;
             CardParent.GetComponentInParent<Player>().dragCardMerge();
             // Set the dragged card position right under the last hitted card slot again, did it in moveOneCard, need to set it again otheriwse it will stop in the middle.
-            transform.position = CardParent.GetComponentInParent<CardSlot>().transform.position;
+            transform.position = pos;
         }
 
     }

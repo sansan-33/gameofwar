@@ -176,8 +176,8 @@ public class Player : MonoBehaviour
     {
         if (playerHand[0].Count > 0)
         {
-            playerHand[0][index].destroy();
-            //CardRemoved?.Invoke(playerHand[0][index]);
+            //playerHand[0][index].destroy();
+            CardRemoved?.Invoke(playerHand[0][index]);
             playerHand[0].RemoveAt(index);
         }
 
