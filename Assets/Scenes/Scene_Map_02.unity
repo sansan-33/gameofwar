@@ -107229,6 +107229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd345882ad8444d1fb73405cfbebf1a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   gameStartDisplayParent: {fileID: 8854889103840569585}
   StartTime: {fileID: 8854889104386960986}
   Times: {fileID: 3323979770823256012}
@@ -107242,6 +107244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8854889104052664201}
   - component: {fileID: 8854889104052664206}
+  - component: {fileID: 8854889104052664208}
   m_Layer: 0
   m_Name: GameStartDisplay
   m_TagString: Untagged
@@ -107249,6 +107252,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8854889104052664208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8854889104052664207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 2627040457
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
 --- !u!224 &8854889104386960980
 RectTransform:
   m_ObjectHideFlags: 0
