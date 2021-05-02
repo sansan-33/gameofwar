@@ -38,6 +38,11 @@ public class TotalHealthDisplay : NetworkBehaviour
         if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         YourName.text = "Player" + player.GetPlayerID();
+        if (player.GetTeamColor() == Color.red) {
+            Sprite tmp = TotalPlayerHealthBar.sprite;
+            TotalPlayerHealthBar.sprite = TotalEnemyHealthBar.sprite;
+            TotalEnemyHealthBar.sprite = tmp;
+        } 
     }
     private void Update()
     {
