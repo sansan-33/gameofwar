@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using static TacticalBehavior;
+using System;
 
 public class eleixier : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class eleixier : MonoBehaviour
     public int maxEleixer = 10;
     public float maxEleixerTimer;
     private float eleixerTimer = 4f;
+    public static Action<int> UpdateEleixer;
     public int eleixer = 0;
     // Start is called before the first frame update
     void Start()
@@ -28,7 +30,7 @@ public class eleixier : MonoBehaviour
             if (eleixer < maxEleixer)
             {
                 eleixer += 1;
-
+                UpdateEleixer?.Invoke(eleixer);
             }
         }
     }

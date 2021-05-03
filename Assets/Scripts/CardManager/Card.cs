@@ -17,16 +17,22 @@ public class Card : MonoBehaviour
     private GameObject dealManagers;
     private ParticlePool appearEffectPool;
     public int playerID = 0;
+    private int uniteleixer = 1;
+    public int eleixer;
+    private int type;
+    private float progressImageVelocity;
     Color teamColor;
     public eleixier eleixers;
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
-    
+    [SerializeField] private Image _cardTimer;
 
     public void Start()
     {
         eleixers = FindObjectOfType<eleixier>();
+        eleixer = eleixers.eleixer;
+        eleixier.UpdateEleixer += UpdateEleixer;
         if (NetworkClient.connection.identity == null) { return; }
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
@@ -35,6 +41,8 @@ public class Card : MonoBehaviour
         dealManagers = GameObject.FindGameObjectWithTag("DealManager");
         appearEffectPool = GameObject.FindGameObjectWithTag("EffectPool").GetComponent<ParticlePool>();
         StartCoroutine(SetLocalFactory());
+        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+        if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
     }
     IEnumerator SetLocalFactory()
     {
@@ -57,14 +65,14 @@ public class Card : MonoBehaviour
     }
     public void OnPointerDown()
     {
+        Debug.Log("OnpointerDown");
         if (GetComponent<DragCard>().unitPreviewInstance != null) { return; }
         if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
 
-        int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-        int uniteleixer = 1;
-        if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-        if (eleixers.eleixer < uniteleixer) { return; }
-        eleixers.eleixer -= uniteleixer;
+        
+        if (eleixer < uniteleixer) { return; }
+        
+        eleixer -= uniteleixer;
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
@@ -80,7 +88,35 @@ public class Card : MonoBehaviour
     }
     public void destroy()
     {
+        eleixier.UpdateEleixer -= UpdateEleixer;
         if (gameObject != null){Destroy(gameObject);}
+    }
+    private void UpdateEleixer(int eleixers)
+    {
+        eleixer = eleixers;
+        
+    }
+    private void Update()
+    {
+        if(_cardTimer != null)
+        {
+            if (uniteleixer >= eleixer)
+            {
+                _cardTimer.gameObject.SetActive(true);
+                float fillAmout = (float)eleixer / uniteleixer;
+                //Debug.Log($"eleixers:{eleixer}uniteleixer:{uniteleixer}, eleixers/uniteleixer:{fillAmout}");
+                _cardTimer.fillAmount = Mathf.SmoothDamp(
+                    _cardTimer.fillAmount,
+                    1 - fillAmout,
+                    ref progressImageVelocity,
+                    0.1f);
+            }
+            if (_cardTimer.fillAmount == 0)
+            {
+                _cardTimer.gameObject.SetActive(false);
+            }
+        }
+        
     }
 }
 
