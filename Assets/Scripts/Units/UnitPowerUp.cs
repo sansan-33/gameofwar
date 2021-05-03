@@ -101,7 +101,7 @@ public class UnitPowerUp : NetworkBehaviour
     public void SpecialEffect(float repeatAttackDelay, int speed)
     {
         if (isServer)
-            CmdSpecialEffect(repeatAttackDelay, speed);
+            RpcSpecialEffect(repeatAttackDelay, speed);
         else
             CmdSpecialEffect(repeatAttackDelay, speed);
     }

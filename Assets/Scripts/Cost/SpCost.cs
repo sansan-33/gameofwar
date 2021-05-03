@@ -11,16 +11,16 @@ public class SpCost : NetworkBehaviour
     [HideInInspector]public int SPAmount = 0;
     private int MaxSpCost;
     private UnitMeta.UnitKey unitKey;
-    private Image SPImage;
-    private TMP_Text SPText;
+    //private Image SPImage;
+    //private TMP_Text SPText;
     private RTSPlayer player;
     
     // Start is called before the first frame update
     void Start()
     {
         MaxSpCost = SPAmount;
-        SPImage = GameObject.FindGameObjectWithTag("SP Bar").GetComponent<Image>();
-        SPText = GameObject.FindGameObjectWithTag("SP Text").GetComponent<TextMeshProUGUI>();
+        //SPImage = GameObject.FindGameObjectWithTag("SP Bar").GetComponent<Image>();
+        //SPText = GameObject.FindGameObjectWithTag("SP Text").GetComponent<TextMeshProUGUI>();
         
     }
     [ClientRpc]

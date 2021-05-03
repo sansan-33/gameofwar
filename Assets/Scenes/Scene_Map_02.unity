@@ -37292,8 +37292,6 @@ GameObject:
   - component: {fileID: 739865864}
   - component: {fileID: 739865866}
   - component: {fileID: 739865865}
-  - component: {fileID: 739865867}
-  - component: {fileID: 739865868}
   m_Layer: 0
   m_Name: Resources
   m_TagString: Untagged
@@ -37367,38 +37365,6 @@ MonoBehaviour:
   maxEleixer: 10
   maxEleixerTimer: 0
   eleixer: 0
---- !u!114 &739865867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739865863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d64fa7d086fec4ee799738d53916ab12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  useSpCost: 1
-  SPAmount: 0
---- !u!114 &739865868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 739865863}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 515650015
-  serverOnly: 0
-  m_AssetId: 
-  hasSpawned: 0
 --- !u!1001 &743560047
 PrefabInstance:
   m_ObjectHideFlags: 0
