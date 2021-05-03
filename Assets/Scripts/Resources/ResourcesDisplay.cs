@@ -9,20 +9,18 @@ public class ResourcesDisplay : MonoBehaviour
 {
     [SerializeField] private Image healthBarImage = null;
     int maxEleixer = 0;
+    int currentEleixer;
     private eleixier Eleixier;
 
     private void Start()
     {
-        eleixier.UpdateEleixer += UpdateEleixer;
         Eleixier = FindObjectOfType<eleixier>();
         maxEleixer = Eleixier.maxEleixer;
     }
-    private void UpdateEleixer(int eleixer)
+    private void Update()
     {
-        healthBarImage.fillAmount = (float)eleixer / (float)maxEleixer;   
-    }
-    private void OnDestroy()
-    {
-        eleixier.UpdateEleixer -= UpdateEleixer;
+        currentEleixer = Eleixier.eleixer;
+        healthBarImage.fillAmount = (float)currentEleixer / (float)maxEleixer;
+        
     }
 }

@@ -18,7 +18,6 @@ public class Card : MonoBehaviour
     private ParticlePool appearEffectPool;
     public int playerID = 0;
     private int uniteleixer = 1;
-    public int eleixer;
     private int type;
     private float progressImageVelocity;
     Color teamColor;
@@ -31,8 +30,6 @@ public class Card : MonoBehaviour
     public void Start()
     {
         eleixers = FindObjectOfType<eleixier>();
-        eleixer = eleixers.eleixer;
-        eleixier.UpdateEleixer += UpdateEleixer;
         if (NetworkClient.connection.identity == null) { return; }
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
@@ -70,9 +67,9 @@ public class Card : MonoBehaviour
         if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
 
         
-        if (eleixer < uniteleixer) { return; }
-        
-        eleixer -= uniteleixer;
+        if (eleixers.eleixer < uniteleixer) { return; }
+
+        eleixers.eleixer -= uniteleixer;
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         dealManagers.GetComponent<CardDealer>().Hit();
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
@@ -88,33 +85,32 @@ public class Card : MonoBehaviour
     }
     public void destroy()
     {
-        eleixier.UpdateEleixer -= UpdateEleixer;
         if (gameObject != null){Destroy(gameObject);}
-    }
-    private void UpdateEleixer(int eleixers)
-    {
-        eleixer = eleixers;
-        
     }
     private void Update()
     {
-        if(_cardTimer != null)
+        if (_cardTimer != null)
         {
-            if (uniteleixer >= eleixer)
+            if (uniteleixer >= eleixers.eleixer)
             {
                 _cardTimer.gameObject.SetActive(true);
-                float fillAmout = (float)eleixer / uniteleixer;
-                //Debug.Log($"eleixers:{eleixer}uniteleixer:{uniteleixer}, eleixers/uniteleixer:{fillAmout}");
+                float fillAmount = (float)eleixers.eleixer / uniteleixer;
+                //Debug.Log($"eleixers:{eleixer}uniteleixer:{uniteleixer}, eleixers/uniteleixer:{fillAmount}");
                 _cardTimer.fillAmount = Mathf.SmoothDamp(
                     _cardTimer.fillAmount,
-                    1 - fillAmout,
+                    1 - fillAmount,
                     ref progressImageVelocity,
-                    0.1f);
+                    0.5f);
+                ///Debug.Log($"fillAmout:{_cardTimer.fillAmount}");
             }
-            if (_cardTimer.fillAmount == 0)
+            /*if (_cardTimer.fillAmount == 0 || _cardTimer.fillAmount > 1)
             {
                 _cardTimer.gameObject.SetActive(false);
             }
+            else
+            {
+               // Debug.Log($"fillAmout:{_cardTimer.fillAmount}");
+            }*/
         }
         
     }
