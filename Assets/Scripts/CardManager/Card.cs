@@ -64,6 +64,10 @@ public class Card : MonoBehaviour
     {
         this.uniteleixer = elexier;
     }
+    public int GetUnitElexier()
+    {
+        return this.uniteleixer;
+    }
     public void OnPointerDown()
     {
         Debug.Log("OnpointerDown");
