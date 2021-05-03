@@ -139,6 +139,7 @@ public class SpButtonManager : MonoBehaviour
 
         button.GetComponent<Button>().onClick.AddListener(iSpecialAttack.OnPointerDown);
         button.GetComponent<SpCostDisplay>().SetUnit(unit);
+        button.GetComponent<SpCostDisplay>().SetSpPrefab(specialAttack);
         // tell unit where is the button in the list
         unitBtn.Add(unit.unitKey, button.GetComponent<Button>());
 

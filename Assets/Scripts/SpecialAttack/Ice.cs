@@ -167,6 +167,10 @@ public class Ice : MonoBehaviour, ISpecialAttack
         }
         
     }
+    public int GetSpCost()
+    {
+        return SPCost;
+    }
     public GameObject GetEffect(int num)
     {
         effectLists = FindObjectOfType<SpawnSpEffect>().GetEffect(0);

@@ -179,5 +179,9 @@ namespace DigitalRuby.ThunderAndLightning
                 }
             }
         }
+        public int GetSpCost()
+        {
+            return SPCost;
+        }
     }
 }

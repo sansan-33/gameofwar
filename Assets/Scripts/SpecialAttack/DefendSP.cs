@@ -106,6 +106,10 @@ public class DefendSP : MonoBehaviour, ISpecialAttack
 
 
     }
+    public int GetSpCost()
+    {
+        return SPCost;
+    }
     /*
     [Command]
     void CommandShield(GameObject shield, int shieldHealths)

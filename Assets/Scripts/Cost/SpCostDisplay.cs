@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class SpCostDisplay : MonoBehaviour
 {
     [SerializeField] private List<GameObject> childSprite = new List<GameObject>();
+    [SerializeField] private ParticleSystem particleSystem1;
+  //  [SerializeField] private ParticleSystem particleSystem2;
     [HideInInspector] public int spCost;
     private int counter = 2;
     private float Timer = 1;
@@ -14,6 +16,7 @@ public class SpCostDisplay : MonoBehaviour
     private bool secoundLayer = false;
     private Color color;
     private Unit unit;
+    private GameObject SpPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -121,9 +124,30 @@ public class SpCostDisplay : MonoBehaviour
                     StartCoroutine(AddSpCost());
             }
         }
+        if(SpPrefab != null)
+        {
+            ISpecialAttack iSpecialAttack = SpPrefab.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
+            //Debug.Log($"button : {SpPrefab} iSpecialAttack.GetSpCost :{iSpecialAttack.GetSpCost()} spCost: {spCost}");
+            if (iSpecialAttack.GetSpCost() <= spCost / 3)
+            {
+                particleSystem1.gameObject.SetActive(true);
+                particleSystem1.Play();
+                //particleSystem2.gameObject.SetActive(true);
+                //particleSystem2.Play();
+            }
+            else
+            {
+                particleSystem1.gameObject.SetActive(false);
+               // particleSystem2.gameObject.SetActive(false);
+            }
+        } 
     }
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
+    }
+    public void SetSpPrefab(GameObject SpPrefab)
+    {
+        this.SpPrefab = SpPrefab;
     }
 }

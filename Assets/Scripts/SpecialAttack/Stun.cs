@@ -127,6 +127,10 @@ public class Stun : NetworkBehaviour, ISpecialAttack
             NetworkServer.Spawn(cam, connectionToClient);
         }
     }
+    public int GetSpCost()
+    {
+        return SPCost;
+    }
     // Update is called once per frame
     void Update()
     {

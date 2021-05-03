@@ -122,6 +122,10 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         // make the king attack in update
         IsSuperAttack = true;
     }
+    public int GetSpCost()
+    {
+        return SPCost;
+    }
     public  void OnDrawGizmos()
     {
         Gizmos.color = Color.white;
