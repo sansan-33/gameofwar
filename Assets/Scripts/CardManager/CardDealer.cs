@@ -82,12 +82,12 @@ public class CardDealer : MonoBehaviour
     {
 
         Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
-
         CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
         //CardFace randomCard = cardDeck[3];
         cardDeckUsed.Add(randomCard);
 
-        lastCard.GetComponent<Card>().SetCard(randomCard);
+        lastCard.SetCard(randomCard);
+        lastCard.cardStar.text = "1";
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
         int cardnumber = (int)randomCard.numbers;
         cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;

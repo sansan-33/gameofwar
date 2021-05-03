@@ -52,7 +52,8 @@ public class Card : MonoBehaviour
     }
     public void SetCard(CardFace _cardFace)
     {
-        cardFace = _cardFace;
+        cardFace = new CardFace(_cardFace.suit, _cardFace.numbers, _cardFace.star, _cardFace.stats);
+        //cardFace = _cardFace;
     }
     public void OnPointerDown()
     {
