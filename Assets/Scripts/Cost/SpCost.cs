@@ -19,15 +19,25 @@ public class SpCost : NetworkBehaviour
     void Start()
     {
         MaxSpCost = SPAmount;
+        Unit.ClientOnUnitDespawned += Handlekill;
         //SPImage = GameObject.FindGameObjectWithTag("SP Bar").GetComponent<Image>();
         //SPText = GameObject.FindGameObjectWithTag("SP Text").GetComponent<TextMeshProUGUI>();
-        
+
     }
-    [ClientRpc]
-    public void RpcUpdateSPAmount(int cost, GameObject unit)
+    private void OnDestroy()
     {
-        UpdateSPAmount(cost, unit.GetComponent<Unit>());
+        Unit.ClientOnUnitDespawned -= Handlekill;
     }
+    private void Handlekill(Unit unit)
+    {
+        Debug.Log("Handlekill");
+        UpdateSPAmount(1, unit);
+    }
+    //[ClientRpc]
+   // public void RpcUpdateSPAmount(int cost, GameObject unit)
+   // {
+     //   UpdateSPAmount(cost, unit.GetComponent<Unit>());
+    //}
     public void UpdateSPAmount(int cost,Unit unit)
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
@@ -40,7 +50,7 @@ public class SpCost : NetworkBehaviour
         {
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
             {
-                if (unit.CompareTag("Player0") || unit.CompareTag("King0"))
+                if (unit.CompareTag("Player1") || unit.CompareTag("King1"))
                 {
                     bool GettedValue = SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
                     if (GettedValue == true)
@@ -67,7 +77,7 @@ public class SpCost : NetworkBehaviour
             {
                 Debug.Log($"unit:{unit.tag}player:{player.GetPlayerID()}");
 
-                if (unit.CompareTag("Player" + player.GetPlayerID()) || unit.CompareTag("King" + player.GetPlayerID()))
+                if (unit.CompareTag("Player" + player.GetEnemyID()) || unit.CompareTag("King" + player.GetEnemyID()))
                 {
                     bool GettedValue = SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
                     if (GettedValue == true)

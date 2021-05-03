@@ -120,7 +120,7 @@ public class Unit : NetworkBehaviour
     public override void OnStopClient()
     {
         ClientOnUnitDespawned?.Invoke(this);
-
+        //Debug.Log("Unit died");
         if (!hasAuthority) { return; }
 
         AuthorityOnUnitDespawned?.Invoke(this);
