@@ -65,10 +65,10 @@ public class Ice : MonoBehaviour, ISpecialAttack
         {
             //if (spCost.SPAmount < SPCost) { return; }
             if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
-               
+            StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
+            spCost.UpdateSPAmount(-SPCost, null);
         }
-        StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
-        spCost.UpdateSPAmount(-SPCost,null);
+       
 
         GameObject closestTarget = null;
         bool haveTarget = true;
