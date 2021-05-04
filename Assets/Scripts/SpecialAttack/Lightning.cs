@@ -54,7 +54,7 @@ namespace DigitalRuby.ThunderAndLightning
 
         public void OnPointerDown()
         {
-            Debug.Log(layerMask);
+            //Debug.Log(layerMask);
             targetList.Clear();
             startPointList.Clear();
             lightlingList.Clear();
@@ -63,10 +63,10 @@ namespace DigitalRuby.ThunderAndLightning
             {
                 //if (spCost.SPAmount < SPCost) { return; }
                 if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
-
+                StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
+                spCost.UpdateSPAmount(-SPCost, null);
             }
-            StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
-            spCost.UpdateSPAmount(-SPCost, null);
+            
             searchPoint = gameObject.transform.parent.gameObject;
             GameObject closestTarget = null;
             bool haveTarget = true;

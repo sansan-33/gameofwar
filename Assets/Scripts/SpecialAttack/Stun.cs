@@ -58,12 +58,12 @@ public class Stun : NetworkBehaviour, ISpecialAttack
         {
             //if (spCost.SPAmount < SPCost) { return; }
             if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
-
+            StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
+            //Debug.Log($"after OnPointerDown ==> StartCoroutine {btn.tag} {btn.name} ");
+            spCost.UpdateSPAmount(-SPCost, null);
         }
         //Debug.Log($"b4 OnPointerDown ==> StartCoroutine {btn.tag} {btn.name} ");
-        StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
-        //Debug.Log($"after OnPointerDown ==> StartCoroutine {btn.tag} {btn.name} ");
-        spCost.UpdateSPAmount(-SPCost, null);
+        
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
         //find all enemy unit
@@ -116,10 +116,10 @@ public class Stun : NetworkBehaviour, ISpecialAttack
     [Command(ignoreAuthority = true)]
     public void CmdCMVirtual()
     {
-        Debug.Log("CmdCMVirtual");
+        //Debug.Log("CmdCMVirtual");
         if (GameObject.Find("camVirtual") == null)
         {
-            Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
+            //Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
             //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
             GameObject cam = Instantiate(camPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
             //cam.GetComponent<CinemachineShake>().shakeTime = enemyReFightTimer;

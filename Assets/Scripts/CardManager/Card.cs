@@ -68,7 +68,7 @@ public class Card : MonoBehaviour
     }
     public void OnPointerDown()
     {
-        Debug.Log("OnpointerDown");
+       // Debug.Log("OnpointerDown");
         if (GetComponent<DragCard>().unitPreviewInstance != null) { return; }
         if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
 

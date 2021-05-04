@@ -27,12 +27,12 @@ public class SpCostDisplay : MonoBehaviour
     private IEnumerator OnStart()
     {
         yield return new WaitForSeconds(2);
-        Debug.Log($"OnStart{unit}");
+        //Debug.Log($"OnStart{unit}");
         unit.OnUnitDespawned += Ondestroy;
     }
     public void Ondestroy()
     {
-        Debug.Log("Destroy");
+        //Debug.Log("Destroy");
         unit.OnUnitDespawned -= Ondestroy;
         Destroy(gameObject);
     }
