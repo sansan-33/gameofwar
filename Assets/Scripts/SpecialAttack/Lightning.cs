@@ -75,27 +75,32 @@ namespace DigitalRuby.ThunderAndLightning
 
             while (haveTarget == true)
             {
-                
+                //Debug.Log("OnPointerDown1");
                 startPointList.Add(searchPoint);
                 bool findedTarget = false;
                 //Search target in a distance
                 Collider[] hitColliders = Physics.OverlapBox(searchPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
                 int i = 0;
+                Debug.Log(hitColliders.Length);
                 while (i < hitColliders.Length)
                 {
                     
                     distance = float.MaxValue;
                     hitCollider = hitColliders[i++].transform.gameObject;
+                   // Debug.Log($"OnPointerDown2 {(hitCollider.transform.position - searchPoint.transform.position).sqrMagnitude} < {distance} {!targetList.Contains(hitCollider)}");
                     //Debug.Log($"searched target {hitCollider.name}");
                     // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                     if ((localDistance = (hitCollider.transform.position - searchPoint.transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                     {
                         int id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
+                       // Debug.Log($"OnPointerDown3 {hitCollider.tag} Player + {id}");
+                       
                         if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
                         {
+                           // Debug.Log("OnPointerDown4");
                             //if (localDistance < maxAttackrange)
                             //{
-                                if (localDistance < distance)
+                            if (localDistance < distance)
                                 {
 
                                     findedTarget = true;
@@ -129,6 +134,16 @@ namespace DigitalRuby.ThunderAndLightning
                 Lightlings(startPointList.ToArray()[a], targetList.ToArray()[a]);
             }
             lightlingTimer = 5;
+        }
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = Color.blue;
+            //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+            if (true)
+            {
+                //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+                Gizmos.DrawWireCube(transform.parent.transform.position, transform.localScale * attackRange);
+            }
         }
         public void Lightlings(GameObject startPoint, GameObject endPoint)
         {
