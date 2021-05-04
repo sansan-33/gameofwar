@@ -172,11 +172,10 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     {
         //forbiddenArea.GetComponent<MeshRenderer>().enabled = false;
         if (unitPreviewInstance != null){
-           
-            Destroy(unitPreviewInstance);
-           
-            Ray ray = mainCamera.ScreenPointToRay(eventData.position);
 
+            Vector3 spawnPos = unitPreviewInstance.transform.position;
+            Ray ray = mainCamera.ScreenPointToRay(eventData.position);
+            Destroy(unitPreviewInstance);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
             {
                 playerGround.resetLayer();
@@ -191,21 +190,22 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                     transform.position = startPos;
                     return;
                 }
-
                 dealManagers.totalEleixers.eleixer -= uniteleixer;
-                GetComponent<Card>().DropUnit(unitPreviewInstance.transform.position);
+                if (spawnPos == null) Debug.Log($"Drop Unit Spawn Position is null {spawnPos}");
+                GetComponent<Card>().DropUnit(spawnPos);
                 // Special Checking for Wall Button Card not under Card Slot (player)
                 Player playerDeck = GetComponentInParent<Player>();
                 if (playerDeck !=null)
                     playerDeck.moveCard(GetComponent<Card>().cardPlayerHandIndex);
                 dealManagers.GetComponent<CardDealer>().Hit();
-                
             }
             if(EmptyCard != null)
             {
                 EmptyCard.GetComponentInChildren<Image>().color = Color.white;
             }
-        } else {
+            
+        }
+        else {
             Vector3 pos = CardParent.GetComponentInParent<CardSlot>().transform.position;
             CardParent.GetComponentInParent<Player>().dragCardMerge();
             // Set the dragged card position right under the last hitted card slot again, did it in moveOneCard, need to set it again otheriwse it will stop in the middle.

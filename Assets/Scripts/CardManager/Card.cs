@@ -80,14 +80,19 @@ public class Card : MonoBehaviour
         dealManagers.Hit();
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
     }
-    public void DropUnit(Vector3 SpwanPoint)
+    public void DropUnit(Vector3 spawnPoint)
     {
-        if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
+        StartCoroutine(HandleDropUnit(spawnPoint));
+    }
+    IEnumerator HandleDropUnit(Vector3 spawnPoint)
+    {
+        if (localFactory == null) { yield return SetLocalFactory(); }
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
-        appearEffectPool.UseParticles(SpwanPoint);
-        //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {SpwanPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
-        localFactory.CmdDropUnit(playerID, SpwanPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType) type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)this.cardFace.star + 1, teamColor, Quaternion.identity);
+        appearEffectPool.UseParticles(spawnPoint);
+        //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {spawnPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
+        localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
+        yield return null;
     }
     public void destroy()
     {
@@ -97,7 +102,7 @@ public class Card : MonoBehaviour
     {
         if (cardTimerImage != null)
         {
-            if (uniteleixer >= dealManagers.totalEleixers.eleixer)
+            if (dealManagers.totalEleixers.eleixer < uniteleixer)
             {
                 cardTimerImage.gameObject.SetActive(true);
                 float fillAmount = (float)dealManagers.totalEleixers.eleixer / uniteleixer;
@@ -105,6 +110,8 @@ public class Card : MonoBehaviour
                 cardTimerImage.fillAmount = Mathf.SmoothDamp(cardTimerImage.fillAmount, 1 - fillAmount, ref progressImageVelocity, 0.5f);
                 effectAmount = 1f;
             } else {
+                cardTimerImage.fillAmount = 1f;
+                cardTimerImage.gameObject.SetActive(false);
                 effectAmount = 0.1f;
             }
             cardSpawnButton.GetComponentInChildren<Image>().material.SetFloat("_Greyscale", effectAmount);
