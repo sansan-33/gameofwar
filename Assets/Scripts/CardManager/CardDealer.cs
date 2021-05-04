@@ -36,6 +36,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public Dictionary<UnitMeta.UnitKey, Unit> playerUnitDict = new Dictionary<UnitMeta.UnitKey, Unit>();
     [SerializeField] Card buttonWall;
     [SerializeField] public TotalEleixier totalEleixers;
+    [SerializeField] public Shader greyScaleShader;
 
     public static event Action UserCardLoaded;
     public SimpleObjectPool cardObjectPool;
@@ -95,8 +96,10 @@ public class CardDealer : MonoBehaviour
         int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-        
+
+        Material mat = new Material(greyScaleShader);
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
+        lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
         lastCard.eleixerText.text = uniteleixer.ToString();
         lastCard.SetUnitElexier(uniteleixer);
         //Player takes card

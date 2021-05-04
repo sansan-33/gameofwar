@@ -25,6 +25,7 @@ public class Card : MonoBehaviour
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
     [SerializeField] private Image cardTimerImage;
+    private float effectAmount = 1f;
 
     public void Start()
     {
@@ -102,7 +103,11 @@ public class Card : MonoBehaviour
                 float fillAmount = (float)dealManagers.totalEleixers.eleixer / uniteleixer;
                 //Debug.Log($"eleixers:{eleixer}uniteleixer:{uniteleixer}, eleixers/uniteleixer:{fillAmount}");
                 cardTimerImage.fillAmount = Mathf.SmoothDamp(cardTimerImage.fillAmount, 1 - fillAmount, ref progressImageVelocity, 0.5f);
+                effectAmount = 1f;
+            } else {
+                effectAmount = 0.1f;
             }
+            cardSpawnButton.GetComponentInChildren<Image>().material.SetFloat("_Greyscale", effectAmount);
         }
         
     }
