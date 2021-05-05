@@ -5,15 +5,18 @@ using UnityEngine;
 
 public class CombatEffectController : NetworkBehaviour
 {
-    public DamageTextObjectPool damageTextObjectPool;
-
+    private DamageTextObjectPool damageTextObjectPool;
+    private void Start()
+    {
+        damageTextObjectPool = FindObjectOfType<DamageTextObjectPool>();
+    }
     public void damageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
     {
+        //HandleDamageText(targetPos, damageNew, damgeOld, opponentIdentity, flipText);
         if (isServer)
             RpcCommandText(targetPos, damageNew, damgeOld, opponentIdentity, flipText);
         else
             CmdDamageText(targetPos, damageNew, damgeOld, opponentIdentity, flipText);
-
     }
     [Command]
     public void CmdDamageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)

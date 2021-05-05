@@ -50,18 +50,13 @@ public class SimpleObjectPool : MonoBehaviour
             // make the instance a child of this and disable it
             toReturn.transform.SetParent(transform);
             toReturn.SetActive(false);
-
             // add the instance to the collection of inactive instances
             inactiveInstances.Push(toReturn);
-            Debug.Log($"inactiveInstances pool count : b4 {inactiveInstancesCount}  after {inactiveInstances.Count}");
-
             inactiveInstancesCount = inactiveInstances.Count;
-            Debug.Log($"{toReturn.name}  make the instance a child of this and disable it");
         }
         // otherwise, just destroy it
         else
         {
-            Debug.Log($"{toReturn.name} was returned to a pool it wasn't spawned from! Destroying.");
             Destroy(toReturn);
         }
     }

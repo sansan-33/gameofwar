@@ -23,14 +23,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         private float theta;
         private string TASKNAME = "Defend";
         private int HEARTBEAT = 0;
-
+        private Vector3 targetTagPosition;
         protected override void AddAgentToGroup(Behavior agent, int index)
         {
             base.AddAgentToGroup(agent, index);
 
             // 2 * PI = 360 degrees
             theta = 2 * Mathf.PI / agents.Count;
-
+            Debug.Log("$ AddAgentToGroup targetTag {targetTag.Value}");
+            targetTagPosition = GameObject.FindGameObjectWithTag(targetTag.Value).transform.position;
         }
 
         protected override int RemoveAgentFromGroup(Behavior agent)
@@ -89,7 +90,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                 }
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": No Target ==> Defend " + HEARTBEAT++);
-                tacticalAgent.RotateTowards(Quaternion.LookRotation(GameObject.FindGameObjectWithTag(targetTag.Value).transform.position - defendObject.Value.transform.position));
+                tacticalAgent.RotateTowards(Quaternion.LookRotation(targetTagPosition - defendObject.Value.transform.position));
                 tacticalAgent.transform.GetComponent<UnitAnimator>().SetBool("run", false);
                 tacticalAgent.transform.GetComponent<UnitAnimator>().SetBool("defend",true);
             }

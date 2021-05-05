@@ -214,7 +214,7 @@ public class TacticalBehavior : MonoBehaviour
                         agentTrees[k].SetVariableValue("newDefendRadius", newDefendRadius);
 
                     agentTrees[k].SetVariableValue("ChaseDistance", 10f);
-                    agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyid);
+                    agentTrees[k].SetVariableValue("newTargetName", enemyCount == 0 ? "King" + enemyid : "Player" + enemyid);
                     if (defendObject.TryGetComponent<DefendCircle>(out DefendCircle circle))
                     {
                         //The radius around the defend object to defend

@@ -35,14 +35,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     RTSPlayer player;
     float upGradeAmount =  1.01f;
     [SerializeField] private GameObject textPrefab = null;
-    [SerializeField] private CombatEffectController combatEffectController;
 
     private Unit unit;
     public override void OnStartAuthority()
     {
         if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        combatEffectController = GameObject.FindObjectOfType<CombatEffectController>();
         calculatedDamageToDeal = damageToDeal;
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
@@ -96,7 +94,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-                combatEffectController.damageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
+                cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
 
                 if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX ) ) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
@@ -151,7 +149,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         powerUpAfterKill(gameObject);
         RpcpowerUpAfterKill(gameObject);
-        Debug.Log("killed");
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
@@ -178,7 +175,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command(ignoreAuthority = true)]
     private void cmdCMVirtual()
     {
-        Debug.Log("CmdCMVirtual");
         if (GameObject.Find("camVirtual") == null) {
             //Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
             //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
@@ -262,7 +258,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
     private GameObject SetupDamageText(Vector3 targetPos, float damageToDeals, float damageToDealOriginal)
     {
-        //GameObject floatingText = damageTextObjectPool.GetObject();
         GameObject floatingText = Instantiate(textPrefab, targetPos, Quaternion.identity);
         floatingText.transform.position = targetPos;
         floatingText.transform.rotation = Quaternion.identity;

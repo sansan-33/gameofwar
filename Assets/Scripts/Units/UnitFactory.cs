@@ -39,7 +39,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
     public Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
-
+  
     [SerializeField]
     private int spawnMoveRange = 1000;
    

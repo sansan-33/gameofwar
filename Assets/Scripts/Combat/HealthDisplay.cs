@@ -39,7 +39,7 @@ public class HealthDisplay : MonoBehaviour
     }
     public void flipHealthBar()
     {
-        Debug.Log($"{name} {tag} flipHealthBar {startRotation} {startRotation * Quaternion.Euler(0, 180, 0)} ");
+        //Debug.Log($"{name} {tag} flipHealthBar {startRotation} {startRotation * Quaternion.Euler(0, 180, 0)} ");
         startRotation *= Quaternion.Euler(0, 180, 0); // this adds a 90 degrees Y rotation
     }
     public void EnableLeaderIcon()
