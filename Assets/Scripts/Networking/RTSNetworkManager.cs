@@ -89,7 +89,7 @@ public class RTSNetworkManager : NetworkManager
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         jsonResult = JSON.Parse(rawJson);
         userTeamDict.Add(userid + "_" + playerid, jsonResult);
-        Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
 
     }
     public void StartGame()

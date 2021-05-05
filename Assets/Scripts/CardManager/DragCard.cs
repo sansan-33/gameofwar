@@ -173,25 +173,22 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         //forbiddenArea.GetComponent<MeshRenderer>().enabled = false;
         if (unitPreviewInstance != null){
 
-            if (EmptyCard != null) { EmptyCard.GetComponentInChildren<Image>().color = Color.white; }
+            int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+            int uniteleixer = 1;
+            if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
+            if (dealManagers.totalEleixers.eleixer < uniteleixer) {
+                transform.position = startPos;
+                return;
+            }
 
+            if (EmptyCard != null) { EmptyCard.GetComponentInChildren<Image>().color = Color.white; }
             Vector3 spawnPos = unitPreviewInstance.transform.position;
+            Destroy(unitPreviewInstance);
+
             Ray ray = mainCamera.ScreenPointToRay(eventData.position);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
             {
-                Destroy(unitPreviewInstance);
                 playerGround.resetLayer();
-                int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-                int uniteleixer = 1; ;
-                if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-                if (dealManagers.totalEleixers.eleixer < uniteleixer)
-                {
-                    //Debug.Log("hit");
-                    //Destroy(unitPreviewInstance);
-                    //EmptyCard.GetComponentInChildren<Image>().color = Color.white;
-                    transform.position = startPos;
-                    return;
-                }
                 dealManagers.totalEleixers.eleixer -= uniteleixer;
                 if (spawnPos == null) Debug.Log($"Drop Unit Spawn Position is null {spawnPos}");
                 GetComponent<Card>().DropUnit(spawnPos);

@@ -29,7 +29,6 @@ public class SpawnEnemies : MonoBehaviour
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
             StartCoroutine(GetUserCard("-1",""));
-            test("-1", "");
             InvokeRepeating("LoadEnemies", 3f, 3f);
         }
         GameOverHandler.ClientOnGameOver += HandleGameOver;
@@ -105,10 +104,6 @@ public class SpawnEnemies : MonoBehaviour
     {
         //Debug.Log($"Spawn Enemies ==> HandleGameOver");
         ISGAMEOVER = true;
-    }
-    private void test(string userid, string race)
-    {
-        Debug.Log($"test{userid } {race}");
     }
     // sends an API request - returns a JSON file
     IEnumerator GetUserCard(string userid, string race)
