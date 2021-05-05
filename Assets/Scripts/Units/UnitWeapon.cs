@@ -94,7 +94,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-                cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
+                //cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
 
                 if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX ) ) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;

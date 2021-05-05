@@ -82,9 +82,7 @@ public class TotalHealthDisplay : NetworkBehaviour
             if (EnermymilitarySize > MaxEnermymilitarySize)
             {
                 MaxEnermymilitarySize = EnermymilitarySize;
-
             }
-
             newProgress = (float)EnermymilitarySize / (float)MaxEnermymilitarySize;
             TotalEnemyHealths.text = EnermymilitarySize.ToString();
             TotalEnemyHealthBar.fillAmount = newProgress;

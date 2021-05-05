@@ -25,6 +25,11 @@ public class Health : NetworkBehaviour, IDamageable
 
     public event Action<int, int, int> ClientOnHealthUpdated;
     public static event Action<GameObject> IceHitUpdated;
+    float blinkTimer;
+    SkinnedMeshRenderer skinnedMeshRenderer;
+
+    public float blinkDuration;
+    public float blinkIntensity;
 
     #region Server
 
@@ -86,6 +91,7 @@ public class Health : NetworkBehaviour, IDamageable
             if (damageAmount > 0)
             {
                 currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
+                blinkTimer = blinkDuration;
                 lastDamageDeal = (int) damageAmount;
                 if (currentHealth == 0)
                 {
@@ -127,6 +133,10 @@ public class Health : NetworkBehaviour, IDamageable
     #endregion
 
     #region Client
+    void start()
+    {
+        skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+    }
     private void Update()
     {
         if (IsElectricShock&& electricTimer > 0)
@@ -138,6 +148,12 @@ public class Health : NetworkBehaviour, IDamageable
             electricTimer = 1;
             DealDamage(ElectricDamage);
         }
+        blinkTimer -= Time.deltaTime;
+        float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
+        float intensity = (lerp * blinkIntensity) + 1f;
+        if(skinnedMeshRenderer == null) skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        skinnedMeshRenderer.material.color = Color.white * intensity;
+
     }
     private void HandleHealthUpdated(float oldHealth, float newHealth)
     {
