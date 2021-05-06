@@ -159,7 +159,6 @@ public class TacticalBehavior : MonoBehaviour
         int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length;
         behaviorTreeGroups[playerid].Clear();
         int leaderUnitTypeID = 0;
-               
         foreach (GameObject child in armies)
         {
             if (child == null) { continue; }
@@ -200,7 +199,7 @@ public class TacticalBehavior : MonoBehaviour
                 var group = agentTrees[k].Group;
                 
                 if (group == 1 || group ==2 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
-                agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
+                //agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
                 if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER)
                     agentTrees[k].SetVariableValue("newTargetName", enemyCount == 0 ? "King" + enemyid : "Player" + enemyid);
                 else
@@ -214,7 +213,7 @@ public class TacticalBehavior : MonoBehaviour
                         agentTrees[k].SetVariableValue("newDefendRadius", newDefendRadius);
 
                     agentTrees[k].SetVariableValue("ChaseDistance", 10f);
-                    agentTrees[k].SetVariableValue("newTargetName", enemyCount == 0 ? "King" + enemyid : "Player" + enemyid);
+                    agentTrees[k].SetVariableValue("newTargetName", enemyCount > 0 ? "Player" + enemyid : "King" + enemyid  );
                     if (defendObject.TryGetComponent<DefendCircle>(out DefendCircle circle))
                     {
                         //The radius around the defend object to defend
@@ -365,9 +364,9 @@ public class TacticalBehavior : MonoBehaviour
     {
         List<GameObject> troops;
         var sb = new System.Text.StringBuilder();
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + ENEMYID);
         troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
+        armies = GameObject.FindGameObjectsWithTag("King" + ENEMYID);
         if(armies.Length > 0)
         troops.AddRange(armies);
         foreach (GameObject army in troops) {

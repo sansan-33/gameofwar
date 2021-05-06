@@ -67,7 +67,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         //Debug.Log($"Drag Card mouseOrTouchPosY {mouseOrTouchPosY} startPos.y {startPos.y}");
         // Prevent drag card to the bottom.
         mouseOrTouchPosY = mouseOrTouchPosY < startPos.y ? startPos.y : mouseOrTouchPosY;
-        mouseOrTouchPosX = mouseOrTouchPosY > startPos.y + deltaPos ? startPos.x : mouseOrTouchPosX;
+        //mouseOrTouchPosX = mouseOrTouchPosX > startPos.x + deltaPos ? startPos.x : mouseOrTouchPosX;
 
         // Freeze the card position if unit preview instance spawned
         if (unitPreviewInstance != null)
@@ -81,7 +81,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         else{
             StartCoroutine(ShiftCard());
         }
-        lastXPos = mouseOrTouchPosX;
+        //lastXPos = mouseOrTouchPosX;
     }
     private IEnumerator ShiftCard()
     {
@@ -173,34 +173,26 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         //forbiddenArea.GetComponent<MeshRenderer>().enabled = false;
         if (unitPreviewInstance != null){
 
-            int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-            int uniteleixer = 1;
-            if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-            if (dealManagers.totalEleixers.eleixer < uniteleixer) {
-                transform.position = startPos;
-                return;
-            }
-
             if (EmptyCard != null) { EmptyCard.GetComponentInChildren<Image>().color = Color.white; }
             Vector3 spawnPos = unitPreviewInstance.transform.position;
             Destroy(unitPreviewInstance);
-
+            int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+            int uniteleixer = 1;
+            UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out uniteleixer);
+            if (dealManagers.totalEleixers.eleixer < uniteleixer)
+            {
+                transform.position = startPos;
+                return;
+            }
             Ray ray = mainCamera.ScreenPointToRay(eventData.position);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask))
             {
-                playerGround.resetLayer();
-                dealManagers.totalEleixers.eleixer -= uniteleixer;
-                if (spawnPos == null) Debug.Log($"Drop Unit Spawn Position is null {spawnPos}");
-                GetComponent<Card>().DropUnit(spawnPos);
-                // Special Checking for Wall Button Card not under Card Slot (player)
-                Player playerDeck = GetComponentInParent<Player>();
-                if (playerDeck !=null)
-                    playerDeck.moveCard(GetComponent<Card>().cardPlayerHandIndex);
-                dealManagers.GetComponent<CardDealer>().Hit();
-            } else {
+                StartCoroutine(HandleDropUnit(spawnPos, uniteleixer));
+            }
+            else
+            {
                 Debug.Log($"End Drag Failed {name} {tag}");
             }
-            
         } else {
             Vector3 pos = CardParent.GetComponentInParent<CardSlot>().transform.position;
             CardParent.GetComponentInParent<Player>().dragCardMerge();
@@ -209,19 +201,31 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         }
 
     }
-        //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
-        void OnDrawGizmos()
+    IEnumerator HandleDropUnit(Vector3 spawnPos, int uniteleixer)
+    {
+        playerGround.resetLayer();
+        yield return GetComponent<Card>().HandleDropUnit(spawnPos);
+        dealManagers.totalEleixers.eleixer -= uniteleixer;
+        // Special Checking for Wall Button Card not under Card Slot (player)
+        Player playerDeck = GetComponentInParent<Player>();
+        if (playerDeck != null)
+            playerDeck.moveCard(GetComponent<Card>().cardPlayerHandIndex);
+        dealManagers.GetComponent<CardDealer>().Hit();
+        
+    }
+    //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
+        if (m_Started)
         {
-            Gizmos.color = Color.yellow;
-            //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
-            if (m_Started)
-            {
-                //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-                Gizmos.DrawWireCube(DragPoint.transform.position, transform.localScale * dragRange);
-            }
+         //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
+          Gizmos.DrawWireCube(DragPoint.transform.position, transform.localScale * dragRange);
         }
+    }
 
-        #endregion
+    #endregion
 
     private void Update()
     {
@@ -242,7 +246,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     private float MouseSpeed(float mouseXPosition, float lastXPos)
     {
-        //float adjustedXPosition = mouseXPosition + (Mathf.Abs(mouseXPosition - lastXPos) / speed); 
-        return mouseXPosition;
+        return lastXPos + (mouseXPosition - lastXPos) / 1.5f;
     }
 } 

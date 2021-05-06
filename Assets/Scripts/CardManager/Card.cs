@@ -84,7 +84,7 @@ public class Card : MonoBehaviour
     {
         StartCoroutine(HandleDropUnit(spawnPoint));
     }
-    IEnumerator HandleDropUnit(Vector3 spawnPoint)
+    public IEnumerator HandleDropUnit(Vector3 spawnPoint)
     {
         if (localFactory == null) { yield return SetLocalFactory(); }
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;

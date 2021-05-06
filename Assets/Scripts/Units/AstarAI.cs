@@ -20,7 +20,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     bool IS_STUNNED = false;
     private RTSPlayer player;
-    private Collider other;
+    public Collider other;
     public bool isCollided = false;
 
     public float repathRate = 0.5f;
@@ -190,8 +190,8 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
-                //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 //Check for either player0 or king0 collide their team member
+                if (other.tag == "Unit") { continue; }  // instial object tag name
                 if (other.tag.Contains("" + player.GetPlayerID()) && this.transform.tag.Contains("" + player.GetPlayerID())) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 if (other.tag.Contains("" + player.GetEnemyID()) && this.transform.tag.Contains("" + player.GetEnemyID())) { continue; }  //check to see if it belongs to the player, if it does, do nothing
 
@@ -201,6 +201,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
                 //Debug.Log($"Multi player seneriao ");
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
+                    if (other.tag == "Unit") { continue; }  // instial object tag name
                     if (networkIdentity.hasAuthority) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 }
             }

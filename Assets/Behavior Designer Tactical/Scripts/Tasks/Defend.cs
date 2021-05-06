@@ -77,6 +77,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": checking target " + targetTransforms[i].name  + ":" + i + "/" + targetTransforms.Count + " is alive ?"  + targets[i].IsAlive() + " .. " + HEARTBEAT++);
                     if (targets[i].IsAlive()) {
                         // Start attacking if the target gets too close.
+                        //if (tacticalAgent.transform.name.ToLower().Contains("king"))
+                        //Debug.Log($"target {targetTransforms[i].name } ==> target distance {(transform.position - targetTransforms[i].position).magnitude }");
                         if ((transform.position - targetTransforms[i].position).magnitude < defendRadius.Value) {
                             tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": found target " + targetTransforms[i].name  + "  in distance " + (transform.position - targetTransforms[i].position).magnitude  + " .. " + HEARTBEAT++);
                             tacticalAgent.TargetDamagable = targets[i];
