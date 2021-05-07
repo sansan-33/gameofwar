@@ -60,15 +60,26 @@ public class Ice : MonoBehaviour, ISpecialAttack
         enemyList.Clear();
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
-        SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
-        if (spCost.useSpCost == true)
+        if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
         {
-            //if (spCost.SPAmount < SPCost) { return; }
-            if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
-            StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
-            spCost.UpdateSPAmount(-SPCost, null);
+            if (spCost.useSpCost == true)
+            {
+                if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
+                obj.GetComponent<EnemySpManager>().ChangeSPCost(-SPCost);
+            }
         }
-       
+        else
+        {
+            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
+            if (spCost.useSpCost == true)
+            {
+                //if (spCost.SPAmount < SPCost) { return; }
+                if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
+                StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
+                spCost.UpdateSPAmount(-SPCost, null);
+            }
+        }
+
 
         GameObject closestTarget = null;
         bool haveTarget = true;
@@ -88,8 +99,17 @@ public class Ice : MonoBehaviour, ISpecialAttack
                 // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance)
                 {
-                    int id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
-                    if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
+                int id;
+                if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+                {
+                    //Debug.Log("Ice 0");
+                    id = 0;
+                }
+                else
+                {
+                    id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
+                }
+                if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
                     {
                     //if (localDistance > minAttackRange)
                     // {
@@ -143,7 +163,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
                 if(unit != null)
                 {
                     i++;
-                    Debug.Log($"i{i}");
+                    //Debug.Log($"i{i}");
                     effect = GetEffect(i);
                     IceBreak(unit);
                 } 
@@ -161,7 +181,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
             {
                 //Instantiate(iceEffect, unit.transform);
                 if (unit == null) { return; }
-                Debug.Log($"spawn to {unit.transform}");
+                //Debug.Log($"spawn to {unit.transform}");
                 FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(0, unit.transform);
             }
         }
@@ -174,16 +194,16 @@ public class Ice : MonoBehaviour, ISpecialAttack
     public GameObject GetEffect(int num)
     {
         effectLists = FindObjectOfType<SpawnSpEffect>().GetEffect(0);
-        Debug.Log($"GetEffect {effectLists.Count}");
+        //Debug.Log($"GetEffect {effectLists.Count}");
         return effectLists[num];
     }
     private void IceBreak(GameObject unit)
     {
         if(unit == null) { return; }
-        Debug.Log($"ice break {effect} {effect.transform.parent.name}");
+        //Debug.Log($"ice break {effect} {effect.transform.parent.name}");
         effect.GetComponentInChildren<RFX4_StartDelay>().Enable();
         //effect.GetComponentInChildren<RFX4_StartDelay>().Debusg(0);
-        Debug.Log($"ice break{effect.GetComponentInChildren<RFX4_StartDelay>().Delay} {unit}");
+        //Debug.Log($"ice break{effect.GetComponentInChildren<RFX4_StartDelay>().Delay} {unit}");
         unit.GetComponent<Health>().IsFrezze = false;
       //  Destroy(effect);
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);

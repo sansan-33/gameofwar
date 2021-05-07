@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3396839331228674271}
   - component: {fileID: 6865235988017056017}
+  - component: {fileID: 4348388262149706376}
   m_Layer: 0
   m_Name: goldenSlash
   m_TagString: Untagged
@@ -49,3 +50,17 @@ MonoBehaviour:
   attackRange: 1000
   minAttackRange: 0
   SPCost: 5
+--- !u!114 &4348388262149706376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5081935942393728495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da9dc1b7a37b4b1187a5ec63bfc9a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spCost: 0
+  useTimer: 0

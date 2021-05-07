@@ -58,15 +58,26 @@ namespace DigitalRuby.ThunderAndLightning
             targetList.Clear();
             startPointList.Clear();
             lightlingList.Clear();
-            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
-            if (spCost.useSpCost == true)
+            if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
             {
-                //if (spCost.SPAmount < SPCost) { return; }
-                if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
-                StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
-                spCost.UpdateSPAmount(-SPCost, null);
+                if (spCost.useSpCost == true)
+                {
+                    if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
+                    obj.GetComponent<EnemySpManager>().ChangeSPCost(-SPCost);
+                }
             }
-            
+            else
+            {
+                SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
+                if (spCost.useSpCost == true)
+                {
+                    //if (spCost.SPAmount < SPCost) { return; }
+                    if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
+                    StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
+                    spCost.UpdateSPAmount(-SPCost, null);
+                }
+            }
+
             searchPoint = gameObject.transform.parent.gameObject;
             GameObject closestTarget = null;
             bool haveTarget = true;
@@ -92,7 +103,16 @@ namespace DigitalRuby.ThunderAndLightning
                     // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                     if ((localDistance = (hitCollider.transform.position - searchPoint.transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                     {
-                        int id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
+                        int id;
+                        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+                        {
+                             id = 0;
+                        }
+                        else
+                        {
+                             id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
+                        }
+                        
                        // Debug.Log($"OnPointerDown3 {hitCollider.tag} Player + {id}");
                        
                         if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))

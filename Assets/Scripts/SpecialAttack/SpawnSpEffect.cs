@@ -32,13 +32,13 @@ public class SpawnSpEffect : NetworkBehaviour
     {
         GameObject effect;
         //Debug.Log($"{effectNum},{transform} at final");
-        //Debug.Log($"transform { transform}");
+        Debug.Log($"transform { transform.name} tag {transform.tag}");
         if (transform == null)
         {
             effect = Instantiate(effectList[effectNum]);
         }
          effect = Instantiate(effectList[effectNum], transform);
-
+        Debug.Log($"effect { effect.transform.parent.name} tag {effect.transform.parent.tag}");
         switch (effectNum)
         {
             case 0:

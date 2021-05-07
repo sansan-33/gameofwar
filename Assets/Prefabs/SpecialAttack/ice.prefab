@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6782216896466550673}
   - component: {fileID: 318220861342046654}
+  - component: {fileID: 4971369516853252706}
   m_Layer: 0
   m_Name: ice
   m_TagString: Untagged
@@ -52,3 +53,17 @@ MonoBehaviour:
   attackRange: 1000
   UnFrezzeTimer: 8
   buttonTicket: 0
+--- !u!114 &4971369516853252706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838984652771596887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0da9dc1b7a37b4b1187a5ec63bfc9a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spCost: 0
+  useTimer: 0

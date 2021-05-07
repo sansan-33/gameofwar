@@ -29,6 +29,7 @@ public class SpButtonManager : MonoBehaviour
     private List<SpecialAttackDict.SpecialAttackType> spawnedButtonSpType = new List<SpecialAttackDict.SpecialAttackType>();
     public List<UnitMeta.UnitKey> spawnedSpButtonUnit = new List<UnitMeta.UnitKey>();
     public static List<Button> buttons = new List<Button>();
+    public static List<GameObject> enemySp = new List<GameObject>();
     private Sprite sprite;
     private RTSPlayer player;
     private GameObject buttonChild;
@@ -65,27 +66,41 @@ public class SpButtonManager : MonoBehaviour
     {
         //Debug.Log("SpButtonManager IEnumerator SpecialButtonSetup");
         yield return new WaitForSeconds(2);
-            player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-            CardStats[] units;
-            //find all unit
-            units = FindObjectsOfType<CardStats>();
-            //senemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
-            // Debug.Log($"{units.Length}");
-            if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
-            {
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        CardStats[] units;
+        //find all unit
+        units = FindObjectsOfType<CardStats>();
+        //senemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
+        // Debug.Log($"{units.Length}");
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
+        {
 
-                foreach (CardStats unit in units)
-                {  // Only Set on our side
-                   //Debug.Log($"one player mode {unit.tag}");
-                    if (unit.CompareTag("Player0") || unit.CompareTag("King0"))
-                    {
+            foreach (CardStats unit in units)
+            {  // Only Set on our side
+               //Debug.Log($"one player mode {unit.tag}");
+                if (unit.CompareTag("Player0") || unit.CompareTag("King0"))
+                {
+                    
                         SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
-                       // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
+                        // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
                         GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
                         //Debug.Log($"1 player mode specialAttack: {specialAttack}");
                         InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack);
+                    
+                }
+                else
+                {
+                    if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
+                    {
+                        SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
+                        // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
+                        GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
+                        GameObject specialAttackObj = Instantiate(specialAttack, unit.transform);
+                        enemySp.Add(specialAttackObj);
+                        enemyUnitBtn.Add(unit.GetComponent<Unit>().unitKey, specialAttackObj);
                     }
                 }
+            }
             }
             else // Multi player seneriao
             {
@@ -149,7 +164,10 @@ public class SpButtonManager : MonoBehaviour
     {
 
     };
+    public static Dictionary<UnitMeta.UnitKey, GameObject> enemyUnitBtn = new Dictionary<UnitMeta.UnitKey, GameObject>()
+    {
 
+    };
     // Update is called once per frame
     void Update()
     {

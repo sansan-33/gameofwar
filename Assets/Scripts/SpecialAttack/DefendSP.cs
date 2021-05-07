@@ -34,15 +34,26 @@ public class DefendSP : MonoBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
-        SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
-        if (spCost.useSpCost == true)
+        if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
         {
-            //if (spCost.SPAmount < SPCost) { return; }
-            if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
-            StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
-            spCost.UpdateSPAmount(-SPCost, null);
+            if (spCost.useSpCost == true)
+            {
+                if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
+                obj.GetComponent<EnemySpManager>().ChangeSPCost(-SPCost);
+            }
         }
-        
+        else
+        {
+            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
+            if (spCost.useSpCost == true)
+            {
+                //if (spCost.SPAmount < SPCost) { return; }
+                if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
+                StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
+                spCost.UpdateSPAmount(-SPCost, null);
+            }
+        }
+
         Unit[] shieldList;
         //find all unit
         shieldList = FindObjectsOfType<Unit>();
