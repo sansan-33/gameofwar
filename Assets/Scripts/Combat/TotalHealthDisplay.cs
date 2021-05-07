@@ -15,9 +15,9 @@ public class TotalHealthDisplay : MonoBehaviour
     [SerializeField] private TMP_Text EnemyName = null;
     [SerializeField] private TMP_Text YourName = null;
 
-    private float militarySize = 0;
+    private float currentPlayerTotalHealth = 0;
     private float currentEnemyTotalHealth = 0;
-    float MaxmilitarySize = 0;
+    float maxPlayerTotalHealth = 0;
     float maxEnemyTotalHealth = 0;
     RTSPlayer player;
     GameObject[] enemies;
@@ -49,23 +49,24 @@ public class TotalHealthDisplay : MonoBehaviour
     }
     private void TotalPlayerHealthdisplay()
     {
-        militarySize = 0;
+        currentPlayerTotalHealth = 0;
         if (armies is null || armies.Length == 0) { armies = GameObject.FindGameObjectsWithTag("King" + player.GetPlayerID()); }
         if (armies.Length == 0) return;
         PlayerName.text = "Player" + player.GetPlayerID();
         EnemyName.text = "Player" + player.GetEnemyID();
+        float newProgress;
         foreach (GameObject army in armies)
         {
-            float newProgress;
-            militarySize += army.GetComponent<Health>().getCurrentHealth();
-            if (militarySize > MaxmilitarySize)
+            if (army.TryGetComponent<Health>(out Health health))
+                currentPlayerTotalHealth += health.getCurrentHealth();
+            if (currentPlayerTotalHealth > maxPlayerTotalHealth)
             {
-                MaxmilitarySize = militarySize;
+                maxPlayerTotalHealth = currentPlayerTotalHealth;
             }
-            newProgress = (float)militarySize / (float)MaxmilitarySize;
-            TotalPlayerHealthBar.fillAmount = newProgress;
-            TotalPlayerHealths.text = militarySize.ToString();
         }
+        newProgress = (float)currentPlayerTotalHealth / (float)maxPlayerTotalHealth;
+        TotalPlayerHealthBar.fillAmount = newProgress;
+        TotalPlayerHealths.text = currentPlayerTotalHealth.ToString();
     }
     private void TotalEnemyHealth()
     {

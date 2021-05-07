@@ -31,6 +31,7 @@ public class Health : NetworkBehaviour, IDamageable
 
     public float blinkDuration;
     public float blinkIntensity;
+    private bool PRINTED = false;
 
     #region Server
 
@@ -145,12 +146,19 @@ public class Health : NetworkBehaviour, IDamageable
             electricTimer = 1;
             DealDamage(ElectricDamage);
         }
+        if (blinkTimer > 0)
+            BlinkUnit();
+            //Invoke("BlinkUnit", 0.1f);
+    }
+    private void BlinkUnit()
+    {
+        if(!PRINTED)
+        Debug.Log($"Health ==> Other {name } being attack  at time: {Time.time} ");
         blinkTimer -= Time.deltaTime;
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
         float intensity = (lerp * blinkIntensity) + 1f;
-        if(skinnedMeshRenderer == null) skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        if (skinnedMeshRenderer == null) skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
         skinnedMeshRenderer.material.color = Color.white * intensity;
-
     }
     private void HandleHealthUpdated(float oldHealth, float newHealth)
     {
