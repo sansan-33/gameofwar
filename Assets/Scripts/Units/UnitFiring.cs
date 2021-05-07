@@ -69,7 +69,10 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     {
         return fireRange;
     }
-
+    public float RepeatAttackDelay()
+    {
+        return repeatAttackDelay;
+    }
     public bool CanAttack()
     {
         return lastAttackTime + repeatAttackDelay < Time.time;

@@ -32,7 +32,7 @@ public class UnitAnimator : NetworkBehaviour
                 ChangeAnimationState(newState);
             }
             m_CurrentClipInfo = networkAnim.animator.GetCurrentAnimatorClipInfo(0);
-
+            networkAnim.animator.SetFloat("animSpeed", m_CurrentClipInfo[0].clip.length / GetComponent<IAttack>().RepeatAttackDelay() );
             //Debug.Log($"GetCurrentAnimatorClipInfo {m_CurrentClipInfo[0].clip.name } {m_CurrentClipInfo[0].clip.length}");
             Invoke("AttackCompleted", m_CurrentClipInfo[0].clip.length);
             return;

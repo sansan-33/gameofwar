@@ -197,7 +197,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         return attackRange;
     }
-
+    public float RepeatAttackDelay()
+    {
+        return repeatAttackDelay;
+    }
     public bool CanAttack()
     {
         //Debug.Log($"{lastAttackTime} + {repeatAttackDelay} < {Time.time} ");

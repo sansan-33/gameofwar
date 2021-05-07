@@ -20,6 +20,8 @@
 
         void ScaleAttackRange(float factor);
 
+        float RepeatAttackDelay();
+
         float AttackDistance();
 
-    }
+}
