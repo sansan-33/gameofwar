@@ -8,7 +8,7 @@ public class EnemySpManager : MonoBehaviour
 {
     public int spCost;
     private float Timer = 1;
-    private int waitTime = 5;
+    private int waitTime = 10;
     public bool useTimer = false;
     private RTSPlayer player;
     private List<GameObject> enemySp = new List<GameObject>();
