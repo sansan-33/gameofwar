@@ -13,7 +13,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
     public int attackRange = 100;
     public int minAttackRange;
     public int SPCost = 10;
-
+    private int id;
     private Button SPButton;
 
     private bool IsSuperAttack = false;
@@ -45,6 +45,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
+        return;
         //Debug.Log($"GoldenSlash FindAttackTargetInDistance");
         // if (attackPoint == null) { return; }
         if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
@@ -87,8 +88,8 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
                // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                 {
-                    int id;
-                    if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+                    
+                    if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
                     {
                         //Debug.Log("Ice 0");
                         id = 0;
@@ -97,6 +98,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
                     {
                         id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
                     }
+                    Debug.Log(id);
                     if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
                         {
                             if (localDistance > minAttackRange)
@@ -112,16 +114,16 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
                         }                   
                 } 
             }
-            int ID;
-            if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+            
+            if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
             {
-                ID = 1;
+                id = 1;
             }
             else
             {
-                ID = player.GetPlayerID();
+                id = player.GetPlayerID();
             }
-            TB.StopTacticalBehavior(ID, GetComponentInParent<Unit>().unitType);
+            TB.StopTacticalBehavior(id, GetComponentInParent<Unit>().unitType);
             // if there is no more target is finded then break
             if (findedTarget == false)
             {
@@ -148,17 +150,9 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         //while (Timer > 0) { Timer -= Time.deltaTime; }
         // damage base on distance
         GetComponentInParent<UnitWeapon>().ScaleDamageDeal(0,0,distance / 100);
-        int id;
-        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
-        {
-            id = 1;
-        }
-        else
-        {
-            id = player.GetPlayerID();
-        }
+        
         //Debug.Log(id);
-            GameObject.FindGameObjectWithTag("King" + id).transform.position = closestTarget.transform.position;
+            transform.parent.position = closestTarget.transform.position;
         // make the king attack in update
         IsSuperAttack = true;
     }
