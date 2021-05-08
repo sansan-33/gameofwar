@@ -51,7 +51,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     // IF SERVER SIDE , object refernce not found exception
     //
 
-    public void TryAttack()
+    public IEnumerator TryAttack()
     {
         if (player.GetPlayerID() == 1) Debug.Log($"Attacker {targeter} attacking .... ");
          unit = GetComponent<Unit>();
@@ -98,7 +98,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
                 if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX ) ) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
-               
+                yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() + 0.5f);
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
                 {
@@ -138,10 +138,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void CmdDealDamage(GameObject enemy,  float damge)
     {
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
-       bool iskill =  enemy.GetComponent<Health>().DealDamage(damge);
-        
-        if (iskill == true)
-        {
+       if(enemy.GetComponent<Health>().DealDamage(damge)){
             KilledEnemy();
         }
     }
@@ -215,9 +212,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void Attack(Vector3 targetPosition)
     {
         lastAttackTime = Time.time;
-        Debug.Log($"Unit Weapon ==> unit {targeter.transform.GetComponent<Unit>().name } attacking now, lastAttackTime: {lastAttackTime} ");
+        //Debug.Log($"Unit Weapon ==> unit {targeter.transform.GetComponent<Unit>().name } attackiiiiiiing now, lastAttackTime: {lastAttackTime} ");
         targeter.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.ATTACK);
-        TryAttack();
+        StartCoroutine(TryAttack());
     }
     public void ScaleAttackDelay(int factor)
     {

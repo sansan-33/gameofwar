@@ -31,8 +31,7 @@ public class Health : NetworkBehaviour, IDamageable
 
     public float blinkDuration;
     public float blinkIntensity;
-    private bool PRINTED = false;
-
+   
     #region Server
 
     public override void OnStartServer()
@@ -152,9 +151,6 @@ public class Health : NetworkBehaviour, IDamageable
     }
     private void BlinkUnit()
     {
-        if(!PRINTED)
-        Debug.Log($"Health ==> Other {name } being attack  at time: {Time.time} ");
-        PRINTED = true;
         blinkTimer -= Time.deltaTime;
         float lerp = Mathf.Clamp01(blinkTimer / blinkDuration);
         float intensity = (lerp * blinkIntensity) + 1f;

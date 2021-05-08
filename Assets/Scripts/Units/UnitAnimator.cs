@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System.Collections;
+using Mirror;
 using UnityEngine;
 
 public class UnitAnimator : NetworkBehaviour
@@ -19,7 +20,6 @@ public class UnitAnimator : NetworkBehaviour
     }
     void ChangeAnimationState(AnimState newState)
     {
-        //if (newState == UnitAnimator.AnimState.DEFEND) return;
         if (currentState == newState) return;
         networkAnim.animator.Play(newState.ToString(), -1, 0f);
         currentState = newState;
@@ -31,24 +31,20 @@ public class UnitAnimator : NetworkBehaviour
                 isAttacking = true;
                 AnimationClip[] clips = networkAnim.animator.runtimeAnimatorController.animationClips;
                 float clipLength = 0f;
-                string clipName = "";
                 foreach (AnimationClip clip in clips)
                 {
                     if (clip.name.ToLower().Contains("attack"))
                     {
                         clipLength = clip.length;
-                        clipName = clip.name;
                         break;
                     }
                 }
                 networkAnim.animator.SetFloat("animSpeed", clipLength / GetComponent<IAttack>().RepeatAttackDelay() );
-                Debug.Log($"{name} , AnimState.ATTACK {clipName } / {clipLength} at time : {Time.time}");
+                //Debug.Log($"{name} , AnimState.ATTACK {clipName } / {clipLength} at time : {Time.time}");
                 Invoke("AttackCompleted", clipLength);
-                
             }
         }
         ChangeAnimationState(newState);
-
     }
     
     private void AttackCompleted()

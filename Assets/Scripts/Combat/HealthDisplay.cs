@@ -56,6 +56,7 @@ public class HealthDisplay : MonoBehaviour
         if (currentHealth < maxHealth) {
             healthBarParent.SetActive(true);
         }
+        //Debug.Log($"{name} HandleHealthUpdated currentHealth {currentHealth}, lastDamageDeal {lastDamageDeal} ");
     }
     IEnumerator LerpHealthBar(Image healthBar, int currentHealth, int lastDamageDeal, int maxHealth, float lerpDuration)
     {
