@@ -57,7 +57,7 @@ public class TotalHealthDisplay : MonoBehaviour
         float newProgress;
         foreach (GameObject army in armies)
         {
-            if (army.TryGetComponent<Health>(out Health health))
+            if (army != null && army.TryGetComponent<Health>(out Health health))
                 currentPlayerTotalHealth += health.getCurrentHealth();
             if (currentPlayerTotalHealth > maxPlayerTotalHealth)
             {
@@ -77,7 +77,7 @@ public class TotalHealthDisplay : MonoBehaviour
         float newProgress;
         foreach (GameObject enemy in enemies)
         {
-            if (enemy.TryGetComponent<Health>(out Health health))
+            if (enemy != null && enemy.TryGetComponent<Health>(out Health health))
                 currentEnemyTotalHealth += health.getCurrentHealth();
             if (currentEnemyTotalHealth > maxEnemyTotalHealth)
             {

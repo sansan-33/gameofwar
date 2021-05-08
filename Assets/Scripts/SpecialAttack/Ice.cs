@@ -32,7 +32,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         //layerMask = LayerMask.NameToLayer("Unit");
         Health.IceHitUpdated += IceBreak;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
+       //if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
         spCost = FindObjectOfType<SpCost>();
         //Instantiate SpButton and is it already spawned
         /*SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Ice, GetComponent<Unit>());
@@ -100,7 +100,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance)
                 {
                 int id;
-                if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+                if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
                 {
                     //Debug.Log("Ice 0");
                     id = 0;

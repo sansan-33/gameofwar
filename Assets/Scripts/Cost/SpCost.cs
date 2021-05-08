@@ -74,26 +74,37 @@ public class SpCost : MonoBehaviour
                 }
                 else
                 {
-                    bool GettedValue = SpButtonManager.enemyUnitBtn.TryGetValue(unit.unitKey, out GameObject obj);
-                    if (GettedValue == true)
+                    if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
                     {
                         if (obj.GetComponent<EnemySpManager>().useTimer == false)
                         {
-                            obj.GetComponent<EnemySpManager>().ChangeSPCost(1);
-                        }
-                    }
-                    else
-                    {
-
-                        foreach (GameObject gameobj in SpButtonManager.enemySp)
-                        {
-                            if (gameobj.GetComponent<EnemySpManager>().useTimer == false)
-                            {
-                                gameobj.GetComponent<EnemySpManager>().ChangeSPCost(1);
-                            }
+                            obj.GetComponent<EnemySpManager>().ChangeSPCost(-cost);
                         }
                     }
                 }
+            }
+            else
+            {
+                bool GettedValue = SpButtonManager.enemyUnitBtn.TryGetValue(unit.unitKey, out GameObject obj);
+                if (GettedValue == true)
+                {
+                    if (obj.GetComponent<EnemySpManager>().useTimer == false)
+                    {
+                        obj.GetComponent<EnemySpManager>().ChangeSPCost(1);
+                    }
+                }
+                else
+                {
+
+                    foreach (GameObject gameobj in SpButtonManager.enemySp)
+                    {
+                        if (gameobj.GetComponent<EnemySpManager>().useTimer == false)
+                        {
+                            gameobj.GetComponent<EnemySpManager>().ChangeSPCost(1);
+                        }
+                    }
+                }
+            }
             }
             else
             {
@@ -124,10 +135,3 @@ public class SpCost : MonoBehaviour
             }
         }
     }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}

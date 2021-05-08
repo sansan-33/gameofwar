@@ -138,29 +138,23 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         if (closestTarget == null) {  return; }
         for (int a = 0; a < targetList.ToArray().Length; a++)
         {
-            AttackTarget(distanceList.ToArray()[a], targetList.ToArray()[a].transform);
+           StartCoroutine( AttackTarget(distanceList.ToArray()[a], targetList.ToArray()[a].transform));
         }
         GetComponentInParent<UnitWeapon>().ReScaleDamageDeal();
 
     }
-    private IEnumerator wait(int waitTime)
-    {
-        yield return new WaitForSeconds(waitTime);
-        IsSuperAttack = false;
-    }
 
-    public void AttackTarget(float distance, Transform closestTarget)
+    IEnumerator AttackTarget(float distance, Transform closestTarget)
     {
         // wait three secs the attack
-        //float Timer = 3f;
-        //while (Timer > 0) { Timer -= Time.deltaTime; }
+        // float Timer = 3f;
+        // while (Timer > 0) { Timer -= Time.deltaTime; }
         // damage base on distance
         GetComponentInParent<UnitWeapon>().ScaleDamageDeal(0,0,distance / 100);
-        
         //Debug.Log(id);
-            transform.parent.position = closestTarget.transform.position;
-        // make the king attack in update
-        IsSuperAttack = true;
+        transform.parent.position = closestTarget.transform.position;
+        yield return GetComponentInParent<UnitWeapon>().TryAttack();
+        
     }
     public int GetSpCost()
     {
@@ -177,12 +171,5 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         }
     }
     
-    // Update is called once per frame
-    void Update()
-    {
-        if (IsSuperAttack)
-        {
-            GetComponentInParent<UnitWeapon>().TryAttack();
-        }
-    }
+    
 }
