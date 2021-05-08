@@ -29,13 +29,23 @@ public class UnitAnimator : NetworkBehaviour
         if (newState == AnimState.ATTACK) {
             if (!isAttacking) {
                 isAttacking = true;
-                ChangeAnimationState(newState);
+                AnimationClip[] clips = networkAnim.animator.runtimeAnimatorController.animationClips;
+                float clipLength = 0f;
+                string clipName = "";
+                foreach (AnimationClip clip in clips)
+                {
+                    if (clip.name.ToLower().Contains("attack"))
+                    {
+                        clipLength = clip.length;
+                        clipName = clip.name;
+                        break;
+                    }
+                }
+                networkAnim.animator.SetFloat("animSpeed", clipLength / GetComponent<IAttack>().RepeatAttackDelay() );
+                Debug.Log($"{name} , AnimState.ATTACK {clipName } / {clipLength} at time : {Time.time}");
+                Invoke("AttackCompleted", clipLength);
+                
             }
-            m_CurrentClipInfo = networkAnim.animator.GetCurrentAnimatorClipInfo(0);
-            networkAnim.animator.SetFloat("animSpeed", m_CurrentClipInfo[0].clip.length / GetComponent<IAttack>().RepeatAttackDelay() );
-            //Debug.Log($"GetCurrentAnimatorClipInfo {m_CurrentClipInfo[0].clip.name } {m_CurrentClipInfo[0].clip.length}");
-            Invoke("AttackCompleted", m_CurrentClipInfo[0].clip.length);
-            return;
         }
         ChangeAnimationState(newState);
 
