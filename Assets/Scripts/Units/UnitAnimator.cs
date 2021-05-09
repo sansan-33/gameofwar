@@ -7,7 +7,7 @@ public class UnitAnimator : NetworkBehaviour
     [SerializeField] public NetworkAnimator networkAnim;
     AnimatorClipInfo[] m_CurrentClipInfo;
     [SyncVar] private AnimState currentState;
-    public enum AnimState { IDLE, ATTACK, DEFEND, RUN , GETHIT };
+    public enum AnimState { IDLE, ATTACK, DEFEND, RUN , GETHIT, WALK };
     bool isAttacking = false;
    
     public override void OnStartServer()
@@ -18,33 +18,35 @@ public class UnitAnimator : NetworkBehaviour
     {
         networkAnim = GetComponent<NetworkAnimator>();
     }
-    void ChangeAnimationState(AnimState newState)
+    void ChangeAnimationState(AnimState newState, string type)
     {
         if (currentState == newState) return;
-        networkAnim.animator.Play(newState.ToString(), -1, 0f);
+        networkAnim.animator.Play(newState.ToString() + type.ToUpper(), -1, 0f);
         currentState = newState;
     }
     public void HandleStateControl(AnimState newState)
     {
+        string weapontype = "";
         if (newState == AnimState.ATTACK) {
             if (!isAttacking) {
                 isAttacking = true;
+                weapontype = "_" + UnitMeta.KeyWeaponType[GetComponent<Unit>().unitKey].ToString().ToLower();
                 AnimationClip[] clips = networkAnim.animator.runtimeAnimatorController.animationClips;
                 float clipLength = 0f;
                 foreach (AnimationClip clip in clips)
                 {
-                    if (clip.name.ToLower().Contains("attack"))
+                    Debug.Log($"Attack anim {clip.name.ToLower()} {clip.length}");
+                    if (clip.name.ToLower() == "attack" + weapontype)
                     {
                         clipLength = clip.length;
                         break;
                     }
                 }
                 networkAnim.animator.SetFloat("animSpeed", clipLength / GetComponent<IAttack>().RepeatAttackDelay() );
-                //Debug.Log($"{name} , AnimState.ATTACK {clipName } / {clipLength} at time : {Time.time}");
                 Invoke("AttackCompleted", clipLength);
             }
         }
-        ChangeAnimationState(newState);
+        ChangeAnimationState(newState, weapontype);
     }
     
     private void AttackCompleted()

@@ -98,7 +98,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
                 if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX ) ) { calculatedDamageToDeal += 20; }
                 //calculatedDamageToDeal += DashDamage;
-                yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() + 0.5f);
+                yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
                 {

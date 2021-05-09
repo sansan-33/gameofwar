@@ -21,6 +21,7 @@ public class UnitMeta
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
+    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, NOTHING};
 
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitType, float> DefendRadius = new Dictionary<UnitType, float>() { { UnitType.HERO, 8f }, { UnitType.KING, 8f } };
@@ -167,4 +168,34 @@ public class UnitMeta
         { UnitKey.GODCAVALRY , true }
     };
 
+    public static Dictionary<UnitKey, WeaponType> KeyWeaponType = new Dictionary<UnitKey, WeaponType>() {
+
+        { UnitKey.ARCHER , WeaponType.BOW } ,
+        { UnitKey.KNIGHT , WeaponType.THSWORD } ,
+        { UnitKey.CAVALRY , WeaponType.SPEAR} ,
+        { UnitKey.MAGE , WeaponType.SPELL},
+        { UnitKey.SPEARMAN , WeaponType.SPEAR},
+        { UnitKey.HERO , WeaponType.SHSWORD},
+        { UnitKey.KING , WeaponType.SHSWORD },
+        { UnitKey.HUMANWALL , WeaponType.NOTHING },
+
+        { UnitKey.UNDEADARCHER , WeaponType.BOW  } ,
+        { UnitKey.GIANT , WeaponType.AXE  } ,
+        { UnitKey.RIDER , WeaponType.SPEAR  } ,
+        { UnitKey.LICH , WeaponType.SPELL },
+        { UnitKey.MINISKELETON , WeaponType.AXE  },
+        { UnitKey.UNDEADHERO , WeaponType.SHSWORD  },
+        { UnitKey.UNDEADKING , WeaponType.SHSWORD  },
+        { UnitKey.UNDEADWALL , WeaponType.NOTHING },
+
+        { UnitKey.THOR , WeaponType.HAMMER},
+        { UnitKey.LOKI , WeaponType.DAGGER},
+        { UnitKey.ODIN , WeaponType.SPEAR },
+        { UnitKey.GODARCHER , WeaponType.BOW } ,
+        { UnitKey.GODKNIGHT , WeaponType.SPEAR } ,
+        { UnitKey.GODCAVALRY , WeaponType.SPEAR} ,
+        { UnitKey.GODMAGE , WeaponType.SPELL},
+        { UnitKey.GODSPEARMAN , WeaponType.SHSWORD},
+        { UnitKey.GODWALL , WeaponType.NOTHING }
+    };
 }
