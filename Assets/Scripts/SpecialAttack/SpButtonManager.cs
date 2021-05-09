@@ -26,6 +26,8 @@ public class SpButtonManager : MonoBehaviour
     public RectTransform FirstCardPos;
     private GameObject button;
     private int buttonCount;
+    private bool enemyDied = false;
+    private Unit diedEnemy;
     private List<SpecialAttackDict.SpecialAttackType> spawnedButtonSpType = new List<SpecialAttackDict.SpecialAttackType>();
     public List<UnitMeta.UnitKey> spawnedSpButtonUnit = new List<UnitMeta.UnitKey>();
     public static List<Button> buttons = new List<Button>();
@@ -53,10 +55,14 @@ public class SpButtonManager : MonoBehaviour
         unitBtn.Clear();
         //StartCoroutine(start());
         CardDealer.UserCardLoaded += HandleButtonSetup;
+        Unit.ClientOnUnitDespawned += OnEnemyDied;
+        Unit.ClientOnUnitSpawned += OnEnemySpawn;
     }
     private void OnDestroy()
     {
         CardDealer.UserCardLoaded -= HandleButtonSetup;
+        Unit.ClientOnUnitDespawned -= OnEnemyDied;
+        Unit.ClientOnUnitSpawned += OnEnemySpawn;
     }
     private void HandleButtonSetup()
     {
@@ -121,7 +127,44 @@ public class SpButtonManager : MonoBehaviour
                 }
             }
     }
+    private void OnEnemyDied(Unit unit)
+    {
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
+        {
+            //Debug.Log($"{unit.tag} {unit.CompareTag("Player1")}]");
+            if (unit.CompareTag("Player1"))
+            {
+                diedEnemy = unit;
+            }
+        }
+        //enemyDied = false;
+    }
+    private void OnEnemySpawn(Unit unit)
+    {
+        StartCoroutine(SetupSpecialButtonMidMatch(unit));
+    }
 
+    private IEnumerator SetupSpecialButtonMidMatch(Unit unit)
+    {
+        yield return new WaitForSeconds(1);
+        //Debug.Log($"SetupSpecialButtonMidMatch {enemyDied}");
+
+        if (diedEnemy != null)
+        {
+            if (unit.unitType == UnitMeta.UnitType.HERO || unit.unitType == UnitMeta.UnitType.KING)
+            {
+                if (diedEnemy.unitKey == unit.unitKey)
+                {
+                    // Debug.Log($"SetupSpecialButtonMidMatch make obj");
+                    SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.GetComponent<CardStats>().specialkey.ToUpper());
+                    // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
+                    GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
+                    Instantiate(specialAttack, unit.transform);
+                }
+            }
+        }
+
+    }
     public void InstantiateSpButton(SpecialAttackDict.SpecialAttackType spType, Unit unit, GameObject specialAttack)
     {
         //Debug.Log("SpButtonManager InstantiateSpButton()");

@@ -10,7 +10,7 @@
         /// Returns the furthest distance that the agent is able to attack from.
         /// </summary>
         /// <returns>The distance that the agent can attack from.</returns>
-        void ScaleAttackDelay(int factor);
+        void ScaleAttackDelay(float factor);
 
         /// <summary>
         /// Returns the maximum angle that the agent can attack from.
@@ -23,5 +23,5 @@
         float RepeatAttackDelay();
 
         float AttackDistance();
-    void ChangeAttackDelay(int changeValue);
+    void ChangeAttackDelay(double changeValue);
 }

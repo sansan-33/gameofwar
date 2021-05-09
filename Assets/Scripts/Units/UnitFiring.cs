@@ -64,9 +64,9 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     {
         FireProjectile(targetPosition);
     }
-    public void ChangeAttackDelay(int channgeValue)
+    public void ChangeAttackDelay(double channgeValue)
     {
-        repeatAttackDelay = channgeValue;
+        repeatAttackDelay = (float)channgeValue;
     }
     public float AttackDistance()
     {
@@ -92,7 +92,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         targeter.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.ATTACK);
         CmdFireProjectile(targetPosition);
     }
-    public void ScaleAttackDelay(int factor)
+    public void ScaleAttackDelay(float factor)
     {
         repeatAttackDelay = repeatAttackDelay * factor;
     }

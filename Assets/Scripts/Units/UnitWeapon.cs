@@ -216,13 +216,18 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         targeter.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.ATTACK);
         StartCoroutine(TryAttack());
     }
-    public void ScaleAttackDelay(int factor)
+    public void ScaleAttackDelay(float factor)
     {
         repeatAttackDelay =  repeatAttackDelay * factor ;
     }
-    public void ChangeAttackDelay(int channgeValue)
+    /// <summary>
+    /// Do not pass 0
+    /// </summary>
+    /// <param name="channgeValue"></param>
+    public void ChangeAttackDelay(double channgeValue)
     {
-        repeatAttackDelay = channgeValue;
+        //channgeValue = 1;
+        repeatAttackDelay = (float)channgeValue;
     }
 
     public void ScaleDamageDeal(int attack, float repeatAttackDelay, float factor)

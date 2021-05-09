@@ -97,33 +97,50 @@ public class UnitPowerUp : NetworkBehaviour
 
     // ======================================= Special Attack setting ==================================== 
     // Sample Template for Mirror CMD SERVER RPC Usage
-
-    public void SpecialEffect(float repeatAttackDelay, int speed)
+    /// <summary>
+    /// Do not pass 0 in repeatAttackDelay
+    /// </summary>
+    public void SpecialEffect(double repeatAttackDelay, int speed)
     {
         if (isServer)
             RpcSpecialEffect(repeatAttackDelay, speed);
         else
             CmdSpecialEffect(repeatAttackDelay, speed);
     }
+    /// <summary>
+    /// Do not pass 0 in repeatAttackDelay
+    /// </summary>
     [Command(ignoreAuthority = true)]
-    public void CmdSpecialEffect(float repeatAttackDelay, int speed)
+    public void CmdSpecialEffect(double repeatAttackDelay, int speed)
     {
         ServerSpecialEffect(repeatAttackDelay, speed);
     }
+    /// <summary>
+    /// Do not pass 0 in repeatAttackDelay
+    /// </summary>
     [Server]
-    public void ServerSpecialEffect(float repeatAttackDelay, int speed)
+    public void ServerSpecialEffect(double repeatAttackDelay, int speed)
     {
         HandleSpecialEffect(repeatAttackDelay, speed);
     }
+    /// <summary>
+    /// Do not pass 0 in repeatAttackDelay
+    /// </summary>
     [ClientRpc]
-    public void RpcSpecialEffect(float repeatAttackDelay, int speed)
+    public void RpcSpecialEffect(double repeatAttackDelay, int speed)
     {
         HandleSpecialEffect(repeatAttackDelay, speed);
     }
-    public void HandleSpecialEffect(float repeatAttackDelay, int speed )
+    /// <summary>
+    /// Do not pass 0 in repeatAttackDelay.
+    /// /// if you want to stop the unit attack pass MaxValue
+    /// </summary>
+    public void HandleSpecialEffect(double repeatAttackDelay, int speed )
     {
         SetSpeed(speed, false);
-        unit.GetComponent<IAttack>().ScaleAttackDelay((int) repeatAttackDelay);
+        //repeatAttackDelay = 0;
+        IAttack iSpecialAttack = unit.GetComponent(typeof(IAttack)) as IAttack;
+        iSpecialAttack.ChangeAttackDelay(repeatAttackDelay);
     }
     //================================================= End of Special Attack  ===========================================================
 

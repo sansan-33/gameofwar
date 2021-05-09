@@ -56,7 +56,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
     
     public void OnPointerDown()
     {
-        
+        return;
         enemyList.Clear();
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
@@ -126,7 +126,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
                     UnitRepeatAttackDelaykeys.Add(hitCollider, cardStats.repeatAttackDelay);
                     UnitSpeedkeys.Add(hitCollider, cardStats.speed);
                     
-                    hitCollider.GetComponent<UnitPowerUp>().SpecialEffect(0, 0);
+                    hitCollider.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                     //Debug.Log($"iced {hitCollider.name} URAD{hitCollider.GetComponent<UnitWeapon>().repeatAttackDelay}");
                     FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(0, hitCollider.transform);
                     // Move the searchPoint to the next target, so it will not search at the same point
@@ -213,7 +213,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
         UnitSpeedkeys.TryGetValue(unit, out int speed);
         CardStats cardStats = unit.GetComponent<CardStats>();
-        unit.GetComponent<UnitPowerUp>().SpecialEffect(repeatAttackDelay, 0);
+        unit.GetComponent<UnitPowerUp>().SpecialEffect(repeatAttackDelay, speed);
     }
     public float GetUnitRepeatAttackDelaykeys(GameObject unit)
     {

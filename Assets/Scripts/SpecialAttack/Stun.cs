@@ -94,7 +94,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 CardStats cardStats = GetComponentInParent<Unit>().GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
-                unit.GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
+                unit.GetComponent<UnitPowerUp>().SpecialEffect(0, 0);
 
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
@@ -111,7 +111,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
                 Debug.Log($"cardStats.star :{cardStats.star}");
-                unit.GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
+                unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
 
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
