@@ -64,7 +64,10 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     {
         FireProjectile(targetPosition);
     }
-
+    public void ChangeAttackDelay(int channgeValue)
+    {
+        repeatAttackDelay = channgeValue;
+    }
     public float AttackDistance()
     {
         return fireRange;

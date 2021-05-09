@@ -23,5 +23,5 @@
         float RepeatAttackDelay();
 
         float AttackDistance();
-
+    void ChangeAttackDelay(int changeValue);
 }

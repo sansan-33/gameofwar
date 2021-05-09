@@ -32,7 +32,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         //layerMask = LayerMask.NameToLayer("Unit");
         Health.IceHitUpdated += IceBreak;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
+       //if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
         spCost = FindObjectOfType<SpCost>();
         //Instantiate SpButton and is it already spawned
         /*SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Ice, GetComponent<Unit>());
@@ -100,7 +100,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance)
                 {
                 int id;
-                if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+                if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
                 {
                     //Debug.Log("Ice 0");
                     id = 0;
@@ -117,14 +117,16 @@ public class Ice : MonoBehaviour, ISpecialAttack
                     //distance = localDistance;
                     //closestTarget = hitCollider;
                     //StopTacticalBehavior while using Special Attack
-                    //Debug.Log(hitCollider);
+                    //Debug.Log($"iced {hitCollider.name}");
                     enemyList.Add(hitCollider);
                     hitCollider.GetComponent<Health>().DealDamage(IceDamage);
                     hitCollider.GetComponent<Health>().IsFrezze = true;
                     CardStats cardStats = hitCollider.GetComponent<CardStats>();
                     UnitRepeatAttackDelaykeys.Add(hitCollider, cardStats.repeatAttackDelay);
                     UnitSpeedkeys.Add(hitCollider, cardStats.speed);
-                    hitCollider.GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
+                    
+                    hitCollider.GetComponent<UnitPowerUp>().SpecialEffect(0, 0);
+                    //Debug.Log($"iced {hitCollider.name} URAD{hitCollider.GetComponent<UnitWeapon>().repeatAttackDelay}");
                     FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(0, hitCollider.transform);
                     // Move the searchPoint to the next target, so it will not search at the same point
                     //searchPoint = closestTarget.transform;
@@ -199,7 +201,8 @@ public class Ice : MonoBehaviour, ISpecialAttack
     }
     private void IceBreak(GameObject unit)
     {
-        if(unit == null) { return; }
+        //if(unit == null) { return; }
+        
         //Debug.Log($"ice break {effect} {effect.transform.parent.name}");
         effect.GetComponentInChildren<RFX4_StartDelay>().Enable();
         //effect.GetComponentInChildren<RFX4_StartDelay>().Debusg(0);
@@ -209,7 +212,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
         UnitSpeedkeys.TryGetValue(unit, out int speed);
         CardStats cardStats = unit.GetComponent<CardStats>();
-        unit.GetComponent<UnitPowerUp>().SpecialEffect(Mathf.Infinity, 0);
+        unit.GetComponent<UnitPowerUp>().SpecialEffect(repeatAttackDelay, 0);
     }
     public float GetUnitRepeatAttackDelaykeys(GameObject unit)
     {

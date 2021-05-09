@@ -42,7 +42,7 @@ namespace DigitalRuby.ThunderAndLightning
         public void Start()
         {
                player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-            if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
+            //if (CompareTag("King" + player.GetEnemyID()) || CompareTag("Player" + player.GetEnemyID())) { return; }
             /* SpawnedButton = FindObjectOfType<SpButton>().InstantiateSpButton(SpecialAttackDict.SpecialAttackType.Lightling, GetComponent<Unit>());
             if (SpawnedButton) { SPButton = FindObjectOfType<SpButton>().GetButton(GetComponent<Unit>().SpBtnTicket).GetComponent<Button>(); }
             if (SPButton == null) { return; }
@@ -104,7 +104,7 @@ namespace DigitalRuby.ThunderAndLightning
                     if ((localDistance = (hitCollider.transform.position - searchPoint.transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
                     {
                         int id;
-                        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("Player0"))
+                        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
                         {
                              id = 0;
                         }

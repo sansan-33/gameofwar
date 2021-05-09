@@ -8,13 +8,13 @@ using UnityEngine.UI;
 public class SpCost : MonoBehaviour
 {
     public bool useSpCost = true;
-    [HideInInspector]public int SPAmount = 0;
+    [HideInInspector] public int SPAmount = 0;
     private int MaxSpCost;
     private UnitMeta.UnitKey unitKey;
     //private Image SPImage;
     //private TMP_Text SPText;
     private RTSPlayer player;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +34,14 @@ public class SpCost : MonoBehaviour
         UpdateSPAmount(1, unit);
     }
     //[ClientRpc]
-   // public void RpcUpdateSPAmount(int cost, GameObject unit)
-   // {
-     //   UpdateSPAmount(cost, unit.GetComponent<Unit>());
+    // public void RpcUpdateSPAmount(int cost, GameObject unit)
+    // {
+    //   UpdateSPAmount(cost, unit.GetComponent<Unit>());
     //}
-    public void UpdateSPAmount(int cost,Unit unit)
+    public void UpdateSPAmount(int cost, Unit unit)
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        //Debug.Log($"unit:{unit}");
+        Debug.Log($"unit:{unit}");
         //Debug.Log("UpdateSPAmount");
         //SPAmount += cost;
         //SPText.text = (string)SPAmount.ToString();
@@ -52,7 +52,7 @@ public class SpCost : MonoBehaviour
             {
                 if (unit.CompareTag("Player1") || unit.CompareTag("King1"))
                 {
-                    bool GettedValue = SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
+                    /*bool GettedValue = SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
                     if (GettedValue == true)
                     {
                         if (btn.GetComponent<SpCostDisplay>().useTimer == false)
@@ -61,38 +61,62 @@ public class SpCost : MonoBehaviour
                         }
                     }
                     else
-                    {
+                    {*/
 
-                        foreach (Button button in SpButtonManager.buttons)
+                    foreach (Button button in SpButtonManager.buttons)
+                    {
+                        if (button.GetComponent<SpCostDisplay>().useTimer == false)
                         {
-                            if (button.GetComponent<SpCostDisplay>().useTimer == false)
-                            {
-                                StartCoroutine(button.GetComponent<SpCostDisplay>().AddSpCost());
-                            }
+                            StartCoroutine(button.GetComponent<SpCostDisplay>().AddSpCost());
                         }
+                    }
+                    //}
+                }
+                else
+                {
+                    foreach (GameObject obj in SpButtonManager.enemySp)
+                    {
+                        if (obj.GetComponent<EnemySpManager>().useTimer == false)
+                        {
+                            //Debug.Log("not use Timer;");
+                            obj.GetComponent<EnemySpManager>().ChangeSPCost(cost);
+                        }
+                    }
+                    /*
+                    Debug.Log($"enemy kill");
+                    if (SpButtonManager.enemyUnitBtn.TryGetValue(unit.unitKey, out GameObject obj))
+                    {
+                        Debug.Log($"finded obj");
+                        if (obj.GetComponent<EnemySpManager>().useTimer == false)
+                        {
+                            Debug.Log("not use Timer;");
+                            obj.GetComponent<EnemySpManager>().ChangeSPCost(-cost);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                bool GettedValue = SpButtonManager.enemyUnitBtn.TryGetValue(unit.unitKey, out GameObject obj);
+                if (GettedValue == true)
+                {
+                    if (obj.GetComponent<EnemySpManager>().useTimer == false)
+                    {
+                        obj.GetComponent<EnemySpManager>().ChangeSPCost(1);
                     }
                 }
                 else
                 {
-                    bool GettedValue = SpButtonManager.enemyUnitBtn.TryGetValue(unit.unitKey, out GameObject obj);
-                    if (GettedValue == true)
-                    {
-                        if (obj.GetComponent<EnemySpManager>().useTimer == false)
-                        {
-                            obj.GetComponent<EnemySpManager>().ChangeSPCost(1);
-                        }
-                    }
-                    else
-                    {
 
-                        foreach (GameObject gameobj in SpButtonManager.enemySp)
+                    foreach (GameObject gameobj in SpButtonManager.enemySp)
+                    {
+                        if (gameobj.GetComponent<EnemySpManager>().useTimer == false)
                         {
-                            if (gameobj.GetComponent<EnemySpManager>().useTimer == false)
-                            {
-                                gameobj.GetComponent<EnemySpManager>().ChangeSPCost(1);
-                            }
+                            gameobj.GetComponent<EnemySpManager>().ChangeSPCost(1);
                         }
                     }
+                }
+            }*/
                 }
             }
             else
@@ -111,7 +135,7 @@ public class SpCost : MonoBehaviour
                     }
                     else
                     {
-                    Debug.Log($"button{SpButtonManager.buttons.Count}");
+                        Debug.Log($"button{SpButtonManager.buttons.Count}");
                         foreach (Button button in SpButtonManager.buttons)
                         {
                             if (button.GetComponent<SpCostDisplay>().useTimer == false)
@@ -123,11 +147,5 @@ public class SpCost : MonoBehaviour
                 }
             }
         }
-    }
-    
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

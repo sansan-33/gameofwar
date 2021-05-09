@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class Health : NetworkBehaviour, IDamageable
 {
-  
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int defense = 0;
     [SerializeField] private Shield shield;
@@ -73,7 +72,7 @@ public class Health : NetworkBehaviour, IDamageable
         currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
     }
     public bool DealDamage(float damageAmount)
-    {
+    { 
         if (shield.shieldHealth > 0)
         {
             //Debug.Log($"attack shield health is --> {shield.shieldHealth}");
@@ -84,7 +83,7 @@ public class Health : NetworkBehaviour, IDamageable
         if(IsFrezze == true)
         {
             IsFrezze = false;
-            UnFrezze();
+            //UnFrezze();
         }
         if (currentHealth != 0)
         {

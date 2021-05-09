@@ -220,6 +220,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         repeatAttackDelay =  repeatAttackDelay * factor ;
     }
+    public void ChangeAttackDelay(int channgeValue)
+    {
+        repeatAttackDelay = channgeValue;
+    }
+
     public void ScaleDamageDeal(int attack, float repeatAttackDelay, float factor)
     {
         damageToDeal = attack == 0 ? damageToDeal : attack;
