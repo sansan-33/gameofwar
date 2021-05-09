@@ -45,11 +45,13 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
-        
+
         //Debug.Log($"GoldenSlash FindAttackTargetInDistance");
         // if (attackPoint == null) { return; }
-        if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
+        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
         {
+            return;
+            SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj);
             if (spCost.useSpCost == true)
             {
                 if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }

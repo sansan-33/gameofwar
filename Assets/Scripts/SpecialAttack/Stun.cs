@@ -45,16 +45,16 @@ public class Stun : NetworkBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
-        
+
         // start() spCost not pass to here, try to find here again
         //Debug.Log("OnPointerDown() try to find spCost");
         //spCost = FindObjectOfType<SpCost>();
         //Debug.Log($"OnPointerDown() spCost:{spCost}");
 
 
-        Debug.Log($"Unit:{this.GetComponentInParent<Unit>().unitKey}, spCost:{spCost}");
-        if (SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj))
+        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
         {
+            SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj);
             if (spCost.useSpCost == true)
             {
                 if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
