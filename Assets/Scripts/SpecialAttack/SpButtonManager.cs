@@ -55,8 +55,7 @@ public class SpButtonManager : MonoBehaviour
         unitBtn.Clear();
         //StartCoroutine(start());
         CardDealer.UserCardLoaded += HandleButtonSetup;
-        Unit.ClientOnUnitDespawned += OnEnemyDied;
-        Unit.ClientOnUnitSpawned += OnEnemySpawn;
+        
     }
     private void OnDestroy()
     {
@@ -72,6 +71,8 @@ public class SpButtonManager : MonoBehaviour
     {
         //Debug.Log("SpButtonManager IEnumerator SpecialButtonSetup");
         yield return new WaitForSeconds(2);
+        Unit.ClientOnUnitDespawned += OnEnemyDied;
+        Unit.ClientOnUnitSpawned += OnEnemySpawn;
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         CardStats[] units;
         //find all unit

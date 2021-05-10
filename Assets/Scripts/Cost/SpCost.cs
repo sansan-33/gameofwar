@@ -41,7 +41,7 @@ public class SpCost : MonoBehaviour
     public void UpdateSPAmount(int cost, Unit unit)
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        Debug.Log($"unit:{unit}");
+        //Debug.Log($"unit:{unit}");
         //Debug.Log("UpdateSPAmount");
         //SPAmount += cost;
         //SPText.text = (string)SPAmount.ToString();
@@ -65,10 +65,14 @@ public class SpCost : MonoBehaviour
 
                     foreach (Button button in SpButtonManager.buttons)
                     {
-                        if (button.GetComponent<SpCostDisplay>().useTimer == false)
+                        if(button != null)
                         {
-                            StartCoroutine(button.GetComponent<SpCostDisplay>().AddSpCost());
+                            if (button.GetComponent<SpCostDisplay>().useTimer == false)
+                            {
+                                StartCoroutine(button.GetComponent<SpCostDisplay>().AddSpCost());
+                            }
                         }
+                        
                     }
                     //}
                 }
@@ -76,11 +80,15 @@ public class SpCost : MonoBehaviour
                 {
                     foreach (GameObject obj in SpButtonManager.enemySp)
                     {
-                        if (obj.GetComponent<EnemySpManager>().useTimer == false)
+                        if(obj != null)
                         {
-                            //Debug.Log("not use Timer;");
-                            obj.GetComponent<EnemySpManager>().ChangeSPCost(cost);
+                            if (obj.GetComponent<EnemySpManager>().useTimer == false)
+                            {
+                                //Debug.Log("not use Timer;");
+                                obj.GetComponent<EnemySpManager>().ChangeSPCost(cost);
+                            }
                         }
+                       
                     }
                     /*
                     Debug.Log($"enemy kill");
@@ -121,26 +129,33 @@ public class SpCost : MonoBehaviour
             }
             else
             {
-                Debug.Log($"unit:{unit.tag}player:{player.GetPlayerID()}");
+               // Debug.Log($"unit:{unit.tag}player:{player.GetPlayerID()}");
 
                 if (unit.CompareTag("Player" + player.GetEnemyID()) || unit.CompareTag("King" + player.GetEnemyID()))
                 {
                     bool GettedValue = SpButtonManager.unitBtn.TryGetValue(unit.unitKey, out Button btn);
                     if (GettedValue == true)
                     {
-                        if (btn.GetComponent<SpCostDisplay>().useTimer == false)
+                        if(btn != null)
                         {
-                            StartCoroutine(btn.GetComponent<SpCostDisplay>().AddSpCost());
+                            if (btn.GetComponent<SpCostDisplay>().useTimer == false)
+                            {
+                                StartCoroutine(btn.GetComponent<SpCostDisplay>().AddSpCost());
+                            }
                         }
+                        
                     }
                     else
                     {
-                        Debug.Log($"button{SpButtonManager.buttons.Count}");
+                        //Debug.Log($"button{SpButtonManager.buttons.Count}");
                         foreach (Button button in SpButtonManager.buttons)
                         {
-                            if (button.GetComponent<SpCostDisplay>().useTimer == false)
+                            if (button != null)
                             {
-                                StartCoroutine(button.GetComponent<SpCostDisplay>().AddSpCost());
+                                if (button.GetComponent<SpCostDisplay>().useTimer == false)
+                                {
+                                    StartCoroutine(button.GetComponent<SpCostDisplay>().AddSpCost());
+                                }
                             }
                         }
                     }

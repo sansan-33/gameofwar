@@ -56,7 +56,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
     
     public void OnPointerDown()
     {
-        return;
+        
         enemyList.Clear();
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
@@ -213,6 +213,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
         UnitSpeedkeys.TryGetValue(unit, out int speed);
         CardStats cardStats = unit.GetComponent<CardStats>();
+        Debug.Log(repeatAttackDelay);
         unit.GetComponent<UnitPowerUp>().SpecialEffect(repeatAttackDelay, speed);
     }
     public float GetUnitRepeatAttackDelaykeys(GameObject unit)
