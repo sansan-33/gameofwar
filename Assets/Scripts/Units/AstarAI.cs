@@ -54,9 +54,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
             //    Debug.Log($"same destination {ai.destination} target {position} , save memory not start path");
             return;
         }
-        //GetComponent<UnitAnimator>().SetBool("defend", false);
-        //GetComponent<UnitAnimator>().SetFloat("run", true);
-        GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.LOCOMOTION);
+         GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.LOCOMOTION);
         ai.canMove = true;
         //if (Time.time > lastRepath + repathRate && seeker.IsDone())
         //{

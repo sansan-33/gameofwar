@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mirror;
+using Pathfinding;
+using Pathfinding.RVO;
 using SimpleJSON;
 using TMPro;
 using UnityEngine;
@@ -58,7 +60,8 @@ public class MainMenu : MonoBehaviour
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), cardkeys[i]);
             GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
             Transform unitBody = Instantiate(unitPrefab.transform.Find("Body"));
-            unitBody.position = new Vector3(unitPos.x , unitPos.y - 2, unitPos.z);
+            unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
+            unitBody.transform.position = new Vector3(unitPos.x , unitPos.y - 2, unitPos.z);
             unitBody.transform.Rotate(0,180,0);
             unitBody.transform.SetParent(teamCardImages[i].transform);
         }
