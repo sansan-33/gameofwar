@@ -52,13 +52,16 @@ public class EnemySpManager : MonoBehaviour
             //Debug.Log(1);
             foreach(GameObject SpPrefab in enemySp)
             {
-                
-                ISpecialAttack iSpecialAttack = SpPrefab.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
-                //Debug.Log($"iSpecialAttack.GetSpCost(){iSpecialAttack.GetSpCost()} < {spCost}");
-                if (iSpecialAttack.GetSpCost() <= spCost)
+
+                if(SpPrefab != null)
                 {
-                    //Debug.Log($"OnPointerDown {transform.parent.tag}");
-                    iSpecialAttack.OnPointerDown();
+                    ISpecialAttack iSpecialAttack = SpPrefab.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
+                    //Debug.Log($"iSpecialAttack.GetSpCost(){iSpecialAttack.GetSpCost()} < {spCost}");
+                    if (iSpecialAttack.GetSpCost() <= spCost)
+                    {
+                        //Debug.Log($"OnPointerDown {transform.parent.tag}");
+                        iSpecialAttack.OnPointerDown();
+                    }
                 }
             }
         }
