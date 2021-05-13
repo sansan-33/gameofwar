@@ -140,7 +140,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         SetSpeed(speed, false);
         //repeatAttackDelay = 0;
-        IAttack iSpecialAttack = unit.GetComponent(typeof(IAttack)) as IAttack;
+        IAttack iSpecialAttack = GetComponent(typeof(IAttack)) as IAttack;
         iSpecialAttack.ChangeAttackDelay(repeatAttackDelay);
     }
     //================================================= End of Special Attack  ===========================================================

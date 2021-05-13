@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EnemySpManager : MonoBehaviour
 {
     public int spCost;
-    private float Timer = 1;
+    private float Timer = 10000;
     private int waitTime = 10;
     public bool useTimer = false;
     private RTSPlayer player;
@@ -18,7 +18,7 @@ public class EnemySpManager : MonoBehaviour
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
-            //StartCoroutine(GetUnit());
+            StartCoroutine(GetUnit());
         }
     }
     private IEnumerator GetUnit()
@@ -34,6 +34,7 @@ public class EnemySpManager : MonoBehaviour
                
                 useTimer = button.GetComponent<SpCostDisplay>().useTimer;
                 waitTime = button.GetComponent<SpCostDisplay>().waitTime;
+                Timer = waitTime;
                 break;
             }
         } 
@@ -59,7 +60,7 @@ public class EnemySpManager : MonoBehaviour
                     //Debug.Log($"iSpecialAttack.GetSpCost(){iSpecialAttack.GetSpCost()} < {spCost}");
                     if (iSpecialAttack.GetSpCost() <= spCost)
                     {
-                        //Debug.Log($"OnPointerDown {transform.parent.tag}");
+                      //  Debug.Log($"OnPointerDown {transform.parent.tag}");
                         iSpecialAttack.OnPointerDown();
                     }
                 }
@@ -75,7 +76,7 @@ public class EnemySpManager : MonoBehaviour
             else
             {
                 Timer = waitTime;
-                //Debug.Log("Add SP'");
+                Debug.Log("Add SP'");
                 ChangeSPCost(1);
             }
         }

@@ -38,7 +38,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         SPButton.onClick.RemoveAllListeners();
         SPButton.onClick.AddListener(FindAttackTargetInDistance);*/
         spCost = FindObjectOfType<SpCost>();
-        searchPoint = transform.parent.transform;
+        
         minAttackRange = (int)(transform.localScale.x * attackRange / 2);
         TB = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
     }
@@ -68,7 +68,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
             }
         }
 
-
+        searchPoint = transform.parent.transform;
         GameObject closestTarget = null;
         bool haveTarget = true;
         var distance = float.MaxValue;
@@ -98,7 +98,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
                     {
                         id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
                     }
-                    Debug.Log(id);
+                   
                     if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
                         {
                             if (localDistance > minAttackRange)

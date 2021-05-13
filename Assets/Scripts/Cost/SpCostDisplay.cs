@@ -32,9 +32,14 @@ public class SpCostDisplay : MonoBehaviour
     }
     public void Ondestroy()
     {
-        //Debug.Log("Destroy");
+        if(gameObject != null)
+        {
+            Destroy(gameObject);
+        }
+    }
+    private void OnDestroy()
+    {
         unit.OnUnitDespawned -= Ondestroy;
-        Destroy(gameObject);
     }
     /// <summary>
     /// Add one Sp Cost
