@@ -11,6 +11,14 @@ using UnityEngine;
 public class FirebaseManager : MonoBehaviour
 {
     //Firebase variables
+    [Header("Firebase")]
+    public DependencyStatus dependencyStatus;
+    public FirebaseAuth auth;
+    public FirebaseUser user;
+    public event Action authStateChanged;
+    public FirebaseApp app;
+
+    //Firebase variables
     [Header("Sign Up Form")]
     [SerializeField] private TMP_InputField usernameRegisterField = null;
     [SerializeField] private TMP_InputField emailRegisterField = null;
@@ -32,12 +40,7 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField] private TMP_Text useridProfileText = null;
     [SerializeField] private GameObject userProfilePopUp = null;
 
-    //Firebase variables
-    [Header("Firebase")]
-    public DependencyStatus dependencyStatus;
-    public FirebaseAuth auth;
-    public FirebaseUser user;
-    public event Action authStateChanged;
+ 
 
     //Auto Login
     [Header("Auto Login")]
@@ -90,9 +93,12 @@ public class FirebaseManager : MonoBehaviour
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             dependencyStatus = task.Result;
+            //Debug.Log($"Awake dependencyStatus ? {dependencyStatus}");
+
             if (dependencyStatus == DependencyStatus.Available)
             {
                 //If they are avalible Initialize Firebase
+                //Debug.Log($"1InitializeFirebase auth is null ? {auth == null}");
                 InitializeFirebase();
             }
             else
@@ -110,7 +116,10 @@ public class FirebaseManager : MonoBehaviour
     {
         //Debug.Log("Setting up Firebase Auth");
         //Set the authentication instance object
-        auth = FirebaseAuth.DefaultInstance;
+        app = Firebase.FirebaseApp.DefaultInstance;
+        //Debug.Log($"InitializeFirebase app is null ? {app == null}");
+        auth = FirebaseAuth.GetAuth(app);
+        //Debug.Log($"InitializeFirebase auth is null ? {auth == null} , app {app == null}");
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
@@ -152,6 +161,7 @@ public class FirebaseManager : MonoBehaviour
     private IEnumerator Login(string _email, string _password)
     {
         //Call the Firebase auth signin function passing the email and password
+        //Debug.Log($"Login _email: {_email} _password: {_password} auth is null {auth == null} ");
         var LoginTask = auth.SignInWithEmailAndPasswordAsync(_email, _password);
         //Wait until the task completes
         yield return new WaitUntil(predicate: () => LoginTask.IsCompleted);

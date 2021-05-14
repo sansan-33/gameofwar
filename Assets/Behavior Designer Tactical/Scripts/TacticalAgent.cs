@@ -16,6 +16,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         private Transform targetTransform = null;
         private IDamageable targetDamagable = null;
         private bool attackPosition = false;
+        private bool surroundPosition = false;
         private Vector3 attackOffset;
         private Vector3 targetOffset;
         public IAttackAgent AttackAgent { get { return attackAgent; } }
@@ -25,7 +26,8 @@ namespace BehaviorDesigner.Runtime.Tactical
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
         public bool IsEngaged = false;
-      
+        public bool SurroundPosition { get { return surroundPosition; } set { surroundPosition = value; } }
+
         private string debugTarget = "footman";
         private bool ISDEBUG = false;
         /// <summary>

@@ -39,6 +39,11 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         IS_MULTIPLAYER_MODE = ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1 ? true : false;
     }
+    public override void OnStartServer()
+    {
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        IS_MULTIPLAYER_MODE = ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1 ? true : false;
+    }
     [Command]
     public void CmdMove(Vector3 position)
     {
@@ -163,7 +168,8 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     public void ServerRotate(Quaternion targetRotation)
     {
         //ai.updateRotation = false;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed * Time.deltaTime);
     }
     [Command]
     public void CmdStop()
@@ -195,10 +201,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
             if (other.tag == "Unit") { continue; }  // initial object tag name , wait for tag update later
             if (IS_MULTIPLAYER_MODE)
             {
-                //Debug.Log($"Multi player seneriao ");
+                Debug.Log($"Multi player seneriao ");
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
-                    if (networkIdentity.hasAuthority)
+                    if (!networkIdentity.hasAuthority)
                     {
                         isCollided = true;
                         break; 

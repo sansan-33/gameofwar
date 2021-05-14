@@ -25,7 +25,6 @@ public class Unit : NetworkBehaviour
     public UnitMeta.UnitKey unitKey;
     public bool isLeader = false;
     public bool isScaled = false;
-    public int SpBtnTicket;
     public static event Action<Unit> ServerOnUnitSpawned;
     public static event Action<Unit> ServerOnUnitDespawned;
     public static event Action<Unit> AuthorityOnUnitSpawned;
