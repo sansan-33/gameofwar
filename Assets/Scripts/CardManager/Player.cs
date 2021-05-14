@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
     }
     IEnumerator mergeCard()
     {
-        // Debug.Log($"Calling Mereg {PrintAllCards(playerHand[0])}");
+        //Debug.Log($"Player.mergeCard() Calling Mereg {PrintAllCards(playerHand[0])}");
         //Debug.Log($"Start merge cards in hand  {playerHand[0].Count}");
         //At least 2 cards in Hand, otherwise  ignore merge
         if (!(playerHand[0].Count >= 2)) { yield break; }
@@ -119,6 +119,7 @@ public class Player : MonoBehaviour
         while (maxmerge > 0)
         {
             if (lastCardBefore < 0) { yield break; }
+            //Debug.Log($"Player.mergeCard() maxmerge:{maxmerge}");
             beforeNewCard = playerHand[0][lastCardBefore];
             card = playerHand[0][lastCardBefore + 1];
             // Check if last card before is same card number and same card star  
@@ -130,7 +131,7 @@ public class Player : MonoBehaviour
                 beforeNewCard.cardStar.text = "" + (star + 2);
                 beforeNewCard.cardFace.star = (Card_Stars) (star + 1);
                 playerHand[0][lastCardBefore] = beforeNewCard;
-                //Debug.Log($"Merged card {lastCardBefore } ==> star: {beforeNewCard.cardStar.text} / {beforeNewCard.cardFace.star} ");
+                //Debug.Log($"***** Merged card {lastCardBefore } ==> star: {beforeNewCard.cardStar.text} / {beforeNewCard.cardFace.star} ");
                 //playerHand[0][lastCardBefore + 1].destroy();
                 //playerHand[0].RemoveAt(lastCardBefore + 1);
 
@@ -138,6 +139,9 @@ public class Player : MonoBehaviour
                 lastCardBefore = playerHand[0].Count - 2;
                 maxmerge = playerHand[0].Count - 1;
                 //lastCardBefore = playerHand[0].Count - 2;
+
+                // 2021-05-14 Anthea call yield return null to return control to unity. code will continue
+                yield return null;
             }
             lastCardBefore--;
             maxmerge--;
@@ -147,6 +151,7 @@ public class Player : MonoBehaviour
     }
     public void dragCardMerge()
     {
+        //Debug.Log($"----- Player.dragCardMerge() call mergeCard()");
         StartCoroutine(mergeCard());
     }
     private string PrintAllCards(List<Card> cards)
@@ -154,7 +159,8 @@ public class Player : MonoBehaviour
         string result = "";
         for (int i = 0; i < cards.Count; i++)
         {
-            result += "" + (i + 1) + ":" + cards[i].cardFace.numbers + ":" + cards[i].cardFace.star + ",";
+            RectTransform rect = cards[i].GetComponent<RectTransform>();
+            result += "" + (i + 1) + ":" + cards[i].cardFace.numbers + ":" + cards[i].cardFace.star + ":" + rect.position.x + ",";
         }
         return result;
     }
@@ -171,6 +177,7 @@ public class Player : MonoBehaviour
             cardTransform.position = targetPosition;
             cardTransform.localEulerAngles = Vector3.zero;
         }
+        //Debug.Log($"+++++ Player.MoveCardTo() call mergeCard()");
         yield return mergeCard();
     }
 
