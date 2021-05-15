@@ -43,7 +43,7 @@ public class UnitMeta
         { UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack } ,
         { UnitType.MAGIC, TacticalBehavior.BehaviorSelectionType.Attack } ,
         { UnitType.CAVALRY, TacticalBehavior.BehaviorSelectionType.Attack } ,
-        { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack },
+        { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Surround },
         { UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack },
         { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend }

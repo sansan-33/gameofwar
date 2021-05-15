@@ -63,7 +63,7 @@ public class MainMenu : MonoBehaviour
             unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
             unitBody.transform.position = new Vector3(unitPos.x , unitPos.y - 4, unitPos.z);
             unitBody.transform.Rotate(0,180,0);
-            unitBody.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            unitBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
             unitBody.transform.SetParent(teamCardImages[i].transform);
         }
         //Debug.Log($"Load Team Lobby Done. StaticClass.Username: {StaticClass.Username}" );

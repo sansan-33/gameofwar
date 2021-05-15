@@ -14,11 +14,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         private class NavMeshTacticalAgent : TacticalAgent
         {
-            private NavMeshAgent navMeshAgent;
             private Unit unit;
             private bool destinationSet;
-            private Vector3 lastDestination;
-
+           
             /// <summary>
             /// Caches the component references and initialize default values.
             /// </summary>
@@ -37,16 +35,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override void SetDestination(Vector3 destination)
             {
-                if (unit.GetUnitMovement().collided()) { lastDestination = new Vector3(); }
-                //if (unit == null) { Debug.Log("NavMeshTacticalAgent ==> Unit is null"); return; }
-                //unit.GetComponent<UnitAnimator>().SetBool("run",true);
-                //if(unit.name.ToLower().Contains("tank"))
-                //Debug.Log($"NavMeshTacticalAgent {unit.name} ==> SetDestination {lastDestination} / {destination} / collided ? {unit.GetUnitMovement().collided()}");
-                //if (lastDestination != destination) {
-                    lastDestination = destination;
-                    unit.GetUnitPowerUp().CmdUnitPowerUp();
-                    unit.GetUnitMovement().move(destination);
-                //}
+                unit.GetUnitPowerUp().CmdUnitPowerUp();
+                unit.GetUnitMovement().move(destination);
             }
             /// <summary>
             /// Has the agent arrived at its destination?
@@ -62,12 +52,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             public override bool RotateTowards(Quaternion targetRotation)
             {
                 unit.GetUnitMovement().rotate(targetRotation);
+                //if(unit.unitType == UnitMeta.UnitType.FOOTMAN)
+                //Debug.Log($"RotateTowards To Target Angle {Quaternion.Angle(transform.rotation, targetRotation)} , AttackAngle: {AttackAgent.AttackAngle()}");
                 if (Quaternion.Angle(transform.rotation, targetRotation) < AttackAgent.AttackAngle()) {
                     return true;
                 }
                 return false;
             }
-
             /// <summary>
             /// Returns the radius of the agent.
             /// </summary>

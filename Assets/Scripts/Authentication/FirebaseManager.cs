@@ -11,6 +11,14 @@ using UnityEngine;
 public class FirebaseManager : MonoBehaviour
 {
     //Firebase variables
+    [Header("Firebase")]
+    public DependencyStatus dependencyStatus;
+    public FirebaseAuth auth;
+    public FirebaseUser user;
+    public event Action authStateChanged;
+    public FirebaseApp app;
+
+    //Firebase variables
     [Header("Sign Up Form")]
     [SerializeField] private TMP_InputField usernameRegisterField = null;
     [SerializeField] private TMP_InputField emailRegisterField = null;
@@ -32,12 +40,7 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField] private TMP_Text useridProfileText = null;
     [SerializeField] private GameObject userProfilePopUp = null;
 
-    //Firebase variables
-    [Header("Firebase")]
-    public DependencyStatus dependencyStatus;
-    public FirebaseAuth auth;
-    public FirebaseUser user;
-    public event Action authStateChanged;
+ 
 
     //Auto Login
     [Header("Auto Login")]
@@ -90,6 +93,7 @@ public class FirebaseManager : MonoBehaviour
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             dependencyStatus = task.Result;
+            
             if (dependencyStatus == DependencyStatus.Available)
             {
                 //If they are avalible Initialize Firebase
@@ -108,9 +112,9 @@ public class FirebaseManager : MonoBehaviour
     }
     private void InitializeFirebase()
     {
-        //Debug.Log("Setting up Firebase Auth");
         //Set the authentication instance object
-        auth = FirebaseAuth.DefaultInstance;
+        app = Firebase.FirebaseApp.DefaultInstance;
+        auth = FirebaseAuth.GetAuth(app);
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
     }
@@ -122,7 +126,6 @@ public class FirebaseManager : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         string ip = GetLocalIPv4();
-        //Debug.Log($"Auto Login {ip} {IPEmail[ip][0]} {IPEmail[ip][1]} StaticClass.UserID {StaticClass.UserID}");
         //if (StaticClass.UserID == null || StaticClass.UserID.Length == 0 )
             yield return Login(IPEmail[ip][0], IPEmail[ip][1]);
     }

@@ -51,15 +51,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 return baseStatus;
             }
 
-            var attackCenter = CenterAttackPosition();
+            //var attackCenter = CenterAttackPosition();
+            Transform target = null;
+            IDamageable damageable = null;
+            ClosestTarget(transform, ref target, ref damageable);
+            var attackCenter = target.position;
             var attackRotation = CenterAttackRotation(attackCenter);
             var offset = Vector3.zero;
             // Wait until all agents are in position before starting to attack.
-            if (canAttack) {
-                if (MoveToAttackPosition()) {
-                    tacticalAgent.TryAttack();
-                }
-            } else if (!inPosition) {
+            if (!inPosition) {
                 offset.Set(radius.Value * Mathf.Sin(theta * formationIndex), 0, radius.Value * Mathf.Cos(theta * formationIndex));
                 var destination = TransformPoint(attackCenter, offset, attackRotation);
                 var detour = false;
@@ -70,13 +70,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     detour = true;
                 }
                 tacticalAgent.SetDestination(destination);
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " : Target Attack center is " + attackCenter + " , Unit Moving to Destination " + destination + ". " + HEARTBEAT++);
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : Target Attack center is " + attackCenter + " , Unit Moving to Destination " + destination + ". " + HEARTBEAT++);
 
                 // The agents can't be in position if they are taking a detour.
                 if (!detour && tacticalAgent.HasArrived()) {
-                    FindAttackTarget();
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : detour " + detour + ", has arrived " + tacticalAgent.HasArrived() + ". " + HEARTBEAT++);
+
+                    //FindAttackTarget();
                     // The agents are not in position until they are looking at the target.
-                    if (tacticalAgent.RotateTowardsPosition(tacticalAgent.TargetTransform.position)) {
+                    if (tacticalAgent.RotateTowardsPosition(target.position)) {
                         // Notify the leader when the agent is in position.
                         if (leaderTree != null) {
                             leaderTree.SendEvent("UpdateInPosition", formationIndex, true);
@@ -84,11 +86,20 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                             UpdateInPosition(0, true);
                         }
                         inPosition = true;
+                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : Is Position and rotate towards " + target.position + ". " + HEARTBEAT++);
                     }
                 }
+            }else {
+                //if (MoveToAttackPosition())
+                //{
+                    FindAttackTarget();
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : Attack " + tacticalAgent.TargetTransform.name + ". " + HEARTBEAT++);
+                    tacticalAgent.TryAttack();
+                //}
             }
+            
 
-            return TaskStatus.Running;
+                return TaskStatus.Running;
         }
 
         public override void OnReset()
