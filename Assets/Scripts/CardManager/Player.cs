@@ -85,6 +85,7 @@ public class Player : MonoBehaviour
                 moveOneCard(cardMovingindex+1);
             }
         }
+        //Debug.Log($"Player.moveCardAt() Exit {PrintAllCards(playerHand[0])}");
     }
     public void RemoveLastCard(int index)
     {
@@ -96,7 +97,7 @@ public class Player : MonoBehaviour
     }
     public IEnumerator AddCard(Card card, bool left = true)
     {
-        //Debug.Log($"AddCard ==> {card.cardFace.suit.ToString() }");
+        //Debug.Log($"Player.AddCard() ==> {card.cardFace.suit.ToString() }");
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
       
@@ -171,11 +172,13 @@ public class Player : MonoBehaviour
         {
             cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPosition, Time.deltaTime * cardMoveSpeed);
             cardTransform.localEulerAngles = Vector3.Lerp(cardTransform.localEulerAngles, v360, Time.deltaTime * 5);
+            //Debug.Log($"inside MoveCardTo() while loop cardTransform.position:{cardTransform.position}");
             //yield return null;
         }
         if (cardTransform != null) { 
             cardTransform.position = targetPosition;
             cardTransform.localEulerAngles = Vector3.zero;
+            //Debug.Log($"inside MoveCardTo() if (cardTransform != null) cardTransform.position:{cardTransform.position}");
         }
         //Debug.Log($"+++++ Player.MoveCardTo() call mergeCard()");
         yield return mergeCard();
@@ -183,6 +186,7 @@ public class Player : MonoBehaviour
 
     public void moveCard(int index, bool isShiftCard = true)
     {
+        //Debug.Log($"Player.moveCard() index:{index} isShiftCard:{isShiftCard} ");
         if (playerHand[0].Count > 0)
         {
             //playerHand[0][index].destroy();
@@ -201,7 +205,7 @@ public class Player : MonoBehaviour
             card.transform.position = cardSlotlist[i].transform.position;
             i++;
         }
-        
+        //Debug.Log($"moveCard() exit {PrintAllCards(playerHand[0])}");
     }
     public void moveOneCard(int index)
     {

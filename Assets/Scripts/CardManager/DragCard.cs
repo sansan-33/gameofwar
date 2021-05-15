@@ -85,7 +85,16 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     private IEnumerator ShiftCard()
     {
-        if (IS_HITTED_TIMER) { yield break; }
+
+        //Debug.Log($"DragCard.ShiftCard() start IS_HITTED_TIMER:{IS_HITTED_TIMER}");
+        if (IS_HITTED_TIMER) {
+            // 2021-5-15 Anthea no one turn IS_HITTED_TIMER to false. so can't drag card to other card slot.
+            // copy if (isMove) wait and change IS_HITTED_TIMER to false;
+            yield return new WaitForSeconds(0.5f);
+            IS_HITTED_TIMER = false;
+            //Debug.Log($"DragCard.ShiftCard() inside if (IS_HITTED_TIMER) set IS_HITTED_TIMER to false:{IS_HITTED_TIMER}");
+            yield break;
+        }
         int dragCardPlayerHandIndex = this.GetComponent<Card>().cardPlayerHandIndex;
         Collider[] hitColliders = Physics.OverlapBox(DragPoint.transform.position, transform.localScale * dragRange, Quaternion.identity, layerMask);
         int i = 0;
@@ -95,12 +104,14 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         //Check when there is a new collider coming into contact with the box
         while (i < hitColliders.Length)
         {
+            //Debug.Log($"DragCard.ShiftCard() inside while loop");
             other = hitColliders[i++];
             
             if (unitPreviewInstance != null) { Destroy(unitPreviewInstance); }
 
             if (other.TryGetComponent<Card>(out Card hittedCard))
             {
+                //Debug.Log($"DragCard.ShiftCard() inside if (other.TryGetComponent<Card>(out Card hittedCard))");
                 if (dragCardPlayerHandIndex == hittedCard.cardPlayerHandIndex) { continue; }
                
                 // Check whehter move card , new hitted card or old hitted card but different direction can move 
@@ -117,15 +128,18 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
                     hittedDict.Add(hittedCard.cardPlayerHandIndex, direction);
                     isMove = true;
                 }
+                //Debug.Log($"DragCard.ShiftCard() isMove:{isMove}");
                 if (isMove)
                 {
                     hittedDict.Clear();
-                    //Debug.Log($"Shift Card  {dragCardPlayerHandIndex } to  {hittedCard.cardPlayerHandIndex } / direction {direction} ");
+                    //Debug.Log($"DragCard.ShiftCard() {dragCardPlayerHandIndex } to  {hittedCard.cardPlayerHandIndex } / direction {direction} call moveCardAt()");
                     CardParent.GetComponentInParent<Player>().moveCardAt(dragCardPlayerHandIndex, direction);
                     //Prevent moving 2 cards in  one hitted, need to wait 0.5 sec for next move
                     IS_HITTED_TIMER = true;
+                    //Debug.Log($"DragCard.ShiftCard() set IS_HITTED_TIMER to true:{IS_HITTED_TIMER}");
                     yield return new WaitForSeconds(0.5f);
                     IS_HITTED_TIMER = false;
+                    //Debug.Log($"DragCard.ShiftCard() set IS_HITTED_TIMER to false:{IS_HITTED_TIMER}");
                     break;
                 }
             }
@@ -198,6 +212,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
             CardParent.GetComponentInParent<Player>().dragCardMerge();
             // Set the dragged card position right under the last hitted card slot again, did it in moveOneCard, need to set it again otheriwse it will stop in the middle.
             transform.position = pos;
+            //Debug.Log($"DragCard.OnEndDrag() update transform.position: {transform.position}");
         }
 
     }
