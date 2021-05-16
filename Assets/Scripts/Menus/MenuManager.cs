@@ -29,6 +29,14 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Scene_Team_Menu");
     }
+    public void GoToStageMenu()
+    {
+        SceneManager.LoadScene("Scene_Stage_Menu");
+    }
+    public void GoToStageHumanDetailMenu()
+    {
+        SceneManager.LoadScene("Scene_Stage_Human");
+    }
     public void GoToLogin()
     {
         firebaseManager.ShowLoginProfile();
