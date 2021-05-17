@@ -62,7 +62,7 @@ public class MainMenu : MonoBehaviour
             Transform unitBody = Instantiate(unitPrefab.transform.Find("Body"));
             unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
             unitBody.transform.position = new Vector3(unitPos.x , unitPos.y - 4, unitPos.z);
-            unitBody.transform.Rotate(0,180,0);
+            //unitBody.transform.Rotate(0,90,0);
             unitBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
             unitBody.transform.SetParent(teamCardImages[i].transform);
         }

@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class Unit : NetworkBehaviour 
 {
-    [SerializeField] private GameObject buildingPreview = null;
     [SerializeField] private int resourceCost = 10;
     [SerializeField] private Health health = null;
     [SerializeField] private AstarAI astarAI = null;
@@ -35,10 +34,6 @@ public class Unit : NetworkBehaviour
     [SyncVar]
     [SerializeField] private int spawnPointIndex = 0;
 
-    public GameObject GetBuildingPreview()
-    {
-        return buildingPreview;
-    }
     public int GetResourceCost()
     {
         return resourceCost;

@@ -101,6 +101,7 @@ public class HeroMenu : MonoBehaviour
             GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
             if (unitBody == null) {
                 unitBody = Instantiate(unitPrefab.transform.Find("Body"));
+                unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
                 unitBody.position = new Vector3(unitPos.x, unitPos.y - 2, unitPos.z);
                 unitBody.transform.Rotate(0, 180, 0);
                 unitBody.localScale = new Vector3(7, 7, 7);

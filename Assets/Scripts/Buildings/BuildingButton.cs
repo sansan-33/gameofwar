@@ -142,10 +142,10 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     public void onBeginDrag(PointerEventData eventData)
     {
 
-        unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
-        unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
+        //unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
+        //unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
         //testing
-        unitPreviewInstance.SetActive(false);
+        //unitPreviewInstance.SetActive(false);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
@@ -168,7 +168,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
         
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
 
-        unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
+        //unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
         unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
 
         unitPreviewInstance.SetActive(false);
@@ -219,7 +219,7 @@ public class BuildingButton : NetworkBehaviour, IPointerDownHandler, IPointerUpH
     }
     private void HandleTouchStart()
     {
-        unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
+        //unitPreviewInstance = Instantiate(unit.GetBuildingPreview());
         unitRendererInstance = unitPreviewInstance.GetComponentInChildren<Renderer>();
 
         unitPreviewInstance.SetActive(false);
