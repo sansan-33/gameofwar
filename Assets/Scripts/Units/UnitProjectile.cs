@@ -20,6 +20,7 @@ public class UnitProjectile : NetworkBehaviour
     public static event Action onKilled;
     int playerid = 0;
     int enemyid = 0;
+    int depth = 3;
     [SerializeField] private GameObject textPrefab = null;
 
     public override void OnStartClient()
@@ -67,7 +68,7 @@ public class UnitProjectile : NetworkBehaviour
         if (other.tag == "Wall") {
             //Debug.Log($" Hitted object {other.tag}  {other.name}, Attacker arrow type is {unitType} ");
             cmdSpecialEffect(this.transform.position);
-            cmdDestroySelf();
+            arrowStick();
         }
         else if (other.TryGetComponent<Health>(out Health health))
         {
@@ -84,7 +85,7 @@ public class UnitProjectile : NetworkBehaviour
             elementalEffect(element, other.transform.GetComponent<Unit>());
             CmdDealDamage(other.gameObject, damageToDeals);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
-            cmdDestroySelf();
+            arrowStick();
         }
     }
     [Command]
@@ -132,6 +133,14 @@ public class UnitProjectile : NetworkBehaviour
         GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
     }
+
+    void arrowStick()
+    {
+        // move the arrow deep inside the enemy or whatever it sticks to
+        transform.Translate(depth * Vector3.forward);
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+    }
+
     [Command]
     private void cmdDestroySelf()
     {
