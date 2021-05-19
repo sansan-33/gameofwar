@@ -41,4 +41,8 @@ public class MenuManager : MonoBehaviour
     {
         firebaseManager.ShowLoginProfile();
     }
+    public void GoToShop()
+    {
+        SceneManager.LoadScene("Scene_Shop");
+    }
 }

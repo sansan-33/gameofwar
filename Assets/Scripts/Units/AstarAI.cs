@@ -200,9 +200,9 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         {
             other = hitColliders[i++];
             if (other.tag == "Unit") { continue; }  // initial object tag name , wait for tag update later
+            if (other.tag == "Wall") { continue; }  // wall not blocked
             if (IS_MULTIPLAYER_MODE)
             {
-                Debug.Log($"Multi player seneriao ");
                 if (other.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))  //try and get the NetworkIdentity component to see if it's a unit/building 
                 {
                     if (!networkIdentity.hasAuthority)
@@ -212,9 +212,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
                     }  //check to see if it belongs to the player, if it does, do nothing
                 }
             }
-            else // Multi player seneriao
+            else // Single player seneriao
             {
                 //Check for either player0 or king0 collide their team member
+                //Debug.Log($"Single player seneriao collided {other.tag}");
                 if (other.tag != transform.tag && !other.tag.Contains( playerid) ) {
                     isCollided = true;
                     break;

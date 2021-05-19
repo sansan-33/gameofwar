@@ -45,7 +45,6 @@ public class UnitProjectile : NetworkBehaviour
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
         bool isFlipped = false;
-        //Debug.Log($" Hitted object {other.tag}  {other.name}, Attacker arrow type is {unitType} ");
         damageToDeals = damageToDealOriginal;
         // Not attack same connection client object except AI Enemy
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1) {
@@ -65,8 +64,12 @@ public class UnitProjectile : NetworkBehaviour
                 }
              }
         }
-        //Debug.Log($"Health hitted {other.name} {other.tag} / arrow type {unitType } / {other.GetComponent<Health>()} ");
-        if (other.TryGetComponent<Health>(out Health health))
+        if (other.tag == "Wall") {
+            //Debug.Log($" Hitted object {other.tag}  {other.name}, Attacker arrow type is {unitType} ");
+            cmdSpecialEffect(this.transform.position);
+            cmdDestroySelf();
+        }
+        else if (other.TryGetComponent<Health>(out Health health))
         {
             //Debug.Log($"player ID {player.GetPlayerID()}");
             //Debug.Log(playerid);
@@ -75,12 +78,10 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log($"before strengthWeakness{damageToDeals}");
             damageToDeals = StrengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
             //Debug.Log("call spawn text");
-            
+
             //cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
             cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
             elementalEffect(element, other.transform.GetComponent<Unit>());
-            //if (damageToDeals > damageToDealOriginal) { cmdCMVirtual(); }
-            //other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
             CmdDealDamage(other.gameObject, damageToDeals);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             cmdDestroySelf();
