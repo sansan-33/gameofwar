@@ -60,17 +60,14 @@ public class LobbyMenu : MonoBehaviour
 
     public void LeaveLobby()
     {
-
-        Debug.Log("LeaveLobby");
         if (NetworkServer.active && NetworkClient.isConnected)
         {
+            NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
             NetworkManager.singleton.StopHost();
         }
         else
         {
             NetworkManager.singleton.StopClient();
-
-            Debug.Log("LeaveLobby Scene_Main_Menu");
             SceneManager.LoadScene("Scene_Main_Menu");
         }
     }

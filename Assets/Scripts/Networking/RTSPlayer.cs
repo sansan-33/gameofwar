@@ -194,7 +194,13 @@ public class RTSPlayer : NetworkBehaviour
 
         ((RTSNetworkManager)NetworkManager.singleton).StartGame();
     }
+    [Command]
+    public void CmdStartMission(string chapter, string mission)
+    {
+        if (!isPartyOwner) { return; }
 
+        ((RTSNetworkManager)NetworkManager.singleton).StartMission(chapter, mission);
+    }
     [Command]
     public void CmdTryPlaceunit(int unitId, Vector3 point)
     {

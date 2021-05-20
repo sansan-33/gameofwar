@@ -48,7 +48,7 @@ public class UnitAnimator : NetworkBehaviour
 
     void ChangeAnimationState(AnimState newState)
     {
-        if(GetComponent<Unit>().unitKey == UnitMeta.UnitKey.THOR) Debug.Log($"{GetComponent<Unit>().unitKey} ChangeAnimationState {currentState} / {newState}");
+        //if(GetComponent<Unit>().unitKey == UnitMeta.UnitKey.THOR) Debug.Log($"{GetComponent<Unit>().unitKey} ChangeAnimationState {currentState} / {newState}");
         if (currentState == newState) return;
         string animState = newState.ToString();
         if (newState == AnimState.ATTACK) { animState = attackState; }

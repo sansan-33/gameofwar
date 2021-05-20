@@ -16,12 +16,16 @@ public class UnitMeta
     public static string REDTEAM = "Red";
     public static string KINGPLAYERTAG = "King0";
     public static string KINGENEMYTAG = "King1";
-    public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING, UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL, ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL};
+    public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING,
+                        UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL,
+                        ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL,
+                        ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL
+                        };
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, HERO, KING, ALL };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
-    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, NOTHING};
+    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING};
      
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitKey, bool> UnitKeyRider = new Dictionary<UnitKey, bool>() { { UnitKey.CAVALRY, true }, { UnitKey.GODCAVALRY, true }, { UnitKey.RIDER, true } };
@@ -92,11 +96,23 @@ public class UnitMeta
         { UnitType.KING, UnitKey.THOR },
         { UnitType.WALL, UnitKey.GODWALL }
     };
+    public static Dictionary<UnitType, UnitKey> ElfTypeKey = new Dictionary<UnitType, UnitKey>()
+    {
+        { UnitType.ARCHER, UnitKey.ELFRANGER } ,
+        { UnitType.TANK, UnitKey.ELFGOLEM} ,
+        { UnitType.CAVALRY, UnitKey.ELFCAVALRY} ,
+        { UnitType.MAGIC, UnitKey.ELFMAGE },
+        { UnitType.FOOTMAN, UnitKey.ELFFOOTMAN },
+        { UnitType.HERO, UnitKey.ELFDEMONHUNTER },
+        { UnitType.KING, UnitKey.ELFTREEANT },
+        { UnitType.WALL, UnitKey.ELFWALL }
+    };
     public static Dictionary<Race, Dictionary<UnitType,UnitKey>> UnitRaceTypeKey = new Dictionary<Race, Dictionary<UnitType, UnitKey>>()
     {
         {Race.HUMAN , HumanTypeKey },
         {Race.UNDEAD , UndeadTypeKey },
-        {Race.GOD , GodTypeKey }
+        {Race.GOD , GodTypeKey },
+        {Race.ELF , ElfTypeKey }
     };
     public static Dictionary<UnitKey, UnitType> KeyType = new Dictionary<UnitKey, UnitType>() {
 
@@ -127,6 +143,15 @@ public class UnitMeta
         { UnitKey.LOKI , UnitType.HERO},
         { UnitKey.ODIN , UnitType.KING },
         { UnitKey.GODWALL , UnitType.WALL },
+
+        { UnitKey.ELFRANGER , UnitType.ARCHER } ,
+        { UnitKey.ELFGOLEM , UnitType.TANK } ,
+        { UnitKey.ELFCAVALRY , UnitType.CAVALRY} ,
+        { UnitKey.ELFMAGE , UnitType.MAGIC},
+        { UnitKey.ELFFOOTMAN , UnitType.FOOTMAN},
+        { UnitKey.ELFDEMONHUNTER , UnitType.HERO},
+        { UnitKey.ELFTREEANT , UnitType.KING },
+        { UnitKey.ELFWALL , UnitType.WALL },
     };
     public static Dictionary<UnitKey, Race> KeyRace = new Dictionary<UnitKey, Race>() {
 
@@ -156,17 +181,29 @@ public class UnitMeta
         { UnitKey.GODCAVALRY , Race.GOD} ,
         { UnitKey.GODMAGE , Race.GOD},
         { UnitKey.GODSPEARMAN , Race.GOD},
-        { UnitKey.GODWALL , Race.GOD }
+        { UnitKey.GODWALL , Race.GOD },
+
+        { UnitKey.ELFDEMONHUNTER , Race.ELF},
+        { UnitKey.ELFTREEANT , Race.ELF},
+        { UnitKey.ELFRANGER , Race.ELF } ,
+        { UnitKey.ELFGOLEM , Race.ELF } ,
+        { UnitKey.ELFCAVALRY , Race.ELF} ,
+        { UnitKey.ELFMAGE , Race.ELF},
+        { UnitKey.ELFFOOTMAN , Race.ELF},
+        { UnitKey.ELFWALL , Race.ELF }
     };
     public static Dictionary<UnitKey, bool> CanCollide = new Dictionary<UnitKey, bool>(){
         { UnitKey.CAVALRY,true },
         { UnitKey.RIDER,true },
-        { UnitKey.GODCAVALRY,true }
+        { UnitKey.GODCAVALRY,true },
+        { UnitKey.ELFCAVALRY,true }
     };
     public static Dictionary<UnitKey, bool> ShakeCamera = new Dictionary<UnitKey, bool>(){
         { UnitKey.CAVALRY,true },
         { UnitKey.RIDER,true },
-        { UnitKey.GODCAVALRY , true }
+        { UnitKey.GODCAVALRY , true },
+        { UnitKey.ELFCAVALRY , true },
+        { UnitKey.ELFGOLEM , true }
     };
 
     public static Dictionary<UnitKey, WeaponType> KeyWeaponType = new Dictionary<UnitKey, WeaponType>() {
@@ -197,6 +234,15 @@ public class UnitMeta
         { UnitKey.GODCAVALRY , WeaponType.LANCE} ,
         { UnitKey.GODMAGE , WeaponType.SPELL},
         { UnitKey.GODSPEARMAN , WeaponType.SHSWORD},
-        { UnitKey.GODWALL , WeaponType.NOTHING }
+        { UnitKey.GODWALL , WeaponType.NOTHING },
+
+        { UnitKey.ELFRANGER , WeaponType.BOW  } ,
+        { UnitKey.ELFGOLEM , WeaponType.PUNCH } ,
+        { UnitKey.ELFCAVALRY , WeaponType.LANCE} ,
+        { UnitKey.ELFMAGE , WeaponType.SPELL},
+        { UnitKey.ELFFOOTMAN , WeaponType.AXE },
+        { UnitKey.ELFDEMONHUNTER , WeaponType.AXE },
+        { UnitKey.ELFTREEANT , WeaponType.HAMMER },
+        { UnitKey.ELFWALL , WeaponType.NOTHING }
     };
 }

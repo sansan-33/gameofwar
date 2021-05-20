@@ -15,12 +15,12 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject landingPagePanel = null;
-    [SerializeField] public Image[] teamCardImages = new Image[3];
     private static Dictionary<string, string[]> userTeamDict = new Dictionary<string, string[]>();
     //[SerializeField] public CharacterFullArt characterFullArt;
     [SerializeField] private FirebaseManager firebaseManager;
     [SerializeField] private TopBarMenu topBarMenu = null;
     [SerializeField] public UnitFactory localFactory;
+    [SerializeField] public Transform[] unitBodyParents;
 
     private void Awake()
     {
@@ -52,19 +52,19 @@ public class MainMenu : MonoBehaviour
         //if (characterFullArt.CharacterFullArtDictionary.Count < 1){
         //    characterFullArt.initDictionary();
         //}
-        for (int i = 0; i < teamCardImages.Length; i++)
+        for (int i = 0; i < unitBodyParents.Length; i++)
         {
-            teamCardImages[i].gameObject.SetActive(true);
-            unitPos = teamCardImages[i].gameObject.transform.position;
+            unitBodyParents[i].gameObject.SetActive(true);
+            unitPos = unitBodyParents[i].gameObject.transform.position;
             //teamCardImages[i].sprite = characterFullArt.CharacterFullArtDictionary[cardkeys[i]].image;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), cardkeys[i]);
             GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
             Transform unitBody = Instantiate(unitPrefab.transform.Find("Body"));
             unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
-            unitBody.transform.position = new Vector3(unitPos.x , unitPos.y - 4, unitPos.z);
-            unitBody.transform.Rotate(0,180,0);
-            unitBody.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
-            unitBody.transform.SetParent(teamCardImages[i].transform);
+            unitBody.transform.position = new Vector3(unitPos.x , unitPos.y , unitPos.z - 12);
+            unitBody.transform.Rotate(-90,90,90);
+            unitBody.transform.localScale = new Vector3(7f, 7f, 7f);
+            unitBody.transform.SetParent(unitBodyParents[i].transform);
         }
         //Debug.Log($"Load Team Lobby Done. StaticClass.Username: {StaticClass.Username}" );
     }

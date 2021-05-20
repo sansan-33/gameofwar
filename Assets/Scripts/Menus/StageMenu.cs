@@ -8,14 +8,13 @@ using UnityEngine.UI;
 
 public class StageMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject lobbyUI = null;
-    [SerializeField] private Button startGameButton = null;
-    
     private void Start()
     {
         RTSNetworkManager.ClientOnConnected += HandleClientConnected;
         RTSPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
         RTSPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
+        Mirror.NetworkManager.singleton.StartHost();
+        StaticClass.Chapter = "1";
     }
 
     private void OnDestroy()
@@ -23,45 +22,35 @@ public class StageMenu : MonoBehaviour
         RTSNetworkManager.ClientOnConnected -= HandleClientConnected;
         RTSPlayer.AuthorityOnPartyOwnerStateUpdated -= AuthorityHandlePartyOwnerStateUpdated;
         RTSPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
+        LeaveLobby();
     }
 
     private void HandleClientConnected()
     {
-        lobbyUI.SetActive(true);
     }
 
     private void ClientHandleInfoUpdated()
     {
         NetworkClient.connection.identity.GetComponent<RTSPlayer>().CmdSetUserID(StaticClass.UserID);
         List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
-        for (int i = 0; i < players.Count; i++)
-        {
-        }
     }
 
     private void AuthorityHandlePartyOwnerStateUpdated(bool state)
     {
-        startGameButton.gameObject.SetActive(state);
+        
     }
-
-    public void StartGame()
-    {
-        NetworkClient.connection.identity.GetComponent<RTSPlayer>().CmdStartGame();
-    }
-
     public void LeaveLobby()
     {
+        if (StaticClass.Chapter != null && StaticClass.Mission != null ) { return; }
 
-        Debug.Log("LeaveLobby");
         if (NetworkServer.active && NetworkClient.isConnected)
         {
+            NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
             NetworkManager.singleton.StopHost();
         }
         else
         {
             NetworkManager.singleton.StopClient();
-
-            Debug.Log("LeaveLobby Scene_Main_Menu");
             SceneManager.LoadScene("Scene_Main_Menu");
         }
     }

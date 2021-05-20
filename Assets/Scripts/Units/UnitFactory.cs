@@ -36,6 +36,16 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject odinPrefab = null;
     [SerializeField] private GameObject godwallPrefab = null;
 
+    // elf
+    [SerializeField] private GameObject elfrangerPrefab = null;
+    [SerializeField] private GameObject elfgolemPrefab = null;
+    [SerializeField] private GameObject elfmagePrefab = null;
+    [SerializeField] private GameObject elfcavalryPrefab = null;
+    [SerializeField] private GameObject elfdemonhunterPrefab = null;
+    [SerializeField] private GameObject elffootmanPrefab = null;
+    [SerializeField] private GameObject elftreeantPrefab = null;
+    [SerializeField] private GameObject elfwallPrefab = null;
+
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
     public Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
@@ -151,6 +161,14 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.GODCAVALRY, godcavalryPrefab);
         unitDict.Add(UnitMeta.UnitKey.ODIN, odinPrefab);
         unitDict.Add(UnitMeta.UnitKey.GODWALL, godwallPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFRANGER, godarcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFDEMONHUNTER, elfdemonhunterPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFGOLEM, elfgolemPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFFOOTMAN, elffootmanPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFMAGE, elfmagePrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFCAVALRY, elfcavalryPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFTREEANT, elftreeantPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFWALL, elfwallPrefab);
 
     }
     public GameObject GetUnitPrefab(UnitMeta.Race race, UnitMeta.UnitType unitType)

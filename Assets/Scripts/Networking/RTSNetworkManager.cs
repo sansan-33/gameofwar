@@ -97,25 +97,16 @@ public class RTSNetworkManager : NetworkManager
         if (Players.Count > 1) { isSinglePlayer = false; }
        
         isGameInProgress = true;
+        SetupUnitDict();
+        ServerChangeScene("Scene_Map_02");
+    }
 
-        unitDict.Clear();
-        unitDict.Add(UnitMeta.UnitKey.UNDEADARCHER, undeadArcherPrefab);
-        unitDict.Add(UnitMeta.UnitKey.HERO, heroPrefab);
-        unitDict.Add(UnitMeta.UnitKey.KNIGHT, knightPrefab);
-        unitDict.Add(UnitMeta.UnitKey.SPEARMAN, spearmanPrefab);
-        unitDict.Add(UnitMeta.UnitKey.MINISKELETON, miniSkeletonPrefab);
-        unitDict.Add(UnitMeta.UnitKey.GIANT, giantPrefab);
-        unitDict.Add(UnitMeta.UnitKey.MAGE, magePrefab);
-        unitDict.Add(UnitMeta.UnitKey.CAVALRY, cavalryPrefab);
-        unitDict.Add(UnitMeta.UnitKey.KING, kingPrefab);
-        unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
-        unitDict.Add(UnitMeta.UnitKey.ARCHER, archerPrefab);
-        unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
-        unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);
-        unitDict.Add(UnitMeta.UnitKey.ODIN, odinPrefab);
-        unitDict.Add(UnitMeta.UnitKey.THOR, thorPrefab);
-        unitDict.Add(UnitMeta.UnitKey.LOKI, lokiPrefab);
-
+    public void StartMission(string chapter, string mission)
+    {
+        if (Players.Count > 1) { isSinglePlayer = false; }
+        isGameInProgress = true;
+        SetupUnitDict();
+        Debug.Log($"StartMission ==> chapter:{chapter} mission:{mission}");
         ServerChangeScene("Scene_Map_02");
     }
 
@@ -191,10 +182,28 @@ public class RTSNetworkManager : NetworkManager
                 //unit.GetComponent<UnitBody>().ServerChangeUnitRenderer(unit, player.GetPlayerID(), 1);
                 spawnCount--;
             }
-            
         }
     }
-
+    private void SetupUnitDict()
+    {
+        unitDict.Clear();
+        unitDict.Add(UnitMeta.UnitKey.UNDEADARCHER, undeadArcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.HERO, heroPrefab);
+        unitDict.Add(UnitMeta.UnitKey.KNIGHT, knightPrefab);
+        unitDict.Add(UnitMeta.UnitKey.SPEARMAN, spearmanPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MINISKELETON, miniSkeletonPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GIANT, giantPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MAGE, magePrefab);
+        unitDict.Add(UnitMeta.UnitKey.CAVALRY, cavalryPrefab);
+        unitDict.Add(UnitMeta.UnitKey.KING, kingPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ARCHER, archerPrefab);
+        unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ODIN, odinPrefab);
+        unitDict.Add(UnitMeta.UnitKey.THOR, thorPrefab);
+        unitDict.Add(UnitMeta.UnitKey.LOKI, lokiPrefab);
+    }
 
     #endregion
 
