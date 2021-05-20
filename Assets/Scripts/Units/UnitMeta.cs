@@ -92,8 +92,8 @@ public class UnitMeta
         { UnitType.CAVALRY, UnitKey.GODCAVALRY} ,
         { UnitType.MAGIC, UnitKey.GODMAGE },
         { UnitType.FOOTMAN, UnitKey.GODSPEARMAN },
-        { UnitType.HERO, UnitKey.ODIN },
-        { UnitType.KING, UnitKey.THOR },
+        { UnitType.HERO, UnitKey.THOR },
+        { UnitType.KING, UnitKey.ODIN },
         { UnitType.WALL, UnitKey.GODWALL }
     };
     public static Dictionary<UnitType, UnitKey> ElfTypeKey = new Dictionary<UnitType, UnitKey>()

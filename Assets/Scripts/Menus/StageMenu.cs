@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using TMPro;
@@ -8,12 +9,16 @@ using UnityEngine.UI;
 
 public class StageMenu : MonoBehaviour
 {
+    [SerializeField] public Sprite[] ChapterTitleSprites = new Sprite[4];
+    [SerializeField] public GameObject titleObject;
+
     private void Start()
     {
         RTSNetworkManager.ClientOnConnected += HandleClientConnected;
         RTSPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
         RTSPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
         Mirror.NetworkManager.singleton.StartHost();
+        StageMenuButton.TabClicked += HandleTabClicked;
         StaticClass.Chapter = "1";
     }
 
@@ -22,11 +27,19 @@ public class StageMenu : MonoBehaviour
         RTSNetworkManager.ClientOnConnected -= HandleClientConnected;
         RTSPlayer.AuthorityOnPartyOwnerStateUpdated -= AuthorityHandlePartyOwnerStateUpdated;
         RTSPlayer.ClientOnInfoUpdated -= ClientHandleInfoUpdated;
+        StageMenuButton.TabClicked -= HandleTabClicked;
         LeaveLobby();
     }
 
     private void HandleClientConnected()
     {
+    }
+    private void HandleTabClicked(int chapterIndex)
+    {
+        titleObject.GetComponent<Image>().sprite = ChapterTitleSprites[chapterIndex];
+        UnitMeta.Race race = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), chapterIndex.ToString());
+        titleObject.GetComponentInChildren<TMP_Text>().text = race.ToString();
+
     }
 
     private void ClientHandleInfoUpdated()

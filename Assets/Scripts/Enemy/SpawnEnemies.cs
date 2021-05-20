@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using SimpleJSON;
 using UnityEngine.Networking;
 using System.Text;
+using System;
 
 public class SpawnEnemies : MonoBehaviour
 {
@@ -38,7 +39,7 @@ public class SpawnEnemies : MonoBehaviour
     {
         if (ISGAMEOVER) { return; }
         CardStats cardStats;
-        UnitMeta.Race race = UnitMeta.Race.ELF;
+        UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race) Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString()) ;
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
@@ -46,7 +47,7 @@ public class SpawnEnemies : MonoBehaviour
                 localFactory = factroy.GetComponent<UnitFactory>();
                 if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
                 {
-                    //Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
+                    Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()];
                     localFactory.CmdSpawnUnitRotation(race, UnitMeta.UnitType.KING, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, Quaternion.Euler(0, 180, 0)); ;
                 }
@@ -122,6 +123,7 @@ public class SpawnEnemies : MonoBehaviour
         jsonResult = JSON.Parse(rawJson);
         for (int i = 0; i < jsonResult.Count; i++)
         {
+            //Debug.Log($"{i} : {jsonResult[i]["cardkey"]}");
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
             {
                 userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"], jsonResult[i]["specialkey"], jsonResult[i]["passivekey"]));
