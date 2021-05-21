@@ -22269,10 +22269,34 @@ MonoBehaviour:
   consumePurchase: 1
   onPurchaseComplete:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1140806812}
+        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
+        m_MethodName: OnPurchaseComplete
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onPurchaseFailed:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1140806812}
+        m_TargetAssemblyTypeName: IAPShop, Assembly-CSharp
+        m_MethodName: OnPurchaseFailed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   titleText: {fileID: 0}
   descriptionText: {fileID: 0}
   priceText: {fileID: 0}
@@ -25148,6 +25172,7 @@ GameObject:
   - component: {fileID: 1140806808}
   - component: {fileID: 1140806807}
   - component: {fileID: 1140806811}
+  - component: {fileID: 1140806812}
   m_Layer: 5
   m_Name: MainCanvas
   m_TagString: Untagged
@@ -25251,6 +25276,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firebaseManager: {fileID: 0}
+--- !u!114 &1140806812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140806806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e6f04003e204e6998dc29f4a28aeae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restorePurchaseBtn: {fileID: 1731410125}
 --- !u!1 &1149336808
 GameObject:
   m_ObjectHideFlags: 0
@@ -36184,7 +36222,7 @@ GameObject:
   - component: {fileID: 1450723552}
   - component: {fileID: 1450723551}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Restore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
