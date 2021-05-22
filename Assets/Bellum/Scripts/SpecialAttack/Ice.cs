@@ -62,7 +62,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         UnitSpeedkeys.Clear();
         if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
         {
-            SpButtonManager.enemyUnitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj);
+            SpButtonManager.enemyUnitObj.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj);
             if (spCost.useSpCost == true)
             {
                 if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }

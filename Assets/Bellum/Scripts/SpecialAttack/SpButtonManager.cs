@@ -53,6 +53,8 @@ public class SpButtonManager : MonoBehaviour
     {
         //Debug.Log("SpButtonManager void Start()");
         unitBtn.Clear();
+        enemyUnitObj.Clear();
+        enemyUnitBtns.Clear();
         //StartCoroutine(start());
         CardDealer.UserCardLoaded += HandleButtonSetup;
         
@@ -61,7 +63,7 @@ public class SpButtonManager : MonoBehaviour
     {
         CardDealer.UserCardLoaded -= HandleButtonSetup;
         Unit.ClientOnUnitDespawned -= OnEnemyDied;
-        Unit.ClientOnUnitSpawned += OnEnemySpawn;
+        Unit.ClientOnUnitSpawned -= OnEnemySpawn;
     }
     private void HandleButtonSetup()
     {
@@ -92,7 +94,7 @@ public class SpButtonManager : MonoBehaviour
                         // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
                         GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
                         //Debug.Log($"1 player mode specialAttack: {specialAttack}");
-                        InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack);
+                        InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, false);
                     
                 }
                 else
@@ -104,7 +106,8 @@ public class SpButtonManager : MonoBehaviour
                         GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
                         GameObject specialAttackObj = Instantiate(specialAttack, unit.transform);
                         enemySp.Add(specialAttackObj);
-                        enemyUnitBtn.Add(unit.GetComponent<Unit>().unitKey, specialAttackObj);
+                        enemyUnitObj.Add(unit.GetComponent<Unit>().unitKey, specialAttackObj);
+                        InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, true);
                     }
                 }
             }
@@ -123,7 +126,7 @@ public class SpButtonManager : MonoBehaviour
                     //Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]:");// {SpecialAttackPrefab[specialAttackType]}");
                     GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
                     //Debug.Log($"1 player mode specialAttack: {specialAttack}");
-                    InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack);
+                    InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, false);
                     }
                 }
             }
@@ -166,7 +169,7 @@ public class SpButtonManager : MonoBehaviour
         }
 
     }
-    public void InstantiateSpButton(SpecialAttackDict.SpecialAttackType spType, Unit unit, GameObject specialAttack)
+    public void InstantiateSpButton(SpecialAttackDict.SpecialAttackType spType, Unit unit, GameObject specialAttack, bool enemySpawn)
     {
         //Debug.Log("SpButtonManager InstantiateSpButton()");
 
@@ -200,7 +203,16 @@ public class SpButtonManager : MonoBehaviour
         button.GetComponent<SpCostDisplay>().SetUnit(unit);
         button.GetComponent<SpCostDisplay>().SetSpPrefab(specialAttack);
         // tell unit where is the button in the list
-        unitBtn.Add(unit.unitKey, button.GetComponent<Button>());
+        if(enemySpawn == false)
+        {
+            unitBtn.Add(unit.unitKey, button.GetComponent<Button>());
+        }
+        else
+        {
+            enemyUnitBtns.Add(unit.unitKey, button.GetComponent<Button>());
+        }
+
+        
 
     }
 
@@ -208,7 +220,11 @@ public class SpButtonManager : MonoBehaviour
     {
 
     };
-    public static Dictionary<UnitMeta.UnitKey, GameObject> enemyUnitBtn = new Dictionary<UnitMeta.UnitKey, GameObject>()
+    public static Dictionary<UnitMeta.UnitKey, GameObject> enemyUnitObj = new Dictionary<UnitMeta.UnitKey, GameObject>()
+    {
+
+    };
+    public static Dictionary<UnitMeta.UnitKey, Button> enemyUnitBtns = new Dictionary<UnitMeta.UnitKey, Button>()
     {
 
     };
