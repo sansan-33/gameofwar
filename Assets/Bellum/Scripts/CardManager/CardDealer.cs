@@ -103,6 +103,14 @@ public class CardDealer : MonoBehaviour
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
         lastCard.eleixerText.text = uniteleixer.ToString();
         lastCard.SetUnitElexier(uniteleixer);
+        for (int j = 0; j < 3; j++) {
+            lastCard.stars.transform.GetChild(j).Find("Active").gameObject.SetActive(false);
+            lastCard.cardFrame.transform.GetChild(j).gameObject.SetActive(false);
+        }
+        lastCard.cardFrame.transform.GetChild(0).gameObject.SetActive(true);
+        lastCard.stars.transform.GetChild(0).Find("Active").gameObject.SetActive(true);
+        lastCard.skillIcon.gameObject.SetActive(false);
+
         //Player takes card
         yield return player.AddCard(lastCard, left);
        

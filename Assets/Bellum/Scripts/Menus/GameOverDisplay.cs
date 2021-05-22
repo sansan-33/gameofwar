@@ -41,8 +41,8 @@ public class GameOverDisplay : MonoBehaviour
         }
         else
         {
-            NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
-            //SceneManager.LoadScene("Scene_Main_Menu");
+            SceneManager.LoadScene("Scene_Main_Menu");
+            //NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
             NetworkManager.singleton.StopClient();
         }
     }

@@ -201,7 +201,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         if (gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) { return; } 
         UnitMeta.UnitSkill skill = UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType];
-        Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
+        //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
         switch (skill)
         {
             case UnitMeta.UnitSkill.SCALE:
