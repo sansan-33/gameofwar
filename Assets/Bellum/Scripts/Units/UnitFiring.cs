@@ -18,11 +18,15 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     private int damageToDeal = 0;
     private float damageToDealFactor = 1f;
     private float powerUpFactor = 0.1f;
+    private float spawnMoveRange = .5f;
 
     // The amount of time it takes for the agent to be able to attack again
     public float repeatAttackDelay;
     // The maximum angle that the agent can attack from
     public float attackAngle;
+    // The number of arrows per shoot
+    public int numShots=1;
+
 
     // The last time the agent attacked
     private float lastAttackTime;
@@ -39,18 +43,24 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     [Server]
     private void FireProjectile(Vector3 targetPosition)
     {
+
+        for (var i = 0; i < numShots; i++)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
+
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         
-        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
+            Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        
-        Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
+            Vector3 spawnOffset = UnityEngine.Random.insideUnitSphere * spawnMoveRange * numShots;
+            spawnOffset.y = 0;
+            spawnOffset.z = 0;
 
-        GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position, projectileRotation);
-        projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDeal, damageToDealFactor);
+            GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position + spawnOffset, projectileRotation);
+            projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDeal, damageToDealFactor);
 
-        NetworkServer.Spawn(projectileInstance, connectionToClient);
-            
+            NetworkServer.Spawn(projectileInstance, connectionToClient);
+        }   
     }
 
     [Server]
@@ -96,7 +106,10 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     {
         repeatAttackDelay = repeatAttackDelay * factor;
     }
-
+    public void SetNumberOfShoot(int shot)
+    {
+        numShots = shot;
+    }
     public void ScaleDamageDeal(int attack, float repeatAttackDelay, float factor)
     {
         damageToDeal = attack == 0 ? damageToDeal : attack;

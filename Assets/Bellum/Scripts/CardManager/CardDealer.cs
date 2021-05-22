@@ -37,6 +37,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] Card buttonWall;
     [SerializeField] public TotalEleixier totalEleixers;
     [SerializeField] public Shader greyScaleShader;
+  
 
     public static event Action UserCardLoaded;
     public SimpleObjectPool cardObjectPool;

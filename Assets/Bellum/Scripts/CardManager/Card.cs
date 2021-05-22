@@ -13,6 +13,8 @@ public class Card : MonoBehaviour
     [SerializeField] public TMP_Text eleixerText;
     public float cardTimer = 0;
     [SerializeField] public List<Sprite> sprite = new List<Sprite>();
+    [SerializeField] public Dictionary<UnitMeta.UnitSkill , Sprite> SkillImageDictionary = new Dictionary<UnitMeta.UnitSkill, Sprite>();
+
     private UnitFactory localFactory;
     private CardDealer dealManagers;
     private ParticlePool appearEffectPool;
@@ -24,6 +26,9 @@ public class Card : MonoBehaviour
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
+    [SerializeField] public Image skillIcon;
+    [SerializeField] public GameObject stars;
+    [SerializeField] public GameObject cardFrame;
     [SerializeField] private Image cardTimerImage;
     private float effectAmount = 1f;
 

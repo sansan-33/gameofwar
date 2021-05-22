@@ -81,6 +81,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         public bool RotateTowardsPosition(Vector3 position)
         {
             var targetRotation = Quaternion.LookRotation(position - transform.position);
+            //return true;
             return RotateTowards(targetRotation);
         }
 

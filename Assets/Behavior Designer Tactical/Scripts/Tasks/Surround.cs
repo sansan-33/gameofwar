@@ -90,12 +90,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                 }
             }else {
-                //if (MoveToAttackPosition())
-                //{
-                    FindAttackTarget();
+                if (MoveToAttackPosition())
+                {
                     tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : Attack " + tacticalAgent.TargetTransform.name + ". " + HEARTBEAT++);
                     tacticalAgent.TryAttack();
-                //}
+                }
             }
             
 

@@ -15,11 +15,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         [Tooltip("Should the agents flank from both the left and right side?")]
         public SharedBool dualFlank = false;
         [Tooltip("Should the agents wait to attack until all of the agents have moved into position?")]
-        public SharedBool waitForAttack = true;
+        public SharedBool waitForAttack = false;
         [Tooltip("Optionally set an extra distance that the agents should first move towards. This will prevent the agents from crossing in front of the enemies")]
         public SharedFloat approachDistance = 2;
         [Tooltip("The distance that the agents should be separated while attacking")]
-        public SharedFloat separation = 2;
+        public SharedFloat separation = 0.5f;
 
         private float attackStartTime;
         private Vector3 destinationOffset;

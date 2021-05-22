@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField] Transform cardSlotParent;
     [SerializeField] CardSlot cardSlotPrefab;
     [SerializeField] CardDealer cardDealer;
-   
+    [SerializeField] public UnitSkillArt unitSkillArt;
+
     [Header("Layout References")]
     [SerializeField] Transform singleHandStart;
     public float screenOffset;
@@ -31,10 +32,11 @@ public class Player : MonoBehaviour
     Vector3 v360 = new Vector3(0, 0, 180);
     private List<CardSlot> cardSlotlist = new List<CardSlot>();
     public static event Action<Card> CardRemoved;
-
+    
     void Awake()
     {
-        Reset(); 
+        Reset();
+        unitSkillArt.initDictionary();
     }
 
     public void Reset()
@@ -132,6 +134,16 @@ public class Player : MonoBehaviour
                 beforeNewCard.cardStar.text = "" + (star + 2);
                 beforeNewCard.cardFace.star = (Card_Stars) (star + 1);
                 playerHand[0][lastCardBefore] = beforeNewCard;
+                if (Enum.TryParse(beforeNewCard.cardFace.numbers.ToString(), out UnitMeta.UnitType unitType))
+                {
+                    beforeNewCard.skillIcon.gameObject.SetActive((UnitMeta.UnitStarSkill[(star + 2)][unitType]) != UnitMeta.UnitSkill.NOTHING);
+                    beforeNewCard.skillIcon.sprite = unitSkillArt.UnitSkillImageDictionary[(UnitMeta.UnitStarSkill[(star + 2)][unitType]).ToString()].image;
+                }
+                for (int j = 0 ; j < star + 2; j++)
+                {
+                    beforeNewCard.stars.transform.GetChild(j).Find("Active").gameObject.SetActive(true);
+                }
+                beforeNewCard.cardFrame.transform.GetChild(star + 1).gameObject.SetActive(true);
                 //Debug.Log($"***** Merged card {lastCardBefore } ==> star: {beforeNewCard.cardStar.text} / {beforeNewCard.cardFace.star} ");
                 //playerHand[0][lastCardBefore + 1].destroy();
                 //playerHand[0].RemoveAt(lastCardBefore + 1);

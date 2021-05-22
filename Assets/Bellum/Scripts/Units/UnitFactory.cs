@@ -124,7 +124,7 @@ public class UnitFactory : NetworkBehaviour
             }
             //Debug.Log($"unit.GetComponent<UnitPowerUp>().RpcPowerUp(unit, star){unit.GetComponent<UnitPowerUp>()}");
             spawnCount--;
-            spawnCountOffset += 2;
+            spawnCountOffset += 5;
         }
         yield return null;
     }

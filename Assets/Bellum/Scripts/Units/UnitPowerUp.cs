@@ -42,17 +42,21 @@ public class UnitPowerUp : NetworkBehaviour
             }
         }
     }
-    private void Scale(Transform unitTransform, GameObject unit)
+    private void Scale()
     {
-        unitTransform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-        unit.GetComponent<IAttack>().ScaleAttackRange(1.2f);
-        unit.GetComponent<Unit>().isScaled = true;
+        transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+        GetComponent<IAttack>().ScaleAttackRange(1.5f);
+        GetComponent<Unit>().isScaled = true;
         //Debug.Log($"Scale Up {unit.GetComponent<Unit>().unitType}");
+    }
+    private void Volley()
+    {
+        GetComponent<UnitFiring>().SetNumberOfShoot(3);
     }
     [ClientRpc]
     private void RpcScale(Transform unitTransform, GameObject unit)
     {
-        Scale(unitTransform, unit);
+        Scale();
     }
     [Command]
     public void cmdSpeedUp(float speed)
@@ -94,8 +98,6 @@ public class UnitPowerUp : NetworkBehaviour
     {
         SpeedUp(speed, accumulate);
     }
-
-
     // ======================================= Special Attack setting ==================================== 
     // Sample Template for Mirror CMD SERVER RPC Usage
     /// <summary>
@@ -184,7 +186,7 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
         GetComponent<RVOController>().layer = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer2 : RVOLayer.Layer3;
-
+        HandleUnitSKill(star);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
         }
@@ -195,6 +197,25 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"{gameObject.tag} : {gameObject.name} RpcPowerUp cardLevel {cardLevel} health {health} speed {speed}");
         HandlePowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
     }
+    private void HandleUnitSKill(int star)
+    {
+        if (gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) { return; } 
+        UnitMeta.UnitSkill skill = UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType];
+        Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
+        switch (skill)
+        {
+            case UnitMeta.UnitSkill.SCALE:
+                Scale();
+                break;
+            case UnitMeta.UnitSkill.VOLLEY:
+                Volley();
+                break;
+            case UnitMeta.UnitSkill.NOTHING:
+            default:
+                break;
+        }
+    }
+
     //======================================================== End of Unit Factory   ================================================================
-    
+
 }

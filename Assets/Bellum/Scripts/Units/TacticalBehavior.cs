@@ -188,7 +188,7 @@ public class TacticalBehavior : MonoBehaviour
             {
                 var group = agentTrees[k].Group;
                 
-                if (group == 1 || group ==2 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
+                if (group == 1 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 //agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
                 if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER || child.GetComponent<Unit>().unitType == UnitMeta.UnitType.FOOTMAN)
                     agentTrees[k].SetVariableValue("newTargetName", enemyCount == 0 ? "King" + enemyid : "Player" + enemyid);
