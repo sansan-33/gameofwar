@@ -24,8 +24,10 @@ public class SpButtonManager : MonoBehaviour
 
     public int buttonOffSet;
     public RectTransform FirstCardPos;
+    public RectTransform enemyFirstCardPos;
     private GameObject button;
     private int buttonCount;
+    private int enemybuttonCount;
     private bool enemyDied = false;
     private Unit diedEnemy;
     private List<SpecialAttackDict.SpecialAttackType> spawnedButtonSpType = new List<SpecialAttackDict.SpecialAttackType>();
@@ -104,9 +106,7 @@ public class SpButtonManager : MonoBehaviour
                         SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
                         // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
                         GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
-                        GameObject specialAttackObj = Instantiate(specialAttack, unit.transform);
-                        enemySp.Add(specialAttackObj);
-                        enemyUnitObj.Add(unit.GetComponent<Unit>().unitKey, specialAttackObj);
+                        
                         InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, true);
                     }
                 }
@@ -145,7 +145,7 @@ public class SpButtonManager : MonoBehaviour
     }
     private void OnEnemySpawn(Unit unit)
     {
-        StartCoroutine(SetupSpecialButtonMidMatch(unit));
+        //StartCoroutine(SetupSpecialButtonMidMatch(unit));
     }
 
     private IEnumerator SetupSpecialButtonMidMatch(Unit unit)
@@ -175,13 +175,24 @@ public class SpButtonManager : MonoBehaviour
 
         //only spawn one button for each type of Sp
         //Debug.Log($"spawn {spType}");
-        buttonCount++;
+        if (enemySpawn == true)
+        {
+            enemybuttonCount++;
+        }
+        else
+        {
+            buttonCount++;
+        }
+
+        
         // if(spType == SpecialAttackDict.SpecialAttackType.Shield) { Debug.Log(buttonCount); }
         // spawn the button
         CharacterImage characterImage = Arts.CharacterArtDictionary[unit.unitKey.ToString()];
         button = Instantiate(buttonPrefab, spPrefabParent);
         //Set button pos
-        button.GetComponent<RectTransform>().anchoredPosition = new Vector3(FirstCardPos.anchoredPosition.x + buttonOffSet * buttonCount, FirstCardPos.anchoredPosition.y, 0);
+        button.GetComponent<RectTransform>().anchoredPosition = !enemySpawn ? new Vector3(FirstCardPos.anchoredPosition.x + buttonOffSet * buttonCount, FirstCardPos.anchoredPosition.y, 0) :
+        new Vector3(enemyFirstCardPos.anchoredPosition.x + buttonOffSet * enemybuttonCount, enemyFirstCardPos.anchoredPosition.y, 0);
+        
         buttonChild = button.transform.Find("mask").gameObject;
         buttonChild.transform.GetChild(0).GetComponent<Image>().sprite = characterImage.image;
         SpecialAttackDict.ChildSpSprite.TryGetValue(spType, out sprite);
@@ -190,18 +201,25 @@ public class SpButtonManager : MonoBehaviour
         buttons.Add(button.GetComponent<Button>());
 
         // Instantiate specialAttack
-
-        GameObject specialAttackObj = Instantiate(specialAttack, spPrefabParent);        
+        GameObject specialAttackObj = Instantiate(specialAttack, spPrefabParent);
 
         ISpecialAttack iSpecialAttack = specialAttackObj.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
         specialAttackObj.transform.SetParent(unit.transform);
+        if (enemySpawn == true)
+        {
+            //Debug.Log("Instantiate SP");
+            enemySp.Add(specialAttackObj);
+            enemyUnitObj.Add(unit.GetComponent<Unit>().unitKey, specialAttackObj);
+        }
+
+        
         
        // Debug.Log($"SpButtonManager InstantiateSpButton() specialAttackObj:{specialAttackObj}, iSpecialAttack:{iSpecialAttack}");
 
 
         button.GetComponent<Button>().onClick.AddListener(iSpecialAttack.OnPointerDown);
         button.GetComponent<SpCostDisplay>().SetUnit(unit);
-        button.GetComponent<SpCostDisplay>().SetSpPrefab(specialAttack);
+        button.GetComponent<SpCostDisplay>().SetSpPrefab(specialAttackObj);
         // tell unit where is the button in the list
         if(enemySpawn == false)
         {

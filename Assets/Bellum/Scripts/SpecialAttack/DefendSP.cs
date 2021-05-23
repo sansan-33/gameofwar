@@ -34,37 +34,30 @@ public class DefendSP : MonoBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
-        if(transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
+        if (!SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn))
         {
-            SpButtonManager.enemyUnitObj.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj);
-            if (spCost.useSpCost == true)
-            {
-                if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
-                obj.GetComponent<EnemySpManager>().ChangeSPCost(-SPCost);
-            }
+            SpButtonManager.enemyUnitBtns.TryGetValue(GetComponentInParent<Unit>().unitKey, out var _btn);
+            btn = _btn;
         }
-        else
-        {
-            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
-            if (spCost.useSpCost == true)
+        if (spCost.useSpCost == true)
             {
                 //if (spCost.SPAmount < SPCost) { return; }
                 if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
                 StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
                 spCost.UpdateSPAmount(-SPCost, null);
             }
-        }
+        
 
         Unit[] shieldList;
         //find all unit
         shieldList = FindObjectsOfType<Unit>();
         //senemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
-
+        int id = transform.parent.CompareTag("Player0") || transform.parent.CompareTag("King0") ? 0 : 1;
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
             foreach (Unit shield in shieldList)
             {  // Only Set on our side
-                if (shield.CompareTag("Player0") || shield.CompareTag("King0"))
+                if (shield.CompareTag("Player" + id) || shield.CompareTag("King" + id))
                 {
                     //Debug.Log($"Spawn Shield {shield.name}");
                     // Set shield health

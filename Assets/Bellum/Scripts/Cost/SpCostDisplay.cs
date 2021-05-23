@@ -41,6 +41,21 @@ public class SpCostDisplay : MonoBehaviour
     {
         unit.OnUnitDespawned -= Ondestroy;
     }
+    public void HandleSp(int amount)
+    {
+        if(amount < 0)
+        {
+            StartCoroutine(MinusSpCost(amount));
+        }
+        else
+        {
+            while(amount > 0)
+            {
+                amount--;
+                StartCoroutine(AddSpCost());
+            }
+        }
+    }
     /// <summary>
     /// Add one Sp Cost
     /// </summary>
@@ -117,17 +132,19 @@ public class SpCostDisplay : MonoBehaviour
     }
     private void Update()
     {
-        if (useTimer != false)
+        //Debug.Log($"Sp parent :{unit}");
+        if (useTimer != false && unit != null)
         {
-            if (Timer > 0)
-            {
-                Timer -= Time.deltaTime;
-            }
-            else
-            {
+                if (Timer > 0)
+                {
+                    Timer -= Time.deltaTime;
+                }
+                else
+                {
                     Timer = waitTime;
                     StartCoroutine(AddSpCost());
-            }
+                }
+           
         }
         if(SpPrefab != null)
         {
@@ -139,12 +156,19 @@ public class SpCostDisplay : MonoBehaviour
                 particleSystem1.Play();
                 //particleSystem2.gameObject.SetActive(true);
                 //particleSystem2.Play();
+                if (unit.CompareTag("Player1")|| unit.CompareTag("King1"))
+                { 
+                
+                    iSpecialAttack.OnPointerDown();
+                   // Debug.Log("OnPointerDown");
+                }
             }
             else
             {
                 particleSystem1.gameObject.SetActive(false);
                // particleSystem2.gameObject.SetActive(false);
             }
+            
         } 
     }
     public void SetUnit(Unit unit)
