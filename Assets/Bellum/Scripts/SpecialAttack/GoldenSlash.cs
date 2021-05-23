@@ -47,26 +47,19 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
     {
         //Debug.Log($"GoldenSlash FindAttackTargetInDistance");
         // if (attackPoint == null) { return; }
-        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
+        if (!SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn))
         {
-            SpButtonManager.enemyUnitObj.TryGetValue(GetComponentInParent<Unit>().unitKey, out GameObject obj);
-            if (spCost.useSpCost == true)
-            {
-                if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
-                obj.GetComponent<EnemySpManager>().ChangeSPCost(-SPCost);
-            }
+            SpButtonManager.enemyUnitBtns.TryGetValue(GetComponentInParent<Unit>().unitKey, out var _btn);
+            btn = _btn;
         }
-        else
-        {
-            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
-            if (spCost.useSpCost == true)
+        if (spCost.useSpCost == true)
             {
                 //if (spCost.SPAmount < SPCost) { return; }
                 if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
                 StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
                 spCost.UpdateSPAmount(-SPCost, null);
             }
-        }
+        
 
         searchPoint = transform.parent.transform;
         GameObject closestTarget = null;

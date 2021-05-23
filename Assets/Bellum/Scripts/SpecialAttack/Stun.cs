@@ -50,36 +50,33 @@ public class Stun : NetworkBehaviour, ISpecialAttack
         //Debug.Log("OnPointerDown() try to find spCost");
         //spCost = FindObjectOfType<SpCost>();
         //Debug.Log($"OnPointerDown() spCost:{spCost}");
-
-
-        if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
+       // if (transform.parent == null) { return; }
+       // Debug.Log($"parent : {transform.parent}");
+        if(!SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn))
         {
-            SpButtonManager.enemyUnitObj.TryGetValue(GetComponent<Unit>().unitKey, out GameObject obj);
-            if (spCost.useSpCost == true)
-            {
-                if (obj.GetComponent<EnemySpManager>().spCost < SPCost) { return; }
-                obj.GetComponent<EnemySpManager>().ChangeSPCost(-SPCost);
-            }
+            SpButtonManager.enemyUnitBtns.TryGetValue(GetComponentInParent<Unit>().unitKey, out var _btn);
+            btn = _btn;
         }
-        else
-        {
-            SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn);
+
+
             if (spCost.useSpCost == true)
             {
-                //if (spCost.SPAmount < SPCost) { return; }
+            //if (spCost.SPAmount < SPCost) { return; }
+            
                 if ((btn.GetComponent<SpCostDisplay>().spCost / 3) < SPCost) { return; }
                 StartCoroutine(btn.GetComponent<SpCostDisplay>().MinusSpCost(SPCost));
                 spCost.UpdateSPAmount(-SPCost, null);
             }
-        }
+        
         //Debug.Log($"b4 OnPointerDown ==> StartCoroutine {btn.tag} {btn.name} ");
 
         UnitRepeatAttackDelaykeys.Clear();
         UnitSpeedkeys.Clear();
         //find all enemy unit
-        enemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
+        int id = transform.parent.CompareTag("Player0") || transform.parent.CompareTag("King0") ? player.GetEnemyID() : player.GetPlayerID();
+        enemyList = GameObject.FindGameObjectsWithTag("Player" + id).ToList();
 
-        var a = GameObject.FindGameObjectsWithTag("King" + player.GetEnemyID());
+        var a = GameObject.FindGameObjectsWithTag("King" + id);
         if (a.Length > 0)
             enemyList.AddRange(a);
        
@@ -88,13 +85,14 @@ public class Stun : NetworkBehaviour, ISpecialAttack
             GetComponentInParent<UnitWeapon>().CMVirtual();
             //stop enenmy
             foreach (GameObject unit in enemyList)
-            {  
+            {
+                //Debug.Log($"name : {unit.name} tag : {unit.tag}");
                 enemyReFightTimer = enemyFrezzeTime;
                 CanUnFrezze = true;
                 CardStats cardStats = GetComponentInParent<Unit>().GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.Add(unit, cardStats.repeatAttackDelay);
                 UnitSpeedkeys.Add(unit, cardStats.speed);
-                unit.GetComponent<UnitPowerUp>().SpecialEffect(0, 0);
+                unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
 
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);

@@ -8,8 +8,10 @@ public class EnemySpManager : MonoBehaviour
 {
     public int spCost;
     private float Timer = 10000;
+    private Button btn;
     private int waitTime = 10;
     public bool useTimer = false;
+
     private RTSPlayer player;
     private List<GameObject> enemySp = new List<GameObject>();
     // Start is called before the first frame update
@@ -27,8 +29,10 @@ public class EnemySpManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         if(transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
         {
-           
+            
             this.enemySp = SpButtonManager.enemySp;
+            SpButtonManager.enemyUnitBtns.TryGetValue(GetComponentInParent<Unit>().unitKey, out var button1);
+            btn = button1;
             foreach (Button button in SpButtonManager.buttons)
             {
                
@@ -41,26 +45,30 @@ public class EnemySpManager : MonoBehaviour
     }
     public void ChangeSPCost(int amount)
     {
-       
         spCost += amount;
+       // btn.GetComponent<SpCostDisplay>().HandleSp(amount);
         //Debug.Log($"ChangeSPCost {spCost}");
     }
     // Update is called once per frame
     void Update()
     {
-        if(enemySp != null)
+        StartCoroutine(HandleUpdate());
+    }
+    private IEnumerator HandleUpdate()
+    {
+        if (enemySp != null)
         {
             //Debug.Log(1);
-            foreach(GameObject SpPrefab in enemySp)
+            foreach (GameObject SpPrefab in enemySp)
             {
 
-                if(SpPrefab != null)
+                if (SpPrefab != null)
                 {
                     ISpecialAttack iSpecialAttack = SpPrefab.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
                     //Debug.Log($"iSpecialAttack.GetSpCost(){iSpecialAttack.GetSpCost()} < {spCost}");
                     if (iSpecialAttack.GetSpCost() <= spCost)
                     {
-                      //  Debug.Log($"OnPointerDown {transform.parent.tag}");
+                        //  Debug.Log($"OnPointerDown {transform.parent.tag}");
                         iSpecialAttack.OnPointerDown();
                     }
                 }
@@ -76,9 +84,13 @@ public class EnemySpManager : MonoBehaviour
             else
             {
                 Timer = waitTime;
-                Debug.Log("Add SP'");
-                ChangeSPCost(1);
+                Debug.Log($"Add SP {transform.parent.tag} waitTime : {waitTime} Timer:{Timer}");
+                //ChangeSPCost(1);
             }
         }
+
+
+        yield return null;
     }
+
 }
