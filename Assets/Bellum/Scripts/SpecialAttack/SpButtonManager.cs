@@ -190,6 +190,10 @@ public class SpButtonManager : MonoBehaviour
         CharacterImage characterImage = Arts.CharacterArtDictionary[unit.unitKey.ToString()];
         button = Instantiate(buttonPrefab, spPrefabParent);
         //Set button pos
+        if(enemySpawn == true)
+        {
+            button.GetComponent<RectTransform>().SetAnchor(AnchorPresets.TopCenter);
+        }
         button.GetComponent<RectTransform>().anchoredPosition = !enemySpawn ? new Vector3(FirstCardPos.anchoredPosition.x + buttonOffSet * buttonCount, FirstCardPos.anchoredPosition.y, 0) :
         new Vector3(enemyFirstCardPos.anchoredPosition.x + buttonOffSet * enemybuttonCount, enemyFirstCardPos.anchoredPosition.y, 0);
         
@@ -246,6 +250,7 @@ public class SpButtonManager : MonoBehaviour
     {
 
     };
+
     // Update is called once per frame
     void Update()
     {
@@ -253,4 +258,5 @@ public class SpButtonManager : MonoBehaviour
     }
 
 }
+
 
