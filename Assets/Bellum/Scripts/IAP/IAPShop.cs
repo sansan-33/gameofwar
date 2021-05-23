@@ -5,7 +5,7 @@ using UnityEngine.Purchasing;
 
 public class IAPShop : MonoBehaviour
 {
-    private string buy = "com.sansan-33.bellum.buy";
+    private string buy = "com.sansan33.bellum.buy";
     [SerializeField] public GameObject restorePurchaseBtn;
 
     private void Awake()
