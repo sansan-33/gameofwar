@@ -53,6 +53,10 @@ public class UnitPowerUp : NetworkBehaviour
     {
         GetComponent<UnitFiring>().SetNumberOfShoot(3);
     }
+    private void Provoke()
+    {
+        //GetComponent<UnitFiring>().SetNumberOfShoot(3);
+    }
     [ClientRpc]
     private void RpcScale(Transform unitTransform, GameObject unit)
     {
@@ -209,6 +213,9 @@ public class UnitPowerUp : NetworkBehaviour
                 break;
             case UnitMeta.UnitSkill.VOLLEY:
                 Volley();
+                break;
+            case UnitMeta.UnitSkill.PROVOKE:
+                Provoke();
                 break;
             case UnitMeta.UnitSkill.NOTHING:
             default:

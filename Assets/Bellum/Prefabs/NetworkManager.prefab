@@ -49,7 +49,7 @@ MonoBehaviour:
   startOnHeadless: 1
   showDebugMessages: 0
   serverTickRate: 30
-  offlineScene: 
+  offlineScene: Assets/Bellum/Scenes/Scene_Main_Menu.unity
   onlineScene: 
   transport: {fileID: 2616846832148046254}
   networkAddress: localhost
@@ -61,29 +61,67 @@ MonoBehaviour:
   autoCreatePlayer: 1
   playerSpawnMethod: 1
   spawnPrefabs:
-  - {fileID: 6818829978409247743, guid: 8be3670da1d6ee74b83f7197669a9ed6, type: 3}
+  - {fileID: 3419004467330613521, guid: 3ff91ecdddf434ef9b9402866119f3f0, type: 3}
   - {fileID: 4035699833470688586, guid: 9420570756c60ac4face05b533eb2774, type: 3}
   - {fileID: 6818829978409247743, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
-  - {fileID: 2195545814900066717, guid: bde7ec544f0f62545964b15791459767, type: 3}
-  - {fileID: 3714870687590703606, guid: 73a810fcf32d37b42962d05a9a0d9c95, type: 3}
-  - {fileID: 2315851388335868515, guid: 5aa8c9a7e5556794a91c6eb67af5dc8a, type: 3}
-  - {fileID: 2195545814900066717, guid: 2add5333ec220214a8a59a6017f4c615, type: 3}
-  - {fileID: 3714870687590703606, guid: a3cf9c6d519b275409a66a3b0a73984c, type: 3}
-  - {fileID: 2315851388335868515, guid: 238678013f3ac40479875cd2da1650eb, type: 3}
-  - {fileID: 1026536070918934, guid: 59e7fb78a653f47daaeb119e0d9bc13f, type: 3}
-  unitBasePrefab: {fileID: 6818829978409247743, guid: 8be3670da1d6ee74b83f7197669a9ed6, type: 3}
-  archerPrefab: {fileID: 0}
-  miniSkeletonPrefab: {fileID: 0}
-  knightPrefab: {fileID: 0}
-  heroPrefab: {fileID: 0}
-  spearmanPrefab: {fileID: 0}
-  sampleUnitPrefab: {fileID: 0}
-  unitFactoryPrefab: {fileID: 0}
-  giantPrefab: {fileID: 0}
-  magePrefab: {fileID: 0}
-  cavalryPrefab: {fileID: 0}
-  kingPrefab: {fileID: 0}
+  - {fileID: 2656945522907152493, guid: 1a1baa8ef0e924e0eb555c2854ad9db3, type: 3}
+  - {fileID: 2656945522907152493, guid: 616a81fc254974704b4b71fd132308d3, type: 3}
+  - {fileID: 373999713572597174, guid: 6be1de1e98f3e4f2a93474332dbb8d56, type: 3}
+  - {fileID: 8820407336119843646, guid: 9f639b14e1b8849279b03335867352b6, type: 3}
+  - {fileID: 732227260749704247, guid: 1a7f5ddb289af43c180f5fca1f18d203, type: 3}
+  - {fileID: 3565408031631632974, guid: 03df7390ef7464ada9ce52a6153e6888, type: 3}
+  - {fileID: 1720380604131792931, guid: 37fa600deb1bc447f9441e1ecf388194, type: 3}
+  - {fileID: 6994124162946792485, guid: 53491b9b54b164ef9a791d4ade19f045, type: 3}
+  - {fileID: 300388701929294696, guid: 81bd4f315fe08484ebf9525f04502c9e, type: 3}
+  - {fileID: 860431621525514400, guid: 6c2c086303690a04fbfd12e7fb459204, type: 3}
+  - {fileID: 860431621525514400, guid: 381598a01c94c2e4aa7b7f1972da6ab2, type: 3}
+  - {fileID: 860431621525514400, guid: 162b0fab9d06e324dbfd7aeeb71e3d22, type: 3}
+  - {fileID: 860431621525514400, guid: 6cb8d68a894eb5a46a042e14e2d60bd1, type: 3}
+  - {fileID: 860431621525514400, guid: f43aaf46a6ee8584e87f1da345a30b27, type: 3}
+  - {fileID: 860431621525514400, guid: 2a159a053ad7ef04ca4f9451efd9a4c1, type: 3}
+  - {fileID: 860431621525514400, guid: 6c18c85f0bceb2e449a32500bba3580f, type: 3}
+  - {fileID: 860431621525514400, guid: f1daea1b777044048a68460fcf509d29, type: 3}
+  - {fileID: 6744575988926894544, guid: f7c51e484e3d2400b9ee482acd63be85, type: 3}
+  - {fileID: 1762484389490778618, guid: c5a475fa0872443c5a3028c2d53b1f2c, type: 3}
+  - {fileID: 8986335009857988111, guid: 067d8033daf724e4dbdb70a750e873fe, type: 3}
+  - {fileID: 6837193383246646566, guid: 6ac39bdc16e104ef6b89acba52c27d9b, type: 3}
+  - {fileID: 860431621525514400, guid: 71c5ac0cad7b34577b29d6dcf8e5f5cf, type: 3}
+  - {fileID: 8072577695093048450, guid: 0ce1ae312268442f89ba4e0ed3c5d1f7, type: 3}
+  - {fileID: 3931754748427464352, guid: 6b056d21564ed42049a7c7904d67ec01, type: 3}
+  - {fileID: 8574794660724119623, guid: 9a3a4b3a1b289ef4288e782e324644fd, type: 3}
+  - {fileID: 7815172197941435234, guid: c8ce6b4bae235c6478b0c0e75fa68e5e, type: 3}
+  - {fileID: 1762484389490778618, guid: 34ce9103ce45049bf83431de7d5812fb, type: 3}
+  - {fileID: 8745828811818118974, guid: 176269277ff45482b9da0d51230407cf, type: 3}
+  - {fileID: 2221716286051992153, guid: 998afe2754a09004f82e7821363a8113, type: 3}
+  - {fileID: 860431621525514400, guid: 83a79278d12ff45138a7a8a98f61436e, type: 3}
+  - {fileID: 3931754748427464352, guid: 991776090257c449d83d6ed8c3b387e7, type: 3}
+  - {fileID: 100000, guid: a66737023181f468595fdd8386cdad71, type: 3}
+  - {fileID: 1750940742320366, guid: 046975e2ebaa94864b46e295cba599bd, type: 3}
+  - {fileID: 100000, guid: e96ce0a6f3e3e4bacadca7760b3c46e0, type: 3}
+  - {fileID: 100006, guid: f50d6452269444f75955054f0dd71292, type: 3}
+  - {fileID: 795373343299834476, guid: 7dba4376eea514bdd8c393791a18d23a, type: 3}
+  - {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
+  - {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
+  - {fileID: 7438937032517910368, guid: 787b65dd06bed4d87aaa49a81135a5bd, type: 3}
+  undeadArcherPrefab: {fileID: 8745828811818118974, guid: 176269277ff45482b9da0d51230407cf, type: 3}
+  miniSkeletonPrefab: {fileID: 7815172197941435234, guid: c8ce6b4bae235c6478b0c0e75fa68e5e, type: 3}
+  knightPrefab: {fileID: 8072577695093048450, guid: 0ce1ae312268442f89ba4e0ed3c5d1f7, type: 3}
+  heroPrefab: {fileID: 6837193383246646566, guid: 6ac39bdc16e104ef6b89acba52c27d9b, type: 3}
+  spearmanPrefab: {fileID: 8986335009857988111, guid: 067d8033daf724e4dbdb70a750e873fe, type: 3}
+  unitFactoryPrefab: {fileID: 8088222534062158649, guid: d2415ae51e45e4bcbae689336e1e39ec, type: 3}
+  giantPrefab: {fileID: 8574794660724119623, guid: 9a3a4b3a1b289ef4288e782e324644fd, type: 3}
+  magePrefab: {fileID: 3931754748427464352, guid: 6b056d21564ed42049a7c7904d67ec01, type: 3}
+  cavalryPrefab: {fileID: 1762484389490778618, guid: c5a475fa0872443c5a3028c2d53b1f2c, type: 3}
+  riderPrefab: {fileID: 1762484389490778618, guid: 34ce9103ce45049bf83431de7d5812fb, type: 3}
+  kingPrefab: {fileID: 860431621525514400, guid: 71c5ac0cad7b34577b29d6dcf8e5f5cf, type: 3}
+  undeadHeroPrefab: {fileID: 2221716286051992153, guid: 998afe2754a09004f82e7821363a8113, type: 3}
+  undeadKingPrefab: {fileID: 860431621525514400, guid: 83a79278d12ff45138a7a8a98f61436e, type: 3}
+  archerPrefab: {fileID: 6744575988926894544, guid: f7c51e484e3d2400b9ee482acd63be85, type: 3}
+  odinPrefab: {fileID: 860431621525514400, guid: 2a159a053ad7ef04ca4f9451efd9a4c1, type: 3}
+  thorPrefab: {fileID: 860431621525514400, guid: f1daea1b777044048a68460fcf509d29, type: 3}
+  lokiPrefab: {fileID: 860431621525514400, guid: f43aaf46a6ee8584e87f1da345a30b27, type: 3}
   gameOverHandlerPrefab: {fileID: 4035699833470688585, guid: 9420570756c60ac4face05b533eb2774, type: 3}
+  gameBoardHandlerPrefab: {fileID: 1617644115191324618, guid: 3ff91ecdddf434ef9b9402866119f3f0, type: 3}
 --- !u!114 &2616846832148046254
 MonoBehaviour:
   m_ObjectHideFlags: 0
