@@ -54,6 +54,8 @@ public class UserProfileManager : MonoBehaviour
         requestTextUpdate?.Invoke();
         //Debug.Log($"Get User Profile {webReq.url } {jsonResult}");
     }
+
+    // IAPShop buy button will call this function when purchase completed.
     public void RewardSignUp()
     {
         RewardDiamond(30);
