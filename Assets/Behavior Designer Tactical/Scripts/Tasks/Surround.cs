@@ -70,7 +70,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     detour = true;
                 }
                 tacticalAgent.SetDestination(destination);
-                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : Target Attack center is " + attackCenter + " , Unit Moving to Destination " + destination + ". " + HEARTBEAT++);
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": Agent " + tacticalAgent.transform.name + " : Target Attack target is " + target.name + " , Unit Moving to Destination " + destination + ". " + HEARTBEAT++);
 
                 // The agents can't be in position if they are taking a detour.
                 if (!detour && tacticalAgent.HasArrived()) {

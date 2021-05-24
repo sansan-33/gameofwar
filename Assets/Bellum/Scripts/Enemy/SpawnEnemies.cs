@@ -6,6 +6,7 @@ using SimpleJSON;
 using UnityEngine.Networking;
 using System.Text;
 using System;
+using System.Linq;
 
 public class SpawnEnemies : MonoBehaviour
 {
@@ -62,7 +63,7 @@ public class SpawnEnemies : MonoBehaviour
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.TANK].ToString()];
                     localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.TANK, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
-                /*
+                
                 if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
                 {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.ARCHER].ToString()];
@@ -74,7 +75,7 @@ public class SpawnEnemies : MonoBehaviour
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.FOOTMAN].ToString()];
                     localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.FOOTMAN, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
-                 */
+                
                 StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
@@ -94,7 +95,14 @@ public class SpawnEnemies : MonoBehaviour
     private int isUnitAlive(UnitMeta.UnitType unitType)
     {
         int isAlive = 0;
-        GameObject[] armies = GameObject.FindGameObjectsWithTag(unitType == UnitMeta.UnitType.KING ? UnitMeta.KINGENEMYTAG : UnitMeta.ENEMYTAG);
+        List<GameObject> armies = new List<GameObject>();
+        GameObject[] units = GameObject.FindGameObjectsWithTag(unitType == UnitMeta.UnitType.KING ? UnitMeta.KINGENEMYTAG : UnitMeta.ENEMYTAG);
+        armies = units.ToList(); 
+        GameObject[] tank = GameObject.FindGameObjectsWithTag("Provoke1");
+        if (tank != null)
+        {
+            armies.AddRange(tank.ToList());
+        }
         foreach (GameObject child in armies)
         {
             if (child.GetComponent<Unit>().unitType == unitType) { 

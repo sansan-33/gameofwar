@@ -198,4 +198,8 @@ public class UnitMovement : NetworkBehaviour , IUnitMovement
     {
         return isCollided;
     }
+    public void provoke(bool provoke)
+    {
+
+    }
 }
