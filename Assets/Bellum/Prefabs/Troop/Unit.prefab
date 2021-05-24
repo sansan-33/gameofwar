@@ -1049,7 +1049,6 @@ GameObject:
   - component: {fileID: 4949710644524271067}
   - component: {fileID: 720658289876782571}
   - component: {fileID: 5187453383860487590}
-  - component: {fileID: 591646271550828481}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Unit
@@ -1120,8 +1119,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2460804451879552499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1160,8 +1159,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2460804451879552497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1200,8 +1199,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2460804451879552509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,8 +1239,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2460804451879552506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1280,8 +1279,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2460804451879552507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1320,8 +1319,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &2460804451879552504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,8 +1359,8 @@ MonoBehaviour:
         byteData: 
         byteDataArray: 
       Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
+  gizmoViewMode: 0
+  showBehaviorDesignerGizmo: 0
 --- !u!114 &8177061792055659751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,9 +1495,9 @@ MonoBehaviour:
   shield: {fileID: 3007018670020009129}
   IsFrezze: 0
   IsElectricShock: 0
-  specialEffectPrefab: {fileID: 1965343156803978, guid: aa8d6482d70a23445b4b2a928ed1b845, type: 3}
+  specialEffectPrefab: {fileID: 1965343156803978, guid: 3dc1e9ee58f1d453aa8ee52e54bde010, type: 3}
   blinkDuration: 0.2
-  blinkIntensity: 10
+  blinkIntensity: 5
 --- !u!114 &6338718717875103638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1570,6 +1569,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   specialEffectPrefab: {fileID: 100000, guid: 3d4907e6bd39f474b8fd8220920e65c4, type: 3}
+  fxEffectPrefab: {fileID: 1651284899731740, guid: 1962cefffce3e49e9b674ababb5c735f, type: 3}
   battleFieldRules: {fileID: 1632355196208456466}
   canSpawnEffect: 1
 --- !u!114 &1632355196208456466
@@ -1724,6 +1724,7 @@ MonoBehaviour:
   reachedEndOfPath: 0
   other: {fileID: 0}
   isCollided: 0
+  isProvoked: 0
   repathRate: 1
 --- !u!114 &720658289876782571
 MonoBehaviour:
@@ -1767,47 +1768,6 @@ MonoBehaviour:
   wallAvoidFalloff: 1
   priority: 0.5
   debug: 0
---- !u!114 &591646271550828481
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2460804451879552006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d7b55c7ecdb49a4a89fa5e6f9022861, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startWhenEnabled: 0
-  asynchronousLoad: 0
-  pauseWhenDisabled: 0
-  restartWhenComplete: 0
-  logTaskChanges: 0
-  group: 2
-  resetValuesOnRestart: 0
-  externalBehavior: {fileID: 0}
-  mBehaviorSource:
-    behaviorName: Marching Fire
-    behaviorDescription: 
-    mTaskData:
-      types: []
-      parentIndex: 
-      startIndex: 
-      variableStartIndex: 
-      JSONSerialization: '{"EntryTask":{"Type":"BehaviorDesigner.Runtime.Tasks.EntryTask","NodeData":{"Offset":"(0,0)"},"ID":0,"Name":"Entry","Instant":true},"RootTask":{"Type":"BehaviorDesigner.Runtime.Tactical.Tasks.MarchingFire","NodeData":{"Offset":"(-2.5,120)"},"ID":1,"Name":"Marching
-        Fire","Instant":true,"SharedIntagentsPerRow":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":3},"SharedVector2separation":{"Type":"BehaviorDesigner.Runtime.SharedVector2","Name":"","Vector2mValue":"(2,2.5)"},"SharedFloatattackDistance":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":4},"SharedGameObjectleader":{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true},"SharedIntleaderGroupIndex":{"Type":"BehaviorDesigner.Runtime.SharedInt","Name":"","Int32mValue":0},"SharedGameObjectListtargetGroup":{"Type":"BehaviorDesigner.Runtime.SharedGameObjectList","Name":"","List`1mValue":[]},"SharedStringtargetTag":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"newTargetName","IsShared":true},"SharedFloatwaitTime":{"Type":"BehaviorDesigner.Runtime.SharedFloat","Name":"","SinglemValue":0},"SharedVector3attackOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedVector3targetOffset":{"Type":"BehaviorDesigner.Runtime.SharedVector3","Name":"","Vector3mValue":"(0,0,0)"},"SharedBooluseTargetBone":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":"","BooleanmValue":false},"HumanBodyBonestargetBone":"Hips","BooleanIsCollide":false},"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedString","Name":"newTargetName","IsShared":true},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"newLeader","IsShared":true}]}'
-      fieldSerializationData:
-        typeName: []
-        fieldNameHash: 
-        startIndex: 
-        dataPosition: 
-        unityObjects: []
-        byteData: 
-        byteDataArray: 
-      Version: 1.6.7
-  gizmoViewMode: 2
-  showBehaviorDesignerGizmo: 1
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0
@@ -2154,7 +2114,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &3959836454772949414
@@ -3329,7 +3289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.1, y: 4.75}
+  m_AnchoredPosition: {x: 0.1, y: 3.97}
   m_SizeDelta: {x: 0.26433623, y: 0.17310166}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1184994199853394038

@@ -37,8 +37,16 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private void Start()
     {
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        playerGround = GameObject.FindGameObjectWithTag("FightGround").GetComponent<PlayerGround>();
-       
+        //playerGround = GameObject.FindGameObjectWithTag("FightGround").GetComponent<PlayerGround>();
+        GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
+        foreach (GameObject ground in grounds)
+        {
+            if (ground.TryGetComponent(out PlayerGround pg))
+            {
+                playerGround = pg;
+                break;
+            }
+        }
         mainCamera = Camera.main;
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         Input.simulateMouseWithTouches = false;
@@ -168,7 +176,6 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         int type = (int)GetComponent<Card>().cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         playerRace = StaticClass.playerRace;
-        //Debug.Log($"MoveUnitInstance race {playerRace} type {type}");
         GameObject UnitPrefab = localFactory.GetUnitPrefab(playerRace, (UnitMeta.UnitType)type);
         if (unitPreviewInstance == null)
         {

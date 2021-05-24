@@ -133,11 +133,13 @@ public class TacticalBehavior : MonoBehaviour
 
         //var stopwatch = new Stopwatch();
         //stopwatch.Start();
-
+        bool provoke = false;
         GameObject defendObject;
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
-        int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length;
+        GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
+        GameObject[] provokeEnemyTanks = GameObject.FindGameObjectsWithTag("Provoke" + enemyid);
+        int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length + GameObject.FindGameObjectsWithTag("Provoke" + enemyid).Length;
         int leaderUnitTypeID = 0;
         List<GameObject> armies = new List<GameObject>();
        
@@ -145,8 +147,7 @@ public class TacticalBehavior : MonoBehaviour
             leaders[playerid].Clear();
             behaviorTreeGroups[playerid].Clear();
             armies = units.ToList();
-        }
-        else {
+        } else {
             leaders[playerid].Remove((int)unit.GetComponent<Unit>().unitType);
             behaviorTreeGroups[playerid].Remove((int)unit.GetComponent<Unit>().unitType);
             foreach (GameObject child in units) {
@@ -156,7 +157,10 @@ public class TacticalBehavior : MonoBehaviour
         }
         if (king != null)
             armies.Add(king);
-
+        if (provokeTanks != null && provokeTanks.Length > 0)
+            armies.AddRange(provokeTanks.ToList());
+        if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0 )
+            provoke = true;
 
         foreach (GameObject child in armies)
         {
@@ -189,11 +193,8 @@ public class TacticalBehavior : MonoBehaviour
                 var group = agentTrees[k].Group;
                 
                 if (group == 1 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
-                //agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
-                if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER || child.GetComponent<Unit>().unitType == UnitMeta.UnitType.FOOTMAN)
-                    agentTrees[k].SetVariableValue("newTargetName", enemyCount == 0 ? "King" + enemyid : "Player" + enemyid);
-                else
-                    agentTrees[k].SetVariableValue("newTargetName", "King" + enemyid);
+                agentTrees[k].SetVariableValue("newTargetName", GetTargetName(child.GetComponent<Unit>() , enemyCount, enemyid, group, provoke));
+
                 if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend )
                 {
                     agentTrees[k].SetVariableValue("newDefendObject", defendObject);
@@ -203,7 +204,6 @@ public class TacticalBehavior : MonoBehaviour
                         agentTrees[k].SetVariableValue("newDefendRadius", newDefendRadius);
 
                     agentTrees[k].SetVariableValue("ChaseDistance", 10f);
-                    agentTrees[k].SetVariableValue("newTargetName", enemyCount > 0 ? "Player" + enemyid : "King" + enemyid  );
                     if (defendObject.TryGetComponent<DefendCircle>(out DefendCircle circle))
                     {
                         //The radius around the defend object to defend
@@ -211,6 +211,7 @@ public class TacticalBehavior : MonoBehaviour
                         //The maximum distance that the agents can defend from the defend object
                     }
                 }
+                
                 if (!child.GetComponent<Unit>().isLeader )
                 {
                     agentTrees[k].SetVariableValue("newLeader", leaders[playerid][leaderUnitTypeID]);
@@ -245,6 +246,27 @@ public class TacticalBehavior : MonoBehaviour
         //stopwatch.Stop();
         //if (playerid == 0)
         //    Debug.Log($"TacticalFormation ============================ End {stopwatch.ElapsedMilliseconds} milli seconrds. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
+    }
+    private string GetTargetName(Unit unit, int enemyCount, int enemyid, int group, bool provoke)
+    {
+        string target = "";
+        if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend) {
+            target = provoke ? "Provoke" + enemyid : (enemyCount > 0 ? "Player" + enemyid : "King" + enemyid);
+            return target;
+        }
+        if (provoke) {
+            target = "Provoke" + enemyid;
+            unit.GetUnitMovement().provoke(true);
+            return target;
+        }
+        unit.GetUnitMovement().provoke(false);
+        if (unit.unitType == UnitMeta.UnitType.ARCHER || unit.unitType == UnitMeta.UnitType.FOOTMAN)
+            target = enemyCount == 0 ? "King" + enemyid : "Player" + enemyid;
+        else
+            target = "King" + enemyid;
+
+         
+        return target;
     }
     public void HandleLeaderSelected(int leaderId)
     {
@@ -349,10 +371,13 @@ public class TacticalBehavior : MonoBehaviour
     {
         List<GameObject> troops;
         var sb = new System.Text.StringBuilder();
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + ENEMYID);
         troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
+        armies = GameObject.FindGameObjectsWithTag("King" + ENEMYID);
         if(armies.Length > 0)
+        troops.AddRange(armies);
+        armies = GameObject.FindGameObjectsWithTag("Provoke" + ENEMYID);
+        if (armies.Length > 0)
         troops.AddRange(armies);
         foreach (GameObject army in troops) {
             sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;

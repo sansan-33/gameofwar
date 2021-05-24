@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public class UnitPowerUp : NetworkBehaviour
 {
     [SerializeField] private GameObject specialEffectPrefab = null;
+    [SerializeField] private GameObject fxEffectPrefab = null;
     [SerializeField] private BattleFieldRules battleFieldRules = null;
     public bool canSpawnEffect = true;
     bool CanPowerUp = true;
@@ -56,6 +57,8 @@ public class UnitPowerUp : NetworkBehaviour
     private void Provoke()
     {
         //GetComponent<UnitFiring>().SetNumberOfShoot(3);
+        gameObject.tag = "Provoke" + tag.Substring(tag.Length-1);
+        fxEffect();
     }
     [ClientRpc]
     private void RpcScale(Transform unitTransform, GameObject unit)
@@ -82,20 +85,17 @@ public class UnitPowerUp : NetworkBehaviour
             SpeedUp(speed, accumulate);
             //RpcSpeedUp(speed, accumulate);
         }
-        /*
-        if (canSpawnEffect)
-        {
-            GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
-            NetworkServer.Spawn(specialEffect, connectionToClient);
-            canSpawnEffect = false;
-        }
-        */
     }
     private void SpeedUp(float speed, bool accumulate)
     {
         float currentSpeed = GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT);
         if (accumulate && currentSpeed <= 0.5) { return; }
         GetComponent<Unit>().GetUnitMovement().SetSpeed(UnitMeta.SpeedType.CURRENT, accumulate ? currentSpeed + speed : speed);
+    }
+    private void fxEffect()
+    {
+        GameObject fxEffect = Instantiate(fxEffectPrefab, GetComponentInParent<Transform>());
+        NetworkServer.Spawn(fxEffect, connectionToClient);
     }
     [ClientRpc]
     private void RpcSpeedUp(float speed, bool accumulate)

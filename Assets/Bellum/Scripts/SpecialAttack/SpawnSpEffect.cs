@@ -37,7 +37,11 @@ public class SpawnSpEffect : NetworkBehaviour
         {
             effect = Instantiate(effectList[effectNum]);
         }
-         effect = Instantiate(effectList[effectNum], transform);
+        else
+        {
+            effect = Instantiate(effectList[effectNum], transform);
+        }
+         
         //Debug.Log($"effect { effect.transform.parent.name} tag {effect.transform.parent.tag}");
         switch (effectNum)
         {
@@ -68,7 +72,36 @@ public class SpawnSpEffect : NetworkBehaviour
                 break;
         }
     }
-
+    public void destroyEffect(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                foreach(GameObject effect in effectLists1)
+                {
+                    
+                    effectLists1.Remove(effect);
+                    Destroy(effect);
+                    //Debug.Log(effect);
+                }
+                break;
+            case 1:
+                foreach (GameObject effect in effectLists2)
+                {
+                    effectLists1.Remove(effect);
+                    Destroy(effect);
+                    //Debug.Log(effect);
+                }
+                break;
+            default:
+                foreach (GameObject effect in effectLists3)
+                {
+                    effectLists1.Remove(effect);
+                    Destroy(effect);
+                }
+                break;
+        }
+    }
     // Update is called once per frame
     
 }

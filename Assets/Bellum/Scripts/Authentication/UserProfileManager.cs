@@ -67,7 +67,7 @@ public class UserProfileManager : MonoBehaviour
     }
     public void RewardGold(int gold)
     {
-        StartCoroutine(UpdateGold(StaticClass.UserID, 1000));
+        StartCoroutine(UpdateGold(StaticClass.UserID, gold));
     }
     public IEnumerator UpdateGold(string userid, int gold)
     {

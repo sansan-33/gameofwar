@@ -261,7 +261,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitSkill.HEAL} ,
         { UnitType.CAVALRY, UnitSkill.DASH } ,
         { UnitType.FOOTMAN, UnitSkill.SCALE },
-        { UnitType.TANK, UnitSkill.SHIELD }
+        { UnitType.TANK, UnitSkill.PROVOKE }
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillThree = new Dictionary<UnitType, UnitSkill>()
     {
@@ -269,7 +269,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitSkill.TORNADO} ,
         { UnitType.CAVALRY, UnitSkill.CHARGE } ,
         { UnitType.FOOTMAN, UnitSkill.SNEAK },
-        { UnitType.TANK, UnitSkill.PROVOKE }
+        { UnitType.TANK, UnitSkill.SHIELD }
     };
     public static Dictionary<int, Dictionary<UnitType, UnitSkill>> UnitStarSkill = new Dictionary<int, Dictionary<UnitType, UnitSkill>>()
     {

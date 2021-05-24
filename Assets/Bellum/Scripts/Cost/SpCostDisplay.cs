@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,12 +15,14 @@ public class SpCostDisplay : MonoBehaviour
     public bool useTimer;
     public int waitTime = 5;
     private bool secoundLayer = false;
+    private bool onePlayerMode;
     private Color color;
     private Unit unit;
     private GameObject SpPrefab;
     // Start is called before the first frame update
     void Start()
     {
+        onePlayerMode = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? true : false;
         // remeber the start color
         color = childSprite[0].GetComponent<Image>().color;
         StartCoroutine(OnStart());
@@ -157,9 +160,15 @@ public class SpCostDisplay : MonoBehaviour
                 //particleSystem2.gameObject.SetActive(true);
                 //particleSystem2.Play();
                 if (unit.CompareTag("Player1")|| unit.CompareTag("King1"))
-                { 
-                
-                    iSpecialAttack.OnPointerDown();
+                {
+                    
+                    if (onePlayerMode == true)
+                    {
+                       // Debug.Log(onePlayerMode);
+                        iSpecialAttack.OnPointerDown();
+                    }
+
+                   
                    // Debug.Log("OnPointerDown");
                 }
             }

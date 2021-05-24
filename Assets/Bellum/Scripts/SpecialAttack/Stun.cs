@@ -155,11 +155,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
                 UnitSpeedkeys.TryGetValue(unit, out int speed);
                 unit.GetComponent<UnitPowerUp>().SpecialEffect(repeatAttackDelay, speed);  
             }
-            foreach(GameObject effect in effects)
-            {
-                Destroy(effect);
-            }
-            effects.Clear();
+            FindObjectOfType<SpawnSpEffect>().destroyEffect(1);
             CanUnFrezze = false;
         }    
     }

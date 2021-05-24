@@ -161,7 +161,7 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.GODCAVALRY, godcavalryPrefab);
         unitDict.Add(UnitMeta.UnitKey.ODIN, odinPrefab);
         unitDict.Add(UnitMeta.UnitKey.GODWALL, godwallPrefab);
-        unitDict.Add(UnitMeta.UnitKey.ELFRANGER, godarcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFRANGER, elfrangerPrefab);
         unitDict.Add(UnitMeta.UnitKey.ELFDEMONHUNTER, elfdemonhunterPrefab);
         unitDict.Add(UnitMeta.UnitKey.ELFGOLEM, elfgolemPrefab);
         unitDict.Add(UnitMeta.UnitKey.ELFFOOTMAN, elffootmanPrefab);

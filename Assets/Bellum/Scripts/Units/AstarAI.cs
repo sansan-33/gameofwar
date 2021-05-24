@@ -24,6 +24,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     private RTSPlayer player;
     public Collider other;
     public bool isCollided = false;
+    public bool isProvoked = false;
 
     public float repathRate = 0.5f;
     private float lastRepath = float.NegativeInfinity;
@@ -43,6 +44,16 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         IS_MULTIPLAYER_MODE = ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1 ? true : false;
+    }
+    [Command]
+    public void CmdProvoke(bool provoke)
+    {
+        ServerProvoke(provoke);
+    }
+    [Server]
+    public void ServerProvoke(bool provoke)
+    {
+        isProvoked = provoke;
     }
     [Command]
     public void CmdMove(Vector3 position)
@@ -189,7 +200,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     }
     public bool isCollide()
     {
-        //if (1 > 0) return false;
+        if (isProvoked) return false;
         //Debug.Log($"AstarAI is collide ?  {isCollided}");
         Collider[] hitColliders = Physics.OverlapBox(GetComponent<Targeter>().GetAimAtPoint().transform.position, transform.localScale * GetComponent<IAttack>().AttackDistance(), Quaternion.identity, LayerMask.GetMask("Unit"));
         int i = 0;
@@ -224,6 +235,12 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         }
         
         return isCollided;
+    }
+
+    public void provoke(bool provoke)
+    {
+        CmdProvoke(provoke);
+
     }
 
     public void move(Vector3 position)

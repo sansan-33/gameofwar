@@ -10,14 +10,10 @@ public class PlayerGround : MonoBehaviour
     [SerializeField] private GameObject enemyHalf;
     [SerializeField] private GameObject playerHalf;
     private Transform[] childTransform;
-    private GameObject cosedMesh;
     //private RTSPlayer player;
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-        //Test
-        //player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-       // sortLayer();
     }
     public void sortLayer(int playerID)
     {
@@ -32,7 +28,6 @@ public class PlayerGround : MonoBehaviour
                 child.gameObject.layer = LayerMask.NameToLayer("Floor");
             }
             playerMesh.SetActive(true);
-            //Debug.Log($"{playerMesh.activeSelf}");
         }
         else // Multi player seneriao
         {
@@ -70,15 +65,8 @@ public class PlayerGround : MonoBehaviour
         {
             child.gameObject.layer = LayerMask.NameToLayer("Default");
         }
-        //cosedMesh = enemyMesh == true ? playerMesh : enemyMesh;
         playerMesh.SetActive(false);
         enemyMesh.SetActive(false);
-        //cosedMesh.SetActive(false);
-        //Debug.Log($"{cosedMesh} is active -->{cosedMesh.activeSelf}");
     }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+     
 }
