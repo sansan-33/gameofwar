@@ -75,10 +75,15 @@ public class UnitAnimator : NetworkBehaviour
             if (newState == AnimState.ATTACK) {
                 isAttacking = true;
                 networkAnim.animator.SetFloat("animSpeed", clipLength / GetComponent<IAttack>().RepeatAttackDelay());
-                Invoke("AttackCompleted", clipLength);
+                Invoke("AttackCompleted", GetComponent<IAttack>().RepeatAttackDelay());
+                if(GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER )
+                    Debug.Log($"Unit Anim {name} isAttacking , wait for {GetComponent<IAttack>().RepeatAttackDelay()} sec");
             }
             ChangeAnimationState(newState);
-        }  
+        }
+        else {
+            Debug.Log($"Unit Anim {name} blocked , {newState}");
+        }
     }
      
     private void AttackCompleted()

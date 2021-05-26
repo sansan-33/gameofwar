@@ -70,11 +70,12 @@ public class SpawnEnemies : MonoBehaviour
                     localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.ARCHER, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
                
-                if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 12)
+                if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 6)
                 {
                     cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.FOOTMAN].ToString()];
                     localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.FOOTMAN, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
                 }
+               
                 
                 StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
                 StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));

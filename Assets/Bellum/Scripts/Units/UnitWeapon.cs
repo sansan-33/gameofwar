@@ -54,8 +54,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
     public IEnumerator TryAttack()
     {
-        if (player.GetPlayerID() == 1) Debug.Log($"Attacker {targeter} attacking .... ");
-         unit = GetComponent<Unit>();
+        //if (player.GetPlayerID() == 1) Debug.Log($"Attacker {targeter} attacking .... ");
+        unit = GetComponent<Unit>();
         calculatedDamageToDeal = damageToDeal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
@@ -63,6 +63,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         int i = 0;
         Collider other;
         bool isFlipped = false;
+        GameObject firstOther = null;
         //Check when there is a new collider coming into contact with the box
         while (i < hitColliders.Length)
         {
@@ -116,14 +117,18 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 }
                 //other.transform.GetComponent<Unit>().GetUnitMovement().CmdTrigger("gethit");
                
-                cmdSpecialEffect(other.transform.position, IsAreaOfEffect);
+                cmdSpecialEffect(other.transform.position);
+                if(firstOther == null)
+                firstOther = other.gameObject;
                 if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmdCMVirtual(); }
-                //cmdCMFreeLook();
                 if(!IsAreaOfEffect)
                     break;
             }
 
         }
+        if (IsAreaOfEffect && firstOther !=null)
+            cmdSlashEffect(firstOther.GetComponent<Targeter>().GetAimAtPoint().position);
+
 
     }
     //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
@@ -164,14 +169,18 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
     }
     [Command]
-    private void cmdSpecialEffect(Vector3 position, bool isAOE)
+    private void cmdSpecialEffect(Vector3 position  )
     {
-        GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
+        GameObject effect = Instantiate(specialEffectPrefab,  position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
-        if (isAOE) {
-            effect = Instantiate(slashEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
-            NetworkServer.Spawn(effect, connectionToClient);
-        }
+    }
+    [Command]
+    private void cmdSlashEffect(Vector3 position )
+    {
+        Quaternion rotation = Quaternion.LookRotation(position - transform.position);
+        //Debug.Log($"{name} rotation {rotation} y {rotation.y},  position : {position - transform.position}");
+        GameObject effect = Instantiate(slashEffectPrefab, position, Quaternion.Euler(new Vector3(0, rotation.y > 0 ? 0 : 180, 0)));
+        NetworkServer.Spawn(effect, connectionToClient);
     }
     public void CMVirtual()
     {

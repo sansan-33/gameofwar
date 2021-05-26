@@ -10,7 +10,7 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private Rigidbody rb = null;
     [SerializeField] private float damageToDeals = 0;
     [SerializeField] private float damageToDealOriginal = 0;
-    [SerializeField] private float destroyAfterSeconds = 5f;
+    [SerializeField] private float destroyAfterSeconds = 50f;
     [SerializeField] private float launchForce = 10f;
     [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
@@ -21,7 +21,26 @@ public class UnitProjectile : NetworkBehaviour
     int playerid = 0;
     int enemyid = 0;
     float depth = 1.5f;
+
+    // launch variables
+    Vector3 TargetObjectPos;
+    // state
+    private bool bTouchingGround;
+    // cache
+    private Quaternion initialRotation;
+
     [SerializeField] private GameObject textPrefab = null;
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!bTouchingGround)
+        {
+            // update the rotation of the projectile during trajectory motion
+            transform.rotation = Quaternion.LookRotation(rb.velocity) * initialRotation;
+        }
+    }
+
 
     public override void OnStartClient()
     {
@@ -29,7 +48,76 @@ public class UnitProjectile : NetworkBehaviour
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerid = player.GetPlayerID();
         enemyid = player.GetEnemyID();
-        rb.velocity = transform.forward * launchForce;
+        initialRotation = rb.rotation;
+        //rb.velocity = transform.forward * launchForce;
+        Launch();
+    }
+
+    // launches the object towards the TargetObject with a given LaunchAngle
+    void LaunchX()
+    {
+        float LaunchAngle = 70f;
+        // think of it as top-down view of vectors: 
+        //   we don't care about the y-component(height) of the initial and target position.
+        Vector3 projectileXZPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Vector3 targetXZPos = new Vector3(TargetObjectPos.x, transform.position.y, TargetObjectPos.z);
+
+        // rotate the object to face the target
+        transform.LookAt(targetXZPos);
+
+        // shorthands for the formula
+        float R = Vector3.Distance(projectileXZPos, targetXZPos);
+        float G = Physics.gravity.y;
+        float tanAlpha = Mathf.Tan(LaunchAngle * Mathf.Deg2Rad);
+        float H = TargetObjectPos.y - transform.position.y;
+
+        // calculate the local space components of the velocity 
+        // required to land the projectile on the target object 
+        float Vz = Mathf.Sqrt(G * R * R / (2.0f * (H - R * tanAlpha)));
+        float Vy = tanAlpha * Vz;
+
+        // create the velocity vector in local space and get it in global space
+        Vector3 localVelocity = new Vector3(0f, Vy, Vz);
+        Vector3 globalVelocity = transform.TransformDirection(localVelocity);
+
+        // launch the object by setting its initial velocity and flipping its state
+        rb.velocity = globalVelocity;
+        //bTargetReady = false;
+    }
+
+    void Launch()
+    {
+        float LaunchAngle = 70f;
+        float platformOffset = 0f;
+        // think of it as top-down view of vectors: 
+        //   we don't care about the y-component(height) of the initial and target position.
+        
+        Vector3 projectileXZPos = new Vector3(transform.position.x, 0.0f, transform.position.z);
+        Vector3 targetXZPos = new Vector3(TargetObjectPos.x, 0.0f, TargetObjectPos.z);
+
+        // rotate the object to face the target
+        transform.LookAt(targetXZPos);
+
+        // shorthands for the formula
+        float R = Vector3.Distance(projectileXZPos, targetXZPos);
+        float G = Physics.gravity.y;
+        float tanAlpha = Mathf.Tan(LaunchAngle * Mathf.Deg2Rad);
+        float H = (TargetObjectPos.y + platformOffset) - transform.position.y;
+
+        // calculate the local space components of the velocity 
+        // required to land the projectile on the target object 
+        float Vz = Mathf.Sqrt(G * R * R / (2.0f * (H - R * tanAlpha)));
+        float Vy = tanAlpha * Vz;
+
+        // create the velocity vector in local space and get it in global space
+        Vector3 localVelocity = new Vector3(0f, Vy, Vz);
+        Vector3 globalVelocity = transform.TransformDirection(localVelocity);
+
+        // launch the object by setting its initial velocity and flipping its state
+        Debug.Log($"Unit Projectile Launch to target pos: {TargetObjectPos}, projectileXZPos {projectileXZPos}, targetXZPos {targetXZPos}, distance {R}");
+
+        rb.velocity = globalVelocity;
+        //bTargetReady = false;
     }
 
     public override void OnStartServer()
@@ -75,6 +163,7 @@ public class UnitProjectile : NetworkBehaviour
         {
             //Debug.Log($"player ID {player.GetPlayerID()}");
             //Debug.Log(playerid);
+            bTouchingGround = true;
             opponentIdentity = (playerid == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}"); 
             //Debug.Log($"before strengthWeakness{damageToDeals}");
@@ -88,6 +177,11 @@ public class UnitProjectile : NetworkBehaviour
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             cmdArrowStick(other.transform);
         }
+    }
+    [Server]
+    public void ServerTargetObjectTF(Vector3 targetObjectPos)
+    {
+        TargetObjectPos = targetObjectPos;
     }
     [Command]
     public void CmdDealDamage(GameObject enemy, float damge)
