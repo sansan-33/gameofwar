@@ -34,7 +34,7 @@ public class UnitProjectile : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!bTouchingGround)
+        if (!bTouchingGround && TargetObjectPos != Vector3.zero)
         {
             // update the rotation of the projectile during trajectory motion
             transform.rotation = Quaternion.LookRotation(rb.velocity) * initialRotation;
@@ -169,7 +169,7 @@ public class UnitProjectile : NetworkBehaviour
         switch (element)
         {
             case ElementalDamage.Element.ELECTRIC:
-                other.GetUnitPowerUp().cmdSpeedUp(-0.5f);
+                other.GetUnitPowerUp().CmdSpeedUp(-0.5f, true);
                 break;
         }
     }

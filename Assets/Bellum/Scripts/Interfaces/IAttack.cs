@@ -23,5 +23,7 @@
         float RepeatAttackDelay();
 
         float AttackDistance();
-    void ChangeAttackDelay(double changeValue);
+        void ChangeAttackDelay(double changeValue);
+        Transform AttackPoint();
+
 }

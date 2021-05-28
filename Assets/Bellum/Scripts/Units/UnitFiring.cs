@@ -80,6 +80,10 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     {
         repeatAttackDelay = (float)channgeValue;
     }
+    public Transform AttackPoint()
+    {
+        return projectileSpawnPoint;
+    }
     public float AttackDistance()
     {
         return fireRange;

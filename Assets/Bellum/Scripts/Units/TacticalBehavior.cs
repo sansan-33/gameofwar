@@ -192,7 +192,7 @@ public class TacticalBehavior : MonoBehaviour
             {
                 var group = agentTrees[k].Group;
                 
-                if (group == 1 || group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
+                if ( group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 agentTrees[k].SetVariableValue("newTargetName", GetTargetName(child.GetComponent<Unit>() , enemyCount, enemyid, group, provoke));
 
                 if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend )

@@ -18,44 +18,32 @@ public class UnitPowerUp : NetworkBehaviour
         GetComponent<Unit>().isScaled = true;
         //Debug.Log($"Scale Up {unit.GetComponent<Unit>().unitType}");
     }
-    private void Volley()
-    {
-        GetComponent<UnitFiring>().SetNumberOfShoot(3);
-    }
-    private void Provoke()
-    {
-        //GetComponent<UnitFiring>().SetNumberOfShoot(3);
-        gameObject.tag = "Provoke" + tag.Substring(tag.Length-1);
-        fxEffect();
-    }
-    private void Healing()
-    {
-        GetComponent<Healing>().ServerEnableHealing(true);
-    }
     [ClientRpc]
     private void RpcScale(Transform unitTransform, GameObject unit)
     {
         Scale();
     }
     [Command]
-    public void cmdSpeedUp(float speed)
+    public void CmdSpeedUp(float speed, bool accumulate)
     {
-        //Debug.Log($"cmd speed up ? {speed}");
-        ServerSetSpeed(speed, true);
+        ServerSetSpeed(speed, accumulate);
     }
     [Server]
     public void ServerSetSpeed(float speed, bool accumulate)
     {
-        SetSpeed(speed, accumulate);
-        RpcSpeedUp(speed, accumulate);
+        SpeedUp(speed, accumulate);
+        //RpcSpeedUp(speed, accumulate);
     }
     public void SetSpeed(float speed, bool accumulate)
     {
         if (speed < 0) { return; }
         if (GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) < GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX))
         {
-            SpeedUp(speed, accumulate);
-            //RpcSpeedUp(speed, accumulate);
+            if (isServer)
+                RpcSpeedUp(speed, accumulate);
+            else
+                CmdSpeedUp(speed, accumulate);
+            //SpeedUp(speed, accumulate);
         }
     }
     private void SpeedUp(float speed, bool accumulate)
@@ -63,11 +51,6 @@ public class UnitPowerUp : NetworkBehaviour
         float currentSpeed = GetComponent<Unit>().GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT);
         if (accumulate && currentSpeed <= 0.5) { return; }
         GetComponent<Unit>().GetUnitMovement().SetSpeed(UnitMeta.SpeedType.CURRENT, accumulate ? currentSpeed + speed : speed);
-    }
-    private void fxEffect()
-    {
-        GameObject fxEffect = Instantiate(fxEffectPrefab, GetComponentInParent<Transform>());
-        NetworkServer.Spawn(fxEffect, connectionToClient);
     }
     [ClientRpc]
     private void RpcSpeedUp(float speed, bool accumulate)
@@ -162,7 +145,7 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
         GetComponent<RVOController>().layer = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer2 : RVOLayer.Layer3;
-        HandleUnitSKill(star);
+        HandleUnitSKill(star, attack, repeatAttackDelay);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
         }
@@ -173,7 +156,7 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"{gameObject.tag} : {gameObject.name} RpcPowerUp cardLevel {cardLevel} health {health} speed {speed}");
         HandlePowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
     }
-    private void HandleUnitSKill(int star)
+    private void HandleUnitSKill(int star, int attack, float repeatAttackDelay)
     {
         if (gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) { return; } 
         UnitMeta.UnitSkill skill = UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType];
@@ -192,12 +175,39 @@ public class UnitPowerUp : NetworkBehaviour
             case UnitMeta.UnitSkill.HEAL:
                 Healing();
                 break;
+            case UnitMeta.UnitSkill.CHARGE:
+                Charging(attack, repeatAttackDelay);
+                break;
             case UnitMeta.UnitSkill.NOTHING:
             default:
                 break;
         }
     }
-
+    private void Volley()
+    {
+        GetComponent<UnitFiring>().SetNumberOfShoot(3);
+    }
+    private void Provoke()
+    {
+        //GetComponent<UnitFiring>().SetNumberOfShoot(3);
+        gameObject.tag = "Provoke" + tag.Substring(tag.Length - 1);
+        fxEffect();
+    }
+    private void Healing()
+    {
+        GetComponent<Healing>().ServerEnableHealing(true);
+    }
+    private void Charging(int attack, float repeatAttackDelay)
+    {
+        gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, 3);
+        GameObject fxEffect = Instantiate(fxEffectPrefab, GetComponent<IAttack>().AttackPoint());
+        NetworkServer.Spawn(fxEffect, connectionToClient);
+    }
+    private void fxEffect()
+    {
+        GameObject fxEffect = Instantiate(fxEffectPrefab, GetComponentInParent<Transform>());
+        NetworkServer.Spawn(fxEffect, connectionToClient);
+    }
     //======================================================== End of Unit Factory   ================================================================
 
 }

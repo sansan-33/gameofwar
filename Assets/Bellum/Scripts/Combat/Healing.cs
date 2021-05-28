@@ -65,7 +65,7 @@ public class Healing : NetworkBehaviour
             //{
                 if ((transform.position - army.transform.position).sqrMagnitude < healingRange * healingRange)
                 {
-                    Debug.Log($"healing {army.name} {healingAmount}");
+                    //Debug.Log($"healing {army.name} {healingAmount}");
                     cmdHealing(army, healingAmount);
                     SpecialEffect(army);
                 }
@@ -106,7 +106,7 @@ public class Healing : NetworkBehaviour
     }
     public void HandleHealingPrefab(GameObject army)
     {
-        Debug.Log($"HandleHealingPrefab {army.GetComponent<Targeter>().GetAimAtPoint() }");
+        //Debug.Log($"HandleHealingPrefab {army.GetComponent<Targeter>().GetAimAtPoint() }");
         GameObject fxEffect = Instantiate(healingPrefab, army.GetComponent<Targeter>().GetAimAtPoint() );
         NetworkServer.Spawn(fxEffect, connectionToClient);
     }

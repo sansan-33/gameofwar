@@ -72,6 +72,11 @@ public class UnitAnimator : NetworkBehaviour
     public void HandleStateControl(AnimState newState)
     {
         if (!isAttacking) {
+            //if (newState != AnimState.LOCOMOTION)
+            //{
+            //    SetFloat("moveSpeed", 0);
+            //    SetFloat("direction", 0);
+            //}
             if (newState == AnimState.ATTACK) {
                 isAttacking = true;
                 networkAnim.animator.SetFloat("animSpeed", clipLength / GetComponent<IAttack>().RepeatAttackDelay());

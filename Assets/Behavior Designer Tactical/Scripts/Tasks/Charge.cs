@@ -20,6 +20,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
 
         private Vector3 offset;
         private bool inPosition;
+        private int HEARTBEAT = 0;
 
         protected override void FormationUpdated(int index)
         {
@@ -65,12 +66,15 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                         }
                     }
                 } else {
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Charging 1 : starting leader position: " + destination + " " + HEARTBEAT++);
                     tacticalAgent.SetDestination(destination);
                 }
             } else if (canAttack) {
                 // All of the agents are in position. Start moving towards the attack point until the agents get within attack distance. Once they are
                 // within attack distance they should start attacking and stop charging.
                 var destination = TransformPoint(attackCenter, offset, attackRotation);
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Charging 2 : move to target position : " + destination + " " + HEARTBEAT++);
+
                 if (tacticalAgent.AttackPosition || (destination - transform.position).magnitude <= attackDistance.Value) {
                     if (!tacticalAgent.AttackPosition) {
                         tacticalAgent.AttackPosition = true;

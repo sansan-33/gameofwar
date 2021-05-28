@@ -207,6 +207,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             NetworkServer.Spawn(cam, connectionToClient);
         }
     }
+    public Transform AttackPoint()
+    {
+        return attackPoint.transform;
+    }
     public float AttackDistance()
     {
         return attackRange;
