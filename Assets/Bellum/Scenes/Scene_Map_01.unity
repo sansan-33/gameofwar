@@ -4539,6 +4539,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
   playerID: 0
+  enemyCard: 0
   cardStar: {fileID: 2076980791}
   cardSpawnButton: {fileID: 15650184}
   charIcon: {fileID: 638942301}
@@ -18806,6 +18807,7 @@ MonoBehaviour:
   maxEleixer: 10
   maxEleixerTimer: 3
   eleixer: 0
+  enemyEleixer: 0
 --- !u!114 &739865867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20282,6 +20284,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
   playerID: 0
+  enemyCard: 0
   cardStar: {fileID: 1353387970}
   cardSpawnButton: {fileID: 976233427}
   charIcon: {fileID: 1918308225}
@@ -22633,7 +22636,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -430, y: 1000}
+  m_AnchoredPosition: {x: -1000, y: 800}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &887907486
@@ -28559,6 +28562,7 @@ MonoBehaviour:
   cardSlotParent: {fileID: 98332008}
   cardSlotPrefab: {fileID: 6641416256118448248, guid: 60c3ae771d9f2498bb675f000517bd8b, type: 3}
   cardDealer: {fileID: 1928337289}
+  enemyCardDealer: {fileID: 0}
   unitSkillArt: {fileID: 4933990136420628866, guid: f8246d89bf59440c095199ba1f691fce, type: 3}
   singleHandStart: {fileID: 98332008}
   screenOffset: 0
@@ -32466,6 +32470,7 @@ MonoBehaviour:
   cardSlotParent: {fileID: 887124904}
   cardSlotPrefab: {fileID: 6641416256118448248, guid: 60c3ae771d9f2498bb675f000517bd8b, type: 3}
   cardDealer: {fileID: 1928337289}
+  enemyCardDealer: {fileID: 1928337291}
   unitSkillArt: {fileID: 4933990136420628866, guid: f8246d89bf59440c095199ba1f691fce, type: 3}
   singleHandStart: {fileID: 887124904}
   screenOffset: 0
@@ -36140,6 +36145,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   playerID: 0
+  enemyCard: 0
   cardStar: {fileID: 0}
   cardSpawnButton: {fileID: 0}
   charIcon: {fileID: 0}
@@ -49700,6 +49706,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1928337290}
   - component: {fileID: 1928337289}
+  - component: {fileID: 1928337291}
   m_Layer: 0
   m_Name: DealManager
   m_TagString: DealManager
@@ -49744,6 +49751,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1928337291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1928337288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 433cca3e5f474457ca31c89232c1a903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eleixier: {fileID: 739865865}
 --- !u!1001 &1929005431
 PrefabInstance:
   m_ObjectHideFlags: 0

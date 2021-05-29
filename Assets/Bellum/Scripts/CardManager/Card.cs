@@ -19,6 +19,7 @@ public class Card : MonoBehaviour
     private CardDealer dealManagers;
     private ParticlePool appearEffectPool;
     public int playerID = 0;
+    public bool enemyCard = false;
     private int uniteleixer = 1;
     private int type;
     private float progressImageVelocity;
@@ -31,10 +32,17 @@ public class Card : MonoBehaviour
     [SerializeField] public GameObject cardFrame;
     [SerializeField] private Image cardTimerImage;
     private float effectAmount = 1f;
+    private float originalx;
+    private float originaly;
+    private float originalz;
 
     public void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
+        RectTransform rect = GetComponent<RectTransform>();
+        originalx = rect.localScale.x;
+        originaly = rect.localScale.y;
+        originalz = rect.localScale.z;
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
         //playerRace =  (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace());
@@ -42,8 +50,22 @@ public class Card : MonoBehaviour
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         appearEffectPool = GameObject.FindGameObjectWithTag("EffectPool").GetComponent<ParticlePool>();
         StartCoroutine(SetLocalFactory());
-        
+       
         //if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
+    }
+    IEnumerator HandleScale()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if(enemyCard == true)
+        {
+            //Debug.Log($"Getting scale");
+            RectTransform rect = GetComponent<RectTransform>();
+            float x = rect.localScale.x;
+            float y = rect.localScale.y;
+            float z = rect.localScale.z;
+            rect.localScale = new Vector3(x *= (float)0.5, y *= (float)0.5, z *= (float)0.5);
+        }
+        //enemyCard = false;
     }
     IEnumerator SetLocalFactory()
     {
@@ -62,6 +84,7 @@ public class Card : MonoBehaviour
     public void SetCard(CardFace _cardFace)
     {
         cardFace = new CardFace(_cardFace.suit, _cardFace.numbers, _cardFace.star, _cardFace.stats);
+        StartCoroutine(HandleScale());
     }
     public void SetUnitElexier(int elexier)
     {
@@ -79,10 +102,18 @@ public class Card : MonoBehaviour
 
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (dealManagers.totalEleixers.eleixer < uniteleixer) { return; }
-
-        dealManagers.totalEleixers.eleixer -= uniteleixer;
+        if(enemyCard == true)
+        {
+            dealManagers.totalEleixers.enemyEleixer -= uniteleixer;
+        }
+        else
+        {
+            dealManagers.totalEleixers.eleixer -= uniteleixer;
+        }
+        GetComponent<RectTransform>().localScale = new Vector3(originalx, originaly, originalz);
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
-        dealManagers.Hit();
+        dealManagers.Hit(enemyCard);
+        enemyCard = false;
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
     }
     public void DropUnit(Vector3 spawnPoint)
@@ -105,12 +136,14 @@ public class Card : MonoBehaviour
     }
     private void Update()
     {
+        int elexier;
         if (cardTimerImage != null)
         {
-            if (dealManagers.totalEleixers.eleixer < uniteleixer)
+            elexier = enemyCard ? dealManagers.totalEleixers.enemyEleixer : dealManagers.totalEleixers.eleixer;
+            if (elexier < uniteleixer)
             {
                 cardTimerImage.gameObject.SetActive(true);
-                float fillAmount = (float)dealManagers.totalEleixers.eleixer / uniteleixer;
+                float fillAmount = (float)elexier / uniteleixer;
                 //Debug.Log($"eleixers:{eleixer}uniteleixer:{uniteleixer}, eleixers/uniteleixer:{fillAmount}");
                 cardTimerImage.fillAmount = Mathf.SmoothDamp(cardTimerImage.fillAmount, 1 - fillAmount, ref progressImageVelocity, 0.5f);
                 effectAmount = 1f;

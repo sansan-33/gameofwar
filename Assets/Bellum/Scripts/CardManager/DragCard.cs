@@ -232,7 +232,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         Player playerDeck = GetComponentInParent<Player>();
         if (playerDeck != null)
             playerDeck.moveCard(GetComponent<Card>().cardPlayerHandIndex);
-        dealManagers.GetComponent<CardDealer>().Hit();
+        dealManagers.GetComponent<CardDealer>().Hit(false);
         
     }
     //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this

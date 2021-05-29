@@ -16,7 +16,8 @@ public class TotalEleixier : MonoBehaviour
     public float maxEleixerTimer;
     private float eleixerTimer = 4f;
     public int eleixer = 0;
-
+    public int enemyEleixer = 0;
+    public static event Action<int> UpdateEnemyElexier;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,11 +35,16 @@ public class TotalEleixier : MonoBehaviour
             {
                 eleixer += 1;
             }
+            if(enemyEleixer < maxEleixer)
+            {
+                enemyEleixer += 1;
+                UpdateEnemyElexier?.Invoke(enemyEleixer);
+            }
         }
         eleixerBarImage.fillAmount = (float)eleixer / (float)maxEleixer;
         if (enemyeleixerBarImage != null)
         {
-            enemyeleixerBarImage.fillAmount = (float)eleixer / (float)maxEleixer;
+            enemyeleixerBarImage.fillAmount = (float)enemyEleixer / (float)maxEleixer;
         }
     }
     public void speedUpEleixier(BehaviorSelectionType selectionType)

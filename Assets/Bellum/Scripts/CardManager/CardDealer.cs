@@ -37,7 +37,6 @@ public class CardDealer : MonoBehaviour
     [SerializeField] Card buttonWall;
     [SerializeField] public TotalEleixier totalEleixers;
     [SerializeField] public Shader greyScaleShader;
-  
 
     public static event Action UserCardLoaded;
     public SimpleObjectPool cardObjectPool;
@@ -65,6 +64,10 @@ public class CardDealer : MonoBehaviour
         {
             yield return GetUserCard(player.GetUserID(), player.GetRace(), player.GetPlayerID(), player.GetTeamColor());
         }
+        else
+        {
+            yield return new WaitForSeconds(1);
+        }
         cardDeckUsed.Clear();
         string cardkey;
         SpawnEnemies spawnEnemies = FindObjectOfType<SpawnEnemies>();
@@ -79,8 +82,8 @@ public class CardDealer : MonoBehaviour
             }
         }
         buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
-        
-        yield return DealCards(3, 0f, 0.1f, players[0]); 
+        int index = enemySpawn ? 1 : 0;
+        yield return DealCards(3, 0f, 0.1f, players[index]); 
     }
 
     void DealCard(Player player,  bool left = true)
@@ -91,12 +94,16 @@ public class CardDealer : MonoBehaviour
 
     IEnumerator DealingCard(Player player, bool left = true)
     {
-
+        Debug.Log("DealingCard");
         Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
         CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
         //CardFace randomCard = cardDeck[3];
         cardDeckUsed.Add(randomCard);
-
+        if (player.isEnemy == true)
+        {
+            Debug.Log("enemy card");
+            lastCard.enemyCard = true;
+        }
         lastCard.SetCard(randomCard);
         lastCard.cardStar.text = "1";
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
@@ -118,7 +125,7 @@ public class CardDealer : MonoBehaviour
         lastCard.cardFrame.transform.GetChild(0).gameObject.SetActive(true);
         lastCard.stars.transform.GetChild(0).Find("Active").gameObject.SetActive(true);
         lastCard.skillIcon.gameObject.SetActive(false);
-
+        
         //Player takes card
         yield return player.AddCard(lastCard, left);  
     }
@@ -150,11 +157,12 @@ public class CardDealer : MonoBehaviour
         }
 
     }
-    public void Hit()
+    public void Hit(bool enenmyHit)
     {
         float Timer = 1;
         while (Timer > 0) { Timer -= Time.deltaTime; }
-        StartCoroutine(DealCards(1, 0f, 0.5f,  players[0]));
+        int index = enenmyHit ? 1 : 0;
+        StartCoroutine(DealCards(1, 0f, 0.5f,  players[index]));
     }
     public void RemoveCard(Card _card)
     {

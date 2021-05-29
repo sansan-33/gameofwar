@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform cardSlotParent;
     [SerializeField] CardSlot cardSlotPrefab;
     [SerializeField] CardDealer cardDealer;
+    [SerializeField] EnemyCardDealer enemyCardDealer;
     [SerializeField] public UnitSkillArt unitSkillArt;
 
     [Header("Layout References")]
@@ -25,7 +26,7 @@ public class Player : MonoBehaviour
     [SerializeField] float cardOffset = 150f; // NO Effect to change here, need to set it in inspector
     [SerializeField] float cardMoveSpeed = 10;// NO Effect to change here, need to set it in inspector
     [SerializeField] int MAXCARDSTAR = 2;
-    [SerializeField] bool isEnemy;
+    [SerializeField] public bool isEnemy;
 
     [Header("Debug")]
     [SerializeField] List<List<Card>> playerHand = new List<List<Card>>();
@@ -49,14 +50,15 @@ public class Player : MonoBehaviour
         while (totalCardSlot < cardDealer.MAXTOTALHAND)
         {
             cardslot = Instantiate(cardSlotPrefab).GetComponent<CardSlot>();
+            if (isEnemy == true)
+            {
+                cardslot.GetComponent<RectTransform>().SetAnchor(AnchorPresets.TopCenter);
+            }
             cardslot.transform.SetParent(cardSlotParent);
             totalCardSlot++;
             cardslot.transform.position = singleHandStart.transform.position + new Vector3(totalCardSlot * cardOffset, 0, 0);
             cardSlotlist.Add(cardslot);
-            if(isEnemy == true)
-            {
-                cardslot.GetComponent<RectTransform>().SetAnchor(AnchorPresets.TopCenter);
-            }
+            
         }
     }
     public void moveCardAt(int cardMovingindex, string direction)
@@ -107,7 +109,10 @@ public class Player : MonoBehaviour
         //Debug.Log($"Player.AddCard() ==> {card.cardFace.suit.ToString() }");
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
-      
+      if(isEnemy == true)
+        {
+            enemyCardDealer.SetCards(card);
+        }
         card.transform.SetParent(cardSlotlist[playerHand[0].Count-1].transform);
         yield return MoveCardTo(card.transform, cardSlotlist[playerHand[0].Count - 1].transform.position, card);
         //StartCoroutine(mergeCard());
