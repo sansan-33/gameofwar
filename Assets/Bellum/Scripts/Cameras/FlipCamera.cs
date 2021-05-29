@@ -14,7 +14,7 @@ public class FlipCamera : MonoBehaviour
     public Light lightPlayer1;
     public Light lightSecondaryPlayer0;
     public Light lightSecondaryPlayer1;
-    float lensSize = 28f;
+    float lensSize = 30f;
     private CinemachineVirtualCamera camCurrent;
     private bool zooming = false;
     public void Awake()
@@ -49,7 +49,7 @@ public class FlipCamera : MonoBehaviour
             groundPlayer0.SetActive(false);
             StaticClass.IsFlippedCamera = true;
         }
-     }
+    }
     public void Update()
     {
         if (zooming) return;
@@ -58,10 +58,21 @@ public class FlipCamera : MonoBehaviour
     private IEnumerator ZoomCamera()
     {
         zooming = true;
+        //float increment = -0.15f;
+        float zoomInMax = 29.9f;
+        //float zoomOutMax = 40f;
+        float zoomSpeed = 0.1f;
+        float blend = 0f;
+        float referenceFramerate = 30f;
         while (camCurrent.m_Lens.OrthographicSize > lensSize)
         {
-            yield return new WaitForSeconds(0.01f);
-            camCurrent.m_Lens.OrthographicSize -= 0.15f;
+            yield return new WaitForSeconds(0.02f);
+            float fov = camCurrent.m_Lens.OrthographicSize;
+            //float target = Mathf.Clamp(fov + increment, zoomInMax, zoomOutMax);
+            blend = 1f - Mathf.Pow(1f - zoomSpeed, Time.deltaTime * referenceFramerate);
+            //Debug.Log($"New lens size : {Mathf.Lerp(fov, zoomInMax, blend)}, blend:{blend} ,  target: {zoomInMax} ");
+            camCurrent.m_Lens.OrthographicSize = Mathf.Lerp(fov, zoomInMax, blend);
         }
+        
     }
 }

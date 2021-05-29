@@ -102,7 +102,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (!tacticalAgent.AttackPosition) {
                 var targetPosition = defendObject.Value.transform.TransformPoint(radius.Value * Mathf.Sin(theta * formationIndex), 0, radius.Value * Mathf.Cos(theta * formationIndex));
                 //tacticalAgent.UpdateRotation(true);
-                tacticalAgent.RotateTowards(Quaternion.LookRotation(targetTagPosition - defendObject.Value.transform.position));
+                tacticalAgent.RotateTowards(Quaternion.LookRotation(targetPosition - defendObject.Value.transform.position));
                 //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": moving distance " + (int) Vector3.Distance(tacticalAgent.transform.position, targetPosition) );
                 tacticalAgent.SetDestination(targetPosition);
                 if (tacticalAgent.HasArrived()) {

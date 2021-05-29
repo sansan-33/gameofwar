@@ -13,10 +13,6 @@ public class GameStartDisplay : NetworkBehaviour
     private float startTime = 3;
     [SyncVar(hook = "Timeing")]
     private float Timer = 180;
-    private void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -49,14 +45,10 @@ public class GameStartDisplay : NetworkBehaviour
     public void Timeing(float oldTime, float newTime)
     {
         //Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
-            float minutes = Mathf.FloorToInt(newTime / 60);
-            float seconds = Mathf.FloorToInt(newTime % 60);
-            if (newTime <= 0) { return; }
-            Times.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-           
-
-        
-        
+        float minutes = Mathf.FloorToInt(newTime / 60);
+        float seconds = Mathf.FloorToInt(newTime % 60);
+        if (newTime <= 0) { return; }
+        Times.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
 }
