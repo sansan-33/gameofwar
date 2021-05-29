@@ -70,7 +70,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     private void TryDragCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
     {
         if (Mathf.Abs(mouseOrTouchPosX - lastXPos) < deltaPos) { return; } // At least move deltaPos pixels
-
+        if(GetComponent<Card>().enemyCard == true) { return; }
         direction = mouseOrTouchPosX > lastXPos ? "right" : "left";
         //Debug.Log($"Drag Card mouseOrTouchPosY {mouseOrTouchPosY} startPos.y {startPos.y}");
         // Prevent drag card to the bottom.

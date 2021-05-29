@@ -94,14 +94,14 @@ public class CardDealer : MonoBehaviour
 
     IEnumerator DealingCard(Player player, bool left = true)
     {
-        Debug.Log("DealingCard");
+        //Debug.Log("DealingCard");
         Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
         CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
         //CardFace randomCard = cardDeck[3];
         cardDeckUsed.Add(randomCard);
         if (player.isEnemy == true)
         {
-            Debug.Log("enemy card");
+            //Debug.Log("enemy card");
             lastCard.enemyCard = true;
         }
         lastCard.SetCard(randomCard);

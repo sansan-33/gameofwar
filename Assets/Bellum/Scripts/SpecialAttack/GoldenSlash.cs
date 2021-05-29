@@ -116,7 +116,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
             {
                 id = player.GetPlayerID();
             }
-            TB.StopTacticalBehavior(id, GetComponentInParent<Unit>().unitType);
+           // TB.StopTacticalBehavior(id, GetComponentInParent<Unit>().unitType);
             // if there is no more target is finded then break
             if (findedTarget == false)
             {

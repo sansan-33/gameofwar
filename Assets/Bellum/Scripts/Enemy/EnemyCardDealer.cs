@@ -43,7 +43,7 @@ public class EnemyCardDealer : MonoBehaviour
     private IEnumerator SelectNextCard(int waitSec)
     {
         yield return new WaitForSeconds(waitSec);
-        Debug.Log("SelectNextCard");
+       // Debug.Log("SelectNextCard");
         nextCard = cards[Random.Range(0, cards.Count - 1)];
         RectTransform rect = nextCard.GetComponent<RectTransform>();
         float x = rect.localScale.x;

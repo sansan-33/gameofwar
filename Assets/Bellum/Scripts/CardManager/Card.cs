@@ -64,6 +64,7 @@ public class Card : MonoBehaviour
             float y = rect.localScale.y;
             float z = rect.localScale.z;
             rect.localScale = new Vector3(x *= (float)0.5, y *= (float)0.5, z *= (float)0.5);
+            GetComponentInChildren<Button>().enabled = false;
         }
         //enemyCard = false;
     }
@@ -101,13 +102,15 @@ public class Card : MonoBehaviour
         if (localFactory == null) { StartCoroutine(SetLocalFactory()); }
 
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-        if (dealManagers.totalEleixers.eleixer < uniteleixer) { return; }
+        //Debug.Log(enemyCard);
         if(enemyCard == true)
         {
+            if (dealManagers.totalEleixers.enemyEleixer < uniteleixer) { return; }
             dealManagers.totalEleixers.enemyEleixer -= uniteleixer;
         }
         else
         {
+            if (dealManagers.totalEleixers.eleixer < uniteleixer) { return; }
             dealManagers.totalEleixers.eleixer -= uniteleixer;
         }
         GetComponent<RectTransform>().localScale = new Vector3(originalx, originaly, originalz);
