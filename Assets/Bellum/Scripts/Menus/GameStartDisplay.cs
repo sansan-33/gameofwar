@@ -9,32 +9,93 @@ public class GameStartDisplay : NetworkBehaviour
     [SerializeField] private GameObject gameStartDisplayParent = null;
     [SerializeField] private TMP_Text StartTime = null;
     [SerializeField] private TMP_Text Times = null;
-    [SyncVar(hook = "StartTimeing")]
-    private float startTime = 3;
-    [SyncVar(hook = "Timeing")]
-    private float Timer = 180;
 
+    [SerializeField] private GameObject playerVSParent = null;
+    [SerializeField] private GameObject maskBlue = null;
+    [SerializeField] private GameObject maskRed = null;
+    [SerializeField] private GameObject vsFrame = null;
+    [SerializeField] private GameObject vsText = null;
+
+
+    [SyncVar(hook = "StartTiming")]
+    private float startTime = 3;
+    [SyncVar(hook = "Timing")]
+    private float Timer = 180;
+    bool IS_PLAYER_LOADED = false;
+    public override void OnStartClient()
+    {
+        StartCoroutine(StartGameloading());
+    }
     private void Update()
     {
         GameStartCountDown();
         GameEndCountDown();
     }
+    IEnumerator StartGameloading()
+    {
+        yield return LoadPlayerVS();
+    }
+    IEnumerator LoadPlayerVS()
+    {
+        if (playerVSParent == null || IS_PLAYER_LOADED) { yield break; }
+        playerVSParent.SetActive(true);
+        StartCoroutine(LerpPosition(maskBlue.transform,400f,0f, .5f));
+        yield return LerpPosition(maskRed.transform, -400f, 0f, .5f);
+        StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
+        vsText.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        IS_PLAYER_LOADED = true;
+        playerVSParent.SetActive(false);
 
-    [Server]
+    }
+    IEnumerator LerpPosition(Transform transformObject, float targetPointX, float targetPointY, float duration)
+    {
+        float time = 0;
+        Vector3 targetPosition = transformObject.position;
+        Vector3 startPosition = new Vector3 ( transformObject.position.x + targetPointX , transformObject.position.y + targetPointY, transformObject.position.z) ;
+        transformObject.position = startPosition;
+        transformObject.gameObject.SetActive(true);
+        //Vector3 dir = targetPosition - startPosition;
+        //transformObject.LookAt(dir);
+        while (time < duration)
+        {
+            transformObject.position = Vector3.Lerp(startPosition, targetPosition, time / duration);
+            if(targetPointY > 0)
+            LerpRotation(Quaternion.LookRotation(targetPosition - startPosition), duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transformObject.position = targetPosition;
+    }
+    IEnumerator LerpRotation(Quaternion endValue, float duration)
+    {
+        float time = 0;
+        Quaternion startValue = transform.rotation;
+
+        while (time < duration)
+        {
+            transform.rotation = Quaternion.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        transform.rotation = endValue;
+    }
     private void GameStartCountDown()
     {
-        startTime -= 1 * Time.deltaTime;
+        if(startTime > 0 && IS_PLAYER_LOADED)
+            startTime -= 1 * Time.deltaTime;
     }
-    [Server]
     private void GameEndCountDown()
     {
+        if(IS_PLAYER_LOADED)
         Timer -= Time.deltaTime;
     }
-    public void StartTimeing(float oldTime, float newTime)
+    public void StartTiming(float oldTime, float newTime)
     {
        // Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
         if (newTime <= 30 && newTime > 0)
         {
+            gameStartDisplayParent.SetActive(true);
             StartTime.text = newTime.ToString("0");
         }
         else if (newTime <= 0)
@@ -42,7 +103,7 @@ public class GameStartDisplay : NetworkBehaviour
             gameStartDisplayParent.SetActive(false);
         }
     }
-    public void Timeing(float oldTime, float newTime)
+    public void Timing(float oldTime, float newTime)
     {
         //Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
         float minutes = Mathf.FloorToInt(newTime / 60);
