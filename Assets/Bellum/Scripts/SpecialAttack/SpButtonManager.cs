@@ -82,7 +82,7 @@ public class SpButtonManager : MonoBehaviour
         //find all unit
         units = FindObjectsOfType<CardStats>();
         //senemyList = GameObject.FindGameObjectsWithTag("Player" + player.GetEnemyID()).ToList();
-        // Debug.Log($"{units.Length}");
+         //Debug.Log($"{units.Length}");
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
 
@@ -103,11 +103,11 @@ public class SpButtonManager : MonoBehaviour
                 {
                     if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
                     {
-                        //Debug.Log($"unit.specialkey{unit.specialkey} {unit.name}");
-                        if(unit.specialkey == null)
+                        //Debug.Log($"enemy unit.specialkey{unit.specialkey} {unit.name}");
+                        if(unit.specialkey != null)
                         {
                             SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
-                            // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
+                             //Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
                             GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
 
                             InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, true);

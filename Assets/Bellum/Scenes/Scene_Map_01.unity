@@ -8355,7 +8355,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 138
-    OrthographicSize: 40
+    OrthographicSize: 30
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -21143,7 +21143,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 50
-    OrthographicSize: 40
+    OrthographicSize: 30
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -22633,7 +22633,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -430, y: -80}
+  m_AnchoredPosition: {x: -430, y: 1000}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &887907486
@@ -32472,7 +32472,7 @@ MonoBehaviour:
   cardOffset: 110
   cardMoveSpeed: 5000
   MAXCARDSTAR: 3
-  isEnemy: 0
+  isEnemy: 1
 --- !u!1001 &1246323833
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44554,7 +44554,7 @@ Camera:
   far clip plane: 5000
   field of view: 138
   orthographic: 1
-  orthographic size: 40
+  orthographic size: 30
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2

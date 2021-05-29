@@ -54,23 +54,31 @@ public class CardDealer : MonoBehaviour
     }
     private void StartShuffleDeck()
     {
-        StartCoroutine(ShuffleDeck());
+        StartCoroutine(ShuffleDeck(false));
+        StartCoroutine(ShuffleDeck(true));
+       // StartCoroutine(DealCards(3, 0f, 0.1f, players[1]));
     }
-    IEnumerator ShuffleDeck()
+    IEnumerator ShuffleDeck(bool enemySpawn)
     {
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        yield return GetUserCard(player.GetUserID(), player.GetRace(), player.GetPlayerID(), player.GetTeamColor());
+        if(enemySpawn == false)
+        {
+            yield return GetUserCard(player.GetUserID(), player.GetRace(), player.GetPlayerID(), player.GetTeamColor());
+        }
         cardDeckUsed.Clear();
         string cardkey;
+        SpawnEnemies spawnEnemies = FindObjectOfType<SpawnEnemies>();
+        Dictionary<String, CardStats> cardstats = enemySpawn ? spawnEnemies.userCardStatsDict : userCardStatsDict;
         foreach (Card_Suits suit in Enum.GetValues(typeof(Card_Suits)))
         {
             foreach (Card_Deck number in Enum.GetValues(typeof(Card_Deck)))
             {
                 cardkey = UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][(UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), number.ToString())].ToString();
-                cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze, userCardStatsDict[ cardkey ]));
+                
+                cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze, cardstats[cardkey]));
             }
         }
-        buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, userCardStatsDict[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
+        buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
         
         yield return DealCards(3, 0f, 0.1f, players[0]); 
     }
@@ -112,8 +120,7 @@ public class CardDealer : MonoBehaviour
         lastCard.skillIcon.gameObject.SetActive(false);
 
         //Player takes card
-        yield return player.AddCard(lastCard, left);
-       
+        yield return player.AddCard(lastCard, left);  
     }
     IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
     {
