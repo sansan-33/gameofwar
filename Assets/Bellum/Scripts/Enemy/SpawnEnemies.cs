@@ -33,11 +33,14 @@ public class SpawnEnemies : MonoBehaviour
             StartCoroutine(GetUserCard("-1",""));
             GameStartDisplay.ServerGameStart += LoadEnemies;
             //InvokeRepeating("LoadEnemies", 3f, 3f);
-
         }
         GameOverHandler.ClientOnGameOver += HandleGameOver;
     }
-
+    public void OnDestroy()
+    {
+        GameStartDisplay.ServerGameStart -= LoadEnemies;
+        GameOverHandler.ClientOnGameOver -= HandleGameOver;
+    }
     public void LoadEnemies()
     {
         //if (ISGAMEOVER) { return; }

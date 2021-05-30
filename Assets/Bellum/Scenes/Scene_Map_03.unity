@@ -7879,7 +7879,7 @@ GameObject:
   - component: {fileID: 306119244}
   - component: {fileID: 306119243}
   m_Layer: 0
-  m_Name: 'cmvTopDownPlayer  '
+  m_Name: cmvTopDown Player
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21329,7 +21329,7 @@ GameObject:
   - component: {fileID: 831989509}
   - component: {fileID: 831989508}
   m_Layer: 0
-  m_Name: cmvTopDownEnemy
+  m_Name: cmvTopDowneEnemy
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37328,12 +37328,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1496032597}
   m_Layer: 0
-  m_Name: background enemy
+  m_Name: backgroundPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1496032597
 Transform:
   m_ObjectHideFlags: 0
@@ -37341,8 +37341,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496032596}
-  m_LocalRotation: {x: 0, y: 0.92387956, z: 0, w: 0.38268343}
-  m_LocalPosition: {x: 69.7, y: -0.77, z: -76}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
+  m_LocalPosition: {x: 1, y: -0.77, z: 13}
   m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children:
   - {fileID: 189250765}
@@ -37547,7 +37547,7 @@ Transform:
   - {fileID: 354891393}
   m_Father: {fileID: 0}
   m_RootOrder: 27
-  m_LocalEulerAnglesHint: {x: 0, y: 135, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
 --- !u!1001 &1509896557
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41517,8 +41517,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camPlayer0: {fileID: 306119243}
   camPlayer1: {fileID: 831989508}
-  groundPlayer0: {fileID: 1887081617}
-  groundPlayer1: {fileID: 1496032596}
+  groundPlayer0: {fileID: 1496032596}
+  groundPlayer1: {fileID: 1887081617}
   lightPlayer0: {fileID: 1651308106}
   lightPlayer1: {fileID: 1651308106}
   lightSecondaryPlayer0: {fileID: 1651308106}
@@ -45978,7 +45978,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1887081618}
   m_Layer: 0
-  m_Name: background palyer
+  m_Name: backgroundEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
