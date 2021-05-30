@@ -70,7 +70,7 @@ public class FlipCamera : MonoBehaviour
             float fov = camCurrent.m_Lens.OrthographicSize;
             //float target = Mathf.Clamp(fov + increment, zoomInMax, zoomOutMax);
             blend = 1f - Mathf.Pow(1f - zoomSpeed, Time.deltaTime * referenceFramerate);
-            //Debug.Log($"New lens size : {Mathf.Lerp(fov, zoomInMax, blend)}, blend:{blend} ,  target: {zoomInMax} ");
+            Debug.Log($"New lens size : {Mathf.Lerp(fov, zoomInMax, blend)}, blend:{blend} ,  target: {zoomInMax} ");
             camCurrent.m_Lens.OrthographicSize = Mathf.Lerp(fov, zoomInMax, blend);
         }
         

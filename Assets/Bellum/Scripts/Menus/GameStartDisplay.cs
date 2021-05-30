@@ -16,7 +16,6 @@ public class GameStartDisplay : NetworkBehaviour
     [SerializeField] private GameObject maskRed = null;
     [SerializeField] private GameObject vsFrame = null;
     [SerializeField] private GameObject vsText = null;
-    [SerializeField] private Transform centerPoint = null;
     [SerializeField] public CharacterArt Arts;
     public static event Action ServerGameStart;
 
@@ -50,7 +49,7 @@ public class GameStartDisplay : NetworkBehaviour
         LoadPlayerData();
         StartCoroutine(LerpPosition(maskBlue.transform , 400f,0f, .5f));
         yield return LerpPosition(maskRed.transform, -400f, 0f, .5f);
-        StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
+        //StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
         vsText.SetActive(true);
         yield return new WaitForSeconds(2f);
         IS_PLAYER_LOADED = true;
@@ -60,8 +59,8 @@ public class GameStartDisplay : NetworkBehaviour
     IEnumerator LerpPosition(Transform transformObject, float targetPointX, float targetPointY, float duration)
     {
         float time = 0;
-        //Vector3 targetPosition = transformObject.position;
-        Vector3 targetPosition = centerPoint.position;
+        Vector3 targetPosition = transformObject.position;
+        //Vector3 targetPosition = centerPoint.position;
         Vector3 startPosition = new Vector3 ( transformObject.position.x + targetPointX , transformObject.position.y + targetPointY, transformObject.position.z) ;
         transformObject.position = startPosition;
         transformObject.gameObject.SetActive(true);
