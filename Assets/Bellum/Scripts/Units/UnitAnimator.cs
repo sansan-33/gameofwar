@@ -87,7 +87,7 @@ public class UnitAnimator : NetworkBehaviour
             ChangeAnimationState(newState);
         }
         else {
-            Debug.Log($"Unit Anim {name} blocked , {newState}");
+            //Debug.Log($"Unit Anim {name} blocked , {newState}");
         }
     }
      
