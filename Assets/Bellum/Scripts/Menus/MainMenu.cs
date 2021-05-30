@@ -72,6 +72,8 @@ public class MainMenu : MonoBehaviour
     IEnumerator GetTeamInfo(string userid)
     {
         UnitMeta.UnitKey unitkey;
+        String comma = "";
+        StringBuilder sbTeamMember = new StringBuilder();
         if (userid == null || userid.Length == 0) { yield break; }
         userTeamDict.Clear();
         //Debug.Log($"Get Team info after clear userTeamDict size: {userTeamDict.Count }");
@@ -97,15 +99,37 @@ public class MainMenu : MonoBehaviour
 
             for (int j = 1; j < 4; j++)
             {
+                sbTeamMember.Append(comma).Append(jsonResult[i]["cardkey" + j].ToString());
                 unitkey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[i]["cardkey" + j] );  
                 if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING)
                 {
                     StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
                     //Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
+                comma = ",";
             }
         }
-        //Debug.Log($"Team info {webReq.url } {jsonResult}");
+        sbTeamMember.Replace("\"", "");
+        Debug.Log($"card keys {sbTeamMember.ToString()}");
+        yield return GetTotalPower(userid, sbTeamMember.ToString());
+    }
+    // sends an API request - returns a JSON file
+    IEnumerator GetTotalPower(string userid, string cardkeys)
+    {
+        int TotalPower = 0;
+        if (userid == null || userid.Length == 0) { yield break; }
+        JSONNode jsonResult;
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.cardService, userid, cardkeys);
+        yield return webReq.SendWebRequest();
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+        jsonResult = JSON.Parse(rawJson);
+        for (int i = 0; i < jsonResult.Count; i++) {
+            TotalPower += Int32.Parse(jsonResult[i]["power"]);
+        }
+        StaticClass.TotalPower = TotalPower.ToString();
+        Debug.Log($"TotalPower {TotalPower}");
 
     }
 }

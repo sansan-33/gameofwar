@@ -17,8 +17,8 @@ public class SpawnEnemies : MonoBehaviour
     private Color teamColor;
     private bool ISGAMEOVER = false;
     [SerializeField] public Dictionary<string, CardStats> userCardStatsDict = new Dictionary<string, CardStats>();
-
     public TacticalBehavior tacticalBehavior;
+
     void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
@@ -31,58 +31,71 @@ public class SpawnEnemies : MonoBehaviour
             teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
             StartCoroutine(GetUserCard("-1",""));
-            InvokeRepeating("LoadEnemies", 3f, 3f);
+            GameStartDisplay.ServerGameStart += LoadEnemies;
+            //InvokeRepeating("LoadEnemies", 3f, 3f);
+
         }
         GameOverHandler.ClientOnGameOver += HandleGameOver;
     }
 
     public void LoadEnemies()
     {
-        if (ISGAMEOVER) { return; }
-        CardStats cardStats;
-        UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race) Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString()) ;
+        //if (ISGAMEOVER) { return; }
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 localFactory = factroy.GetComponent<UnitFactory>();
-                if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
-                {
-                    Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
-                    cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()];
-                    localFactory.CmdSpawnUnitRotation(race, UnitMeta.UnitType.KING, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, Quaternion.Euler(0, 180, 0)); ;
-                }
-                
-                if (isUnitAlive(UnitMeta.UnitType.HERO ) < 1)
-                {
-                    cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.HERO].ToString()];
-                    localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.HERO, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
-                }
-               
-                if (isUnitAlive(UnitMeta.UnitType.TANK) < 1) {
-                    cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.TANK].ToString()];
-                    localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.TANK, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
-                }
-                
-                if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
-                {
-                    cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.ARCHER].ToString()];
-                    localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.ARCHER, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
-                }
-               
-                if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 6)
-                {
-                    cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.FOOTMAN].ToString()];
-                    localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.FOOTMAN, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
-                }
-               
-                
-                StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
-                StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
-                StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
-                StartCoroutine(TryTactical(UnitMeta.UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack));
+                StartCoroutine(HandleLoadEnemies());
             }
         }
+    }
+    IEnumerator HandleLoadEnemies()
+    {
+        CardStats cardStats;
+        UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
+
+        while (!ISGAMEOVER) {
+            if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
+            {
+                Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()];
+                localFactory.CmdSpawnUnitRotation(race, UnitMeta.UnitType.KING, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, Quaternion.Euler(0, 180, 0)); ;
+            }
+
+            if (isUnitAlive(UnitMeta.UnitType.HERO) < 1)
+            {
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.HERO].ToString()];
+                localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.HERO, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+            }
+
+            if (isUnitAlive(UnitMeta.UnitType.TANK) < 1)
+            {
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.TANK].ToString()];
+                localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.TANK, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+            }
+
+            if (isUnitAlive(UnitMeta.UnitType.ARCHER) < 1)
+            {
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.ARCHER].ToString()];
+                localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.ARCHER, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+            }
+
+            if (isUnitAlive(UnitMeta.UnitType.FOOTMAN) < 6)
+            {
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.FOOTMAN].ToString()];
+                localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.FOOTMAN, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+            }
+
+
+            StartCoroutine(TryTactical(UnitMeta.UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack));
+            StartCoroutine(TryTactical(UnitMeta.UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack));
+            StartCoroutine(TryTactical(UnitMeta.UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend));
+            StartCoroutine(TryTactical(UnitMeta.UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack));
+            yield return new WaitForSeconds(3f);
+
+        }
+        yield return null;
     }
     
     private IEnumerator TryTactical(UnitMeta.UnitType unitType , TacticalBehavior.BehaviorSelectionType selectionType)

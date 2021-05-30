@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using TMPro;
@@ -16,6 +17,7 @@ public class GameStartDisplay : NetworkBehaviour
     [SerializeField] private GameObject vsFrame = null;
     [SerializeField] private GameObject vsText = null;
     [SerializeField] public CharacterArt Arts;
+    public static event Action ServerGameStart;
 
 
     [SyncVar(hook = "StartTiming")]
@@ -23,8 +25,12 @@ public class GameStartDisplay : NetworkBehaviour
     [SyncVar(hook = "Timing")]
     private float Timer = 180;
     bool IS_PLAYER_LOADED = false;
+    RTSPlayer player;
+
     public override void OnStartClient()
     {
+        if (NetworkClient.connection.identity == null) { return; }
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         StartCoroutine(StartGameloading());
     }
     private void Update()
@@ -85,10 +91,11 @@ public class GameStartDisplay : NetworkBehaviour
     void LoadPlayerData()
     {
         maskBlue.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.KING].ToString()].image;
-        maskBlue.GetComponent<PlayerVS>().PlayerName.text = "";
-        maskBlue.GetComponent<PlayerVS>().TotalPower.text = "";
+        maskBlue.GetComponent<PlayerVS>().PlayerName.text = StaticClass.Username;
+        maskBlue.GetComponent<PlayerVS>().TotalPower.text = StaticClass.TotalPower;
 
-        maskRed.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.KING].ToString()].image;
+        UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
+        maskRed.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
         maskRed.GetComponent<PlayerVS>().PlayerName.text = "";
         maskRed.GetComponent<PlayerVS>().TotalPower.text = "";
 
@@ -114,6 +121,7 @@ public class GameStartDisplay : NetworkBehaviour
         else if (newTime <= 0)
         {
             gameStartDisplayParent.SetActive(false);
+            ServerGameStart?.Invoke();
         }
     }
     public void Timing(float oldTime, float newTime)
