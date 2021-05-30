@@ -102,7 +102,7 @@ public class CardDealer : MonoBehaviour
         //Debug.Log($"{player.name} is enemy = {player.isEnemy}");
         if (player.isEnemy == true)
         {
-            //Debug.Log("enemy card");
+           // Debug.Log("enemy card");
             lastCard.enemyCard = true;
         }
         //Debug.Log($"{lastCard.enemyCard}");
@@ -163,10 +163,13 @@ public class CardDealer : MonoBehaviour
     }
     public void Hit(bool enenmyHit)
     {
-        float Timer = 1;
-        while (Timer > 0) { Timer -= Time.deltaTime; }
+        StartCoroutine(HandleHit(enenmyHit));
+    }
+    private IEnumerator HandleHit(bool enenmyHit)
+    {
+        yield return new WaitForSeconds(1);
         int index = enenmyHit ? 1 : 0;
-        StartCoroutine(DealCards(1, 0f, 0.5f,  players[index]));
+        StartCoroutine(DealCards(1, 0f, 0.5f, players[index]));
     }
     public void RemoveCard(Card _card)
     {
