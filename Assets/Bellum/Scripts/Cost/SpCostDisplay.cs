@@ -159,7 +159,7 @@ public class SpCostDisplay : MonoBehaviour
                 particleSystem1.Play();
                 //particleSystem2.gameObject.SetActive(true);
                 //particleSystem2.Play();
-                if (unit.CompareTag("Player1")|| unit.CompareTag("King1"))
+               /* if (unit.CompareTag("Player1")|| unit.CompareTag("King1"))
                 {
                     
                     if (onePlayerMode == true)
@@ -170,7 +170,7 @@ public class SpCostDisplay : MonoBehaviour
 
                    
                    // Debug.Log("OnPointerDown");
-                }
+                }*/
             }
             else
             {
