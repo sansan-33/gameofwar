@@ -127,7 +127,7 @@ public class EnemyAI : MonoBehaviour
         float x = rect.localScale.x;
         float y = rect.localScale.y;
         float z = rect.localScale.z;
-        rect.localScale = new Vector3((float)0.75, (float)0.75,(float)0.75;
+        rect.localScale = new Vector3((float)0.75, (float)0.75,(float)0.75);
         yield return null;
     }
     private Card checkStar(int star)
