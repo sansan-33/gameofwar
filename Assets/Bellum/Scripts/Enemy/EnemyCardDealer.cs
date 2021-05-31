@@ -37,7 +37,7 @@ public class EnemyCardDealer : MonoBehaviour
             rect.localScale = new Vector3(x /= (float)1.5, y /= (float)1.5, z /= (float)1.5);*/
 
             StartCoroutine(OnPointerDownNextCard());
-            StartCoroutine(SelectNextCard(3));
+            //StartCoroutine(SelectNextCard(3));
         }
         
     }
@@ -46,12 +46,12 @@ public class EnemyCardDealer : MonoBehaviour
         yield return new WaitForSeconds(1);
         nextCard.OnPointerDown();
     }
-    private IEnumerator SelectNextCard(int waitSec)
+    public IEnumerator SelectNextCard(int waitSec, Card card)
     {
         yield return new WaitForSeconds(waitSec);
 
-       // Debug.Log("SelectNextCard");
-        nextCard = cards[Random.Range(0, cards.Count - 1)];
+        // Debug.Log("SelectNextCard");
+        nextCard = card;
         RectTransform rect = nextCard.GetComponent<RectTransform>();
         float x = rect.localScale.x;
         float y = rect.localScale.y;
@@ -64,7 +64,7 @@ public class EnemyCardDealer : MonoBehaviour
         if(cards.Count == 6 && startDeal == true)
         {
             startDeal = false;
-            StartCoroutine(SelectNextCard(0));
+            //StartCoroutine(SelectNextCard(0));
         }
     }
 }

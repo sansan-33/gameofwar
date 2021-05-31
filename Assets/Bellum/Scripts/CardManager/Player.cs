@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] Transform cardSlotParent;
     [SerializeField] CardSlot cardSlotPrefab;
     [SerializeField] CardDealer cardDealer;
-    [SerializeField] EnemyCardDealer enemyCardDealer;
+    [SerializeField] EnemyAI enemyCardDealer;
     [SerializeField] public UnitSkillArt unitSkillArt;
 
     [Header("Layout References")]
