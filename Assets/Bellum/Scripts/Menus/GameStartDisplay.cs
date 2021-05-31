@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using Mirror;
+using SimpleJSON;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class GameStartDisplay : NetworkBehaviour
 {
@@ -46,7 +49,7 @@ public class GameStartDisplay : NetworkBehaviour
     {
         if (playerVSParent == null || IS_PLAYER_LOADED) { yield break; }
         playerVSParent.SetActive(true);
-        LoadPlayerData();
+        StartCoroutine(LoadPlayerData());
         StartCoroutine(LerpPosition(maskBlue.transform , 400f,0f, .5f));
         yield return LerpPosition(maskRed.transform, -400f, 0f, .5f);
         //StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
@@ -89,16 +92,27 @@ public class GameStartDisplay : NetworkBehaviour
         }
         transform.rotation = endValue;
     }
-    void LoadPlayerData()
+    IEnumerator LoadPlayerData()
     {
         maskBlue.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.KING].ToString()].image;
         maskBlue.GetComponent<PlayerVS>().PlayerName.text = StaticClass.Username;
         maskBlue.GetComponent<PlayerVS>().TotalPower.text = StaticClass.TotalPower;
 
+        if(StaticClass.Chapter == null) {
+            StaticClass.Chapter = "1";
+            StaticClass.Mission = "1";
+        }
         UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
+        int TotalPower=0;
+        APIManager apiManager = new APIManager();
+        Debug.Log($"Chapter Mission Team {StaticClass.Chapter + " - " + StaticClass.Mission}");
+        yield return apiManager.GetTotalPower("-1", ChapterMissionMeta.ChapterMissionTeam[StaticClass.Chapter + "-" + StaticClass.Mission]);
+        for (int i = 0; i < apiManager.data.Count; i++) {
+            TotalPower += Int32.Parse(apiManager.data[i]["power"]);
+        }
         maskRed.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
-        maskRed.GetComponent<PlayerVS>().PlayerName.text = "";
-        maskRed.GetComponent<PlayerVS>().TotalPower.text = "";
+        maskRed.GetComponent<PlayerVS>().PlayerName.text = race.ToString() + StaticClass.Mission;
+        maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
 
     }
     private void GameStartCountDown()
@@ -134,5 +148,5 @@ public class GameStartDisplay : NetworkBehaviour
         if (newTime <= 0) { return; }
         Times.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
-
+     
 }

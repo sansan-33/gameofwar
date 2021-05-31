@@ -4,13 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mirror;
-using Pathfinding;
-using Pathfinding.RVO;
 using SimpleJSON;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {

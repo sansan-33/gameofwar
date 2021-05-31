@@ -19,7 +19,7 @@ public class UnitMeta
     public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING,
                         UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL,
                         ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL,
-                        ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL
+                        ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL, UNDEADQUEEN,ELFQUEEN,MULAN
                         };
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, HERO, KING, ALL };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING };
@@ -73,6 +73,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitKey.MAGE },
         { UnitType.FOOTMAN, UnitKey.SPEARMAN },
         { UnitType.HERO, UnitKey.HERO },
+        //{ UnitType.HERO, UnitKey.MULAN },
         { UnitType.KING, UnitKey.KING },
         { UnitType.WALL, UnitKey.HUMANWALL }
     };
@@ -84,6 +85,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitKey.LICH },
         { UnitType.FOOTMAN, UnitKey.MINISKELETON },
         { UnitType.HERO, UnitKey.UNDEADHERO },
+        //{ UnitType.HERO, UnitKey.UNDEADQUEEN },
         { UnitType.KING, UnitKey.UNDEADKING },
         { UnitType.WALL, UnitKey.UNDEADWALL }
     };
@@ -106,6 +108,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitKey.ELFMAGE },
         { UnitType.FOOTMAN, UnitKey.ELFFOOTMAN },
         { UnitType.HERO, UnitKey.ELFDEMONHUNTER },
+        //{ UnitType.HERO, UnitKey.ELFQUEEN },
         { UnitType.KING, UnitKey.ELFTREEANT },
         { UnitType.WALL, UnitKey.ELFWALL }
     };
@@ -124,6 +127,7 @@ public class UnitMeta
         { UnitKey.MAGE , UnitType.MAGIC},
         { UnitKey.SPEARMAN , UnitType.FOOTMAN},
         { UnitKey.HERO , UnitType.HERO},
+        { UnitKey.MULAN , UnitType.HERO},
         { UnitKey.KING , UnitType.KING },
         { UnitKey.HUMANWALL , UnitType.WALL },
 
@@ -133,6 +137,7 @@ public class UnitMeta
         { UnitKey.LICH , UnitType.MAGIC },
         { UnitKey.MINISKELETON , UnitType.FOOTMAN  },
         { UnitKey.UNDEADHERO , UnitType.HERO  },
+        { UnitKey.UNDEADQUEEN , UnitType.HERO  },
         { UnitKey.UNDEADKING , UnitType.KING  },
         { UnitKey.UNDEADWALL , UnitType.WALL },
 
@@ -151,6 +156,7 @@ public class UnitMeta
         { UnitKey.ELFCAVALRY , UnitType.CAVALRY} ,
         { UnitKey.ELFMAGE , UnitType.MAGIC},
         { UnitKey.ELFFOOTMAN , UnitType.FOOTMAN},
+        { UnitKey.ELFQUEEN , UnitType.HERO},
         { UnitKey.ELFDEMONHUNTER , UnitType.HERO},
         { UnitKey.ELFTREEANT , UnitType.KING },
         { UnitKey.ELFWALL , UnitType.WALL },
@@ -163,6 +169,7 @@ public class UnitMeta
         { UnitKey.MAGE , Race.HUMAN},
         { UnitKey.SPEARMAN , Race.HUMAN},
         { UnitKey.HERO , Race.HUMAN},
+        { UnitKey.MULAN , Race.HUMAN},
         { UnitKey.KING , Race.HUMAN },
         { UnitKey.HUMANWALL , Race.HUMAN },
 
@@ -172,6 +179,7 @@ public class UnitMeta
         { UnitKey.LICH , Race.UNDEAD },
         { UnitKey.MINISKELETON , Race.UNDEAD  },
         { UnitKey.UNDEADHERO , Race.UNDEAD  },
+        { UnitKey.UNDEADQUEEN , Race.UNDEAD  },
         { UnitKey.UNDEADKING , Race.UNDEAD  },
         { UnitKey.UNDEADWALL , Race.UNDEAD },
 
@@ -185,6 +193,7 @@ public class UnitMeta
         { UnitKey.GODSPEARMAN , Race.GOD},
         { UnitKey.GODWALL , Race.GOD },
 
+        { UnitKey.ELFQUEEN , Race.ELF},
         { UnitKey.ELFDEMONHUNTER , Race.ELF},
         { UnitKey.ELFTREEANT , Race.ELF},
         { UnitKey.ELFRANGER , Race.ELF } ,
@@ -215,6 +224,7 @@ public class UnitMeta
         { UnitKey.CAVALRY , WeaponType.LANCE} ,
         { UnitKey.MAGE , WeaponType.SPELL},
         { UnitKey.SPEARMAN , WeaponType.SPEAR},
+        { UnitKey.MULAN , WeaponType.SHSWORD},
         { UnitKey.HERO , WeaponType.SHSWORD},
         { UnitKey.KING , WeaponType.SHSWORD },
         { UnitKey.HUMANWALL , WeaponType.NOTHING },
@@ -224,6 +234,7 @@ public class UnitMeta
         { UnitKey.RIDER , WeaponType.LANCE  } ,
         { UnitKey.LICH , WeaponType.SPELL },
         { UnitKey.MINISKELETON , WeaponType.AXE  },
+        { UnitKey.UNDEADQUEEN , WeaponType.SHSWORD},
         { UnitKey.UNDEADHERO , WeaponType.SHSWORD  },
         { UnitKey.UNDEADKING , WeaponType.SHSWORD  },
         { UnitKey.UNDEADWALL , WeaponType.NOTHING },
@@ -242,6 +253,7 @@ public class UnitMeta
         { UnitKey.ELFGOLEM , WeaponType.PUNCH } ,
         { UnitKey.ELFCAVALRY , WeaponType.LANCE} ,
         { UnitKey.ELFMAGE , WeaponType.SPELL},
+        { UnitKey.ELFQUEEN , WeaponType.SHSWORD},
         { UnitKey.ELFFOOTMAN , WeaponType.AXE },
         { UnitKey.ELFDEMONHUNTER , WeaponType.AXE },
         { UnitKey.ELFTREEANT , WeaponType.PUNCH },

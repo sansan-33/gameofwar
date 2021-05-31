@@ -12,6 +12,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject magePrefab = null;
     [SerializeField] private GameObject cavalryPrefab = null;
     [SerializeField] private GameObject heroPrefab = null;
+    [SerializeField] private GameObject mulanPrefab = null;
     [SerializeField] private GameObject spearmanPrefab = null;
     [SerializeField] private GameObject kingPrefab = null;
     [SerializeField] private GameObject humanWallPrefab = null;
@@ -21,6 +22,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject giantPrefab = null;
     [SerializeField] private GameObject riderPrefab = null;
     [SerializeField] private GameObject undeadHeroPrefab = null;
+    [SerializeField] private GameObject undeadQueenPrefab = null;
     [SerializeField] private GameObject undeadArcherPrefab = null;
     [SerializeField] private GameObject undeadKingPrefab = null;
     [SerializeField] private GameObject undeadLichPrefab = null;
@@ -40,6 +42,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject elfrangerPrefab = null;
     [SerializeField] private GameObject elfgolemPrefab = null;
     [SerializeField] private GameObject elfmagePrefab = null;
+    [SerializeField] private GameObject elfqueenPrefab = null;
     [SerializeField] private GameObject elfcavalryPrefab = null;
     [SerializeField] private GameObject elfdemonhunterPrefab = null;
     [SerializeField] private GameObject elffootmanPrefab = null;
@@ -169,6 +172,9 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.ELFCAVALRY, elfcavalryPrefab);
         unitDict.Add(UnitMeta.UnitKey.ELFTREEANT, elftreeantPrefab);
         unitDict.Add(UnitMeta.UnitKey.ELFWALL, elfwallPrefab);
+        unitDict.Add(UnitMeta.UnitKey.ELFQUEEN, elfqueenPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADQUEEN, undeadQueenPrefab);
+        unitDict.Add(UnitMeta.UnitKey.MULAN, mulanPrefab);
 
     }
     public GameObject GetUnitPrefab(UnitMeta.Race race, UnitMeta.UnitType unitType)
