@@ -197,6 +197,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void Healing()
     {
+        if(TryGetComponent(out Healing healing))
         GetComponent<Healing>().ServerEnableHealing(true);
     }
     private void Charging(int attack, float repeatAttackDelay)

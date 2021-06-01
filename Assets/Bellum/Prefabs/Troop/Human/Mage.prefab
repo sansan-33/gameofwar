@@ -43,6 +43,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   specialEffectPrefab: {fileID: 100006, guid: f50d6452269444f75955054f0dd71292, type: 3}
+  slashEffectPrefab: {fileID: 0}
   IsAreaOfEffect: 1
   DashDamage: 0
   IsKingSP: 0
@@ -65,6 +66,21 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 0
   animator: {fileID: 8371189338818843970}
+--- !u!114 &8514576168114112903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931754748427464352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e98c7ec4938b43069d8001d0920774f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  healingPrefab: {fileID: 100004, guid: 426dcf24d92fa4d3d8157d050492ad1a, type: 3}
 --- !u!1001 &1492642562928962214
 PrefabInstance:
   m_ObjectHideFlags: 0
