@@ -16,7 +16,9 @@ public class EnemyAI : MonoBehaviour
     private List<Card> cards = new List<Card>();
     private List<SpCostDisplay> spCostDisplay = new List<SpCostDisplay>();
     private enum Position { left, right, centre};
+    private Vector3 heroPos;
     [SerializeField] private Transform halfLine;
+    [SerializeField] private Card wall;
     [SerializeField] private Player player;
     [SerializeField] private Player enemyPlayer;
     [SerializeField] private CardDealer cardDealer;
@@ -31,11 +33,6 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] List<UnitMeta.UnitType> unitTypesList2;
     [SerializeField] List<UnitMeta.UnitType> unitTypesList3;
 
-    private Dictionary<Position, Vector3> Pos = new Dictionary<Position, Vector3>()
-    { };
-    [SerializeField] Vector3 enemySpawnPosLeft;
-    [SerializeField] Vector3 enemySpawnPosRight;
-    [SerializeField] Vector3 enemySpawnPosCentre;
     [SerializeField] UnitMeta.UnitType attackType;
     private Dictionary<UnitMeta.UnitType, List<SpecialAttackType>> Sp = new Dictionary<UnitMeta.UnitType, List<SpecialAttackType>>()
     { };
@@ -70,10 +67,6 @@ public class EnemyAI : MonoBehaviour
         Stratergy.Add(1, unitTypesList2);
         Stratergy.Add(2, unitTypesList3);
 
-        Pos.Add(position[0], enemySpawnPosLeft);
-        Pos.Add(position[2], enemySpawnPosRight);
-        Pos.Add(position[4], enemySpawnPosCentre);
-
         Sp.Add(unitType[0], SpList1);
         Sp.Add(unitType[1], SpList1);
         Sp.Add(unitType[2], SpList1);
@@ -96,7 +89,7 @@ public class EnemyAI : MonoBehaviour
                 yield return SelectCard();
             yield return new WaitForSeconds(2f);
             yield return SpawnEnemy();
-       
+            //yield return SelectWallPos();
              
            
         }
@@ -247,7 +240,7 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log($"armies.Count{armies.Count}");
         foreach(GameObject unit in armies)
         {
-            //Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
+           // Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
             if (unit.transform.position.x > halfLine.position.x)
             {
                 enemyInRight++;
@@ -265,32 +258,66 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            //Debug.Log($"enemyInRight {enemyInRight} >= enemyInLeft{enemyInLeft}");
+           //Debug.Log($"enemyInRight {enemyInRight} >= enemyInLeft{enemyInLeft}");
             position = enemyInRight >= enemyInLeft ? Position.right : Position.left;
         }
      
         //  if (StratergyPostion.TryGetValue(type, out var pos))
         // {
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
-            if (Pos.TryGetValue(position, out Vector3 cardPos))
-            {
+            
             //Debug.Log(localFactory);
-                localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), cardPos, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
+            Vector3 unitPos = new Vector3();
+            GameObject[] Heros = GameObject.FindGameObjectsWithTag("Player" + 1);
+            foreach (GameObject hero in Heros)
+            {
+               if (hero.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO)
+               {
+                  heroPos = hero.transform.position;
+               }
+            }
+       // Debug.Log(position);
+            switch (position)
+            { 
+                case Position.right:
+                     unitPos = type == attackType ? new Vector3(heroPos.x, heroPos.y, heroPos.z-20) : new Vector3(heroPos.x, heroPos.y, heroPos.z+10);
+                    break;
+                case Position.left:
+                unitPos = type == attackType ? new Vector3(heroPos.x-15, heroPos.y, heroPos.z -20) : new Vector3(heroPos.x-15, heroPos.y, heroPos.z + 10);
+                    break;
+                default:
+                    GameObject[] Kings = GameObject.FindGameObjectsWithTag("King" + 1);
+                    foreach (GameObject _king in Kings)
+                    {
+                        if (_king.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
+                        {
+                            if (_king.transform.position.x < halfLine.position.x)
+                            {
+                                unitPos = type == attackType ? new Vector3(_king.transform.position.x, _king.transform.position.y, _king.transform.position.z-15) :
+                                    new Vector3(_king.transform.position.x, _king.transform.position.y, _king.transform.position.z + 10);
+                            }
+                        }
+
+                    }
+                    break;
+            }
+        FindObjectOfType<TotalEleixier>().enemyEleixer -= card.GetUnitElexier();
+                localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
                     cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey,
                     cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamColor(), Quaternion.identity);
             enemyPlayer.moveCard(card.cardPlayerHandIndex);
             cardDealer.Hit(true);
-            }
+            
        // }
         SpecialAttack(type);
         yield return null;
     }
     private void SpecialAttack(UnitMeta.UnitType type)
     {
-        Debug.Log("SpecialAttack");
+        //Debug.Log("SpecialAttack");
         if(Sp.TryGetValue(type,out List<SpecialAttackType> specialAttackTypes))
         {
-            Debug.Log($"SpecialAttack Got {specialAttackTypes}");
+            //Debug.Log($"SpecialAttack Got {specialAttackTypes}");
             GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
             GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
             List<GameObject> armies = new List<GameObject>();
@@ -299,22 +326,22 @@ public class EnemyAI : MonoBehaviour
                 armies.Add(king);
             foreach (GameObject unit in armies)
             {
-                Debug.Log($"SpecialAttack Unit type is  {unit.GetComponent<Unit>().unitType}");
+                //Debug.Log($"SpecialAttack Unit type is  {unit.GetComponent<Unit>().unitType}");
                 if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
                 {
                     SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.GetComponent<CardStats>().specialkey.ToUpper());
-                    Debug.Log($"SpecialAttack  type is  {specialAttackType}");
+                    //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
                     foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
                     {
-                        Debug.Log($"SpecialAttack  type is  {specialAttackType} == {_specialAttackType}");
+                        //Debug.Log($"SpecialAttack  type is  {specialAttackType} == {_specialAttackType}");
                         if (specialAttackType == _specialAttackType)
                         {
                             ISpecialAttack iSpecialAttack = unit.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
                             SpButtonManager.enemyUnitBtns.TryGetValue(unit.GetComponent<Unit>().unitKey, out var btn);
-                            Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
+                           // Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
                             if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
                             {
-                                Debug.Log("Onpointerdown");
+                                //Debug.Log("Onpointerdown");
                                 iSpecialAttack.OnPointerDown();
                             }
                         }
@@ -323,6 +350,45 @@ public class EnemyAI : MonoBehaviour
                 }                   
             }
         }
+    }
+    private IEnumerator SelectWallPos()
+    {
+        int enemyInRight = 0;
+        int enemyInLeft = 0;
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 0);
+        GameObject king = GameObject.FindGameObjectWithTag("King" + 0);
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        if (king != null)
+            armies.Add(king);
+        //Debug.Log($"armies.Count{armies.Count}");
+        foreach (GameObject unit in armies)
+        {
+            // Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
+            if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.CAVALRY)
+            {
+                PlaceWall(unit.transform.position);
+                yield return null;
+            }
+            /*  if (unit.transform.position.x > halfLine.position.x)
+              {
+                  enemyInRight++;
+              }
+              else
+              {
+                  enemyInLeft++;
+              }
+          }
+          if(enemyInLeft < enemyInRight)
+          {
+            //  PlaceWall(heroPos);
+          }*/
+        }  yield return null;
+    }
+    private void PlaceWall(Vector3 pos)
+    {
+        Vector3 vector = new Vector3(pos.x+5, pos.y, pos.z);
+        wall.DropUnit(vector);
     }
     private void HandleGameOver(string winner)
     {
