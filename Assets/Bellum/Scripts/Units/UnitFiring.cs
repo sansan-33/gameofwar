@@ -61,6 +61,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
             if(fireRange > 20)
             projectileInstance.GetComponent<UnitProjectile>().ServerTargetObjectTF(targetPosition);
 
+            projectileInstance.GetComponent<UnitProjectile>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
             NetworkServer.Spawn(projectileInstance, connectionToClient);
         }   
     }
