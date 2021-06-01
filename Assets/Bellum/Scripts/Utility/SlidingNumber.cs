@@ -2,13 +2,13 @@
 using TMPro;
 using UnityEngine;
 
-public class SlidingNUmber : MonoBehaviour
+public class SlidingNumber : MonoBehaviour
 {
     public TMP_Text numberText;
-    public float animationTime = 1.5f;
+    public float animationTime = 10f;
     private float desiredNumber;
     private float initialNumber;
-    private float currentNumber;
+    private float currentNumber=0;
 
     public void SetNumber(float value)
     {

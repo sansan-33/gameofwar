@@ -92,7 +92,8 @@ public class GameStartDisplay : NetworkBehaviour
     IEnumerator LoadPlayerData()
     {
         maskBlue.GetComponent<PlayerVS>().PlayerName.text = StaticClass.Username;
-        maskBlue.GetComponent<PlayerVS>().TotalPower.text = StaticClass.TotalPower;
+        maskBlue.GetComponent<SlidingNumber>().SetNumber(Int32.Parse(StaticClass.TotalPower));
+        //maskBlue.GetComponent<PlayerVS>().TotalPower.text = StaticClass.TotalPower;
         maskBlue.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.KING].ToString()].image;
         maskBlue.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
         maskBlue.SetActive(true);
@@ -111,7 +112,8 @@ public class GameStartDisplay : NetworkBehaviour
         maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
         maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
         maskRed.GetComponent<PlayerVS>().PlayerName.text = race.ToString() + StaticClass.Mission;
-        maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
+        maskRed.GetComponent<SlidingNumber>().SetNumber(TotalPower);
+        //maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
         maskRed.SetActive(true);
 
 

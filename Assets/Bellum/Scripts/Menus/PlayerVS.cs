@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerVS : MonoBehaviour
 {
-    [SerializeField] public TMP_Text TotalPower = null;
     [SerializeField] public GameObject charIcon;
     [SerializeField] public TMP_Text PlayerName = null;
-
 }
 
