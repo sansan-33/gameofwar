@@ -17,9 +17,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TopBarMenu topBarMenu = null;
     [SerializeField] public UnitFactory localFactory;
     [SerializeField] public Transform[] unitBodyParents;
+    APIManager apiManager;
 
     private void Awake()
     {
+        apiManager = new APIManager();
         firebaseManager.authStateChanged += HandleLobbyData;
     }
     private void OnDestroy()
@@ -70,24 +72,10 @@ public class MainMenu : MonoBehaviour
         UnitMeta.UnitKey unitkey;
         String comma = "";
         StringBuilder sbTeamMember = new StringBuilder();
-        if (userid == null || userid.Length == 0) { yield break; }
         userTeamDict.Clear();
-        //Debug.Log($"Get Team info after clear userTeamDict size: {userTeamDict.Count }");
-        // resulting JSON from an API request
-        JSONNode jsonResult;
-        UnityWebRequest webReq = new UnityWebRequest();
-        webReq.downloadHandler = new DownloadHandlerBuffer();
-        // build the url and query
-        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.teamService, userid);
+        yield return apiManager.GetTeamInfo(userid);
 
-        // send the web request and wait for a returning result
-        yield return webReq.SendWebRequest();
-
-        // convert the byte array to a string
-        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-
-        // parse the raw string into a json result we can easily read
-        jsonResult = JSON.Parse(rawJson);
+        JSONNode jsonResult = apiManager.data["GetTeamInfo"];
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if(!userTeamDict.ContainsKey(jsonResult[i]["teamnumber"]))
@@ -114,15 +102,11 @@ public class MainMenu : MonoBehaviour
     {
         int TotalPower = 0;
         if (userid == null || userid.Length == 0) { yield break; }
-        JSONNode jsonResult;
-        UnityWebRequest webReq = new UnityWebRequest();
-        webReq.downloadHandler = new DownloadHandlerBuffer();
-        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.cardService, userid, cardkeys);
-        yield return webReq.SendWebRequest();
-        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-        jsonResult = JSON.Parse(rawJson);
-        for (int i = 0; i < jsonResult.Count; i++) {
-            TotalPower += Int32.Parse(jsonResult[i]["power"]);
+
+        yield return apiManager.GetTotalPower(userid, cardkeys);
+        for (int i = 0; i < apiManager.data["GetTotalPower"].Count; i++)
+        {
+            TotalPower += Int32.Parse(apiManager.data["GetTotalPower"][i]["power"]);
         }
         StaticClass.TotalPower = TotalPower.ToString();
         Debug.Log($"TotalPower {TotalPower}");

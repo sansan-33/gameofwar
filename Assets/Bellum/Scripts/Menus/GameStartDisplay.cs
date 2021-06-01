@@ -104,9 +104,9 @@ public class GameStartDisplay : NetworkBehaviour
         int TotalPower=0;
         APIManager apiManager = new APIManager();
         Debug.Log($"Chapter Mission Team {StaticClass.Chapter + " - " + StaticClass.Mission}");
-        yield return apiManager.GetTotalPower("-1", ChapterMissionMeta.ChapterMissionTeam[StaticClass.Chapter + "-" + StaticClass.Mission]);
+        yield return apiManager.GetTotalPower(UnitMeta.ENEMY_USERID , ChapterMissionMeta.ChapterMissionTeam[StaticClass.Chapter + "-" + StaticClass.Mission]);
         for (int i = 0; i < apiManager.data.Count; i++) {
-            TotalPower += Int32.Parse(apiManager.data[i]["power"]);
+            TotalPower += Int32.Parse(apiManager.data["GetTotalPower"][i]["power"]);
         }
         maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
         maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;

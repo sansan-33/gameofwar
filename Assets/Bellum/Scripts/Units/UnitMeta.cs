@@ -16,6 +16,7 @@ public class UnitMeta
     public static string REDTEAM = "Red";
     public static string KINGPLAYERTAG = "King0";
     public static string KINGENEMYTAG = "King1";
+    public static string ENEMY_USERID = "-1";
     public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING,
                         UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL,
                         ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL,
