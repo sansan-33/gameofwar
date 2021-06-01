@@ -51,7 +51,7 @@ public class GameStartDisplay : NetworkBehaviour
         yield return LerpPosition(maskRed.transform, -400f, 0f, .5f);
         //StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
         vsText.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         IS_PLAYER_LOADED = true;
         playerVSParent.SetActive(false);
 

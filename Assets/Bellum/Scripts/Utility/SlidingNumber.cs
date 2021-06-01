@@ -6,7 +6,7 @@ using UnityEngine;
 public class SlidingNumber : MonoBehaviour
 {
     public TMP_Text numberText;
-    public float animationTime = 0.001f;
+    private float animationTime = 0.5f;
     private float desiredNumber;
     private float initialNumber;
     private float currentNumber=0;
@@ -24,12 +24,14 @@ public class SlidingNumber : MonoBehaviour
     }
     IEnumerator slideNumber()
     {
+        float timeElapsed = Time.deltaTime;
         while (currentNumber != desiredNumber) {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
 
             if (initialNumber < desiredNumber) {
-                currentNumber += (animationTime * Time.deltaTime * 0.1f) * (desiredNumber - initialNumber);
-                //currentNumber += 1;
+                //currentNumber += (animationTime * Time.deltaTime * 0.1f) * (desiredNumber - initialNumber);
+                currentNumber = Mathf.Lerp(initialNumber, desiredNumber, timeElapsed / animationTime);
+                timeElapsed += Time.deltaTime;
                 if (currentNumber >= desiredNumber)
                     currentNumber = desiredNumber;
             }
@@ -39,10 +41,10 @@ public class SlidingNumber : MonoBehaviour
                 if (currentNumber <= desiredNumber)
                     currentNumber = desiredNumber;
             }
-            Debug.Log($"Sliding number {currentNumber}");
+            //Debug.Log($"animationTime {animationTime} Sliding number {currentNumber}");
             numberText.text = currentNumber.ToString("0");
             
         }
     }
-
+   
 }
