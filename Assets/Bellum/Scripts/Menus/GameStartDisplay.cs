@@ -97,8 +97,8 @@ public class GameStartDisplay : NetworkBehaviour
         maskBlue.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.KING].ToString()].image;
         maskBlue.GetComponent<PlayerVS>().PlayerName.text = StaticClass.Username;
         maskBlue.GetComponent<PlayerVS>().TotalPower.text = StaticClass.TotalPower;
-
-        if(StaticClass.Chapter == null) {
+        maskBlue.SetActive(true);
+        if (StaticClass.Chapter == null) {
             StaticClass.Chapter = "1";
             StaticClass.Mission = "1";
         }
@@ -113,6 +113,7 @@ public class GameStartDisplay : NetworkBehaviour
         maskRed.GetComponent<PlayerVS>().charIcon.sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
         maskRed.GetComponent<PlayerVS>().PlayerName.text = race.ToString() + StaticClass.Mission;
         maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
+        maskRed.SetActive(true);
 
     }
     private void GameStartCountDown()

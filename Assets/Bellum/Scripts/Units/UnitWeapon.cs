@@ -177,6 +177,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command]
     private void cmdSlashEffect(Vector3 position )
     {
+        if (slashEffectPrefab == null) { return; }
         Quaternion rotation = Quaternion.LookRotation(position - transform.position);
         //Debug.Log($"{name} rotation {rotation} y {rotation.y},  position : {position - transform.position}");
         GameObject effect = Instantiate(slashEffectPrefab, position, Quaternion.Euler(new Vector3(0, rotation.y > 0 ? 0 : 180, 0)));

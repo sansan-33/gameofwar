@@ -107,6 +107,7 @@ public class Healing : NetworkBehaviour
     public void HandleHealingPrefab(GameObject army)
     {
         //Debug.Log($"HandleHealingPrefab {army.GetComponent<Targeter>().GetAimAtPoint() }");
+        if (army == null || !army.GetComponent<Health>().IsAlive()) { return; }
         GameObject fxEffect = Instantiate(healingPrefab, army.GetComponent<Targeter>().GetAimAtPoint() );
         NetworkServer.Spawn(fxEffect, connectionToClient);
     }
