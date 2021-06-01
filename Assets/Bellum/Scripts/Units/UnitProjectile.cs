@@ -101,7 +101,6 @@ public class UnitProjectile : NetworkBehaviour
         this.damageToDeals = damageToDeal == 0 ? this.damageToDeals : damageToDeal;
         damageToDealOriginal = (int) (damageToDealOriginal * newDamageToDealFactor);
     }
-    
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
         bool isFlipped = false;
@@ -155,6 +154,12 @@ public class UnitProjectile : NetworkBehaviour
     {
         TargetObjectPos = targetObjectPos;
     }
+    [Server]
+    public void SetPlayerType(int playerid)
+    {
+        this.unitType = playerid == 0 ? "Player" : "Enemy";
+    }
+
     [Command]
     public void CmdDealDamage(GameObject enemy, float damge)
     {
