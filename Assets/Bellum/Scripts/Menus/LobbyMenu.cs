@@ -37,7 +37,7 @@ public class LobbyMenu : MonoBehaviour
         List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
         for (int i = 0; i < players.Count; i++)
         {
-            playerNameTexts[i].text = players[i].GetUserID() ;
+            playerNameTexts[i].text = players[i].GetDisplayName() ;
         }
 
         for (int i = players.Count; i < playerNameTexts.Length; i++)
