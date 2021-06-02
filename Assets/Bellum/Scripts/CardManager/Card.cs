@@ -153,15 +153,15 @@ public class Card : MonoBehaviour
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamColor();
         }
-        if(cardFace.stats == null)
-        {
-            localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, 1, 1, 1, 1, 1, 1, 1, null, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
+       // if(cardFace.stats == null)
+       // {
+       //     localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, 1, 1, 1, 1, 1, 1, 1, null, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
 
-        }
-        else
-        {
+       // }
+      //  else
+       // {
             localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
-        }
+       // }
         //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {spawnPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
         yield return null;
     }
