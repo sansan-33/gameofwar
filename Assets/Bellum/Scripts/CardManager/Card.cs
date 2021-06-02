@@ -130,8 +130,10 @@ public class Card : MonoBehaviour
         //Debug.Log(GetComponent<RectTransform>().localScale);
         
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
-        dealManagers.Hit(enemyCard);
+        var _enemyCard = enemyCard;
         enemyCard = false;
+        dealManagers.Hit(_enemyCard);
+       
         //Debug.Log("re set enemy card");
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
     }
@@ -153,7 +155,7 @@ public class Card : MonoBehaviour
         }
         if(cardFace.stats == null)
         {
-            localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
+            localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, 1, 1, 1, 1, 1, 1, 1, null, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
 
         }
         else

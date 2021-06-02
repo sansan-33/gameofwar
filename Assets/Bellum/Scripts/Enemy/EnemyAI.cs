@@ -134,7 +134,7 @@ public class EnemyAI : MonoBehaviour
             i--;
             if (i == -1) { break; }
         }
-       // Debug.Log($"SelectCard {_card}");
+        Debug.Log($"SelectCard {_card}");
         nextCard = _card;
         RectTransform rect = nextCard.GetComponent<RectTransform>();
         float x = rect.localScale.x;
