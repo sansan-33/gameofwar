@@ -37,7 +37,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] Card buttonWall;
     [SerializeField] public TotalEleixier totalEleixers;
     [SerializeField] public Shader greyScaleShader;
-
+    [SerializeField] private bool spawnEnemyCard = false;
     public static event Action UserCardLoaded;
     public SimpleObjectPool cardObjectPool;
 
@@ -54,7 +54,10 @@ public class CardDealer : MonoBehaviour
     private void StartShuffleDeck()
     {
         StartCoroutine(ShuffleDeck(false));
-        // StartCoroutine(ShuffleDeck(true));
+        if(spawnEnemyCard == true)
+        {
+            StartCoroutine(ShuffleDeck(true));
+        }
        // StartCoroutine(DealCards(3, 0f, 0.1f, players[1]));
     }
     IEnumerator ShuffleDeck(bool enemySpawn)
