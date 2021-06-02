@@ -31,10 +31,6 @@ public class RTSPlayer : NetworkBehaviour
     private string race = "HUMAN";
     [SyncVar]
     private string totalPower = "???";
-    [SyncVar]
-    private string enemyRace = "HUMAN";
-    [SyncVar]
-    private string enemyTotalPower = "???";
 
     public event Action<int> ClientOnResourcesUpdated;
 
@@ -62,17 +58,9 @@ public class RTSPlayer : NetworkBehaviour
     {
         return race;
     }
-    public string GetEnemyRace()
-    {
-        return enemyRace;
-    }
     public string GetTotalPower()
     {
         return totalPower;
-    }
-    public string GetEmenyTotalPower()
-    {
-        return enemyTotalPower;
     }
     public string GetDisplayName()
     {
@@ -176,19 +164,9 @@ public class RTSPlayer : NetworkBehaviour
         this.race = race;
     }
     [Server]
-    public void SetEnemyRace(string race)
-    {
-        this.enemyRace = race;
-    }
-    [Server]
     public void SetTotalPower(string power)
     {
         this.totalPower = power;
-    }
-    [Server]
-    public void SetEnmeyTotalPower(string power)
-    {
-        this.enemyTotalPower = power;
     }
     [Server]
     public void SetDisplayName(string displayName)
@@ -261,9 +239,11 @@ public class RTSPlayer : NetworkBehaviour
 
     }
     [Command]
-    public void CmdSetUserID(string userid)
+    public void CmdSetUserInfo(string userid, string race, string power)
     {
         SetUserID(userid);
+        SetRace(race);
+        SetTotalPower(power);
     }
     private void ServerHandleUnitSpawned(Unit unit)
     {
