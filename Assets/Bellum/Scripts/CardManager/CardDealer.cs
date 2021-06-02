@@ -54,7 +54,7 @@ public class CardDealer : MonoBehaviour
     private void StartShuffleDeck()
     {
         StartCoroutine(ShuffleDeck(false));
-        StartCoroutine(ShuffleDeck(true));
+        // StartCoroutine(ShuffleDeck(true));
        // StartCoroutine(DealCards(3, 0f, 0.1f, players[1]));
     }
     IEnumerator ShuffleDeck(bool enemySpawn)
