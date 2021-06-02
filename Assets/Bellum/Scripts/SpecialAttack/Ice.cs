@@ -195,7 +195,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
     }
     private void IceBreak(GameObject unit)
     {
-        //if(unit == null) { return; }
+        if(effect == null) { return; }
         
         //Debug.Log($"ice break {effect} {effect.transform.parent.name}");
         effect.GetComponentInChildren<RFX4_StartDelay>().Enable();

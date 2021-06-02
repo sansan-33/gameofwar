@@ -82,7 +82,7 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(2f);
         while (!ISGAMEOVER)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(2.5f);
            // Debug.Log($"HandleSpawnnEnemy {cards.Count}");
             
                 //Debug.Log("HandleSpawnnEnemy");
