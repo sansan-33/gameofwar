@@ -329,20 +329,23 @@ public class EnemyAI : MonoBehaviour
                 //Debug.Log($"SpecialAttack Unit type is  {unit.GetComponent<Unit>().unitType}");
                 if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
                 {
-                    SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.GetComponent<CardStats>().specialkey.ToUpper());
-                    //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
-                    foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
+                    if (unit.GetComponent<CardStats>().specialkey != "")
                     {
-                        //Debug.Log($"SpecialAttack  type is  {specialAttackType} == {_specialAttackType}");
-                        if (specialAttackType == _specialAttackType)
+                        SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.GetComponent<CardStats>().specialkey.ToUpper());
+                        //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
+                        foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
                         {
-                            ISpecialAttack iSpecialAttack = unit.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
-                            SpButtonManager.enemyUnitBtns.TryGetValue(unit.GetComponent<Unit>().unitKey, out var btn);
-                           // Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
-                            if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                            //Debug.Log($"SpecialAttack  type is  {specialAttackType} == {_specialAttackType}");
+                            if (specialAttackType == _specialAttackType)
                             {
-                                //Debug.Log("Onpointerdown");
-                                iSpecialAttack.OnPointerDown();
+                                ISpecialAttack iSpecialAttack = unit.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
+                                SpButtonManager.enemyUnitBtns.TryGetValue(unit.GetComponent<Unit>().unitKey, out var btn);
+                                // Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
+                                if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                                {
+                                    //Debug.Log("Onpointerdown");
+                                    iSpecialAttack.OnPointerDown();
+                                }
                             }
                         }
                     }

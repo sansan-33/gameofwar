@@ -103,8 +103,9 @@ public class SpButtonManager : MonoBehaviour
                 {
                     if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
                     {
-                        //Debug.Log($"enemy unit.specialkey{unit.specialkey} {unit.name}");
-                        if(unit.specialkey != null)
+                        Debug.Log($"enemy unit.specialkey{unit.specialkey} {unit.name}");
+                        if(unit.specialkey == "") { Debug.Log("unit specail key is null"); }
+                        if(unit.specialkey != "")
                         {
                             SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
                              //Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
