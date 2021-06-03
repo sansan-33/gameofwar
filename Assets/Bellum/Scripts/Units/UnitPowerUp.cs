@@ -10,6 +10,7 @@ public class UnitPowerUp : NetworkBehaviour
 {
     [SerializeField] private GameObject specialEffectPrefab = null;
     [SerializeField] private GameObject fxEffectPrefab = null;
+    [SerializeField] private Material sneakyMaterial = null;
     public bool canSpawnEffect = true;
   
     private void Scale()
@@ -184,6 +185,9 @@ public class UnitPowerUp : NetworkBehaviour
             case UnitMeta.UnitSkill.CHARGE:
                 Charging(attack, repeatAttackDelay);
                 break;
+            case UnitMeta.UnitSkill.SNEAK:
+                Sneak();
+                break;
             case UnitMeta.UnitSkill.NOTHING:
             default:
                 break;
@@ -212,6 +216,16 @@ public class UnitPowerUp : NetworkBehaviour
         GameObject specialEffect = Instantiate(specialEffectPrefab, position, Quaternion.identity);
         specialEffect.GetComponent<Tornado>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
         NetworkServer.Spawn(specialEffect, connectionToClient);
+    }
+    private void Sneak()
+    {
+        foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            //Material[]  mats = new Material[] {sneakyMaterial, skinnedMeshRenderer.materials[1] };
+            Material[]  mats = new Material[] {sneakyMaterial};
+            skinnedMeshRenderer.materials = mats;
+        }
+
     }
     private void Charging(int attack, float repeatAttackDelay)
     {
