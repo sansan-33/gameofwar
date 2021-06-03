@@ -10,7 +10,9 @@ public class Tornado : NetworkBehaviour
     public float refreshRate;
     int playerid = 0;
     int enemyid = 0;
+    bool destoryTornado = false;
     [SerializeField] private string unitType;
+    [SerializeField] private float destroyAfterSeconds = 5f;
 
     public override void OnStartClient()
     {
@@ -19,7 +21,11 @@ public class Tornado : NetworkBehaviour
         playerid = player.GetPlayerID();
         enemyid = player.GetEnemyID();
     }
-
+    public override void OnStartServer()
+    {
+        Invoke(nameof(TurnOffPulling), destroyAfterSeconds-1f);
+        Invoke(nameof(DestroySelf), destroyAfterSeconds);
+    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"Tornado OnTriggerEnter {other.tag} ");
@@ -28,7 +34,6 @@ public class Tornado : NetworkBehaviour
             StartCoroutine(pullObject(other, true));
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         if (CanPull(other))
@@ -36,15 +41,30 @@ public class Tornado : NetworkBehaviour
             StartCoroutine(pullObject(other, false));
         }
     }
-
+    void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<Rigidbody>().velocity == Vector3.zero && other.GetComponent<Rigidbody>().velocity == Vector3.zero) { return; }
+        if (CanPull(other) && destoryTornado)
+        {
+            StartCoroutine(pullObject(other, false));
+        }
+    }
     IEnumerator pullObject(Collider x, bool shouldPull)
     {
         if (shouldPull)
         {
-            Vector3 forceDir = tornadoCenter.position - x.transform.position;
+            Vector3 center = new Vector3(tornadoCenter.position.x, x.transform.position.y, tornadoCenter.position.z);
+            Vector3 forceDir = center - x.transform.position;
             x.GetComponent<Rigidbody>().AddForce(forceDir.normalized * pullForce * Time.deltaTime);
             yield return refreshRate;
+            //yield return new WaitForSeconds(destroyAfterSeconds-1f);
             StartCoroutine(pullObject(x, shouldPull));
+        }
+        else
+        {
+            x.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            x.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            Debug.Log($"pullObject {x.name} velocity {x.GetComponent<Rigidbody>().velocity} / {x.GetComponent<Rigidbody>().angularVelocity}");
         }
     }
 
@@ -70,9 +90,18 @@ public class Tornado : NetworkBehaviour
         return sameTeam;
     }
     [Server]
+    private void TurnOffPulling()
+    {
+        destoryTornado = true;
+    }
+    [Server]
     public void SetPlayerType(int playerid)
     {
         this.unitType = playerid == 0 ? "Player" : "Enemy";
     }
-
+    [Server]
+    private void DestroySelf()
+    {
+        NetworkServer.Destroy(gameObject);
+    }
 }
