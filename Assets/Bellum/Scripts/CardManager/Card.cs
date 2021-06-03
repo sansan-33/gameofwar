@@ -65,13 +65,19 @@ public class Card : MonoBehaviour
         
         if(enemyCard == true)
         {
-          // Debug.Log($"Getting scale");
+           Debug.Log($"Getting scale");
             RectTransform rect = GetComponent<RectTransform>();
             float x = rect.localScale.x;
             float y = rect.localScale.y;
             float z = rect.localScale.z;
             rect.localScale = new Vector3( (float)0.5,  (float)0.5,(float)0.5);
             GetComponentInChildren<Button>().enabled = false;
+        }
+        else
+        {
+            RectTransform rect = GetComponent<RectTransform>();
+            rect.localScale = new Vector3(1, 1, 1);
+            GetComponentInChildren<Button>().enabled = true;
         }
         yield return null;
         //enemyCard = false;
@@ -126,9 +132,9 @@ public class Card : MonoBehaviour
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamColor();
         }
-        GetComponent<RectTransform>().localScale = new Vector3(originalx, originaly, originalz);
+
         //Debug.Log(GetComponent<RectTransform>().localScale);
-        
+        ResetScale();
         this.GetComponentInParent<Player>().moveCard(this.cardPlayerHandIndex);
         var _enemyCard = enemyCard;
         enemyCard = false;
@@ -136,6 +142,11 @@ public class Card : MonoBehaviour
        
         //Debug.Log("re set enemy card");
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
+    }
+    public void ResetScale()
+    {
+        Debug.Log("Reset Scale");
+        GetComponent<RectTransform>().localScale = new Vector3(originalx, originaly, originalz);
     }
     public void DropUnit(Vector3 spawnPoint)
     {

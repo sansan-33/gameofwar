@@ -367,8 +367,10 @@ public class EnemyAI : MonoBehaviour
                     cardFace.stats.health * (int)statUpFactor, cardFace.stats.attack * (int)statUpFactor, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense * (int)statUpFactor, cardFace.stats.special, cardFace.stats.specialkey,
                     cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamColor(), Quaternion.identity);
         card.enemyCard = false;
+        card.ResetScale();
         enemyPlayer.moveCard(card.cardPlayerHandIndex);
-            cardDealer.Hit(true);
+        cards.Remove(card);
+        cardDealer.Hit(true);
             
        // }
         SpecialAttack(type);

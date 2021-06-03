@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +34,7 @@ public class EnemyCardDealer : MonoBehaviour
             float x = rect.localScale.x;
             float y = rect.localScale.y;
             float z = rect.localScale.z;
-            rect.localScale = new Vector3(x /= (float)1.5, y /= (float)1.5, z /= (float)1.5);*/
+            rect.localScale = new Vector3(x /= (float)1.5, y /= (float)1.5, z /= (float)1.5);
 
             StartCoroutine(OnPointerDownNextCard());
             //StartCoroutine(SelectNextCard(3));
@@ -67,4 +67,4 @@ public class EnemyCardDealer : MonoBehaviour
             //StartCoroutine(SelectNextCard(0));
         }
     }
-}
+}*/
