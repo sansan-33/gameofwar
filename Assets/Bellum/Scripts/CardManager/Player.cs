@@ -106,7 +106,7 @@ public class Player : MonoBehaviour
     }
     public IEnumerator AddCard(Card card, bool left = true)
     {
-        //Debug.Log($"Player.AddCard() ==> {name } {card.enemyCard}");
+        Debug.Log($"Player.AddCard() ==> {name } {card.enemyCard}");
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
       if(isEnemy == true)

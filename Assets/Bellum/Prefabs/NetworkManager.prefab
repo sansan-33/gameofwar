@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
+  PersistNetworkManagerToOfflineScene: 0
   runInBackground: 1
-  startOnHeadless: 1
-  showDebugMessages: 0
+  autoStartServerBuild: 1
   serverTickRate: 30
+  serverBatching: 1
+  serverBatchInterval: 0
   offlineScene: Assets/Bellum/Scenes/Scene_Main_Menu.unity
   onlineScene: 
   transport: {fileID: 2616846832148046254}
@@ -103,6 +105,7 @@ MonoBehaviour:
   - {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   - {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
   - {fileID: 7438937032517910368, guid: 787b65dd06bed4d87aaa49a81135a5bd, type: 3}
+  - {fileID: 1651284899731740, guid: 1962cefffce3e49e9b674ababb5c735f, type: 3}
   undeadArcherPrefab: {fileID: 8745828811818118974, guid: 176269277ff45482b9da0d51230407cf, type: 3}
   miniSkeletonPrefab: {fileID: 7815172197941435234, guid: c8ce6b4bae235c6478b0c0e75fa68e5e, type: 3}
   knightPrefab: {fileID: 8072577695093048450, guid: 0ce1ae312268442f89ba4e0ed3c5d1f7, type: 3}
@@ -134,33 +137,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnClientConnected:
-    m_PersistentCalls:
-      m_Calls: []
-  OnClientDataReceived:
-    m_PersistentCalls:
-      m_Calls: []
-  OnClientError:
-    m_PersistentCalls:
-      m_Calls: []
-  OnClientDisconnected:
-    m_PersistentCalls:
-      m_Calls: []
-  OnServerConnected:
-    m_PersistentCalls:
-      m_Calls: []
-  OnServerDataReceived:
-    m_PersistentCalls:
-      m_Calls: []
-  OnServerError:
-    m_PersistentCalls:
-      m_Calls: []
-  OnServerDisconnected:
-    m_PersistentCalls:
-      m_Calls: []
   port: 7777
   NoDelay: 1
+  SendTimeout: 5000
+  ReceiveTimeout: 30000
   serverMaxMessageSize: 16384
   serverMaxReceivesPerTick: 10000
+  serverSendQueueLimitPerConnection: 10000
+  serverReceiveQueueLimitPerConnection: 10000
   clientMaxMessageSize: 16384
   clientMaxReceivesPerTick: 1000
+  clientSendQueueLimit: 10000
+  clientReceiveQueueLimit: 10000

@@ -145,6 +145,7 @@ public class Card : MonoBehaviour
     {
         if (localFactory == null) { yield return SetLocalFactory(); }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        enemyCard = false;
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         appearEffectPool.UseParticles(spawnPoint);

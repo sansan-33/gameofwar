@@ -123,18 +123,18 @@ public class CardDealer : MonoBehaviour
         lastCard.cardFrame.transform.GetChild(0).gameObject.SetActive(true);
         lastCard.stars.transform.GetChild(0).Find("Active").gameObject.SetActive(true);
         lastCard.skillIcon.gameObject.SetActive(false);
-       // Debug.Log($"{player.name} is enemy = {player.isEnemy}");
+        Debug.Log($"{player.name} is enemy = {player.isEnemy}");
         if (player.isEnemy == true)
         {
-           // Debug.Log("enemy card");
+            Debug.Log("enemy card");
             lastCard.enemyCard = true;
         }
-        //Debug.Log($"{lastCard.enemyCard}");
-        //Debug.Log("Set card before");
+        Debug.Log($"{lastCard.enemyCard}");
+        Debug.Log("Set card before");
         lastCard.SetCard(randomCard);
-       // Debug.Log($"Set card after {lastCard.cardFace.numbers}");
+       Debug.Log($"Set card after {lastCard.cardFace.numbers}");
         //Player takes card
-       // Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
+        Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
         yield return player.AddCard(lastCard, left);  
     }
     IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)

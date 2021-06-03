@@ -50,7 +50,7 @@ public class UnitMeta
         { UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack } ,
         { UnitType.MAGIC, TacticalBehavior.BehaviorSelectionType.Attack } ,
         { UnitType.CAVALRY, TacticalBehavior.BehaviorSelectionType.Charge } ,
-        { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Surround },
+        { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack },
         { UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack },
         { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend }
@@ -263,7 +263,7 @@ public class UnitMeta
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillOne = new Dictionary<UnitType, UnitSkill>()
     {
         { UnitType.ARCHER, UnitSkill.NOTHING } ,
-        { UnitType.MAGIC, UnitSkill.HEAL} ,
+        { UnitType.MAGIC, UnitSkill.TORNADO} ,
         { UnitType.CAVALRY, UnitSkill.CHARGE } ,
         { UnitType.FOOTMAN, UnitSkill.NOTHING },
         { UnitType.TANK, UnitSkill.NOTHING }

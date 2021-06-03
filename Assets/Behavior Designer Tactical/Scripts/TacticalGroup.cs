@@ -430,7 +430,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             {
                 if (targets[i].IsAlive())
                 {
-                    if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance)
+                    //if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance)
+                    //Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
+                    if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude  < distance)
                     {
                         distance = localDistance;
                         targetTransform = targetTransforms[i];

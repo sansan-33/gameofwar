@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using Pathfinding.RVO;
@@ -174,6 +175,9 @@ public class UnitPowerUp : NetworkBehaviour
             case UnitMeta.UnitSkill.PROVOKE:
                 Provoke();
                 break;
+            case UnitMeta.UnitSkill.TORNADO:
+                Tornado();
+                break;
             case UnitMeta.UnitSkill.HEAL:
                 Healing();
                 break;
@@ -200,9 +204,19 @@ public class UnitPowerUp : NetworkBehaviour
         if(TryGetComponent(out Healing healing))
         GetComponent<Healing>().ServerEnableHealing(true);
     }
+    private void Tornado()
+    {
+        float offset = tag.Contains("0") ? 10f : -10f;
+        Transform transform = GetComponentInParent<Transform>();
+        Vector3 position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + offset);
+        GameObject specialEffect = Instantiate(specialEffectPrefab, position, Quaternion.identity);
+        specialEffect.GetComponent<Tornado>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
+        NetworkServer.Spawn(specialEffect, connectionToClient);
+    }
     private void Charging(int attack, float repeatAttackDelay)
     {
         gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, 3);
+        Debug.Log($"Charging attack {attack} repeatAttackDelay {repeatAttackDelay}");
         GameObject fxEffect = Instantiate(fxEffectPrefab, GetComponent<IAttack>().AttackPoint());
         NetworkServer.Spawn(fxEffect, connectionToClient);
     }

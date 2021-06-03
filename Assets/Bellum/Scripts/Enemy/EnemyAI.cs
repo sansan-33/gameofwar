@@ -402,15 +402,17 @@ public class EnemyAI : MonoBehaviour
                                 ISpecialAttack iSpecialAttack = unit.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
                                 SpButtonManager.enemyUnitBtns.TryGetValue(unit.GetComponent<Unit>().unitKey, out var btn);
                                 // Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
-                                if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                                if(iSpecialAttack != null && btn != null)
                                 {
-                                    //Debug.Log("Onpointerdown");
-                                    iSpecialAttack.OnPointerDown();
+                                    if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                                    {
+                                        //Debug.Log("Onpointerdown");
+                                        iSpecialAttack.OnPointerDown();
+                                    }
                                 }
                             }
                         }
                     }
-
                 }                   
             }
         }
