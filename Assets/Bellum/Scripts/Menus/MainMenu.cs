@@ -47,6 +47,7 @@ public class MainMenu : MonoBehaviour
         localFactory.initUnitDict();
         Vector3 unitPos;
         string[] cardkeys = userTeamDict[userTeamDict.Keys.First()];
+      
         //if (characterFullArt.CharacterFullArtDictionary.Count < 1){
         //    characterFullArt.initDictionary();
         //}
@@ -94,7 +95,7 @@ public class MainMenu : MonoBehaviour
             }
         }
         sbTeamMember.Replace("\"", "");
-        Debug.Log($"card keys {sbTeamMember.ToString()}");
+        //Debug.Log($"card keys {sbTeamMember.ToString()}");
         yield return GetTotalPower(userid, sbTeamMember.ToString());
     }
     // sends an API request - returns a JSON file
@@ -109,7 +110,7 @@ public class MainMenu : MonoBehaviour
             TotalPower += Int32.Parse(apiManager.data["GetTotalPower"][i]["power"]);
         }
         StaticClass.TotalPower = TotalPower.ToString();
-        Debug.Log($"TotalPower {TotalPower}");
+        //Debug.Log($"TotalPower {TotalPower}");
 
     }
 }

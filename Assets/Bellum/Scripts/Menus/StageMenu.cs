@@ -45,7 +45,7 @@ public class StageMenu : MonoBehaviour
     private void ClientHandleInfoUpdated()
     {
         NetworkClient.connection.identity.GetComponent<RTSPlayer>().CmdSetUserInfo(StaticClass.UserID, StaticClass.playerRace.ToString(), StaticClass.TotalPower);
-        Debug.Log($"ClientHandleInfoUpdated {StaticClass.UserID} , {StaticClass.playerRace.ToString()} , {StaticClass.TotalPower}");
+        Debug.Log($"Stage Menu ClientHandleInfoUpdated {StaticClass.UserID} , {StaticClass.playerRace.ToString()} , {StaticClass.TotalPower}");
         //List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
     }
 

@@ -98,7 +98,7 @@ public class GameStartDisplay : NetworkBehaviour
         for (int i = 0; i < players.Count; i++)
         {
             playerRace = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race),  players[i].GetRace());
-            Debug.Log($"LoadPlayerData userid {players[i].GetUserID()} race {players[i].GetRace() } total power {players[i].GetTotalPower() }");
+            //Debug.Log($"LoadPlayerData userid {players[i].GetUserID()} race {players[i].GetRace() } total power {players[i].GetTotalPower() }");
             teamInfo[i].GetComponent<PlayerVS>().PlayerName.text = players[i].GetDisplayName() ;
             teamInfo[i].GetComponent<SlidingNumber>().SetNumber(Int32.Parse(players[i].GetTotalPower()));
             teamInfo[i].GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[playerRace][UnitMeta.UnitType.KING].ToString()].image;
@@ -115,7 +115,7 @@ public class GameStartDisplay : NetworkBehaviour
             UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
             int TotalPower = 0;
             APIManager apiManager = new APIManager();
-            Debug.Log($"Chapter Mission Team {StaticClass.Chapter + " - " + StaticClass.Mission}");
+            //Debug.Log($"Chapter Mission Team {StaticClass.Chapter + " - " + StaticClass.Mission}");
             yield return apiManager.GetTotalPower(UnitMeta.ENEMY_USERID, ChapterMissionMeta.ChapterMissionTeam[StaticClass.Chapter + "-" + StaticClass.Mission]);
             for (int i = 0; i < apiManager.data.Count; i++)
             {

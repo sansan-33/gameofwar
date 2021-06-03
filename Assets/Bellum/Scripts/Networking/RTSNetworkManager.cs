@@ -135,9 +135,6 @@ public class RTSNetworkManager : NetworkManager
         player.SetEnemyID(player.GetPlayerID() == 0 ? 1 : 0);
         player.SetTeamEnemyColor(teamsColor[player.GetEnemyID()]);
         player.SetPartyOwner(Players.Count == 1);
-        //yield return LoadTotalPower(player.GetUserID());
-        player.SetTotalPower("");
-
     }
 
     public override void OnServerSceneChanged(string sceneName)

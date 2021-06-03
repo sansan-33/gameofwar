@@ -17,15 +17,15 @@ public class RTSPlayer : NetworkBehaviour
     private bool isPartyOwner = false;
     [SyncVar(hook = nameof(ClientHandleDisplayNameUpdated))]
     private string displayName;
-    [SyncVar(hook = nameof(ClientHandlePlayerIDUpdated))]
+    [SyncVar]
     private int playerID = 0;
-    [SyncVar(hook = nameof(ClientHandleEnemyIDUpdated))]
+    [SyncVar]
     private int enemyID = 0;
-    [SyncVar(hook = nameof(ClientHandleTeamColorUpdated))]
+    [SyncVar]
     private Color teamColor = new Color();
-    [SyncVar(hook = nameof(ClientHandleTeamEnemyColorUpdated))]
+    [SyncVar]
     private Color teamEnemyColor = new Color();
-    [SyncVar(hook = nameof(ClientHandleUserIDUpdated))]
+    [SyncVar]
     private string userid = "1";
     [SyncVar]
     private string race = "HUMAN";
@@ -60,8 +60,10 @@ public class RTSPlayer : NetworkBehaviour
     }
     public string GetTotalPower()
     {
+        Debug.Log($"RTS Player GetTotalPower {totalPower}");
         return totalPower;
     }
+    
     public string GetDisplayName()
     {
         return displayName;
@@ -161,11 +163,13 @@ public class RTSPlayer : NetworkBehaviour
     [Server]
     public void SetRace(string race)
     {
+        //Debug.Log($"RTSPlayer SetRace {race}");
         this.race = race;
     }
     [Server]
     public void SetTotalPower(string power)
     {
+        //Debug.Log($"RTSPlayer SetTotalPower {power}");
         this.totalPower = power;
     }
     [Server]
@@ -243,6 +247,7 @@ public class RTSPlayer : NetworkBehaviour
     {
         SetUserID(userid);
         SetRace(race);
+        //Debug.Log($"CmdSetUserInfo userid {userid} race {race} power {power} ");
         SetTotalPower(power);
     }
     private void ServerHandleUnitSpawned(Unit unit)
@@ -319,28 +324,6 @@ public class RTSPlayer : NetworkBehaviour
     private void ClientHandleDisplayNameUpdated(string oldDisplayName, string newDisplayName)
     {
         ClientOnInfoUpdated?.Invoke();
-    }
-
-    private void ClientHandlePlayerIDUpdated(int oldPlayerID, int newPlayerID)
-    {
-        ClientOnInfoUpdated?.Invoke();
-    }
-
-    private void ClientHandleEnemyIDUpdated(int oldEnemyID, int newEnemyID)
-    {
-        ClientOnInfoUpdated?.Invoke();
-    }
-    private void ClientHandleTeamColorUpdated(Color oldColor, Color newColor)
-    {
-        ClientOnInfoUpdated?.Invoke();
-    }
-    private void ClientHandleTeamEnemyColorUpdated(Color oldColor, Color newColor)
-    {
-        ClientOnInfoUpdated?.Invoke();
-    }
-    private void ClientHandleUserIDUpdated(string olduserid, string newuserid)
-    {
-        //Debug.Log($"RTSPlayer userid updated {newuserid} ");
     }
     private void AuthorityHandlePartyOwnerStateUpdated(bool oldState, bool newState)
     {
