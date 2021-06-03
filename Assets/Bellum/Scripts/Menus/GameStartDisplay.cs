@@ -92,37 +92,42 @@ public class GameStartDisplay : NetworkBehaviour
     }
     IEnumerator LoadPlayerData()
     {
-        /*
+        GameObject[] teamInfo = { maskBlue, maskRed };
+        UnitMeta.Race playerRace;
         List<RTSPlayer> players = ((RTSNetworkManager)NetworkManager.singleton).Players;
         for (int i = 0; i < players.Count; i++)
         {
-            Debug.Log($"LoadPlayerData {players[i].GetUserID()}");
+            playerRace = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race),  players[i].GetRace());
+            Debug.Log($"LoadPlayerData userid {players[i].GetUserID()} race {players[i].GetRace() } total power {players[i].GetTotalPower() }");
+            teamInfo[i].GetComponent<PlayerVS>().PlayerName.text = players[i].GetDisplayName() ;
+            teamInfo[i].GetComponent<SlidingNumber>().SetNumber(Int32.Parse(players[i].GetTotalPower()));
+            teamInfo[i].GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[playerRace][UnitMeta.UnitType.KING].ToString()].image;
+            teamInfo[i].GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
+            teamInfo[i].SetActive(true);
         }
-        */
-        maskBlue.GetComponent<PlayerVS>().PlayerName.text = StaticClass.Username;
-        maskBlue.GetComponent<SlidingNumber>().SetNumber(Int32.Parse(StaticClass.TotalPower));
-        //maskBlue.GetComponent<PlayerVS>().TotalPower.text = StaticClass.TotalPower;
-        maskBlue.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.KING].ToString()].image;
-        maskBlue.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
-        maskBlue.SetActive(true);
-        if (StaticClass.Chapter == null) {
-            StaticClass.Chapter = "1";
-            StaticClass.Mission = "1";
+        if (players.Count == 1)
+        {
+            if (StaticClass.Chapter == null)
+            {
+                StaticClass.Chapter = "1";
+                StaticClass.Mission = "1";
+            }
+            UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
+            int TotalPower = 0;
+            APIManager apiManager = new APIManager();
+            Debug.Log($"Chapter Mission Team {StaticClass.Chapter + " - " + StaticClass.Mission}");
+            yield return apiManager.GetTotalPower(UnitMeta.ENEMY_USERID, ChapterMissionMeta.ChapterMissionTeam[StaticClass.Chapter + "-" + StaticClass.Mission]);
+            for (int i = 0; i < apiManager.data.Count; i++)
+            {
+                TotalPower += Int32.Parse(apiManager.data["GetTotalPower"][i]["power"]);
+            }
+            maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
+            maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
+            maskRed.GetComponent<PlayerVS>().PlayerName.text = race.ToString() + StaticClass.Mission;
+            maskRed.GetComponent<SlidingNumber>().SetNumber(TotalPower);
+            //maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
+            maskRed.SetActive(true);
         }
-        UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
-        int TotalPower=0;
-        APIManager apiManager = new APIManager();
-        Debug.Log($"Chapter Mission Team {StaticClass.Chapter + " - " + StaticClass.Mission}");
-        yield return apiManager.GetTotalPower(UnitMeta.ENEMY_USERID , ChapterMissionMeta.ChapterMissionTeam[StaticClass.Chapter + "-" + StaticClass.Mission]);
-        for (int i = 0; i < apiManager.data.Count; i++) {
-            TotalPower += Int32.Parse(apiManager.data["GetTotalPower"][i]["power"]);
-        }
-        maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
-        maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
-        maskRed.GetComponent<PlayerVS>().PlayerName.text = race.ToString() + StaticClass.Mission;
-        maskRed.GetComponent<SlidingNumber>().SetNumber(TotalPower);
-        //maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
-        maskRed.SetActive(true);
 
 
     }
