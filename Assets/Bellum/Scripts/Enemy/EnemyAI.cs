@@ -15,8 +15,10 @@ public class EnemyAI : MonoBehaviour
     private bool ISGAMEOVER = false;
     private List<Card> cards = new List<Card>();
     private List<SpCostDisplay> spCostDisplay = new List<SpCostDisplay>();
-    private enum Position { left, right, centre};
+    private enum Difficulty { OneStar, TwoStar, ThreeStar,StatUp };
+    private enum Position { left, right, centre };
     private Vector3 heroPos;
+    private int mission;
     [SerializeField] private Transform halfLine;
     [SerializeField] private Card wall;
     [SerializeField] private Player player;
@@ -36,6 +38,16 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] UnitMeta.UnitType attackType;
     private Dictionary<UnitMeta.UnitType, List<SpecialAttackType>> Sp = new Dictionary<UnitMeta.UnitType, List<SpecialAttackType>>()
     { };
+    private Dictionary<int, List<SpecialAttackType>> Chapter = new Dictionary<int, List<SpecialAttackType>>()
+    { };
+    [SerializeField] int statUpFactor;
+    private Dictionary<string, int> Mission = new Dictionary<string, int>()
+    {
+        {"1",1},
+        {"2",2},
+        {"3",3},
+        {"4",4}
+    };
     [SerializeField] List<SpecialAttackType> SpList1;
     [SerializeField] List<SpecialAttackType> SpList2;
     private void Start()
@@ -55,7 +67,7 @@ public class EnemyAI : MonoBehaviour
     {
         StartCoroutine(HandleSpawnnEnemy());
     }
-    private IEnumerator HandleDictionary()
+    private IEnumerator HandleDictionary(List<UnitMeta.UnitType> factor)
     {
         StratergyPostion.Add(unitType[0], position[0]);
         StratergyPostion.Add(unitType[1], position[1]);
@@ -63,6 +75,7 @@ public class EnemyAI : MonoBehaviour
         StratergyPostion.Add(unitType[3], position[3]);
         StratergyPostion.Add(unitType[4], position[4]);
 
+        factor.Add(UnitMeta.UnitType.CAVALRY);
         Stratergy.Add(0, unitTypesList);
         Stratergy.Add(1, unitTypesList2);
         Stratergy.Add(2, unitTypesList3);
@@ -72,13 +85,20 @@ public class EnemyAI : MonoBehaviour
         Sp.Add(unitType[2], SpList1);
         Sp.Add(unitType[3], SpList2);
         Sp.Add(unitType[4], SpList1);
+
+      /*  Mission.Add(1, Difficulty.OneStar);
+        Mission.Add(2, Difficulty.TwoStar);
+        Mission.Add(3, Difficulty.ThreeStar);
+        Mission.Add(4, Difficulty.StatUp);*/
         yield return null;
 
     }
 
     private IEnumerator HandleSpawnnEnemy()
     {
-       yield return HandleDictionary();
+        yield return new WaitForSeconds(1f);
+        List<UnitMeta.UnitType>  lists = HandleMission();
+        yield return HandleDictionary(lists);
         yield return new WaitForSeconds(2f);
         while (!ISGAMEOVER)
         {
@@ -94,6 +114,47 @@ public class EnemyAI : MonoBehaviour
            
         }
         yield return null;
+    }
+    private List<UnitMeta.UnitType> HandleMission()
+    {
+        string missions;
+        missions = StaticClass.Mission;
+        Mission.TryGetValue(missions, out int _mission);
+        mission = _mission;
+        switch (mission)
+        {
+            case 1:
+                return unitTypesList;
+                break;
+            case 2:
+                return unitTypesList2;
+                break;
+            case 3:
+                return unitTypesList3;
+                break;
+            default:
+                if (localFactory == null) { SetLocalFactory(); }
+                GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
+                GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
+                List<GameObject> armies = new List<GameObject>();
+                armies = units.ToList();
+                if (king != null)
+                    armies.Add(king);
+                foreach (GameObject unit in armies)
+                {
+                   // Debug.Log($"armies{armies.Count}");
+                    CardStats cardStats = unit.GetComponent<CardStats>();
+                   // cardStats.attack *= statUpFactor;
+                   // cardStats.health *= statUpFactor;
+                   // cardStats.defense *= statUpFactor;
+                    unit.GetComponent<UnitPowerUp>().PowerUp(1, unit.name, unit.GetComponent<Unit>().GetSpawnPointIndex(), cardStats.star, cardStats.cardLevel, cardStats.health * statUpFactor,
+                        cardStats.attack * statUpFactor, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense * statUpFactor, cardStats.special, cardStats.specialkey,
+                        cardStats.passivekey, RTSplayer.GetTeamEnemyColor());
+                }
+                return unitTypesList3;
+                break;
+        }
+        return null; ;
     }
     public void SetCards(Card card)
     {
@@ -303,7 +364,7 @@ public class EnemyAI : MonoBehaviour
             }
         FindObjectOfType<TotalEleixier>().enemyEleixer -= card.GetUnitElexier();
                 localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
-                    cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey,
+                    cardFace.stats.health * (int)statUpFactor, cardFace.stats.attack * (int)statUpFactor, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense * (int)statUpFactor, cardFace.stats.special, cardFace.stats.specialkey,
                     cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamColor(), Quaternion.identity);
             enemyPlayer.moveCard(card.cardPlayerHandIndex);
             cardDealer.Hit(true);
