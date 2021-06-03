@@ -40,8 +40,6 @@ public class UnitProjectile : NetworkBehaviour
             transform.rotation = Quaternion.LookRotation(rb.velocity) * initialRotation;
         }
     }
-
-
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }

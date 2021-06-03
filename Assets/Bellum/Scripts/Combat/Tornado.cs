@@ -64,7 +64,7 @@ public class Tornado : NetworkBehaviour
         {
             x.GetComponent<Rigidbody>().velocity = Vector3.zero;
             x.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            Debug.Log($"pullObject {x.name} velocity {x.GetComponent<Rigidbody>().velocity} / {x.GetComponent<Rigidbody>().angularVelocity}");
+            //Debug.Log($"pullObject {x.name} velocity {x.GetComponent<Rigidbody>().velocity} / {x.GetComponent<Rigidbody>().angularVelocity}");
         }
     }
 

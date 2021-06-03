@@ -138,6 +138,8 @@ public class TacticalBehavior : MonoBehaviour
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
         GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
+        GameObject[] sneakyFootman = GameObject.FindGameObjectsWithTag("Sneaky" + playerid);
+
         GameObject[] provokeEnemyTanks = GameObject.FindGameObjectsWithTag("Provoke" + enemyid);
         int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length + GameObject.FindGameObjectsWithTag("Provoke" + enemyid).Length;
         int leaderUnitTypeID = 0;
@@ -159,6 +161,8 @@ public class TacticalBehavior : MonoBehaviour
             armies.Add(king);
         if (provokeTanks != null && provokeTanks.Length > 0)
             armies.AddRange(provokeTanks.ToList());
+        if (sneakyFootman != null && sneakyFootman.Length > 0)
+            armies.AddRange(sneakyFootman.ToList());
         if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0 )
             provoke = true;
 
@@ -252,6 +256,10 @@ public class TacticalBehavior : MonoBehaviour
         string target = "";
         if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend) {
             target = enemyCount > 0 ?  "Player" + enemyid : "King" + enemyid;
+            return target;
+        }
+        if (unit.tag.Contains("Sneaky")) {
+            target = "King" + enemyid;
             return target;
         }
         if (provoke) {

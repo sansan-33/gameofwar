@@ -51,7 +51,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     // Commands are sent from player objects on the client to player objects on the server
     // IF SERVER SIDE , object refernce not found exception
     //
-
     public IEnumerator TryAttack()
     {
         //if (player.GetPlayerID() == 1) Debug.Log($"Attacker {targeter} attacking .... ");
@@ -121,7 +120,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 if(firstOther == null)
                 firstOther = other.gameObject;
                 if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmdCMVirtual(); }
-                if(!IsAreaOfEffect)
+                if (tag.Contains("Sneaky")) GetComponent<UnitPowerUp>().CmdSneakOff();
+                if (!IsAreaOfEffect)
                     break;
             }
 

@@ -12,7 +12,8 @@ public class UnitPowerUp : NetworkBehaviour
     [SerializeField] private GameObject fxEffectPrefab = null;
     [SerializeField] private Material sneakyMaterial = null;
     public bool canSpawnEffect = true;
-  
+    private Material[] origialMaterial;
+
     private void Scale()
     {
         transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -219,13 +220,23 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void Sneak()
     {
+        gameObject.tag = "Sneaky" + tag.Substring(tag.Length - 1);
         foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             //Material[]  mats = new Material[] {sneakyMaterial, skinnedMeshRenderer.materials[1] };
+            origialMaterial = skinnedMeshRenderer.materials;
             Material[]  mats = new Material[] {sneakyMaterial};
             skinnedMeshRenderer.materials = mats;
         }
-
+    }
+    [Command]
+    public void CmdSneakOff()
+    {
+        gameObject.tag = "Player" + tag.Substring(tag.Length - 1);
+        foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            skinnedMeshRenderer.materials = origialMaterial;
+        }
     }
     private void Charging(int attack, float repeatAttackDelay)
     {
