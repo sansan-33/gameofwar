@@ -35,6 +35,10 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] List<UnitMeta.UnitType> unitTypesList2;
     [SerializeField] List<UnitMeta.UnitType> unitTypesList3;
 
+    [SerializeField] Vector3 startLeftPos;
+    [SerializeField] Vector3 startRightPos;
+    [SerializeField] Vector3 startCentrePos;
+
     [SerializeField] UnitMeta.UnitType attackType;
     private Dictionary<UnitMeta.UnitType, List<SpecialAttackType>> Sp = new Dictionary<UnitMeta.UnitType, List<SpecialAttackType>>()
     { };
@@ -53,13 +57,13 @@ public class EnemyAI : MonoBehaviour
     private void Start()
     {
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        GameStartDisplay.ServerGameStart += StartSpawnnEnemy;
+        CardDealer.FinishDealEnemyCard += StartSpawnnEnemy;
         TotalEleixier.UpdateEnemyElexier += OnUpdateElexier;
         GameOverHandler.ClientOnGameOver += HandleGameOver;
     }
     private void OnDestroy()
     {
-        GameStartDisplay.ServerGameStart -= StartSpawnnEnemy;
+        CardDealer.FinishDealEnemyCard -= StartSpawnnEnemy;
         TotalEleixier.UpdateEnemyElexier -= OnUpdateElexier;
         GameOverHandler.ClientOnGameOver -= HandleGameOver;
     }
@@ -96,10 +100,10 @@ public class EnemyAI : MonoBehaviour
 
     private IEnumerator HandleSpawnnEnemy()
     {
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         List<UnitMeta.UnitType>  lists = HandleMission();
         yield return HandleDictionary(lists);
-        yield return new WaitForSeconds(2f);
+        //yield return new WaitForSeconds(2f);
         while (!ISGAMEOVER)
         {
             yield return new WaitForSeconds(2.5f);
@@ -195,7 +199,7 @@ public class EnemyAI : MonoBehaviour
             i--;
             if (i == -1) { break; }
         }
-        Debug.Log($"SelectCard {_card}");
+        //Debug.Log($"SelectCard {_card}");
         nextCard = _card;
         RectTransform rect = nextCard.GetComponent<RectTransform>();
         float x = rect.localScale.x;
@@ -287,81 +291,65 @@ public class EnemyAI : MonoBehaviour
     }
     private IEnumerator SelectPos(Card card, UnitMeta.UnitType type)
     {
-        Position position = Position.centre;
-        int enemyInRight = 0;
-        int enemyInLeft = 0;
         CardFace cardFace = card.cardFace;
-        if(localFactory == null) { yield return SetLocalFactory(); }
+        if (localFactory == null) { yield return SetLocalFactory(); }
+        if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
+        Vector3 unitPos;
+        List<GameObject> LeftSideUnits = new List<GameObject>();
+        List<GameObject> RightSideUnits = new List<GameObject>();
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 0);
         GameObject king = GameObject.FindGameObjectWithTag("King" + 0);
         List<GameObject> armies = new List<GameObject>();
         armies = units.ToList();
         if (king != null)
             armies.Add(king);
-        //Debug.Log($"armies.Count{armies.Count}");
-        foreach(GameObject unit in armies)
+        foreach (GameObject unit in armies)
         {
-           // Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
+             Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
             if (unit.transform.position.x > halfLine.position.x)
             {
-                enemyInRight++;
+                RightSideUnits.Add(unit);
             }
             else
             {
-                enemyInLeft++;
+                LeftSideUnits.Add(unit);
             }
-          
-        }
-        
-        if(type == attackType)
-        {
-            position = enemyInRight < enemyInLeft ? Position.right : Position.left;
-        }
-        else
-        {
-           //Debug.Log($"enemyInRight {enemyInRight} >= enemyInLeft{enemyInLeft}");
-            position = enemyInRight >= enemyInLeft ? Position.right : Position.left;
-        }
-     
-        //  if (StratergyPostion.TryGetValue(type, out var pos))
-        // {
-        if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
-            
-            //Debug.Log(localFactory);
-            Vector3 unitPos = new Vector3();
-            GameObject[] Heros = GameObject.FindGameObjectsWithTag("Player" + 1);
-            foreach (GameObject hero in Heros)
-            {
-               if (hero.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO)
-               {
-                  heroPos = hero.transform.position;
-               }
-            }
-       // Debug.Log(position);
-            switch (position)
-            { 
-                case Position.right:
-                     unitPos = type == attackType ? new Vector3(heroPos.x, heroPos.y, heroPos.z-20) : new Vector3(heroPos.x, heroPos.y, heroPos.z+10);
-                    break;
-                case Position.left:
-                unitPos = type == attackType ? new Vector3(heroPos.x-15, heroPos.y, heroPos.z -20) : new Vector3(heroPos.x-15, heroPos.y, heroPos.z + 10);
-                    break;
-                default:
-                    GameObject[] Kings = GameObject.FindGameObjectsWithTag("King" + 1);
-                    foreach (GameObject _king in Kings)
-                    {
-                        if (_king.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
-                        {
-                            if (_king.transform.position.x < halfLine.position.x)
-                            {
-                                unitPos = type == attackType ? new Vector3(_king.transform.position.x, _king.transform.position.y, _king.transform.position.z-15) :
-                                    new Vector3(_king.transform.position.x, _king.transform.position.y, _king.transform.position.z + 10);
-                            }
-                        }
 
+        }
+        Position position = RightSideUnits.Count >= LeftSideUnits.Count ? Position.right : Position.left;
+        if (type == attackType) { position = Position.centre; }
+        Debug.Log($"Position{position}");
+        switch (position)
+        {
+            case Position.right:
+                foreach (GameObject unit in RightSideUnits)
+                {
+                    Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.z{halfLine.position.z}");
+                    if (unit.transform.position.z > halfLine.position.z)
+                    {
+                        unitPos = unit.transform.position;
                     }
-                    break;
-            }
+                }
+                Debug.Log("Using startRightPos");
+                unitPos = startRightPos;
+                break;
+            case Position.left:
+                foreach (GameObject unit in LeftSideUnits)
+                {
+                    Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.z{halfLine.position.z}");
+                    if (unit.transform.position.z > halfLine.position.z)
+                    {
+                        unitPos = unit.transform.position;
+                    }
+                }
+                Debug.Log("Using startLeftPos");
+                unitPos = startLeftPos;
+                break;
+            default:
+                Debug.Log("Using startCentrePos");
+                unitPos = startCentrePos;
+                break;
+        }
         FindObjectOfType<TotalEleixier>().enemyEleixer -= card.GetUnitElexier();
                 localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
                     cardFace.stats.health * (int)statUpFactor, cardFace.stats.attack * (int)statUpFactor, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense * (int)statUpFactor, cardFace.stats.special, cardFace.stats.specialkey,

@@ -53,6 +53,7 @@ public class Tornado : NetworkBehaviour
     {
         if (shouldPull)
         {
+            if (x == null) { yield break; }
             Vector3 center = new Vector3(tornadoCenter.position.x, x.transform.position.y, tornadoCenter.position.z);
             Vector3 forceDir = center - x.transform.position;
             x.GetComponent<Rigidbody>().AddForce(forceDir.normalized * pullForce * Time.deltaTime);
@@ -73,8 +74,8 @@ public class Tornado : NetworkBehaviour
         bool sameTeam = true;
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
-            if ((other.tag == "Player" + enemyid || other.tag == "King" + enemyid) && unitType == "Enemy") { return false; }  
-            if ((other.tag == "Player" + playerid || other.tag == "King" + playerid) && unitType == "Player") { return false; }  //check to see if it belongs to the player, if it does, do nothing
+            if ( other.tag.Contains(enemyid.ToString()) && unitType == "Enemy") { return false; }  
+            if ( other.tag.Contains(playerid.ToString()) && unitType == "Player") { return false; }  //check to see if it belongs to the player, if it does, do nothing
         }
         else // Multi player seneriao
         {

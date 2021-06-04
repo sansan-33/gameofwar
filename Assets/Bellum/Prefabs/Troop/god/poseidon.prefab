@@ -123,6 +123,19 @@ MonoBehaviour:
   syncInterval: 0.1
   clientAuthority: 0
   animator: {fileID: 2074410378174431223}
+--- !u!114 &6156689605109120650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5354626213706118367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b653eeb1cd634c61a0eee38b7350d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldParent: {fileID: 8728921905465591790}
 --- !u!1 &3703139311977431225
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,10 +767,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8834900904437940868, guid: 70450cb42ad356540a5103f30a41894e, type: 3}
       propertyPath: m_Name
-      value: fx_Shield
+      value: ShieldSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834900904437940868, guid: 70450cb42ad356540a5103f30a41894e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8834900904437940868, guid: 70450cb42ad356540a5103f30a41894e, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70450cb42ad356540a5103f30a41894e, type: 3}
+--- !u!1 &5354626213706118367 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8834900904437940868, guid: 70450cb42ad356540a5103f30a41894e, type: 3}
+  m_PrefabInstance: {fileID: 3518626032527586907}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8728921905465591790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5330000822964629941, guid: 70450cb42ad356540a5103f30a41894e, type: 3}
+  m_PrefabInstance: {fileID: 3518626032527586907}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5746930144410513188
 PrefabInstance:
   m_ObjectHideFlags: 0

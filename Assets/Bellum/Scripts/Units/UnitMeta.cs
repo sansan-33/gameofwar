@@ -266,7 +266,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitSkill.TORNADO} ,
         { UnitType.CAVALRY, UnitSkill.CHARGE } ,
         { UnitType.FOOTMAN, UnitSkill.SNEAK },
-        { UnitType.TANK, UnitSkill.NOTHING }
+        { UnitType.TANK, UnitSkill.SHIELD }
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillTwo = new Dictionary<UnitType, UnitSkill>()
     {
