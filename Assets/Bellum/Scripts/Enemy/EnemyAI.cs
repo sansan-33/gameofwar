@@ -305,7 +305,7 @@ public class EnemyAI : MonoBehaviour
             armies.Add(king);
         foreach (GameObject unit in armies)
         {
-             Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
+            // Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.x{halfLine.position.x}");
             if (unit.transform.position.x > halfLine.position.x)
             {
                 RightSideUnits.Add(unit);
@@ -318,13 +318,13 @@ public class EnemyAI : MonoBehaviour
         }
         Position position = RightSideUnits.Count >= LeftSideUnits.Count ? Position.right : Position.left;
         if (type == attackType) { position = Position.centre; }
-        Debug.Log($"Position{position}");
+        //Debug.Log($"Position{position}");
         switch (position)
         {
             case Position.right:
                 foreach (GameObject unit in RightSideUnits)
                 {
-                    Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.z{halfLine.position.z}");
+                    //Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.z{halfLine.position.z}");
                     if (unit.transform.position.z > halfLine.position.z)
                     {
                         unitPos = unit.transform.position;
@@ -333,14 +333,14 @@ public class EnemyAI : MonoBehaviour
                 }
                 if (unitPos == new Vector3(0, 0, 0))
                 {
-                    Debug.Log("Using startRightPos");
+                   // Debug.Log("Using startRightPos");
                     unitPos = startRightPos;
                 }
                 break;
             case Position.left:
                 foreach (GameObject unit in LeftSideUnits)
                 {
-                    Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.z{halfLine.position.z}");
+                    //Debug.Log($"unit.transform.position {unit.transform.position} >= halfLine.position.z{halfLine.position.z}");
                     if (unit.transform.position.z > halfLine.position.z)
                     {
                         unitPos = unit.transform.position;
@@ -349,12 +349,12 @@ public class EnemyAI : MonoBehaviour
                 }
                 if (unitPos == new Vector3(0, 0, 0))
                 {
-                    Debug.Log("Using startLeftPos");
+                   // Debug.Log("Using startLeftPos");
                     unitPos = startLeftPos;
                 }
                 break;
             default:
-                Debug.Log("Using startCentrePos");
+                //Debug.Log("Using startCentrePos");
                 unitPos = startCentrePos;
                 break;
         }
@@ -369,7 +369,7 @@ public class EnemyAI : MonoBehaviour
         cardDealer.Hit(true);
             
        // }
-        //SpecialAttack(type);
+        SpecialAttack(type);
         yield return null;
     }
     private void SpecialAttack(UnitMeta.UnitType type)
