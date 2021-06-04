@@ -27,7 +27,7 @@ public class Shield : NetworkBehaviour
     [Command]
     public void CmdSetShieldHealth(int shieldHealth)
     {
-        // Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
+        Debug.Log($"gameobject {this.gameObject.name} {this.shieldHealth} / {shieldHealth}");
         this.shieldHealth = shieldHealth;
         ServerSetShield();
         // NetworkServer.Spawn(ShieldEffect, connectionToClient);//.transform.localScale = new Vector3(5, 5, 5);

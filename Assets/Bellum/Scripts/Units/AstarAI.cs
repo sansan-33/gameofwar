@@ -200,8 +200,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     public bool isCollide()
     {
         if (isProvoked) return false;
+        float sneakyOffset = 1f;
+        if (transform.tag.Contains("Sneaky")) sneakyOffset=0.1f;
         //Debug.Log($"AstarAI is collide ?  {isCollided}");
-        Collider[] hitColliders = Physics.OverlapBox(GetComponent<Targeter>().GetAimAtPoint().transform.position, transform.localScale * GetComponent<IAttack>().AttackDistance(), Quaternion.identity, LayerMask.GetMask("Unit"));
+        Collider[] hitColliders = Physics.OverlapBox(GetComponent<Targeter>().GetAimAtPoint().transform.position, transform.localScale * GetComponent<IAttack>().AttackDistance() * sneakyOffset, Quaternion.identity, LayerMask.GetMask("Unit"));
         int i = 0;
         string playerid = transform.tag.Substring(transform.tag.Length - 1);
         isCollided = false;

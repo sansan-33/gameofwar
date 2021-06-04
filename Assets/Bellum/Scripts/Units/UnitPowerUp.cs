@@ -171,6 +171,9 @@ public class UnitPowerUp : NetworkBehaviour
             case UnitMeta.UnitSkill.SCALE:
                 Scale();
                 break;
+            case UnitMeta.UnitSkill.SHIELD:
+                Shield();
+                break;
             case UnitMeta.UnitSkill.VOLLEY:
                 Volley();
                 break;
@@ -187,7 +190,7 @@ public class UnitPowerUp : NetworkBehaviour
                 Charging(attack, repeatAttackDelay);
                 break;
             case UnitMeta.UnitSkill.SNEAK:
-                Sneak();
+                Sneak(attack, repeatAttackDelay);
                 break;
             case UnitMeta.UnitSkill.NOTHING:
             default:
@@ -197,6 +200,13 @@ public class UnitPowerUp : NetworkBehaviour
     private void Volley()
     {
         GetComponent<UnitFiring>().SetNumberOfShoot(3);
+    }
+    private void Shield()
+    {
+        ShieldAura shield = GetComponent<ShieldAura>();
+        if (shield == null) { return; }
+        shield.aura();
+        
     }
     private void Provoke()
     {
@@ -218,9 +228,10 @@ public class UnitPowerUp : NetworkBehaviour
         specialEffect.GetComponent<Tornado>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
         NetworkServer.Spawn(specialEffect, connectionToClient);
     }
-    private void Sneak()
+    private void Sneak(int attack, float repeatAttackDelay)
     {
         gameObject.tag = "Sneaky" + tag.Substring(tag.Length - 1);
+        gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, 10);
         foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             //Material[]  mats = new Material[] {sneakyMaterial, skinnedMeshRenderer.materials[1] };

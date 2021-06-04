@@ -77,7 +77,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4676332958412269252
 RectTransform:
   m_ObjectHideFlags: 0
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &2522894773527958969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1416,18 +1416,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 641317823713200231}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
   onDeselected:
     m_PersistentCalls:
       m_Calls:
@@ -1578,6 +1566,7 @@ MonoBehaviour:
   syncInterval: 0.1
   specialEffectPrefab: {fileID: 100000, guid: a66737023181f468595fdd8386cdad71, type: 3}
   fxEffectPrefab: {fileID: 1817900190835674, guid: 8c3e13e635ce8461990fca5255cf3b37, type: 3}
+  sneakyMaterial: {fileID: 0}
   canSpawnEffect: 1
 --- !u!114 &3007018670020009129
 MonoBehaviour:
