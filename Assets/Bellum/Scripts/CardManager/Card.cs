@@ -65,7 +65,7 @@ public class Card : MonoBehaviour
         
         if(enemyCard == true)
         {
-            //Debug.Log($"Getting scale up");
+           Debug.Log($"Getting scale up");
             RectTransform rect = GetComponent<RectTransform>();
             float x = rect.localScale.x;
             float y = rect.localScale.y;
@@ -75,7 +75,7 @@ public class Card : MonoBehaviour
         }
         else
         {
-            //Debug.Log($"Getting scale down");
+            Debug.Log($"Getting scale down");
             RectTransform rect = GetComponent<RectTransform>();
             rect.localScale = new Vector3(1, 1, 1);
             GetComponentInChildren<Button>().enabled = true;

@@ -132,7 +132,7 @@ public class CardDealer : MonoBehaviour
         //Debug.Log($"{lastCard.enemyCard}");
         //Debug.Log("Set card before");
         lastCard.SetCard(randomCard);
-      // Debug.Log($"Set card after {lastCard.cardFace.numbers}");
+       Debug.Log($"Set card after {lastCard.cardFace.numbers}");
         //Player takes card
         //Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
         yield return player.AddCard(lastCard, left);  
