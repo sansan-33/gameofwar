@@ -13,7 +13,7 @@ public class SpCostDisplay : MonoBehaviour
     private int counter = 2;
     private float Timer = 1;
     public bool useTimer;
-    public int waitTime = 5;
+    public int waitTime = 1;
     private bool secoundLayer = false;
     private bool onePlayerMode;
     private Color color;

@@ -45,7 +45,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
 
     public void OnPointerDown()
     {
-        
+        /*
         //Debug.Log($"GoldenSlash FindAttackTargetInDistance");
         // if (attackPoint == null) { return; }
         if (!SpButtonManager.unitBtn.TryGetValue(GetComponentInParent<Unit>().unitKey, out Button btn))
@@ -77,7 +77,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
             int i = 0;
             while (i < hitColliders.Length)
             {
-                distance = float.MaxValue;
+               distance = float.MaxValue;
                 hitCollider = hitColliders[i++].transform.gameObject;
                // check If the target is cloestest to king && it is not in the same team && check if it already finded the target
                 if ((localDistance = (hitCollider.transform.position - transform.position).sqrMagnitude) < distance && !targetList.Contains(hitCollider))
@@ -93,20 +93,22 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
                         id = ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1 ? 1 : player.GetPlayerID() == 0 ? 1 : 0;
                     }
                    
-                    if (hitCollider.CompareTag("Player" + id) || hitCollider.CompareTag("King" + id))
+                    if (hitCollider.CompareTag("Player" + 0) || hitCollider.CompareTag("King" + 0))
                         {
-                            if (localDistance > minAttackRange)
-                            {
-                                findedTarget = true;
-                                distance = localDistance;
-                                closestTarget = hitCollider;
-                                //StopTacticalBehavior while using Special Attack
-                                
-                                // Move the searchPoint to the next target, so it will not search at the same point
-                                searchPoint = closestTarget.transform;
-                            }
-                        }                   
-                } 
+                        if (localDistance > minAttackRange)
+                        {
+                            findedTarget = true;
+                            distance = localDistance;
+                            closestTarget = hitCollider;
+                            //StopTacticalBehavior while using Special Attack
+                            Debug.Log($"Finded target {hitCollider.name}");
+                            // Move the searchPoint to the next target, so it will not search at the same point
+                            searchPoint = hitCollider.transform;
+                        }
+                    }
+
+                }
+                
             }
             
             if (transform.parent.CompareTag("Player1") || transform.parent.CompareTag("King1"))
@@ -125,8 +127,9 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
             }
             distanceList.Add(distance);
             targetList.Add(closestTarget);
+            
         }
-        //Debug.Log($"GoldenSlash exit while (haveTarget == true)");
+        Debug.Log($"GoldenSlash exit while (haveTarget == true)");
         searchPoint = transform.parent.transform;
         // if it doesnot find any target return
         if (closestTarget == null) {  return; }
@@ -135,11 +138,12 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
            StartCoroutine( AttackTarget(distanceList.ToArray()[a], targetList.ToArray()[a].transform));
         }
         GetComponentInParent<UnitWeapon>().ReScaleDamageDeal();
-
+      */
     }
 
     IEnumerator AttackTarget(float distance, Transform closestTarget)
     {
+       //yield return null;
         // wait three secs the attack
         // float Timer = 3f;
         // while (Timer > 0) { Timer -= Time.deltaTime; }
@@ -149,6 +153,10 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         transform.parent.position = closestTarget.transform.position;
         yield return GetComponentInParent<UnitWeapon>().TryAttack();
         
+    }
+    private void Update()
+    {
+       // Debug.Log(transform.parent.position);
     }
     public int GetSpCost()
     {
