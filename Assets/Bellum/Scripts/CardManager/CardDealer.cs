@@ -86,10 +86,7 @@ public class CardDealer : MonoBehaviour
         }
         buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
         int index = enemySpawn ? 1 : 0;
-        
-            yield return DealCards(3, 0f, 0.1f, players[index]);
-        
-       
+        yield return DealCards(3, 0f, 0.1f, players[index]);
         if(enemySpawn == true)
         {
             FinishDealEnemyCard?.Invoke();
@@ -104,45 +101,41 @@ public class CardDealer : MonoBehaviour
 
     IEnumerator DealingCard(Player player, bool left = true)
     {
-            //Debug.Log("DealingCard");
-            Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
-            CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
-            cardDeckUsed.Add(randomCard);
+        //Debug.Log("DealingCard");
+        Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
+        CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
+        //CardFace randomCard = cardDeck[3];
+        cardDeckUsed.Add(randomCard);
+       
+        lastCard.cardStar.text = "1";
+        lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
+        int cardnumber = (int)randomCard.numbers;
+        cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;
+        int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+        int uniteleixer = 1;
+        if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
 
-            lastCard.cardStar.text = "1";
-            lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
-            int cardnumber = (int)randomCard.numbers;
-            cardnumber = cardnumber % lastCard.GetComponent<Card>().sprite.Count;
-            int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-            int uniteleixer = 1;
-            if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-
-            Material mat = new Material(greyScaleShader);
-            lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = lastCard.GetComponent<Card>().sprite[cardnumber];
-            lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
-            lastCard.eleixerText.text = uniteleixer.ToString();
-            lastCard.SetUnitElexier(uniteleixer);
-            for (int j = 0; j < 3; j++)
-            {
-                lastCard.stars.transform.GetChild(j).Find("Active").gameObject.SetActive(false);
-                lastCard.cardFrame.transform.GetChild(j).gameObject.SetActive(false);
-            }
-            lastCard.cardFrame.transform.GetChild(0).gameObject.SetActive(true);
-            lastCard.stars.transform.GetChild(0).Find("Active").gameObject.SetActive(true);
-            lastCard.skillIcon.gameObject.SetActive(false);
-            //Debug.Log($"{player.name} is enemy = {player.isEnemy}");
-            lastCard.enemyCard = player.isEnemy;
-            //Debug.Log($"{lastCard.enemyCard}");
-            //Debug.Log("Set card before");
-            lastCard.SetCard(randomCard);
-            // Debug.Log($"Set card after {lastCard.cardFace.numbers}");
-            //Player takes card
-            //Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
-            
-            yield return player.AddCard(lastCard, left);
-        
-           
-        
+        Material mat = new Material(greyScaleShader);
+        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
+        lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
+        lastCard.eleixerText.text = uniteleixer.ToString();
+        lastCard.SetUnitElexier(uniteleixer);
+        for (int j = 0; j < 3; j++) {
+            lastCard.stars.transform.GetChild(j).Find("Active").gameObject.SetActive(false);
+            lastCard.cardFrame.transform.GetChild(j).gameObject.SetActive(false);
+        }
+        lastCard.cardFrame.transform.GetChild(0).gameObject.SetActive(true);
+        lastCard.stars.transform.GetChild(0).Find("Active").gameObject.SetActive(true);
+        lastCard.skillIcon.gameObject.SetActive(false);
+        //Debug.Log($"{player.name} is enemy = {player.isEnemy}");
+        lastCard.enemyCard = player.isEnemy;
+        //Debug.Log($"{lastCard.enemyCard}");
+        //Debug.Log("Set card before");
+        lastCard.SetCard(randomCard);
+      // Debug.Log($"Set card after {lastCard.cardFace.numbers}");
+        //Player takes card
+        //Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
+        yield return player.AddCard(lastCard, left);  
     }
     IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
     {

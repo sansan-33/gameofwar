@@ -162,6 +162,7 @@ public class EnemyAI : MonoBehaviour
     }
     public void SetCards(Card card)
     {
+       // Debug.Log($"Enemy card list add {card.cardFace.numbers} is enemy {card.enemyCard} belong to {card.GetComponentInParent<Player>().name}");
         this.cards.Add(card);
     }
     private void OnUpdateElexier(int elexier)
@@ -206,6 +207,7 @@ public class EnemyAI : MonoBehaviour
         float y = rect.localScale.y;
         float z = rect.localScale.z;
         rect.localScale = new Vector3((float)0.75, (float)0.75,(float)0.75);
+        Debug.Log($"Select card {nextCard.cardFace.numbers}");
         yield return null;
     }
     private Card checkStar(int star)

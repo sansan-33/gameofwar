@@ -47,4 +47,8 @@ public class TopBarMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Scene_Main_Menu");
     }
+    public void GoToHeroDeckMenu()
+    {
+        SceneManager.LoadScene("Scene_Character_Menu");
+    }
 }
