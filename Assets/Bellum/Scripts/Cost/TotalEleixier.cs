@@ -10,7 +10,7 @@ public class TotalEleixier : MonoBehaviour
 {
     [SerializeField] TMP_Text eleixerSpeed;
     [SerializeField] TMP_Text eleixerValue;
-    [SerializeField] TMP_Text enemyeEleixerValue;
+    [SerializeField] TMP_Text enemyEleixerValue;
     [SerializeField] public Image eleixerBarImage = null;
     [SerializeField] public Image enemyeleixerBarImage = null;
 
@@ -47,7 +47,7 @@ public class TotalEleixier : MonoBehaviour
         eleixerBarImage.fillAmount = (float)eleixer / (float)maxEleixer;
         if (enemyeleixerBarImage != null)
         {
-            enemyeEleixerValue.text = enemyEleixer.ToString();
+            enemyEleixerValue.text = enemyEleixer.ToString();
             enemyeleixerBarImage.fillAmount = (float)enemyEleixer / (float)maxEleixer;
         }
     }

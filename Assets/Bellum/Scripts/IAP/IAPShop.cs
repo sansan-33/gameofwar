@@ -6,6 +6,7 @@ using UnityEngine.Purchasing;
 public class IAPShop : MonoBehaviour
 {
     private string buy = "com.sansan33.bellum.buy";
+    private string buyios = "com.sansan33.bellum.buyios";
     [SerializeField] public GameObject restorePurchaseBtn;
 
     private void Awake()
@@ -16,11 +17,11 @@ public class IAPShop : MonoBehaviour
     public void OnPurchaseComplete(Product product)
     {
         Debug.Log($"OnPurchaseComplete() product: {product.definition.id}");
-        if (product.definition.id == buy)
+        if (product.definition.id == buy || product.definition.id == buyios)
         {
             // implement buy action
             Debug.Log("Buy Success! Get gem!!!");
-        }
+        } 
 
     }
 
