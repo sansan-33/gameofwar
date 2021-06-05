@@ -156,7 +156,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
     }
     private void Update()
     {
-        Debug.Log(transform.parent.position);
+       // Debug.Log(transform.parent.position);
     }
     public int GetSpCost()
     {
