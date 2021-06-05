@@ -17,7 +17,7 @@ namespace DigitalRuby.ThunderAndLightning
         public int attackRange = 100;
         public int minAttackRange = 1000;
         public int maxAttackrange = 400;
-        public int SPCost = 10;
+        public int SPCost = 5;
         private float lightlingTimer;
 
         private bool SpawnedButton;
