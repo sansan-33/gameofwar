@@ -96,7 +96,6 @@ public class Health : NetworkBehaviour, IDamageable
                 lastDamageDeal = (int) damageAmount;
                 if (currentHealth == 0)
                 {
-                    ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
                     StartCoroutine(Die());
                     return true;
                 }
@@ -117,9 +116,16 @@ public class Health : NetworkBehaviour, IDamageable
     }
     private IEnumerator Die()
     {
+        
         GameObject effect = Instantiate(specialEffectPrefab, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
-        yield return null;
+        // Debug.Log($"Destroy unit");
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
+        {
+            GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DIE);
+            yield return new WaitForSeconds(2.5f);
+        }
+        ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
     }
     public void OnElectricShock(float damageAmount,int electricShockDamage)
     {
