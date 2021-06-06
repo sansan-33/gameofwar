@@ -44,6 +44,7 @@ public class CardDealer : MonoBehaviour
     public static event Action UserCardLoaded;
     public SimpleObjectPool cardObjectPool;
     public static event Action FinishDealEnemyCard;
+    private RTSPlayer rtsPlayer;
     void Start()
     {
         TacticalBehavior.UnitTagUpdated += StartShuffleDeck;
@@ -65,10 +66,10 @@ public class CardDealer : MonoBehaviour
     }
     IEnumerator ShuffleDeck(bool enemySpawn)
     {
-        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        rtsPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         if(enemySpawn == false)
         {
-            yield return GetUserCard(player.GetUserID(), player.GetRace(), player.GetPlayerID(), player.GetTeamColor());
+            yield return GetUserCard(rtsPlayer.GetUserID(), rtsPlayer.GetRace(), rtsPlayer.GetPlayerID(), rtsPlayer.GetTeamColor());
         }
         else
         {
@@ -90,20 +91,20 @@ public class CardDealer : MonoBehaviour
         buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
         EnemyButtonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString()]));
         int index = enemySpawn ? 1 : 0;
-        yield return DealCards(3, 0f, 0.1f, players[index]);
+        yield return DealCards(3, 0f, 0.1f, players[index], index);
         if(enemySpawn == true)
         {
             FinishDealEnemyCard?.Invoke();
         }
     }
 
-    void DealCard(Player player,  bool left = true)
+    void DealCard(Player player, int playersIndex,  bool left = true)
     {
         //Debug.Log("Dealing Card to " + player.playerName);
-        StartCoroutine(DealingCard(player, left));
+        StartCoroutine(DealingCard(player, playersIndex, left));
     }
 
-    IEnumerator DealingCard(Player player, bool left = true)
+    IEnumerator DealingCard(Player player, int playersIndex, bool left = true)
     {
         //Debug.Log("DealingCard");
         Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
@@ -118,10 +119,11 @@ public class CardDealer : MonoBehaviour
         int type = (int)randomCard.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int uniteleixer = 1;
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
-
+        UnitMeta.Race race = playersIndex == 0 ? StaticClass.playerRace : StaticClass.enemyRace;
         Material mat = new Material(greyScaleShader);
-        //lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = Arts.CharacterArtDictionary[ ].image;
-        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
+        Debug.Log($"DealingCard race {race} type {type} ");
+        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][(UnitMeta.UnitType)type].ToString() ].image;
+        //lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
         lastCard.eleixerText.text = uniteleixer.ToString();
         lastCard.SetUnitElexier(uniteleixer);
@@ -142,7 +144,7 @@ public class CardDealer : MonoBehaviour
         //Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
         yield return player.AddCard(lastCard, left);  
     }
-    IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, bool left = true, bool reveal = false)
+    IEnumerator DealCards(int numberOfCards, float delay, float waitTime, Player player, int playersIndex, bool left = true, bool reveal = false)
     {
         float currentWait = waitTime;
 
@@ -158,7 +160,7 @@ public class CardDealer : MonoBehaviour
         {
             if (players.Count > 0)
             {
-                yield return DealingCard(player, left);
+                yield return DealingCard(player, playersIndex, left);
             }
             currentWait = waitTime;
             while (currentWait > 0)
@@ -178,7 +180,7 @@ public class CardDealer : MonoBehaviour
     {
         yield return new WaitForSeconds(1);
         int index = enenmyHit ? 1 : 0;
-        StartCoroutine(DealCards(1, 0f, 0.5f, players[index]));
+        StartCoroutine(DealCards(1, 0f, 0.5f, players[index],index));
     }
     public void RemoveCard(Card _card)
     {
