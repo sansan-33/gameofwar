@@ -26,6 +26,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject undeadArcherPrefab = null;
     [SerializeField] private GameObject undeadKingPrefab = null;
     [SerializeField] private GameObject undeadLichPrefab = null;
+    [SerializeField] private GameObject undeadWallPrefab = null;
 
     // god
     [SerializeField] private GameObject godarcherPrefab = null;
@@ -151,6 +152,7 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.GIANT, giantPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADARCHER, undeadArcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADWALL, undeadWallPrefab);
         unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
         unitDict.Add(UnitMeta.UnitKey.LICH, undeadLichPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);

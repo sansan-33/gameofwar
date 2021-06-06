@@ -35,9 +35,12 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public Dictionary<string, CardStats> userCardStatsDict = new Dictionary<string, CardStats>();
     [SerializeField] public Dictionary<UnitMeta.UnitKey, Unit> playerUnitDict = new Dictionary<UnitMeta.UnitKey, Unit>();
     [SerializeField] Card buttonWall;
+    [SerializeField] Card EnemyButtonWall;
     [SerializeField] public TotalEleixier totalEleixers;
     [SerializeField] public Shader greyScaleShader;
     [SerializeField] private bool spawnEnemyCard = false;
+    [SerializeField] public CharacterArt Arts;
+
     public static event Action UserCardLoaded;
     public SimpleObjectPool cardObjectPool;
     public static event Action FinishDealEnemyCard;
@@ -85,6 +88,7 @@ public class CardDealer : MonoBehaviour
             }
         }
         buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
+        EnemyButtonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString()]));
         int index = enemySpawn ? 1 : 0;
         yield return DealCards(3, 0f, 0.1f, players[index]);
         if(enemySpawn == true)
@@ -116,6 +120,7 @@ public class CardDealer : MonoBehaviour
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
 
         Material mat = new Material(greyScaleShader);
+        //lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = Arts.CharacterArtDictionary[ ].image;
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
         lastCard.eleixerText.text = uniteleixer.ToString();
@@ -132,7 +137,7 @@ public class CardDealer : MonoBehaviour
         //Debug.Log($"{lastCard.enemyCard}");
         //Debug.Log("Set card before");
         lastCard.SetCard(randomCard);
-      // Debug.Log($"Set card after {lastCard.cardFace.numbers}");
+       Debug.Log($"Set card after {lastCard.cardFace.numbers}");
         //Player takes card
         //Debug.Log($"{player.name} is enemy = {player.isEnemy} card enemy card --> {lastCard.enemyCard}");
         yield return player.AddCard(lastCard, left);  

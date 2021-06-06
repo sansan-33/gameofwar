@@ -93,7 +93,6 @@ public class Unit : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
-       // Debug.Log($"Destroy unit");
         NetworkServer.Destroy(gameObject);
     }
    

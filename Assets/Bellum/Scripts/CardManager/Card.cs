@@ -65,7 +65,7 @@ public class Card : MonoBehaviour
         
         if(enemyCard == true)
         {
-            //Debug.Log($"Getting scale up");
+           Debug.Log($"Getting scale up");
             RectTransform rect = GetComponent<RectTransform>();
             float x = rect.localScale.x;
             float y = rect.localScale.y;
@@ -75,7 +75,7 @@ public class Card : MonoBehaviour
         }
         else
         {
-            //Debug.Log($"Getting scale down");
+            Debug.Log($"Getting scale down");
             RectTransform rect = GetComponent<RectTransform>();
             rect.localScale = new Vector3(1, 1, 1);
             GetComponentInChildren<Button>().enabled = true;
@@ -157,24 +157,34 @@ public class Card : MonoBehaviour
     {
         if (localFactory == null) { yield return SetLocalFactory(); }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        enemyCard = false;
+      
         int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         appearEffectPool.UseParticles(spawnPoint);
+        //Debug.Log($" drop wall{cardFace.stats}");
         if (enemyCard == false)
         {
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamColor();
-        }
-       // if(cardFace.stats == null)
-       // {
-       //     localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, 1, 1, 1, 1, 1, 1, 1, null, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
-
-       // }
-      //  else
-       // {
             localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
-       // }
+            
+        }
+        else
+        {
+             playerID = player.GetEnemyID();
+            teamColor = player.GetTeamEnemyColor();
+            localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
+
+        }
+          enemyCard = false;
+        // if(cardFace.stats == null)
+        // {
+        //     localFactory.CmdDropUnit(playerID, spawnPoint, StaticClass.playerRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, 1, 1, 1, 1, 1, 1, 1, null, cardFace.stats.passivekey, (int)cardFace.star + 1, teamColor, Quaternion.identity);
+
+        // }
+        //  else
+        // {
+        // }
         //Debug.Log($"Card ==> DropUnit {cardFace.numbers} / star {cardFace.star} / Unit Type {type} / Race { StaticClass.playerRace} / playerID {playerID } / SpwanPoint {spawnPoint } / unitsize {unitsize } / Card Stats {cardFace.stats}");
         yield return null;
     }

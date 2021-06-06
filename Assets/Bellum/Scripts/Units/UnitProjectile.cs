@@ -228,6 +228,7 @@ public class UnitProjectile : NetworkBehaviour
     [Server]
     private void DestroySelf()
     {
+        if(gameObject != null)
         NetworkServer.Destroy(gameObject);
     }
     [TargetRpc]
