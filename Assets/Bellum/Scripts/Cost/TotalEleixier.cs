@@ -16,7 +16,7 @@ public class TotalEleixier : MonoBehaviour
 
     public int maxEleixer = 10;
     public float maxEleixerTimer;
-    private float eleixerTimer = 0.1f;
+    private float eleixerTimer = 4f;
     public int eleixer = 0;
     public int enemyEleixer = 0;
     public static event Action<int> UpdateEnemyElexier;
