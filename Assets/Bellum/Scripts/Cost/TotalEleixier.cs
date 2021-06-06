@@ -40,7 +40,7 @@ public class TotalEleixier : MonoBehaviour
                 enemyEleixer += 1;
                 UpdateEnemyElexier?.Invoke(enemyEleixer);
             }
-            Debug.Log(enemyEleixer);
+            //Debug.Log(enemyEleixer);
         }
         eleixerBarImage.fillAmount = (float)eleixer / (float)maxEleixer;
         if (enemyeleixerBarImage != null)
