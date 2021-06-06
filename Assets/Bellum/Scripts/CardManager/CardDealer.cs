@@ -35,6 +35,7 @@ public class CardDealer : MonoBehaviour
     [SerializeField] public Dictionary<string, CardStats> userCardStatsDict = new Dictionary<string, CardStats>();
     [SerializeField] public Dictionary<UnitMeta.UnitKey, Unit> playerUnitDict = new Dictionary<UnitMeta.UnitKey, Unit>();
     [SerializeField] Card buttonWall;
+    [SerializeField] Card EnemyButtonWall;
     [SerializeField] public TotalEleixier totalEleixers;
     [SerializeField] public Shader greyScaleShader;
     [SerializeField] private bool spawnEnemyCard = false;
@@ -85,6 +86,7 @@ public class CardDealer : MonoBehaviour
             }
         }
         buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[ UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString() ]));
+        EnemyButtonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString()]));
         int index = enemySpawn ? 1 : 0;
         yield return DealCards(3, 0f, 0.1f, players[index]);
         if(enemySpawn == true)

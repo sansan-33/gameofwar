@@ -22,6 +22,7 @@ public class EnemyAI : MonoBehaviour
     private enum Position { left, right, centre };
     private Vector3 heroPos;
     private int mission;
+    private int chapter;
     [SerializeField] private Transform halfLine;
     [SerializeField] private Card wall;
     [SerializeField] private Player player;
@@ -102,48 +103,7 @@ public class EnemyAI : MonoBehaviour
         yield return null;
 
     }
-    private void UrgentDefend(Unit unit)
-    {
-        StartCoroutine(Defend(unit));
-    }
-    private IEnumerator Defend(Unit unit)
-    {
-        while (unit.CompareTag("Unit")) { yield return new WaitForSeconds(0.5f); }
-        // Debug.Log($"unit.unitType{unit.unitType} tag == {unit.tag}");
-       // Debug.Log(savingCardForDefend);
-        if (savingCardForDefend == false)
-        {
-            if (unit.unitType == UnitMeta.UnitType.FOOTMAN && unit.CompareTag("Sneaky0"))
-            {
-                savingCardForDefend = true;
-                canSpawnUnit = false;
-                int i = 5;
-                yield return SelectCard(true);
-                //Debug.Log($"unit == {unit.name} next card {nextCard}");
-                while (unit.transform.position.z < halfLine.position.z || elexier < nextCard.GetUnitElexier())
-                {
-                    yield return new WaitForSeconds(1f);
-                    i--;
-                  //  Debug.Log($"i == {i}");
-                    if (i == 0)
-                    {
-                       // Debug.Log("break");
-                        canSpawnUnit = true;
-                        savingCardForDefend = false;
-                        break;
-                    }
-                }
-                if (i > 0)
-                {
-                    if (localFactory == null) { yield return SetLocalFactory(); }
-                    int type = (int)nextCard.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-                    SpawnUnit(unit.transform.position, nextCard, (UnitMeta.UnitType)type);
-                    canSpawnUnit = true;
-                    savingCardForDefend = false;
-                }
-            }
-        }
-    }
+    
     private IEnumerator HandleSpawnnEnemy()
     {
         //yield return new WaitForSeconds(1f);
@@ -167,11 +127,73 @@ public class EnemyAI : MonoBehaviour
         }
         yield return null;
     }
+    private void UrgentDefend(Unit unit)
+    {
+        StartCoroutine(Defend(unit));
+    }
+    private IEnumerator Defend(Unit unit)
+    {
+        while (unit.CompareTag("Unit"))
+        {
+            yield return new WaitForSeconds(0.5f);
+            if(unit == null) { break; }
+        }
+        // Debug.Log($"unit.unitType{unit.unitType} tag == {unit.tag}");
+        // Debug.Log(savingCardForDefend);
+        if (savingCardForDefend == false)
+        {
+            if (unit.unitType == UnitMeta.UnitType.FOOTMAN && unit.CompareTag("Sneaky0"))
+            {
+                savingCardForDefend = true;
+                canSpawnUnit = false;
+                int i = 3;
+                yield return SelectCard(true);
+                //Debug.Log($"unit == {unit.name} next card {nextCard}");
+                while (unit.transform.position.z < halfLine.position.z || elexier < nextCard.GetUnitElexier())
+                {
+                    yield return new WaitForSeconds(1f);
+                    i--;
+                    //  Debug.Log($"i == {i}");
+
+                    if (i == 0)
+                    {
+                        // Debug.Log("break");
+                        canSpawnUnit = true;
+                        savingCardForDefend = false;
+                        break;
+                    }
+                }
+                if (i > 0)
+                {
+                    if (localFactory == null) { yield return SetLocalFactory(); }
+                    int type = (int)nextCard.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+                    SpawnUnit(unit.transform.position, nextCard, (UnitMeta.UnitType)type);
+                    canSpawnUnit = true;
+                    savingCardForDefend = false;
+                }
+            }
+        }
+        if (unit.unitType == UnitMeta.UnitType.CAVALRY && unit.CompareTag("Player0") && chapter >= 2)
+        {
+            canSpawnUnit = false;
+            while (elexier < wall.GetUnitElexier())
+            {
+                yield return new WaitForSeconds(1f);
+            }
+            Vector3 vector3 = GameObject.FindGameObjectWithTag("King1").transform.position;
+            PlaceWall(new Vector3(vector3.x, vector3.y, vector3.z - 5));
+            canSpawnUnit = true;
+        }
+    }
     private List<UnitMeta.UnitType> HandleMission()
     {
         string missions;
+        string chapters;
+        chapters = StaticClass.Chapter;
         missions = StaticClass.Mission;
         Mission.TryGetValue(missions, out int _mission);
+        Mission.TryGetValue(chapters, out int _chapter);
+        chapter = _chapter;
         mission = _mission;
         switch (mission)
         {
@@ -199,7 +221,7 @@ public class EnemyAI : MonoBehaviour
                    // cardStats.attack *= statUpFactor;
                    // cardStats.health *= statUpFactor;
                    // cardStats.defense *= statUpFactor;
-                    unit.GetComponent<UnitPowerUp>().PowerUp(1, unit.name, unit.GetComponent<Unit>().GetSpawnPointIndex(), cardStats.star, cardStats.cardLevel, cardStats.health * statUpFactor,
+                    unit.GetComponent<UnitPowerUp>().PowerUp(1, unit.name, unit.GetComponent<Unit>().GetSpawnPointIndex(), cardStats.star, cardStats.cardLevel, cardStats.health * 100000000,
                         cardStats.attack * statUpFactor, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense * statUpFactor, cardStats.special, cardStats.specialkey,
                         cardStats.passivekey, RTSplayer.GetTeamEnemyColor());
                 }
@@ -258,7 +280,7 @@ public class EnemyAI : MonoBehaviour
             float x = rect.localScale.x;
             float y = rect.localScale.y;
             float z = rect.localScale.z;
-            rect.localScale = new Vector3((float)0.75, (float)0.75, (float)0.75);
+            rect.localScale = new Vector3((float)0.625, (float)0.625, (float)0.625);
         
        
        // Debug.Log($"Select card {nextCard.cardFace.numbers}");
@@ -462,7 +484,7 @@ public class EnemyAI : MonoBehaviour
                             {
                                 ISpecialAttack iSpecialAttack = unit.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
                                 SpButtonManager.enemyUnitBtns.TryGetValue(unit.GetComponent<Unit>().unitKey, out var btn);
-                                Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
+                                //Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
                                 if(iSpecialAttack != null && btn != null)
                                 {
                                     if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
