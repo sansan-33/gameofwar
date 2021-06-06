@@ -54,7 +54,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (!inPosition) {
                 var leaderTransform = leader.Value != null ? leader.Value.transform : transform;
                 var destination = TransformPoint(leaderTransform.position, offset, attackRotation);
-                if (tacticalAgent.HasArrived()) {
+                if (tacticalAgent != null && tacticalAgent.HasArrived()) {
                     // The agent is in position but it may not be facing the target.
                     if (tacticalAgent.RotateTowardsPosition(TransformPoint(attackCenter, offset, attackRotation))) {
                         inPosition = true;
