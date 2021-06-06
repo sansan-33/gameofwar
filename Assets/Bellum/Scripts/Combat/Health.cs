@@ -20,7 +20,8 @@ public class Health : NetworkBehaviour, IDamageable
     public bool IsFrezze = false;
     public bool IsElectricShock = false;
     public event Action ServerOnDie;
-  
+    public static event Action<string> HeroOrKingOnDie;
+
     public event Action<int, int, int> ClientOnHealthUpdated;
     public static event Action<GameObject> IceHitUpdated;
     public GameObject specialEffectPrefab;
@@ -122,6 +123,7 @@ public class Health : NetworkBehaviour, IDamageable
         // Debug.Log($"Destroy unit");
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
         {
+            HeroOrKingOnDie?.Invoke(tag);
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DIE);
             yield return new WaitForSeconds(2.5f);
         }

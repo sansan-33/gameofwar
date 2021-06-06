@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Mirror;
@@ -12,14 +13,20 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] private TMP_Text winnerNameText = null;
     [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private Canvas cardDisplay = null;
+    [SerializeField] private TMP_Text crownBlueText = null;
+    [SerializeField] private TMP_Text crownRedText = null;
 
     private float Timer = 180;
     private void Update()
     {
         Timer -= Time.deltaTime;
-        if(Timer <= 0)
-        {
-            ClientHandleGameOverdraw();
+        if(Timer <= 0) {
+            if (crownBlueText.text != "0" || crownRedText.text != "0") {
+                int blueCrown = Int32.Parse(crownBlueText.text);
+                int redCrown = Int32.Parse(crownBlueText.text);
+                ClientHandleGameOver(blueCrown > redCrown ? "blue" : "red");
+            } else
+                ClientHandleGameOverdraw();
         }
     }
     private void Start()
