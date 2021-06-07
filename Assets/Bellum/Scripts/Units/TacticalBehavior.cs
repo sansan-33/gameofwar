@@ -525,7 +525,7 @@ public class TacticalBehavior : MonoBehaviour
                 }
                 yield return new WaitForSeconds(2f);
                 TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.FOOTMAN);
-                yield return new WaitForSeconds(10f);
+                yield return new WaitForSeconds(5f);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING);
                 

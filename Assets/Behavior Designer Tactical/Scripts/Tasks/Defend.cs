@@ -94,6 +94,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 tacticalAgent.AttackPosition = false;
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": No Target. Stop moving if in Attack Position ? [ " + tacticalAgent.AttackPosition + "] ... " + HEARTBEAT++);
+                if(defendObject != null)
                 tacticalAgent.RotateTowards(Quaternion.LookRotation(targetTagPosition - defendObject.Value.transform.position));
                 //tacticalAgent.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DEFEND);
             }
