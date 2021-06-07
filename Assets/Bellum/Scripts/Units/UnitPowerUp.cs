@@ -273,4 +273,30 @@ public class UnitPowerUp : NetworkBehaviour
     }
     //======================================================== End of Unit Factory   ================================================================
 
+    //==================================== Set Tag For DIE
+    public void SetTag(string tag)    {
+        if (isServer)
+            RpcSetTag(tag);
+        else
+            CmdSetTag(tag);
+    }
+    [Command]
+    public void CmdSetTag(string tag)
+    {
+        ServerSetTag(tag);
+    }
+    [ClientRpc]
+    public void RpcSetTag(string tag)
+    {
+        HandleSetTag(tag);
+    }
+    [Server]
+    public void ServerSetTag(string tag)
+    {
+        HandleSetTag(tag);
+    }
+    private void HandleSetTag(string tag)
+    {
+        gameObject.tag = tag;
+    } 
 }

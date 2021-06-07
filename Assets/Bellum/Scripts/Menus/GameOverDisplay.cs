@@ -23,7 +23,7 @@ public class GameOverDisplay : MonoBehaviour
         if(Timer <= 0) {
             int blueCrown = Int32.Parse(crownBlueText.text);
             int redCrown = Int32.Parse(crownBlueText.text);
-            if (blueCrown != redCrown && blueCrown > 0 ) {
+            if (blueCrown != redCrown && (blueCrown + redCrown) > 0 ) {
                 ClientHandleGameOver(blueCrown > redCrown ? "blue" : "red");
             } else
                 ClientHandleGameOverdraw();

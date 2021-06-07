@@ -28,7 +28,6 @@ public class SpawnEnemies : MonoBehaviour
             RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             enemyID = player.GetEnemyID();
             playerID = player.GetPlayerID();
-            teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
             StartCoroutine(GetUserCard("-1",""));
             GameStartDisplay.ServerGameStart += LoadEnemies;

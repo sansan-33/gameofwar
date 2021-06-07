@@ -142,7 +142,7 @@ public class EnemyAI : MonoBehaviour
         // Debug.Log(savingCardForDefend);
         if (savingCardForDefend == false)
         {
-            if (unit.unitType == UnitMeta.UnitType.FOOTMAN && unit.CompareTag("Sneaky0"))
+            if (unit !=null && unit.unitType == UnitMeta.UnitType.FOOTMAN && unit.CompareTag("Sneaky0"))
             {
                 savingCardForDefend = true;
                 canSpawnUnit = false;
@@ -199,13 +199,10 @@ public class EnemyAI : MonoBehaviour
         {
             case 1:
                 return unitTypesList;
-                break;
             case 2:
                 return unitTypesList2;
-                break;
             case 3:
                 return unitTypesList3;
-                break;
             default:
                 if (localFactory == null) { SetLocalFactory(); }
                 GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
@@ -216,7 +213,7 @@ public class EnemyAI : MonoBehaviour
                     armies.Add(king);
                 foreach (GameObject unit in armies)
                 {
-                   // Debug.Log($"armies{armies.Count}");
+                    //Debug.Log($"AI Spawn Emeny {unit.name} {RTSplayer.GetTeamEnemyColor()}");
                     CardStats cardStats = unit.GetComponent<CardStats>();
                    // cardStats.attack *= statUpFactor;
                    // cardStats.health *= statUpFactor;
@@ -226,9 +223,7 @@ public class EnemyAI : MonoBehaviour
                         cardStats.passivekey, RTSplayer.GetTeamEnemyColor());
                 }
                 return unitTypesList3;
-                break;
         }
-        return null; ;
     }
     public void SetCards(Card card)
     {
@@ -339,7 +334,6 @@ public class EnemyAI : MonoBehaviour
             if ((UnitMeta.UnitType)type == unitTypes[i])
             {
                 return true;
-                break;
             }
             i++;
         }
@@ -359,7 +353,6 @@ public class EnemyAI : MonoBehaviour
                 if ((UnitMeta.UnitType)type == unitTypes[i])
                 {
                     return true;
-                    break;
                 }
                 i++;
             }
@@ -446,7 +439,7 @@ public class EnemyAI : MonoBehaviour
         FindObjectOfType<TotalEleixier>().enemyEleixer -= card.GetUnitElexier();
         localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
             cardFace.stats.health * (int)statUpFactor, cardFace.stats.attack * (int)statUpFactor, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense * (int)statUpFactor, cardFace.stats.special, cardFace.stats.specialkey,
-            cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamColor(), Quaternion.identity);
+            cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamEnemyColor() , Quaternion.identity);
         card.enemyCard = false;
         card.ResetScale();
         enemyPlayer.moveCard(card.cardPlayerHandIndex);

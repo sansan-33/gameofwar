@@ -48,7 +48,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         public override TaskStatus OnUpdate()
         {
             var baseStatus = base.OnUpdate();
-            if (baseStatus != TaskStatus.Running || !started) {
+            if (baseStatus != TaskStatus.Running || !started || !tacticalAgent.transform.GetComponent<IDamageable>().IsAlive() ) {
                 return baseStatus;
             }
             // Attack the target if the agent has a target.
