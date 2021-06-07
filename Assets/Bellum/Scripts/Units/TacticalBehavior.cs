@@ -285,7 +285,8 @@ public class TacticalBehavior : MonoBehaviour
                 if (unit.unitType != UnitMeta.UnitType.KING)
                 {
                     defendObject = king;
-                    unit.GetComponent<UnitPowerUp>().SetSpeed(5f,false);
+                    unit.GetComponent<UnitPowerUp>().SetSpeed(7f,false);
+                    unit.GetComponent<UnitPowerUp>().SetSkill(UnitMeta.UnitSkill.SHIELD, 1, 1, 1, 1);
                 }
                 radius = 5f;
                 defendRadius = 2.5f;
@@ -525,7 +526,7 @@ public class TacticalBehavior : MonoBehaviour
                 }
                 yield return new WaitForSeconds(2f);
                 TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.FOOTMAN);
-                yield return new WaitForSeconds(5f);
+                yield return new WaitForSeconds(4f);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING);
                 
