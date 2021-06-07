@@ -121,7 +121,7 @@ public class CardDealer : MonoBehaviour
         if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
         UnitMeta.Race race = playersIndex == 0 ? StaticClass.playerRace : StaticClass.enemyRace;
         Material mat = new Material(greyScaleShader);
-        //Debug.Log($"DealingCard race {race} type {type} ");
+        //Debug.Log($"DealingCard race {race} type {type} playersIndex {playersIndex} , StaticClass.enemyRace {StaticClass.enemyRace}");
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][(UnitMeta.UnitType)type].ToString() ].image;
         //lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;

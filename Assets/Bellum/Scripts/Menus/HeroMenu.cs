@@ -100,6 +100,7 @@ public class HeroMenu : MonoBehaviour
 
             Vector3 unitPos = unitBodyParent.gameObject.transform.position;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[0]["cardkey"]);
+            Debug.Log($"Hero Menu unitKey:{unitKey} / cardkey: {jsonResult[0]["cardkey"]} ");
             GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
             if (unitBody == null) {
                 unitBody = Instantiate(unitPrefab.transform.Find("Body"));

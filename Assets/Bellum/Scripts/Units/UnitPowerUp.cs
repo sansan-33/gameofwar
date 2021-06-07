@@ -150,7 +150,7 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.GetComponent<HealthDisplay>().SetHealthBarColor(teamColor);
         GetComponent<RVOController>().layer = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer2 : RVOLayer.Layer3;
-        HandleUnitSKill(star, attack, repeatAttackDelay, speed);
+        HandleUnitSKill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay, speed);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
         }
@@ -161,12 +161,12 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"{gameObject.tag} : {gameObject.name} RpcPowerUp cardLevel {cardLevel} health {health} speed {speed}");
         HandlePowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
     }
-    private void HandleUnitSKill(int star, int attack, float repeatAttackDelay, float speed)
+    private void HandleUnitSKill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
     {
         if (gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO) { return; } 
-        UnitMeta.UnitSkill skill = UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType];
+        UnitMeta.UnitSkill defaultSkill = skill == UnitMeta.UnitSkill.DEFAULT ? UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType] : skill;
         //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
-        switch (skill)
+        switch (defaultSkill)
         {
             case UnitMeta.UnitSkill.SCALE:
                 Scale();
@@ -224,7 +224,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void Dashing(float speed)
     {
-        SetSpeed(speed * 2, false);
+        SetSpeed(speed * 1.5f, false);
         GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
         NetworkServer.Spawn(specialEffect, connectionToClient);
     }
@@ -273,4 +273,57 @@ public class UnitPowerUp : NetworkBehaviour
     }
     //======================================================== End of Unit Factory   ================================================================
 
+    //==================================== Set Tag For DIE
+    public void SetTag(string tag)    {
+        if (isServer)
+            RpcSetTag(tag);
+        else
+            CmdSetTag(tag);
+    }
+    [Command]
+    public void CmdSetTag(string tag)
+    {
+        ServerSetTag(tag);
+    }
+    [ClientRpc]
+    public void RpcSetTag(string tag)
+    {
+        HandleSetTag(tag);
+    }
+    [Server]
+    public void ServerSetTag(string tag)
+    {
+        HandleSetTag(tag);
+    }
+    private void HandleSetTag(string tag)
+    {
+        gameObject.tag = tag;
+    }
+    //==================================== Set Skill For Unit
+    public void SetSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
+    {
+        if (isServer)
+            RpcSetSkill(skill, star, attack, repeatAttackDelay, speed);
+        else
+            CmdSetSkill(skill, star, attack, repeatAttackDelay, speed);
+    }
+    [Command]
+    public void CmdSetSkill(UnitMeta.UnitSkill skill,int star, int attack, float repeatAttackDelay, float speed)
+    {
+        ServerSetSkill(skill, star, attack, repeatAttackDelay, speed);
+    }
+    [ClientRpc]
+    public void RpcSetSkill(UnitMeta.UnitSkill skill,int star, int attack, float repeatAttackDelay, float speed)
+    {
+        HandleSetSkill(skill, star, attack, repeatAttackDelay, speed);
+    }
+    [Server]
+    public void ServerSetSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
+    {
+        HandleSetSkill(skill, star, attack, repeatAttackDelay, speed);
+    }
+    private void HandleSetSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
+    {
+        HandleUnitSKill(skill, star, attack, repeatAttackDelay, speed);
+    }
 }

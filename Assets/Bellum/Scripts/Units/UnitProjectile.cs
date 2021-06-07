@@ -56,7 +56,7 @@ public class UnitProjectile : NetworkBehaviour
             rb.velocity = transform.forward * launchForce;
             return;
         }
-        
+
         float LaunchAngle = 70f;
         float platformOffset = 0f;
         // think of it as top-down view of vectors: 
@@ -64,6 +64,8 @@ public class UnitProjectile : NetworkBehaviour
         
         Vector3 projectileXZPos = new Vector3(transform.position.x, transform.position.y , transform.position.z);
         Vector3 targetXZPos = new Vector3(TargetObjectPos.x, transform.position.y, TargetObjectPos.z);
+
+        
 
         // rotate the object to face the target
         transform.LookAt(targetXZPos);
@@ -84,6 +86,11 @@ public class UnitProjectile : NetworkBehaviour
         Vector3 globalVelocity = transform.TransformDirection(localVelocity);
 
         // launch the object by setting its initial velocity and flipping its state
+        if (float.IsNaN(globalVelocity.x) || float.IsNaN(globalVelocity.y) || float.IsNaN(globalVelocity.z))
+        {
+            rb.velocity = transform.forward * launchForce;
+            return;
+        }
         rb.velocity = globalVelocity;
         bTouchingGround = false;
         //bTargetReady = false;
