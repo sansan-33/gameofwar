@@ -202,7 +202,7 @@ public class TacticalBehavior : MonoBehaviour
                 if ( group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 agentTrees[k].SetVariableValue("newTargetName", GetTargetName(child.GetComponent<Unit>() , enemyCount, playerid, enemyid, group, provoke));
 
-                SetDefend(group, agentTrees[k], defendObject, playerid, king, child.GetComponent<Unit>().unitType);
+                SetDefend(group, agentTrees[k], defendObject, playerid, king, child.GetComponent<Unit>() );
                 
                 if (!child.GetComponent<Unit>().isLeader )
                 {
@@ -272,20 +272,25 @@ public class TacticalBehavior : MonoBehaviour
          
         return target;
     }
-    private void SetDefend(int group, BehaviorTree agentTree, GameObject defendObject, int playerid, GameObject king, UnitMeta.UnitType unitType)
+    private void SetDefend(int group, BehaviorTree agentTree, GameObject defendObject, int playerid, GameObject king,  Unit unit)
     {
         if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
         {
             float radius = newRadius;
             float defendRadius = newDefendRadius;
             float chaseDistance = 10f;
-            UnitMeta.DefendRadius.TryGetValue(unitType, out defendRadius);
+            UnitMeta.DefendRadius.TryGetValue(unit.unitType, out defendRadius);
             if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK) {
-                if(unitType != UnitMeta.UnitType.KING)
+                unit.GetComponent<UnitPowerUp>().SetSpeed(2f, false);
+                if (unit.unitType != UnitMeta.UnitType.KING)
+                {
                     defendObject = king;
+                    unit.GetComponent<UnitPowerUp>().SetSpeed(5f,false);
+                }
                 radius = 5f;
                 defendRadius = 2.5f;
                 chaseDistance = 2.5f;
+
             }
             agentTree.SetVariableValue("newDefendObject", defendObject);
             agentTree.SetVariableValue("newRadius", radius);
@@ -521,7 +526,9 @@ public class TacticalBehavior : MonoBehaviour
                 yield return new WaitForSeconds(2f);
                 TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.FOOTMAN);
                 yield return new WaitForSeconds(10f);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING);
+                
                 break;
             default:
                 break;
