@@ -128,9 +128,9 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         this.repeatAttackDelay = repeatAttackDelay == 0 ? this.repeatAttackDelay : repeatAttackDelay;
         damageToDealFactor = factor;
     }
-    public void ScaleAttackRange(float factor)
+    public void ScaleAttackRange(float _fireRange)
     {
-        fireRange = fireRange * factor;
+        fireRange = _fireRange;
     }
     public void OnHandleKilled()
     {
