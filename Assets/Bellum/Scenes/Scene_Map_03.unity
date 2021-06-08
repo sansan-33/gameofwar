@@ -23662,6 +23662,7 @@ GameObject:
   - component: {fileID: 506732564}
   - component: {fileID: 506732563}
   - component: {fileID: 506732562}
+  - component: {fileID: 506732565}
   m_Layer: 2
   m_Name: SPButton
   m_TagString: SPButton
@@ -23772,6 +23773,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 506732560}
   m_CullTransparentMesh: 0
+--- !u!114 &506732565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 506732560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f35bfa6afe7f4a9594eeabb3086d05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
+  tacticalBehavior: {fileID: 873072821}
 --- !u!1 &509145224
 GameObject:
   m_ObjectHideFlags: 0
@@ -87989,6 +88004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards: []
+  TB: {fileID: 873072821}
   halfLine: {fileID: 1172576206}
   wall: {fileID: 1011646230}
   player: {fileID: 1073408491}
@@ -87999,9 +88015,9 @@ MonoBehaviour:
   unitTypesList: 0000000004000000
   unitTypesList2: 0100000002000000
   unitTypesList3: 03000000
-  startLeftPos: {x: 0, y: 0, z: 0}
-  startRightPos: {x: 0, y: 0, z: 0}
-  startCentrePos: {x: 0, y: 0, z: 0}
+  startLeftPos: {x: 23, y: 0.15, z: -14}
+  startRightPos: {x: 44, y: 0.15, z: -16}
+  startCentrePos: {x: 36, y: 0.15, z: -14}
   attackType: 3
   statUpFactor: 0
   SpList1: 0300000001000000

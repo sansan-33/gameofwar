@@ -73,6 +73,10 @@ public class EnemyAI : MonoBehaviour
         TotalEleixier.UpdateEnemyElexier -= OnUpdateElexier;
         GameOverHandler.ClientOnGameOver -= HandleGameOver;
         Unit.ClientOnUnitSpawned -= UrgentDefend;
+        if (GameObject.FindGameObjectWithTag("King1"))
+        {
+            GameObject.FindGameObjectWithTag("King1").GetComponent<Health>().ClientOnHealthUpdated -= OnHealthUpdated;
+        }
     }
     private void StartSpawnnEnemy()
     {
@@ -97,6 +101,7 @@ public class EnemyAI : MonoBehaviour
         Sp.Add(unitType[3], SpList2);
         Sp.Add(unitType[4], SpList1);
 
+        GameObject.FindGameObjectWithTag("King1").GetComponent<Health>().ClientOnHealthUpdated += OnHealthUpdated;
       /*  Mission.Add(1, Difficulty.OneStar);
         Mission.Add(2, Difficulty.TwoStar);
         Mission.Add(3, Difficulty.ThreeStar);
@@ -134,11 +139,10 @@ public class EnemyAI : MonoBehaviour
     }
     private void OnHealthUpdated(int currentHealth, int maxHealth, int lastDamageDeal)
     {
-        StartCoroutine(HandleHealthUpdate(currentHealth));
-    }
-    private IEnumerator HandleHealthUpdate(int current)
-    {
-        yield return null;
+        if (currentHealth <= maxHealth / 2 && chapter >=3)
+        {
+            TB.taticalAttack(TacticalBehavior.TaticalAttack.SPINATTACK, RTSplayer.GetEnemyID());
+        }
     }
     private IEnumerator Defend(Unit unit)
     {
