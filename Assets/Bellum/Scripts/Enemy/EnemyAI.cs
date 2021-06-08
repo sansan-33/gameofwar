@@ -23,6 +23,7 @@ public class EnemyAI : MonoBehaviour
     private Vector3 heroPos;
     private int mission;
     private int chapter;
+    [SerializeField] private TacticalBehavior TB;
     [SerializeField] private Transform halfLine;
     [SerializeField] private Card wall;
     [SerializeField] private Player player;
@@ -130,6 +131,14 @@ public class EnemyAI : MonoBehaviour
     private void UrgentDefend(Unit unit)
     {
         StartCoroutine(Defend(unit));
+    }
+    private void OnHealthUpdated(int currentHealth, int maxHealth, int lastDamageDeal)
+    {
+        StartCoroutine(HandleHealthUpdate(currentHealth));
+    }
+    private IEnumerator HandleHealthUpdate(int current)
+    {
+        yield return null;
     }
     private IEnumerator Defend(Unit unit)
     {
