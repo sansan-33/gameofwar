@@ -177,6 +177,9 @@ public class UnitPowerUp : NetworkBehaviour
             case UnitMeta.UnitSkill.VOLLEY:
                 Volley();
                 break;
+            case UnitMeta.UnitSkill.ARROWRAIN:
+                ArrowRain();
+                break;
             case UnitMeta.UnitSkill.PROVOKE:
                 Provoke();
                 break;
@@ -203,6 +206,12 @@ public class UnitPowerUp : NetworkBehaviour
     private void Volley()
     {
         GetComponent<UnitFiring>().SetNumberOfShoot(3);
+    }
+    private void ArrowRain()
+    {
+        GetComponent<UnitFiring>().SetNumberOfShoot(2);
+        GetComponent<IAttack>().ScaleAttackRange(20f);
+        //Debug.Log($"{name} ArrowRain");       
     }
     private void Shield()
     {

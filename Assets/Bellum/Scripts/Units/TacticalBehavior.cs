@@ -244,7 +244,7 @@ public class TacticalBehavior : MonoBehaviour
     private string GetTargetName(Unit unit, int enemyCount, int playerid, int enemyid, int group, bool provoke)
     {
         string target = "";
-        if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK)
+        if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK || TaticalAttackCurrent[playerid] == TaticalAttack.ARROWRAIN || TaticalAttackCurrent[playerid] == TaticalAttack.CAVALRYCHARGES)
         {
             if (provoke)
                 target ="Provoke" + enemyid;
@@ -293,7 +293,10 @@ public class TacticalBehavior : MonoBehaviour
                 radius = 5f;
                 defendRadius = 2.5f;
                 chaseDistance = 2.5f;
-
+            }
+            if (TaticalAttackCurrent[playerid] == TaticalAttack.ARROWRAIN)
+            {
+                unit.GetComponent<UnitPowerUp>().SetSkill(UnitMeta.UnitSkill.ARROWRAIN, 1, 1, 1, 1);
             }
             agentTree.SetVariableValue("newDefendObject", defendObject);
             agentTree.SetVariableValue("newRadius", radius);
@@ -314,6 +317,19 @@ public class TacticalBehavior : MonoBehaviour
     public void TryTB(int type )
     {
         TryTB(type, PLAYERID);
+    }
+    public void TryTB(int type, UnitMeta.UnitType unitType, int playerid)
+    {
+        int leaderid = 0;
+        foreach (var leader in leaders[playerid])
+        {
+            if (leader.Value.GetComponent<Unit>().unitType == unitType)
+            {
+                leaderid = leader.Key;
+                break;
+            }
+        }
+        TryTB(type, playerid, leaderid);
     }
     public void TryTB(int type, UnitMeta.UnitType unitType)
     {
@@ -542,14 +558,13 @@ public class TacticalBehavior : MonoBehaviour
             case TaticalAttack.CAVALRYCHARGES:
                 TaticalAttackCurrent[playerid] = TaticalAttack.CAVALRYCHARGES;
                 cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.CAVALRY].ToString()];
-                TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.CAVALRY);
+                TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.CAVALRY, playerid);
                 unitTactical[UnitMeta.UnitType.CAVALRY] = BehaviorSelectionType.Hold;
                 while (unitspawn <= 6)
                 {
                     yield return new WaitForSeconds(0.5f);
                     flip *= -1;
                     spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y , kingPoint.z + 10);
-                    Debug.Log($"CAVALRYCHARGES {unitspawn} , spawnPoint {spawnPoint}, kingPoint {kingPoint}");
                     localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.CAVALRY , UnitMeta.UnitType.CAVALRY.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
                     offset += 2;
                     unitspawn++;
@@ -567,12 +582,11 @@ public class TacticalBehavior : MonoBehaviour
                 unitTactical[UnitMeta.UnitType.ARCHER] = BehaviorSelectionType.Hold;
                 while (unitspawn <= 12)
                 {
-                    yield return new WaitForSeconds(0.5f);
+                    yield return new WaitForSeconds(1f);
                     flip *= -1;
                     spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y, kingPoint.z + 10);
-                    Debug.Log($"CAVALRYCHARGES {unitspawn} , spawnPoint {spawnPoint}, kingPoint {kingPoint}");
                     localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.ARCHER.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
-                    offset += 2;
+                    offset += 1;
                     unitspawn++;
                 }
                 TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.ARCHER);
