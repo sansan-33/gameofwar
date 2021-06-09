@@ -7,12 +7,12 @@ public class ShieldAura : MonoBehaviour
     [SerializeField] private GameObject shieldParent;
     public void aura()
     {
-        Debug.Log($"Shield Aura ....... ");
+        //Debug.Log($"Shield Aura ....... ");
         int shieldHealths = 300;
         shieldParent.SetActive(true);
         Shield shield = GetComponentInParent<Shield>();
-        Debug.Log($"Shield Aura === > shield is null {shield} ");
-        shield.CmdSetShieldHealth(shieldHealths);
+        //Debug.Log($"Shield Aura === > shield is null {shield} ");
+        shield.CmdSetShield(shieldHealths,false);
     }
 
 }

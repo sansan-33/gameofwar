@@ -28,7 +28,7 @@ public class Tornado : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Tornado OnTriggerEnter {other.tag} ");
+        //Debug.Log($"Tornado OnTriggerEnter {other.tag} ");
 
         if (CanPull(other)) {
             StartCoroutine(pullObject(other, true));

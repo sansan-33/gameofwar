@@ -109,8 +109,12 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 if (tacticalAgent.HasArrived()) {
                     // Face away from the defending object.
                     var direction = new Vector3();
-                    if(tacticalAgent.TargetTransform == null)
+                    if (tacticalAgent.TargetTransform == null)
+                    {
                         direction = GameObject.FindGameObjectWithTag(targetTag.Value).transform.position - defendObject.Value.transform.position;
+                        direction.y = 0;
+                        //direction.z = 0;
+                    }
                     else
                         direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;

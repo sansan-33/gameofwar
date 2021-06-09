@@ -23,6 +23,11 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
         }
         this.transform.GetChild(0).gameObject.SetActive(true);
         TabClicked?.Invoke(chapterIndex);
+        MissionButton[] missions = missionContentParent.GetComponentsInChildren<MissionButton>();
+        for(int i=1; i < missions.Length; i++ )
+        {
+            missions[i].desc.text = GamePlayMeta.ArenaLevelTextDict[StaticClass.Chapter + "-" + i];
+        }
     }
 }
 
