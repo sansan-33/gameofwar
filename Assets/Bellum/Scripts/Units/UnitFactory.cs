@@ -90,6 +90,15 @@ public class UnitFactory : NetworkBehaviour
         StartCoroutine(ServerSpwanUnit(playerID, spawnPosition, unitDict[unitKey], UnitMeta.KeyType[unitKey].ToString(), unitsize, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, star, teamColor, unitRotation, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
     }
     [Command]
+    public void CmdSpawnUnitPosition(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor, UnitMeta.UnitType spawnUnitType)
+    {
+        if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }
+
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(spawnUnitType, playerID);
+        Vector3 spawnPosition = spawnPointObject.transform.position;
+        StartCoroutine(ServerSpwanUnit(playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+    }
+    [Command]
     public void CmdSpawnUnitRotation(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor,  Quaternion unitRotation)
     {
         if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }

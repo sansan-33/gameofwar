@@ -303,12 +303,12 @@ public class TacticalBehavior : MonoBehaviour
             }
             if (TaticalAttackCurrent[playerid] == TaticalAttack.ABSOLUTEDEFENSE)
             {
-                if (unit.unitType == UnitMeta.UnitType.TANK)
+                if (unit.tag.Contains(playerid.ToString()) && unit.unitType == UnitMeta.UnitType.TANK)
                 {
-                    defendObject = gameBoardHandlerPrefab.GetSpawnPointObject(UnitMeta.UnitType.FOOTMAN, playerid);
-                    radius = 1f;
-                    defendRadius = 1f;
-                    chaseDistance = 1f;
+                    defendObject = gameBoardHandlerPrefab.GetSpawnPointObjectByIndex(UnitMeta.UnitType.FOOTMAN, playerid, unit.GetSpawnPointIndex() );
+                    radius = .1f;
+                    defendRadius = .5f;
+                    chaseDistance = .5f;
                 }
             }
             agentTree.SetVariableValue("newDefendObject", defendObject);
@@ -583,7 +583,7 @@ public class TacticalBehavior : MonoBehaviour
                     offset += 2;
                     unitspawn++;
                 }
-                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.CAVALRY);
+                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.CAVALRY, playerid);
                 //yield return new WaitForSeconds(4f);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO);
                 TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING);
@@ -592,7 +592,7 @@ public class TacticalBehavior : MonoBehaviour
             case TaticalAttack.ARROWRAIN:
                 TaticalAttackCurrent[playerid] = TaticalAttack.ARROWRAIN;
                 cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.ARCHER].ToString()];
-                TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.ARCHER);
+                TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.ARCHER, playerid);
                 unitTactical[playerid][UnitMeta.UnitType.ARCHER] = BehaviorSelectionType.Hold;
                 while (unitspawn <= 12)
                 {
@@ -608,13 +608,14 @@ public class TacticalBehavior : MonoBehaviour
             case TaticalAttack.ABSOLUTEDEFENSE:
                 TaticalAttackCurrent[playerid] = TaticalAttack.ABSOLUTEDEFENSE;
                 cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TANK].ToString()];
-                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK);
+                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK, playerid);
                 unitTactical[playerid][UnitMeta.UnitType.TANK] = BehaviorSelectionType.Defend;
                 while (unitspawn <= 4)
                 {
                     yield return new WaitForSeconds(1f);
-                    defendObject = gameBoardHandlerPrefab.GetSpawnPointObject(UnitMeta.UnitType.FOOTMAN, playerid);
-                    localFactory.CmdDropUnit(playerid, defendObject.transform.position, StaticClass.playerRace, UnitMeta.UnitType.TANK, UnitMeta.UnitType.TANK.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 3, player.GetTeamColor(), Quaternion.identity);
+                    //defendObject = gameBoardHandlerPrefab.GetSpawnPointObject(UnitMeta.UnitType.FOOTMAN, playerid);
+                    //localFactory.CmdDropUnit(playerid, defendObject.transform.position, StaticClass.playerRace, UnitMeta.UnitType.TANK, UnitMeta.UnitType.TANK.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 3, player.GetTeamColor(), Quaternion.identity);
+                    localFactory.CmdSpawnUnitPosition(StaticClass.playerRace, UnitMeta.UnitType.TANK, 1, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor(), UnitMeta.UnitType.FOOTMAN);
                     unitspawn++;
                 }
                 TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK);
