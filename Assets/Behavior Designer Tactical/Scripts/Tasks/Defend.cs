@@ -94,7 +94,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 tacticalAgent.AttackPosition = false;
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": No Target. Stop moving if in Attack Position ? [ " + tacticalAgent.AttackPosition + "] ... " + HEARTBEAT++);
-                if(defendObject != null)
+                if(defendObject != null && tacticalAgent != null)
                 tacticalAgent.RotateTowards(Quaternion.LookRotation(targetTagPosition - defendObject.Value.transform.position));
                 //tacticalAgent.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DEFEND);
             }
@@ -109,7 +109,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 if (tacticalAgent.HasArrived()) {
                     // Face away from the defending object.
                     var direction = new Vector3();
-                    if (tacticalAgent.TargetTransform == null)
+                    if (tacticalAgent.TargetTransform == null && GameObject.FindGameObjectWithTag(targetTag.Value) != null )
                     {
                         direction = GameObject.FindGameObjectWithTag(targetTag.Value).transform.position - defendObject.Value.transform.position;
                         direction.y = 0;

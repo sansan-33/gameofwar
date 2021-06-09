@@ -84,6 +84,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     }
                     if (MoveToAttackPosition()) {
                         tacticalAgent.TryAttack();
+                        tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus("Charging 3 : Attacking target : " + tacticalAgent.TargetTransform.name  + " !!" + HEARTBEAT++);
                     }
                 } else {
                     tacticalAgent.SetDestination(destination);

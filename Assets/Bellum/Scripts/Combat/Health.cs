@@ -169,7 +169,13 @@ public class Health : NetworkBehaviour, IDamageable
     }
     private void HandleHealthUpdated(float oldHealth, float newHealth)
     {
-        ClientOnHealthUpdated?.Invoke((int)newHealth, (int)maxHealth, lastDamageDeal);
+        try
+        {
+            ClientOnHealthUpdated?.Invoke((int)newHealth, (int)maxHealth, lastDamageDeal);
+        }
+        catch (Exception ex) {
+            Debug.Log($"Exception : HandleHealthUpdated [{ex.ToString()}]");
+        }
     }
     public float getCurrentHealth()
     {

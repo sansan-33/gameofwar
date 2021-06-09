@@ -27,7 +27,7 @@ public class TacticalBehavior : MonoBehaviour
     private Dictionary<int, Dictionary<int, Dictionary<int, List<BehaviorTree>>>> behaviorTreeGroups = new Dictionary<int, Dictionary < int, Dictionary<int, List<BehaviorTree>>>>();
 
     public enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last };
-    public enum TaticalAttack { SPINATTACK, CAVALRYCHARGES, ARROWRAIN, OFF  };
+    public enum TaticalAttack { SPINATTACK, CAVALRYCHARGES, ARROWRAIN, ABSOLUTEDEFENSE, OFF  };
     private TaticalAttack[] TaticalAttackCurrent = { TaticalAttack.OFF, TaticalAttack.OFF };
 
     private Dictionary<int, Dictionary<int, GameObject>> leaders = new Dictionary<int, Dictionary<int, GameObject>>();
