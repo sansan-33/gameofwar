@@ -26,10 +26,10 @@ public class GamePlayMeta : MonoBehaviour
 
 
 
-        {"4-1" , "Not saving any 3 star cards + wall" },
-        {"4-2" , "Save 2  star Cavalary + wall"  },
-        {"4-3" , "Save 3 Star Cavalery + wall"  },
-        {"4-4" , "Save 3 Star Cavalery + Attack, Defend HP Up + wall"  },
+        {"4-1" , "Not saving any 3 star cards + wall + Arrow Rain" },
+        {"4-2" , "Save 2  star Cavalary + wall + Absolute Defense"  },
+        {"4-3" , "Save 3 Star Cavalery + wall + Calalry Charges"  },
+        {"4-4" , "Save 3 Star Cavalery + Attack, Defend HP Up + wall + Double Calalry Charges"  },
 
     };
 }
