@@ -545,7 +545,6 @@ public class TacticalBehavior : MonoBehaviour
         CardStats cardStats;
         float offset = 1f;
         int flip = -1;
-        GameObject defendObject;
         Dictionary<string, CardStats> userCardStatsDict = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>().userCardStatsDict;
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
@@ -563,10 +562,10 @@ public class TacticalBehavior : MonoBehaviour
                     localFactory.CmdSpawnUnit(StaticClass.playerRace, UnitMeta.UnitType.FOOTMAN, 3, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor());
                     unitspawn++;
                 }
-                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.FOOTMAN);
+                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.FOOTMAN, playerid);
                 //yield return new WaitForSeconds(4f);
-                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO);
-                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO, playerid);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING, playerid);
                 
                 break;
             case TaticalAttack.CAVALRYCHARGES:
@@ -585,8 +584,8 @@ public class TacticalBehavior : MonoBehaviour
                 }
                 TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.CAVALRY, playerid);
                 //yield return new WaitForSeconds(4f);
-                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO);
-                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO, playerid);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING, playerid);
 
                 break;
             case TaticalAttack.ARROWRAIN:
@@ -603,22 +602,20 @@ public class TacticalBehavior : MonoBehaviour
                     offset += 1;
                     unitspawn++;
                 }
-                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.ARCHER);
+                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.ARCHER, playerid);
                 break;
             case TaticalAttack.ABSOLUTEDEFENSE:
                 TaticalAttackCurrent[playerid] = TaticalAttack.ABSOLUTEDEFENSE;
                 cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TANK].ToString()];
                 TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK, playerid);
                 unitTactical[playerid][UnitMeta.UnitType.TANK] = BehaviorSelectionType.Defend;
-                while (unitspawn <= 4)
+                while (unitspawn <= 5)
                 {
                     yield return new WaitForSeconds(1f);
-                    //defendObject = gameBoardHandlerPrefab.GetSpawnPointObject(UnitMeta.UnitType.FOOTMAN, playerid);
-                    //localFactory.CmdDropUnit(playerid, defendObject.transform.position, StaticClass.playerRace, UnitMeta.UnitType.TANK, UnitMeta.UnitType.TANK.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 3, player.GetTeamColor(), Quaternion.identity);
-                    localFactory.CmdSpawnUnitPosition(StaticClass.playerRace, UnitMeta.UnitType.TANK, 1, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor(), UnitMeta.UnitType.FOOTMAN);
+                    localFactory.CmdSpawnUnitPosition(StaticClass.playerRace, UnitMeta.UnitType.TANK, 2, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor(), UnitMeta.UnitType.FOOTMAN);
                     unitspawn++;
                 }
-                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK);
+                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK, playerid);
                 break;
             default:
                 break;
