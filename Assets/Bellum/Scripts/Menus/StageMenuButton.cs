@@ -26,7 +26,8 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
         MissionButton[] missions = missionContentParent.GetComponentsInChildren<MissionButton>();
         for(int i=1; i < missions.Length; i++ )
         {
-            missions[i].desc.text = GamePlayMeta.ArenaLevelTextDict[StaticClass.Chapter + "-" + i];
+            //Debug.Log(i);
+            missions[i-1].desc.text = GamePlayMeta.ArenaLevelTextDict[StaticClass.Chapter + "-" + i];
         }
     }
 }

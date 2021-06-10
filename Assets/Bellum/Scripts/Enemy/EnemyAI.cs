@@ -153,7 +153,7 @@ public class EnemyAI : MonoBehaviour
                 TB.taticalAttack(TacticalBehavior.TaticalAttack.ABSOLUTEDEFENSE, RTSplayer.GetEnemyID());
             }
             else if(chapter >= 4 && mission == 1)
-            {
+            { 
                 usedTatical = true;
                 TB.taticalAttack(TacticalBehavior.TaticalAttack.ARROWRAIN, RTSplayer.GetEnemyID());
             }
@@ -165,7 +165,7 @@ public class EnemyAI : MonoBehaviour
     }
     private void OnHealthUpdated(int currentHealth, int maxHealth, int lastDamageDeal)
     {
-        if (currentHealth <= maxHealth / 2 && chapter >= 3 && usedTatical == false)
+        if (currentHealth <= maxHealth / 2 && chapter == 3 && usedTatical == false)
         {
             usedTatical = true;
             TB.taticalAttack(TacticalBehavior.TaticalAttack.SPINATTACK, RTSplayer.GetEnemyID());
