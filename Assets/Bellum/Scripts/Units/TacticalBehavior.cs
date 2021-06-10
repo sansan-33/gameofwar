@@ -26,7 +26,9 @@ public class TacticalBehavior : MonoBehaviour
 
     private Dictionary<int, Dictionary<int, Dictionary<int, List<BehaviorTree>>>> behaviorTreeGroups = new Dictionary<int, Dictionary < int, Dictionary<int, List<BehaviorTree>>>>();
 
-    public enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last }
+    public enum BehaviorSelectionType { Attack, Charge, MarchingFire, Flank, Ambush, ShootAndScoot, Leapfrog, Surround, Defend, Hold, Retreat, Reinforcements, Last };
+    public enum TaticalAttack { SPINATTACK, CAVALRYCHARGES, ARROWRAIN, ABSOLUTEDEFENSE, OFF  };
+    private TaticalAttack[] TaticalAttackCurrent = { TaticalAttack.OFF, TaticalAttack.OFF };
 
     private Dictionary<int, Dictionary<int, GameObject>> leaders = new Dictionary<int, Dictionary<int, GameObject>>();
     private Dictionary<int, Dictionary<int,  List<BehaviorSelectionType>>> leaderTacticalType = new Dictionary<int, Dictionary<int, List<BehaviorSelectionType>>>();
@@ -34,8 +36,11 @@ public class TacticalBehavior : MonoBehaviour
     private int selectedEnemyLeaderId = 0;
     private GameBoardHandler gameBoardHandlerPrefab = null;
     private Dictionary<int, GameObject> KINGBOSS = new Dictionary<int, GameObject>();
-    private float radius = 0.1f;
+    private float newRadius = 0.1f;
     private float newDefendRadius = 7f;
+    private Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType> unitTacticalPlayer = UnitMeta.DefaultUnitTactical;
+    private Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType> unitTacticalEnemey = UnitMeta.DefaultUnitTactical;
+    private Dictionary<int, Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType>> unitTactical = new Dictionary<int, Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType>>();
     #region Client
 
     public void Start()
@@ -43,6 +48,8 @@ public class TacticalBehavior : MonoBehaviour
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         PLAYERID = player.GetPlayerID();
         ENEMYID = player.GetEnemyID();
+        unitTactical[PLAYERID] = unitTacticalPlayer;
+        unitTactical[ENEMYID] = unitTacticalEnemey;
 
         StartCoroutine(AssignTag());
 
@@ -135,6 +142,7 @@ public class TacticalBehavior : MonoBehaviour
         //stopwatch.Start();
         bool provoke = false;
         GameObject defendObject;
+      
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
         GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
@@ -197,24 +205,9 @@ public class TacticalBehavior : MonoBehaviour
                 var group = agentTrees[k].Group;
                 
                 if ( group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
-                agentTrees[k].SetVariableValue("newTargetName", GetTargetName(child.GetComponent<Unit>() , enemyCount, enemyid, group, provoke));
+                agentTrees[k].SetVariableValue("newTargetName", GetTargetName(child.GetComponent<Unit>() , enemyCount, playerid, enemyid, group, provoke));
 
-                if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend )
-                {
-                    agentTrees[k].SetVariableValue("newDefendObject", defendObject);
-                    agentTrees[k].SetVariableValue("newRadius", radius);
-                    agentTrees[k].SetVariableValue("newDefendRadius", newDefendRadius);
-                    if (UnitMeta.DefendRadius.TryGetValue(child.GetComponent<Unit>().unitType, out newDefendRadius))
-                        agentTrees[k].SetVariableValue("newDefendRadius", newDefendRadius);
-
-                    agentTrees[k].SetVariableValue("ChaseDistance", 10f);
-                    if (defendObject.TryGetComponent<DefendCircle>(out DefendCircle circle))
-                    {
-                        //The radius around the defend object to defend
-                        circle.DoRenderer(newDefendRadius);
-                        //The maximum distance that the agents can defend from the defend object
-                    }
-                }
+                SetDefend(group, agentTrees[k], defendObject, playerid, king, child.GetComponent<Unit>() );
                 
                 if (!child.GetComponent<Unit>().isLeader )
                 {
@@ -251,9 +244,17 @@ public class TacticalBehavior : MonoBehaviour
         //if (playerid == 0)
         //    Debug.Log($"TacticalFormation ============================ End {stopwatch.ElapsedMilliseconds} milli seconrds. !!!! playerid {playerid} , Leader Count {leaders[playerid].Count} ");
     }
-    private string GetTargetName(Unit unit, int enemyCount, int enemyid, int group, bool provoke)
+    private string GetTargetName(Unit unit, int enemyCount, int playerid, int enemyid, int group, bool provoke)
     {
         string target = "";
+        if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK || TaticalAttackCurrent[playerid] == TaticalAttack.ARROWRAIN || TaticalAttackCurrent[playerid] == TaticalAttack.CAVALRYCHARGES)
+        {
+            if (provoke)
+                target ="Provoke" + enemyid;
+            else
+                target = enemyCount > 0 ? "Player" + enemyid : "King" + enemyid;
+            return target;
+        }
         if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend) {
             target = enemyCount > 0 ?  "Player" + enemyid : "King" + enemyid;
             return target;
@@ -276,6 +277,52 @@ public class TacticalBehavior : MonoBehaviour
          
         return target;
     }
+    private void SetDefend(int group, BehaviorTree agentTree, GameObject defendObject, int playerid, GameObject king,  Unit unit)
+    {
+        if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
+        {
+            float radius = newRadius;
+            float defendRadius = newDefendRadius;
+            float chaseDistance = 10f;
+            UnitMeta.DefendRadius.TryGetValue(unit.unitType, out defendRadius);
+            if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK) {
+                unit.GetComponent<UnitPowerUp>().SetSpeed(2f, false);
+                if (unit.unitType != UnitMeta.UnitType.KING)
+                {
+                    defendObject = king;
+                    unit.GetComponent<UnitPowerUp>().SetSpeed(7f,false);
+                    unit.GetComponent<UnitPowerUp>().SetSkill(UnitMeta.UnitSkill.SHIELD, 1, 1, 1, 1);
+                }
+                radius = 5f;
+                defendRadius = 2.5f;
+                chaseDistance = 2.5f;
+            }
+            if (TaticalAttackCurrent[playerid] == TaticalAttack.ARROWRAIN)
+            {
+                unit.GetComponent<UnitPowerUp>().SetSkill(UnitMeta.UnitSkill.ARROWRAIN, 1, 1, 1, 1);
+            }
+            if (TaticalAttackCurrent[playerid] == TaticalAttack.ABSOLUTEDEFENSE)
+            {
+                if (unit.tag.Contains(playerid.ToString()) && unit.unitType == UnitMeta.UnitType.TANK)
+                {
+                    defendObject = gameBoardHandlerPrefab.GetSpawnPointObjectByIndex(UnitMeta.UnitType.FOOTMAN, playerid, unit.GetSpawnPointIndex() );
+                    radius = .1f;
+                    defendRadius = .5f;
+                    chaseDistance = .5f;
+                }
+            }
+            agentTree.SetVariableValue("newDefendObject", defendObject);
+            agentTree.SetVariableValue("newRadius", radius);
+            agentTree.SetVariableValue("newDefendRadius", defendRadius);
+            agentTree.SetVariableValue("ChaseDistance", chaseDistance);
+            if (defendObject.TryGetComponent<DefendCircle>(out DefendCircle circle))
+            {
+                //The radius around the defend object to defend
+                //circle.DoRenderer(newDefendRadius);
+                //The maximum distance that the agents can defend from the defend object
+            }
+        }
+    }
     public void HandleLeaderSelected(int leaderId)
     {
         selectedLeaderId = leaderId;
@@ -283,6 +330,19 @@ public class TacticalBehavior : MonoBehaviour
     public void TryTB(int type )
     {
         TryTB(type, PLAYERID);
+    }
+    public void TryTB(int type, UnitMeta.UnitType unitType, int playerid)
+    {
+        int leaderid = 0;
+        foreach (var leader in leaders[playerid])
+        {
+            if (leader.Value.GetComponent<Unit>().unitType == unitType)
+            {
+                leaderid = leader.Key;
+                break;
+            }
+        }
+        TryTB(type, playerid, leaderid);
     }
     public void TryTB(int type, UnitMeta.UnitType unitType)
     {
@@ -354,7 +414,8 @@ public class TacticalBehavior : MonoBehaviour
     {
         if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
         int localSelectionType = (int) GetLeaderBehaviorSelectionType(playerid, leaderid, true);
-         
+
+        if (!behaviorTreeGroups[playerid][leaderid].ContainsKey(localSelectionType)) { yield break; }
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
         for (int i = 0; i < agentCount; ++i)
         {
@@ -368,6 +429,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         if (!behaviorTreeGroups[playerid].ContainsKey(leaderid)) { yield break; }
         int localSelectionType = (int)GetLeaderBehaviorSelectionType(playerid, leaderid, false);
+        if (!behaviorTreeGroups[playerid][leaderid].ContainsKey(localSelectionType)) { yield break; }
         int agentCount = behaviorTreeGroups[playerid][leaderid][localSelectionType].Count;
         //Debug.Log("DisableBehavior");
         for (int i = 0; i < agentCount; ++i)
@@ -379,12 +441,12 @@ public class TacticalBehavior : MonoBehaviour
     {
         List<GameObject> troops;
         var sb = new System.Text.StringBuilder();
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + ENEMYID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
         troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + ENEMYID);
+        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
         if(armies.Length > 0)
         troops.AddRange(armies);
-        armies = GameObject.FindGameObjectsWithTag("Provoke" + ENEMYID);
+        armies = GameObject.FindGameObjectsWithTag("Provoke" + PLAYERID);
         if (armies.Length > 0)
         troops.AddRange(armies);
         foreach (GameObject army in troops) {
@@ -402,9 +464,9 @@ public class TacticalBehavior : MonoBehaviour
             return leaderTacticalType[playerid][leaderid][isCurrent ? 0 : 1];
         else
         {
-            if(!UnitMeta.DefaultUnitTactical.ContainsKey((UnitMeta.UnitType)leaderid) )
+            if(!unitTactical[playerid].ContainsKey((UnitMeta.UnitType)leaderid) )
                 Debug.Log($"Exception Default GetLeaderBehaviorSelectionType playerid {playerid} leaderid {leaderid} ");
-            return UnitMeta.DefaultUnitTactical[(UnitMeta.UnitType)leaderid];
+            return unitTactical[playerid][(UnitMeta.UnitType)leaderid];
         }
     }
     public void LeaderTacticalType(int playerid, int leaderid, BehaviorSelectionType type)
@@ -430,7 +492,7 @@ public class TacticalBehavior : MonoBehaviour
             foreach (var leaders in ids.Value)
             {
                 if (!leaderTacticalType[ids.Key].ContainsKey(leaders.Key))
-                    sb.Append($"\t leader id {leaders.Key} default { UnitMeta.DefaultUnitTactical[ (UnitMeta.UnitType) leaders.Key  ]} (previous default : { UnitMeta.DefaultUnitTactical[(UnitMeta.UnitType)leaders.Key]} )   \n");
+                    sb.Append($"\t leader id {leaders.Key} default { unitTactical[ids.Key][ (UnitMeta.UnitType) leaders.Key  ]} (previous default : { unitTactical[ids.Key][(UnitMeta.UnitType)leaders.Key]} )   \n");
                 else
                     sb.Append($"\t leader id {leaders.Key} {leaderTacticalType[ids.Key][leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][leaders.Key][1]} )   \n");
                 foreach (var groups in leaders.Value)
@@ -470,6 +532,96 @@ public class TacticalBehavior : MonoBehaviour
         }
         //AttackOnlyUnit();
     }
+    public void taticalAttack(TaticalAttack type, int playerid )
+    {
+        StartCoroutine( HandleTaticalAttack(type, playerid ));
+    }
+    IEnumerator HandleTaticalAttack(TaticalAttack type, int playerid )
+    {
+        Vector3 kingPoint = GameObject.FindGameObjectWithTag("King" + playerid).transform.position;
+        Vector3 spawnPoint = Vector3.zero;
+        int unitspawn = 1;
+        UnitFactory localFactory=null;
+        CardStats cardStats;
+        float offset = 1f;
+        int flip = -1;
+        Dictionary<string, CardStats> userCardStatsDict = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>().userCardStatsDict;
+        foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
+        {
+            if (factroy.GetComponent<UnitFactory>().hasAuthority)
+            {
+                localFactory = factroy.GetComponent<UnitFactory>();
+            }
+        }
+        switch (type) {
+            case TaticalAttack.SPINATTACK:
+                TaticalAttackCurrent[playerid] = TaticalAttack.SPINATTACK;
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.FOOTMAN].ToString()];
+                while (unitspawn <= 3) {
+                    yield return new WaitForSeconds(0.5f);
+                    localFactory.CmdSpawnUnit(StaticClass.playerRace, UnitMeta.UnitType.FOOTMAN, 3, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor());
+                    unitspawn++;
+                }
+                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.FOOTMAN, playerid);
+                //yield return new WaitForSeconds(4f);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO, playerid);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING, playerid);
+                
+                break;
+            case TaticalAttack.CAVALRYCHARGES:
+                TaticalAttackCurrent[playerid] = TaticalAttack.CAVALRYCHARGES;
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.CAVALRY].ToString()];
+                TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.CAVALRY, playerid);
+                unitTactical[playerid][UnitMeta.UnitType.CAVALRY] = BehaviorSelectionType.Hold;
+                while (unitspawn <= 6)
+                {
+                    yield return new WaitForSeconds(0.5f);
+                    flip *= -1;
+                    spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y , kingPoint.z + (10 * (playerid == PLAYERID ? 1: -1)));
+                    localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.CAVALRY , UnitMeta.UnitType.CAVALRY.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
+                    offset += 2;
+                    unitspawn++;
+                }
+                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.CAVALRY, playerid);
+                //yield return new WaitForSeconds(4f);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.HERO, playerid);
+                TryTB((int)BehaviorSelectionType.Attack, UnitMeta.UnitType.KING, playerid);
+
+                break;
+            case TaticalAttack.ARROWRAIN:
+                TaticalAttackCurrent[playerid] = TaticalAttack.ARROWRAIN;
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.ARCHER].ToString()];
+                TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.ARCHER, playerid);
+                unitTactical[playerid][UnitMeta.UnitType.ARCHER] = BehaviorSelectionType.Hold;
+                while (unitspawn <= 12)
+                {
+                    yield return new WaitForSeconds(1f);
+                    flip *= -1;
+                    spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y, kingPoint.z + 10);
+                    localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.ARCHER.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
+                    offset += 1;
+                    unitspawn++;
+                }
+                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.ARCHER, playerid);
+                break;
+            case TaticalAttack.ABSOLUTEDEFENSE:
+                TaticalAttackCurrent[playerid] = TaticalAttack.ABSOLUTEDEFENSE;
+                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TANK].ToString()];
+                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK, playerid);
+                unitTactical[playerid][UnitMeta.UnitType.TANK] = BehaviorSelectionType.Defend;
+                while (unitspawn <= 5)
+                {
+                    yield return new WaitForSeconds(1f);
+                    localFactory.CmdSpawnUnitPosition(StaticClass.playerRace, UnitMeta.UnitType.TANK, 2, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor(), UnitMeta.UnitType.FOOTMAN);
+                    unitspawn++;
+                }
+                TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK, playerid);
+                break;
+            default:
+                break;
+        }
+        yield return null;
+    }
     public void AllUnitCommand(int type)
     {
         BehaviorSelectionType behaviorType = BehaviorSelectionType.Attack;
@@ -486,44 +638,6 @@ public class TacticalBehavior : MonoBehaviour
             LeaderTacticalType(PLAYERID, leaderid, behaviorType);
             SelectionChanged(PLAYERID, leaderid);
         }
-    }
-    void AttackOnlyUnit(int playerid, int enemyID)
-    {
-        int leaderUnitTypeID = 99;
-        for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
-        {
-            var child = PlayerEnemyGroup[playerid].transform.GetChild(j);
-            if (child.GetComponent<Unit>().unitType == UnitMeta.UnitType.FOOTMAN) // ATTACK ONLY , cannot go back base
-            {
-                var agentTrees = child.GetComponents<BehaviorTree>();
-                for (int k = 0; k < agentTrees.Length; ++k)
-                {
-                    var group = agentTrees[k].Group;
-                    if (group != 0 || group != 3 ) { continue; }
-
-                    agentTrees[k].SetVariableValue("newTargetName", "Player" + enemyID);
-                    if(j == 0)
-                        leaders[playerid].Add(leaderUnitTypeID, child.gameObject);
-                    agentTrees[k].SetVariableValue("newLeader", (j == 0) ? child.gameObject : null );
-
-                    List<BehaviorTree> groupBehaviorTrees;
-                    Dictionary<int, List<BehaviorTree>> leaderBehaviorTrees;
-                    if (!behaviorTreeGroups[playerid].TryGetValue(leaderUnitTypeID, out leaderBehaviorTrees))
-                    {
-                        leaderBehaviorTrees = new Dictionary<int, List<BehaviorTree>>();
-                        behaviorTreeGroups[playerid].Add(leaderUnitTypeID, leaderBehaviorTrees);
-                    }
-                    if (!behaviorTreeGroups[playerid][leaderUnitTypeID].TryGetValue(group, out groupBehaviorTrees))
-                    {
-                        groupBehaviorTrees = new List<BehaviorTree>();
-                        leaderBehaviorTrees.Add(group, groupBehaviorTrees);
-                    }
-                    groupBehaviorTrees.Add(agentTrees[k]);
-
-                }
-            }
-        }
-        LeaderTacticalType(playerid, leaderUnitTypeID, BehaviorSelectionType.Attack );
     }
     
     public void SetKingBoss(int enemyid, GameObject boss)

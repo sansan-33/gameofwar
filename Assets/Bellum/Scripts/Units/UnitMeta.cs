@@ -23,7 +23,7 @@ public class UnitMeta
                         ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL, UNDEADQUEEN,ELFQUEEN,MULAN
                         };
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, HERO, KING, ALL };
-    public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING };
+    public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
@@ -265,7 +265,7 @@ public class UnitMeta
         { UnitType.ARCHER, UnitSkill.NOTHING } ,
         { UnitType.MAGIC, UnitSkill.TORNADO} ,
         { UnitType.CAVALRY, UnitSkill.DASH } ,
-        { UnitType.FOOTMAN, UnitSkill.SNEAK },
+        { UnitType.FOOTMAN, UnitSkill.NOTHING },
         { UnitType.TANK, UnitSkill.SHIELD }
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillTwo = new Dictionary<UnitType, UnitSkill>()
@@ -273,7 +273,7 @@ public class UnitMeta
         { UnitType.ARCHER, UnitSkill.VOLLEY } ,
         { UnitType.MAGIC, UnitSkill.HEAL} ,
         { UnitType.CAVALRY, UnitSkill.DASH } ,
-        { UnitType.FOOTMAN, UnitSkill.SCALE },
+        { UnitType.FOOTMAN, UnitSkill.SNEAK },
         { UnitType.TANK, UnitSkill.PROVOKE }
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillThree = new Dictionary<UnitType, UnitSkill>()
@@ -281,7 +281,7 @@ public class UnitMeta
         { UnitType.ARCHER, UnitSkill.SLOW } ,
         { UnitType.MAGIC, UnitSkill.TORNADO} ,
         { UnitType.CAVALRY, UnitSkill.CHARGE } ,
-        { UnitType.FOOTMAN, UnitSkill.SNEAK },
+        { UnitType.FOOTMAN, UnitSkill.SCALE },
         { UnitType.TANK, UnitSkill.SHIELD }
     };
     public static Dictionary<int, Dictionary<UnitType, UnitSkill>> UnitStarSkill = new Dictionary<int, Dictionary<UnitType, UnitSkill>>()

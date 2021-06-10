@@ -28,7 +28,6 @@ public class SpawnEnemies : MonoBehaviour
             RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
             enemyID = player.GetEnemyID();
             playerID = player.GetPlayerID();
-            teamColor = player.GetTeamColor();
             teamColor = player.GetTeamEnemyColor();
             StartCoroutine(GetUserCard("-1",""));
             GameStartDisplay.ServerGameStart += LoadEnemies;
@@ -58,7 +57,6 @@ public class SpawnEnemies : MonoBehaviour
         CardStats cardStats;
         UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
 
-        while (!ISGAMEOVER) {
             if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
             {
                 Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
@@ -71,6 +69,8 @@ public class SpawnEnemies : MonoBehaviour
                 cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.HERO].ToString()];
                 localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.HERO, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
             }
+        while (!ISGAMEOVER)
+        {
 
             if (isUnitAlive(UnitMeta.UnitType.TANK) < 0)
             {

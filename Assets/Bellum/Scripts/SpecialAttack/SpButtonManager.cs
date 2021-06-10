@@ -91,12 +91,14 @@ public class SpButtonManager : MonoBehaviour
                //Debug.Log($"one player mode {unit.tag}");
                 if (unit.CompareTag("Player0") || unit.CompareTag("King0"))
                 {
-                    
+                    if (unit.specialkey != "")
+                    {
                         SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());
                         // Debug.Log($"1 player mode specialAttackType: {specialAttackType}, SpecialAttackPrefab[specialAttackType]: {SpecialAttackPrefab[specialAttackType]}");
                         GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
                         //Debug.Log($"1 player mode specialAttack: {specialAttack}");
                         InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, false);
+                    }
                     
                 }
                 else

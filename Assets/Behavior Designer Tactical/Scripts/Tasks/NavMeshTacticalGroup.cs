@@ -42,6 +42,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override bool HasArrived()
             {
+                if (unit == null) { return false; }
                 return unit.GetUnitMovement().hasArrived();
             }
 

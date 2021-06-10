@@ -160,13 +160,22 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 else
                 {
-                    var foundAttackGroup = GameObject.FindGameObjectsWithTag(targetTag.Value);
-                    for (int i = 0; i < foundAttackGroup.Length; ++i)
-                    {
-                        var damageable = (foundAttackGroup[i].GetComponentInParent(typeof(IDamageable)) as IDamageable);
-                        if (damageable != null)
+                    List<string> targets = new List<string>();
+                    targets.Add(targetTag.Value);
+                    if (targetTag.Value.Contains("Provoke"))
+                        targets.Add("Player" + targetTag.Value.Substring(targetTag.Value.Length - 1));
+                    else
+                        targets.Add("Provoke" + targetTag.Value.Substring(targetTag.Value.Length - 1));
+
+                    foreach (string taregt in targets) { 
+                        var foundAttackGroup = GameObject.FindGameObjectsWithTag(taregt);
+                        for (int i = 0; i < foundAttackGroup.Length; ++i)
                         {
-                            AddTarget(foundAttackGroup[i].transform, damageable);
+                            var damageable = (foundAttackGroup[i].GetComponentInParent(typeof(IDamageable)) as IDamageable);
+                            if (damageable != null)
+                            {
+                                AddTarget(foundAttackGroup[i].transform, damageable);
+                            }
                         }
                     }
                 }

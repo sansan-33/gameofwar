@@ -48,7 +48,8 @@ public class FirebaseManager : MonoBehaviour
         { "192.168.2.181", new string []{"jack.33.wong@gmail.com","123456" } },
         { "192.168.2.16", new string[] { "leonard.11.wong@gmail.com", "sw63qd" } },
         { "192.168.2.136", new string[] { "louis.10.wong@gmail.com", "no name" } },
-        { "192.168.2.11", new string[] { "antheayip@gmail.com", "123456" } }
+        { "192.168.2.11", new string[] { "antheayip@gmail.com", "123456" } },
+        { "192.168.2.147", new string[] { "levi.03.wong@gmail.com", "sweetcorn" } }
     };
 
     public void HandleSignUp()

@@ -26,6 +26,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject undeadArcherPrefab = null;
     [SerializeField] private GameObject undeadKingPrefab = null;
     [SerializeField] private GameObject undeadLichPrefab = null;
+    [SerializeField] private GameObject undeadWallPrefab = null;
 
     // god
     [SerializeField] private GameObject godarcherPrefab = null;
@@ -87,6 +88,15 @@ public class UnitFactory : NetworkBehaviour
         Vector3 spawnPosition = spawnPointObject.transform.position;
 
         StartCoroutine(ServerSpwanUnit(playerID, spawnPosition, unitDict[unitKey], UnitMeta.KeyType[unitKey].ToString(), unitsize, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, star, teamColor, unitRotation, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
+    }
+    [Command]
+    public void CmdSpawnUnitPosition(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID, int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor, UnitMeta.UnitType spawnUnitType)
+    {
+        if (!UnitMeta.UnitSize.TryGetValue(unitType, out int unitsize)) { unitsize = 1; }
+
+        GameObject spawnPointObject = gameBoardHandlerPrefab.GetSpawnPointObject(spawnUnitType, playerID);
+        Vector3 spawnPosition = spawnPointObject.transform.position;
+        StartCoroutine(ServerSpwanUnit(playerID, spawnPosition, unitDict[UnitMeta.UnitRaceTypeKey[race][unitType]], unitType.ToString(), unitsize, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, star, teamColor, Quaternion.identity, spawnPointObject.GetComponent<SpawnPoint>().spawnPointIndex));
     }
     [Command]
     public void CmdSpawnUnitRotation(UnitMeta.Race race, UnitMeta.UnitType unitType, int star, int playerID,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor,  Quaternion unitRotation)
@@ -151,6 +161,7 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.GIANT, giantPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADHERO, undeadHeroPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADARCHER, undeadArcherPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADWALL, undeadWallPrefab);
         unitDict.Add(UnitMeta.UnitKey.RIDER, riderPrefab);
         unitDict.Add(UnitMeta.UnitKey.LICH, undeadLichPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADKING, undeadKingPrefab);

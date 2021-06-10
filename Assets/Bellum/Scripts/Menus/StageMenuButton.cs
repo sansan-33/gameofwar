@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 public class StageMenuButton : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] public string chapter = null;
+    [SerializeField] public GameObject missionContentParent = null;
     public static event Action<int> TabClicked;
 
     public void OnPointerClick(PointerEventData eventData)
@@ -22,6 +23,11 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
         }
         this.transform.GetChild(0).gameObject.SetActive(true);
         TabClicked?.Invoke(chapterIndex);
+        MissionButton[] missions = missionContentParent.GetComponentsInChildren<MissionButton>();
+        for(int i=1; i < missions.Length; i++ )
+        {
+            missions[i].desc.text = GamePlayMeta.ArenaLevelTextDict[StaticClass.Chapter + "-" + i];
+        }
     }
 }
 

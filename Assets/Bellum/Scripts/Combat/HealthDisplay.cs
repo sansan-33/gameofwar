@@ -26,7 +26,10 @@ public class HealthDisplay : MonoBehaviour
     private void Awake()
     {
         health.ClientOnHealthUpdated += HandleHealthUpdated;
-        healthBarParent.SetActive(false);
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO)
+            healthBarParent.SetActive(true);
+        else
+            healthBarParent.SetActive(false);
         startRotation = healthBarParent.transform.rotation;
     }
     void Update()

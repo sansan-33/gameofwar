@@ -14,6 +14,7 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public TMP_Text raceText;
     [SerializeField] public TMP_Text leveluprequirementText;
     [SerializeField] public TMP_Text nameText;
+    [SerializeField] public TMP_Text rarityText;
     [Header("Card Statistic")]
     [SerializeField] public TMP_Text healthValue;
     [SerializeField] public TMP_Text attackValue;
@@ -87,6 +88,7 @@ public class HeroMenu : MonoBehaviour
             expText.text = jsonResult[0]["exp"];
             leveluprequirementText.text = jsonResult[0]["leveluprequirement"];
             nameText.text = jsonResult[0]["cardkey"];
+            rarityText.text = jsonResult[0]["rarity"];
             raceText.text = jsonResult[0]["race"];
             if (float.TryParse(jsonResult[0]["exp"], out float cardexp) && float.TryParse(jsonResult[0]["leveluprequirement"], out float cardleveluprequirement))
             {
@@ -98,6 +100,7 @@ public class HeroMenu : MonoBehaviour
 
             Vector3 unitPos = unitBodyParent.gameObject.transform.position;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[0]["cardkey"]);
+            Debug.Log($"Hero Menu unitKey:{unitKey} / cardkey: {jsonResult[0]["cardkey"]} ");
             GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
             if (unitBody == null) {
                 unitBody = Instantiate(unitPrefab.transform.Find("Body"));

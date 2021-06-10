@@ -12,7 +12,8 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 {
 	// If true, deactivate the object instead of destroying it
 	public bool OnlyDeactivate;
-	
+	public float aliveTime=0.5f;
+
 	void OnEnable()
 	{
 		StartCoroutine("CheckIfAlive");
@@ -24,19 +25,26 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 		
 		while(true && ps != null)
 		{
-			yield return new WaitForSeconds(0.5f);
+			yield return new WaitForSeconds(aliveTime);
+			if (name == "Magic_Impact Red(Clone)")
+			{
+				Debug.Log($"CheckIfAlive {name} {aliveTime}");
+				GameObject.Destroy(this.gameObject);
+				break;
+			}
 			if(!ps.IsAlive(true))
 			{
-				if(OnlyDeactivate)
+				if (OnlyDeactivate)
 				{
 					#if UNITY_3_5
 						this.gameObject.SetActiveRecursively(false);
 					#else
-						this.gameObject.SetActive(false);
+					this.gameObject.SetActive(false);
 					#endif
 				}
 				else
 					GameObject.Destroy(this.gameObject);
+				
 				break;
 			}
 		}

@@ -18,7 +18,7 @@ public class CMFreeLook : NetworkBehaviour
 
     public void ThirdCamera(GameObject main, GameObject enemy)
     {
-
+        if (main == null || enemy == null) { return; }
         Transform tFollowTarget = main.transform;
         Transform tLookAtTarget = enemy.transform;
 
