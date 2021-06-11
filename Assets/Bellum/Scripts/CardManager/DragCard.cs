@@ -92,7 +92,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     }
     private IEnumerator ShiftCard()
     {
-
+        if (GetComponentInParent<Player>() == null) { yield break; } // Buildings cards don't have player hand and card slot
         //Debug.Log($"DragCard.ShiftCard() start IS_HITTED_TIMER:{IS_HITTED_TIMER}");
         if (IS_HITTED_TIMER) {
             // 2021-5-15 Anthea no one turn IS_HITTED_TIMER to false. so can't drag card to other card slot.
