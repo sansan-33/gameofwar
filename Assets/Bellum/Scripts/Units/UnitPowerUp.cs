@@ -214,7 +214,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void ArrowRain()
     {
-        if (gameObject == null) { return; }
+        if (gameObject == null || GetComponent<UnitFiring>() == null || GetComponent<IAttack>() == null) { return; }
         GetComponent<UnitFiring>().SetNumberOfShoot(2);
         GetComponent<IAttack>().ScaleAttackRange(20f);
         //Debug.Log($"{name} ArrowRain");       

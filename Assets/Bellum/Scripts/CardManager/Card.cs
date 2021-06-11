@@ -99,7 +99,7 @@ public class Card : MonoBehaviour
     }
     public void SetCard(CardFace _cardFace)
     {
-        Debug.Log($"calling set card _cardFace.numbers {_cardFace.numbers} stats {_cardFace.stats}");
+        //Debug.Log($"calling set card _cardFace.numbers {_cardFace.numbers} stats {_cardFace.stats}");
         cardFace = new CardFace(_cardFace.suit, _cardFace.numbers, _cardFace.star, _cardFace.stats);
         StartCoroutine(HandleScale());
     }
