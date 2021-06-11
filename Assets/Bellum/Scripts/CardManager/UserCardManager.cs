@@ -35,6 +35,7 @@ public class UserCardManager : MonoBehaviour
         UserCard card;
         foreach (var allCard in allCardDict)
         {
+            //Debug.Log($"Character Art Key : {allCard.Key}  ");
             characterImage = Arts.CharacterArtDictionary[allCard.Key];
             userCard = Instantiate(userCardPrefab);
             userCard.GetComponent<UserCardButton>().characterImage.sprite = characterImage.image ;
@@ -56,7 +57,7 @@ public class UserCardManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().level.text = card.level;
             userCard.GetComponent<UserCardButton>().exp.text = card.exp;
             userCard.GetComponent<UserCardButton>().cardtype = card.unittype;
-            //Debug.Log($"unitTypeArt {unitTypeArt.UnitTypeArtDictionary[card.unittype].type }");
+            //Debug.Log($"unitTypeArt unittype: {card.unittype}  ");
             userCard.GetComponent<UserCardButton>().unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[card.unittype].image;
 
             userCard.transform.Find(card.rarity.ToLower() + "_background").gameObject.SetActive(true);

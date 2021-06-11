@@ -5788,7 +5788,7 @@ RectTransform:
   - {fileID: 436598961}
   - {fileID: 1103261805}
   m_Father: {fileID: 780961529}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -5809,7 +5809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardFace:
     suit: 0
-    numbers: 5
+    numbers: 7
     star: 0
     stats: {fileID: 0}
   cardPlayerHandIndex: 0
@@ -12034,7 +12034,7 @@ RectTransform:
   - {fileID: 1215772932}
   - {fileID: 1077215484}
   m_Father: {fileID: 780961529}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -28528,7 +28528,7 @@ RectTransform:
   - {fileID: 1160444962}
   - {fileID: 1889540720}
   m_Father: {fileID: 780961529}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -28549,7 +28549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardFace:
     suit: 0
-    numbers: 5
+    numbers: 8
     star: 0
     stats: {fileID: 0}
   cardPlayerHandIndex: 0
@@ -32903,12 +32903,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2073914771}
   - {fileID: 298748895}
   - {fileID: 1681273115}
   - {fileID: 162936898}
   - {fileID: 700589447}
   m_Father: {fileID: 1572617668}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -54534,9 +54535,9 @@ MonoBehaviour:
   buttonTower: {fileID: 162936899}
   buttonCatapult: {fileID: 700589448}
   EnemyButtonWall: {fileID: 2073914765}
-  EnemyButtonBarrack: {fileID: 0}
-  EnemyButtonTower: {fileID: 0}
-  EnemyButtonCatapult: {fileID: 0}
+  EnemyButtonBarrack: {fileID: 2073914765}
+  EnemyButtonTower: {fileID: 2073914765}
+  EnemyButtonCatapult: {fileID: 2073914765}
   totalEleixers: {fileID: 1128753618}
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
   spawnEnemyCard: 1
@@ -66775,7 +66776,6 @@ RectTransform:
   m_Children:
   - {fileID: 1968918188}
   - {fileID: 339919796}
-  - {fileID: 2073914771}
   - {fileID: 780961529}
   m_Father: {fileID: 1128753617}
   m_RootOrder: 0
@@ -70638,7 +70638,7 @@ RectTransform:
   - {fileID: 1495659410}
   - {fileID: 1102202854}
   m_Father: {fileID: 780961529}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -70659,7 +70659,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardFace:
     suit: 0
-    numbers: 5
+    numbers: 6
     star: 0
     stats: {fileID: 0}
   cardPlayerHandIndex: 0
@@ -73068,7 +73068,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 138
+  field of view: 50
   orthographic: 1
   orthographic size: 40
   m_Depth: 0
@@ -73135,8 +73135,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745352323}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 36.1, y: 78.100006, z: -113.3}
+  m_LocalRotation: {x: 0, y: -0.9124173, z: 0.40926117, w: 0}
+  m_LocalPosition: {x: 35.5, y: 82.6, z: 37.86}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -85110,8 +85110,8 @@ RectTransform:
   - {fileID: 1671831604}
   - {fileID: 1292946433}
   - {fileID: 31805528}
-  m_Father: {fileID: 1572617668}
-  m_RootOrder: 2
+  m_Father: {fileID: 780961529}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}

@@ -23,7 +23,7 @@ public class UnitMeta
                         ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL, UNDEADQUEEN,ELFQUEEN,MULAN,
                         HUMANTOWER,HUMANBARRACK,HUMANCATAPULT, UNDEADTOWER, UNDEADBARRACK, UNDEADCATAPULT, ELFTOWER, ELFBARRACK, ELFCATAPULT, GODTOWER, GODBARRACK, GODCATAPULT
     };
-    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, HERO, KING, ALL };
+    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
@@ -42,8 +42,10 @@ public class UnitMeta
         { UnitType.HERO, 5 },
         { UnitType.FOOTMAN, 1 },
         { UnitType.MAGIC, 3 },
-        { UnitType.WALL, 1 }
-
+        { UnitType.WALL, 1 },
+        { UnitType.BARRACK, 1 },
+        { UnitType.TOWER, 1 },
+        { UnitType.CATAPULT, 1 }
     };
     
     public static Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType> DefaultUnitTactical = new Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType>()
@@ -65,7 +67,10 @@ public class UnitMeta
         { UnitType.FOOTMAN, UnitPosition.FORWARD },
         { UnitType.HERO, UnitPosition.DEFENDER },
         { UnitType.KING, UnitPosition.GOALIE },
-        { UnitType.WALL, UnitPosition.WALL }
+        { UnitType.WALL, UnitPosition.WALL },
+        { UnitType.BARRACK, UnitPosition.WALL },
+        { UnitType.TOWER, UnitPosition.WALL },
+        { UnitType.CATAPULT, UnitPosition.WALL }
     };
     public static Dictionary<UnitType, UnitKey> HumanTypeKey = new  Dictionary<UnitType, UnitKey>() {
 
@@ -77,7 +82,10 @@ public class UnitMeta
         { UnitType.HERO, UnitKey.HERO },
         //{ UnitType.HERO, UnitKey.MULAN },
         { UnitType.KING, UnitKey.KING },
-        { UnitType.WALL, UnitKey.HUMANWALL }
+        { UnitType.WALL, UnitKey.HUMANWALL },
+        { UnitType.BARRACK, UnitKey.HUMANBARRACK },
+        { UnitType.TOWER, UnitKey.HUMANTOWER },
+        { UnitType.CATAPULT, UnitKey.HUMANCATAPULT }
     };
     public static Dictionary<UnitType, UnitKey> UndeadTypeKey = new Dictionary<UnitType, UnitKey>()
     {
@@ -89,7 +97,10 @@ public class UnitMeta
         { UnitType.HERO, UnitKey.UNDEADHERO },
         //{ UnitType.HERO, UnitKey.UNDEADQUEEN },
         { UnitType.KING, UnitKey.UNDEADKING },
-        { UnitType.WALL, UnitKey.UNDEADWALL }
+        { UnitType.WALL, UnitKey.UNDEADWALL },
+        { UnitType.BARRACK, UnitKey.UNDEADBARRACK },
+        { UnitType.TOWER, UnitKey.UNDEADTOWER },
+        { UnitType.CATAPULT, UnitKey.UNDEADCATAPULT }
     };
     public static Dictionary<UnitType, UnitKey> GodTypeKey = new Dictionary<UnitType, UnitKey>()
     {
@@ -100,7 +111,10 @@ public class UnitMeta
         { UnitType.FOOTMAN, UnitKey.GODSPEARMAN },
         { UnitType.HERO, UnitKey.THOR },
         { UnitType.KING, UnitKey.ODIN },
-        { UnitType.WALL, UnitKey.GODWALL }
+        { UnitType.WALL, UnitKey.GODWALL },
+        { UnitType.BARRACK, UnitKey.GODBARRACK },
+        { UnitType.TOWER, UnitKey.GODTOWER },
+        { UnitType.CATAPULT, UnitKey.GODCATAPULT }
     };
     public static Dictionary<UnitType, UnitKey> ElfTypeKey = new Dictionary<UnitType, UnitKey>()
     {
@@ -112,7 +126,10 @@ public class UnitMeta
         { UnitType.HERO, UnitKey.ELFDEMONHUNTER },
         //{ UnitType.HERO, UnitKey.ELFQUEEN },
         { UnitType.KING, UnitKey.ELFTREEANT },
-        { UnitType.WALL, UnitKey.ELFWALL }
+        { UnitType.WALL, UnitKey.ELFWALL },
+        { UnitType.BARRACK, UnitKey.ELFBARRACK },
+        { UnitType.TOWER, UnitKey.ELFTOWER },
+        { UnitType.CATAPULT, UnitKey.ELFCATAPULT }
     };
     public static Dictionary<Race, Dictionary<UnitType,UnitKey>> UnitRaceTypeKey = new Dictionary<Race, Dictionary<UnitType, UnitKey>>()
     {
@@ -132,6 +149,9 @@ public class UnitMeta
         { UnitKey.MULAN , UnitType.HERO},
         { UnitKey.KING , UnitType.KING },
         { UnitKey.HUMANWALL , UnitType.WALL },
+        { UnitKey.HUMANTOWER , UnitType.TOWER },
+        { UnitKey.HUMANBARRACK , UnitType.BARRACK },
+        { UnitKey.HUMANCATAPULT , UnitType.CATAPULT },
 
         { UnitKey.UNDEADARCHER , UnitType.ARCHER   } ,
         { UnitKey.GIANT , UnitType.TANK  } ,
@@ -142,6 +162,9 @@ public class UnitMeta
         { UnitKey.UNDEADQUEEN , UnitType.HERO  },
         { UnitKey.UNDEADKING , UnitType.KING  },
         { UnitKey.UNDEADWALL , UnitType.WALL },
+        { UnitKey.UNDEADTOWER , UnitType.TOWER },
+        { UnitKey.UNDEADBARRACK , UnitType.BARRACK },
+        { UnitKey.UNDEADCATAPULT , UnitType.CATAPULT },
 
         { UnitKey.GODARCHER , UnitType.ARCHER } ,
         { UnitKey.GODKNIGHT , UnitType.TANK } ,
@@ -152,6 +175,9 @@ public class UnitMeta
         { UnitKey.LOKI , UnitType.HERO},
         { UnitKey.ODIN , UnitType.KING },
         { UnitKey.GODWALL , UnitType.WALL },
+        { UnitKey.GODTOWER , UnitType.TOWER },
+        { UnitKey.GODBARRACK , UnitType.BARRACK },
+        { UnitKey.GODCATAPULT , UnitType.CATAPULT },
 
         { UnitKey.ELFRANGER , UnitType.ARCHER } ,
         { UnitKey.ELFGOLEM , UnitType.TANK } ,
@@ -162,6 +188,10 @@ public class UnitMeta
         { UnitKey.ELFDEMONHUNTER , UnitType.HERO},
         { UnitKey.ELFTREEANT , UnitType.KING },
         { UnitKey.ELFWALL , UnitType.WALL },
+        { UnitKey.ELFTOWER , UnitType.TOWER },
+        { UnitKey.ELFBARRACK , UnitType.BARRACK },
+        { UnitKey.ELFCATAPULT , UnitType.CATAPULT }
+
     };
     public static Dictionary<UnitKey, Race> KeyRace = new Dictionary<UnitKey, Race>() {
 
@@ -174,6 +204,9 @@ public class UnitMeta
         { UnitKey.MULAN , Race.HUMAN},
         { UnitKey.KING , Race.HUMAN },
         { UnitKey.HUMANWALL , Race.HUMAN },
+        { UnitKey.HUMANBARRACK , Race.HUMAN },
+        { UnitKey.HUMANTOWER , Race.HUMAN },
+        { UnitKey.HUMANCATAPULT , Race.HUMAN },
 
         { UnitKey.UNDEADARCHER , Race.UNDEAD  } ,
         { UnitKey.GIANT , Race.UNDEAD  } ,
@@ -184,6 +217,9 @@ public class UnitMeta
         { UnitKey.UNDEADQUEEN , Race.UNDEAD  },
         { UnitKey.UNDEADKING , Race.UNDEAD  },
         { UnitKey.UNDEADWALL , Race.UNDEAD },
+        { UnitKey.UNDEADBARRACK , Race.UNDEAD },
+        { UnitKey.UNDEADTOWER , Race.UNDEAD },
+        { UnitKey.UNDEADCATAPULT , Race.UNDEAD },
 
         { UnitKey.THOR , Race.GOD},
         { UnitKey.LOKI , Race.GOD},
@@ -194,6 +230,10 @@ public class UnitMeta
         { UnitKey.GODMAGE , Race.GOD},
         { UnitKey.GODSPEARMAN , Race.GOD},
         { UnitKey.GODWALL , Race.GOD },
+        { UnitKey.GODBARRACK , Race.GOD },
+        { UnitKey.GODTOWER , Race.GOD },
+        { UnitKey.GODCATAPULT , Race.GOD },
+
 
         { UnitKey.ELFQUEEN , Race.ELF},
         { UnitKey.ELFDEMONHUNTER , Race.ELF},
@@ -203,7 +243,11 @@ public class UnitMeta
         { UnitKey.ELFCAVALRY , Race.ELF} ,
         { UnitKey.ELFMAGE , Race.ELF},
         { UnitKey.ELFFOOTMAN , Race.ELF},
-        { UnitKey.ELFWALL , Race.ELF }
+        { UnitKey.ELFWALL , Race.ELF },
+        { UnitKey.ELFBARRACK , Race.ELF },
+        { UnitKey.ELFTOWER , Race.ELF },
+        { UnitKey.ELFCATAPULT , Race.ELF },
+
     };
     public static Dictionary<UnitKey, bool> CanCollide = new Dictionary<UnitKey, bool>(){
         { UnitKey.CAVALRY,true },

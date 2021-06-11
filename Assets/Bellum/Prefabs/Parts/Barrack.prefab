@@ -1,5 +1,72 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3039455323548418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133252179051372525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  uniqueID: 5233058888566129101
+  updateError: 1
+  checkTime: 0.2
+--- !u!114 &1241105151033404262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133252179051372525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a48b4fe81098f469ba877305cec45e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  resourceCost: 10
+  health: {fileID: 8133252179051372516}
+  astarAI: {fileID: 0}
+  unitPowerUp: {fileID: 7710863585547284647}
+  id: -1
+  taskStatus: {fileID: 0}
+  targeter: {fileID: 0}
+  onSelected:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeselected:
+    m_PersistentCalls:
+      m_Calls: []
+  unitType: 7
+  race: 0
+  unitKey: 37
+  isLeader: 0
+  isScaled: 0
+  spawnPointIndex: 0
+--- !u!114 &7710863585547284647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133252179051372525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4fb6c4bdc464e52b41b1f8d001d429, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  specialEffectPrefab: {fileID: 0}
+  fxEffectPrefab: {fileID: 0}
+  sneakyMaterial: {fileID: 0}
+  canSpawnEffect: 1
 --- !u!1001 &3350190485327674386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17,7 +84,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 870601815868700348, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2078569022099766510, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6818829978409247731, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
       propertyPath: m_AssetId
@@ -71,13 +142,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrack
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6818829978409247729, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+--- !u!1 &8133252179051372525 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6818829978409247743, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+  m_PrefabInstance: {fileID: 3350190485327674386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8133252179051372526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6818829978409247740, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
   m_PrefabInstance: {fileID: 3350190485327674386}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8133252179051372516 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6818829978409247734, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+  m_PrefabInstance: {fileID: 3350190485327674386}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133252179051372525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9720b78f991e38444b22ee6da4435ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5276839816019189589
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -88,6 +176,18 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
       propertyPath: m_LocalPosition.x
@@ -131,7 +231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
       propertyPath: m_Name
-      value: barrack_Lv1
+      value: Body
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36697f50496e945d3a0de3c777543b47, type: 3}
