@@ -231,7 +231,7 @@ public class TacticalBehavior : MonoBehaviour
       
             }
         }
-        //printTB();
+        printTB();
 
         //if (playerid == 0 || ((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
         //{
@@ -489,13 +489,14 @@ public class TacticalBehavior : MonoBehaviour
         foreach (var ids in behaviorTreeGroups)
         {
             sb.Append($"Player Enemy ID {ids.Key} \n");
-            foreach (var leaders in ids.Value)
+            foreach (var _leaders in ids.Value)
             {
-                if (!leaderTacticalType[ids.Key].ContainsKey(leaders.Key))
-                    sb.Append($"\t leader id {leaders.Key} default { unitTactical[ids.Key][ (UnitMeta.UnitType) leaders.Key  ]} (previous default : { unitTactical[ids.Key][(UnitMeta.UnitType)leaders.Key]} )   \n");
+                if (!leaderTacticalType[ids.Key].ContainsKey(_leaders.Key))
+                    sb.Append($"\t leader id { leaders[ids.Key][_leaders.Key].name } default { unitTactical[ids.Key][ (UnitMeta.UnitType) _leaders.Key  ]} (previous default : { unitTactical[ids.Key][(UnitMeta.UnitType)_leaders.Key]} )   \n");
                 else
-                    sb.Append($"\t leader id {leaders.Key} {leaderTacticalType[ids.Key][leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][leaders.Key][1]} )   \n");
-                foreach (var groups in leaders.Value)
+                    sb.Append($"\t leader id {leaders[ids.Key][_leaders.Key].name} {leaderTacticalType[ids.Key][_leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][_leaders.Key][1]} )   \n");
+                /*
+                foreach (var groups in _leaders.Value)
                 {
                     sb.Append($" \t\t group {groups.Key} \n");
                     foreach (var agent in groups.Value)
@@ -503,6 +504,7 @@ public class TacticalBehavior : MonoBehaviour
                         sb.Append($"\t\t\t agent {agent}\n");
                     }
                 }
+                */
             }
         }
         Debug.Log(sb.ToString());

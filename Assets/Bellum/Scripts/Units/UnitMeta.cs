@@ -28,7 +28,7 @@ public class UnitMeta
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
-    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON};
+    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER};
      
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitKey, bool> UnitKeyRider = new Dictionary<UnitKey, bool>() { { UnitKey.CAVALRY, true }, { UnitKey.GODCAVALRY, true }, { UnitKey.RIDER, true }, { UnitKey.ELFCAVALRY, true } };
@@ -275,7 +275,7 @@ public class UnitMeta
         { UnitKey.KING , WeaponType.SHSWORD },
         { UnitKey.HUMANWALL , WeaponType.NOTHING },
         { UnitKey.HUMANTOWER , WeaponType.NOTHING },
-        { UnitKey.HUMANBARRACK , WeaponType.NOTHING },
+        { UnitKey.HUMANBARRACK , WeaponType.SPAWNER },
         { UnitKey.HUMANCATAPULT , WeaponType.CANNON },
 
         { UnitKey.UNDEADARCHER , WeaponType.BOW  } ,
@@ -288,7 +288,7 @@ public class UnitMeta
         { UnitKey.UNDEADKING , WeaponType.SHSWORD  },
         { UnitKey.UNDEADWALL , WeaponType.NOTHING },
         { UnitKey.UNDEADTOWER , WeaponType.NOTHING },
-        { UnitKey.UNDEADBARRACK , WeaponType.NOTHING },
+        { UnitKey.UNDEADBARRACK , WeaponType.SPAWNER },
         { UnitKey.UNDEADCATAPULT , WeaponType.CANNON },
 
         { UnitKey.THOR , WeaponType.HAMMER},
@@ -301,7 +301,7 @@ public class UnitMeta
         { UnitKey.GODSPEARMAN , WeaponType.SHSWORD},
         { UnitKey.GODWALL , WeaponType.NOTHING },
         { UnitKey.GODTOWER , WeaponType.NOTHING },
-        { UnitKey.GODBARRACK , WeaponType.NOTHING },
+        { UnitKey.GODBARRACK , WeaponType.SPAWNER },
         { UnitKey.GODCATAPULT , WeaponType.CANNON },
 
         { UnitKey.ELFRANGER , WeaponType.BOW  } ,
@@ -314,7 +314,7 @@ public class UnitMeta
         { UnitKey.ELFTREEANT , WeaponType.PUNCH },
         { UnitKey.ELFWALL , WeaponType.NOTHING },
         { UnitKey.ELFTOWER , WeaponType.NOTHING },
-        { UnitKey.ELFBARRACK , WeaponType.NOTHING },
+        { UnitKey.ELFBARRACK , WeaponType.SPAWNER },
         { UnitKey.ELFCATAPULT , WeaponType.CANNON }
 
     };
