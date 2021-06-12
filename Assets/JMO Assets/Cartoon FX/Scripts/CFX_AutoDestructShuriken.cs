@@ -28,7 +28,7 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 			yield return new WaitForSeconds(aliveTime);
 			if (name == "Magic_Impact Red(Clone)")
 			{
-				Debug.Log($"CheckIfAlive {name} {aliveTime}");
+				//Debug.Log($"CheckIfAlive {name} {aliveTime}");
 				GameObject.Destroy(this.gameObject);
 				break;
 			}

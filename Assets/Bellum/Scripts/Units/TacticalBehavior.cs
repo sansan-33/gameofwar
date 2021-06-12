@@ -491,10 +491,13 @@ public class TacticalBehavior : MonoBehaviour
             sb.Append($"Player Enemy ID {ids.Key} \n");
             foreach (var _leaders in ids.Value)
             {
-                if (!leaderTacticalType[ids.Key].ContainsKey(_leaders.Key))
-                    sb.Append($"\t leader id { leaders[ids.Key][_leaders.Key].name } default { unitTactical[ids.Key][ (UnitMeta.UnitType) _leaders.Key  ]} (previous default : { unitTactical[ids.Key][(UnitMeta.UnitType)_leaders.Key]} )   \n");
-                else
-                    sb.Append($"\t leader id {leaders[ids.Key][_leaders.Key].name} {leaderTacticalType[ids.Key][_leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][_leaders.Key][1]} )   \n");
+                if (leaders[ids.Key].ContainsKey(_leaders.Key))
+                {
+                    if (!leaderTacticalType[ids.Key].ContainsKey(_leaders.Key))
+                        sb.Append($"\t leader id { leaders[ids.Key][_leaders.Key].name } default { unitTactical[ids.Key][(UnitMeta.UnitType)_leaders.Key]} (previous default : { unitTactical[ids.Key][(UnitMeta.UnitType)_leaders.Key]} )   \n");
+                    else
+                        sb.Append($"\t leader id {leaders[ids.Key][_leaders.Key].name} {leaderTacticalType[ids.Key][_leaders.Key][0]} (previous : {leaderTacticalType[ids.Key][_leaders.Key][1]} )   \n");
+                }
                 /*
                 foreach (var groups in _leaders.Value)
                 {
@@ -597,14 +600,14 @@ public class TacticalBehavior : MonoBehaviour
                 unitTactical[playerid][UnitMeta.UnitType.ARCHER] = BehaviorSelectionType.Hold;
                 while (unitspawn <= 12)
                 {
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(.5f);
                     flip *= -1;
                     spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y, kingPoint.z + 10);
                     localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.ARCHER.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
                     offset += 1;
                     unitspawn++;
                 }
-                TryTB((int)BehaviorSelectionType.Charge, UnitMeta.UnitType.ARCHER, playerid);
+                TryTB((int)BehaviorSelectionType.Attack , UnitMeta.UnitType.ARCHER, playerid);
                 break;
             case TaticalAttack.ABSOLUTEDEFENSE:
                 TaticalAttackCurrent[playerid] = TaticalAttack.ABSOLUTEDEFENSE;
@@ -613,7 +616,7 @@ public class TacticalBehavior : MonoBehaviour
                 unitTactical[playerid][UnitMeta.UnitType.TANK] = BehaviorSelectionType.Defend;
                 while (unitspawn <= 5)
                 {
-                    yield return new WaitForSeconds(1f);
+                    yield return new WaitForSeconds(.5f);
                     localFactory.CmdSpawnUnitPosition(StaticClass.playerRace, UnitMeta.UnitType.TANK, 2, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor(), UnitMeta.UnitType.FOOTMAN);
                     unitspawn++;
                 }
