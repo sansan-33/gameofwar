@@ -20,8 +20,8 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] public GameObject slashPrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
-   
 
+    public int EnemyButtonOffSet;
     public int buttonOffSet;
     public RectTransform FirstCardPos;
     public RectTransform enemyFirstCardPos;
@@ -200,9 +200,11 @@ public class SpButtonManager : MonoBehaviour
         if(enemySpawn == true)
         {
             button.GetComponent<RectTransform>().SetAnchor(AnchorPresets.TopCenter);
+            button.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            Debug.Log($"size{button.GetComponent<RectTransform>().localScale}");
         }
         button.GetComponent<RectTransform>().anchoredPosition = !enemySpawn ? new Vector3(FirstCardPos.anchoredPosition.x + buttonOffSet * buttonCount, FirstCardPos.anchoredPosition.y, 0) :
-        new Vector3(enemyFirstCardPos.anchoredPosition.x + buttonOffSet * enemybuttonCount, enemyFirstCardPos.anchoredPosition.y, 0);
+        new Vector3(enemyFirstCardPos.anchoredPosition.x + EnemyButtonOffSet * enemybuttonCount, enemyFirstCardPos.anchoredPosition.y, 0);
         
         buttonChild = button.transform.Find("mask").gameObject;
         buttonChild.transform.GetChild(0).GetComponent<Image>().sprite = characterImage.image;

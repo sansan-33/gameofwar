@@ -138,9 +138,9 @@ public class EnemyAI : MonoBehaviour
     }
     private void Rage(Unit unit)
     {
-        //Debug.Log($"tag == {unit.tag} type = {unit.unitType} use T {usedTatical}");
+        Debug.Log($"tag == {unit.tag} type = {unit.unitType} use T {usedTatical}");
         //Need to change Tag;
-        if (unit.CompareTag("Untagged") && unit.unitType == UnitMeta.UnitType.HERO  && usedTatical == false)
+        if (unit.CompareTag("Die1") && unit.unitType == UnitMeta.UnitType.HERO  && usedTatical == false)
         {
             if (chapter >= 4 && mission >= 3)
             {
