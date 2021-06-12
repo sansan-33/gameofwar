@@ -200,24 +200,34 @@ public class Player : MonoBehaviour
             //Debug.Log($"inside MoveCardTo() if (cardTransform != null) cardTransform.position:{cardTransform.position}");
         }
         //Debug.Log($"+++++ Player.MoveCardTo() call mergeCard()");
-        yield return mergeCard();
         if (isEnemy == true)
         {
             enemyCardDealer.SetCards(card);
         }
+        yield return mergeCard();
+        
     }
 
     public void moveCard(int index, bool isShiftCard = true)
     {
-        //Debug.Log($"Player.moveCard() index:{index} isShiftCard:{isShiftCard} ");
+        //Debug.Log($"Player.moveCard() isEnemy:{isEnemy} Remove:{playerHand[0][index]} {enemyCardDealer.cards.IndexOf(playerHand[0][index])}");
+       
+        if (isEnemy == true)
+        {
+            int b = enemyCardDealer.cards.IndexOf(playerHand[0][index]);
+            enemyCardDealer.cards.RemoveAt(b);
+        }
+        
         if (playerHand[0].Count > 0)
         {
             //playerHand[0][index].destroy();
+            
             playerHand[0][index].enemyCard = false;
             CardRemoved?.Invoke(playerHand[0][index]);
             playerHand[0].RemoveAt(index);
+            
         }
-
+        
         if (!isShiftCard) { return; }
         int i = 0;
         

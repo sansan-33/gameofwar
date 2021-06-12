@@ -486,8 +486,8 @@ public class EnemyAI : MonoBehaviour
             cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamEnemyColor() , Quaternion.identity);
         card.enemyCard = false;
         card.ResetScale();
+        //cards.Remove(card);
         enemyPlayer.moveCard(card.cardPlayerHandIndex);
-        cards.Remove(card);
         cardDealer.Hit(true);
 
         // }
@@ -597,10 +597,13 @@ public class EnemyAI : MonoBehaviour
         }
         yield return null;
     }
-
+    public void RemoveCard(Card card)
+    {
+        cards.Remove(card);
+    }
     private void Update()
     {
-        
+       // Debug.Log(cards.Count);
     }
 }
 
