@@ -67,7 +67,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         while (i < hitColliders.Length)
         {
             other = hitColliders[i++];
-            if (other != null && other.tag == "Wall") { break; } // Hit wall just break the loop and wait for next attack
+            if (other != null && other.tag.Contains("Building") ) { break; } // Hit wall just break the loop and wait for next attack
             if (other == null || !other.GetComponent<Health>().IsAlive()) { continue; }
             //((RTSNetworkManager)NetworkManager.singleton).Players
             isFlipped = false;
