@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 7463714911135527950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneId: 0
   serverOnly: 0
+  visible: 0
   m_AssetId: 
   hasSpawned: 0
 --- !u!33 &7463714911135527949
@@ -131,11 +132,14 @@ MonoBehaviour:
   syncInterval: 0.1
   rb: {fileID: 2181674515776115725}
   damageToDeals: 40
+  damageToDealOriginal: 0
   destroyAfterSeconds: 5
   launchForce: 10
-  textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   unitType: 
+  specialEffectPrefab: {fileID: 0}
+  element: 0
+  textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
 --- !u!54 &2181674515776115725
 Rigidbody:
   m_ObjectHideFlags: 0

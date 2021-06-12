@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using BehaviorDesigner.Runtime.Tactical;
 using System;
+using System.Linq;
 
 public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 {
@@ -26,19 +27,63 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     public float attackAngle;
     // The number of arrows per shoot
     public int numShots=1;
-
-
+    public bool AUTOFIRE = false;
+    RTSPlayer rtsPlayer;
     // The last time the agent attacked
     private float lastAttackTime;
     private void Start()
     {
         UnitProjectile.onKilled += OnHandleKilled;
         UnitProjectile.onKilled += RpcOnHandleKilled;
+        rtsPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        
+        if (AUTOFIRE) StartCoroutine(autoFire());
     }
     private void OnDestroy()
     {
         UnitProjectile.onKilled -= OnHandleKilled;
         UnitProjectile.onKilled -= RpcOnHandleKilled;
+    }
+
+    IEnumerator autoFire()
+    {
+        yield return new WaitForSeconds(1f);
+        Attack(ClosestTarget());
+        yield return null;
+    }
+    protected Vector3 ClosestTarget()
+    {
+        Transform targetTransform = null ;
+        var distance = float.MaxValue;
+        var localDistance = 0f;
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + rtsPlayer.GetEnemyID() );
+        GameObject king = GameObject.FindGameObjectWithTag("King" + rtsPlayer.GetEnemyID());
+        GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + rtsPlayer.GetEnemyID());
+        GameObject[] sneakyFootman = GameObject.FindGameObjectsWithTag("Sneaky" + rtsPlayer.GetEnemyID());
+        List<GameObject> targets = new List<GameObject>();
+        targets = units.ToList();
+        if (king != null)
+            targets.Add(king);
+        if (provokeTanks != null && provokeTanks.Length > 0)
+            targets.AddRange(provokeTanks.ToList());
+        if (sneakyFootman != null && sneakyFootman.Length > 0)
+            targets.AddRange(sneakyFootman.ToList());
+        for (int i = targets.Count - 1; i > -1; --i)
+        {
+            if (targets[i].GetComponent<Health>().IsAlive())
+            {
+                if ((localDistance = (targets[i].transform.position - this.transform.position).sqrMagnitude) - targets[i].transform.GetComponent<BoxCollider>().size.sqrMagnitude < distance)
+                {
+                    distance = localDistance;
+                    targetTransform = targets[i].transform;
+                }
+            }
+            else
+            {
+                targets.RemoveAt(i);
+            }
+        }
+        return targetTransform.position;
     }
     [Server]
     private void FireProjectile(Vector3 targetPosition)

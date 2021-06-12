@@ -28,7 +28,7 @@ public class UnitMeta
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
-    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING};
+    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON};
      
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 3 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitKey, bool> UnitKeyRider = new Dictionary<UnitKey, bool>() { { UnitKey.CAVALRY, true }, { UnitKey.GODCAVALRY, true }, { UnitKey.RIDER, true }, { UnitKey.ELFCAVALRY, true } };
@@ -274,6 +274,9 @@ public class UnitMeta
         { UnitKey.HERO , WeaponType.SHSWORD},
         { UnitKey.KING , WeaponType.SHSWORD },
         { UnitKey.HUMANWALL , WeaponType.NOTHING },
+        { UnitKey.HUMANTOWER , WeaponType.NOTHING },
+        { UnitKey.HUMANBARRACK , WeaponType.NOTHING },
+        { UnitKey.HUMANCATAPULT , WeaponType.CANNON },
 
         { UnitKey.UNDEADARCHER , WeaponType.BOW  } ,
         { UnitKey.GIANT , WeaponType.AXE  } ,
@@ -284,6 +287,9 @@ public class UnitMeta
         { UnitKey.UNDEADHERO , WeaponType.SHSWORD  },
         { UnitKey.UNDEADKING , WeaponType.SHSWORD  },
         { UnitKey.UNDEADWALL , WeaponType.NOTHING },
+        { UnitKey.UNDEADTOWER , WeaponType.NOTHING },
+        { UnitKey.UNDEADBARRACK , WeaponType.NOTHING },
+        { UnitKey.UNDEADCATAPULT , WeaponType.CANNON },
 
         { UnitKey.THOR , WeaponType.HAMMER},
         { UnitKey.LOKI , WeaponType.DAGGER},
@@ -294,6 +300,9 @@ public class UnitMeta
         { UnitKey.GODMAGE , WeaponType.SPELL},
         { UnitKey.GODSPEARMAN , WeaponType.SHSWORD},
         { UnitKey.GODWALL , WeaponType.NOTHING },
+        { UnitKey.GODTOWER , WeaponType.NOTHING },
+        { UnitKey.GODBARRACK , WeaponType.NOTHING },
+        { UnitKey.GODCATAPULT , WeaponType.CANNON },
 
         { UnitKey.ELFRANGER , WeaponType.BOW  } ,
         { UnitKey.ELFGOLEM , WeaponType.PUNCH } ,
@@ -303,7 +312,11 @@ public class UnitMeta
         { UnitKey.ELFFOOTMAN , WeaponType.AXE },
         { UnitKey.ELFDEMONHUNTER , WeaponType.AXE },
         { UnitKey.ELFTREEANT , WeaponType.PUNCH },
-        { UnitKey.ELFWALL , WeaponType.NOTHING }
+        { UnitKey.ELFWALL , WeaponType.NOTHING },
+        { UnitKey.ELFTOWER , WeaponType.NOTHING },
+        { UnitKey.ELFBARRACK , WeaponType.NOTHING },
+        { UnitKey.ELFCATAPULT , WeaponType.CANNON }
+
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillOne = new Dictionary<UnitType, UnitSkill>()
     {
@@ -334,5 +347,9 @@ public class UnitMeta
         {1 , UnitTypeSkillOne },
         {2 , UnitTypeSkillTwo },
         {3 , UnitTypeSkillThree } 
+    };
+
+    public static HashSet<UnitType> IsBuilding = new HashSet<UnitType>()
+    {
     };
 }
