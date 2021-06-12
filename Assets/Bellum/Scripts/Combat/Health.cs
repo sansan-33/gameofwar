@@ -124,7 +124,7 @@ public class Health : NetworkBehaviour, IDamageable
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
         {
             HeroOrKingOnDie?.Invoke(tag);
-            GetComponent<UnitPowerUp>().SetTag("Untagged");
+            GetComponent<UnitPowerUp>().SetTag("Die" + tag.Substring(tag.Length - 1));
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DIE);
             yield return new WaitForSeconds(3f);
         }

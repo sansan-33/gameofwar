@@ -143,8 +143,11 @@ public class UnitFactory : NetworkBehaviour
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
             //Debug.Log($"Unit {unitName} Spawn position {spawnPosition} + spawnOffset  {spawnOffset} = unit position {spawnPosition + spawnOffset}");
             NetworkServer.Spawn(unit, connectionToClient);
-            if (unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.WALL && unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.BARRACK
-                && unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.CATAPULT && unit.GetComponent<Unit>().unitType != UnitMeta.UnitType.TOWER)
+            if (UnitMeta.IsBuilding.Contains(unit.GetComponent<Unit>().unitType) )
+            {
+                unit.GetComponent<UnitPowerUp>().SetTag("Building" + playerID);
+            }
+            else
             {
                 unit.GetComponent<UnitPowerUp>().PowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
             }
