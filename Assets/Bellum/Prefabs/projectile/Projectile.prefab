@@ -132,12 +132,12 @@ MonoBehaviour:
   syncInterval: 0.1
   rb: {fileID: 2181674515776115725}
   damageToDeals: 40
-  damageToDealOriginal: 0
+  damageToDealOriginal: 10
   destroyAfterSeconds: 5
   launchForce: 10
   camPrefab: {fileID: 1434666941670536975, guid: d482d6539d9c6472e83a38c9c0fa768e, type: 3}
   unitType: 
-  specialEffectPrefab: {fileID: 0}
+  specialEffectPrefab: {fileID: 1750940742320366, guid: 046975e2ebaa94864b46e295cba599bd, type: 3}
   element: 0
   textPrefab: {fileID: 6724933681066342999, guid: 537d57b273642444ca18019397d32619, type: 3}
 --- !u!54 &2181674515776115725
@@ -151,7 +151,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

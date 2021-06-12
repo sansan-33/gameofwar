@@ -47,9 +47,12 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 
     IEnumerator autoFire()
     {
-        yield return new WaitForSeconds(1f);
-        Attack(ClosestTarget());
-        yield return null;
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            Attack(ClosestTarget());
+        }
+        //yield return null;
     }
     protected Vector3 ClosestTarget()
     {
@@ -179,12 +182,14 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     }
     public void OnHandleKilled()
     {
+        if (UnitMeta.BuildingUnit.Contains(GetComponent<Unit>().unitType)) { return; }
         GetComponent<HealthDisplay>().HandleKillText(1);
         ScaleDamageDeal(0,0,damageToDealFactor + powerUpFactor);
     }
     [ClientRpc]
     public void RpcOnHandleKilled()
     {
+        if (UnitMeta.BuildingUnit.Contains(GetComponent<Unit>().unitType)) { return; }
         GetComponent<HealthDisplay>().HandleKillText(1);
     }
 
