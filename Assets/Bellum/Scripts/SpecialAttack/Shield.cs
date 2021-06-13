@@ -59,9 +59,9 @@ public class Shield : NetworkBehaviour
             ShieldHealthBar.gameObject.SetActive(false);
             healthBarParent.SetActive(false);
             //Destroy(ShieldHealthBar);
-            //  Debug.Log($"destroy {ShieldEffect}");
-            //Destroy(shield);
-            DestroyImmediate(shield, true);
+            //Debug.Log($"destroy {ShieldEffect}");
+            Destroy(shield);
+            //DestroyImmediate(shield, true);
         }
     }
     // Update is called once per frame
