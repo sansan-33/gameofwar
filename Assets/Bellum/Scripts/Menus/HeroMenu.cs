@@ -95,7 +95,7 @@ public class HeroMenu : MonoBehaviour
                 if (cardexp >= cardleveluprequirement) { CANLEVELUP = true; levelUpButton.image.color = Color.white; }
                 levelSlider.value = cardexp / cardleveluprequirement;
             }
-            characterImage.sprite = characterFullArt.CharacterFullArtDictionary[jsonResult[0]["cardkey"]].image;
+            //characterImage.sprite = characterFullArt.CharacterFullArtDictionary[jsonResult[0]["cardkey"]].image;
             unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[jsonResult[0]["unittype"]].image;
 
             Vector3 unitPos = unitBodyParent.gameObject.transform.position;
