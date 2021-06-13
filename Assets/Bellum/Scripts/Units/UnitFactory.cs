@@ -143,14 +143,14 @@ public class UnitFactory : NetworkBehaviour
             GameObject unit = Instantiate(unitPrefab, spawnPosition + spawnOffset, rotation) as GameObject;
             //Debug.Log($"Unit {unitName} Spawn position {spawnPosition} + spawnOffset  {spawnOffset} = unit position {spawnPosition + spawnOffset}");
             NetworkServer.Spawn(unit, connectionToClient);
-            Debug.Log($"Is Buildings {unit.GetComponent<Unit>().unitType}  ? [{UnitMeta.BuildingUnit.Contains(unit.GetComponent<Unit>().unitType)}]");
-            foreach (var building in UnitMeta.BuildingUnit)
-            {
-                Debug.Log($"Building Unit {building}");
-            }
+            //Debug.Log($"Is Buildings {unit.GetComponent<Unit>().unitType}  ? [{UnitMeta.BuildingUnit.Contains(unit.GetComponent<Unit>().unitType)}]");
+            //foreach (var building in UnitMeta.BuildingUnit)
+            //{
+            //    Debug.Log($"Building Unit {building}");
+            //}
             if (UnitMeta.BuildingUnit.Contains(unit.GetComponent<Unit>().unitType) )
             {
-                Debug.Log($"Is Buildings {unit.GetComponent<Unit>().unitType}");
+                //Debug.Log($"Is Buildings {unit.GetComponent<Unit>().unitType}");
                 unit.GetComponent<UnitPowerUp>().SetTag("Building" + playerID);
             }
             else

@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     private Vector3 heroPos;
     private int mission;
     private int chapter;
+    [SerializeField] private float cardSizeUpFactor = 0.625f;
     [SerializeField] private TacticalBehavior TB;
     [SerializeField] private Transform halfLine;
     [SerializeField] private Card wall;
@@ -138,7 +139,7 @@ public class EnemyAI : MonoBehaviour
     }
     private void Rage(Unit unit)
     {
-        Debug.Log($"tag == {unit.tag} type = {unit.unitType} use T {usedTatical}");
+       // Debug.Log($"tag == {unit.tag} type = {unit.unitType} use T {usedTatical}");
         //Need to change Tag;
         if (unit.CompareTag("Die1") && unit.unitType == UnitMeta.UnitType.HERO  && usedTatical == false)
         {
@@ -238,10 +239,13 @@ public class EnemyAI : MonoBehaviour
         switch (mission)
         {
             case 1:
+                statUpFactor = 1;
                 return unitTypesList;
             case 2:
+                statUpFactor = 1;
                 return unitTypesList2;
             case 3:
+                statUpFactor = 1;
                 return unitTypesList3;
             default:
                 if (localFactory == null) { SetLocalFactory(); }
@@ -319,7 +323,7 @@ public class EnemyAI : MonoBehaviour
             float x = rect.localScale.x;
             float y = rect.localScale.y;
             float z = rect.localScale.z;
-            rect.localScale = new Vector3((float)0.625, (float)0.625, (float)0.625);
+            rect.localScale = new Vector3(cardSizeUpFactor, cardSizeUpFactor, cardSizeUpFactor);
         
        
        // Debug.Log($"Select card {nextCard.cardFace.numbers}");
