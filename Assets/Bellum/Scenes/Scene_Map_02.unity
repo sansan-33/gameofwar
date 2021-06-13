@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16468236, g: 0.34327677, b: 0.47353002, a: 1}
+  m_IndirectSpecularColor: {r: 0.16485308, g: 0.34301975, b: 0.47536376, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8375,22 +8375,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8345797534256068742, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8345797534256068742, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: buttonOffSet
-      value: 250
-      objectReference: {fileID: 0}
-    - target: {fileID: 8345797534256068742, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: spPrefabParent
-      value: 
-      objectReference: {fileID: 230216978}
-    - target: {fileID: 8345797534256068742, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: enemyFirstCardPos
-      value: 
-      objectReference: {fileID: 230216977}
     - target: {fileID: 8345797534256068743, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -8439,50 +8423,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpecialAttackManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8491812323670484686, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8491812324135193630, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137005635777667539, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 153
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137005635777667539, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 152
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137005635777667539, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137005635777667539, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137005635777667539, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 9137005635777667539, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -520
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
---- !u!224 &230216977 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8491812323670484686, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-  m_PrefabInstance: {fileID: 230216976}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &230216978 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8491812324135193630, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
-  m_PrefabInstance: {fileID: 230216976}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &231569920
 GameObject:
   m_ObjectHideFlags: 0

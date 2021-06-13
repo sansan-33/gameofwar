@@ -199,8 +199,8 @@ public class SpButtonManager : MonoBehaviour
         //Set button pos
         if(enemySpawn == true)
         {
-            button.GetComponent<RectTransform>().SetAnchor(AnchorPresets.TopCenter);
-            button.GetComponent<RectTransform>().localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            button.GetComponent<RectTransform>().SetAnchor(AnchorPresets.TopLeft);
+            button.GetComponent<RectTransform>().localScale = new Vector3(0.25f, 0.25f, 0.25f);
             Debug.Log($"size{button.GetComponent<RectTransform>().localScale}");
         }
         button.GetComponent<RectTransform>().anchoredPosition = !enemySpawn ? new Vector3(FirstCardPos.anchoredPosition.x + buttonOffSet * buttonCount, FirstCardPos.anchoredPosition.y, 0) :
