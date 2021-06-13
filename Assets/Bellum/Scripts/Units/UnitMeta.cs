@@ -36,12 +36,12 @@ public class UnitMeta
     public static Dictionary<UnitType, int> UnitSelfDestory = new Dictionary<UnitType, int>() { { UnitType.WALL, 10 }, { UnitType.TOWER, 30 }, { UnitType.CATAPULT, 20 }, { UnitType.BARRACK, 30 } };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
     {
-        { UnitType.ARCHER, 2 },
-        { UnitType.CAVALRY, 3 },
-        { UnitType.TANK, 4 },
+        { UnitType.ARCHER, 3 },
+        { UnitType.CAVALRY, 5 },
+        { UnitType.TANK, 7 },
         { UnitType.HERO, 5 },
-        { UnitType.FOOTMAN, 1 },
-        { UnitType.MAGIC, 3 },
+        { UnitType.FOOTMAN, 2 },
+        { UnitType.MAGIC, 5 },
         { UnitType.WALL, 1 },
         { UnitType.BARRACK, 1 },
         { UnitType.TOWER, 1 },

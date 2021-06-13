@@ -602,7 +602,7 @@ public class TacticalBehavior : MonoBehaviour
                 {
                     yield return new WaitForSeconds(.5f);
                     flip *= -1;
-                    spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y, kingPoint.z + 10);
+                    spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y, kingPoint.z + (10 * (playerid == PLAYERID ? 1 : -1)));
                     localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.ARCHER.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
                     offset += 1;
                     unitspawn++;

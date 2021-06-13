@@ -99,7 +99,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         
             Quaternion projectileRotation = Quaternion.LookRotation(targetPosition - projectileSpawnPoint.position);
-
+          
             Vector3 spawnOffset = UnityEngine.Random.insideUnitSphere * spawnMoveRange * numShots;
             spawnOffset.y = 0;
             spawnOffset.z = 0;

@@ -37,7 +37,9 @@ public class UnitProjectile : NetworkBehaviour
         if (!bTouchingGround && TargetObjectPos != Vector3.zero)
         {
             // update the rotation of the projectile during trajectory motion
-            transform.rotation = Quaternion.LookRotation(rb.velocity) * initialRotation;
+            //transform.rotation = Quaternion.LookRotation(rb.velocity) * initialRotation;
+            transform.rotation = Quaternion.LookRotation(rb.velocity)  ;
+
         }
     }
     public override void OnStartClient()
@@ -60,7 +62,7 @@ public class UnitProjectile : NetworkBehaviour
         float LaunchAngle = 70f;
         float platformOffset = 0f;
         // think of it as top-down view of vectors: 
-        //   we don't care about the y-component(height) of the initial and target position.
+        // we don't care about the y-component(height) of the initial and target position.
         
         Vector3 projectileXZPos = new Vector3(transform.position.x, transform.position.y , transform.position.z);
         Vector3 targetXZPos = new Vector3(TargetObjectPos.x, transform.position.y, TargetObjectPos.z);
