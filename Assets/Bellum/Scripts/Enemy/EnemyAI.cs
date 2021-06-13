@@ -24,6 +24,7 @@ public class EnemyAI : MonoBehaviour
     private Vector3 heroPos;
     private int mission;
     private int chapter;
+    [SerializeField] private float cardSizeUpFactor = 0.625f;
     [SerializeField] private TacticalBehavior TB;
     [SerializeField] private Transform halfLine;
     [SerializeField] private Card wall;
@@ -322,7 +323,7 @@ public class EnemyAI : MonoBehaviour
             float x = rect.localScale.x;
             float y = rect.localScale.y;
             float z = rect.localScale.z;
-            rect.localScale = new Vector3((float)0.625, (float)0.625, (float)0.625);
+            rect.localScale = new Vector3(cardSizeUpFactor, cardSizeUpFactor, cardSizeUpFactor);
         
        
        // Debug.Log($"Select card {nextCard.cardFace.numbers}");
