@@ -94,8 +94,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 tacticalAgent.AttackPosition = false;
                 tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": No Target. Stop moving if in Attack Position ? [ " + tacticalAgent.AttackPosition + "] ... " + HEARTBEAT++);
-                //if(defendObject != null && tacticalAgent != null)
-                //tacticalAgent.RotateTowards(Quaternion.LookRotation(targetTagPosition - defendObject.Value.transform.position));
+                if(defendObject != null && tacticalAgent != null)
+                tacticalAgent.RotateTowards(Quaternion.LookRotation(targetTagPosition - defendObject.Value.transform.position));
                 //tacticalAgent.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DEFEND);
             }
 
@@ -103,7 +103,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (!tacticalAgent.AttackPosition) {
                 var targetPosition = defendObject.Value.transform.TransformPoint(radius.Value * Mathf.Sin(theta * formationIndex), 0, radius.Value * Mathf.Cos(theta * formationIndex));
                 //tacticalAgent.UpdateRotation(true);
-                //tacticalAgent.RotateTowards(Quaternion.LookRotation(targetPosition - defendObject.Value.transform.position));
+                tacticalAgent.RotateTowards(Quaternion.LookRotation(targetPosition - defendObject.Value.transform.position));
                 //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": moving distance " + (int) Vector3.Distance(tacticalAgent.transform.position, targetPosition) );
                 tacticalAgent.SetDestination(targetPosition);
                 if (tacticalAgent.HasArrived()) {
@@ -118,7 +118,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     else
                         direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;
-                    //tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
+                    tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
                     tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend Enemy Tag" + targetTag.Value + ". " + HEARTBEAT++);
                     tacticalAgent.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DEFEND);
                 }

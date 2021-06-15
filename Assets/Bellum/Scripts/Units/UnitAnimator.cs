@@ -57,14 +57,14 @@ public class UnitAnimator : NetworkBehaviour
             networkAnim.SetTrigger(animState);
             return;
         }
-        networkAnim.animator.SetBool(animState,true);
+        networkAnim.animator.SetBool(animState, true);
         currentState = newState;
     }
     void ResetAll(string animState)
     {
         networkAnim.animator.SetBool("DEFEND", false);
         networkAnim.animator.SetBool("LOCOMOTION", false);
-        //networkAnim.animator.SetBool(animState, false);
+        networkAnim.animator.SetBool(animState, false);
     }
    
     public void HandleStateControl(AnimState newState)
