@@ -11,16 +11,23 @@ public class LobbyMenu : MonoBehaviour
     [SerializeField] private GameObject lobbyUI = null;
     [SerializeField] private Button startGameButton = null;
     [SerializeField] private TMP_Text[] playerNameTexts = new TMP_Text[4];
-
+    [SerializeField] private SaveSystem saveSystem;
     private void Start()
     {
-        FileManager.WriteToFile("save.chop", JsonUtility.ToJson(StaticClass.UserID));
+        //FileManager.WriteToFile("save.chop", JsonUtility.ToJson(StaticClass.UserID));
         Debug.Log("Start");
+        StartCoroutine(Testenumerator());
         RTSNetworkManager.ClientOnConnected += HandleClientConnected;
         RTSPlayer.AuthorityOnPartyOwnerStateUpdated += AuthorityHandlePartyOwnerStateUpdated;
         RTSPlayer.ClientOnInfoUpdated += ClientHandleInfoUpdated;
     }
-
+    private IEnumerator Testenumerator()
+    {
+        yield return new WaitForSeconds(10);
+        saveSystem.CacheLoadLocations(null, true);
+        yield return new WaitForSeconds(10);
+        saveSystem.LoadSaveDataFromDisk();
+    }
     private void OnDestroy()
     {
         RTSNetworkManager.ClientOnConnected -= HandleClientConnected;

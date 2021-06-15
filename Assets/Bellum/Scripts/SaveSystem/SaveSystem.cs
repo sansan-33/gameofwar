@@ -23,13 +23,14 @@ public class SaveSystem : ScriptableObject
 		_loadLocation.OnLoadingRequested -= CacheLoadLocations;
 	}
 
-	private void CacheLoadLocations(GameSceneSO locationsToLoad, bool showLoadingScreen)
+	public void CacheLoadLocations(GameSceneSO locationsToLoad, bool showLoadingScreen)
 	{
 		LocationSO locationSO = locationsToLoad as LocationSO;
-		if (locationSO)
-		{
+		//if (locationSO)
+		//{
 			saveData._locationId = StaticClass.UserID;
-		}
+		Debug.Log($"saveData._locationId :{saveData._locationId}StaticClass.UserID :{StaticClass.UserID}");
+		//}
 
 		SaveDataToDisk();
 	}

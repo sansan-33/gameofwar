@@ -41,6 +41,7 @@ public class StartGame : MonoBehaviour
 	}
 	void StartNewGame()
 	{
+
 		_hasSaveData = false;
 		_saveSystem.WriteEmptySaveFile();
 		//Start new game

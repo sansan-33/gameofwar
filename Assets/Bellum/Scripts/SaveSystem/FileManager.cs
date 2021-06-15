@@ -22,6 +22,7 @@ public static class FileManager
 
 	public static bool LoadFromFile(string fileName, out string result)
 	{
+		Debug.Log($"persistentDataPath {Application.persistentDataPath} fileName {fileName} Combine  {Path.Combine(Application.persistentDataPath, fileName)}");
 		var fullPath = Path.Combine(Application.persistentDataPath, fileName);
 
 		try
@@ -39,20 +40,32 @@ public static class FileManager
 
 	public static bool MoveFile(string fileName, string newFileName)
 	{
+		Debug.Log($"persistentDataPath {Application.persistentDataPath} fileName {fileName} Combine  {Path.Combine(Application.persistentDataPath, fileName)}");
 		var fullPath = Path.Combine(Application.persistentDataPath, fileName);
 		var newFullPath = Path.Combine(Application.persistentDataPath, newFileName);
 
 		try
 		{
+			Debug.Log($"persistentDataPath {Application.persistentDataPath} new fileName {newFileName} Combine  {Path.Combine(Application.persistentDataPath, newFileName)}");
 			if (File.Exists(newFullPath))
 			{
+				Debug.Log(" file exists");
 				File.Delete(newFullPath);
-			}
+            }
+          /*  else
+            {
+				Debug.Log("create file");
+				File.Create(newFullPath);
+            }*/
 			File.Move(fullPath, newFullPath);
 		}
 		catch (Exception e)
 		{
-			//Debug.LogError($"Failed to move file from {fullPath} to {newFullPath} with exception {e}");
+		    Debug.LogError($"Failed to move file from {fullPath} to {newFullPath} with exception {e}");
+			FileAttributes attr = (new FileInfo(fileName)).Attributes;
+			Debug.Log("UnAuthorizedAccessException: Unable to access file. ");
+			if ((attr & FileAttributes.ReadOnly) > 0)
+				Debug.Log("The file is read-only.");
 			return false;
 		}
 
