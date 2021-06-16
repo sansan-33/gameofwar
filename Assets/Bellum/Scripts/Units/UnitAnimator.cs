@@ -9,7 +9,7 @@ public class UnitAnimator : NetworkBehaviour
     AnimatorClipInfo[] m_CurrentClipInfo;
     [SyncVar] private AnimState currentState;
     public enum AnimState { ATTACK, DEFEND, GETHIT, LOCOMOTION, NOTHING, IDLE , DIE};
-    bool isAttacking = false;
+    public bool isAttacking = false;
     private float clipLength = 0f;
     private string attackState = "";
     private string locomotionState = "";

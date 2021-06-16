@@ -246,7 +246,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public void move(Vector3 position)
     {
-        CmdMove(position);
+        if (GetComponent<UnitAnimator>().isAttacking)
+            Debug.Log($"{name} IS Attacking ? [{GetComponent<UnitAnimator>().isAttacking}] , cannot move !!!");
+        else
+            CmdMove(position);
     }
 
     public void stop()
