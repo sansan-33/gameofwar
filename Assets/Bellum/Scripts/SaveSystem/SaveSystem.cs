@@ -7,9 +7,9 @@ public class SaveSystem : ScriptableObject
 {
 	[SerializeField] private LoadEventChannelSO _loadLocation = default;
 	[SerializeField] private Inventory _playerInventory;
-
-	public string saveFilename = "save.chop";
-	public string backupSaveFilename = "save.chop.bak";
+	
+	public string saveFilename = "save.bellum";
+	public string backupSaveFilename = "save.bellum.bak";
 	public Save saveData = new Save();
 
 	void OnEnable()
