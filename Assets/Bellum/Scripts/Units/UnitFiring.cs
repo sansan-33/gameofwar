@@ -153,8 +153,18 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 
     public void Attack(Vector3 targetPosition)
     {
+        UnitAnimator.AnimState animState = UnitAnimator.AnimState.ATTACK;
         lastAttackTime = Time.time;
-        targeter.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.ATTACK);
+        var localDistance = (targetPosition - transform.position).sqrMagnitude;
+        Debug.Log($"{name} Unit Firing ==> localDistance {localDistance}");
+        if (localDistance >= 200f)
+            animState = UnitAnimator.AnimState.ATTACK0;
+        else if (localDistance < 200f)
+            animState = UnitAnimator.AnimState.ATTACK1;
+        else if (localDistance < 150f)
+            animState = UnitAnimator.AnimState.ATTACK2;
+
+        targeter.transform.GetComponent<UnitAnimator>().StateControl(animState);
         StartCoroutine(FireProjjectile(targetPosition));
     }
     IEnumerator FireProjjectile(Vector3 targetPosition)

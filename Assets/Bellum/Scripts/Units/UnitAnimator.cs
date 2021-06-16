@@ -48,7 +48,7 @@ public class UnitAnimator : NetworkBehaviour
     void ChangeAnimationState(AnimState newState)
     {
         if (currentState == newState) return;
-        if (currentState.ToString().Contains("ATTACK") && newState.ToString().Contains("ATTACK")) return;
+        //if (currentState.ToString().Contains("ATTACK") && newState.ToString().Contains("ATTACK")) return;
         string animState = newState.ToString();
         ResetAll(animState);
         if (newState == AnimState.ATTACK0 || newState == AnimState.ATTACK1  || newState == AnimState.ATTACK2 || newState == AnimState.PROVOKE) {
