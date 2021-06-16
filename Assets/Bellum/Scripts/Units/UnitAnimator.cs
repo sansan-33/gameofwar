@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -8,15 +9,16 @@ public class UnitAnimator : NetworkBehaviour
     [SerializeField] public NetworkAnimator networkAnim;
     AnimatorClipInfo[] m_CurrentClipInfo;
     [SyncVar] private AnimState currentState;
-    public enum AnimState { ATTACK, DEFEND, GETHIT, LOCOMOTION, NOTHING, IDLE , DIE, PROVOKE};
+    public enum AnimState { ATTACK, ATTACK0, ATTACK1, ATTACK2, DEFEND, GETHIT, LOCOMOTION, NOTHING, IDLE , DIE, PROVOKE};
     public bool isAttacking = false;
-    private float clipLength = 0f;
-    private string attackState = "";
-    private string locomotionState = "";
+    private Dictionary<string, float> clipLength =  new Dictionary<string, float>();
+    System.Random rand;
+    UnitAnimator.AnimState[] ATTACK_RAND = { UnitAnimator.AnimState.ATTACK0, UnitAnimator.AnimState.ATTACK1, UnitAnimator.AnimState.ATTACK2 };
 
     public override void OnStartServer()
     {
         networkAnim = GetComponent<NetworkAnimator>();
+        rand = new System.Random();
         SetAnimationState();
     }
     public override void OnStartClient()
@@ -33,27 +35,21 @@ public class UnitAnimator : NetworkBehaviour
         AnimationClip[] clips = networkAnim.animator.runtimeAnimatorController.animationClips;
         foreach (AnimationClip clip in clips)
         {
-            //Debug.Log($"Attack anim {clip.name} {clip.length}");
-            //if (clip.name  == "ATTACK" + weapontype)
-            if (clip.name == "ATTACK")
+            if (clip.name.Contains("ATTACK"))
             {
-                clipLength = clip.length;
-                attackState = clip.name;
-                break;
+                if(!clipLength.ContainsKey(clip.name))
+                    clipLength.Add(clip.name, clip.length);
             }
         }
-        locomotionState = "LOCOMOTION";
-        //if (UnitMeta.UnitKeyRider.TryGetValue(GetComponent<Unit>().unitKey, out bool isRider))
-        //    locomotionState = "WALK_RIDER";  
     }
 
     void ChangeAnimationState(AnimState newState)
     {
         if (currentState == newState) return;
+        if (currentState.ToString().Contains("ATTACK") && newState.ToString().Contains("ATTACK")) return;
         string animState = newState.ToString();
         ResetAll(animState);
-        if (newState == AnimState.ATTACK || newState == AnimState.PROVOKE) {
-            //animState = attackState;
+        if (newState == AnimState.ATTACK0 || newState == AnimState.ATTACK1  || newState == AnimState.ATTACK2 || newState == AnimState.PROVOKE) {
             networkAnim.SetTrigger(animState);
             return;
         }
@@ -69,18 +65,23 @@ public class UnitAnimator : NetworkBehaviour
    
     public void HandleStateControl(AnimState newState)
     {
+        var n = rand.Next(0, 3);
+        if(newState == AnimState.ATTACK)
+        {
+            newState = ATTACK_RAND[n];
+        }
         if (!isAttacking) {
             if (newState != AnimState.LOCOMOTION)
             {
                 SetFloat("moveSpeed", 0);
             //    SetFloat("direction", 0);
             }
-            if (newState == AnimState.ATTACK) {
+            if (newState == AnimState.ATTACK0 || newState == AnimState.ATTACK1 || newState == AnimState.ATTACK2) {
+                var defaultClipLength = 0f;
                 isAttacking = true;
-                networkAnim.animator.SetFloat("animSpeed", clipLength / GetComponent<IAttack>().RepeatAttackDelay());
+                clipLength.TryGetValue(newState.ToString() , out defaultClipLength);
+                networkAnim.animator.SetFloat("animSpeed", defaultClipLength / GetComponent<IAttack>().RepeatAttackDelay());
                 Invoke("AttackCompleted", GetComponent<IAttack>().RepeatAttackDelay());
-                if(GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER )
-                    Debug.Log($"Unit Anim {name} isAttacking , wait for {GetComponent<IAttack>().RepeatAttackDelay()} sec");
             }
             ChangeAnimationState(newState);
         }

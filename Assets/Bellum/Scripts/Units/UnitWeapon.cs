@@ -36,7 +36,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     RTSPlayer player;
     float upGradeAmount =  1.01f;
     [SerializeField] private GameObject textPrefab = null;
-
+   
     private Unit unit;
     public override void OnStartAuthority()
     {
@@ -235,7 +235,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void Attack(Vector3 targetPosition)
     {
         lastAttackTime = Time.time;
-        //Debug.Log($"Unit Weapon ==> unit {targeter.transform.GetComponent<Unit>().name } attackiiiiiiing now, lastAttackTime: {lastAttackTime} ");
+        //Debug.Log($"Unit Weapon ==> unit {targeter.transform.GetComponent<Unit>().name } attacking now, lastAttackTime: {lastAttackTime} ");
+        
         targeter.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.ATTACK);
         StartCoroutine(TryAttack());
     }
