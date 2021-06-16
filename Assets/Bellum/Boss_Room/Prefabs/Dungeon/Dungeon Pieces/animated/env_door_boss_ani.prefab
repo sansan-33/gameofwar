@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8184890942973508939}
   - component: {fileID: 4897062626467851486}
   - component: {fileID: 8778471712971589033}
+  - component: {fileID: 4877685595114802512}
   m_Layer: 0
   m_Name: env_door_boss_ani
   m_TagString: Untagged
@@ -111,6 +112,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4, y: 10, z: 4}
   m_Center: {x: -3.01, y: 5, z: -0.0069583077}
+--- !u!95 &4877685595114802512
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899106884463111546}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 09eaa6a723b63084ea9dc6650073d888, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4379244156181976366
 GameObject:
   m_ObjectHideFlags: 0
