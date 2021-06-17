@@ -80,7 +80,7 @@ public class UnitAnimator : NetworkBehaviour
                 SetFloat("moveSpeed", 0);
             //    SetFloat("direction", 0);
             }
-            if (newState == AnimState.ATTACK0 || newState == AnimState.ATTACK1 || newState == AnimState.ATTACK2) {
+            if (newState.ToString().Contains("ATTACK")) {
                 var defaultClipLength = 0f;
                 isAttacking = true;
                 clipLength.TryGetValue(newState.ToString() , out defaultClipLength);

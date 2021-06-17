@@ -106,7 +106,8 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 
             GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position + spawnOffset, projectileRotation);
             projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDeal, damageToDealFactor);
-            if(fireRange > 20)
+            var localDistance = (targetPosition - transform.position).sqrMagnitude;
+            if (localDistance > 400f)
             projectileInstance.GetComponent<UnitProjectile>().ServerTargetObjectTF(targetPosition);
 
             projectileInstance.GetComponent<UnitProjectile>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
@@ -156,14 +157,16 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         UnitAnimator.AnimState animState = UnitAnimator.AnimState.ATTACK;
         lastAttackTime = Time.time;
         var localDistance = (targetPosition - transform.position).sqrMagnitude;
-        Debug.Log($"{name} Unit Firing ==> localDistance {localDistance}");
-        if (localDistance >= 200f)
+        if (localDistance >= 400f)
             animState = UnitAnimator.AnimState.ATTACK0;
-        else if (localDistance < 200f)
+        else if (localDistance < 400f)
             animState = UnitAnimator.AnimState.ATTACK1;
         else if (localDistance < 150f)
             animState = UnitAnimator.AnimState.ATTACK2;
 
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.ARCHER) { 
+            Debug.Log($"{name} Unit Firing  ==> localDistance {localDistance} animState {animState}");
+        }
         targeter.transform.GetComponent<UnitAnimator>().StateControl(animState);
         StartCoroutine(FireProjjectile(targetPosition));
     }
