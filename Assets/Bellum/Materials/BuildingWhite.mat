@@ -8,9 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BuildingWhite
-  m_Shader: {fileID: -6465566751694194690, guid: 2527d3abc2908ab43b4ba559ea457c02, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: db08b23099f2ff54780d06938e2d6bc8, type: 3}
   m_ShaderKeywords: _ENVIRONMENTREFLECTIONS_OFF
-  m_LightmapFlags: 6
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -76,8 +76,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1: 0
     - Vector1_101BB603: 0.1
     - Vector1_272114616eed42dcadd47fa47522b5de: 500
+    - Vector1_61c33c82bb834e4ab97c00d121b5ba7e: 0
     - Vector1_8CA39F27: 32
     - Vector1_A7EE0E62: 0.7
     - _AlphaClip: 0
@@ -109,10 +111,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_59634AE5: {r: 0.740566, g: 0.9299339, b: 1, a: 0}
+    - Color_59634AE5: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 0}
     - Color_5CE90B7B: {r: 1, g: 1, b: 1, a: 0}
     - Color_8AF701E9: {r: 1, g: 1, b: 1, a: 0}
-    - Color_C33180AA: {r: 1.097274, g: 2.608429, b: 3.942747, a: 0}
+    - Color_C33180AA: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 0}
     - _BaseColor: {r: 0.85294116, g: 0.85294116, b: 0.85294116, a: 1}
     - _Color: {r: 0.85294116, g: 0.85294116, b: 0.85294116, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
