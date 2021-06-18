@@ -2,7 +2,8 @@
 public class APIConfig
 {
     // API url
-    public static string urladdress = "https://www.schoolapis.com:6400";
+    //public static string urladdress = "https://www.schoolapis.com:6400";
+    public static string urladdress = "http://localhost:6400";
     public static string gameServerService = "gameserver";
     public static string quitService = "gameserver/quit";
     public static string cardService = "card";
@@ -14,4 +15,6 @@ public class APIConfig
     public static string userGoldService = "userprofile/gold";
     public static string userDiamondService = "userprofile/diamond";
     public static string userProfileService = "userprofile";
+    public static string userRankingService = "userranking";
+
 }

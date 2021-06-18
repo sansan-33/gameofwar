@@ -15,6 +15,7 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
     {
         //Debug.Log($"StageMenuButton OnPointerClick chapter {chapter}");
         StaticClass.Chapter = chapter;
+        StaticClass.EventRankingID = chapter;
         int chapterIndex = int.Parse(chapter) - 1;
         var buttons = FindObjectsOfType<StageMenuButton>();
         foreach(StageMenuButton button in buttons)

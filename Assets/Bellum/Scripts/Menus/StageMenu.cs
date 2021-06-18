@@ -21,6 +21,8 @@ public class StageMenu : MonoBehaviour
         Mirror.NetworkManager.singleton.StartHost();
         StageMenuButton.TabClicked += HandleTabClicked;
         StaticClass.Chapter = "1";
+        StaticClass.EventRankingID = StaticClass.Chapter;
+
     }
 
     private void OnDestroy()

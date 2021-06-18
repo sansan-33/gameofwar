@@ -14,4 +14,6 @@
     public static string Chapter { get; set; }
     public static string Mission { get; set; }
     public static string ItemCode { get; set; }
+    public static string EventRankingID { get; set; }
+
 }

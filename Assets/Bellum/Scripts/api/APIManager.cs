@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using SimpleJSON;
+using UnityEngine;
 using UnityEngine.Networking;
 
 public class APIManager 
@@ -30,5 +31,17 @@ public class APIManager
         yield return webReq.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         data.Add("GetTeamInfo", JSON.Parse(rawJson));
+    }
+    public IEnumerator GetEventRanking(string eventid, string userid)
+    {
+        Debug.Log($"GetEventRanking URL:  {APIConfig.urladdress}/{APIConfig.userRankingService}/{eventid}/{userid} ");
+        if (eventid == null || eventid.Length == 0) { yield break; }
+
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.userRankingService,eventid, userid);
+         yield return webReq.SendWebRequest();
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+        data.Add("GetEventRanking", JSON.Parse(rawJson));
     }
 }
