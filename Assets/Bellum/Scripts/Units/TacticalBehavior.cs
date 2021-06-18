@@ -439,20 +439,26 @@ public class TacticalBehavior : MonoBehaviour
     }
     public string GetTacticalStatus()
     {
-        List<GameObject> troops;
+        List<GameObject> troops = GetAllTroops();
         var sb = new System.Text.StringBuilder();
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
-        troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
-        if(armies.Length > 0)
-        troops.AddRange(armies);
-        armies = GameObject.FindGameObjectsWithTag("Provoke" + PLAYERID);
-        if (armies.Length > 0)
-        troops.AddRange(armies);
         foreach (GameObject army in troops) {
             sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;
         }
         return sb.ToString();
+    }
+    public List<GameObject> GetAllTroops()
+    {
+        List<GameObject> troops;
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
+        troops = armies.ToList();
+        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
+        if (armies.Length > 0)
+            troops.AddRange(armies);
+        armies = GameObject.FindGameObjectsWithTag("Provoke" + PLAYERID);
+        if (armies.Length > 0)
+            troops.AddRange(armies);
+         
+        return troops;
     }
     public BehaviorSelectionType GetBehaviorSelectionType(int playerid)
     {

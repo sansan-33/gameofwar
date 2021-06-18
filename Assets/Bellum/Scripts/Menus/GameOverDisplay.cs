@@ -11,12 +11,17 @@ public class GameOverDisplay : MonoBehaviour
 {
     [SerializeField] public Canvas gameOverDisplayParent;
     [SerializeField] private TMP_Text winnerNameText = null;
+    [SerializeField] private TMP_Text stat1Text = null;
+    [SerializeField] private TMP_Text stat2Text = null;
+    [SerializeField] private TMP_Text stat3Text = null;
     [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private Canvas cardDisplay = null;
     [SerializeField] private TMP_Text crownBlueText = null;
     [SerializeField] private TMP_Text crownRedText = null;
+    public TacticalBehavior tacticalBehavior;
 
     private float Timer = 180;
+    APIManager apiManager;
     private void Update()
     {
         Timer -= Time.deltaTime;
@@ -31,6 +36,7 @@ public class GameOverDisplay : MonoBehaviour
     }
     private void Start()
     {
+        apiManager = new APIManager();
         GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
     }
 
@@ -68,6 +74,19 @@ public class GameOverDisplay : MonoBehaviour
         });
         winnerNameText.color = winner.ToLower() == "blue" ? Color.blue : Color.red;
         cardDisplay.enabled = false;
+        stat1Text.text = Convert.ToInt32(Timer).ToString();
+        List<GameObject> troops = tacticalBehavior.GetAllTroops();
+        int totalKill = 0;
+        foreach (GameObject army in troops)
+        {
+            totalKill += army.GetComponent<HealthDisplay>().kills;
+        }
+        stat2Text.text = totalKill.ToString();
+        if (winnerObject != null)
+        {
+            stat3Text.text = Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()).ToString();
+            StartCoroutine(updateUserRankingInfo(Convert.ToInt32(Timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth())));
+        }
     }
     private void ClientHandleGameOverdraw()
     {
@@ -80,5 +99,13 @@ public class GameOverDisplay : MonoBehaviour
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
         cardDisplay.enabled = false;
+    }
+    IEnumerator updateUserRankingInfo(int timeleft, int killcount, int health)
+    {
+        int point = 0;
+        point += timeleft;   
+        point += killcount;    // Time Left
+        point += health;
+        yield return apiManager.UpdateEventRanking(StaticClass.UserID, StaticClass.EventRankingID, point.ToString());
     }
 }

@@ -39,9 +39,37 @@ public class APIManager
 
         UnityWebRequest webReq = new UnityWebRequest();
         webReq.downloadHandler = new DownloadHandlerBuffer();
-        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.userRankingService,eventid, userid);
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.userRankingService,eventid, userid);
          yield return webReq.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-        data.Add("GetEventRanking", JSON.Parse(rawJson));
+        if (data.ContainsKey("GetEventRanking"))
+        {
+            Debug.Log($"udapted url {webReq.url} ");
+            data["GetEventRanking"] = JSON.Parse(rawJson);
+            Debug.Log($"udapted GetEventRanking dict {data["GetEventRanking"]} raw json {JSON.Parse(rawJson)} ");
+        }
+        else
+            data.Add("GetEventRanking", JSON.Parse(rawJson));
+
+    }
+
+    public IEnumerator UpdateEventRanking(string userid, string eventid, string point)
+    {
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+
+        webReq.url = string.Format("{0}/{1}/{2}/{3}/{4}", APIConfig.urladdress, APIConfig.userRankingService, userid, eventid, point);
+        webReq.method = "put";
+        Debug.Log($"update user ranking {webReq.url }");
+        // send the web request and wait for a returning result
+        yield return webReq.SendWebRequest();
+    }
+    public IEnumerator UpdateUserNameProfile(string userid, string name)
+    {
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.userProfileNameService, userid, name);
+        webReq.method = "put";
+        yield return webReq.SendWebRequest();
     }
 }

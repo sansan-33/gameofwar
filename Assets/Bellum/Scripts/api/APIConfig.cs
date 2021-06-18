@@ -16,5 +16,6 @@ public class APIConfig
     public static string userDiamondService = "userprofile/diamond";
     public static string userProfileService = "userprofile";
     public static string userRankingService = "userranking";
+    public static string userProfileNameService = "userprofile/name";
 
 }
