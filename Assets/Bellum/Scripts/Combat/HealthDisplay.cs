@@ -83,6 +83,7 @@ public class HealthDisplay : MonoBehaviour
     }
     public void HandleKillText(int kill)
     {
+        Debug.Log($"HandleKillText {kills} {name}");
         kills += kill;
         killText.text = kills.ToString();
     }
