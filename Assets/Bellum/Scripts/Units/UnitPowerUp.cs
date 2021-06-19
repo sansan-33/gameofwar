@@ -133,7 +133,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         //Debug.Log("ServerpowerUp");
         HandlePowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
-        RpcPowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
+        //RpcPowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
     }
     public void HandlePowerUp(int playerID, string unitName, int spawnPointIndex, int star,int cardLevel, int health, int attack, float repeatAttackDelay, int speed, int defense, int special, string specialkey, string passivekey, Color teamColor)
     {
@@ -151,7 +151,7 @@ public class UnitPowerUp : NetworkBehaviour
         GetComponent<RVOController>().layer = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         //GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer2 : RVOLayer.Layer3;
-        HandleUnitSKill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay, speed);
+        HandleUnitSkill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay, speed);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
         }
@@ -162,7 +162,7 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"{gameObject.tag} : {gameObject.name} RpcPowerUp cardLevel {cardLevel} health {health} speed {speed}");
         HandlePowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
     }
-    private void HandleUnitSKill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
+    private void HandleUnitSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
     {
         UnitMeta.UnitType unitType = gameObject.GetComponent<Unit>().unitType;
         if (unitType == UnitMeta.UnitType.KING || unitType == UnitMeta.UnitType.HERO
@@ -340,6 +340,6 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void HandleSetSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
     {
-        HandleUnitSKill(skill, star, attack, repeatAttackDelay, speed);
+        HandleUnitSkill(skill, star, attack, repeatAttackDelay, speed);
     }
 }
