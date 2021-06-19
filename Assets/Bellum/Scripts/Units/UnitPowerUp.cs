@@ -340,6 +340,6 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void HandleSetSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
     {
-        HandleUnitSKill(skill, star, attack, repeatAttackDelay, speed);
+        HandleUnitSkill(skill, star, attack, repeatAttackDelay, speed);
     }
 }
