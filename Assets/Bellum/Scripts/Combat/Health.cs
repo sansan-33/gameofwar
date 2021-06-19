@@ -89,6 +89,7 @@ public class Health : NetworkBehaviour, IDamageable
         }
         if (currentHealth != 0)
         {
+            StaticClass.HighestDamage = StaticClass.HighestDamage < damageAmount ? damageAmount : StaticClass.HighestDamage;
             damageAmount -= defense;
             if (damageAmount > 0)
             {

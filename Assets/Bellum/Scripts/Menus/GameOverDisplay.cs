@@ -17,6 +17,8 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] private TMP_Text stat3Text = null;
     [SerializeField] private TMP_Text stat4Text = null;
     [SerializeField] private TMP_Text stat5Text = null;
+    [SerializeField] private TMP_Text stat6Text = null;
+
     [SerializeField] private TMP_Text totalText = null;
 
     [SerializeField] private GameObject camFreeLookPrefab = null;
@@ -101,7 +103,8 @@ public class GameOverDisplay : MonoBehaviour
         {
             stat3Text.text = Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()).ToString();
             stat4Text.text = crownCount.ToString() + " * 500 ";
-            stat5Text.text = dieCount.ToString();
+            stat5Text.text = dieCount.ToString() + " * 30 ";
+            stat6Text.text = StaticClass.HighestDamage.ToString();
             StartCoroutine(updateUserRankingInfo(Convert.ToInt32(Timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
         }
     }
@@ -122,9 +125,10 @@ public class GameOverDisplay : MonoBehaviour
     {
         int point = 0;
         point += (timeleft * 3);   
-        point += killcount;    // Time Left
+        point += killcount;    
         point += health;
         point += (crownCount * 500);
+        point += Convert.ToInt32(StaticClass.HighestDamage) * 30;
         point = point - dieCount;
         totalText.text = point.ToString();
 
