@@ -112,6 +112,7 @@ public class GameOverDisplay : MonoBehaviour
     }
     public void ClientHandleGameOverResign()
     {
+        Debug.Log("Quit Game");
         if (gameOverDisplayParent == null) { gameOverDisplayParent = GetComponentInChildren<Canvas>(); }
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
