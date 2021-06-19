@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using TMPro;
 
 public class LanguageSelectionManager : MonoBehaviour
 {
-    private const int LOCALE_EN = 0;
-    private const int LOCALE_JP = 1;
-    private const int LOCALE_CN = 2;
-    private const int LOCALE_HK = 3;
+    public const int LOCALE_EN = 0;
+    public const int LOCALE_JP = 1;
+    public const int LOCALE_CN = 2;
+    public const int LOCALE_HK = 3;
+    public static int Selected_Locale_Index = 0;
 
     [SerializeField] public GameObject languageSelectionPopup;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -47,14 +50,17 @@ public class LanguageSelectionManager : MonoBehaviour
 
     void OnSelectionChanged(int index)
     {
-        Debug.Log($"LanguageSelectionManager.OnSelectionChanged() Selected index:{index}");
+        //Debug.Log($"LanguageSelectionManager.OnSelectionChanged() Selected index:{index}");
+        Selected_Locale_Index = index;
 
         var locale = LocalizationSettings.AvailableLocales.Locales[index];
         LocalizationSettings.SelectedLocale = locale;
         Debug.Log($"LanguageSelectionManager.OnSelectionChanged() SelectedLocale:{LocalizationSettings.SelectedLocale}");
 
-        // inactive check for non-selected locale and active check for selected locale
+        // TODO: inactive check for non-selected locale and active check for selected locale
 
-        // update language in Setting popup
+        // TODO: update language in Setting popup
     }
+
+    
 }
