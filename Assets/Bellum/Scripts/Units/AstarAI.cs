@@ -317,6 +317,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         acceleration = _acceleration;
     }
+    public float GetAcceleration()
+    {
+        return acceleration;
+    }
     public Vector3 GetVelocity()
     {
         return ai.velocity;

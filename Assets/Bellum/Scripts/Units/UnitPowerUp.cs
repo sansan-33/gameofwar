@@ -180,7 +180,7 @@ public class UnitPowerUp : NetworkBehaviour
         GetComponent<RVOController>().layer = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         //GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer2 : RVOLayer.Layer3;
-        HandleUnitSkill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay);
+        HandleUnitSkill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay,speed);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
         }
@@ -191,7 +191,7 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"{gameObject.tag} : {gameObject.name} RpcPowerUp cardLevel {cardLevel} health {health} speed {speed}");
         HandlePowerUp(playerID, unitName, spawnPointIndex, star, cardLevel, health, attack, repeatAttackDelay, speed, defense, special, specialkey, passivekey, teamColor);
     }
-    private void HandleUnitSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay)
+    private void HandleUnitSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
     {
         UnitMeta.UnitType unitType = gameObject.GetComponent<Unit>().unitType;
         if (unitType == UnitMeta.UnitType.KING || unitType == UnitMeta.UnitType.HERO
