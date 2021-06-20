@@ -25,7 +25,7 @@ public class CinemachineShake : NetworkBehaviour {
     private float shakeTimer=.05f;
     private float secondShakeTimer=.05f;
     private float shakeTimerTotal=1f;
-    private float startingIntensity=.01f;
+    private float startingIntensity=100.01f;
 
     //private void Awake() {
     //    Instance = this;
@@ -43,7 +43,7 @@ public class CinemachineShake : NetworkBehaviour {
     private void Update()
     {   if(shakeTime > 0)
         {
-            //Debug.Log($"shake time {shakeTime},{shakeTimer}");
+            Debug.Log($"shake time {shakeTime},{shakeTimer}");
             shakeTime -= Time.deltaTime;
             if (shakeTimer > 0)
             {
