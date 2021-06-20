@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     [SerializeField] List<List<Card>> playerHand = new List<List<Card>>();
     int totalCardSlot = 0;
     Vector3 v360 = new Vector3(0, 0, 180);
-    private List<CardSlot> cardSlotlist = new List<CardSlot>();
+    public List<CardSlot> cardSlotlist = new List<CardSlot>();
     public static event Action<Card> CardRemoved;
     
     void Awake()
@@ -244,7 +244,8 @@ public class Player : MonoBehaviour
     public void moveOneCard(int index)
     {
         playerHand[0][index].transform.SetParent(cardSlotlist[index].transform);
-        playerHand[0][index].transform.position = cardSlotlist[index].transform.position;
+        //playerHand[0][index].transform.position = cardSlotlist[index].transform.position;
+        playerHand[0][index].GetComponent<RectTransform>().anchoredPosition = Vector3.zero;
     }
 
 }

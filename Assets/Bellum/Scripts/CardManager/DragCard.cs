@@ -64,12 +64,12 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
     public void OnDrag(PointerEventData eventData)
     {
         //Debug.Log(Input.mousePosition);
+        if (GetComponent<Card>().enemyCard == true) { return; }
         TryDragCard(Input.mousePosition.x, Input.mousePosition.y);
     }
-    private void TryDragCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
+    public void TryDragCard(float mouseOrTouchPosX, float mouseOrTouchPosY)
     {
         if (Mathf.Abs(mouseOrTouchPosX - lastXPos) < deltaPos) { return; } // At least move deltaPos pixels
-        if(GetComponent<Card>().enemyCard == true) { return; }
         if (GetComponent<Card>().onClick == true) { return; }
         direction = mouseOrTouchPosX > lastXPos ? "right" : "left";
         //Debug.Log($"Drag Card mouseOrTouchPosY {mouseOrTouchPosY} startPos.y {startPos.y}");
@@ -91,7 +91,7 @@ public class DragCard : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDrag
         }
         //lastXPos = mouseOrTouchPosX;
     }
-    private IEnumerator ShiftCard()
+    public IEnumerator ShiftCard()
     {
         if (GetComponentInParent<Player>() == null) { yield break; } // Buildings cards don't have player hand and card slot
         //Debug.Log($"DragCard.ShiftCard() start IS_HITTED_TIMER:{IS_HITTED_TIMER}");
