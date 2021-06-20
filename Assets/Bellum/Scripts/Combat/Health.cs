@@ -94,6 +94,8 @@ public class Health : NetworkBehaviour, IDamageable
             if (damageAmount > 0)
             {
                 currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
+                if(tag.Contains("King") || tag.Contains("Hero"))
+                Debug.Log($"name {name} current health , damge took {damageAmount}");
                 blinkTimer = blinkDuration;
                 lastDamageDeal = (int) damageAmount;
                 if (currentHealth == 0)

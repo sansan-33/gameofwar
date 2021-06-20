@@ -18,19 +18,18 @@ public class UnitAnimator : NetworkBehaviour
 
     public override void OnStartServer()
     {
-        networkAnim = GetComponent<NetworkAnimator>();
-        audioSource = GetComponent<AudioSource>();
-        rand = new System.Random();
         SetAnimationState();
     }
     public override void OnStartClient()
     {
-        networkAnim = GetComponent<NetworkAnimator>();
         SetAnimationState();
     }
 
     private void SetAnimationState()
     {
+        networkAnim = GetComponent<NetworkAnimator>();
+        audioSource = GetComponent<AudioSource>();
+        rand = new System.Random();
         //Initial state set to prevent attack state delay when checking current state and new state
         currentState = AnimState.IDLE;
         //string weapontype = "_" + UnitMeta.KeyWeaponType[GetComponent<Unit>().unitKey].ToString().ToUpper();

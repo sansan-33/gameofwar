@@ -119,7 +119,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                         direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;
                     tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
-                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend Enemy Tag" + targetTag.Value + ". " + HEARTBEAT++);
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend Enemy Tag" + targetTag.Value + " at direction " + direction + " . " + HEARTBEAT++);
                     tacticalAgent.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DEFEND);
                 }
             }

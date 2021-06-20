@@ -22,6 +22,8 @@ public class SpawnEnemies : MonoBehaviour
     void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
+        StartCoroutine(GetUserCard("-1", ""));
+
         //Debug.Log($"Spawn Enemies Awake {NetworkClient.connection.identity} NetworkManager number of players ? {((RTSNetworkManager)NetworkManager.singleton).Players.Count  } ");
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
@@ -29,7 +31,7 @@ public class SpawnEnemies : MonoBehaviour
             enemyID = player.GetEnemyID();
             playerID = player.GetPlayerID();
             teamColor = player.GetTeamEnemyColor();
-            StartCoroutine(GetUserCard("-1",""));
+            //StartCoroutine(GetUserCard("-1",""));
             GameStartDisplay.ServerGameStart += LoadEnemies;
             //InvokeRepeating("LoadEnemies", 3f, 3f);
         }

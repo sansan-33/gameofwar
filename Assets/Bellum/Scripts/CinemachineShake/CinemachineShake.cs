@@ -43,7 +43,6 @@ public class CinemachineShake : NetworkBehaviour {
     private void Update()
     {   if(shakeTime > 0)
         {
-            Debug.Log($"shake time {shakeTime},{shakeTimer}");
             shakeTime -= Time.deltaTime;
             if (shakeTimer > 0)
             {

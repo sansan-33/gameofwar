@@ -169,7 +169,7 @@ public class GoldenSlash : MonoBehaviour, ISpecialAttack
         if (true)
         {
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            Gizmos.DrawWireCube(transform.parent.transform.position, transform.localScale * attackRange);
+            //Gizmos.DrawWireCube(transform.parent.transform.position, transform.localScale * attackRange);
         }
     }
     

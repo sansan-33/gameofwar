@@ -20,6 +20,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private GameObject specialEffectPrefab  = null;
     [SerializeField] private GameObject slashEffectPrefab = null;
     [SerializeField] private bool IsAreaOfEffect = false;
+    private Vector3 weaponSize = new Vector3(0.1f, 0.1f, 0.5f);
     private float calculatedDamageToDeal ;
     private float originalDamage;
     public float DashDamageFactor = 1f;
@@ -58,7 +59,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         calculatedDamageToDeal = damageToDeal;
         //Use the OverlapBox to detect if there are any other colliders within this box area.
         //Use the GameObject's centre, half the size (as a radius) and rotation. This creates an invisible box around your GameObject.
-        Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
+        Collider[] hitColliders = Physics.OverlapBox(attackPoint.transform.position, weaponSize * attackRange, transform.rotation, layerMask);
         int i = 0;
         Collider other;
         bool isFlipped = false;
@@ -94,18 +95,16 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             if (other.TryGetComponent<Health>(out Health health))
             {
                 opponentIdentity = (player.GetPlayerID() == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
-
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-                //Debug.Log($"Unit Weapon speed current: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)}  max: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)} ");
                 if (unit.unitType == UnitMeta.UnitType.CAVALRY && unit.GetUnitMovement().GetAcceleration() > 0f)
                 {
                     Debug.Log($"Unit Weapon speed current: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)}  max: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)} calculatedDamageToDeal {calculatedDamageToDeal} * {DashDamageFactor}");
-                    calculatedDamageToDeal *= (DashDamageFactor + unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) );
+                    calculatedDamageToDeal *= (DashDamageFactor + unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT));
                     cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
                 }
                 yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
-                if (other == null || ! health.IsAlive()) { continue; }
+                if (other == null || !health.IsAlive()) { continue; }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
                 {
@@ -142,7 +141,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         if (m_Started)
         {
             //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            //Gizmos.DrawWireCube(attackPoint.transform.position, transform.localScale * attackRange);
+            //Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.DrawWireCube(attackPoint.transform.position, weaponSize * attackRange);
         }
     }
 

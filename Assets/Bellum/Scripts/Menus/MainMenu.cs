@@ -17,6 +17,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private TopBarMenu topBarMenu = null;
     [SerializeField] public UnitFactory localFactory;
     [SerializeField] public Transform[] unitBodyParents;
+    [SerializeField] public GameObject bottomButtonsParent;
+
     APIManager apiManager;
 
     private void Awake()
@@ -65,6 +67,8 @@ public class MainMenu : MonoBehaviour
             unitBody.transform.localScale = new Vector3(7f, 7f, 7f);
             unitBody.transform.SetParent(unitBodyParents[i].transform);
         }
+
+        bottomButtonsParent.SetActive(true);
         //Debug.Log($"Load Team Lobby Done. StaticClass.Username: {StaticClass.Username}" );
     }
     // sends an API request - returns a JSON file
