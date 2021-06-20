@@ -1427,8 +1427,8 @@ MonoBehaviour:
   IsFrezze: 0
   IsElectricShock: 0
   specialEffectPrefab: {fileID: 1965343156803978, guid: 3dc1e9ee58f1d453aa8ee52e54bde010, type: 3}
-  blinkDuration: 0.2
-  blinkIntensity: 5
+  blinkDuration: 0.5
+  blinkIntensity: 10
 --- !u!114 &6338718717875103638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1641,6 +1641,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   maxSpeed: 20
+  acceleration: 0
   nextWaypointDistance: 3
   reachedEndOfPath: 0
   other: {fileID: 0}
@@ -1662,6 +1663,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   networkAnim: {fileID: 0}
+  audioSource: {fileID: 0}
+  isAttacking: 0
 --- !u!114 &5187453383860487590
 MonoBehaviour:
   m_ObjectHideFlags: 0

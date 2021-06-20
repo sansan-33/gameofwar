@@ -103,7 +103,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     calculatedDamageToDeal *= (DashDamageFactor + unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT));
                     cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
                 }
-                yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
+                //yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
+                yield return null;
                 if (other == null || !health.IsAlive()) { continue; }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
@@ -136,13 +137,22 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     //Draw the Box Overlap as a gizmo to show where it currently is testing. Click the Gizmos button to see this
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        Color prevColor = Gizmos.color;
+        Matrix4x4 prevMatrix = Gizmos.matrix;
+
         //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
         if (m_Started)
         {
-            //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-            //Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(attackPoint.transform.position, weaponSize * attackRange);
+            // cache previous Gizmos settings
+            Gizmos.color = Color.yellow;
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Vector3 boxPosition = attackPoint.transform.position;
+            // convert from world position to local position 
+            boxPosition = transform.InverseTransformPoint(boxPosition);
+            Gizmos.DrawWireCube(boxPosition, weaponSize * attackRange);
+            // restore previous Gizmos settings
+            Gizmos.color = prevColor;
+            Gizmos.matrix = prevMatrix;
         }
     }
 
