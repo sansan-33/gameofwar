@@ -382,117 +382,54 @@ public class EnemyAI : MonoBehaviour
         Card finishedCard = card == cards.Count - 1 ? cards[card - 1] : cards[card + 1];
         //Vector2 finishPos = finishedCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition;
             //Debug.Log($"DragCard {original} {finishPos}");
-        float a = 1f;
-        /*while (beforeNewCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition != finishPos)
-        {
-            a -= Time.deltaTime;
-            Debug.Log($"mov card to {original}");
-            float x = beforeNewCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition.x;
-            x = Mathf.SmoothDamp(beforeNewCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition.x,
-                finishPos.x, ref progressImageVelocity, 0.01f);
-            beforeNewCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = new Vector3(x, original.y, 0);
-            if (original.y != finishPos.y) { Debug.Log("y not same"); break; }
-            if (a <= 0) { Debug.Log("Time out"); break; }
-        }
-        a = 1f;
-        while (card.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition != original)
-        {
-            a -= Time.deltaTime;
-            Debug.Log($"mov card to {original}");
-            float x = card.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition.x;
-            x = Mathf.SmoothDamp(card.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition.x,
-                original.x, ref progressImageVelocity, 0.01f);
-            beforeNewCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = new Vector3(x, original.y, 0);
-            if (original.y != finishPos.y) { Debug.Log("y not same"); break; }
-            if (a <= 0) { Debug.Log("Time out"); break; }
-        }*/
+        float timer = 1.5f;
+
+        ///////Need to fix
+        ///flow out the screen
         float x = cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition.x;
-       // Debug.Log($"Drag card {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} != {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
-        while (enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) <= enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
+         Debug.Log($"Drag card {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} < {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
+        if(enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) < enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
         {
-            
-            
-            //Debug.Log($"pos = {cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition}");
-            //Debug.Log($"card slot index = {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} going to {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
-            x = Mathf.SmoothDamp(cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition.x,
-                1000, ref progressImageVelocity, 1f);
-            cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, 0, 0);
-            StartCoroutine(cards[beforeNewCard].GetComponent<DragCard>().ShiftCard());
-            yield return new WaitForSeconds(0.1f);
-        }
-       /* cards[beforeNewCard].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = finishPos;
-        if(card == cards.Count - 1)
-        {
-            cards[card - 1].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = original;
-        }
-        else
-        {
-            cards[card + 1].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = original;
-        }
-        int b = cards[beforeNewCard].cardPlayerHandIndex;
-        Vector2 targetPos = cards[beforeNewCard].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition;
-        Vector2 movedCardPos;
-        if (b < cards[card].cardPlayerHandIndex)
-        {
-            while(b < cards[card].cardPlayerHandIndex)
+            while (enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) <= enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
             {
-                b++;
-                movedCardPos = cards[b].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition;
-                cards[b].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = targetPos;
-                targetPos = movedCardPos;
-                enemyPlayer.moveCardAt(cards[beforeNewCard].cardPlayerHandIndex, "right");
-            }
-
-        }
-        else
-        {
-            while (b > cards[card].cardPlayerHandIndex)
-            {
-                b--;
-                movedCardPos = cards[b].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition;
-                cards[b].GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition = targetPos;
-                targetPos = movedCardPos;
-                enemyPlayer.moveCardAt(cards[beforeNewCard].cardPlayerHandIndex, "left");
+                Debug.Log("left");
+                timer -= Time.deltaTime;
+                Debug.Log($"pos = {cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition}");
+                Debug.Log($"card slot index = {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} going to {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
+                x = Mathf.SmoothDamp(cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition.x,
+                    1000, ref progressImageVelocity, 1f);
+                cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, 0, 0);
+                StartCoroutine(cards[beforeNewCard].GetComponent<DragCard>().ShiftCard());
+                if (timer <= 0)
+                {
+                    cards[beforeNewCard].GetComponent<DragCard>().OnEndDrag(null);
+                    break;
+                }
+                yield return new WaitForSeconds(0.1f);
             }
         }
-       /* int i = cards[beforeNewCard].cardPlayerHandIndex;
-        if (i < cards[card].cardPlayerHandIndex)
+        else if(enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) > enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
         {
-            while (i < cards[card].cardPlayerHandIndex-1)
+            while(enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) >= enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
             {
-                enemyPlayer.moveCardAt(cards[beforeNewCard].cardPlayerHandIndex, "right");
-                i++;
+                Debug.Log("right");
+                timer -= Time.deltaTime;
+                Debug.Log($"pos = {cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition}");
+                Debug.Log($"card slot index = {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} going to {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
+                x = Mathf.SmoothDamp(cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition.x,
+                    -1000, ref progressImageVelocity, 1f);
+                cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition = new Vector3(x, 0, 0);
+                StartCoroutine(cards[beforeNewCard].GetComponent<DragCard>().ShiftCard());
+                if (timer <= 0)
+                {
+                    cards[beforeNewCard].GetComponent<DragCard>().OnEndDrag(null);
+                    break;
+                }
+                yield return new WaitForSeconds(0.1f);
             }
         }
-        else
-        {
-            while (i > cards[card].cardPlayerHandIndex)
-            {
-                enemyPlayer.moveCardAt(cards[beforeNewCard].cardPlayerHandIndex, "left");
-                i++;
-            }
-        } */
-
-        //dealManagers.GetComponent<CardDealer>().Hit(true);
-        yield return null;
-    }
-    private void OnUpdateElexier(int elexier)
-    {
-        this.elexier = elexier;
-    }
-    private IEnumerator SpawnEnemy()
-    {
-        while(nextCard != null)
-        {
-            if(nextCard.GetUnitElexier() <= this.elexier)
-            {
-                int type = (int)nextCard.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-                yield return SelectPos(nextCard, (UnitMeta.UnitType)type);
-                nextCard = null;
-            }
-            yield return new WaitForSeconds(2f);
-        }
-        yield return null;
+        
+   
     }
     private IEnumerator SelectCard(bool needScale)
     {
