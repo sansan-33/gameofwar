@@ -22,7 +22,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private bool IsAreaOfEffect = false;
     private float calculatedDamageToDeal ;
     private float originalDamage;
-    public float DashDamage = 0;
+    public float DashDamageFactor = 2f;
     public bool IsKingSP = false;
     NetworkIdentity opponentIdentity;
     bool m_Started;
@@ -99,8 +99,10 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 //cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
 
-                if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX ) ) { calculatedDamageToDeal += 20; }
-                //calculatedDamageToDeal += DashDamage;
+                if (unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) == unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX))
+                {
+                    calculatedDamageToDeal *= DashDamageFactor;
+                }
                 yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
                 if (other == null || ! health.IsAlive()) { continue; }
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
@@ -153,8 +155,20 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
     private void KilledEnemy()
     {
-        powerUpAfterKill(gameObject);
-        RpcpowerUpAfterKill(gameObject);
+        if (isServer)
+            RpcpowerUpAfterKill(gameObject);
+        else
+            cmdPowerUpAfterKill(gameObject);
+    }
+    [Command(requiresAuthority = false)]
+    private void cmdPowerUpAfterKill(GameObject unit)
+    {
+        ServerPowerUpAfterKill(unit);
+    }
+    [Server]
+    private void ServerPowerUpAfterKill(GameObject unit)
+    {
+        powerUpAfterKill(unit);
     }
     [Command]
     private void cmdDamageText(Vector3 targetPos, float damageNew, float damgeOld, NetworkIdentity opponentIdentity, bool flipText)
@@ -277,6 +291,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [ClientRpc]
     public void RpcpowerUpAfterKill(GameObject unit)
     {
+        //Debug.Log($"{name} client rpc power up {unit.name}");
         unit.GetComponent<HealthDisplay>().HandleKillText(1);
         damageToDeal *= upGradeAmount;
     }

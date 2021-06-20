@@ -75,7 +75,7 @@ public class EnemyAI : MonoBehaviour
         Unit.ClientOnUnitSpawned += UrgentDefend;
         Unit.ClientOnUnitDespawned += Rage;
         InvokeRepeating("HandleSpawnEnemyBackUp", 15, 15);
-        usingCard = false;
+        
     }
     private void OnDestroy()
     {
@@ -155,10 +155,11 @@ public class EnemyAI : MonoBehaviour
     {
         if(usingCard == false)
         {
-            Debug.Log("glichted");
+            //Debug.Log("glichted");
             StopCoroutine(HandleSpawnnEnemy());
             StartCoroutine(HandleSpawnnEnemy());
         }
+        usingCard = false;
     }
     private void Rage(Unit unit)
     {
@@ -366,7 +367,7 @@ public class EnemyAI : MonoBehaviour
             Card beforeNewCard = cards[0];
             Card card = cards[1];
            // Debug.Log($"{beforeNewCard.cardFace.numbers} is {beforeNewCard.cardFace.star} == {card.cardFace.numbers} is {card.cardFace.star}");
-            if (beforeNewCard == card) { Debug.Log("Card"); }
+            //if (beforeNewCard == card) { Debug.Log("Card"); }
             if (beforeNewCard.cardFace.star == card.cardFace.star)
             {
                 yield return DragCard(beforeNewCard, card);

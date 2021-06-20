@@ -86,7 +86,7 @@ namespace DigitalRuby.ThunderAndLightning
                 //Search target in a distance
                 Collider[] hitColliders = Physics.OverlapBox(searchPoint.transform.position, transform.localScale * attackRange, Quaternion.identity, layerMask);
                 int i = 0;
-                Debug.Log(hitColliders.Length);
+                //Debug.Log(hitColliders.Length);
                 while (i < hitColliders.Length)
                 {
                     

@@ -18,7 +18,8 @@ public class TacticalBehavior : MonoBehaviour
     private RTSPlayer player;
     private int PLAYERID = 0;
     private int ENEMYID = 0;
-    
+    private bool usedTaticalAttack = false;
+
     private Dictionary<int, List<BehaviorTree>> leaderPlayerBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
     private Dictionary<int, List<BehaviorTree>> leaderEnemyBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
     private Dictionary<int, Dictionary<int, List<BehaviorTree>>> playerBehaviorTreeGroup = new Dictionary<int, Dictionary<int, List<BehaviorTree>>>();
@@ -545,10 +546,12 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void taticalAttack(TaticalAttack type, int playerid )
     {
+        if(usedTaticalAttack == true) { return; }
         StartCoroutine( HandleTaticalAttack(type, playerid ));
     }
     IEnumerator HandleTaticalAttack(TaticalAttack type, int playerid )
     {
+        usedTaticalAttack = true;
         Vector3 kingPoint = GameObject.FindGameObjectWithTag("King" + playerid).transform.position;
         Vector3 spawnPoint = Vector3.zero;
         int unitspawn = 1;

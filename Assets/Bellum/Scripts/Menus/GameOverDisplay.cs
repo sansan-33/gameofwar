@@ -103,8 +103,8 @@ public class GameOverDisplay : MonoBehaviour
         {
             stat3Text.text = Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()).ToString();
             stat4Text.text = crownCount.ToString() + " * 500 ";
-            stat5Text.text = dieCount.ToString() + " * 30 ";
-            stat6Text.text = StaticClass.HighestDamage.ToString();
+            stat5Text.text = dieCount.ToString();
+            stat6Text.text = StaticClass.HighestDamage.ToString() + " * 30 ";
             StartCoroutine(updateUserRankingInfo(Convert.ToInt32(Timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
         }
     }
@@ -130,6 +130,7 @@ public class GameOverDisplay : MonoBehaviour
         point += (crownCount * 500);
         point += Convert.ToInt32(StaticClass.HighestDamage) * 30;
         point = point - dieCount;
+        point = point * 1 + ( (Int32.Parse(StaticClass.Mission) - 1) / 10);
         totalText.text = point.ToString();
 
         yield return apiManager.GetEventRanking(StaticClass.EventRankingID, StaticClass.UserID);

@@ -6821,6 +6821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 7
@@ -6830,6 +6831,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 0
   cardStar: {fileID: 0}
@@ -6839,6 +6841,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!114 &162936900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13895,6 +13898,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 5
@@ -13904,6 +13908,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 0
   cardStar: {fileID: 0}
@@ -13913,6 +13918,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!114 &298748897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16115,6 +16121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 0
@@ -16130,6 +16137,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 580f71d13732b48b8958ad089224dfb9, type: 3}
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
+  onClick: 0
   playerID: 0
   enemyCard: 0
   cardStar: {fileID: 1407153843}
@@ -16139,6 +16147,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!54 &341899934
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -18460,6 +18469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 0
@@ -18475,6 +18485,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 580f71d13732b48b8958ad089224dfb9, type: 3}
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
+  onClick: 0
   playerID: 0
   enemyCard: 0
   cardStar: {fileID: 1854987032}
@@ -18484,6 +18495,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!54 &391492973
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31483,6 +31495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 8
@@ -31492,6 +31505,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 0
   cardStar: {fileID: 0}
@@ -31501,6 +31515,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!114 &700589449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38732,6 +38747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 5
@@ -38741,6 +38757,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 1
   cardStar: {fileID: 0}
@@ -38750,6 +38767,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!1 &844788762
 GameObject:
   m_ObjectHideFlags: 0
@@ -40995,6 +41013,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 8
@@ -41004,6 +41023,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 1
   cardStar: {fileID: 0}
@@ -41013,6 +41033,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!1 &898829989
 GameObject:
   m_ObjectHideFlags: 0
@@ -45554,6 +45575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 7
@@ -45563,6 +45585,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 1
   cardStar: {fileID: 0}
@@ -45572,6 +45595,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!1 &989714077
 GameObject:
   m_ObjectHideFlags: 0
@@ -59608,6 +59632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 6
@@ -59617,6 +59642,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 1
   cardStar: {fileID: 0}
@@ -59626,6 +59652,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!1 &1242890812
 GameObject:
   m_ObjectHideFlags: 0
@@ -79322,6 +79349,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4417393479862900485, guid: 174e667d1bf814de2b7396fb96809503, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 174e667d1bf814de2b7396fb96809503, type: 3}
 --- !u!114 &1662396383 stripped
@@ -79905,6 +79936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49c829aba90d54e46b8d2779ac0aebef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonImage: {fileID: 0}
   cardFace:
     suit: 0
     numbers: 6
@@ -79914,6 +79946,7 @@ MonoBehaviour:
   eleixerText: {fileID: 0}
   cardTimer: 0
   sprite: []
+  onClick: 0
   playerID: 0
   enemyCard: 0
   cardStar: {fileID: 0}
@@ -79923,6 +79956,7 @@ MonoBehaviour:
   stars: {fileID: 0}
   cardFrame: {fileID: 0}
   cardTimerImage: {fileID: 0}
+  relodTime: 30
 --- !u!114 &1681273117
 MonoBehaviour:
   m_ObjectHideFlags: 0
