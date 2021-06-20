@@ -445,7 +445,7 @@ public class TacticalBehavior : MonoBehaviour
         foreach (GameObject army in troops) {
             sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;
         }
-        return sb.ToString();
+        return "sb.ToString()";
     }
     public List<GameObject> GetAllTroops()
     {

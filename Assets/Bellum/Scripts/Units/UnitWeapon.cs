@@ -97,12 +97,12 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
-                //cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
                 //Debug.Log($"Unit Weapon speed current: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)}  max: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)} ");
                 if (unit.unitType == UnitMeta.UnitType.CAVALRY && unit.GetUnitMovement().GetAcceleration() > 0f)
                 {
                     Debug.Log($"Unit Weapon speed current: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)}  max: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)} calculatedDamageToDeal {calculatedDamageToDeal} * {DashDamageFactor}");
                     calculatedDamageToDeal *= (DashDamageFactor + unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT) );
+                    cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
                 }
                 yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
                 if (other == null || ! health.IsAlive()) { continue; }

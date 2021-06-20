@@ -67,7 +67,7 @@ public class CardDealer : MonoBehaviour
     private void StartShuffleDeck()
     {
         StartCoroutine(ShuffleDeck(false));
-        if(spawnEnemyCard == true)
+        if (spawnEnemyCard == true && ((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
             StartCoroutine(ShuffleDeck(true));
         }
