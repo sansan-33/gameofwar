@@ -16,7 +16,7 @@ public class TotalEleixier : MonoBehaviour
 
     public int maxEleixer = 10;
     public float maxEleixerTimer;
-    private float eleixerTimer = 2f;
+    private float eleixerTimer = 3f;
     public int eleixer = 0;
     public int enemyEleixer = 0;
     bool IS_SPEEDUP = false;
