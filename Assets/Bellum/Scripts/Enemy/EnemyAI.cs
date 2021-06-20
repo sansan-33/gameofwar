@@ -384,8 +384,6 @@ public class EnemyAI : MonoBehaviour
             //Debug.Log($"DragCard {original} {finishPos}");
         float timer = 1.5f;
 
-        ///////Need to fix
-        ///flow out the screen
         float x = cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition.x;
          Debug.Log($"Drag card {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} < {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
         if(enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) < enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
@@ -429,7 +427,28 @@ public class EnemyAI : MonoBehaviour
             }
         }
         
-   
+     
+
+        //dealManagers.GetComponent<CardDealer>().Hit(true);
+        yield return null;
+    }
+    private void OnUpdateElexier(int elexier)
+    {
+        this.elexier = elexier;
+    }
+    private IEnumerator SpawnEnemy()
+    {
+        while(nextCard != null)
+        {
+            if(nextCard.GetUnitElexier() <= this.elexier)
+            {
+                int type = (int)nextCard.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+                yield return SelectPos(nextCard, (UnitMeta.UnitType)type);
+                nextCard = null;
+            }
+            yield return new WaitForSeconds(2f);
+        }
+        yield return null;
     }
     private IEnumerator SelectCard(bool needScale)
     {
