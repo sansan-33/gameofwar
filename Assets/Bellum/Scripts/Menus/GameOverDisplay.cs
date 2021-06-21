@@ -21,7 +21,6 @@ public class GameOverDisplay : MonoBehaviour
 
     [SerializeField] private TMP_Text totalText = null;
 
-    [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private Canvas cardDisplay = null;
     [SerializeField] private TMP_Text crownBlueText = null;
     [SerializeField] private TMP_Text crownRedText = null;
@@ -71,8 +70,9 @@ public class GameOverDisplay : MonoBehaviour
         GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + (winner.ToLower() == "blue" ? "0" : "1"));
         winnerNameText.text = $"{winner} Team";
         gameOverDisplayParent.enabled = true;
-        GameObject cam = Instantiate(camFreeLookPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-        cam.GetComponent<CMFreeLook>().ThirdCamera(winnerObject, winnerObject);
+
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.ThirdCamera(winnerObject, winnerObject);
         winnerNameText.DOFade(0f, 0.1f);
         winnerNameText.DOFade(1f, 5f);
         winnerNameText.transform.DOMove(winnerNameText.transform.position + 2 * (Vector3.down), 1.75f).OnComplete(() => {

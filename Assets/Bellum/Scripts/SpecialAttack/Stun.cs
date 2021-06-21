@@ -82,7 +82,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
        
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)//1 player mode
         {
-            GetComponentInParent<UnitWeapon>().CMVirtual();
+            GetComponentInParent<UnitWeapon>().cmShake();
             //stop enenmy
             foreach (GameObject unit in enemyList)
             {
@@ -114,26 +114,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
             }
             FindObjectOfType<SpawnSpEffect>().CmdSpawnEffect(1, null);
             effects = FindObjectOfType<SpawnSpEffect>().GetEffect(1);
-            GetComponentInParent<UnitWeapon>().CMVirtual();
-        }
-    }
-    private void CMVIRTUAL()
-    {
-        CmdCMVirtual();
-    }
-    //[Command(ignoreAuthority = true)]
-    [Command(requiresAuthority = false)]
-    public void CmdCMVirtual()
-    {
-        //Debug.Log("CmdCMVirtual");
-        if (GameObject.Find("camVirtual") == null)
-        {
-            //Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
-            //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
-            GameObject cam = Instantiate(camPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-            //cam.GetComponent<CinemachineShake>().shakeTime = enemyReFightTimer;
-            cam.GetComponent<CinemachineShake>().ShakeCamera(enemyReFightTimer);
-            NetworkServer.Spawn(cam, connectionToClient);
+            GetComponentInParent<UnitWeapon>().cmShake();
         }
     }
     public int GetSpCost()
@@ -151,6 +132,7 @@ public class Stun : NetworkBehaviour, ISpecialAttack
         {
             foreach (GameObject unit in enemyList)
             {
+                if (unit == null) { continue; }
                 CardStats cardStats = unit.GetComponent<CardStats>();
                 UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
                 UnitSpeedkeys.TryGetValue(unit, out int speed);

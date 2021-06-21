@@ -12,7 +12,6 @@ public class UnitProjectile : NetworkBehaviour
     [SerializeField] private float damageToDealOriginal = 0;
     [SerializeField] private float destroyAfterSeconds = 50f;
     [SerializeField] private float launchForce = 10f;
-    [SerializeField] private GameObject camPrefab = null;
     [SerializeField] private string unitType;
     [SerializeField] private GameObject specialEffectPrefab = null;
     [SerializeField] private ElementalDamage.Element element;
@@ -195,17 +194,7 @@ public class UnitProjectile : NetworkBehaviour
         if (opponentIdentity == null) { return; }
         if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
     }
-
-    [Command]
-    private void cmdCMVirtual()
-    {
-        if (GameObject.Find("camVirtual") == null)
-        {
-            GameObject cam = Instantiate(camPrefab, new Vector2(0, 300), Quaternion.Euler(new Vector3(90, 0, 0)));
-            cam.GetComponent<CinemachineShake>().ShakeCamera(0.5f);
-            NetworkServer.Spawn(cam, connectionToClient);
-        }
-    }
+  
     [Command]
     private void cmdSpecialEffect(Vector3 position )
     {

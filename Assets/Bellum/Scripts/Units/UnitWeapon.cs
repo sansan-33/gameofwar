@@ -12,8 +12,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private Targeter targeter = null;
     [SerializeField] private float damageToDeal = 1;
     
-    [SerializeField] private GameObject camPrefab = null;
-    [SerializeField] private GameObject camFreeLookPrefab = null;
     [SerializeField] private GameObject attackPoint;
     [SerializeField] private float attackRange=5f;
     [SerializeField] public LayerMask layerMask = new LayerMask();
@@ -74,7 +72,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             isFlipped = false;
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
-                //Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
+                //if (unit.unitType == UnitMeta.UnitType.TANK)
+                //    Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 //if ( (other.tag == "Player" + player.GetPlayerID() || other.tag == "King" + player.GetPlayerID() ) && (targeter.tag == "Player" + player.GetPlayerID() || targeter.tag == "King" + player.GetPlayerID())) {continue;}  //check to see if it belongs to the player, if it does, do nothing
                 //if ( (other.tag == "Player" + player.GetEnemyID() || other.tag == "King" + player.GetEnemyID() ) && (targeter.tag == "Player" + player.GetEnemyID() || targeter.tag == "King" + player.GetEnemyID() ) ) { continue; }  //check to see if it belongs to the player, if it does, do nothing
                 if ( other.tag.Substring(other.tag.Length - 1 ) == targeter.tag.Substring(targeter.tag.Length - 1)) { continue; }  //check to see if it belongs to the player, if it does, do nothing
@@ -109,7 +108,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 CmdDealDamage(other.gameObject, calculatedDamageToDeal);
                 if (IsKingSP == true)
                 {
-                    cmdCMVirtual();
+                    cmShake();
                     ReScaleDamageDeal();
                 }
                 if (unit.unitType == UnitMeta.UnitType.TANK)
@@ -122,7 +121,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 cmdSpecialEffect(other.transform.position);
                 if(firstOther == null)
                 firstOther = other.gameObject;
-                if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmdCMVirtual(); }
+                if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmShake(); }
                 if (tag.Contains("Sneaky")) GetComponent<UnitPowerUp>().CmdSneakOff();
                 if (!IsAreaOfEffect)
                     break;
@@ -208,31 +207,15 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         GameObject effect = Instantiate(slashEffectPrefab, position, Quaternion.Euler(new Vector3(0, rotation.y > 0 ? 0 : 180, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
     }
-    public void CMVirtual()
+    public void cmShake()
     {
-        cmdCMVirtual();
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.shake();
     }
-    //[Command(ignoreAuthority = true)]
-    [Command(requiresAuthority = false)]
-    private void cmdCMVirtual()
+    private void cmFreeLook()
     {
-        if (GameObject.Find("camVirtual") == null) {
-            //Debug.Log($" Spawn  camVirtual {GameObject.Find("camVirtual")}");
-            //GameObject cam = Instantiate(camPrefab, new Vector2(0,300), Quaternion.Euler(new Vector3(90, 0, 0)));
-            GameObject cam = Instantiate(camPrefab, new Vector3(0,0,0), Quaternion.Euler(new Vector3(0, 0, 0)));
-            cam.GetComponent<CinemachineShake>().ShakeCamera(0.5f)  ;
-            NetworkServer.Spawn(cam, connectionToClient);
-        }
-    }
-    [Command]
-    private void cmdCMFreeLook()
-    {
-        if (GameObject.Find("camVirtual") == null)
-        {
-            GameObject cam = Instantiate(camFreeLookPrefab, new Vector3(0, 0, 0), Quaternion.Euler(new Vector3(0, 0, 0)));
-            cam.GetComponent<CMFreeLook>().ThirdCamera(GameObject.FindGameObjectWithTag("Player" + player.GetPlayerID()), GameObject.FindGameObjectWithTag("Player" + player.GetEnemyID()));
-            NetworkServer.Spawn(cam, connectionToClient);
-        }
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.ThirdCamera(GameObject.FindGameObjectWithTag("Player" + player.GetPlayerID()), GameObject.FindGameObjectWithTag("Player" + player.GetEnemyID()));
     }
     public Transform AttackPoint()
     {
