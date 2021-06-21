@@ -13,6 +13,7 @@ public class UnitPowerUp : NetworkBehaviour
     [SerializeField] private Material sneakyMaterial = null;
     public bool canSpawnEffect = true;
     private Material[] origialMaterial;
+    private HashSet<UnitMeta.UnitSkill> activeSkill = new HashSet<UnitMeta.UnitSkill>();
 
     private void Scale()
     {
@@ -200,6 +201,9 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
         UnitMeta.UnitSkill defaultSkill = skill == UnitMeta.UnitSkill.DEFAULT ? UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType] : skill;
         //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
+
+        if (activeSkill.Contains(defaultSkill)) { return; }
+        activeSkill.Add(defaultSkill);
         switch (defaultSkill)
         {
             case UnitMeta.UnitSkill.SCALE:
