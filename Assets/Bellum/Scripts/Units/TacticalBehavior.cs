@@ -558,7 +558,13 @@ public class TacticalBehavior : MonoBehaviour
         UnitFactory localFactory=null;
         CardStats cardStats;
         float offset = 1f;
-        int flip = -1;
+        int posxflip = -1;
+        int poszflip = 1;
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1) {
+            poszflip = 1;
+        } else {
+            poszflip = (playerid == PLAYERID ? 1 : -1);
+        }
         Dictionary<string, CardStats> userCardStatsDict = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>().userCardStatsDict;
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
@@ -590,8 +596,8 @@ public class TacticalBehavior : MonoBehaviour
                 while (unitspawn <= 6)
                 {
                     yield return new WaitForSeconds(0.5f);
-                    flip *= -1;
-                    spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y , kingPoint.z + (10 * (playerid == PLAYERID ? 1: -1)));
+                    posxflip *= -1;
+                    spawnPoint = new Vector3(kingPoint.x + (offset * posxflip), kingPoint.y , kingPoint.z + (10 * poszflip));
                     localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.CAVALRY , UnitMeta.UnitType.CAVALRY.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
                     offset += 2;
                     unitspawn++;
@@ -610,8 +616,8 @@ public class TacticalBehavior : MonoBehaviour
                 while (unitspawn <= 12)
                 {
                     yield return new WaitForSeconds(.5f);
-                    flip *= -1;
-                    spawnPoint = new Vector3(kingPoint.x + (offset * flip), kingPoint.y, kingPoint.z + (10 * (playerid == PLAYERID ? 1 : -1)));
+                    posxflip *= -1;
+                    spawnPoint = new Vector3(kingPoint.x + (offset * posxflip), kingPoint.y, kingPoint.z + (10 * poszflip));
                     localFactory.CmdDropUnit(playerid, spawnPoint, StaticClass.playerRace, UnitMeta.UnitType.ARCHER, UnitMeta.UnitType.ARCHER.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, player.GetTeamColor(), Quaternion.identity);
                     offset += 1;
                     unitspawn++;

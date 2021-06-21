@@ -206,6 +206,7 @@ public class UnitPowerUp : NetworkBehaviour
                 Scale();
                 break;
             case UnitMeta.UnitSkill.SHIELD:
+                Provoke();
                 Shield();
                 break;
             case UnitMeta.UnitSkill.VOLLEY:
@@ -218,6 +219,7 @@ public class UnitPowerUp : NetworkBehaviour
                 Provoke();
                 break;
             case UnitMeta.UnitSkill.TORNADO:
+                Healing();
                 Tornado();
                 break;
             case UnitMeta.UnitSkill.HEAL:
