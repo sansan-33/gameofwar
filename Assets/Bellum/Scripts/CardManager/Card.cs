@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public Image buttonImage;
     public CardFace cardFace;
     public int cardPlayerHandIndex = 0;
     [SerializeField] public TMP_Text eleixerText;
@@ -241,7 +240,7 @@ public class Card : MonoBehaviour
                     cardTimerImage.gameObject.SetActive(false);
                     effectAmount = 0.1f;
                 }
-                buttonImage.material.SetFloat("_Greyscale", effectAmount);
+                GetComponent<Image>().material.SetFloat("_Greyscale", effectAmount);
             }
         }
         
