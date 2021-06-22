@@ -72,7 +72,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
             targets.AddRange(provokeTanks.ToList());
         if (sneakyFootman != null && sneakyFootman.Length > 0)
             targets.AddRange(sneakyFootman.ToList());
-        Debug.Log($"AUTO Unit Firing ClosestTarget {targets.Count} ");
+        //Debug.Log($"AUTO Unit Firing ClosestTarget {targets.Count} ");
         if (targets.Count == 0) { return Vector3.zero; }
         for (int i = targets.Count - 1; i > -1; --i)
         {

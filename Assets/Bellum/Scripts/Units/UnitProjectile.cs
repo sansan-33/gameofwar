@@ -138,7 +138,6 @@ public class UnitProjectile : NetworkBehaviour
             if (other.tag.Contains(enemyid.ToString()) && unitType == "Enemy" || other.tag.Contains(playerid.ToString()) && unitType == "Player")
             {
                 other.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.VICTORY);
-                Debug.Log($"{other.name } Chain Ended {UnitAnimator.AnimState.VICTORY}");
                 DestroySelf();
             }
         }
@@ -252,7 +251,7 @@ public class UnitProjectile : NetworkBehaviour
     [Server]
     private void DestroySelf()
     {
-        Debug.Log($"{name} Self destroy after {destroyAfterSeconds}");
+        //Debug.Log($"{name} Self destroy after {destroyAfterSeconds}");
         if(gameObject != null)
         NetworkServer.Destroy(gameObject);
     }
@@ -316,7 +315,7 @@ public class UnitProjectile : NetworkBehaviour
             // remove target in targets
         }
         //Debug.Log($"{name} exit while loop for targets total : {targets.Count}");
-        transform.LookAt(new Vector3(TargetObjectPos.x, TargetObjectPos.y+2, TargetObjectPos.z));
+        transform.LookAt(new Vector3(TargetObjectPos.x, TargetObjectPos.y + 5, TargetObjectPos.z));
         rb.velocity = transform.forward * launchForce;
         IS_CHAIN_ENDED = true;
     }

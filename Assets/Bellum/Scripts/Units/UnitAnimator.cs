@@ -86,9 +86,9 @@ public class UnitAnimator : NetworkBehaviour
                 var defaultClipLength = 0f;
                 isAttacking = true;
                 clipLength.TryGetValue(newState.ToString() , out defaultClipLength);
-                if(newState.ToString().Contains("VICTORY"))
-                    networkAnim.animator.SetFloat("animSpeed", 100f);
-                else
+                //if(newState.ToString().Contains("VICTORY"))
+                //    networkAnim.animator.SetFloat("animSpeed", 100f);
+                //else
                     networkAnim.animator.SetFloat("animSpeed", defaultClipLength / GetComponent<IAttack>().RepeatAttackDelay());
                 Invoke("AttackCompleted", GetComponent<IAttack>().RepeatAttackDelay());
             }
