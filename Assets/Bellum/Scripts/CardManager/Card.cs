@@ -24,6 +24,7 @@ public class Card : MonoBehaviour
     private int type;
     private float progressImageVelocity;
     Color teamColor;
+    [SerializeField] public Shader greyScaleShader;
     [SerializeField] public TMP_Text cardStar;
     [SerializeField] public Button cardSpawnButton;
     [SerializeField] public Image charIcon;
@@ -103,6 +104,16 @@ public class Card : MonoBehaviour
     {
         //Debug.Log($"calling set card _cardFace.numbers {_cardFace.numbers} stats {_cardFace.stats}");
         cardFace = new CardFace(_cardFace.suit, _cardFace.numbers, _cardFace.star, _cardFace.stats);
+        if(cardFace.numbers == Card_Numbers.BARRACK || cardFace.numbers == Card_Numbers.TOWER || cardFace.numbers == Card_Numbers.CATAPULT || cardFace.numbers == Card_Numbers.WALL) 
+        {
+            if(enemyCard == false)
+            {
+                Material mat = new Material(greyScaleShader);
+                GetComponent<Image>().material = mat;
+            }
+
+        }
+       
         StartCoroutine(HandleScale());
     }
     public void SetUnitElexier(int elexier)
@@ -240,7 +251,9 @@ public class Card : MonoBehaviour
                     cardTimerImage.gameObject.SetActive(false);
                     effectAmount = 0.1f;
                 }
+                
                 GetComponent<Image>().material.SetFloat("_Greyscale", effectAmount);
+                Debug.Log($"{GetComponent<Image>().material.GetFloat("_Greyscale")} in {name}");
             }
         }
         
