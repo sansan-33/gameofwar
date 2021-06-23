@@ -110,6 +110,7 @@ public class Card : MonoBehaviour
             {
                 Material mat = new Material(greyScaleShader);
                 GetComponent<Image>().material = mat;
+                GetComponent<Image>().material.SetFloat("_Greyscale", (float)0.1);
             }
 
         }
