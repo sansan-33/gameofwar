@@ -2,8 +2,8 @@
 public class APIConfig
 {
     // API url
-    //public static string urladdress = "https://www.schoolapis.com:6400";
-    public static string urladdress = "http://192.168.2.181:6400";
+    public static string urladdress = "https://www.schoolapis.com:6400";
+    //public static string urladdress = "http://192.168.2.181:6400";
     public static string gameServerService = "gameserver";
     public static string quitService = "gameserver/quit";
     public static string cardService = "card";

@@ -532,7 +532,7 @@ public class TacticalBehavior : MonoBehaviour
                 */
             }
         }
-        Debug.Log(sb.ToString());
+        //Debug.Log(sb.ToString());
     }
     public void HandleGameOver(string winner)
     {
