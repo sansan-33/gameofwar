@@ -28,6 +28,7 @@ public class UnitProjectile : NetworkBehaviour
     [SyncVar]
     public bool IS_CHAIN_ATTACK = false;
     public bool IS_CHAIN_ENDED = false;
+    public static event Action<string> GateOpened;
 
     private bool HITTED = true; // initial state , if hitted = true, will move the hammer to next target
     // state
@@ -196,8 +197,13 @@ public class UnitProjectile : NetworkBehaviour
     {
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
         if(enemy != null && enemy.TryGetComponent<Health>(out Health health)){
-            if(health.DealDamage(damge))
+            if (health.DealDamage(damge))
                 onKilled?.Invoke();
+            if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
+            {
+                GateOpened?.Invoke(unitType == "Enemy" ? "1" : "0");
+            }
+
         }
     }
     private void elementalEffect(ElementalDamage.Element element, Unit other)

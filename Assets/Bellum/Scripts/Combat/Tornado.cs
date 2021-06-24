@@ -53,7 +53,7 @@ public class Tornado : NetworkBehaviour
     {
         if (shouldPull)
         {
-            if (x == null) { yield break; }
+            if (x == null || x.GetComponent<Rigidbody>() == null ) { yield break; }
             Vector3 center = new Vector3(tornadoCenter.position.x, x.transform.position.y, tornadoCenter.position.z);
             Vector3 forceDir = center - x.transform.position;
             x.GetComponent<Rigidbody>().AddForce(forceDir.normalized * pullForce * Time.deltaTime);

@@ -165,17 +165,18 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     if (targetTag.Value.Contains("Provoke"))
                         targets.Add("Player" + targetTag.Value.Substring(targetTag.Value.Length - 1));
                     else {
-                        if (!targetTag.Value.Contains("Door"))
+                        if (targetTag.Value != "Door")
                             targets.Add("Provoke" + targetTag.Value.Substring(targetTag.Value.Length - 1));
                     }
-                    foreach (string target in targets) {
-                        Debug.Log($"Tactical Groups {target} / total {targets.Count}");
-                        var foundAttackGroup = GameObject.FindGameObjectsWithTag(target);
+                    foreach (string taregt in targets)
+                    {
+                        var foundAttackGroup = GameObject.FindGameObjectsWithTag(taregt);
                         for (int i = 0; i < foundAttackGroup.Length; ++i)
                         {
                             var damageable = (foundAttackGroup[i].GetComponentInParent(typeof(IDamageable)) as IDamageable);
                             if (damageable != null)
                             {
+                                //Debug.Log($"Tactical Groups add target {foundAttackGroup[i].name} {foundAttackGroup[i].tag} ");
                                 AddTarget(foundAttackGroup[i].transform, damageable);
                             }
                         }
@@ -188,7 +189,6 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
             }
         }
-
         /// <summary>
         /// Adds the target to the target list.
         /// </summary>
@@ -463,7 +463,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected void FindAttackTarget()
         {
            
-            if (tacticalAgent.IsEngaged && tacticalAgent.TargetTransform != null && tacticalAgent.TargetDamagable.IsAlive()) { return; }
+            //if (tacticalAgent.IsEngaged && tacticalAgent.TargetTransform != null && tacticalAgent.TargetDamagable.IsAlive()) { return; }
             tacticalAgent.IsEngaged = false;
             Transform target = null;
             IDamageable damageable = null;
@@ -509,26 +509,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     Debug.Log($"{tacticalAgent.transform.name} -- target is {tacticalAgent.TargetTransform.name} ");
             }
         }
-        public override void OnDrawGizmos()
-        {
-
-            if (tacticalAgent == null || tacticalAgent.TargetTransform == null) { return; }
-
-            Gizmos.color = Color.red;
-            //Check that it is being run in Play Mode, so it doesn't try to draw this in Editor mode
-            if (true)
-            {
-                //Draw a cube where the OverlapBox is (positioned where your GameObject is as well as a size)
-                Gizmos.DrawWireCube(tacticalAgent.TargetTransform.GetComponent<Targetable>().GetAimAtPoint().transform.position, transform.localScale * 3);
-            }
-        }
         /// <summary>
         /// Moves the agent towards and rotates towards the target transform.
         /// </summary>
         protected bool MoveToAttackPosition()
         {
-            if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
-                Debug.Log($"{tacticalAgent.transform.name} move to attack position");
+            //if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
+            //    Debug.Log($"{tacticalAgent.transform.name} move to attack position");
 
             FindAttackTarget();
             if (tacticalAgent.TargetTransform == null)

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tactical;
 using Mirror;
@@ -35,7 +36,8 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     RTSPlayer player;
     float upGradeAmount =  1.01f;
     [SerializeField] private GameObject textPrefab = null;
-   
+    public static event Action<string> GateOpened;
+
     private Unit unit;
     public override void OnStartAuthority()
     {
@@ -66,7 +68,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         while (i < hitColliders.Length)
         {
             other = hitColliders[i++];
-            if (other != null && other.tag.Contains("Building") ) { break; } // Hit wall just break the loop and wait for next attack
+            if (other != null && (other.tag.Contains("Building") || other.tag == "Wall") ) { break; } // Hit wall just break the loop and wait for next attack
             if (other == null || !other.GetComponent<Health>().IsAlive()) { continue; }
             //((RTSNetworkManager)NetworkManager.singleton).Players
             isFlipped = false;
@@ -161,6 +163,11 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
        if(enemy.GetComponent<Health>().DealDamage(damge)){
             KilledEnemy();
+            if(enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
+            {
+                cmShake();
+                GateOpened?.Invoke(unit.tag.Substring(unit.tag.Length - 1));
+            }
         }
     }
     private void KilledEnemy()
@@ -280,7 +287,6 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     {
         unit.GetComponent<HealthDisplay>().HandleKillText(1);
         damageToDeal *= upGradeAmount;
-        
     }
     [ClientRpc]
     public void RpcpowerUpAfterKill(GameObject unit)

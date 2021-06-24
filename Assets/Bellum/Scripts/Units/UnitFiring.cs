@@ -32,6 +32,8 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     RTSPlayer rtsPlayer;
     // The last time the agent attacked
     private float lastAttackTime;
+  
+
     private void Start()
     {
         UnitProjectile.onKilled += HandleKilled;

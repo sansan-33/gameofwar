@@ -148,6 +148,9 @@ namespace BehaviorDesigner.Runtime.Tactical
                 //if (transform.name.ToLower().Contains(debugTarget)) { 
                 //    Debug.Log($"{transform.name} Tactical Agent TryAttack CanAttack");
                 //}
+                //Debug.Log($"targetTransform {targetTransform.name} is null ? : {targetTransform == null}  ");
+                //Debug.Log($"targetTransform Targetable is null ? : {targetTransform.GetComponent<Targetable>() == null} ");
+                //Debug.Log($"TargetTransform Targetable GetAimAtPoint: {targetTransform.GetComponent<Targetable>().GetAimAtPoint() == null} , GetAimAtPoint Position {targetTransform.GetComponent<Targetable>().GetAimAtPoint().position == null} ");
                 attackAgent.Attack(targetTransform.GetComponent<Targetable>().GetAimAtPoint().position);
                 IsEngaged = true;
                 return true;

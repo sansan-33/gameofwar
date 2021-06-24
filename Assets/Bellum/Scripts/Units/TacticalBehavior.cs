@@ -42,7 +42,8 @@ public class TacticalBehavior : MonoBehaviour
     private Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType> unitTacticalPlayer = UnitMeta.DefaultUnitTactical;
     private Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType> unitTacticalEnemey = UnitMeta.DefaultUnitTactical;
     private Dictionary<int, Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType>> unitTactical = new Dictionary<int, Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType>>();
-    private bool ISGATEOPENED = false;
+    private Dictionary<int, bool> ISGATEOPENED = new Dictionary<int, bool>();
+
     #region Client
 
     public void Start()
@@ -52,7 +53,8 @@ public class TacticalBehavior : MonoBehaviour
         ENEMYID = player.GetEnemyID();
         unitTactical[PLAYERID] = unitTacticalPlayer;
         unitTactical[ENEMYID] = unitTacticalEnemey;
-
+        ISGATEOPENED[PLAYERID] = false;
+        ISGATEOPENED[ENEMYID] = false;
         StartCoroutine(AssignTag());
 
         behaviorTreeGroups.Add(PLAYERID, playerBehaviorTreeGroup);
@@ -67,6 +69,8 @@ public class TacticalBehavior : MonoBehaviour
         Unit.ClientOnUnitDespawned += TryReinforce;
         //LeaderScrollList.LeaderSelected += HandleLeaderSelected;
         GameOverHandler.ClientOnGameOver += HandleGameOver;
+        UnitProjectile.GateOpened += SetGateOpen;
+        UnitWeapon.GateOpened += SetGateOpen;
     }
     public void OnDestroy()
     {
@@ -74,6 +78,8 @@ public class TacticalBehavior : MonoBehaviour
         Unit.ClientOnUnitDespawned -= TryReinforce;
         GameOverHandler.ClientOnGameOver -= HandleGameOver;
         //LeaderScrollList.LeaderSelected -= HandleLeaderSelected;
+        UnitProjectile.GateOpened -= SetGateOpen;
+        UnitWeapon.GateOpened -= SetGateOpen;
     }
     public IEnumerator AssignTag()
     {
@@ -249,9 +255,12 @@ public class TacticalBehavior : MonoBehaviour
     private string GetTargetName(Unit unit, int enemyCount, int playerid, int enemyid, int group, bool provoke)
     {
         string target = "";
-        if (!ISGATEOPENED) {
-            target = "Door";
-            return target;
+        if (!ISGATEOPENED[playerid]) {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.HERO)
+            {
+                target = "Door";
+                return target;
+            }
         }
         if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK || TaticalAttackCurrent[playerid] == TaticalAttack.ARROWRAIN || TaticalAttackCurrent[playerid] == TaticalAttack.CAVALRYCHARGES)
         {
@@ -445,22 +454,23 @@ public class TacticalBehavior : MonoBehaviour
     }
     public string GetTacticalStatus()
     {
-        List<GameObject> troops = GetAllTroops();
+        List<GameObject> troops = GetAllTroops(PLAYERID);
+        troops.AddRange(GetAllTroops(ENEMYID));
         var sb = new System.Text.StringBuilder();
         foreach (GameObject army in troops) {
             sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;
         }
         return sb.ToString();
     }
-    public List<GameObject> GetAllTroops()
+    public List<GameObject> GetAllTroops(int id)
     {
         List<GameObject> troops;
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + PLAYERID);
+        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + id);
         troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + PLAYERID);
+        armies = GameObject.FindGameObjectsWithTag("King" + id);
         if (armies.Length > 0)
             troops.AddRange(armies);
-        armies = GameObject.FindGameObjectsWithTag("Provoke" + PLAYERID);
+        armies = GameObject.FindGameObjectsWithTag("Provoke" + id);
         if (armies.Length > 0)
             troops.AddRange(armies);
          
@@ -668,6 +678,11 @@ public class TacticalBehavior : MonoBehaviour
     public void SetKingBoss(int enemyid, GameObject boss)
     {
         KINGBOSS[enemyid] = boss;
+    }
+    public void SetGateOpen(string playerid)
+    {
+
+        ISGATEOPENED[Int32.Parse(playerid)] = true;
     }
     #endregion
 }

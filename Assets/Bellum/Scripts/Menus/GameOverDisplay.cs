@@ -67,7 +67,8 @@ public class GameOverDisplay : MonoBehaviour
 
     private void ClientHandleGameOver(string winner)
     {
-        GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + (winner.ToLower() == "blue" ? "0" : "1"));
+        int _playerid = (winner.ToLower() == "blue" ? 0 : 1);
+        GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + _playerid);
         winnerNameText.text = $"{winner} Team";
         gameOverDisplayParent.enabled = true;
 
@@ -83,7 +84,7 @@ public class GameOverDisplay : MonoBehaviour
 
         cardDisplay.enabled = false;
         stat1Text.text = Convert.ToInt32(Timer).ToString();
-        List<GameObject> troops = tacticalBehavior.GetAllTroops();
+        List<GameObject> troops = tacticalBehavior.GetAllTroops(_playerid);
         int totalKill = 0;
         foreach (GameObject army in troops)
         {
@@ -97,7 +98,7 @@ public class GameOverDisplay : MonoBehaviour
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
             {
                 UnitFactory localFactory = factroy.GetComponent<UnitFactory>();
-                dieCount = localFactory.GetUnitSpawnCount((winner.ToLower() == "blue" ? 0 : 1)) - troops.Count;
+                dieCount = localFactory.GetUnitSpawnCount(_playerid) - troops.Count;
             }
         }
         if (winnerObject != null)

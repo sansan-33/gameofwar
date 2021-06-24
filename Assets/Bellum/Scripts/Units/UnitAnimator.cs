@@ -10,7 +10,7 @@ public class UnitAnimator : NetworkBehaviour
     [SerializeField] public AudioSource audioSource;
     AnimatorClipInfo[] m_CurrentClipInfo;
     [SyncVar] private AnimState currentState;
-    public enum AnimState { ATTACK, ATTACK0, ATTACK1, ATTACK2, DEFEND, GETHIT, LOCOMOTION, NOTHING, IDLE , DIE, PROVOKE, VICTORY};
+    public enum AnimState { ATTACK, ATTACK0, ATTACK1, ATTACK2, DEFEND, GETHIT, LOCOMOTION, NOTHING, IDLE , DIE, PROVOKE, VICTORY, OPEN};
     public bool isAttacking = false;
     private Dictionary<string, float> clipLength =  new Dictionary<string, float>();
     System.Random rand;

@@ -26,7 +26,7 @@ public class HealthDisplay : MonoBehaviour
     private void Awake()
     {
         health.ClientOnHealthUpdated += HandleHealthUpdated;
-        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO)
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
             healthBarParent.SetActive(true);
         else
             healthBarParent.SetActive(false);

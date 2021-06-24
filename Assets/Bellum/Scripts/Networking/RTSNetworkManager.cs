@@ -37,6 +37,7 @@ public class RTSNetworkManager : NetworkManager
     [SerializeField] private GameOverHandler gameOverHandlerPrefab = null;
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
     [SerializeField] private GreatWallController greatWallPrefab = null;
+    [SerializeField] private GameObject doorPrefab = null;
     private Dictionary<string, JSONNode> userTeamDict = new Dictionary<string, JSONNode>();
 
     public static event Action ClientOnConnected;
@@ -149,10 +150,16 @@ public class RTSNetworkManager : NetworkManager
             GameOverHandler gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
             GameBoardHandler gameBoardHandlerInstance = Instantiate(gameBoardHandlerPrefab);
             GreatWallController greatWallInstance = Instantiate(greatWallPrefab, gameBoardHandlerInstance.middleLinePoint.position, Quaternion.identity);
+            GameObject doorMiddleInstance = Instantiate(doorPrefab, gameBoardHandlerInstance.middleDoorPoint.position, Quaternion.identity);
+            GameObject doorLeftInstance = Instantiate(doorPrefab, gameBoardHandlerInstance.leftDoorPoint.position, Quaternion.identity);
+            GameObject doorRightInstance = Instantiate(doorPrefab, gameBoardHandlerInstance.rightDoorPoint.position, Quaternion.identity);
 
             NetworkServer.Spawn(gameBoardHandlerInstance.gameObject);
             NetworkServer.Spawn(gameOverHandlerInstance.gameObject);
             NetworkServer.Spawn(greatWallInstance.gameObject);
+            NetworkServer.Spawn(doorMiddleInstance.gameObject);
+            NetworkServer.Spawn(doorLeftInstance.gameObject);
+            NetworkServer.Spawn(doorRightInstance.gameObject);
 
             foreach (RTSPlayer player in Players)
             {

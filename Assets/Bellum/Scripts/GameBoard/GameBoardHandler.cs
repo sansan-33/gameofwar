@@ -7,6 +7,9 @@ public class GameBoardHandler : NetworkBehaviour
 
     [SerializeField] List<GameBoard> playerGameBoards = new List<GameBoard>();
     [SerializeField] public Transform middleLinePoint;
+    [SerializeField] public Transform middleDoorPoint;
+    [SerializeField] public Transform leftDoorPoint;
+    [SerializeField] public Transform rightDoorPoint;
 
     public override void OnStartServer()
     {

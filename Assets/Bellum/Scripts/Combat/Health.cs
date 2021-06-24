@@ -28,6 +28,7 @@ public class Health : NetworkBehaviour, IDamageable
 
     [SyncVar] float blinkTimer;
     SkinnedMeshRenderer skinnedMeshRenderer;
+    //MeshRenderer meshRenderer;
 
     public float blinkDuration;
     public float blinkIntensity;
@@ -131,7 +132,20 @@ public class Health : NetworkBehaviour, IDamageable
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DIE);
             yield return new WaitForSeconds(3f);
         }
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
+        {
+            Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
+            GetComponent<Collider>().enabled = false;
+            GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.OPEN);
+            cmShake();
+            yield return new WaitForSeconds(3f);
+        }
         ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
+    }
+    public void cmShake()
+    {
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.shake();
     }
     public void OnElectricShock(float damageAmount,int electricShockDamage)
     {
@@ -145,6 +159,7 @@ public class Health : NetworkBehaviour, IDamageable
     void start()
     {
         skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        //meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
     private void Update()
     {
@@ -168,7 +183,13 @@ public class Health : NetworkBehaviour, IDamageable
         float intensity = (lerp * blinkIntensity) + 1f;
         intensity = Mathf.Pow(2.0F, intensity);
         if (skinnedMeshRenderer == null) skinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        skinnedMeshRenderer.material.SetColor("Color_C33180AA", Color.white * intensity);
+        if (skinnedMeshRenderer != null)
+            skinnedMeshRenderer.material.SetColor("Color_C33180AA", Color.white * intensity);
+        //else
+        //{
+        //    if (meshRenderer == null) meshRenderer = GetComponentInChildren<MeshRenderer>();
+        //    meshRenderer.material.SetColor("MainColor", Color.white * intensity);
+        //}
     }
     private void HandleHealthUpdated(float oldHealth, float newHealth)
     {
