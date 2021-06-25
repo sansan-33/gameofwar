@@ -43,6 +43,7 @@ public class Tornado : NetworkBehaviour
     }
     void OnTriggerStay(Collider other)
     {
+        if (other.GetComponent<Rigidbody>() == null) { return; }
         if (other.GetComponent<Rigidbody>().velocity == Vector3.zero && other.GetComponent<Rigidbody>().velocity == Vector3.zero) { return; }
         if (CanPull(other) && destoryTornado)
         {
