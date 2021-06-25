@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class GreatWallController : NetworkBehaviour
+public class GreatWallController : MonoBehaviour
 {
      
 }

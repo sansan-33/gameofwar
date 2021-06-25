@@ -198,10 +198,13 @@ public class UnitProjectile : NetworkBehaviour
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
         if(enemy != null && enemy.TryGetComponent<Health>(out Health health)){
             if (health.DealDamage(damge))
-                onKilled?.Invoke();
-            if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
             {
-                GateOpened?.Invoke(unitType == "Enemy" ? "1" : "0");
+                onKilled?.Invoke();
+                if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
+                {
+                    enemy.GetComponent<UnitBody>().SetRenderMaterial(unitType == "Enemy" ? "red" : "blue");
+                    GateOpened?.Invoke(unitType == "Enemy" ? "1" : "0");
+                }
             }
 
         }

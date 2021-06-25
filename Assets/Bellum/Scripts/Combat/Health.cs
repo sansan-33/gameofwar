@@ -134,7 +134,7 @@ public class Health : NetworkBehaviour, IDamageable
         }
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
         {
-            Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
+            //Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
             GetComponent<Collider>().enabled = false;
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.OPEN);
             cmShake();

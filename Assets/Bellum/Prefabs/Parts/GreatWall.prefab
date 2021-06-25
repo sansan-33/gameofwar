@@ -78,8 +78,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724eb2f76ea8f4ad4a77399ee3b374e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &7896907716799088775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,7 +237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2245903178534314768, guid: 4bbd078c6ddb60541a3067158e56c828, type: 3}
       propertyPath: m_Size.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2245903178534314768, guid: 4bbd078c6ddb60541a3067158e56c828, type: 3}
       propertyPath: m_Size.y
@@ -350,7 +348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8364627516529510236, guid: f1863a3ca31860647b7118fcca100b85, type: 3}
       propertyPath: m_Size.x
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8364627516529510236, guid: f1863a3ca31860647b7118fcca100b85, type: 3}
       propertyPath: m_Size.y
@@ -372,7 +370,8 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5160380753961694801, guid: f1863a3ca31860647b7118fcca100b85, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f1863a3ca31860647b7118fcca100b85, type: 3}
 --- !u!1 &3446945353328857857 stripped
 GameObject:
@@ -461,7 +460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2245903178534314768, guid: 4bbd078c6ddb60541a3067158e56c828, type: 3}
       propertyPath: m_Size.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2245903178534314768, guid: 4bbd078c6ddb60541a3067158e56c828, type: 3}
       propertyPath: m_Size.y
@@ -572,7 +571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8364627516529510236, guid: f1863a3ca31860647b7118fcca100b85, type: 3}
       propertyPath: m_Size.x
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8364627516529510236, guid: f1863a3ca31860647b7118fcca100b85, type: 3}
       propertyPath: m_Size.y

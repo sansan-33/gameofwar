@@ -333,7 +333,7 @@ public class TacticalBehavior : MonoBehaviour
             if (defendObject.TryGetComponent<DefendCircle>(out DefendCircle circle))
             {
                 //The radius around the defend object to defend
-                circle.DoRenderer(newDefendRadius);
+                //circle.DoRenderer(newDefendRadius);
                 //The maximum distance that the agents can defend from the defend object
             }
         }
@@ -398,8 +398,6 @@ public class TacticalBehavior : MonoBehaviour
     {
        //Debug.Log($"StopTacticalBehavior {unitType} ");
         int leaderid = 0;
-       
-        
             foreach (var leader in leaders[PLAYERID])
             {
                 if (leader.Value.GetComponent<Unit>().unitType == unitType)
@@ -411,8 +409,6 @@ public class TacticalBehavior : MonoBehaviour
             //Debug.Log($"StopTacticalBehavior {unitType} leaderid {leaderid}");
             StopCoroutine(EnableBehavior(playerID, leaderid));
             StartCoroutine(DisableBehavior(playerID, leaderid));
-        
-        
     }
     public void StopAllTacticalBehavior(int playerId)
     {
@@ -460,7 +456,8 @@ public class TacticalBehavior : MonoBehaviour
         foreach (GameObject army in troops) {
             sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;
         }
-        return sb.ToString();
+        //return sb.ToString();
+        return "";
     }
     public List<GameObject> GetAllTroops(int id)
     {
@@ -532,7 +529,7 @@ public class TacticalBehavior : MonoBehaviour
                 */
             }
         }
-        //Debug.Log(sb.ToString());
+        Debug.Log(sb.ToString());
     }
     public void HandleGameOver(string winner)
     {

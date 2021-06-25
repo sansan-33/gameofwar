@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using Pathfinding;
 using Pathfinding.RVO;
 using UnityEngine;
 using UnityEngine.AI;
@@ -170,6 +171,9 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"StaticClass.IsFlippedCamera {StaticClass.IsFlippedCamera} , {gameObject.tag} : {gameObject.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
         gameObject.name = unitName;
         gameObject.tag = ((gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
+        var mask = gameObject.GetComponent<Seeker>().traversableTags;
+        Debug.Log($"seekers tag {mask}");
+        gameObject.GetComponent<Seeker>().traversableTags = mask & 1 << 3;
         SetSpeed(speed,false);
         gameObject.GetComponent<CardStats>().SetCardStats(star, cardLevel, health, attack, repeatAttackDelay,  speed,defense, special, specialkey, passivekey);
         gameObject.GetComponent<HealthDisplay>().SetUnitLevel(cardLevel, GetComponent<Unit>().unitType );
