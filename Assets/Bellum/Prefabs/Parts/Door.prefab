@@ -182,13 +182,14 @@ MonoBehaviour:
   uniqueID: 8264489038481130857
   points:
   - {x: 1, y: 0, z: 0}
+  - {x: 8.376933, y: 0, z: -1.9337494}
   - {x: 14, y: 0, z: 0}
   - {x: 14, y: 0, z: -4.5}
   - {x: 1, y: 0, z: -4.5}
   convex: 1
   minBoundsHeight: 1
   penaltyDelta: 10000
-  modifyWalkability: 1
+  modifyWalkability: 0
   setWalkability: 0
   applyOnStart: 1
   applyOnScan: 1
@@ -424,6 +425,10 @@ PrefabInstance:
       value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 3342502367080700966, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: shield
+      value: 
+      objectReference: {fileID: 7778847284754956101}
+    - target: {fileID: 3342502367080700966, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: maxHealth
       value: 1000
       objectReference: {fileID: 0}
@@ -555,13 +560,31 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0.66
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2460804451879552498, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+    - {fileID: 2460804451879552499, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+    - {fileID: 2460804451879552497, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+    - {fileID: 2460804451879552509, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+    - {fileID: 2460804451879552506, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+    - {fileID: 2460804451879552507, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+    - {fileID: 2460804451879552504, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
 --- !u!1 &6947259221661263850 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2460804451879552006, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
   m_PrefabInstance: {fileID: 4778064016378831852}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7778847284754956101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3007018670020009129, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+  m_PrefabInstance: {fileID: 4778064016378831852}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6947259221661263850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074f34fc0622d43b3b4f3c2c7177f5e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4873572421626126223 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 138907503864609891, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}

@@ -678,7 +678,6 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void SetGateOpen(string playerid)
     {
-
         ISGATEOPENED[Int32.Parse(playerid)] = true;
     }
     #endregion

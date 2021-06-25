@@ -44,7 +44,9 @@ public class UnitBody : NetworkBehaviour, IBody
     private void HandleRenderMaterial(string color)
     {
         unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
-        GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 2 : 1);
+        GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
+        // Recalculate all graphs
+        AstarPath.active.Scan();
     }
 
 
