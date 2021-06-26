@@ -49,7 +49,7 @@ GameObject:
   - component: {fileID: 2465195833285566526}
   m_Layer: 10
   m_Name: GreatWall
-  m_TagString: Untagged
+  m_TagString: GreatWallController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 724eb2f76ea8f4ad4a77399ee3b374e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &4370423146665531099
 MonoBehaviour:
   m_ObjectHideFlags: 0
