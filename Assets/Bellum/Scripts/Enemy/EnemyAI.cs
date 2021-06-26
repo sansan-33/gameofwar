@@ -70,6 +70,7 @@ public class EnemyAI : MonoBehaviour
     float test;
     private void Start()
     {
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count != 1) { return; }
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         CardDealer.FinishDealEnemyCard += StartSpawnnEnemy;
         TotalEleixier.UpdateEnemyElexier += OnUpdateElexier;
@@ -300,6 +301,7 @@ public class EnemyAI : MonoBehaviour
         string chapters;
         chapters = StaticClass.Chapter;
         missions = StaticClass.Mission;
+       
         Mission.TryGetValue(missions, out int _mission);
         Mission.TryGetValue(chapters, out int _chapter);
         chapter = _chapter;
