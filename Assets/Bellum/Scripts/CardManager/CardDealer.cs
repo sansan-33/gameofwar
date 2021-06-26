@@ -131,7 +131,7 @@ public class CardDealer : MonoBehaviour
         CardFace randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
         //CardFace randomCard = cardDeck[3];
         cardDeckUsed.Add(randomCard);
-       
+        Debug.Log(lastCard.transform.Find("CFX4 Sparks Explosion B"));
         lastCard.cardStar.text = "1";
         lastCard.cardSpawnButton.GetComponentInChildren<Text>().text = randomCard.numbers.ToString();
         int cardnumber = (int)randomCard.numbers;
