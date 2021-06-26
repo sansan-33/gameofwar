@@ -36,7 +36,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     RTSPlayer player;
     float upGradeAmount =  1.01f;
     [SerializeField] private GameObject textPrefab = null;
-    public static event Action<string> GateOpened;
+   
 
     private Unit unit;
     public override void OnStartAuthority()
@@ -170,11 +170,14 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 {
                     Debug.Log("Gate Open in unit weapon");
                     enemy.GetComponent<UnitBody>().SetTeamColor(color);
-                    GateOpened?.Invoke( "" + _playerid);
+                    //GateOpened?.Invoke( "" + _playerid);
+                    GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
+                    wallController.GateOpen("" + _playerid);
                 }
             }
         }
     }
+
     private void KilledEnemy()
     {
         if (isServer)

@@ -69,8 +69,7 @@ public class TacticalBehavior : MonoBehaviour
         Unit.ClientOnUnitDespawned += TryReinforce;
         //LeaderScrollList.LeaderSelected += HandleLeaderSelected;
         GameOverHandler.ClientOnGameOver += HandleGameOver;
-        UnitProjectile.GateOpened += SetGateOpen;
-        UnitWeapon.GateOpened += SetGateOpen;
+        GreatWallController.GateOpened += SetGateOpen;
     }
     public void OnDestroy()
     {
@@ -78,8 +77,7 @@ public class TacticalBehavior : MonoBehaviour
         Unit.ClientOnUnitDespawned -= TryReinforce;
         GameOverHandler.ClientOnGameOver -= HandleGameOver;
         //LeaderScrollList.LeaderSelected -= HandleLeaderSelected;
-        UnitProjectile.GateOpened -= SetGateOpen;
-        UnitWeapon.GateOpened -= SetGateOpen;
+        GreatWallController.GateOpened -= SetGateOpen;
     }
     public IEnumerator AssignTag()
     {
@@ -456,8 +454,8 @@ public class TacticalBehavior : MonoBehaviour
         foreach (GameObject army in troops) {
             sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;
         }
-        //return sb.ToString();
-        return "";
+        return sb.ToString();
+        //return "";
     }
     public List<GameObject> GetAllTroops(int id)
     {

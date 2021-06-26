@@ -109,7 +109,7 @@ public class Player : MonoBehaviour
         //Debug.Log($"Player.AddCard() ==> {name } {card.enemyCard}");
         card.cardPlayerHandIndex = playerHand[0].Count;
         playerHand[0].Add(card);
-      
+        
         card.transform.SetParent(cardSlotlist[playerHand[0].Count-1].transform);
         yield return MoveCardTo(card.transform, cardSlotlist[playerHand[0].Count - 1].transform.position, card);
         //StartCoroutine(mergeCard());
@@ -136,6 +136,8 @@ public class Player : MonoBehaviour
             // Debug.Log($"Card {beforeNewCard.cardFace.suit} Star: {beforeNewCard.cardFace.star} VS Card {card.cardFace.suit} Star {card.cardFace.star} ");
             if (beforeNewCard.cardFace.numbers == card.cardFace.numbers && beforeNewCard.cardFace.star == card.cardFace.star && ((int)beforeNewCard.cardFace.star + 1) < MAXCARDSTAR)
             {
+                //Debug.Log(beforeNewCard.transform.Find("CFX4 Sparks Explosion B"));
+                beforeNewCard.transform.Find("CFX4 Sparks Explosion B").gameObject.SetActive(true);
                 star = (int)card.cardFace.star;
                 //Increase 1 star to before card,  Text is setting + 2 , becuase the enum cardFace.star start with 0 
                 beforeNewCard.cardStar.text = "" + (star + 2);

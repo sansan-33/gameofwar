@@ -28,7 +28,6 @@ public class UnitProjectile : NetworkBehaviour
     [SyncVar]
     public bool IS_CHAIN_ATTACK = false;
     public bool IS_CHAIN_ENDED = false;
-    public static event Action<string> GateOpened;
 
     private bool HITTED = true; // initial state , if hitted = true, will move the hammer to next target
     // state
@@ -203,7 +202,9 @@ public class UnitProjectile : NetworkBehaviour
                 if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
                 {
                     enemy.GetComponent<UnitBody>().SetTeamColor(arrowType == "Enemy" ? "red" : "blue");
-                    GateOpened?.Invoke(arrowType == "Enemy" ? "1" : "0");
+                    //GateOpened?.Invoke(arrowType == "Enemy" ? "1" : "0");
+                    GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
+                    wallController.GateOpen(arrowType == "Enemy" ? "1" : "0");
                 }
             }
 
