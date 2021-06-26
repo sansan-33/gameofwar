@@ -107,7 +107,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 //yield return new WaitForSeconds(GetComponent<IAttack>().RepeatAttackDelay() - .6f);
                 yield return null;
                 if (other == null || !health.IsAlive()) { continue; }
-                CmdDealDamage(other.gameObject, calculatedDamageToDeal);
+                CmdDealDamage(other.gameObject, calculatedDamageToDeal, player.GetPlayerID());
                 if (IsKingSP == true)
                 {
                     cmShake();
@@ -158,18 +158,19 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     }
 
     [Command]
-    public void CmdDealDamage(GameObject enemy,  float damge)
+    public void CmdDealDamage(GameObject enemy,  float damge, int _playerid)
     {
-        //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
-       if(enemy.GetComponent<Health>().DealDamage(damge)){
+        string color = _playerid == 0 ? "blue" : "red";
+        Debug.Log($"Cmd Deal Damage color : {color} ");
+        if (enemy.GetComponent<Health>().DealDamage(damge)){
             KilledEnemy();
             if(enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
             {
                 if (enemy.GetComponent<UnitBody>() != null)
                 {
-                    enemy.GetComponent<UnitBody>().SetTeamColor(unit.tag.Substring(unit.tag.Length - 1) == "0" ? "blue" : "red");
-                    GateOpened?.Invoke(unit.tag.Substring(unit.tag.Length - 1));
                     Debug.Log("Gate Open in unit weapon");
+                    enemy.GetComponent<UnitBody>().SetTeamColor(color);
+                    GateOpened?.Invoke( "" + _playerid);
                 }
             }
         }

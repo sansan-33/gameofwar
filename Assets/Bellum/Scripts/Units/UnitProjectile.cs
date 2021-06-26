@@ -175,7 +175,7 @@ public class UnitProjectile : NetworkBehaviour
             cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
             elementalEffect(element, other.transform.GetComponent<Unit>());
             HITTED = true;
-            CmdDealDamage(other.gameObject, damageToDeals);
+            CmdDealDamage(other.gameObject, damageToDeals,unitType);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             if(!IS_CHAIN_ATTACK)
                 cmdArrowStick(other.transform);
@@ -193,7 +193,7 @@ public class UnitProjectile : NetworkBehaviour
     }
 
     [Command]
-    public void CmdDealDamage(GameObject enemy, float damge)
+    public void CmdDealDamage(GameObject enemy, float damge, string arrowType)
     {
         //Debug.Log($"attack{damge} DasdhDamage{DashDamage}");
         if(enemy != null && enemy.TryGetComponent<Health>(out Health health)){
@@ -202,8 +202,8 @@ public class UnitProjectile : NetworkBehaviour
                 onKilled?.Invoke();
                 if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
                 {
-                    enemy.GetComponent<UnitBody>().SetTeamColor(unitType == "Enemy" ? "red" : "blue");
-                    GateOpened?.Invoke(unitType == "Enemy" ? "1" : "0");
+                    enemy.GetComponent<UnitBody>().SetTeamColor(arrowType == "Enemy" ? "red" : "blue");
+                    GateOpened?.Invoke(arrowType == "Enemy" ? "1" : "0");
                 }
             }
 
