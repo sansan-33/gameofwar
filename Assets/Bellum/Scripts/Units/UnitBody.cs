@@ -45,11 +45,11 @@ public class UnitBody : NetworkBehaviour, IBody
     {
         unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
         GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
+        //Debug.Log($"Recalculate all graphs 12345678910 ");
         // Recalculate all graphs
-        AstarPath.active.Scan();
+        //AstarPath.active.Scan();
     }
-
-
+     
     public void SetRenderMaterial(int star)
     {
         int playerid = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();

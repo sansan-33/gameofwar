@@ -167,6 +167,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             {
                 enemy.GetComponent<UnitBody>().SetRenderMaterial(unit.tag.Substring(unit.tag.Length - 1) == "0" ? "blue" : "red");
                 GateOpened?.Invoke(unit.tag.Substring(unit.tag.Length - 1));
+                Debug.Log("Gate Open in unit weapon");
             }
         }
     }

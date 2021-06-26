@@ -8,6 +8,7 @@ using static SpecialAttackDict;
 
 public class EnemyAI : MonoBehaviour
 {
+    private bool enemyBreakWall = false;
     private bool usingCard = true;
     private bool FinishDealEnemyCard = false;
     private bool usedTatical = false;
@@ -75,7 +76,7 @@ public class EnemyAI : MonoBehaviour
         GameOverHandler.ClientOnGameOver += HandleGameOver;
         Unit.ClientOnUnitSpawned += UrgentDefend;
         Unit.ClientOnUnitDespawned += Rage;
-        InvokeRepeating("HandleSpawnEnemyBackUp", 15, 15);
+        InvokeRepeating("HandleSpawnEnemyBackUp", 10, 10);
     }
     private void OnDestroy()
     {
@@ -84,6 +85,8 @@ public class EnemyAI : MonoBehaviour
         GameOverHandler.ClientOnGameOver -= HandleGameOver;
         Unit.ClientOnUnitSpawned -= UrgentDefend;
         Unit.ClientOnUnitDespawned -= Rage;
+        UnitWeapon.GateOpened -= GateOpen;
+        UnitProjectile.GateOpened -= GateOpen;
         if (GameObject.FindGameObjectWithTag("King1"))
         {
             GameObject.FindGameObjectWithTag("King1").GetComponent<Health>().ClientOnHealthUpdated -= OnHealthUpdated;
@@ -117,6 +120,8 @@ public class EnemyAI : MonoBehaviour
             Sp.Add(unitType[4], SpList1);
 
             GameObject.FindGameObjectWithTag("King1").GetComponent<Health>().ClientOnHealthUpdated += OnHealthUpdated;
+            UnitWeapon.GateOpened += GateOpen;
+            UnitProjectile.GateOpened += GateOpen;
         }
         
       /*  Mission.Add(1, Difficulty.OneStar);
@@ -133,19 +138,27 @@ public class EnemyAI : MonoBehaviour
         yield return HandleDictionary(lists);
         //yield return new WaitForSeconds(2f);
         while (!ISGAMEOVER)
+        {
+            yield return new WaitForSeconds(2.5f);
+            if (localFactory == null) { yield return SetLocalFactory(); }
+
+            // Debug.Log($"HandleSpawnnEnemy {cards.Count}");
+            if (enemyBreakWall == false)
             {
-                yield return new WaitForSeconds(2.5f);
-                // Debug.Log($"HandleSpawnnEnemy {cards.Count}");
-                if (canSpawnUnit == true)
-                {//Debug.Log("HandleSpawnnEnemy");
-                    yield return SelectCard(true);
-                    yield return new WaitForSeconds(2f);
-                    yield return SpawnEnemy();
-                    //if (timer <= 0) { localFactory.GetComponent<Player>().dragCardMerge(); }
-                }
+                SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, Vector3.zero);
+            }
+            if (canSpawnUnit == true)
+            {//Debug.Log("HandleSpawnnEnemy");
+                 yield return SelectCard(true);
+                 yield return new WaitForSeconds(2f);
+                  yield return SpawnEnemy();
+              
+                //if (timer <= 0) { localFactory.GetComponent<Player>().dragCardMerge(); }
+            }
+           
                 usingCard = true;
                 //yield return SelectWallPos(); 
-            }
+        }
         //yield return new WaitForSeconds(1f);
 
         //Debug.Log("End game");
@@ -248,6 +261,37 @@ public class EnemyAI : MonoBehaviour
             Vector3 vector3 = GameObject.FindGameObjectWithTag("King1").transform.position;
             PlaceWall(new Vector3(vector3.x, vector3.y, vector3.z - 5));
             canSpawnUnit = true;
+        }
+    }
+    public void GateOpen(string playerID)
+    {
+        Debug.Log($"player ID is {playerID}");
+        if(playerID == "1")
+        {
+            enemyBreakWall = true;
+        }
+    }
+    private void SpawnSpesificUnit(UnitMeta.UnitType unitType ,Vector3 pos)
+    {
+        for(int i = 0; i < cards.Count; i++)
+        {
+            Card card = cards[i];
+            int type = (int)card.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+            if ((UnitMeta.UnitType)type == unitType)
+            {
+                if( elexier < card.GetUnitElexier())
+                {
+                    if (pos == Vector3.zero)
+                    {
+                        SpawnUnit(GameObject.FindGameObjectWithTag("King1").transform.position, card, (UnitMeta.UnitType)type);
+                    }
+                    else
+                    {
+                        SpawnUnit(pos, card, (UnitMeta.UnitType)type);
+                    }
+                }
+
+            }
         }
     }
     private List<UnitMeta.UnitType> HandleMission()
