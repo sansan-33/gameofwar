@@ -173,7 +173,6 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.tag = ((gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
         var mask = gameObject.GetComponent<Seeker>().traversableTags;
         var enemyid = playerID == 0 ? 1 : 0;
-        Debug.Log($"seekers tag {mask}");
         gameObject.GetComponent<Seeker>().traversableTags = mask & ~(1 << (enemyid + 1));
         SetSpeed(speed,false);
         gameObject.GetComponent<CardStats>().SetCardStats(star, cardLevel, health, attack, repeatAttackDelay,  speed,defense, special, specialkey, passivekey);

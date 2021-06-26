@@ -134,22 +134,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &541529238800452291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6947259221661263850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 183748dd497aa473a98ff0cd8cb67fc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  uniqueID: 1438492669207449009
-  updateError: 1
-  checkTime: 0.2
 --- !u!114 &1834587705506309338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +183,7 @@ MonoBehaviour:
   resetPenaltyOnPhysics: 1
   updateErosion: 1
   modifyTag: 1
-  setTag: 0
+  setTag: 1
   legacyMode: 0
   serializedVersion: 1
   legacyUseWorldSpace: 0
@@ -272,6 +256,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -444758069582851304, guid: 5aaa823f44d09b9499e0b010951524aa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5aaa823f44d09b9499e0b010951524aa, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
