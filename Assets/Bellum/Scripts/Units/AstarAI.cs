@@ -237,6 +237,9 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
                 if (other.tag != transform.tag && !other.tag.Contains( playerid) ) {
                     isCollided = true;
                     break;
+                } else {
+                    Debug.Log($"Single player seneriao collided [{other.name} + {other.tag}] vs [{name} + {tag}]");
+                    stop();
                 }
             }
         }
