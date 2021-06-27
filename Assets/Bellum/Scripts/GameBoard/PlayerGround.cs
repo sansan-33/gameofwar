@@ -5,8 +5,23 @@ using UnityEngine;
 
 public class PlayerGround : MonoBehaviour
 {
+    [SerializeField] GameObject meshParent;
     [SerializeField] GameObject playerMesh;
     [SerializeField] GameObject enemyMesh;
+    [SerializeField] GameObject playerMeshAll;
+    [SerializeField] GameObject enemyMeshAll;
+    [SerializeField] GameObject playerMeshLeft;
+    [SerializeField] GameObject enemyMeshLeft;
+    [SerializeField] GameObject playerMeshCentre;
+    [SerializeField] GameObject enemyMeshCentre;
+    [SerializeField] GameObject playerMeshRight;
+    [SerializeField] GameObject enemyMeshRight;
+    [SerializeField] GameObject playerMeshLeftRight;
+    [SerializeField] GameObject enemyMeshLeftRght;
+    [SerializeField] GameObject playerMeshLeftCentre;
+    [SerializeField] GameObject enemyMeshLeftCentre;
+    [SerializeField] GameObject playerMeshRightCentre;
+    [SerializeField] GameObject enemyMeshRightCentre;
     [SerializeField] List<GameObject> layers;
     [SerializeField] GameObject enenmyBack;
     [SerializeField] GameObject enenmyLeft;
@@ -74,12 +89,67 @@ public class PlayerGround : MonoBehaviour
             //enenmyCentre.SetActive(true);
             // enenmyLeft.SetActive(true);
             // enenmyRight.SetActive(true);
-            // Debug.Log($"breakLeftWall{breakLeftWall}breakCentreWall{breakCentreWall}breakRightWall{breakRightWall}");
-            if (breakLeftWall == true) { playerLeft.layer = LayerMask.NameToLayer("Floor"); }//playerLeft.SetActive(true); }
-            if (breakCentreWall == true) { playerCentre.layer = LayerMask.NameToLayer("Floor"); } // playerCentre.SetActive(true); }
-            if (breakRightWall == true) { playerRight.layer = LayerMask.NameToLayer("Floor"); }// playerRight.SetActive(true); }
+            // Debug.Log($"breakLeftWall{breakLeftWall}breakCentreWall{breakCentreWall}breakRightWall{breakRightWall}");\
+            Debug.Log(playerMeshAll);
+            if (playerMeshAll != null)
+            {
+                if (breakLeftWall == true)
+                {
+                    if (breakCentreWall == true)
+                    {
+                        if (breakRightWall == true)
+                        {
+                            playerMeshAll.SetActive(true);
+                        }
+                        else
+                        {
+                            playerMeshLeftCentre.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        playerMeshLeft.SetActive(true);
+                    }
+                }
+                else if (breakCentreWall == true)
+                {
+                    if (breakRightWall == true)
+                    {
+                        playerMeshRightCentre.SetActive(true);
+                    }
+                    else
+                    {
+                        playerMeshCentre.SetActive(true);
+                    }
+                }
+                else if (breakRightWall == true)
+                {
+                    playerMeshRight.SetActive(true);
+                }
+                else
+                {
+                    Debug.Log("playerMesh");
+                    enemyMesh.SetActive(true);
+                }
+            }
+            
+            if (breakLeftWall == true)
+            {
+                playerLeft.layer = LayerMask.NameToLayer("Floor");
+                //playerLeft.SetActive(true);    
+            }
+            if (breakCentreWall == true)
+            {
+                playerCentre.layer = LayerMask.NameToLayer("Floor");
+                // playerCentre.SetActive(true);
+            }
+            if (breakRightWall == true)
+            {
+                playerRight.layer = LayerMask.NameToLayer("Floor");
+                // playerRight.SetActive(true);
+            }
 
-            playerMesh.SetActive(true);
+            
         }
         else // Multi player seneriao
         {
@@ -113,10 +183,15 @@ public class PlayerGround : MonoBehaviour
    
     public void resetLayer()
     {
-        /* foreach (Transform child in childTransform)
+        childTransform = meshParent.GetComponentsInChildren<Transform>();
+        foreach (Transform child in childTransform)
          {
-             child.gameObject.layer = LayerMask.NameToLayer("Default");
-         }*/
+            
+            if(child.gameObject != meshParent)
+            {
+                child.gameObject.SetActive(false);
+            }
+         }
         foreach (GameObject child in layers)
         {
             child.gameObject.layer = LayerMask.NameToLayer("Default");
