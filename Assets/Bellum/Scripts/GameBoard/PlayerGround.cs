@@ -16,7 +16,6 @@ public class PlayerGround : MonoBehaviour
     [SerializeField] GameObject playerLeft;
     [SerializeField] GameObject playerCentre;
     [SerializeField] GameObject playerRight;
-    [SerializeField] Material Grey;
     [SerializeField] private GameObject enemyHalf;
     [SerializeField] private GameObject playerHalf;
     private bool breakLeftWall = false;
