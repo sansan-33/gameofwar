@@ -814,7 +814,7 @@ GameObject:
   - component: {fileID: 14348489}
   - component: {fileID: 14348488}
   - component: {fileID: 14348487}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: EnemyRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -829,7 +829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 14348485}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.86, y: 1.6, z: -32.04}
+  m_LocalPosition: {x: 23.86, y: 1.6, z: -32.81}
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_Children: []
   m_Father: {fileID: 780457482}
@@ -29203,7 +29203,7 @@ GameObject:
   - component: {fileID: 605593921}
   - component: {fileID: 605593920}
   - component: {fileID: 605593919}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: EnemyCentre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29218,7 +29218,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605593917}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.23, y: 1.6, z: -32.04}
+  m_LocalPosition: {x: 34.23, y: 1.6, z: -32.81}
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_Children: []
   m_Father: {fileID: 780457482}
@@ -35226,6 +35226,7 @@ MonoBehaviour:
   playerLeft: {fileID: 1823957656}
   playerCentre: {fileID: 1803468331}
   playerRight: {fileID: 1804754988}
+  Grey: {fileID: 0}
   enemyHalf: {fileID: 874801183}
   playerHalf: {fileID: 405542955}
 --- !u!4 &732544725
@@ -40756,7 +40757,7 @@ GameObject:
   - component: {fileID: 835494460}
   - component: {fileID: 835494459}
   - component: {fileID: 835494458}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: EnemyLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40771,7 +40772,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 835494456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.42, y: 1.6, z: -32.04}
+  m_LocalPosition: {x: 44.42, y: 1.6, z: -32.81}
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_Children: []
   m_Father: {fileID: 780457482}
@@ -57573,7 +57574,7 @@ GameObject:
   - component: {fileID: 1177917709}
   - component: {fileID: 1177917708}
   - component: {fileID: 1177917707}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: EnemyBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64548,7 +64549,7 @@ GameObject:
   - component: {fileID: 1307836297}
   - component: {fileID: 1307836296}
   - component: {fileID: 1307836295}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: PlayerBack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83402,7 +83403,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 138
+  field of view: 50
   orthographic: 1
   orthographic size: 40
   m_Depth: 0
@@ -83469,8 +83470,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745352323}
-  m_LocalRotation: {x: 0.38268343, y: 0, z: 0, w: 0.92387956}
-  m_LocalPosition: {x: 36.1, y: 56.8, z: -91.8}
+  m_LocalRotation: {x: 0, y: -0.9124173, z: 0.40926117, w: 0}
+  m_LocalPosition: {x: 35.5, y: 82.6, z: 42.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -86094,7 +86095,7 @@ GameObject:
   - component: {fileID: 1803468335}
   - component: {fileID: 1803468334}
   - component: {fileID: 1803468333}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: PlayerCentre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86109,7 +86110,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803468331}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 34.23, y: 1.6, z: -26.94}
+  m_LocalPosition: {x: 34.23, y: 1.6, z: -25.51}
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_Children: []
   m_Father: {fileID: 780457482}
@@ -86189,7 +86190,7 @@ GameObject:
   - component: {fileID: 1804754992}
   - component: {fileID: 1804754991}
   - component: {fileID: 1804754990}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: 'PlayerRight '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86204,7 +86205,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1804754988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.86, y: 1.6, z: -26.94}
+  m_LocalPosition: {x: 23.86, y: 1.6, z: -25.51}
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_Children: []
   m_Father: {fileID: 780457482}
@@ -87624,7 +87625,7 @@ GameObject:
   - component: {fileID: 1823957660}
   - component: {fileID: 1823957659}
   - component: {fileID: 1823957658}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: PlayerLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -87639,7 +87640,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823957656}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.42, y: 1.6, z: -26.94}
+  m_LocalPosition: {x: 44.42, y: 1.6, z: -25.51}
   m_LocalScale: {x: 10, y: 2, z: 10}
   m_Children: []
   m_Father: {fileID: 780457482}
