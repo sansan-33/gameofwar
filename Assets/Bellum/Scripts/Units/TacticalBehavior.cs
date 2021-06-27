@@ -675,12 +675,12 @@ public class TacticalBehavior : MonoBehaviour
     {
         KINGBOSS[enemyid] = boss;
     }
-    public void SetGateOpen(string playerid)
+    public void SetGateOpen(string playerid, string doorIndex)
     {
         Debug.Log("SetGateOpen");
         ISGATEOPENED[Int32.Parse(playerid)] = true;
         OPENDOORCOUNT++;
-        Debug.Log($"SetGateOpen open door count {OPENDOORCOUNT} / {MAXDOORCOUNT}");
+        Debug.Log($"SetGateOpen open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
 
     }
     #endregion

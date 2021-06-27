@@ -262,7 +262,7 @@ public class EnemyAI : MonoBehaviour
             canSpawnUnit = true;
         }
     }
-    public void GateOpen(string playerID)
+    public void GateOpen(string playerID, string doorIndex)
     {
         Debug.Log($"player ID is {playerID}");
         if(playerID == "1")
