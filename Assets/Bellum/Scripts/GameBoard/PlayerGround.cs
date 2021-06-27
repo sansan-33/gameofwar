@@ -56,15 +56,15 @@ public class PlayerGround : MonoBehaviour
             {
                 case "0":
                     breakLeftWall = true;
-                    Debug.Log("Break Left");
+                    //Debug.Log("Break Left");
                     break;
                 case "1":
                     breakCentreWall = true;
-                    Debug.Log("Break Centre");
+                    //Debug.Log("Break Centre");
                     break;
                 case "2":
                     breakRightWall = true;
-                    Debug.Log("Break Right");
+                   // Debug.Log("Break Right");
                     break;
             }
         }
@@ -90,7 +90,7 @@ public class PlayerGround : MonoBehaviour
             // enenmyLeft.SetActive(true);
             // enenmyRight.SetActive(true);
             // Debug.Log($"breakLeftWall{breakLeftWall}breakCentreWall{breakCentreWall}breakRightWall{breakRightWall}");\
-            Debug.Log(playerMeshAll);
+           // Debug.Log(playerMeshAll);
             if (playerMeshAll != null)
             {
                 if (breakLeftWall == true)
@@ -128,7 +128,7 @@ public class PlayerGround : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("playerMesh");
+                    //Debug.Log("playerMesh");
                     enemyMesh.SetActive(true);
                 }
             }
