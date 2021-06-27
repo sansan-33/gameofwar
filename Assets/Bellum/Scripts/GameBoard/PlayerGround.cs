@@ -183,15 +183,17 @@ public class PlayerGround : MonoBehaviour
    
     public void resetLayer()
     {
-        childTransform = meshParent.GetComponentsInChildren<Transform>();
-        foreach (Transform child in childTransform)
-         {
-            
-            if(child.gameObject != meshParent)
+        if(meshParent!= null)
+        {
+            childTransform = meshParent.GetComponentsInChildren<Transform>();
+            foreach (Transform child in childTransform)
             {
-                child.gameObject.SetActive(false);
+                if (child.gameObject != meshParent)
+                {
+                    child.gameObject.SetActive(false);
+                }
             }
-         }
+        }
         foreach (GameObject child in layers)
         {
             child.gameObject.layer = LayerMask.NameToLayer("Default");
