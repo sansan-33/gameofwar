@@ -43,7 +43,8 @@ public class TacticalBehavior : MonoBehaviour
     private Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType> unitTacticalEnemey = UnitMeta.DefaultUnitTactical;
     private Dictionary<int, Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType>> unitTactical = new Dictionary<int, Dictionary<UnitMeta.UnitType, TacticalBehavior.BehaviorSelectionType>>();
     private Dictionary<int, bool> ISGATEOPENED = new Dictionary<int, bool>();
-
+    private int MAXDOORCOUNT = 3;
+    private int OPENDOORCOUNT = 0;
     #region Client
 
     public void Start()
@@ -253,7 +254,7 @@ public class TacticalBehavior : MonoBehaviour
     private string GetTargetName(Unit unit, int enemyCount, int playerid, int enemyid, int group, bool provoke)
     {
         string target = "";
-        if (!ISGATEOPENED[playerid]) {
+        if (!ISGATEOPENED[playerid] && OPENDOORCOUNT < MAXDOORCOUNT) {
             if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.HERO)
             {
                 target = "Door";
@@ -678,6 +679,9 @@ public class TacticalBehavior : MonoBehaviour
     {
         Debug.Log("SetGateOpen");
         ISGATEOPENED[Int32.Parse(playerid)] = true;
+        OPENDOORCOUNT++;
+        Debug.Log($"SetGateOpen open door count {OPENDOORCOUNT} / {MAXDOORCOUNT}");
+
     }
     #endregion
 }

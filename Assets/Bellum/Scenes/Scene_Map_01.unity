@@ -57110,9 +57110,6 @@ Transform:
   m_Children:
   - {fileID: 1121096717}
   - {fileID: 1597258482}
-  - {fileID: 1947803957}
-  - {fileID: 1330309669}
-  - {fileID: 1507645894}
   m_Father: {fileID: 0}
   m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61469,7 +61466,7 @@ MonoBehaviour:
   - Basic Ground
   - DoorPlayer
   - DoorEnemy
-  - 3
+  - RestrictedArea
   - 4
   - 5
   - 6
@@ -72127,71 +72124,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1326106828}
   m_Mesh: {fileID: 4046324307770120262, guid: db0a9d52f0048274e8dc5e5e35234608, type: 3}
---- !u!1 &1330309668
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1330309669}
-  - component: {fileID: 1330309670}
-  m_Layer: 0
-  m_Name: GUO
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1330309669
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330309668}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1031803706}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1330309670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330309668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efee954c69f0d421086729bb8df1137f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  uniqueID: 5748006430990802962
-  points:
-  - {x: -1, y: 0, z: 2}
-  - {x: 5, y: 0, z: 2}
-  - {x: 5, y: 0, z: -6}
-  - {x: -1, y: 0, z: -6}
-  convex: 1
-  minBoundsHeight: 1
-  penaltyDelta: 10000
-  modifyWalkability: 1
-  setWalkability: 0
-  applyOnStart: 1
-  applyOnScan: 1
-  updatePhysics: 0
-  resetPenaltyOnPhysics: 1
-  updateErosion: 1
-  modifyTag: 0
-  setTag: 0
-  legacyMode: 0
-  serializedVersion: 1
-  legacyUseWorldSpace: 0
 --- !u!1 &1332789557
 GameObject:
   m_ObjectHideFlags: 0
@@ -81755,71 +81687,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4105677843267954, guid: 64ae000e843ec51469ca6539b68ac713, type: 3}
   m_PrefabInstance: {fileID: 1505576414}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1507645893
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1507645894}
-  - component: {fileID: 1507645895}
-  m_Layer: 0
-  m_Name: GUO
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1507645894
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1507645893}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1031803706}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1507645895
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1507645893}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efee954c69f0d421086729bb8df1137f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  uniqueID: 8264489038481130857
-  points:
-  - {x: -1, y: 0, z: 2}
-  - {x: 5, y: 0, z: 2}
-  - {x: 5, y: 0, z: -6}
-  - {x: -1, y: 0, z: -6}
-  convex: 1
-  minBoundsHeight: 1
-  penaltyDelta: 10000
-  modifyWalkability: 1
-  setWalkability: 0
-  applyOnStart: 1
-  applyOnScan: 1
-  updatePhysics: 0
-  resetPenaltyOnPhysics: 1
-  updateErosion: 1
-  modifyTag: 0
-  setTag: 0
-  legacyMode: 0
-  serializedVersion: 1
-  legacyUseWorldSpace: 0
 --- !u!1001 &1509642963
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104619,71 +104486,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4510170685905604, guid: 87e87a53cc5f7d747826d36fd9d9634e, type: 3}
   m_PrefabInstance: {fileID: 1944632233}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1947803956
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1947803957}
-  - component: {fileID: 1947803958}
-  m_Layer: 0
-  m_Name: GUO
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1947803957
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947803956}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1031803706}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1947803958
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1947803956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efee954c69f0d421086729bb8df1137f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  uniqueID: 6405541988108193569
-  points:
-  - {x: -1, y: 0, z: 2}
-  - {x: 5, y: 0, z: 2}
-  - {x: 5, y: 0, z: -6}
-  - {x: -1, y: 0, z: -6}
-  convex: 1
-  minBoundsHeight: 1
-  penaltyDelta: 10000
-  modifyWalkability: 1
-  setWalkability: 0
-  applyOnStart: 1
-  applyOnScan: 1
-  updatePhysics: 0
-  resetPenaltyOnPhysics: 1
-  updateErosion: 1
-  modifyTag: 0
-  setTag: 0
-  legacyMode: 0
-  serializedVersion: 1
-  legacyUseWorldSpace: 0
 --- !u!1001 &1947906207
 PrefabInstance:
   m_ObjectHideFlags: 0
