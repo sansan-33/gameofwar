@@ -8,7 +8,8 @@ public class UnitBody : NetworkBehaviour, IBody
 
     [SerializeField] private List< Material> material;
     private  SkinnedMeshRenderer unitRenderer;
-    
+    [SerializeField] public int doorIndex;
+
     public override void OnStartServer()
     {
         unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();

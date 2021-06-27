@@ -201,10 +201,11 @@ public class UnitProjectile : NetworkBehaviour
                 onKilled?.Invoke();
                 if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
                 {
+                    //Debug.Log($"Unit Projectile Door Open {arrowType} , set door color {(arrowType == "Enemy" ? "red" : "blue")}");
                     enemy.GetComponent<UnitBody>().SetTeamColor(arrowType == "Enemy" ? "red" : "blue");
                     //GateOpened?.Invoke(arrowType == "Enemy" ? "1" : "0");
                     GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
-                    wallController.GateOpen(arrowType == "Enemy" ? "1" : "0", "0");
+                    wallController.GateOpen(arrowType == "Enemy" ? "1" : "0", enemy.GetComponent<UnitBody>().doorIndex.ToString());
                 }
             }
 

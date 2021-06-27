@@ -677,10 +677,9 @@ public class TacticalBehavior : MonoBehaviour
     }
     public void SetGateOpen(string playerid, string doorIndex)
     {
-        Debug.Log("SetGateOpen");
         ISGATEOPENED[Int32.Parse(playerid)] = true;
         OPENDOORCOUNT++;
-        Debug.Log($"SetGateOpen open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
+        Debug.Log($"Team {playerid} , open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
 
     }
     #endregion

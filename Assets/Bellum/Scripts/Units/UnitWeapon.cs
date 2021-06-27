@@ -172,7 +172,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     enemy.GetComponent<UnitBody>().SetTeamColor(color);
                     //GateOpened?.Invoke( "" + _playerid);
                     GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
-                    wallController.GateOpen("" + _playerid, "1");
+                    wallController.GateOpen("" + _playerid, enemy.GetComponent<UnitBody>().doorIndex.ToString() );
                 }
             }
         }
