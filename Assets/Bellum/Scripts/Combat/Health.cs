@@ -132,20 +132,7 @@ public class Health : NetworkBehaviour, IDamageable
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DIE);
             yield return new WaitForSeconds(3f);
         }
-        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
-        {
-            //Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
-            GetComponent<Collider>().enabled = false;
-            GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.OPEN);
-            cmShake();
-            yield return new WaitForSeconds(3f);
-        }
         ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
-    }
-    public void cmShake()
-    {
-        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
-        cmManager.shake();
     }
     public void OnElectricShock(float damageAmount,int electricShockDamage)
     {

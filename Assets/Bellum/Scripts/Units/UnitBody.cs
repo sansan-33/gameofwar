@@ -51,6 +51,14 @@ public class UnitBody : NetworkBehaviour, IBody
         StartCoroutine(GraphUpdate());
     }
     IEnumerator GraphUpdate() {
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
+        {
+            Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
+            GetComponent<Collider>().enabled = false;
+            GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.OPEN);
+            cmShake();
+            yield return new WaitForSeconds(3f);
+        }
         yield return new WaitForSeconds(1f);
         Debug.Log($"Recalculate all graphs 12345678910 ");
         AstarPath.active.UpdateGraphs(GetComponent<GraphUpdateScene>().GetBounds());
@@ -58,6 +66,11 @@ public class UnitBody : NetworkBehaviour, IBody
         var graphToScan = AstarPath.active.data.gridGraph;
         AstarPath.active.Scan(graphToScan);
         //AstarPath.active.Scan();
+    }
+    public void cmShake()
+    {
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.shake();
     }
     public void SetRenderMaterial(int star)
     {
