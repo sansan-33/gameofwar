@@ -53,9 +53,11 @@ public class UnitBody : NetworkBehaviour, IBody
     IEnumerator GraphUpdate() {
         yield return new WaitForSeconds(1f);
         Debug.Log($"Recalculate all graphs 12345678910 ");
-        // Recalculate all graphs
         AstarPath.active.UpdateGraphs(GetComponent<GraphUpdateScene>().GetBounds());
-        AstarPath.active.Scan();
+        // Recalculate only the first grid graph
+        var graphToScan = AstarPath.active.data.gridGraph;
+        AstarPath.active.Scan(graphToScan);
+        //AstarPath.active.Scan();
     }
     public void SetRenderMaterial(int star)
     {
