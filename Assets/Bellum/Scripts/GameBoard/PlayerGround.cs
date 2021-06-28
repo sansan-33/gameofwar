@@ -23,10 +23,10 @@ public class PlayerGround : MonoBehaviour
     [SerializeField] GameObject playerMeshRightCentre;
     [SerializeField] GameObject enemyMeshRightCentre;
     [SerializeField] List<GameObject> layers;
-    [SerializeField] GameObject enenmyBack;
-    [SerializeField] GameObject enenmyLeft;
-    [SerializeField] GameObject enenmyCentre;
-    [SerializeField] GameObject enenmyRight;
+    [SerializeField] GameObject enemyBack;
+    [SerializeField] GameObject enemyLeft;
+    [SerializeField] GameObject enemyCentre;
+    [SerializeField] GameObject enemyRight;
     [SerializeField] GameObject playerBack;
     [SerializeField] GameObject playerLeft;
     [SerializeField] GameObject playerCentre;
@@ -81,10 +81,10 @@ public class PlayerGround : MonoBehaviour
                 
                 child.gameObject.layer = LayerMask.NameToLayer("Floor");
             }*/
-            enenmyBack.layer = LayerMask.NameToLayer("Floor");
-            enenmyCentre.layer = LayerMask.NameToLayer("Floor");
-            enenmyLeft.layer = LayerMask.NameToLayer("Floor");
-            enenmyRight.layer = LayerMask.NameToLayer("Floor");
+            enemyBack.layer = LayerMask.NameToLayer("Floor");
+            enemyCentre.layer = LayerMask.NameToLayer("Floor");
+            enemyLeft.layer = LayerMask.NameToLayer("Floor");
+            enemyRight.layer = LayerMask.NameToLayer("Floor");
             //enenmyBack.SetActive(true);
             //enenmyCentre.SetActive(true);
             // enenmyLeft.SetActive(true);
@@ -153,31 +153,135 @@ public class PlayerGround : MonoBehaviour
         }
         else // Multi player seneriao
         {
-            if (playerID == 0)
+            Debug.Log($"PLAYER ID {playerID}");
+            if (playerID == 1)
             {
 
-                enemyHalf.layer = LayerMask.NameToLayer("Floor");
-                childTransform = enemyHalf.GetComponentsInChildren<Transform>();
-                foreach (Transform child in childTransform)
+                playerBack.layer = LayerMask.NameToLayer("Floor");
+                playerCentre.layer = LayerMask.NameToLayer("Floor");
+                playerLeft.layer = LayerMask.NameToLayer("Floor");
+                playerRight.layer = LayerMask.NameToLayer("Floor");
+                if (breakLeftWall == true)
                 {
-                    child.gameObject.layer = LayerMask.NameToLayer("Floor");
-                   
+                    enemyLeft.layer = LayerMask.NameToLayer("Floor");
+                    //playerLeft.SetActive(true);    
                 }
-                playerMesh.SetActive(true);
+                if (breakCentreWall == true)
+                {
+                    enemyCentre.layer = LayerMask.NameToLayer("Floor");
+                    // playerCentre.SetActive(true);
+                }
+                if (breakRightWall == true)
+                {
+                    enemyRight.layer = LayerMask.NameToLayer("Floor");
+                    // playerRight.SetActive(true);
+                }
+                if (playerMeshAll != null)
+                {
+                    if (breakLeftWall == true)
+                    {
+                        if (breakCentreWall == true)
+                        {
+                            if (breakRightWall == true)
+                            {
+                                enemyMeshAll.SetActive(true);
+                            }
+                            else
+                            {
+                                enemyMeshLeftCentre.SetActive(true);
+                            }
+                        }
+                        else
+                        {
+                            enemyMeshLeft.SetActive(true);
+                        }
+                    }
+                    else if (breakCentreWall == true)
+                    {
+                        if (breakRightWall == true)
+                        {
+                            enemyMeshRightCentre.SetActive(true);
+                        }
+                        else
+                        {
+                            enemyMeshCentre.SetActive(true);
+                        }
+                    }
+                    else if (breakRightWall == true)
+                    {
+                        enemyMeshRight.SetActive(true);
+                    }
+                    else
+                    {
+                        //Debug.Log("playerMesh");
+                        playerMesh.SetActive(true);
+                    }
+                }
             }
             else
             {
-                playerHalf.layer = LayerMask.NameToLayer("Floor");
-                childTransform = playerHalf.GetComponentsInChildren<Transform>();
-                foreach (Transform child in childTransform)
+                enemyBack.layer = LayerMask.NameToLayer("Floor");
+                enemyCentre.layer = LayerMask.NameToLayer("Floor");
+                enemyLeft.layer = LayerMask.NameToLayer("Floor");
+                enemyRight.layer = LayerMask.NameToLayer("Floor");
+                if (breakLeftWall == true)
                 {
-                    child.gameObject.layer = LayerMask.NameToLayer("Floor");
-                    
+                    playerLeft.layer = LayerMask.NameToLayer("Floor");
+                    //playerLeft.SetActive(true);    
                 }
-                enemyMesh.SetActive(true);
+                if (breakCentreWall == true)
+                {
+                    playerCentre.layer = LayerMask.NameToLayer("Floor");
+                    // playerCentre.SetActive(true);
+                }
+                if (breakRightWall == true)
+                {
+                    playerRight.layer = LayerMask.NameToLayer("Floor");
+                    // playerRight.SetActive(true);
+                }
+                if (playerMeshAll != null)
+                {
+                    if (breakLeftWall == true)
+                    {
+                        if (breakCentreWall == true)
+                        {
+                            if (breakRightWall == true)
+                            {
+                                playerMeshAll.SetActive(true);
+                            }
+                            else
+                            {
+                                playerMeshLeftCentre.SetActive(true);
+                            }
+                        }
+                        else
+                        {
+                            playerMeshLeft.SetActive(true);
+                        }
+                    }
+                    else if (breakCentreWall == true)
+                    {
+                        if (breakRightWall == true)
+                        {
+                            playerMeshRightCentre.SetActive(true);
+                        }
+                        else
+                        {
+                            playerMeshCentre.SetActive(true);
+                        }
+                    }
+                    else if (breakRightWall == true)
+                    {
+                        playerMeshRight.SetActive(true);
+                    }
+                    else
+                    {
+                        //Debug.Log("playerMesh");
+                        enemyMesh.SetActive(true);
+                    }
 
+                }
             }
-           
         }
     }
    
