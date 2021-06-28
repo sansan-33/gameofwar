@@ -204,6 +204,7 @@ MonoBehaviour:
   material:
   - {fileID: 2100000, guid: 1aac2aa0711a84ec2ab0e4a66de856ba, type: 2}
   - {fileID: 2100000, guid: d70b60df056cc45a5bd29d663f103ab5, type: 2}
+  doorIndex: 0
 --- !u!1001 &4544733706156477181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,7 +324,7 @@ PrefabInstance:
       objectReference: {fileID: 1834587705506309338}
     - target: {fileID: 1014293119696515951, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: radius
-      value: 3
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1014293119696515951, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: canMove
@@ -347,7 +348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552006, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Name
-      value: Door
+      value: DoorLeft
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552006, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_TagString

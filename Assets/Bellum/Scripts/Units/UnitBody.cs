@@ -57,7 +57,7 @@ public class UnitBody : NetworkBehaviour, IBody
         AstarPath.active.UpdateGraphs(GetComponent<GraphUpdateScene>().GetBounds());
         AstarPath.active.Scan();
     }
-public void SetRenderMaterial(int star)
+    public void SetRenderMaterial(int star)
     {
         int playerid = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
         int index = playerid == 0 ? star - 1 : 3 + star - 1;
