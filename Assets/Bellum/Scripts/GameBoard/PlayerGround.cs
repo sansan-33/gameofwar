@@ -42,29 +42,35 @@ public class PlayerGround : MonoBehaviour
     public void Start()
     {
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        CardDealer.FinishDealEnemyCard += SubscribeEvent;
+        TacticalBehavior.UnitTagUpdated += SubscribeEvent;
     }
     private void SubscribeEvent()
     {
         GreatWallController.GateOpened += GateOpend;
     }
+    private void OnDestroy()
+    {
+        TacticalBehavior.UnitTagUpdated -= SubscribeEvent;
+        GreatWallController.GateOpened -= GateOpend;
+    }
     private void GateOpend(string playerId, string doorIndex)
     {
-        if(playerId == player.GetPlayerID().ToString())
+        Debug.Log($"playerId{playerId} player.GetPlayerID().ToString() {player.GetPlayerID().ToString()} playerId == player.GetPlayerID().ToString() {playerId == player.GetPlayerID().ToString()}");
+        if (playerId == player.GetPlayerID().ToString())
         {
             switch (doorIndex)
             {
                 case "0":
                     breakLeftWall = true;
-                    //Debug.Log("Break Left");
+                   Debug.Log("Break Left");
                     break;
                 case "1":
                     breakCentreWall = true;
-                    //Debug.Log("Break Centre");
+                   Debug.Log("Break Centre");
                     break;
                 case "2":
                     breakRightWall = true;
-                   // Debug.Log("Break Right");
+                    Debug.Log("Break Right");
                     break;
             }
         }
@@ -224,6 +230,7 @@ public class PlayerGround : MonoBehaviour
                 enemyCentre.layer = LayerMask.NameToLayer("Floor");
                 enemyLeft.layer = LayerMask.NameToLayer("Floor");
                 enemyRight.layer = LayerMask.NameToLayer("Floor");
+                 Debug.Log($"breakLeftWall{breakLeftWall}breakCentreWall{breakCentreWall}breakRightWall{breakRightWall}");
                 if (breakLeftWall == true)
                 {
                     playerLeft.layer = LayerMask.NameToLayer("Floor");
