@@ -59,7 +59,7 @@ public class FlipCamera : MonoBehaviour
     {
         zooming = true;
         //float increment = -0.15f;
-        float zoomInMax = 29.9f;
+        float zoomInMax = 39.9f;
         //float zoomOutMax = 40f;
         float zoomSpeed = 0.1f;
         float blend = 0f;
