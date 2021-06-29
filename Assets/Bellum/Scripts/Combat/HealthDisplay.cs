@@ -111,5 +111,6 @@ public class HealthDisplay : MonoBehaviour
     public void showHealthDisplay(bool flag)
     {
         healthBarParent.SetActive(flag);
+        Debug.Log($"Hide {name} Health Display {flag}");
     }
 }
