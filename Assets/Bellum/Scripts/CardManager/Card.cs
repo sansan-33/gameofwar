@@ -178,7 +178,7 @@ public class Card : MonoBehaviour
             int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
             if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
             appearEffectPool.UseParticles(spawnPoint);
-            //Debug.Log($" drop wall{cardFace.stats}");
+            Debug.Log($" drop {((UnitMeta.UnitType)type).ToString()}");
             if (enemyCard == false)
             {
                 playerID = player.GetPlayerID();
@@ -215,7 +215,9 @@ public class Card : MonoBehaviour
     private void Update()
     {
         int elexier;
-        if (cardTimerImage != null && cardFace.numbers != Card_Numbers.BARRACK && cardFace.numbers !=Card_Numbers.TOWER && cardFace.numbers != Card_Numbers.CATAPULT && cardFace.numbers != Card_Numbers.WALL)
+        if (cardTimerImage != null && cardFace.numbers != Card_Numbers.BARRACK && cardFace.numbers !=Card_Numbers.TOWER
+            && cardFace.numbers != Card_Numbers.CATAPULT && cardFace.numbers != Card_Numbers.WALL
+            && cardFace.numbers != Card_Numbers.SPIKETRAP && cardFace.numbers != Card_Numbers.SIEGE)
         {
             onClick = false;
             elexier = enemyCard ? dealManagers.totalEleixers.enemyEleixer : dealManagers.totalEleixers.eleixer;
@@ -277,7 +279,7 @@ public enum Card_Stars
 
 public enum Card_Numbers
 { 
-    ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, BARRACK, TOWER, CATAPULT
+    ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, BARRACK, TOWER, CATAPULT, SPIKETRAP, SIEGE
 }
 public enum Card_Deck
 {
