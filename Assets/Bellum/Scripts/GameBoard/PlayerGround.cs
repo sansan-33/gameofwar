@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerGround : MonoBehaviour
 {
     [SerializeField] GameObject meshParent;
+    [SerializeField] GameObject enemymMeshParent;
     [SerializeField] GameObject playerMesh;
     [SerializeField] GameObject enemyMesh;
     [SerializeField] GameObject playerMeshAll;
@@ -190,15 +191,18 @@ public class PlayerGround : MonoBehaviour
                         {
                             if (breakRightWall == true)
                             {
+                                Debug.Log("Open ALl");
                                 enemyMeshAll.SetActive(true);
                             }
                             else
                             {
+                                Debug.Log("Open LeftCentre");
                                 enemyMeshLeftCentre.SetActive(true);
                             }
                         }
                         else
                         {
+                            Debug.Log("Open LeftCs");
                             enemyMeshLeft.SetActive(true);
                         }
                     }
@@ -206,20 +210,23 @@ public class PlayerGround : MonoBehaviour
                     {
                         if (breakRightWall == true)
                         {
+                            Debug.Log("Open RightCentre");
                             enemyMeshRightCentre.SetActive(true);
                         }
                         else
                         {
+                            Debug.Log("Open sCentre");
                             enemyMeshCentre.SetActive(true);
                         }
                     }
                     else if (breakRightWall == true)
                     {
+                        Debug.Log("Open Right");
                         enemyMeshRight.SetActive(true);
                     }
                     else
                     {
-                        //Debug.Log("playerMesh");
+                        Debug.Log("Open Mesh");
                         playerMesh.SetActive(true);
                     }
                 }
@@ -254,15 +261,18 @@ public class PlayerGround : MonoBehaviour
                         {
                             if (breakRightWall == true)
                             {
+                                Debug.Log("Open ALl");
                                 playerMeshAll.SetActive(true);
                             }
                             else
                             {
+                                Debug.Log("Open LeftCentre");
                                 playerMeshLeftCentre.SetActive(true);
                             }
                         }
                         else
                         {
+                            Debug.Log("Open LeftCs");
                             playerMeshLeft.SetActive(true);
                         }
                     }
@@ -270,20 +280,23 @@ public class PlayerGround : MonoBehaviour
                     {
                         if (breakRightWall == true)
                         {
+                            Debug.Log("Open RightCentre");
                             playerMeshRightCentre.SetActive(true);
                         }
                         else
                         {
+                            Debug.Log("Open sCentre");
                             playerMeshCentre.SetActive(true);
                         }
                     }
                     else if (breakRightWall == true)
                     {
+                        Debug.Log("Open Right");
                         playerMeshRight.SetActive(true);
                     }
                     else
                     {
-                        //Debug.Log("playerMesh");
+                        Debug.Log("Open Mesh");
                         enemyMesh.SetActive(true);
                     }
 
@@ -294,9 +307,21 @@ public class PlayerGround : MonoBehaviour
    
     public void resetLayer()
     {
+        Debug.Log("Reset Layer");
         if(meshParent!= null)
         {
             childTransform = meshParent.GetComponentsInChildren<Transform>();
+            foreach (Transform child in childTransform)
+            {
+                if (child.gameObject != meshParent)
+                {
+                    child.gameObject.SetActive(false);
+                }
+            }
+        }
+        if(enemymMeshParent != null)
+        {
+            childTransform = enemymMeshParent.GetComponentsInChildren<Transform>();
             foreach (Transform child in childTransform)
             {
                 if (child.gameObject != meshParent)
