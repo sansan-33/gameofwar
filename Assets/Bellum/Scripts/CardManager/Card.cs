@@ -178,7 +178,6 @@ public class Card : MonoBehaviour
             int type = (int)cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
             if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
             appearEffectPool.UseParticles(spawnPoint);
-            Debug.Log($" drop {((UnitMeta.UnitType)type).ToString()}");
             if (enemyCard == false)
             {
                 playerID = player.GetPlayerID();

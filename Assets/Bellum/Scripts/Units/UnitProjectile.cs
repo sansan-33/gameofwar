@@ -127,7 +127,7 @@ public class UnitProjectile : NetworkBehaviour
         bool isFlipped = false;
         bTouchingGround = true;
         damageToDeals = damageToDealOriginal;
-        if (other == null || other.name == "Walkable" || other.name == "Door") { return;  }
+        if (other == null || other.name == "Walkable" || other.name == "Door" || other.name.Contains("Trap") ) { return;  }
         if (other.tag.Contains("Building")) {
             //Debug.Log($" Hitted object {other.tag}  {other.name}, Attacker arrow type is {unitType} ");
             cmdSpecialEffect(this.transform.position);
@@ -204,7 +204,7 @@ public class UnitProjectile : NetworkBehaviour
     [Server]
     public void ServerDealDamage(GameObject enemy, float damge, string arrowType)
     {
-        Debug.Log($"attack {damge} / enemy {enemy} / arrowType {name} : {arrowType}");
+        //Debug.Log($"attack {damge} / enemy {enemy} / arrowType {name} : {arrowType}");
         if (enemy != null && enemy.TryGetComponent<Health>(out Health health))
         {
             if (health.DealDamage(damge))

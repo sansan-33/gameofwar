@@ -171,6 +171,7 @@ public class UnitPowerUp : NetworkBehaviour
         //Debug.Log($"StaticClass.IsFlippedCamera {StaticClass.IsFlippedCamera} , {gameObject.tag} : {gameObject.name} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
         gameObject.name = unitName;
         gameObject.tag = ((gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
+
         var mask = gameObject.GetComponent<Seeker>().traversableTags;
         var enemyid = playerID == 0 ? 1 : 0;
         gameObject.GetComponent<Seeker>().traversableTags = mask & ~(1 << (enemyid + 1));

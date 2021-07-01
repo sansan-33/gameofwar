@@ -143,6 +143,7 @@ public class UnitFactory : NetworkBehaviour
     {
         //float waitTime = 0.1f;
         int spawnCountOffset = 0;
+        string newTag = "";
         //yield return new WaitForSeconds(waitTime);
         while (spawnCount > 0)
         {
@@ -162,7 +163,8 @@ public class UnitFactory : NetworkBehaviour
             if (UnitMeta.BuildingUnit.Contains(unit.GetComponent<Unit>().unitType) )
             {
                 //Debug.Log($"Is Buildings {unit.GetComponent<Unit>().unitType}");
-                unit.GetComponent<UnitPowerUp>().SetTag("Building" + playerID);
+                newTag = (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.TRAP ? "Trap" : "Building") + playerID; 
+                unit.GetComponent<UnitPowerUp>().SetTag(newTag);
             }
             else
             {

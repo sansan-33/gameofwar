@@ -49,20 +49,20 @@ public class UnitBody : NetworkBehaviour, IBody
         unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
         GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
         doorColor = color;
-        Debug.Log($"Door Color changed {color} ");
+        //Debug.Log($"Door Color changed {color} ");
         StartCoroutine(GraphUpdate());
     }
     IEnumerator GraphUpdate() {
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
         {
-            Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
+            //Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
             GetComponent<Collider>().enabled = false;
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.OPEN);
             cmShake();
             yield return new WaitForSeconds(3f);
         }
         yield return new WaitForSeconds(1f);
-        Debug.Log($"Recalculate all graphs 12345678910 ");
+        //Debug.Log($"Recalculate all graphs 12345678910 ");
         AstarPath.active.UpdateGraphs(GetComponent<GraphUpdateScene>().GetBounds());
         // Recalculate only the first grid graph
         var graphToScan = AstarPath.active.data.gridGraph;

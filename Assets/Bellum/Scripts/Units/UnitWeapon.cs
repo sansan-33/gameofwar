@@ -3,9 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tactical;
 using Mirror;
-using TMPro;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
 {
@@ -19,7 +17,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private GameObject specialEffectPrefab  = null;
     [SerializeField] private GameObject slashEffectPrefab = null;
     [SerializeField] private bool IsAreaOfEffect = false;
-    private Vector3 weaponSize = new Vector3(0.1f, 0.1f, 0.5f);
+    private Vector3 weaponSize = new Vector3(0.15f, 0.1f, 0.5f);
     private float calculatedDamageToDeal ;
     private float originalDamage;
     public float DashDamageFactor = 1f;
@@ -36,7 +34,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     RTSPlayer player;
     float upGradeAmount =  1.01f;
     [SerializeField] private GameObject textPrefab = null;
-   
+    public bool AUTOFIRE = false;
 
     private Unit unit;
     public override void OnStartAuthority()
@@ -47,8 +45,17 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         //Use this to ensure that the Gizmos are being drawn when in Play Mode.
         m_Started = true;
         originalDamage = damageToDeal;
+        if (AUTOFIRE) StartCoroutine(autoFire());
     }
-
+    IEnumerator autoFire()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(repeatAttackDelay);
+            yield return TryAttack();
+        }
+        //yield return null;
+    }
     // Commands are sent from player objects on the client to player objects on the server
     // IF SERVER SIDE , object refernce not found exception
     //
@@ -74,7 +81,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
             isFlipped = false;
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
-                //if (unit.unitType == UnitMeta.UnitType.TANK)
+                //if (unit.unitType == UnitMeta.UnitType.TRAP)
                 //    Debug.Log($"Attack {targeter} , Hit Collider {hitColliders.Length} , Player Tag {targeter.tag} vs Other Tag {other.tag}");
                 //if ( (other.tag == "Player" + player.GetPlayerID() || other.tag == "King" + player.GetPlayerID() ) && (targeter.tag == "Player" + player.GetPlayerID() || targeter.tag == "King" + player.GetPlayerID())) {continue;}  //check to see if it belongs to the player, if it does, do nothing
                 //if ( (other.tag == "Player" + player.GetEnemyID() || other.tag == "King" + player.GetEnemyID() ) && (targeter.tag == "Player" + player.GetEnemyID() || targeter.tag == "King" + player.GetEnemyID() ) ) { continue; }  //check to see if it belongs to the player, if it does, do nothing

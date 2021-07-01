@@ -15,7 +15,8 @@ public class StrengthWeakness
         { UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.HERO }}, // HERO Strength to all , weak to HEROR only
         { UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK }},
         { UnitMeta.UnitType.MAGIC, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK }},
-        { UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.KING, UnitMeta.UnitType.KING } }
+        { UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.KING, UnitMeta.UnitType.KING } },
+        { UnitMeta.UnitType.TRAP, new UnitMeta.UnitType[] { UnitMeta.UnitType.TRAP, UnitMeta.UnitType.TRAP } }
     };
     public static float calculateDamage(UnitMeta.UnitType player, UnitMeta.UnitType enemy, float damage)
     {
