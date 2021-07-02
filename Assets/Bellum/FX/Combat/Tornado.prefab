@@ -19593,9 +19593,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad8167e28a0940d98257bd0ef8e83af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   tornadoCenter: {fileID: 5866788819745001628}
   pullForce: 500
   refreshRate: 2
+  unitType: 
+  destroyAfterSeconds: 5
 --- !u!135 &2124160065954742477
 SphereCollider:
   m_ObjectHideFlags: 0

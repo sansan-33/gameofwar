@@ -168,14 +168,14 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     public void CmdDealDamage(GameObject enemy,  float damge, string _playerid)
     {
         string color = _playerid == "0" ? "blue" : "red";
-        Debug.Log($"Cmd Deal Damage color : {color} ");
+        //Debug.Log($"Cmd Deal Damage color : {color} ");
         if (enemy.GetComponent<Health>().DealDamage(damge)){
             KilledEnemy();
             if(enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
             {
                 if (enemy.GetComponent<UnitBody>() != null)
                 {
-                    Debug.Log("Gate Open in unit weapon");
+                    //Debug.Log("Gate Open in unit weapon");
                     enemy.GetComponent<UnitBody>().SetTeamColor(color);
                     //GateOpened?.Invoke( "" + _playerid);
                     GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();

@@ -11,11 +11,36 @@ public class UnitPowerUp : NetworkBehaviour
 {
     [SerializeField] private GameObject specialEffectPrefab = null;
     [SerializeField] private GameObject fxEffectPrefab = null;
+    [SerializeField] private GameObject scriptEffectPrefab = null;
+    GameObject fxEffectObj;
+    GameObject specialEffectObj;
+    [SyncVar]
+    private bool isFXPlay = false;
+    [SyncVar]
+    private bool isSpecialEffectPlay = false;
     [SerializeField] private Material sneakyMaterial = null;
     public bool canSpawnEffect = true;
     private Material[] origialMaterial;
     private HashSet<UnitMeta.UnitSkill> activeSkill = new HashSet<UnitMeta.UnitSkill>();
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        spawnFxEffect();
+        spawnSpecialEffect();
+    }
+    private void Update()
+    {
+        if (isFXPlay){
+            fxPlay();
+            isFXPlay = false;
+        }
+        if (isSpecialEffectPlay)
+        {
+            specialEffectPlay();
+            isSpecialEffectPlay = false;
+        }
+    }
     private void Scale()
     {
         transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
@@ -272,28 +297,30 @@ public class UnitPowerUp : NetworkBehaviour
         //GetComponent<UnitFiring>().SetNumberOfShoot(3);
         GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.PROVOKE);
         gameObject.tag = "Provoke" + tag.Substring(tag.Length - 1);
-        fxEffect(GetComponentInParent<Transform>());
+        isFXPlay = true;
+        //fxEffect(GetComponentInParent<Transform>());
     }
     private void Healing()
     {
         if(TryGetComponent(out Healing healing))
-        GetComponent<Healing>().ServerEnableHealing(true);
+        GetComponent<Healing>().enableHealing(true);
     }
     private void Dashing(float acceleration)
     {
         //SetSpeed(speed * 1.5f, false);
         SetAcceleration(acceleration);
-        GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
-        NetworkServer.Spawn(specialEffect, connectionToClient);
+        isSpecialEffectPlay = true;
+        //GameObject specialEffect = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
+        //NetworkServer.Spawn(specialEffect, connectionToClient);
     }
     private void Tornado()
     {
         float offset = tag.Contains("0") ? 10f : -10f;
         Transform transform = GetComponentInParent<Transform>();
         Vector3 position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + offset);
-        GameObject specialEffect = Instantiate(specialEffectPrefab, position, Quaternion.identity);
-        specialEffect.GetComponent<Tornado>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
-        NetworkServer.Spawn(specialEffect, connectionToClient);
+        GameObject scriptEffect = Instantiate(scriptEffectPrefab, position, Quaternion.identity);
+        scriptEffect.GetComponent<Tornado>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
+        NetworkServer.Spawn(scriptEffect, connectionToClient);
     }
     private void Sneak(int attack, float repeatAttackDelay)
     {
@@ -320,14 +347,32 @@ public class UnitPowerUp : NetworkBehaviour
     {
         gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, 3);
         Debug.Log($"Charging attack {attack} repeatAttackDelay {repeatAttackDelay}");
-        fxEffect(GetComponent<IAttack>().AttackPoint());
-        //GameObject fxEffect = Instantiate(fxEffectPrefab, GetComponent<IAttack>().AttackPoint());
-        //NetworkServer.Spawn(fxEffect, connectionToClient);
+        isFXPlay = true;
+        //fxEffect(GetComponent<IAttack>().AttackPoint());
     }
-    private void fxEffect(Transform transform)
+    private void spawnFxEffect()
     {
-        GameObject fxEffect = Instantiate(fxEffectPrefab, transform);
-        NetworkServer.Spawn(fxEffect, connectionToClient);
+        if (fxEffectPrefab == null) { return; }
+        Transform transform;
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.CAVALRY)
+            transform = GetComponent<IAttack>().AttackPoint();
+        else
+            transform = GetComponentInParent<Transform>();
+        fxEffectObj = Instantiate(fxEffectPrefab, transform);
+        //NetworkServer.Spawn(fxEffectObj, connectionToClient);
+    }
+    private void spawnSpecialEffect()
+    {
+        if (specialEffectPrefab == null) { return; }
+        specialEffectObj = Instantiate(specialEffectPrefab, GetComponentInParent<Transform>());
+    }
+    private void fxPlay()
+    {
+        fxEffectObj.GetComponent<ParticleSystem>().Play();
+    }
+    private void specialEffectPlay()
+    {
+        specialEffectObj.GetComponent<ParticleSystem>().Play();
     }
     //======================================================== End of Unit Factory   ================================================================
 

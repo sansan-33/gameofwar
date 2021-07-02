@@ -7,73 +7,78 @@ using UnityEngine;
 
 public class Healing : NetworkBehaviour
 {
-    private RTSPlayer player;
-    private GameObject[] capsules;
     private int healingRange = 25;
     private int repeatHealingDelay = 1;
     private float lastHealingTime;
     private int healingAmount = 1;
-    private bool HEALING_ENABLED = false;
-    public GameObject healingPrefab;
+    [SerializeField] GameObject healingPrefab;
     List<GameObject> armies = new List<GameObject>();
+    [SyncVar]
+    public bool particleSysytemPlay = false;
+    [SyncVar]
+    private bool HEALING_ENABLED = false;
+    private ParticleSystem healingPS;
 
     // Start is called before the first frame update
     void Start()
     {
-        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        GameObject healingObj = Instantiate(healingPrefab, GetComponent<Targeter>().GetAimAtPoint());
+        healingPS = healingObj.GetComponent<ParticleSystem>();
         lastHealingTime = Time.time + 5f;
     }
     // Update is called once per frame
    
     private void Update()
     {
+        if (lastHealingTime + repeatHealingDelay > Time.time) { return; }
+
+        playParticle();
+        handleHealing();
+    }
+    private void playParticle()
+    {
+        if (particleSysytemPlay)
+        {
+            healingPS.Play();
+            particleSysytemPlay = false;
+        }
+        else
+        {
+            healingPS.Stop();
+        }
+    }
+    private void handleHealing()
+    {
         if (!HEALING_ENABLED) { return; }
 
-        if (this.isLocalPlayer) { return; }
+        //if (this.isLocalPlayer) { return; }
 
-        if (!hasAuthority){return;}
+        //if (!hasAuthority) { return; }
 
-        if (lastHealingTime + repeatHealingDelay > Time.time) { return; }
-        /*
-        capsules = GameObject.FindGameObjectsWithTag("PlayerBase" + player.GetPlayerID());
-
-        if (tb.GetBehaviorSelectionType(player.GetPlayerID()) != TacticalBehavior.BehaviorSelectionType.Defend) {
-            foreach (GameObject capsule in capsules)
-            {
-                cmdHealingPrefab(capsule, false);
-                //Debug.Log($"Disbale capsule {capsule.name}");
-            }
-            return;
-        }
-        */
         string playerid = tag.Substring(tag.Length - 1);
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
         GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
         GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
         armies = new List<GameObject>();
-        if(units != null && units.Length > 0)
-        armies = units.ToList();
+        if (units != null && units.Length > 0)
+            armies = units.ToList();
         if (king != null)
             armies.Add(king);
         if (provokeTanks != null && provokeTanks.Length > 0)
             armies.AddRange(provokeTanks.ToList());
-        if (armies.Count == 0) { return;  } 
+        if (armies.Count == 0) { return; }
         lastHealingTime = Time.time;
         foreach (GameObject army in armies)
         {
-            //foreach (GameObject capsule in capsules)
-            //{
-                if ((transform.position - army.transform.position).sqrMagnitude < healingRange * healingRange)
-                {
-                    //Debug.Log($"healing {army.name} {healingAmount}");
-                    cmdHealing(army, healingAmount);
-                    SpecialEffect(army);
-                }
-            //}
+            if ((transform.position - army.transform.position).sqrMagnitude < healingRange * healingRange)
+            {
+                //Debug.Log($"healing {army.name} {healingAmount}");
+                cmdHealing(army, healingAmount);
+                army.GetComponent<Healing>().particleSysytemPlay = true;
+            }
         }
     }
-    [Server]
-    public void ServerEnableHealing(bool enabled)
+    public void enableHealing(bool enabled)
     {
         HEALING_ENABLED = enabled;
     }
@@ -82,33 +87,10 @@ public class Healing : NetworkBehaviour
     {
         unit.GetComponent<Health>().Healing(healingAmount);
     }
-    public void SpecialEffect(GameObject army)
-    {
-        if (isServer)
-            RpcHealingPrefab(army);
-        else
-            cmdHealingPrefab(army);
-    }
-    [Command]
-    public void cmdHealingPrefab(GameObject army)
-    {
-        ServerHealingPrefab(army);
-    }
-    [Server]
-    public void ServerHealingPrefab(GameObject army)
-    {
-        HandleHealingPrefab(army);
-    }
-    [ClientRpc]
-    public void RpcHealingPrefab(GameObject army)
-    {
-        HandleHealingPrefab(army);
-    }
     public void HandleHealingPrefab(GameObject army)
     {
         //Debug.Log($"HandleHealingPrefab {army.GetComponent<Targeter>().GetAimAtPoint() }");
         if (army == null || !army.GetComponent<Health>().IsAlive()) { return; }
-        GameObject fxEffect = Instantiate(healingPrefab, army.GetComponent<Targeter>().GetAimAtPoint() );
-        NetworkServer.Spawn(fxEffect, connectionToClient);
+        army.GetComponent<Healing>().particleSysytemPlay = true;
     }
 }

@@ -994,6 +994,7 @@ GameObject:
   - component: {fileID: 5187453383860487590}
   - component: {fileID: 4399023084904187989}
   - component: {fileID: 3446614470378667995}
+  - component: {fileID: 7959692030236372963}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Unit
@@ -1731,6 +1732,23 @@ MonoBehaviour:
   bezierTangentLength: 0.4
   offset: 0.2
   factor: 0.1
+--- !u!114 &7959692030236372963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460804451879552006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e98c7ec4938b43069d8001d0920774f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  healingPrefab: {fileID: 100004, guid: 426dcf24d92fa4d3d8157d050492ad1a, type: 3}
+  particleSysytemPlay: 0
+  healingPS: {fileID: 0}
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0
