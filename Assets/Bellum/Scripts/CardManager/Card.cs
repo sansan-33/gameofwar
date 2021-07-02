@@ -57,8 +57,10 @@ public class Card : MonoBehaviour
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         appearEffectPool = GameObject.FindGameObjectWithTag("EffectPool").GetComponent<ParticlePool>();
         StartCoroutine(SetLocalFactory());
-        if(mergeEffectPrefab != null )
-        mergeEffect = Instantiate(mergeEffectPrefab, transform);
+        if (mergeEffectPrefab != null)
+            mergeEffect = Instantiate(mergeEffectPrefab, transform);
+        else
+            Debug.Log($"{name} mergeEffectPrefab is null");
 
         //if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
     }
