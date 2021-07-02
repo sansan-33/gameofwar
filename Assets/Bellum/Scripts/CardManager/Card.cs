@@ -18,6 +18,8 @@ public class Card : MonoBehaviour
     private UnitFactory localFactory;
     private CardDealer dealManagers;
     private ParticlePool appearEffectPool;
+    [SerializeField] public GameObject mergeEffectPrefab;
+    private GameObject mergeEffect;
     public int playerID = 0;
     public bool enemyCard = false;
     private int uniteleixer = 1;
@@ -55,7 +57,9 @@ public class Card : MonoBehaviour
         dealManagers = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
         appearEffectPool = GameObject.FindGameObjectWithTag("EffectPool").GetComponent<ParticlePool>();
         StartCoroutine(SetLocalFactory());
-       
+        if(mergeEffectPrefab != null )
+        mergeEffect = Instantiate(mergeEffectPrefab, transform);
+
         //if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
     }
     IEnumerator HandleScale()
@@ -159,9 +163,13 @@ public class Card : MonoBehaviour
         //Debug.Log("re set enemy card");
         localFactory.CmdSpawnUnit( StaticClass.playerRace, (UnitMeta.UnitType)type, (int)cardFace.star + 1, playerID, cardFace.stats.cardLevel, cardFace.stats.health, cardFace.stats.attack, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense, cardFace.stats.special, cardFace.stats.specialkey, cardFace.stats.passivekey, teamColor);
     }
+    public void playMergeEffect()
+    {
+        if(mergeEffect != null)
+        mergeEffect.GetComponent<ParticleSystem>().Play();
+    }
     public void ResetScale()
     {
-       
         GetComponent<RectTransform>().localScale = new Vector3(originalx, originaly, originalz);
     }
     public void DropUnit(Vector3 spawnPoint)

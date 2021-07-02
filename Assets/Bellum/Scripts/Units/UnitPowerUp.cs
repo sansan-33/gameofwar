@@ -31,14 +31,18 @@ public class UnitPowerUp : NetworkBehaviour
     }
     private void Update()
     {
-        if (isFXPlay){
+        bool fxLock = true;
+        bool specialLock = true;
+
+        if (isFXPlay && fxLock)
+        {
             fxPlay();
-            isFXPlay = false;
+            fxLock = false;
         }
-        if (isSpecialEffectPlay)
+        if (isSpecialEffectPlay && specialLock)
         {
             specialEffectPlay();
-            isSpecialEffectPlay = false;
+            specialLock = false;
         }
     }
     private void Scale()

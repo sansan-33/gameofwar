@@ -137,7 +137,8 @@ public class CardPlayer : MonoBehaviour
             if (beforeNewCard.cardFace.numbers == card.cardFace.numbers && beforeNewCard.cardFace.star == card.cardFace.star && ((int)beforeNewCard.cardFace.star + 1) < MAXCARDSTAR)
             {
                 //Debug.Log(beforeNewCard.transform.Find("CFX4 Sparks Explosion B"));
-                beforeNewCard.transform.Find("CFX4 Sparks Explosion B").gameObject.SetActive(true);
+                //beforeNewCard.transform.Find("CFX4 Sparks Explosion B").gameObject.SetActive(true);
+                beforeNewCard.playMergeEffect();
                 star = (int)card.cardFace.star;
                 //Increase 1 star to before card,  Text is setting + 2 , becuase the enum cardFace.star start with 0 
                 beforeNewCard.cardStar.text = "" + (star + 2);

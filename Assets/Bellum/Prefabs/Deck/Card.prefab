@@ -459,7 +459,7 @@ RectTransform:
   - {fileID: 7629887006107559854}
   - {fileID: 1843808527531430020}
   - {fileID: 6612283184569478134}
-  - {fileID: 5217140925091614952}
+  - {fileID: 2155848930850967579}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -496,6 +496,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d4be16f90d6fe4d5fb287a6d5774e467, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
   onClick: 0
+  mergeEffectPrefab: {fileID: 2161392745001671145}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 0}
@@ -1877,6 +1878,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7383104584368745480}
     m_Modifications:
+    - target: {fileID: 4888592692647344, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 198100598952655726, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
       propertyPath: looping
       value: 1
@@ -1944,8 +1949,13 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 114358004396844976, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
---- !u!224 &5217140925091614952 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6169158599414093123, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
+--- !u!1 &2161392745001671145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1280141305896002, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
+  m_PrefabInstance: {fileID: 2160112673421952427}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2155848930850967579 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4888592692647344, guid: dde90df0c3644f14d901d31b1ac3dd90, type: 3}
   m_PrefabInstance: {fileID: 2160112673421952427}
   m_PrefabAsset: {fileID: 0}
