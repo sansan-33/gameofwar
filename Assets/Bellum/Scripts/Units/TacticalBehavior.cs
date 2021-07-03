@@ -149,15 +149,15 @@ public class TacticalBehavior : MonoBehaviour
         //stopwatch.Start();
         bool provoke = false;
         GameObject defendObject;
-      
-        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
-        GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
-        GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
-        GameObject[] sneakyFootman = GameObject.FindGameObjectsWithTag("Sneaky" + playerid);
-
-        GameObject[] provokeEnemyTanks = GameObject.FindGameObjectsWithTag("Provoke" + enemyid);
-        int enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length + GameObject.FindGameObjectsWithTag("Provoke" + enemyid).Length;
+        int enemyCount = 0;
         int leaderUnitTypeID = 0;
+
+        //GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
+        //GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
+        //GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
+        //GameObject[] sneakyFootman = GameObject.FindGameObjectsWithTag("Sneaky" + playerid);
+        //GameObject[] provokeEnemyTanks = GameObject.FindGameObjectsWithTag("Provoke" + enemyid);
+        /*
         List<GameObject> armies = new List<GameObject>();
        
         if (unit == null) {
@@ -178,27 +178,37 @@ public class TacticalBehavior : MonoBehaviour
             armies.AddRange(provokeTanks.ToList());
         if (sneakyFootman != null && sneakyFootman.Length > 0)
             armies.AddRange(sneakyFootman.ToList());
-        if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0 )
+        if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0)
             provoke = true;
+        */
+        leaders[playerid].Clear();
+        behaviorTreeGroups[playerid].Clear();
 
-        foreach (GameObject child in armies)
+        foreach (Unit child in player.GetMyUnits())
         {
             if (child == null) { continue; }
 
-            leaderUnitTypeID = (int)child.GetComponent<Unit>().unitType;
-        
-            if (child.name.Contains("]"))
-            {
-                child.name = child.name.Substring(child.name.IndexOf("]") + 2 );
+            if (child.tag.Substring(child.tag.Length - 1) == playerid.ToString()) {
+                leaderUnitTypeID = (int)child.unitType;
+
+                if (child.name.Contains("]"))
+                {
+                    child.name = child.name.Substring(child.name.IndexOf("]") + 2);
+                }
+                if (!leaders[playerid].ContainsKey(leaderUnitTypeID))
+                {
+                    leaders[playerid].Add(leaderUnitTypeID, child.gameObject);
+                    child.isLeader = true;
+                    if (!child.name.Contains("*"))
+                        child.name = "*" + child.name;
+                }
+                child.transform.parent = PlayerEnemyGroup[playerid].transform;
             }
-            if (!leaders[playerid].ContainsKey(leaderUnitTypeID))
-            {
-                leaders[playerid].Add(leaderUnitTypeID, child);
-                child.GetComponent<Unit>().isLeader = true;
-                if(!child.name.Contains("*"))
-                    child.name = "*" + child.name;
+            else
+            {   if(child.tag.Contains("Provoke"))
+                    provoke = true;
+                enemyCount++;
             }
-            child.transform.parent = PlayerEnemyGroup[playerid].transform;
         }
         for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
         {
@@ -214,7 +224,7 @@ public class TacticalBehavior : MonoBehaviour
                 if ( group == 4 || group == 6 || group == 9 || group == 11 || group == 12) { continue; }
                 agentTrees[k].SetVariableValue("newTargetName", GetTargetName(child.GetComponent<Unit>() , enemyCount, playerid, enemyid, group, provoke));
 
-                SetDefend(group, agentTrees[k], defendObject, playerid, king, child.GetComponent<Unit>() );
+                SetDefend(group, agentTrees[k], defendObject, playerid, KINGBOSS[playerid], child.GetComponent<Unit>() );
                 
                 if (!child.GetComponent<Unit>().isLeader )
                 {
@@ -449,16 +459,17 @@ public class TacticalBehavior : MonoBehaviour
     }
     public string GetTacticalStatus()
     {
-        List<GameObject> troops = GetAllTroops(PLAYERID);
-        troops.AddRange(GetAllTroops(ENEMYID));
+        List<Unit> troops = GetAllTroops(PLAYERID);
+        //troops.AddRange(GetAllTroops(ENEMYID));
         var sb = new System.Text.StringBuilder();
-        foreach (GameObject army in troops) {
-            sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetComponent<Unit>().GetTaskStatus().text )) ;
+        foreach (Unit army in troops) {
+            sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetTaskStatus().text )) ;
         }
         return sb.ToString();
     }
-    public List<GameObject> GetAllTroops(int id)
+    public List<Unit> GetAllTroops(int id)
     {
+        /*
         List<GameObject> troops;
         GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + id);
         troops = armies.ToList();
@@ -468,8 +479,9 @@ public class TacticalBehavior : MonoBehaviour
         armies = GameObject.FindGameObjectsWithTag("Provoke" + id);
         if (armies.Length > 0)
             troops.AddRange(armies);
-         
-        return troops;
+        */
+
+        return player.GetMyUnits();
     }
     public BehaviorSelectionType GetBehaviorSelectionType(int playerid)
     {

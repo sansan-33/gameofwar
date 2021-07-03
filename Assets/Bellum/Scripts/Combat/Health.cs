@@ -122,9 +122,10 @@ public class Health : NetworkBehaviour, IDamageable
     }
     private IEnumerator Die()
     {
-        
         GameObject effect = Instantiate(specialEffectPrefab, transform.position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR) { yield break; }
+
         // Debug.Log($"Destroy unit");
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
         {

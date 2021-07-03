@@ -252,6 +252,7 @@ public class RTSPlayer : NetworkBehaviour
     }
     private void ServerHandleUnitSpawned(Unit unit)
     {
+        if (unit.connectionToClient == null) { return; }
         if (unit.connectionToClient.connectionId != connectionToClient.connectionId) { return; }
 
         myUnits.Add(unit);

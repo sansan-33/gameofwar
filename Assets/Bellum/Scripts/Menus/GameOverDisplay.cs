@@ -86,9 +86,9 @@ public class GameOverDisplay : MonoBehaviour
 
         cardDisplay.enabled = false;
         stat1Text.text = Convert.ToInt32(Timer).ToString();
-        List<GameObject> troops = tacticalBehavior.GetAllTroops(_playerid);
+        List<Unit> troops = tacticalBehavior.GetAllTroops(_playerid);
         int totalKill = 0;
-        foreach (GameObject army in troops)
+        foreach (Unit army in troops)
         {
             totalKill += army.GetComponent<HealthDisplay>().kills;
             //Debug.Log($"totalKill = {totalKill} + {army.name} kill {army.GetComponent<HealthDisplay>().kills}");
