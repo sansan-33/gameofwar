@@ -21,16 +21,18 @@ public class OnclickEffect : MonoBehaviour, IPointerClickHandler
         Debug.Log("ON click");
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Debug.Log($"spawn pos{pos}");
-        GameObject _effct = Instantiate(effect, parent);
-        _effct.transform.position = pos;
+        GameObject _effect = Instantiate(effect, parent);
+        _effect.transform.position = pos;
+        _effect.GetComponent<ParticleSystem>().Play();
     }
     public void OnPointerClick()
     {
         Debug.Log("ON click");
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Debug.Log($"spawn pos{pos}");
-        GameObject _effct = Instantiate(effect, parent);
-        _effct.transform.position = pos;
+        GameObject _effect = Instantiate(effect, parent);
+        _effect.transform.position = pos;
+        _effect.GetComponent<ParticleSystem>().Play();
     }
     // Update is called once per frame
     void Update()
