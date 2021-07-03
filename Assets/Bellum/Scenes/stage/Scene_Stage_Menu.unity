@@ -8271,6 +8271,7 @@ GameObject:
   - component: {fileID: 597141644}
   - component: {fileID: 597141645}
   - component: {fileID: 597141643}
+  - component: {fileID: 597141646}
   m_Layer: 5
   m_Name: Stage Human
   m_TagString: Untagged
@@ -8409,6 +8410,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapter: 1
   missionContentParent: {fileID: 975370720}
+--- !u!114 &597141646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 597141641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
 --- !u!1 &599069987
 GameObject:
   m_ObjectHideFlags: 0
@@ -10038,6 +10056,7 @@ GameObject:
   - component: {fileID: 805716838}
   - component: {fileID: 805716837}
   - component: {fileID: 805716839}
+  - component: {fileID: 805716840}
   m_Layer: 5
   m_Name: Stage God
   m_TagString: Untagged
@@ -10176,6 +10195,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapter: 4
   missionContentParent: {fileID: 975370720}
+--- !u!114 &805716840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 805716835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
 --- !u!1 &838298110
 GameObject:
   m_ObjectHideFlags: 0
@@ -11667,6 +11703,7 @@ GameObject:
   - component: {fileID: 1081828014}
   - component: {fileID: 1081828013}
   - component: {fileID: 1081828015}
+  - component: {fileID: 1081828016}
   m_Layer: 5
   m_Name: Stage ELF
   m_TagString: Untagged
@@ -11805,6 +11842,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapter: 3
   missionContentParent: {fileID: 975370720}
+--- !u!114 &1081828016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1081828011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
 --- !u!1 &1090890215
 GameObject:
   m_ObjectHideFlags: 0
@@ -13525,6 +13579,7 @@ GameObject:
   - component: {fileID: 1447327846}
   - component: {fileID: 1447327845}
   - component: {fileID: 1447327847}
+  - component: {fileID: 1447327848}
   m_Layer: 5
   m_Name: Stage Undead
   m_TagString: Untagged
@@ -13663,6 +13718,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chapter: 2
   missionContentParent: {fileID: 975370720}
+--- !u!114 &1447327848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447327843}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 4096
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
 --- !u!1 &1492979601
 GameObject:
   m_ObjectHideFlags: 0
@@ -26990,7 +27062,7 @@ GameObject:
   - component: {fileID: 2040186019}
   - component: {fileID: 2040186018}
   m_Layer: 12
-  m_Name: Button
+  m_Name: OnClickEffctButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27013,8 +27085,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1760, y: -1936}
+  m_AnchoredPosition: {x: -5.949951, y: 6.050049}
+  m_SizeDelta: {x: -1771.9, y: -1948.0999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2040186018
 MonoBehaviour:

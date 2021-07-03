@@ -34,6 +34,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private TacticalBehavior TB;
     [SerializeField] private Transform halfLine;
     [SerializeField] private Card wall;
+    [SerializeField] private Card trap;
     [SerializeField] private CardPlayer player;
     [SerializeField] private CardPlayer enemyPlayer;
     [SerializeField] private CardDealer cardDealer;
@@ -249,6 +250,11 @@ public class EnemyAI : MonoBehaviour
                     savingCardForDefend = false;
                 }
             }
+            //Trap 
+            /*while (unit.transform.position.z < halfLine.position.z || unit.transform.position.z < halfLine.position.z+10)
+            {
+                trap.DropUnit(unit.transform.position);
+            }*/
         }
         if (unit.unitType == UnitMeta.UnitType.CAVALRY && unit.CompareTag("Player0") && chapter >= 2)
         {
