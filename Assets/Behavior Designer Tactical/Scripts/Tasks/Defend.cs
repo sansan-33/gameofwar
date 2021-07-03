@@ -77,7 +77,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 for (int i = targetTransforms.Count - 1; i > -1; --i) {
                     // The target has to be alive.
                     //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": checking target " + targetTransforms[i].name  + ":" + i + "/" + targetTransforms.Count + " is alive ?"  + targets[i].IsAlive() + " .. " + HEARTBEAT++);
-                    if (targets[i].IsAlive()) {
+                    if (targets[i].IsAlive() && targetTransforms[i] !=null) {
                         // Start attacking if the target gets too close.
                         //if (tacticalAgent.transform.name.ToLower().Contains("king"))
                         //Debug.Log($"target {targetTransforms[i].name } ==> target distance {(transform.position - targetTransforms[i].position).magnitude }");
