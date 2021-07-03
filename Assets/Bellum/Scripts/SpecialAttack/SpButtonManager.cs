@@ -126,7 +126,7 @@ public class SpButtonManager : MonoBehaviour
                 {  // Only Set on our side
                     if (unit.CompareTag("Player" + player.GetPlayerID()) || unit.CompareTag("King" + player.GetPlayerID()))
                     {
-                    //Debug.Log($"multi player mode unit.specialkey: {unit.specialkey}");
+                    Debug.Log($"multi player mode unit.specialkey: {unit.specialkey} / {unit.name} /  {unit.tag}");
 
                     // Anthea 2021-04-22 need to change
                     SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.specialkey.ToUpper());

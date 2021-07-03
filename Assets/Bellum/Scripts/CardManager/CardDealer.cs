@@ -255,11 +255,12 @@ public class CardDealer : MonoBehaviour
                 //Debug.Log($"GetUserCard ==> {i} {jsonResult[i]["cardkey"]} ");
                 userCardStatsDict.Add(jsonResult[i]["cardkey"], new CardStats(jsonResult[i]["star"], jsonResult[i]["level"], jsonResult[i]["health"], jsonResult[i]["attack"], jsonResult[i]["repeatattackdelay"], jsonResult[i]["speed"], jsonResult[i]["defense"], jsonResult[i]["special"], jsonResult[i]["specialkey"], jsonResult[i]["passivekey"]));
                 if(playerUnitDict.TryGetValue( (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[i]["cardkey"])  , out unit)){
-                    //Debug.Log($"GetUserCard ==> Unit {unit.unitKey} ");
                     if (unit.unitType == UnitMeta.UnitType.HERO || unit.unitType == UnitMeta.UnitType.KING)
                     {
                         cardStats = userCardStatsDict[jsonResult[i]["cardkey"]];
+                        //Debug.Log($"GetUserCard ==> Unit {unit.unitKey} / {unit.unitType} / {cardStats}");
                         unit.GetComponent<UnitPowerUp>().PowerUp(playerid, jsonResult[i]["cardkey"],unit.GetComponent<Unit>().GetSpawnPointIndex(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+                        //Debug.Log($"After UnitPowerUp GetUserCard ==> Unit {unit.unitKey} / {unit.unitType} / {unit.name}");
                     }
                 }
             }

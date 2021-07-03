@@ -181,11 +181,13 @@ public class TacticalBehavior : MonoBehaviour
         if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0)
             provoke = true;
         */
+
         leaders[playerid].Clear();
         behaviorTreeGroups[playerid].Clear();
 
         foreach (Unit child in player.GetMyUnits())
         {
+            //Debug.Log($"TB my units {child.name} {child.tag}");
             if (child == null) { continue; }
 
             if (child.tag.Substring(child.tag.Length - 1) == playerid.ToString()) {
@@ -209,6 +211,13 @@ public class TacticalBehavior : MonoBehaviour
                     provoke = true;
                 enemyCount++;
             }
+        }
+        if (((RTSNetworkManager)NetworkManager.singleton).Players.Count > 1)
+        {
+            GameObject[] provokeEnemyTanks = GameObject.FindGameObjectsWithTag("Provoke" + enemyid);
+            enemyCount = GameObject.FindGameObjectsWithTag("Player" + enemyid).Length + provokeEnemyTanks.Length;
+            if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0)
+                provoke = true;
         }
         for (int j = 0; j < PlayerEnemyGroup[playerid].transform.childCount; ++j)
         {
