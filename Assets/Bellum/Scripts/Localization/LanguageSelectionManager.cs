@@ -7,6 +7,7 @@ using TMPro;
 
 public class LanguageSelectionManager : MonoBehaviour
 {
+    public static string STRING_TEXT_REF = "UI_Text";
     public const int LOCALE_EN = 0;
     public const int LOCALE_JP = 1;
     public const int LOCALE_CN = 2;

@@ -6,6 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Localization.Settings;
 
 public class HeroMenu : MonoBehaviour
 {
@@ -134,6 +136,18 @@ public class HeroMenu : MonoBehaviour
             speedValue.text = jsonResult[0]["speed"];
             specialValue.text = jsonResult[0]["special"];
             powerValue.text = jsonResult[0]["power"];
+
+            //Debug.Log($"HeroMenu.GetUserCardDetail() nameText.text:{nameText.text}");
+            AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, nameText.text.ToLower(), null);
+            if (op.IsDone)
+            {
+                nameText.text = op.Result;
+            }
+            else
+            {
+                op.Completed += (o) => nameText.text = o.Result;
+            }
+            //Debug.Log($"HeroMenu.GetUserCardDetail() after locale nameText.text:{nameText.text}");
         }
     }
 }
