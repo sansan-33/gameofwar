@@ -90,33 +90,12 @@ public class TacticalBehavior : MonoBehaviour
         while (!ISTAGGED)
         {
             yield return new WaitForSeconds(0.1f);
-    
-            GameObject[] armies = GameObject.FindGameObjectsWithTag("Unit");
-            foreach (GameObject army in armies)
-            {
-                if (army.TryGetComponent<Unit>(out Unit unit)){
-                    if (unit.hasAuthority)
-                    {
-                        army.tag = "Player" + player.GetPlayerID();
-                        if (unit.unitType == UnitMeta.UnitType.KING)
-                        {
-                            army.tag = "King" + player.GetPlayerID();
-                            KINGBOSS[player.GetPlayerID()] = army;
-                        }
-                    }
-                    else
-                    {
-                        //Only Assing Enemy Base Tag if mulitplayer
-                        army.tag = "Player" + player.GetEnemyID();
-                        if (unit.unitType == UnitMeta.UnitType.KING)
-                        {
-                            army.tag = "King" + player.GetEnemyID();
-                            KINGBOSS[player.GetEnemyID()] = army;
-                        }
-                    }
-                }
-            }
-            
+           
+            KINGBOSS[player.GetPlayerID()] = GameObject.FindGameObjectWithTag("King" + player.GetPlayerID());
+            KINGBOSS[player.GetEnemyID()] = GameObject.FindGameObjectWithTag("King" + player.GetEnemyID());
+
+            //Debug.Log($"KINGBOSS GetPlayerID: {KINGBOSS[player.GetPlayerID()]} GetEnemyID: {KINGBOSS[player.GetEnemyID()]}");
+
             if (gameBoardHandlerPrefab == null)
             {
                 foreach (GameObject board in GameObject.FindGameObjectsWithTag("GameBoardSystem"))
@@ -151,36 +130,6 @@ public class TacticalBehavior : MonoBehaviour
         GameObject defendObject;
         int enemyCount = 0;
         int leaderUnitTypeID = 0;
-
-        //GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + playerid);
-        //GameObject king = GameObject.FindGameObjectWithTag("King" + playerid);
-        //GameObject[] provokeTanks = GameObject.FindGameObjectsWithTag("Provoke" + playerid);
-        //GameObject[] sneakyFootman = GameObject.FindGameObjectsWithTag("Sneaky" + playerid);
-        //GameObject[] provokeEnemyTanks = GameObject.FindGameObjectsWithTag("Provoke" + enemyid);
-        /*
-        List<GameObject> armies = new List<GameObject>();
-       
-        if (unit == null) {
-            leaders[playerid].Clear();
-            behaviorTreeGroups[playerid].Clear();
-            armies = units.ToList();
-        } else {
-            leaders[playerid].Remove((int)unit.GetComponent<Unit>().unitType);
-            behaviorTreeGroups[playerid].Remove((int)unit.GetComponent<Unit>().unitType);
-            foreach (GameObject child in units) {
-                if (child.GetComponent<Unit>().unitType == unit.GetComponent<Unit>().unitType)
-                    armies.Add(child);
-            }
-        }
-        if (king != null)
-            armies.Add(king);
-        if (provokeTanks != null && provokeTanks.Length > 0)
-            armies.AddRange(provokeTanks.ToList());
-        if (sneakyFootman != null && sneakyFootman.Length > 0)
-            armies.AddRange(sneakyFootman.ToList());
-        if (provokeEnemyTanks != null && provokeEnemyTanks.Length > 0)
-            provoke = true;
-        */
 
         leaders[playerid].Clear();
         behaviorTreeGroups[playerid].Clear();
@@ -314,6 +263,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
         {
+            //Debug.Log($"set Defend Object {defendObject.name} king {king.name} / {king.tag}");
             float radius = newRadius;
             float defendRadius = newDefendRadius;
             float chaseDistance = 10f;

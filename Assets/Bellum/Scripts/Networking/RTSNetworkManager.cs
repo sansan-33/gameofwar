@@ -192,7 +192,7 @@ public class RTSNetworkManager : NetworkManager
             userTeamCard = userTeamDict[userkey][i];
             player.SetRace(userTeamCard["race"]);
             
-            spawnCount = 1;
+            spawnCount = 0;
             UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userTeamCard["cardkey"]);
             //Debug.Log($"unitKey {unitKey}");
             while (spawnCount > 0)

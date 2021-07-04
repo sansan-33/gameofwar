@@ -105,7 +105,7 @@ public class SpButtonManager : MonoBehaviour
                 {
                     if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
                     {
-                        Debug.Log($"enemy unit.specialkey{unit.specialkey} {unit.name}");
+                        //Debug.Log($"enemy unit.specialkey{unit.specialkey} {unit.name}");
                         if(unit.specialkey == "") { Debug.Log("unit specail key is null"); }
                         if(unit.specialkey != "")
                         {

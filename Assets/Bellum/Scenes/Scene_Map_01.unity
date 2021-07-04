@@ -9004,6 +9004,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 0}
@@ -31945,6 +31946,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
@@ -37947,6 +37949,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
@@ -46468,6 +46471,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 08c82fb0d57824383a55c2fc90fdb200, type: 3}
   - {fileID: 21300000, guid: 862dc9508f7b1354d9dfbd699efb3e15, type: 3}
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 0}
@@ -49662,6 +49666,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 1
   greyScaleShader: {fileID: 0}
@@ -50542,6 +50547,7 @@ GameObject:
   - component: {fileID: 873072822}
   - component: {fileID: 873072821}
   - component: {fileID: 873072820}
+  - component: {fileID: 873072823}
   m_Layer: 0
   m_Name: TacticalSystem
   m_TagString: TacticalSystem
@@ -50593,6 +50599,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &873072823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873072819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 710ac79ac948a41f5a5f9ad893876fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tacticalBehavior: {fileID: 873072821}
 --- !u!1001 &874689995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51006,6 +51025,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 1
   greyScaleShader: {fileID: 0}
@@ -56088,6 +56108,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
@@ -63847,6 +63868,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
@@ -66934,6 +66956,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 1
   greyScaleShader: {fileID: 0}
@@ -73599,6 +73622,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 1
   greyScaleShader: {fileID: 0}
@@ -107104,6 +107128,7 @@ MonoBehaviour:
   TB: {fileID: 873072821}
   halfLine: {fileID: 1172576206}
   wall: {fileID: 880822304}
+  trap: {fileID: 0}
   player: {fileID: 1073408491}
   enemyPlayer: {fileID: 1245934623}
   cardDealer: {fileID: 1928337289}
@@ -117782,6 +117807,7 @@ MonoBehaviour:
   cardTimer: 0
   sprite: []
   onClick: 0
+  mergeEffectPrefab: {fileID: 0}
   playerID: 0
   enemyCard: 0
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}

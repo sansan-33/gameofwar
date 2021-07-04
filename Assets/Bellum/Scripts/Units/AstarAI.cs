@@ -55,19 +55,34 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         isProvoked = provoke;
     }
+    [ClientRpc]
+    public void RpcMove(Vector3 position)
+    {
+        isCollided = false;
+        HandleMove(position);
+        //Debug.Log($"RpcMove {position}!!!");
+
+    }
     [Command]
     public void CmdMove(Vector3 position)
     {
         isCollided = false;
         ServerMove(position);
+        //Debug.Log($"CmdMove {position}!!!");
     }
     [Server]
     public void ServerMove(Vector3 position)
+    {
+        HandleMove(position);
+        //RpcMove(position);
+    }
+    public void HandleMove(Vector3 position)
     {
         GetComponent<UnitAnimator>().SetFloat("moveSpeed", Math.Abs(GetVelocity().z));
         GetComponent<UnitAnimator>().SetFloat("direction", GetVelocity().x);
         GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.LOCOMOTION);
         position.y = 0;
+        //Debug.Log($"HandleMove ai.destination {ai.destination},  target position {position}");
         if (ai.canMove && ai.destination == position) {
             //if (gameObject.name.ToLower().Contains("tank"))
             //    Debug.Log($"same destination {ai.destination} target {position} , save memory not start path");
@@ -256,11 +271,14 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public void move(Vector3 position)
     {
-        if (GetComponent<UnitAnimator>().isAttacking)
-        {
-            //Debug.Log($"{name} IS Attacking ? [{GetComponent<UnitAnimator>().isAttacking}] , cannot move !!!");
-        } else
-            CmdMove(position);
+        if (GetComponent<UnitAnimator>().isAttacking) {
+            Debug.Log($"{name} IS Attacking ? [{GetComponent<UnitAnimator>().isAttacking}] , cannot move !!!");
+        } else {
+            if (isServer)
+                RpcMove(position);
+            else
+                CmdMove(position);
+        }
     }
 
     public void stop()
@@ -280,6 +298,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public bool hasArrived()
     {
+        //Debug.Log($"{name} hasArrived ? {ai.reachedDestination}");
         return ai.reachedDestination;
     }
 
