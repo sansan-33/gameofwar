@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 public class OnclickEffect : MonoBehaviour, IPointerClickHandler
 {
     // Start is called before the first frame update
-    [SerializeField] private LayerMask floorMask = new LayerMask();
     [SerializeField] GameObject effect;
     [SerializeField] Transform parent;
     GameObject _effect;
