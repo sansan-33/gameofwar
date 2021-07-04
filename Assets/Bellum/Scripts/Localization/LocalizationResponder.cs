@@ -41,60 +41,81 @@ public class LocalizationResponder : MonoBehaviour
 
     private void OnEnable()
     {
+        //Debug.Log($"LocalizationResponder.OnEnable()");
+
         // subscribe to event for language change
         LocalizationSettings.SelectedLocaleChanged += OnLanguageChanged;
-        
-        // Initialize the component on enable to make sure this object
+
+        // Initialize the component on enable to make sure this object
         // has the most current language configuration.
-        OnLanguageChanged(null);
-    }
+        OnLanguageChanged(LocalizationSettings.SelectedLocale);
+
+        // TODO: if not login, use system locale.If system locale not available(not en, jp, zh), use en
+        //else = logined, use saved language
+        int langageId = PlayerPrefs.GetInt("Language");
+        //Debug.Log($"LocalizationResponder.OnEnable() PlayerPrefs.GetInt(Language):{langageId}");
+        if (langageId >= LocalizationSettings.AvailableLocales.Locales.Count)
+        {
+            Debug.LogError($"LocalizationSettings.AvailableLocales.Locales.Count:{LocalizationSettings.AvailableLocales.Locales.Count} < index:{langageId}. Use the first locale");
+            langageId = 0;
+        }
+        var newlocale = LocalizationSettings.AvailableLocales.Locales[langageId];
+        LocalizationSettings.SelectedLocale = newlocale;
+
+        // Instantiate FontManger to get Default Font
+        TMP_Asset tempFont = FontManager.Instance.defaultFontEn;
+
+    }
 
     private void OnDisable()
     {
+        //Debug.Log($"LocalizationResponder.OnDisable()");
         LocalizationSettings.SelectedLocaleChanged -= OnLanguageChanged;
+        
     }
 
     public void OnLanguageChanged(Locale locale)
     {
+        //Debug.Log($"LocalizationResponder.OnLanguageChanged Locale:{locale}");
+
         //Debug.Log($"fontJp:{fontJp} fontCn:{fontCn} fontHk:{fontJp} fontEn:{fontEn}");
         //Debug.Log($"defaultFontJp:{FontManager.Instance.defaultFontJp} defaultFontCn:{FontManager.Instance.defaultFontCn} defaultFontHk:{FontManager.Instance.defaultFontHk} defaultFontEn:{FontManager.Instance.defaultFontEn}");
 
         // determine which language is being used:
-        switch (LanguageSelectionManager.Selected_Locale_Index)
-        {
-            case LanguageSelectionManager.LOCALE_JP:
-                if (fontJp == null)
-                    // apply the centralized font asset setting
-                    tmpText.font = FontManager.Instance.defaultFontJp;
-                else
-                    // apply the local font asset setting
-                    tmpText.font = fontJp;
-                break;
+        string localeName = locale.LocaleName;
+        if (localeName.Contains(LanguageSelectionManager.LOCALE_JP))
+        {
+            if (fontJp == null)
+                // apply the centralized font asset setting
+                tmpText.font = FontManager.Instance.defaultFontJp;
+            else
+                // apply the local font asset setting
+                tmpText.font = fontJp;
+        }
+        else if (localeName.Contains(LanguageSelectionManager.LOCALE_CN))
+        {
+            if (fontCn == null)
+                // apply the centralized font asset setting
+                tmpText.font = FontManager.Instance.defaultFontCn;
+            else
+                // apply the local font asset setting
+                tmpText.font = fontCn;
+        }
+        else if (localeName.Contains(LanguageSelectionManager.LOCALE_HK))
+        {
+            if (fontHk == null)
+                // apply the centralized font asset setting
+                tmpText.font = FontManager.Instance.defaultFontHk;
+            else
+                // apply the local font asset setting
+                tmpText.font = fontHk;
 
-            case LanguageSelectionManager.LOCALE_CN:
-                if (fontCn == null)
-                    // apply the centralized font asset setting
-                    tmpText.font = FontManager.Instance.defaultFontCn;
-                else
-                    // apply the local font asset setting
-                    tmpText.font = fontCn;
-                break;
-
-            case LanguageSelectionManager.LOCALE_HK:
-                if (fontHk == null)
-                    // apply the centralized font asset setting
-                    tmpText.font = FontManager.Instance.defaultFontHk;
-                else
-                    // apply the local font asset setting
-                    tmpText.font = fontHk;
-                break;
-
-            default: // fall thru for all other languages; add additional cases if nec.
-                if (fontEn == null)
-                    tmpText.font = FontManager.Instance.defaultFontEn;
-                else
-                    tmpText.font = fontEn;
-                break;
+        } else
+        {
+            if (fontEn == null)
+                tmpText.font = FontManager.Instance.defaultFontEn;
+            else
+                tmpText.font = fontEn;
         }
 
         // If using a specific font material, map the material to the
