@@ -75,12 +75,13 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 // Loop through the possible target transforms and determine which transform is the closest to each agent.
                 // tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": searching " + targetTransforms.Count + " target withing defend radius " + defendRadius.Value  + " .. " + HEARTBEAT++);
                 for (int i = targetTransforms.Count - 1; i > -1; --i) {
+                    //Debug.Log($"1 target {targetTransforms[i].name } ==> target distance {(transform.position - targetTransforms[i].position).magnitude } , Total {targetTransforms.Count}");
                     // The target has to be alive.
-                    //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": checking target " + targetTransforms[i].name  + ":" + i + "/" + targetTransforms.Count + " is alive ?"  + targets[i].IsAlive() + " .. " + HEARTBEAT++);
-                    if (targets[i].IsAlive() && targetTransforms[i] !=null) {
+                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": checking target " + targetTransforms[i].name  + ":" + i + "/" + targetTransforms.Count + " is alive ?"  + targets[i].IsAlive() + " .. " + HEARTBEAT++);
+                    if (targets[i].IsAlive()) {
                         // Start attacking if the target gets too close.
                         //if (tacticalAgent.transform.name.ToLower().Contains("king"))
-                        //Debug.Log($"target {targetTransforms[i].name } ==> target distance {(transform.position - targetTransforms[i].position).magnitude }");
+                        //Debug.Log($"2 target is alive  {targetTransforms[i].name } ==> target distance {(transform.position - targetTransforms[i].position).magnitude } >  {defendRadius.Value} ?");
                         if ((transform.position - targetTransforms[i].position).magnitude < defendRadius.Value) {
                             tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + ": found target " + targetTransforms[i].name  + "  in distance " + (transform.position - targetTransforms[i].position).magnitude  + " .. " + HEARTBEAT++);
                             tacticalAgent.TargetDamagable = targets[i];
@@ -104,7 +105,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 var targetPosition = defendObject.Value.transform.TransformPoint(radius.Value * Mathf.Sin(theta * formationIndex), 0, radius.Value * Mathf.Cos(theta * formationIndex));
                 //tacticalAgent.UpdateRotation(true);
                 tacticalAgent.RotateTowards(Quaternion.LookRotation(targetPosition - defendObject.Value.transform.position));
-                //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + " = " + ": moving distance " + (int) Vector3.Distance(tacticalAgent.transform.position, targetPosition) );
+                tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus(TASKNAME + "=: Defend Object: " + defendObject.Value.name + ":" + defendObject.Value.transform.position + ", targetPosition " + targetPosition + " , moving distance " + (int) Vector3.Distance(tacticalAgent.transform.position, targetPosition) );
                 tacticalAgent.SetDestination(targetPosition);
                 if (tacticalAgent.HasArrived()) {
                     // Face away from the defending object.
@@ -119,7 +120,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                         direction = targetPosition - defendObject.Value.transform.position;
                     direction.y = 0;
                     tacticalAgent.RotateTowards(Quaternion.LookRotation(direction));
-                    tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend Enemy Tag" + targetTag.Value + " at direction " + direction + " . " + HEARTBEAT++);
+                    //tacticalAgent.transform.GetComponent<Unit>().SetTaskStatus( TASKNAME + ": Arrived and Defend Enemy Tag" + targetTag.Value + " at direction " + direction + " . " + HEARTBEAT++);
                     tacticalAgent.transform.GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DEFEND);
                 }
             }
