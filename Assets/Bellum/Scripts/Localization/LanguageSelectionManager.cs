@@ -28,28 +28,6 @@ public class LanguageSelectionManager : MonoBehaviour
         //Debug.Log($"LanguageSelectionManager.Update()");
     }
 
-    private void Awake()
-    {
-
-    }
-
-    private void OnEnable()
-    {
-        //Debug.Log($"LanguageSelectionManager.OnEnable()");
-        // subscribe to event for language change
-        LocalizationSettings.SelectedLocaleChanged += OnLanguageChanged;
-
-        // Initialize the component on enable to make sure this object
-        // has the most current language configuration.
-        OnLanguageChanged(LocalizationSettings.SelectedLocale);
-    }
-
-    private void OnDisable()
-    {
-        //Debug.Log($"LanguageSelectionManager.OnDisable()");
-        LocalizationSettings.SelectedLocaleChanged -= OnLanguageChanged;
-    }
-
     public void SelectEnglish()
     {
         
@@ -69,11 +47,6 @@ public class LanguageSelectionManager : MonoBehaviour
     public void SelectTraditionalChinese()
     {
         OnSelectionChanged(getLocaleIndex(LOCALE_HK));
-    }
-
-    public void OnLanguageChanged(Locale locale)
-    {
-        
     }
 
     private void OnSelectionChanged(int index)
@@ -102,7 +75,7 @@ public class LanguageSelectionManager : MonoBehaviour
         // TODO: update language in Setting popup
     }
 
-    private int getLocaleIndex(string localeString)
+    public static int getLocaleIndex(string localeString)
     {
         for (int i=0; i < LocalizationSettings.AvailableLocales.Locales.Count; i++)
         {
