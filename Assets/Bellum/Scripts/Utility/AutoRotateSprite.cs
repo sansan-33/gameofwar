@@ -5,7 +5,7 @@ public class AutoRotateSprite : MonoBehaviour
 {
     void Start()
     {
-        StartCoroutine(rotateObject(objectToRotate, new Vector3(0, 0, 90), 3000f));
+        StartCoroutine(rotateObject(objectToRotate, new Vector3(0, 0, 36000), 3600f));
     }
 
     bool rotating = false;
