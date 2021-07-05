@@ -22,14 +22,21 @@ public class StrengthWeakness
     {
         //Debug.Log($"calculateDamage player {player} vs  enemy {enemy} , original damage {damage} ");
         float damageResult = damage;
-        UnitMeta.UnitType[]  dict = strengthWeakness[player];
-        if (dict[0] == enemy || dict[0] == UnitMeta.UnitType.HERO)
+        UnitMeta.UnitType[] dict = strengthWeakness[player];
+        if (dict[0] == enemy || dict[0] == UnitMeta.UnitType.HERO) { 
             damageResult = damage * StrengthDamage;
+        Debug.Log($"calculateDamage player {player} vs  enemy {enemy} , original damage {damage} "); }
         else if (dict[1] == enemy)
         {
             damageResult = damage / WeaknessDamage;
             damageResult = damageResult > 0 ? damageResult : 1;
+            Debug.Log($"calculateDamage player {player} vs  enemy {enemy} , original damage {damage} with week ness");
         }
         return (int)damageResult;
     }
+    public static UnitMeta.UnitType[] GetStrengthWeakness(UnitMeta.UnitType unitType)
+    {
+        return strengthWeakness[unitType];
+    }
+
 }

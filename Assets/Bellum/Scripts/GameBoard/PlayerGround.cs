@@ -57,7 +57,7 @@ public class PlayerGround : MonoBehaviour
     private void GateOpend(string playerId, string doorIndex)
     {
         Debug.Log($"playerId{playerId} player.GetPlayerID().ToString() {player.GetPlayerID().ToString()} playerId == player.GetPlayerID().ToString() {playerId == player.GetPlayerID().ToString()}");
-        if (playerId == player.GetPlayerID().ToString())
+        if (playerId == player.GetPlayerID().ToString() && playerId == "0")
         {
             switch (doorIndex)
             {
@@ -75,6 +75,25 @@ public class PlayerGround : MonoBehaviour
                     break;
             }
         }
+        else if(playerId == player.GetPlayerID().ToString() && playerId == "1")
+        {
+            switch (doorIndex)
+            {
+                case "0":
+                    breakRightWall = true;
+                    Debug.Log("Break Right");
+                    break;
+                case "1":
+                    breakCentreWall = true;
+                    Debug.Log("Break Centre");
+                    break;
+                case "2":
+                    breakLeftWall = true;
+                    Debug.Log("Break LEft");
+                    break;
+            }
+        }
+
     }
     public void sortLayer(int playerID)
     {
