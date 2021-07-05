@@ -225,6 +225,7 @@ public class EnemyAI : MonoBehaviour
                 savingCardForDefend = true;
                 canSpawnUnit = false;
                 int i = 3;
+                UnitMeta.UnitType[] strengthWeakness = StrengthWeakness.GetStrengthWeakness(unit.unitType);
                 yield return SelectCard(true);
                 //Debug.Log($"unit == {unit.name} next card {nextCard}");
                 while (unit.transform.position.z < halfLine.position.z || elexier < nextCard.GetUnitElexier())
