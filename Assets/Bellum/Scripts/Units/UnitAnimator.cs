@@ -49,30 +49,23 @@ public class UnitAnimator : NetworkBehaviour
 
     void ChangeAnimationState(AnimState newState)
     {
-        if(name.Contains("TANK"))
-        Debug.Log($"1 {name} {tag} ChangeAnimationState:  currentState: {currentState} / newState: {newState}");
+        //if(name.Contains("TANK"))
+        //Debug.Log($"1 {name} {tag} ChangeAnimationState:  currentState: {currentState} / newState: {newState}");
         if (currentState == newState) return;
         //if (currentState.ToString().Contains("ATTACK") && newState.ToString().Contains("ATTACK")) return;
         string animState = newState.ToString();
         ResetAll(animState);
         if (newState == AnimState.ATTACK0 || newState == AnimState.ATTACK1  || newState == AnimState.ATTACK2 || newState == AnimState.PROVOKE) {
-            if (name.Contains("TANK"))
-                Debug.Log($"1.5 {name} {tag} set trigger:  attack: {animState}");
-
             networkAnim.SetTrigger(animState);
             if(audioSource !=null)
                 audioSource.PlayDelayed(0.2f);
             return;
         }
-        if (name.Contains("TANK"))
-            Debug.Log($"2 {name} {tag} ChangeAnimationState:  {currentState} , {animState}");
         currentState = newState;
         anim.SetBool(animState, true);
     }
     void ResetAll(string animState)
     {
-        if (name.Contains("TANK"))
-            Debug.Log($"2 {name} {tag} ResetAll ");
         anim.SetBool("DEFEND", false);
         anim.SetBool("LOCOMOTION", false);
         anim.SetBool("VICTORY", false);
@@ -87,9 +80,7 @@ public class UnitAnimator : NetworkBehaviour
             newState = ATTACK_RAND[n];
         }
         if (!isAttacking) {
-            if (name.Contains("TANK"))
-                Debug.Log($"HandleStateControl {name} {tag} blocked , {newState}, isAttacking ? {isAttacking}");
-
+            
             if (newState != AnimState.LOCOMOTION)
             {
                 SetFloat("moveSpeed", 0);
@@ -105,8 +96,8 @@ public class UnitAnimator : NetworkBehaviour
             ChangeAnimationState(newState);
         }
         else {
-            if (name.Contains("TANK"))
-                Debug.Log($"Unit Anim {name} {tag} blocked , {newState}, isAttacking ? {isAttacking}");
+            //if (name.Contains("TANK"))
+            //    Debug.Log($"Unit Anim {name} {tag} blocked , {newState}, isAttacking ? {isAttacking}");
         }
     }
      
@@ -114,9 +105,6 @@ public class UnitAnimator : NetworkBehaviour
     {
         isAttacking = false;
         currentState = AnimState.IDLE;
-        if (name.Contains("TANK"))
-            Debug.Log($"{name} {tag} AttackCompleted, isAttacking ? {isAttacking}");
-
     }
 
     public void StateControl(AnimState newState)

@@ -661,8 +661,7 @@ public class TacticalBehavior : MonoBehaviour
     {
         ISGATEOPENED[Int32.Parse(playerid)] = true;
         OPENDOORCOUNT++;
-        Debug.Log($"Team {playerid} , open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
-
+        //Debug.Log($"Team {playerid} , open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
     }
     #endregion
 }

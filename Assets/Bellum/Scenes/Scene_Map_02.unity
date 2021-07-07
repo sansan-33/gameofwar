@@ -45354,7 +45354,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 710ac79ac948a41f5a5f9ad893876fe0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tacticalBehavior: {fileID: 0}
 --- !u!1 &873138264
 GameObject:
   m_ObjectHideFlags: 0
@@ -86800,6 +86799,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6514540122918432789, guid: c021ba6808dd94dd699a611ea23292d0, type: 3}
   m_PrefabInstance: {fileID: 1577676174}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1577676176 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6514540122918432786, guid: c021ba6808dd94dd699a611ea23292d0, type: 3}
+  m_PrefabInstance: {fileID: 1577676174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd345882ad8444d1fb73405cfbebf1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1578759157
 GameObject:
   m_ObjectHideFlags: 0
@@ -91328,6 +91338,10 @@ PrefabInstance:
       propertyPath: crownBlueText
       value: 
       objectReference: {fileID: 19896303}
+    - target: {fileID: 4417393479727865766, guid: 174e667d1bf814de2b7396fb96809503, type: 3}
+      propertyPath: gameStartDisplay
+      value: 
+      objectReference: {fileID: 1577676176}
     - target: {fileID: 4417393479727865766, guid: 174e667d1bf814de2b7396fb96809503, type: 3}
       propertyPath: tacticalBehavior
       value: 

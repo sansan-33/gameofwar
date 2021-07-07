@@ -24,20 +24,25 @@ public class GameStartDisplay : NetworkBehaviour
 
     [SyncVar(hook = "StartTiming")]
     private float startTime = 1;
-    [SyncVar(hook = "Timing")]
-    private float Timer = 180;
+    private double Timer = 180;
     bool IS_PLAYER_LOADED = false;
     RTSPlayer player;
-    float SPEEPUPTIME = 170f; // will speed up eleixier recovery after 10s
+    float SPEEPUPTIME = 10f; // will speed up eleixier recovery after 10s
+    bool ISSPEEDUP = false;
+    double offset=0;
+    double now;
 
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         StartCoroutine(StartGameloading());
+        
     }
-    private void Update()
+    private void FixedUpdate()
     {
+        if(offset > 0)
+        now = Timer - (NetworkTime.time - offset);
         GameStartCountDown();
         GameEndCountDown();
     }
@@ -140,8 +145,8 @@ public class GameStartDisplay : NetworkBehaviour
     }
     private void GameEndCountDown()
     {
-        if(IS_PLAYER_LOADED)
-        Timer -= Time.deltaTime;
+        if (IS_PLAYER_LOADED)
+            Timing();
     }
     public void StartTiming(float oldTime, float newTime)
     {
@@ -154,21 +159,28 @@ public class GameStartDisplay : NetworkBehaviour
         }
         else if (newTime <= 0)
         {
+            offset = NetworkTime.time;
             gameStartDisplayParent.SetActive(false);
             ServerGameStart?.Invoke();
         }
     }
-    public void Timing(float oldTime, float newTime)
+    public void Timing()
     {
-        //Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
-        float minutes = Mathf.FloorToInt(newTime / 60);
-        float seconds = Mathf.FloorToInt(newTime % 60);
-        if (newTime <= SPEEPUPTIME && newTime >= SPEEPUPTIME - 60) { ServerGameSpeedUp?.Invoke(); }
-        if (newTime <= 0) { return; }
+        if (offset <= 0.1) { return; }
+        if (now > Timer) { return; }
+        if (now <= Timer - SPEEPUPTIME && !ISSPEEDUP) { ServerGameSpeedUp?.Invoke(); ISSPEEDUP = true; }
+        int minutes = Convert.ToInt32(now) / 60;
+        float seconds = Convert.ToInt32(now % 60);
+        seconds = (seconds == 60) ? 0 : seconds;
+        //Debug.Log($"Timing now {now} , minutes:{minutes}, seconds:{seconds}" );
         Times.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
     public string GetGameTimer()
     {
-        return Timer.ToString();
-    } 
+        return now.ToString();
+    }
+    public double GetGameTimerValue()
+    {
+        return now ;
+    }
 }

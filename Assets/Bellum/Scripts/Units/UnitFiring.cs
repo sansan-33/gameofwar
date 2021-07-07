@@ -94,7 +94,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
                 targets.RemoveAt(i);
             }
         }
-        return targetTransform.position;
+        return targetTransform.GetComponent<Targeter>().GetAimAtPoint().position;
     }
     [Server]
     private void HandleFireProjectile(Vector3 targetPosition)

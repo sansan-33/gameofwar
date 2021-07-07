@@ -130,8 +130,8 @@ public class UnitProjectile : NetworkBehaviour
         if (other == null || other.name == "Walkable" || other.name == "Door" || other.name.Contains("Trap") ) { return;  }
         if (other.tag.Contains("Building")) {
             //Debug.Log($" Hitted object {other.tag}  {other.name}, Attacker arrow type is {unitType} ");
-            cmdSpecialEffect(this.transform.position);
-            cmdArrowStick(other.transform);
+            specialEffect(this.transform.position);
+            arrowStick(other.transform);
             return;
         }
         if (IS_CHAIN_ENDED && other.GetComponent<UnitFiring>() !=null &&  other.GetComponent<UnitFiring>().ISCHAINED )
@@ -170,13 +170,13 @@ public class UnitProjectile : NetworkBehaviour
             damageToDeals = StrengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
            
             //cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
-            cmdSpecialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
+            specialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
             elementalEffect(element, other.transform.GetComponent<Unit>());
             HITTED = true;
             dealDamage(other.gameObject, damageToDeals,unitType);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             if(!IS_CHAIN_ATTACK)
-                cmdArrowStick(other.transform);
+                arrowStick(other.transform);
         }
     }
     [Server]
@@ -242,19 +242,65 @@ public class UnitProjectile : NetworkBehaviour
         if (flipText) { TargetCommandText(opponentIdentity.connectionToClient, floatingText, opponentIdentity); }
     }
   
+     
+    private void specialEffect(Vector3 position )
+    {
+        /*
+        if (isLocalPlayer)
+        {
+            //            RpcSpecialEffect(position);
+            //      else
+            CmdSpecialEffect(position);
+        }
+        */
+    }
+    [ClientRpc]
+    private void RpcSpecialEffect(Vector3 position)
+    {
+        HandleSpecialEffect(position);
+    }
     [Command]
-    private void cmdSpecialEffect(Vector3 position )
+    private void CmdSpecialEffect(Vector3 position)
+    {
+        ServerSpecialEffect(position);
+    }
+    [Server]
+    private void ServerSpecialEffect(Vector3 position)
+    {
+        HandleSpecialEffect(position);
+    }
+    private void HandleSpecialEffect(Vector3 position)
     {
         GameObject effect = Instantiate(specialEffectPrefab, position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
     }
-    [Command]
-    private void cmdArrowStick(Transform other)
+
+    private void arrowStick(Transform other)
     {
-        arrowStick(other);
+        if (isServer)
+            RpcArrowStick(other);
+        else
+            CmdArrowStick(other);
+        
+        //CmdArrowStick(other);
+    }
+    [ClientRpc]
+    private void RpcArrowStick(Transform other)
+    {
+        HandleArrowStick(other);
+    }
+    [Command]
+    private void CmdArrowStick(Transform other)
+    {
+        ServerArrowStick(other);
     }
     [Server]
-    void arrowStick(Transform other)
+    private void ServerArrowStick(Transform other)
+    {
+        HandleArrowStick(other);
+    }
+
+    void HandleArrowStick(Transform other)
     {
         // move the arrow deep inside the enemy or whatever it sticks to
         transform.Translate(depth * Vector3.forward);
@@ -266,7 +312,7 @@ public class UnitProjectile : NetworkBehaviour
     }
 
     [Command]
-    private void cmdDestroySelf()
+    private void CmdDestroySelf()
     {
         DestroySelf();
     }

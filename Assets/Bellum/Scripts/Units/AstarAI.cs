@@ -275,7 +275,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         
         if (GetComponent<UnitAnimator>().isAttacking) {
-            Debug.Log($"{name} IS Attacking ? [{GetComponent<UnitAnimator>().isAttacking}] , cannot move !!!");
+            //Debug.Log($"{name} IS Attacking ? [{GetComponent<UnitAnimator>().isAttacking}] , cannot move !!!");
         } else {
             if (hasAuthority)
             {

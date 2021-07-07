@@ -24,18 +24,20 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] private Canvas cardDisplay = null;
     [SerializeField] private TMP_Text crownBlueText = null;
     [SerializeField] private TMP_Text crownRedText = null;
+    [SerializeField] public GameStartDisplay gameStartDisplay;
     public TacticalBehavior tacticalBehavior;
 
     private float Timer = 180;
     APIManager apiManager;
     private bool IS_COMPLETED = false;
 
-    private void Update()
+    private void FixedUpdate()
     {
-        Timer -= Time.deltaTime;
-        if(Timer <= 0 && !IS_COMPLETED) {
+        if(gameStartDisplay.GetGameTimerValue() > Timer && !IS_COMPLETED) {
             int blueCrown = Int32.Parse(crownBlueText.text);
             int redCrown = Int32.Parse(crownRedText.text);
+            Debug.Log($"GameOver Display timer: {Timer} , IS_COMPLETED ? {IS_COMPLETED} blueCrown:{blueCrown} redCrown:{redCrown}");
+
             if (blueCrown != redCrown && (blueCrown + redCrown) > 0 ) {
                 ClientHandleGameOver(blueCrown > redCrown ? "blue" : "red");
             } else
@@ -69,6 +71,8 @@ public class GameOverDisplay : MonoBehaviour
 
     private void ClientHandleGameOver(string winner)
     {
+        double timer = gameStartDisplay.GetGameTimerValue();
+        //Debug.Log($" ClientHandleGameOver winner: {winner} , Timer: {Timer}");
         int _playerid = (winner.ToLower() == "blue" ? 0 : 1);
         GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + _playerid);
         winnerNameText.text = $"{winner} Team";
@@ -85,7 +89,7 @@ public class GameOverDisplay : MonoBehaviour
         int crownCount = winner.ToLower() == "blue" ? Int32.Parse(crownBlueText.text) : Int32.Parse(crownRedText.text);
 
         cardDisplay.enabled = false;
-        stat1Text.text = Convert.ToInt32(Timer).ToString();
+        stat1Text.text = Convert.ToInt32(timer).ToString();
         List<Unit> troops = tacticalBehavior.GetAllTroops(_playerid);
         int totalKill = 0;
         foreach (Unit army in troops)
@@ -109,7 +113,7 @@ public class GameOverDisplay : MonoBehaviour
             stat4Text.text = crownCount.ToString() + " * 500 ";
             stat5Text.text = dieCount.ToString();
             stat6Text.text = StaticClass.HighestDamage.ToString() + " * 30 ";
-            StartCoroutine(updateUserRankingInfo(Convert.ToInt32(Timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
+            StartCoroutine(updateUserRankingInfo(Convert.ToInt32(timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
             IS_COMPLETED = true;
         }
     }
@@ -118,6 +122,8 @@ public class GameOverDisplay : MonoBehaviour
         Debug.Log($"Game Draw ");
         winnerNameText.text = $"Draw!";
         gameOverDisplayParent.enabled = true;
+        cardDisplay.enabled = false;
+        IS_COMPLETED = true;
     }
     public void ClientHandleGameOverResign()
     {
@@ -126,6 +132,7 @@ public class GameOverDisplay : MonoBehaviour
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
         cardDisplay.enabled = false;
+        IS_COMPLETED = true;
     }
     IEnumerator updateUserRankingInfo(int timeleft, int killcount, int health, int dieCount, int crownCount)
     {
