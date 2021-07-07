@@ -27,16 +27,15 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] public GameStartDisplay gameStartDisplay;
     public TacticalBehavior tacticalBehavior;
 
-    private float Timer = 180;
     APIManager apiManager;
     private bool IS_COMPLETED = false;
 
     private void FixedUpdate()
     {
-        if(gameStartDisplay.GetGameTimerValue() > Timer && !IS_COMPLETED) {
+        if(gameStartDisplay.GetGameTimerValue() <= 0  && !IS_COMPLETED) {
             int blueCrown = Int32.Parse(crownBlueText.text);
             int redCrown = Int32.Parse(crownRedText.text);
-            Debug.Log($"GameOver Display timer: {Timer} , IS_COMPLETED ? {IS_COMPLETED} blueCrown:{blueCrown} redCrown:{redCrown}");
+            Debug.Log($"GameOver Display timer: {gameStartDisplay.GetGameTimerValue()} , IS_COMPLETED ? {IS_COMPLETED} blueCrown:{blueCrown} redCrown:{redCrown}");
 
             if (blueCrown != redCrown && (blueCrown + redCrown) > 0 ) {
                 ClientHandleGameOver(blueCrown > redCrown ? "blue" : "red");

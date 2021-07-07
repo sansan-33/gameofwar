@@ -30,7 +30,7 @@ public class GameStartDisplay : NetworkBehaviour
     float SPEEPUPTIME = 10f; // will speed up eleixier recovery after 10s
     bool ISSPEEDUP = false;
     double offset=0;
-    double now;
+    double now=0;
 
     public override void OnStartClient()
     {
@@ -181,6 +181,6 @@ public class GameStartDisplay : NetworkBehaviour
     }
     public double GetGameTimerValue()
     {
-        return now ;
-    }
+        return now == 0 ? Timer : now ; // not return 0 at start up , otherwise game draw immediately
+    } 
 }
