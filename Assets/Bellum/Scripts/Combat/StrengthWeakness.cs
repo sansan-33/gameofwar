@@ -12,7 +12,8 @@ public class StrengthWeakness
         { UnitMeta.UnitType.ARCHER, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK } },
         { UnitMeta.UnitType.TANK, new UnitMeta.UnitType[] { UnitMeta.UnitType.CAVALRY, UnitMeta.UnitType.FOOTMAN }},
         { UnitMeta.UnitType.FOOTMAN, new UnitMeta.UnitType[] { UnitMeta.UnitType.TANK, UnitMeta.UnitType.MAGIC }},
-        { UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.HERO }}, // HERO Strength to all , weak to HEROR only
+        { UnitMeta.UnitType.HERO, new UnitMeta.UnitType[] { UnitMeta.UnitType.QUEEN, UnitMeta.UnitType.KING }}, // HERO Strength to all , weak to HEROR only
+        { UnitMeta.UnitType.QUEEN, new UnitMeta.UnitType[] { UnitMeta.UnitType.HERO, UnitMeta.UnitType.KING }}, // HERO Strength to all , weak to HEROR only
         { UnitMeta.UnitType.CAVALRY, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK }},
         { UnitMeta.UnitType.MAGIC, new UnitMeta.UnitType[] { UnitMeta.UnitType.FOOTMAN, UnitMeta.UnitType.TANK }},
         { UnitMeta.UnitType.KING, new UnitMeta.UnitType[] { UnitMeta.UnitType.KING, UnitMeta.UnitType.KING } },

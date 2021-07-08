@@ -115,25 +115,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &3084750084120679396
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6947259221661263850}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d41eaddf5099aa746aabbe374809e80b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &384518513256990521
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,6 +324,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 1.3
       objectReference: {fileID: 0}
+    - target: {fileID: 720658289876782571, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 4854193613931327212}
     - target: {fileID: 720658289876782571, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: networkAnim
       value: 

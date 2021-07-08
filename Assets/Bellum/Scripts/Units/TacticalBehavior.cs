@@ -2,13 +2,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using BehaviorDesigner.Runtime;
 using Mirror;
 using UnityEngine;
-using UnityEngine.AI;
 using Debug = UnityEngine.Debug;
 
 public class TacticalBehavior : MonoBehaviour
@@ -661,7 +659,11 @@ public class TacticalBehavior : MonoBehaviour
     {
         ISGATEOPENED[Int32.Parse(playerid)] = true;
         OPENDOORCOUNT++;
-        //Debug.Log($"Team {playerid} , open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
+        Debug.Log($"Team {playerid} , open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
+        UnitMeta.UnitKey unitKey = SpButtonManager.unitBtn.ElementAt(Int32.Parse(doorIndex)).Key;
+        if(Int32.Parse(playerid) == PLAYERID)
+            TryTB((int)TacticalBehavior.BehaviorSelectionType.Attack, UnitMeta.KeyType[unitKey], Int32.Parse(playerid));
+        Debug.Log($"Attack now please !!!  {UnitMeta.KeyType[unitKey]} ");
     }
     #endregion
 }

@@ -135,8 +135,6 @@ public class GameStartDisplay : NetworkBehaviour
             //maskRed.GetComponent<PlayerVS>().TotalPower.text = TotalPower.ToString();
             maskRed.SetActive(true);
         }
-
-
     }
     private void GameStartCountDown()
     {
@@ -171,7 +169,8 @@ public class GameStartDisplay : NetworkBehaviour
         if (now <= Timer - SPEEPUPTIME && !ISSPEEDUP) { ServerGameSpeedUp?.Invoke(); ISSPEEDUP = true; }
         int minutes = Convert.ToInt32(now) / 60;
         float seconds = Convert.ToInt32(now % 60);
-        seconds = (seconds == 60) ? 0 : seconds;
+        seconds = (seconds == 60 || seconds<=0) ? 0 : seconds;
+        minutes = (minutes <= 0) ? 0 : minutes;
         //Debug.Log($"Timing now {now} , minutes:{minutes}, seconds:{seconds}" );
         Times.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }

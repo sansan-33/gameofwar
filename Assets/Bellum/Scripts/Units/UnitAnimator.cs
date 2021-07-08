@@ -31,6 +31,7 @@ public class UnitAnimator : NetworkBehaviour
     {
         networkAnim = GetComponent<NetworkAnimator>();
         anim = GetComponent<Animator>();
+        if (anim == null) anim = GetComponentInChildren<Animator>();
         audioSource = GetComponent<AudioSource>();
         rand = new System.Random();
         //Initial state set to prevent attack state delay when checking current state and new state

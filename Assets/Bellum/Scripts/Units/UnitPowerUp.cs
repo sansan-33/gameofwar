@@ -233,7 +233,7 @@ public class UnitPowerUp : NetworkBehaviour
     private void HandleUnitSkill(UnitMeta.UnitSkill skill, int star, int attack, float repeatAttackDelay, float speed)
     {
         UnitMeta.UnitType unitType = gameObject.GetComponent<Unit>().unitType;
-        if (unitType == UnitMeta.UnitType.KING || unitType == UnitMeta.UnitType.HERO
+        if (unitType == UnitMeta.UnitType.KING || unitType == UnitMeta.UnitType.HERO || unitType == UnitMeta.UnitType.QUEEN
             || unitType == UnitMeta.UnitType.TOWER || unitType == UnitMeta.UnitType.BARRACK
             || unitType == UnitMeta.UnitType.CATAPULT || unitType == UnitMeta.UnitType.WALL ) { return; }
         //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");

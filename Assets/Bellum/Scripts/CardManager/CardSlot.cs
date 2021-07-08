@@ -1,46 +1,30 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
-public class CardSlot : MonoBehaviour, IDropHandler
+public class CardSlot : MonoBehaviour 
 {
-    public GameObject item;
+    [SerializeField] public GameObject mergeEffectPrefab;
+    private GameObject mergeEffect;
 
-    public void OnDrop(PointerEventData eventData)
+    public void Start()
     {
-        /*
-        GameObject cardNow;
-        if (!item)
-        {
-            Debug.Log("Drop succes");
-            item = DragCard.objBeingDraged;
-            item.transform.SetParent(transform);
+          
+        //if (mergeEffectPrefab != null)
+        //    mergeEffect = Instantiate(mergeEffectPrefab, transform);
+        //else
+        //    Debug.Log($"{name} mergeEffectPrefab is null");
 
-            //item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80,100);
-            cardNow = item;
-        }
-        else
-        {
-            item.GetComponent<RectTransform>().anchoredPosition = new Vector2(-80, 100);
-        }
-        */
-
+        //if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
     }
 
     private void Update()
     {
-        /*
-        if (item != null && item.transform.parent != transform)
-        {
-            item = null;
-        }
-        */
+         
+    }
+    public void playMergeEffect()
+    {
+        if (mergeEffect != null)
+            mergeEffect.GetComponent<ParticleSystem>().Play();
+        //Debug.Log($"{name} play merge card effect");
     }
 
-    internal object GetComponenInchild<T>()
-    {
-        throw new NotImplementedException();
-    }
 }

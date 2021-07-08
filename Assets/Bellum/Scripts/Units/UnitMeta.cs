@@ -26,7 +26,7 @@ public class UnitMeta
                         HUMANTOWER,HUMANBARRACK,HUMANCATAPULT, UNDEADTOWER, UNDEADBARRACK, UNDEADCATAPULT, ELFTOWER, ELFBARRACK, ELFCATAPULT, GODTOWER, GODBARRACK, GODCATAPULT, DOOR,
                         HUMANSPIKETRAP, HUMANSIEGE, UNDEADSPIKETRAP, UNDEADSIEGE, ELFSPIKETRAP, ELFSIEGE, GODSPIKETRAP, GODSIEGE
     };
-    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, SIEGE, TRAP };
+    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, SIEGE, TRAP, QUEEN };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
@@ -60,6 +60,7 @@ public class UnitMeta
         { UnitType.CAVALRY, TacticalBehavior.BehaviorSelectionType.Attack } ,
         { UnitType.FOOTMAN, TacticalBehavior.BehaviorSelectionType.Attack },
         { UnitType.HERO, TacticalBehavior.BehaviorSelectionType.Defend },
+        { UnitType.QUEEN, TacticalBehavior.BehaviorSelectionType.Defend },
         { UnitType.TANK, TacticalBehavior.BehaviorSelectionType.Attack },
         { UnitType.KING, TacticalBehavior.BehaviorSelectionType.Defend }
     };
@@ -70,6 +71,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitPosition.MIDFIELDER },
         { UnitType.TANK, UnitPosition.FORWARD },
         { UnitType.FOOTMAN, UnitPosition.FORWARD },
+        { UnitType.QUEEN, UnitPosition.DEFENDER },
         { UnitType.HERO, UnitPosition.DEFENDER },
         { UnitType.KING, UnitPosition.GOALIE },
         { UnitType.WALL, UnitPosition.WALL },
@@ -87,7 +89,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitKey.MAGE },
         { UnitType.FOOTMAN, UnitKey.SPEARMAN },
         { UnitType.HERO, UnitKey.HERO },
-        //{ UnitType.HERO, UnitKey.MULAN },
+        { UnitType.QUEEN, UnitKey.MULAN },
         { UnitType.KING, UnitKey.KING },
         { UnitType.WALL, UnitKey.HUMANWALL },
         { UnitType.BARRACK, UnitKey.HUMANBARRACK },
@@ -104,7 +106,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitKey.LICH },
         { UnitType.FOOTMAN, UnitKey.MINISKELETON },
         { UnitType.HERO, UnitKey.UNDEADHERO },
-        //{ UnitType.HERO, UnitKey.UNDEADQUEEN },
+        { UnitType.QUEEN, UnitKey.UNDEADQUEEN },
         { UnitType.KING, UnitKey.UNDEADKING },
         { UnitType.WALL, UnitKey.UNDEADWALL },
         { UnitType.BARRACK, UnitKey.UNDEADBARRACK },
@@ -120,6 +122,7 @@ public class UnitMeta
         { UnitType.CAVALRY, UnitKey.GODCAVALRY} ,
         { UnitType.MAGIC, UnitKey.GODMAGE },
         { UnitType.FOOTMAN, UnitKey.GODSPEARMAN },
+        { UnitType.QUEEN, UnitKey.LOKI },
         { UnitType.HERO, UnitKey.THOR },
         { UnitType.KING, UnitKey.ODIN },
         { UnitType.WALL, UnitKey.GODWALL },
@@ -138,7 +141,7 @@ public class UnitMeta
         { UnitType.MAGIC, UnitKey.ELFMAGE },
         { UnitType.FOOTMAN, UnitKey.ELFFOOTMAN },
         { UnitType.HERO, UnitKey.ELFDEMONHUNTER },
-        //{ UnitType.HERO, UnitKey.ELFQUEEN },
+        { UnitType.QUEEN, UnitKey.ELFQUEEN },
         { UnitType.KING, UnitKey.ELFTREEANT },
         { UnitType.WALL, UnitKey.ELFWALL },
         { UnitType.BARRACK, UnitKey.ELFBARRACK },
@@ -162,7 +165,7 @@ public class UnitMeta
         { UnitKey.MAGE , UnitType.MAGIC},
         { UnitKey.SPEARMAN , UnitType.FOOTMAN},
         { UnitKey.HERO , UnitType.HERO},
-        { UnitKey.MULAN , UnitType.HERO},
+        { UnitKey.MULAN , UnitType.QUEEN},
         { UnitKey.KING , UnitType.KING },
         { UnitKey.HUMANWALL , UnitType.WALL },
         { UnitKey.HUMANTOWER , UnitType.TOWER },
@@ -177,7 +180,7 @@ public class UnitMeta
         { UnitKey.LICH , UnitType.MAGIC },
         { UnitKey.MINISKELETON , UnitType.FOOTMAN  },
         { UnitKey.UNDEADHERO , UnitType.HERO  },
-        { UnitKey.UNDEADQUEEN , UnitType.HERO  },
+        { UnitKey.UNDEADQUEEN , UnitType.QUEEN  },
         { UnitKey.UNDEADKING , UnitType.KING  },
         { UnitKey.UNDEADWALL , UnitType.WALL },
         { UnitKey.UNDEADTOWER , UnitType.TOWER },
@@ -192,7 +195,7 @@ public class UnitMeta
         { UnitKey.GODMAGE , UnitType.MAGIC},
         { UnitKey.GODSPEARMAN , UnitType.FOOTMAN},
         { UnitKey.THOR , UnitType.HERO},
-        { UnitKey.LOKI , UnitType.HERO},
+        { UnitKey.LOKI , UnitType.QUEEN},
         { UnitKey.ODIN , UnitType.KING },
         { UnitKey.GODWALL , UnitType.WALL },
         { UnitKey.GODTOWER , UnitType.TOWER },
@@ -206,7 +209,7 @@ public class UnitMeta
         { UnitKey.ELFCAVALRY , UnitType.CAVALRY} ,
         { UnitKey.ELFMAGE , UnitType.MAGIC},
         { UnitKey.ELFFOOTMAN , UnitType.FOOTMAN},
-        { UnitKey.ELFQUEEN , UnitType.HERO},
+        { UnitKey.ELFQUEEN , UnitType.QUEEN},
         { UnitKey.ELFDEMONHUNTER , UnitType.HERO},
         { UnitKey.ELFTREEANT , UnitType.KING },
         { UnitKey.ELFWALL , UnitType.WALL },

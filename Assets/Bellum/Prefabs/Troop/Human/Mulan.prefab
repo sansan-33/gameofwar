@@ -132,7 +132,7 @@ MonoBehaviour:
   targeter: {fileID: 7421118180260531211}
   damageToDeal: 1
   attackPoint: {fileID: 1815467473835621003}
-  attackRange: 5
+  attackRange: 6
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -176,6 +176,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   networkAnim: {fileID: 8115428852689605826}
+  anim: {fileID: 0}
   audioSource: {fileID: 0}
   isAttacking: 0
 --- !u!1001 &1222212762829145569
@@ -189,6 +190,14 @@ PrefabInstance:
       propertyPath: networkAnim
       value: 
       objectReference: {fileID: 8115428852689605826}
+    - target: {fileID: 1917093245144647846, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 1917093245144647846, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552006, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Name
       value: Mulan
@@ -311,7 +320,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6372428433142078116, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: unitType
-      value: 9
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7886504477174588649, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Size.x
