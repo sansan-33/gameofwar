@@ -661,7 +661,8 @@ public class TacticalBehavior : MonoBehaviour
         OPENDOORCOUNT++;
         Debug.Log($"Team {playerid} , open door {doorIndex} , count {OPENDOORCOUNT} / {MAXDOORCOUNT} ");
         UnitMeta.UnitKey unitKey = SpButtonManager.unitBtn.ElementAt(Int32.Parse(doorIndex)).Key;
-        TryTB((int)TacticalBehavior.BehaviorSelectionType.Attack, UnitMeta.KeyType[unitKey], Int32.Parse(playerid));
+        if(Int32.Parse(playerid) == PLAYERID)
+            TryTB((int)TacticalBehavior.BehaviorSelectionType.Attack, UnitMeta.KeyType[unitKey], Int32.Parse(playerid));
         Debug.Log($"Attack now please !!!  {UnitMeta.KeyType[unitKey]} ");
     }
     #endregion

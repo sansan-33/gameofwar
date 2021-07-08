@@ -168,7 +168,7 @@ public class Card : MonoBehaviour
     public void playMergeEffect()
     {
         gameObject.GetComponentInParent<CardSlot>().playMergeEffect(); 
-        Debug.Log($"{name} play merge card effect");
+        //Debug.Log($"{name} play merge card effect");
     }
     public void ResetScale()
     {

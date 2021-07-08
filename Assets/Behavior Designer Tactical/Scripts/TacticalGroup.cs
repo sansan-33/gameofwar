@@ -45,7 +45,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected Behavior leaderTree;
         protected List<IDamageable> targets = new List<IDamageable>();
         protected List<Transform> targetTransforms = new List<Transform>();
-        private string debugTarget = "tank";
+        private string debugTarget = "king";
         private bool ISDEBUG = false;
 
         /// <summary>
@@ -446,7 +446,10 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 {
                     //if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance)
                     //Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
-                    if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude  < distance)
+                    if (tacticalAgent.transform.name.ToLower().Contains(debugTarget))
+                        Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
+
+                        if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude  < distance)
                     {
                         distance = localDistance;
                         targetTransform = targetTransforms[i];
