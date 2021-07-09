@@ -38,7 +38,7 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
             Debug.Log($"{i} StageMenuButton.OnPointerClick() missions[i-1].mission:{missions[i - 1].mission}");
             if (missions[i - 1].desc != null)
             {
-                String key = StaticClass.Chapter + "-" + missions[i - 1].mission;
+                String key ="mission_" + StaticClass.Chapter + "-" + missions[i - 1].mission;
                 AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, key, null);
                 if (op.IsDone)
                 {
