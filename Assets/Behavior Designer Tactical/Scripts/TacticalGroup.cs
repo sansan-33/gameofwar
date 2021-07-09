@@ -446,8 +446,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 {
                     //if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance)
                     //Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
-                    if (tacticalAgent.transform.name.ToLower().Contains(debugTarget))
-                        Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
+                    //if (tacticalAgent.transform.name.ToLower().Contains(debugTarget))
+                    //    Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
 
                         if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude  < distance)
                     {
@@ -462,6 +462,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                     targetTransforms.RemoveAt(i);
                 }
             }
+            if (tacticalAgent.transform.name.ToLower().Contains(debugTarget))
+                Debug.Log($"ClosestTarget  {targetTransform.name} {targetTransform.tag}  ");
+
         }
         /// <summary>
         /// Finds a target transform closest to the agent.
