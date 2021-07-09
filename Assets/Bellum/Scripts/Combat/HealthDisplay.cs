@@ -18,15 +18,18 @@ public class HealthDisplay : MonoBehaviour
     [SerializeField] private GameObject heroIcon = null;
     [SerializeField] private GameObject defaultIcon = null;
     [SerializeField] public Sprite healthBarEnemyImage = null;
-    private float lastDisplayTime;
-    private float displayDelay = 3f;
+    private float lerpSpeed = 2f;
+    float lerpTimer = 0f;
     public int kills;
     private Quaternion startRotation;
+    float currentHealth = 0f;
+    float maxHealth = 0f;
     
     private void Awake()
     {
         health.ClientOnHealthUpdated += HandleHealthUpdated;
-        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
+        if (GetComponent<Unit>().unitType == UnitMeta.UnitType.KING || GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO
+            || GetComponent<Unit>().unitType == UnitMeta.UnitType.QUEEN  || GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
             healthBarParent.SetActive(true);
         else
             healthBarParent.SetActive(false);
@@ -35,6 +38,7 @@ public class HealthDisplay : MonoBehaviour
     void Update()
     {
         healthBarParent.transform.rotation = startRotation;
+        updatedHealthUI();
     }
     private void OnDestroy()
     {
@@ -49,36 +53,41 @@ public class HealthDisplay : MonoBehaviour
     {
         leaderFrame.SetActive(true);
     }
-
-    private void HandleHealthUpdated(int currentHealth, int maxHealth, int lastDamageDeal)
+    private void HandleHealthUpdated(int _currentHealth, int _maxHealth, int _lastDamageDeal)
     {
-        healthBarImage.fillAmount = (float)currentHealth / maxHealth;
-        if(lastDisplayTime + displayDelay < Time.time)
-            StartCoroutine(LerpHealthBar(healthBarImageLast, currentHealth, lastDamageDeal, maxHealth, 5f));
+        currentHealth = _currentHealth;
+        maxHealth = _maxHealth;
+        lerpTimer = 0f;
         currentHealthText.text = currentHealth.ToString();
-        if (currentHealth < maxHealth) {
+        if (currentHealth < maxHealth)
             healthBarParent.SetActive(true);
-        }
-        if(currentHealth == 0)
+        if (currentHealth == 0)
             healthBarParent.SetActive(false);
-        //Debug.Log($"{name} HandleHealthUpdated currentHealth {currentHealth}, lastDamageDeal {lastDamageDeal} ");
+
     }
-    IEnumerator LerpHealthBar(Image healthBar, int currentHealth, int lastDamageDeal, int maxHealth, float lerpDuration)
+    private void updatedHealthUI()
     {
-        if (maxHealth == 0) { yield break; }
-        int startHealth = currentHealth + lastDamageDeal;
-        int endHealth = currentHealth;
-        float timeElapsed = 0f;
-        float valueToLerp = 0f;
-        while (timeElapsed < lerpDuration)
+        float fillF = healthBarImage.fillAmount;
+        float fillB = healthBarImageLast.fillAmount;
+        float hFraction = (float)currentHealth / (float) maxHealth;
+        
+        if (fillB > hFraction)
         {
-            valueToLerp = Mathf.Lerp(startHealth, endHealth, timeElapsed / lerpDuration);
-            timeElapsed += Time.deltaTime;
-            healthBar.fillAmount = valueToLerp / maxHealth;
+            healthBarImage.fillAmount = hFraction;
+            lerpTimer += Time.deltaTime;
+            float percentComplete = lerpTimer / lerpSpeed;
+            //Debug.Log($"fillB {fillB}, hFraction {hFraction}, percentComplete {percentComplete}");
+            healthBarImageLast.fillAmount = Mathf.Lerp(fillB, hFraction, percentComplete);
         }
-        lastDisplayTime = Time.time;
-        yield return null;
+        if (fillF < hFraction)
+        {
+            healthBarImageLast.fillAmount = hFraction;
+            lerpTimer += Time.deltaTime;
+            float percentComplete = lerpTimer / lerpSpeed;
+            healthBarImage.fillAmount = Mathf.Lerp(fillF, healthBarImageLast.fillAmount, percentComplete);
+        }
     }
+   
     public void SetHealthBarColor (Color newColor)
     {
         healthBarImage.sprite = newColor == Color.blue ? healthBarImage.sprite : healthBarEnemyImage;

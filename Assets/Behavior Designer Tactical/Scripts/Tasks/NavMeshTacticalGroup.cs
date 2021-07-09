@@ -51,9 +51,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             /// </summary>
             public override bool RotateTowards(Quaternion targetRotation)
             {
+                Vector3 eulerRotation = targetRotation.eulerAngles;
+                targetRotation = Quaternion.Euler(eulerRotation.x, eulerRotation.y, 0); // fix the unit rotate z axis like falling down
                 unit.GetUnitMovement().rotate(targetRotation);
-                //if(unit.unitType == UnitMeta.UnitType.FOOTMAN)
-                //Debug.Log($"RotateTowards To Target Angle {Quaternion.Angle(transform.rotation, targetRotation)} , AttackAngle: {AttackAgent.AttackAngle()}");
+                //if( unit.unitType == UnitMeta.UnitType.KING  )
+                //    Debug.Log($"{unit.transform.name} {unit.transform.tag} RotateTowards To Target Angle {Quaternion.Angle(transform.rotation, targetRotation)} , AttackAngle: {AttackAgent.AttackAngle()}");
                 if (Quaternion.Angle(transform.rotation, targetRotation) < AttackAgent.AttackAngle()) {
                     return true;
                 }
