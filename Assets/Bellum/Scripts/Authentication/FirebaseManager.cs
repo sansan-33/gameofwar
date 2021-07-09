@@ -44,6 +44,7 @@ public class FirebaseManager : MonoBehaviour
 
     APIManager apiManager;
     [SerializeField] private SaveSystem saveSystem;
+    [SerializeField] private LanguageSelectionManager languageSelectionManager;
 
     //Auto Login
     [Header("Auto Login")]
@@ -151,6 +152,8 @@ public class FirebaseManager : MonoBehaviour
         string ip = GetLocalIPv4();
         saveSystem.LoadSaveDataFromDisk();
         Debug.Log($"saveSystem.saveData.ToJson : {saveSystem.saveData.ToJson()}");
+        languageSelectionManager.loadLocaleFromSaveSystem(saveSystem);
+
         //if (StaticClass.UserID == null || StaticClass.UserID.Length == 0 )
         if (IPEmail.ContainsKey(ip))
         yield return Login(IPEmail[ip][0], IPEmail[ip][1]);

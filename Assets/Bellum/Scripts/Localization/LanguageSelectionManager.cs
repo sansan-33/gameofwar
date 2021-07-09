@@ -15,6 +15,7 @@ public class LanguageSelectionManager : MonoBehaviour
     public static int Selected_Locale_Index = 0;
 
     [SerializeField] public GameObject languageSelectionPopup;
+    [SerializeField] public SaveSystem saveSystem;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,20 @@ public class LanguageSelectionManager : MonoBehaviour
     void Update()
     {
         //Debug.Log($"LanguageSelectionManager.Update()");
+    }
+
+    public void loadLocaleFromSaveSystem(SaveSystem saveSystem)
+    {
+        this.saveSystem = saveSystem;
+        // set locale from saveSystem
+        if (this.saveSystem.saveData._locale == null)
+        {
+            OnSelectionChanged(PlayerPrefs.GetInt("Language"), true);
+        } else
+        {
+            OnSelectionChanged(getLocaleIndex(this.saveSystem.saveData._locale), false);
+        }
+        
     }
 
     public void SelectEnglish()
@@ -51,9 +66,14 @@ public class LanguageSelectionManager : MonoBehaviour
 
     private void OnSelectionChanged(int index)
     {
-        Debug.Log($"LanguageSelectionManager.OnSelectionChanged() Selected index:{index}");
+        OnSelectionChanged(index, true);
+    }
 
-        Debug.Log($"LocalizationSettings.AvailableLocales:{LocalizationSettings.AvailableLocales.Locales}");
+    private void OnSelectionChanged(int index, bool needSave)
+    {
+        Debug.Log($"LanguageSelectionManager.OnSelectionChanged() Selected index:{index} needSave:{needSave}");
+
+        //Debug.Log($"LocalizationSettings.AvailableLocales:{LocalizationSettings.AvailableLocales.Locales}");
         Selected_Locale_Index = index;
 
         if (index >= LocalizationSettings.AvailableLocales.Locales.Count)
@@ -64,11 +84,20 @@ public class LanguageSelectionManager : MonoBehaviour
 
         var locale = LocalizationSettings.AvailableLocales.Locales[index];
         LocalizationSettings.SelectedLocale = locale;
-        Debug.Log($"LanguageSelectionManager.OnSelectionChanged() SelectedLocale:{LocalizationSettings.SelectedLocale}");
+        //Debug.Log($"LanguageSelectionManager.OnSelectionChanged() SelectedLocale:{LocalizationSettings.SelectedLocale}");
 
         // save
-        PlayerPrefs.SetInt("Language", index);
-        Debug.Log($"LanguageSelectionManager.OnSelectionChanged() PlayerPrefs.SetInt(Language, index):{index}");
+        if (saveSystem != null && needSave)
+        {
+            saveSystem.saveData._locale = locale.ToString();
+            saveSystem.SaveToFile();
+            Debug.Log($"LanguageSelectionManager.OnSelectionChanged() save locale to SaveSystem saveSystem.saveData._locale:{saveSystem.saveData._locale}");
+
+        } else
+        {
+            PlayerPrefs.SetInt("Language", index);
+            Debug.Log($"LanguageSelectionManager.OnSelectionChanged() PlayerPrefs.SetInt(Language, index):{index}");
+        }
 
         // TODO: inactive check for non-selected locale and active check for selected locale
 

@@ -49,42 +49,7 @@ public class LocalizationResponder : MonoBehaviour
         // Initialize the component on enable to make sure this object
         // has the most current language configuration.
         OnLanguageChanged(LocalizationSettings.SelectedLocale);
-
-        int languageId = 0;
-        // TODO: if not login, use system locale.If system locale not available(not en, jp, zh), use en
-        if (false)
-        {
-            //Debug.Log($"LocalizationResponder.OnEnable() Application.systemLanguage:{Application.systemLanguage}");
-            switch (Application.systemLanguage)
-            {
-                case SystemLanguage.Japanese:
-                    languageId = LanguageSelectionManager.getLocaleIndex(LanguageSelectionManager.LOCALE_JP);
-                    break;
-                case SystemLanguage.ChineseSimplified:
-                    languageId = LanguageSelectionManager.getLocaleIndex(LanguageSelectionManager.LOCALE_CN);
-                    break;
-                case SystemLanguage.ChineseTraditional:
-                    languageId = LanguageSelectionManager.getLocaleIndex(LanguageSelectionManager.LOCALE_HK);
-                    break;
-                default:
-                    languageId = LanguageSelectionManager.getLocaleIndex(LanguageSelectionManager.LOCALE_EN);
-                    break;
-            }
-            //Debug.Log($"LocalizationResponder.OnEnable() after system language languageId:{languageId}");
-        } else {
-            // logined, use saved language
-            languageId = PlayerPrefs.GetInt("Language");
-            //Debug.Log($"LocalizationResponder.OnEnable() PlayerPrefs.GetInt(Language):{languageId}"
-            if (languageId >= LocalizationSettings.AvailableLocales.Locales.Count)
-            {
-                Debug.LogError($"LocalizationSettings.AvailableLocales.Locales.Count:{LocalizationSettings.AvailableLocales.Locales.Count} < index:{languageId}. Use the first locale");
-                languageId = 0;
-            }
-        }
-
-        var newlocale = LocalizationSettings.AvailableLocales.Locales[languageId];
-        LocalizationSettings.SelectedLocale = newlocale;
-
+       
         // Instantiate FontManger to get Default Font
         TMP_Asset tempFont = FontManager.Instance.defaultFontEn;
 

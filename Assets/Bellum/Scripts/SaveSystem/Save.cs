@@ -15,6 +15,7 @@ public class Save
 	// The variables need to be public, else we would have to write trivial getter/setter functions.
 	public string _email;
 	public string _password;
+	public string _locale;
 
 	public string ToJson()
 	{
