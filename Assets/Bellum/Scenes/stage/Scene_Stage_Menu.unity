@@ -11839,6 +11839,7 @@ GameObject:
   - component: {fileID: 982535185}
   - component: {fileID: 982535184}
   - component: {fileID: 982535183}
+  - component: {fileID: 982535186}
   m_Layer: 5
   m_Name: Stats_Gem
   m_TagString: Untagged
@@ -11932,6 +11933,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 982535181}
   m_CullTransparentMesh: 0
+--- !u!114 &982535186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 982535181}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &986291405
 GameObject:
   m_ObjectHideFlags: 0
@@ -16044,6 +16062,7 @@ GameObject:
   - component: {fileID: 1682431500}
   - component: {fileID: 1682431503}
   - component: {fileID: 1682431502}
+  - component: {fileID: 1682431504}
   m_Layer: 5
   m_Name: Text_Stage
   m_TagString: Untagged
@@ -16220,6 +16239,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1682431504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1682431498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1682504336
 GameObject:
   m_ObjectHideFlags: 0
@@ -28350,6 +28386,7 @@ GameObject:
   - component: {fileID: 2037241955}
   - component: {fileID: 2037241954}
   - component: {fileID: 2037241953}
+  - component: {fileID: 2037241956}
   m_Layer: 5
   m_Name: Stats_Gold
   m_TagString: Untagged
@@ -28443,6 +28480,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037241951}
   m_CullTransparentMesh: 0
+--- !u!114 &2037241956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037241951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
+  parent: {fileID: 1116770363}
+  floorMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &2039700023
 GameObject:
   m_ObjectHideFlags: 0
