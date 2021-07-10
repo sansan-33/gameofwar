@@ -13,7 +13,6 @@ public class OnclickEffect : MonoBehaviour, IPointerClickHandler
     [SerializeField] private LayerMask floorMask = new LayerMask();
     GameObject _effect;
     Camera mainCamera;
-    bool a = false;
     void Start()
     {
         mainCamera = Camera.main;
@@ -31,7 +30,6 @@ public class OnclickEffect : MonoBehaviour, IPointerClickHandler
         _effect.GetComponent<ParticleSystem>().Play();
         Debug.Log($"Hit {hit.point}");
         StartCoroutine(DisableEffect(_effect));
-        a = true;
     }
     private IEnumerator DisableEffect(GameObject effect)
     {
