@@ -81,7 +81,10 @@ namespace BehaviorDesigner.Runtime.Tactical
         public bool RotateTowardsPosition(Vector3 position)
         {
             var targetRotation = Quaternion.LookRotation(position - transform.position);
-            //return true;
+            if (targetRotation.eulerAngles == Vector3.zero)
+            {
+                return false;
+            }
             return RotateTowards(targetRotation);
         }
 

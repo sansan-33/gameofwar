@@ -155,8 +155,9 @@ public class FirebaseManager : MonoBehaviour
         languageSelectionManager.loadLocaleFromSaveSystem(saveSystem);
 
         //if (StaticClass.UserID == null || StaticClass.UserID.Length == 0 )
-        if (IPEmail.ContainsKey(ip))
-        yield return Login(IPEmail[ip][0], IPEmail[ip][1]);
+        //if (IPEmail.ContainsKey(ip))
+        //yield return Login(IPEmail[ip][0], IPEmail[ip][1]);
+        yield return Login(saveSystem.saveData._email, saveSystem.saveData._password);
     }
     void AuthStateChanged(object sender, System.EventArgs eventArgs)
     {
