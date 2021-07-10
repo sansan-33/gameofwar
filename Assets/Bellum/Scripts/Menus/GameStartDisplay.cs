@@ -21,10 +21,8 @@ public class GameStartDisplay : NetworkBehaviour
     public static event Action ServerGameStart;
     public static event Action ServerGameSpeedUp;
 
-
-    [SyncVar(hook = "StartTiming")]
-    private float startTime = 1;
     private double Timer = 180;
+    private double startTimer = 3;
     bool IS_PLAYER_LOADED = false;
     RTSPlayer player;
     float SPEEPUPTIME = 10f; // will speed up eleixier recovery after 10s
@@ -41,8 +39,9 @@ public class GameStartDisplay : NetworkBehaviour
     }
     private void FixedUpdate()
     {
-        if(offset > 0)
-        now = Timer - (NetworkTime.time - offset);
+        if (offset > 0){
+            now = Timer - (NetworkTime.time - offset);
+        }
         GameStartCountDown();
         GameEndCountDown();
     }
@@ -60,6 +59,7 @@ public class GameStartDisplay : NetworkBehaviour
         //StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
         vsText.SetActive(true);
         yield return new WaitForSeconds(2.5f);
+        startTimer += NetworkTime.time;
         IS_PLAYER_LOADED = true;
         playerVSParent.SetActive(false);
 
@@ -138,24 +138,23 @@ public class GameStartDisplay : NetworkBehaviour
     }
     private void GameStartCountDown()
     {
-        if(startTime > 0 && IS_PLAYER_LOADED)
-            startTime -= 1 * Time.deltaTime;
+        if (IS_PLAYER_LOADED && offset==0)
+            StartTiming();
     }
     private void GameEndCountDown()
     {
         if (IS_PLAYER_LOADED)
             Timing();
     }
-    public void StartTiming(float oldTime, float newTime)
+    public void StartTiming()
     {
-        Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
-        if (newTime <= 30 && newTime > 0)
+        Debug.Log($"StartTiming startTimer {startTimer} NetworkTime.time {NetworkTime.time}");
+        if (startTimer > NetworkTime.time - 1 && startTimer < NetworkTime.time)
         {
             gameStartDisplayParent.SetActive(true);
-            //StartTime.text = newTime.ToString("0");
             StartTime.text = "Fight!";
         }
-        else if (newTime <= 0)
+        else if (startTimer >= NetworkTime.time)
         {
             offset = NetworkTime.time;
             gameStartDisplayParent.SetActive(false);
