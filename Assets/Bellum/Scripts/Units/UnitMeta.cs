@@ -473,11 +473,11 @@ insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,spec
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADHERO',500,10,0.6,0,3,0,"LIGHTNING","");
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADQUEEN',800,5,0.6,1,3,180,"LIGHTNING","");
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADARCHER',30,6,2,0,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADKING',1000,20,1,0,3,0,”SHIELD","");
+insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADKING',1000,20,1,0,3,0,"SHIELD","");
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('RIDER',70,25,2,0,10,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('LICH',80,15,3,0,3,0,””,””);
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODARCHER’,30,6,2,2,2,0,””,””);
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODKNIGHT',150,40,2,2,2,0,””,””);
+insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('LICH',80,15,3,0,3,0,"","");
+insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODARCHER’,30,6,2,2,2,0,"","");
+insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODKNIGHT',150,40,2,2,2,0,"","");
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODMAGE',80,15,3,2,3,0,"","");
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODCAVALRY',70,25,2,2,10,0,"","");
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODSPEARMAN',15,15,1,2,4,0,"","");
