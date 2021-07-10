@@ -4819,7 +4819,6 @@ GameObject:
   - component: {fileID: 371873932}
   - component: {fileID: 371873931}
   - component: {fileID: 371873933}
-  - component: {fileID: 371873934}
   m_Layer: 5
   m_Name: Button_Battle
   m_TagString: Untagged
@@ -4900,23 +4899,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landingPagePanel: {fileID: 325234869}
   multiplayerPanel: {fileID: 1320012658}
---- !u!114 &371873934
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371873929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b2ed346409fe42a6833e160ae8bfea3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  effect: {fileID: 4289207977908457395, guid: d299c83a3413f154bb6ca2a97c67597b, type: 3}
-  parent: {fileID: 325234870}
-  floorMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!1 &384340323
 GameObject:
   m_ObjectHideFlags: 0
