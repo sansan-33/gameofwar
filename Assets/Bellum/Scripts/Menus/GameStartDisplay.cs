@@ -148,7 +148,7 @@ public class GameStartDisplay : NetworkBehaviour
     }
     public void StartTiming(float oldTime, float newTime)
     {
-       // Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
+        Debug.Log($"oldTime:{oldTime}newTime:{newTime}");
         if (newTime <= 30 && newTime > 0)
         {
             gameStartDisplayParent.SetActive(true);
