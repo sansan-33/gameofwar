@@ -5,11 +5,15 @@ public class AutoRotateSprite : MonoBehaviour
 {
     bool rotating = false;
     public GameObject objectToRotate;
-    public int speed;
+    public int speedZ;
+    public int speedY;
+    public int speedX;
+
+
 
     void Start()
     {
-        StartCoroutine(rotateObject(objectToRotate, new Vector3(0, 0, speed), 3600f));
+        StartCoroutine(rotateObject(objectToRotate, new Vector3(speedX, speedY, speedZ), 3600f));
     }
     IEnumerator rotateObject(GameObject gameObjectToMove, Vector3 eulerAngles, float duration)
     {
