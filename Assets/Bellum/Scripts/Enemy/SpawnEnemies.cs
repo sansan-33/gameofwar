@@ -61,7 +61,7 @@ public class SpawnEnemies : MonoBehaviour
 
         if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
         {
-            Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
+            //Debug.Log($"LoadEnemies {UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()}");
             cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()];
             localFactory.CmdSpawnUnitRotation(race, UnitMeta.UnitType.KING, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, Quaternion.Euler(0, 180, 0)); ;
         }

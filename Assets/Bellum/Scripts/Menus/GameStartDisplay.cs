@@ -148,7 +148,7 @@ public class GameStartDisplay : NetworkBehaviour
     }
     public void StartTiming()
     {
-        Debug.Log($"StartTiming startTimer {startTimer} NetworkTime.time {NetworkTime.time}");
+        //Debug.Log($"StartTiming startTimer {startTimer} NetworkTime.time {NetworkTime.time}");
         if (startTimer > NetworkTime.time - 1 && startTimer < NetworkTime.time)
         {
             gameStartDisplayParent.SetActive(true);
