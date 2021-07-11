@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class AutoRotateSprite : MonoBehaviour
 {
-    void Start()
-    {
-        StartCoroutine(rotateObject(objectToRotate, new Vector3(0, 0, 36000), 3600f));
-    }
-
     bool rotating = false;
     public GameObject objectToRotate;
+    public int speed;
 
+    void Start()
+    {
+        StartCoroutine(rotateObject(objectToRotate, new Vector3(0, 0, speed), 3600f));
+    }
     IEnumerator rotateObject(GameObject gameObjectToMove, Vector3 eulerAngles, float duration)
     {
         if (rotating)
