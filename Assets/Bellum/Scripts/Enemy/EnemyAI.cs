@@ -146,7 +146,7 @@ public class EnemyAI : MonoBehaviour
             // Debug.Log($"HandleSpawnnEnemy {cards.Count}");
             if (enemyBreakWall == false)
             {
-                SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, new Vector3(48,0,-31));
+                SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, new Vector3(48,0,-28));
             }
             if (canSpawnUnit == true)
             {//Debug.Log("HandleSpawnnEnemy");
@@ -292,7 +292,11 @@ public class EnemyAI : MonoBehaviour
     public void GateOpen(string playerID, string doorIndex)
     {
         Debug.Log($"player ID is {playerID}");
-        if(playerID == "1")
+        /* if(playerID == "1")
+         {
+             enemyBreakWall = true;
+         }*/
+        if (doorIndex == "1")
         {
             enemyBreakWall = true;
         }
@@ -750,6 +754,10 @@ public class EnemyAI : MonoBehaviour
                 //Debug.Log("Using startCentrePos");
                 unitPos = startCentrePos;
                 break;
+        }
+        if(enemyBreakWall == false)
+        {
+            unitPos = new Vector3(48, 0, -28);
         }
         SpawnUnit(unitPos,card,type);
          yield return null;
