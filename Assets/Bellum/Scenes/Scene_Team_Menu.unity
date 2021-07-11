@@ -2659,6 +2659,7 @@ GameObject:
   - component: {fileID: 429550475}
   - component: {fileID: 429550474}
   - component: {fileID: 429550473}
+  - component: {fileID: 429550476}
   m_Layer: 5
   m_Name: Contents
   m_TagString: Untagged
@@ -2701,6 +2702,7 @@ MonoBehaviour:
   Arts: {fileID: 1370763364}
   unitTypeArt: {fileID: 810228367}
   IS_TEAM_MEMBER_SELECTION: 1
+  localizationResponder: {fileID: 429550476}
   userCardFocus: {fileID: 1868229183}
   cardSlotParent: {fileID: 1670982908}
 --- !u!114 &429550474
@@ -2741,6 +2743,23 @@ MonoBehaviour:
   m_Spacing: {x: 25, y: 25}
   m_Constraint: 0
   m_ConstraintCount: 6
+--- !u!114 &429550476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429550471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0002b19311cee448a9920010f681034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fontMaterial: {fileID: 0}
+  fontJp: {fileID: 0}
+  fontCn: {fileID: 0}
+  fontHk: {fileID: 0}
+  fontEn: {fileID: 0}
 --- !u!1 &432386587
 GameObject:
   m_ObjectHideFlags: 0

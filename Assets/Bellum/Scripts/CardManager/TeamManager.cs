@@ -5,6 +5,9 @@ using SimpleJSON;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Localization.Settings;
+
 
 public class TeamManager : MonoBehaviour
 {
@@ -50,10 +53,36 @@ public class TeamManager : MonoBehaviour
             {
                 teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
                 teamCardBtn.characterImage.sprite = Arts.CharacterArtDictionary[userCardArray[i].cardkey].image;
-                teamCardBtn.cardSlotKey.text = userCardArray[i].cardkey;
+
+                // Localization
+                //teamCardBtn.cardSlotKey.text = userCardArray[i].cardkey;
+                AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, userCardArray[i].cardkey.ToLower(), null);
+                if (op.IsDone)
+                {
+                    teamCardBtn.cardSlotKey.text = op.Result;
+                }
+                else
+                {
+                    op.Completed += (o) => teamCardBtn.cardSlotKey.text = o.Result;
+                }
+                teamCardBtn.cardSlotKey.font = userCardManager.localizationResponder.getCurrentFont();
+
+                //teamCardBtn.cardSlotType.text = userCardArray[i].unittype;
+                op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, userCardArray[i].unittype.ToLower(), null);
+                if (op.IsDone)
+                {
+                    teamCardBtn.cardSlotType.text = op.Result;
+                }
+                else
+                {
+                    op.Completed += (o) => teamCardBtn.cardSlotType.text = o.Result;
+                }
+                teamCardBtn.cardSlotType.font = userCardManager.localizationResponder.getCurrentFont();
+                //Debug.Log($"TeamManager.HandleLoadTeam() teamCardBtn.cardSlotType.text:{teamCardBtn.cardSlotType.text}");
+
                 teamCardBtn.cardSlotLevel.text = userCardArray[i].level;
                 teamCardBtn.unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[userCardArray[i].unittype].image;
-                teamCardBtn.cardSlotType.text = userCardArray[i].unittype;
+                
                 teamCardBtn.cardSlotEmpty.SetActive(false);
                 //teamMembers[i] = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userCardArray[i].cardkey);
                 unitkey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), userCardArray[i].cardkey);

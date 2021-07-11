@@ -30,12 +30,12 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
         TabClicked?.Invoke(chapterIndex);
         MissionButton[] missions = missionContentParent.GetComponentsInChildren<MissionButton>();
 
-        // change mission 1-4 description, no mission 5 desc 
-        Debug.Log($"StageMenuButton OnPointerClick missions.Length: {missions.Length}");
-        for (int i=1; i < missions.Length; i++ )
+        // change mission 1-5 description
+        //Debug.Log($"StageMenuButton OnPointerClick missions.Length: {missions.Length}");
+        for (int i=1; i <= missions.Length; i++ )
         {
             //Debug.Log(i);
-            Debug.Log($"{i} StageMenuButton.OnPointerClick() missions[i-1].mission:{missions[i - 1].mission}");
+            //Debug.Log($"{i} StageMenuButton.OnPointerClick() missions[i-1].mission:{missions[i - 1].mission}");
             if (missions[i - 1].desc != null)
             {
                 String key ="mission_" + StaticClass.Chapter + "-" + missions[i - 1].mission;
@@ -50,7 +50,7 @@ public class StageMenuButton : MonoBehaviour, IPointerClickHandler
                 }
 
                 //missions[i - 1].desc.text = GamePlayMeta.ArenaLevelTextDict[key];
-                Debug.Log($"{StaticClass.Chapter} - {missions[i - 1].mission} StageMenuButton.OnPointerClick() missions[i-1].desc.text:{missions[i - 1].desc.text}");
+                //Debug.Log($"{StaticClass.Chapter} - {missions[i - 1].mission} StageMenuButton.OnPointerClick() missions[i-1].desc.text:{missions[i - 1].desc.text}");
             }
         }
     }
