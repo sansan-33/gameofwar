@@ -71,7 +71,7 @@ public class LanguageSelectionManager : MonoBehaviour
 
     private void OnSelectionChanged(int index, bool needSave)
     {
-        Debug.Log($"LanguageSelectionManager.OnSelectionChanged() Selected index:{index} needSave:{needSave}");
+        //Debug.Log($"LanguageSelectionManager.OnSelectionChanged() Selected index:{index} needSave:{needSave}");
 
         //Debug.Log($"LocalizationSettings.AvailableLocales:{LocalizationSettings.AvailableLocales.Locales}");
         Selected_Locale_Index = index;
@@ -109,10 +109,10 @@ public class LanguageSelectionManager : MonoBehaviour
         for (int i=0; i < LocalizationSettings.AvailableLocales.Locales.Count; i++)
         {
             string localeName = LocalizationSettings.AvailableLocales.Locales[i].LocaleName;
-            Debug.Log($"localeName:{localeName} localeString:{localeString}");
+            //Debug.Log($"localeName:{localeName} localeString:{localeString}");
             if (localeName.Contains(localeString))
             {
-                Debug.Log($"return localeIndex:{i}");
+                //Debug.Log($"return localeIndex:{i}");
                 return i;
             }
         }
