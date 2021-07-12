@@ -25,7 +25,6 @@ namespace BehaviorDesigner.Runtime.Tactical
         public bool AttackPosition { get { return attackPosition; } set { attackPosition = value; } }
         public Vector3 AttackOffset { set { attackOffset = value; } }
         public Vector3 TargetOffset { set { targetOffset = value; } }
-        public bool IsEngaged = false;
         public bool SurroundPosition { get { return surroundPosition; } set { surroundPosition = value; } }
 
         private string debugTarget = "footman";
@@ -153,7 +152,6 @@ namespace BehaviorDesigner.Runtime.Tactical
                 //Debug.Log($"targetTransform Targetable is null ? : {targetTransform.GetComponent<Targetable>() == null} ");
                 //Debug.Log($"TargetTransform Targetable GetAimAtPoint: {targetTransform.GetComponent<Targetable>().GetAimAtPoint() == null} , GetAimAtPoint Position {targetTransform.GetComponent<Targetable>().GetAimAtPoint().position == null} ");
                 attackAgent.Attack(targetTransform.GetComponent<Targetable>().GetAimAtPoint().position);
-                IsEngaged = true;
                 return true;
             }
             return false;

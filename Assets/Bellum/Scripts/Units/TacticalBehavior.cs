@@ -417,7 +417,6 @@ public class TacticalBehavior : MonoBehaviour
     public string GetTacticalStatus()
     {
         List<Unit> troops = GetAllTroops(PLAYERID);
-        //troops.AddRange(GetAllTroops(ENEMYID));
         var sb = new System.Text.StringBuilder();
         foreach (Unit army in troops) {
             if(army.TryGetComponent<AstarAI>(out AstarAI ai))
@@ -427,19 +426,14 @@ public class TacticalBehavior : MonoBehaviour
     }
     public List<Unit> GetAllTroops(int id)
     {
-        /*
-        List<GameObject> troops;
-        GameObject[] armies = GameObject.FindGameObjectsWithTag("Player" + id);
-        troops = armies.ToList();
-        armies = GameObject.FindGameObjectsWithTag("King" + id);
-        if (armies.Length > 0)
-            troops.AddRange(armies);
-        armies = GameObject.FindGameObjectsWithTag("Provoke" + id);
-        if (armies.Length > 0)
-            troops.AddRange(armies);
-        */
+        List<Unit> troops = new List<Unit>();
+        foreach (Unit army in player.GetMyUnits())
+        {
+            if(army.tag.Contains(id.ToString()))
+                troops.Add(army);
+        }
 
-        return player.GetMyUnits();
+        return troops;
     }
     public BehaviorSelectionType GetBehaviorSelectionType(int playerid)
     {

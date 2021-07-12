@@ -35,7 +35,7 @@ public class GameOverDisplay : MonoBehaviour
         if(gameStartDisplay.GetGameTimerValue() <= 0  && !IS_COMPLETED) {
             int blueCrown = Int32.Parse(crownBlueText.text);
             int redCrown = Int32.Parse(crownRedText.text);
-            Debug.Log($"GameOver Display timer: {gameStartDisplay.GetGameTimerValue()} , IS_COMPLETED ? {IS_COMPLETED} blueCrown:{blueCrown} redCrown:{redCrown}");
+            //Debug.Log($"GameOver Display timer: {gameStartDisplay.GetGameTimerValue()} , IS_COMPLETED ? {IS_COMPLETED} blueCrown:{blueCrown} redCrown:{redCrown}");
 
             if (blueCrown != redCrown && (blueCrown + redCrown) > 0 ) {
                 ClientHandleGameOver(blueCrown > redCrown ? "blue" : "red");
@@ -118,7 +118,7 @@ public class GameOverDisplay : MonoBehaviour
     }
     private void ClientHandleGameOverdraw()
     {
-        Debug.Log($"Game Draw ");
+        //Debug.Log($"Game Draw ");
         winnerNameText.text = $"Draw!";
         gameOverDisplayParent.enabled = true;
         cardDisplay.enabled = false;
@@ -126,7 +126,7 @@ public class GameOverDisplay : MonoBehaviour
     }
     public void ClientHandleGameOverResign()
     {
-        Debug.Log("Quit Game");
+        //Debug.Log("Quit Game");
         if (gameOverDisplayParent == null) { gameOverDisplayParent = GetComponentInChildren<Canvas>(); }
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
@@ -149,7 +149,7 @@ public class GameOverDisplay : MonoBehaviour
         JSONNode jsonResult = apiManager.data["GetEventRanking"];
         int currentEventPoint = 0;
         if (jsonResult.Count > 0) { currentEventPoint = Int32.Parse(jsonResult[0]["point"].ToString().Trim('"'));  }
-        Debug.Log($"updateUserRankingInfo point: {point} currentEventPoint : {currentEventPoint}");
+        //Debug.Log($"updateUserRankingInfo point: {point} currentEventPoint : {currentEventPoint}");
         if (point > currentEventPoint)
             yield return apiManager.UpdateEventRanking(StaticClass.UserID, StaticClass.EventRankingID, point.ToString());
         else

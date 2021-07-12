@@ -201,8 +201,8 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     public void ServerRotate(Quaternion targetRotation)
     {
         //ai.updateRotation = false;
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed);
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, ai.rotationSpeed * Time.deltaTime);
     }
     [Command]
     public void CmdStop()

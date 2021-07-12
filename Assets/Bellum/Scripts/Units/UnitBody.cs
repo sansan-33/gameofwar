@@ -59,9 +59,9 @@ public class UnitBody : NetworkBehaviour, IBody
             GetComponent<Collider>().enabled = false;
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.OPEN);
             cmShake();
-            yield return new WaitForSeconds(3f);
+            yield return new WaitForSeconds(0.5f);
         }
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         //Debug.Log($"Recalculate all graphs 12345678910 ");
         AstarPath.active.UpdateGraphs(GetComponent<GraphUpdateScene>().GetBounds());
         // Recalculate only the first grid graph

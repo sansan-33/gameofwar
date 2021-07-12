@@ -95,6 +95,7 @@ public class Health : NetworkBehaviour, IDamageable
             damageAmount -= defense;
             if (damageAmount > 0)
             {
+                damageAmount = (int)damageAmount;
                 currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
                 //if(tag.Contains("King") || tag.Contains("Hero"))
                 //Debug.Log($"name {name} current health {currentHealth} , damge took {damageAmount}");

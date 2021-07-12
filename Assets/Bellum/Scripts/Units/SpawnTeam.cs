@@ -35,7 +35,7 @@ public class SpawnTeam : MonoBehaviour
     }
     public void LoadTeam()
     {
-        Debug.Log($"LoadTeam");
+        //Debug.Log($"LoadTeam");
         foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
         {
             if (factroy.GetComponent<UnitFactory>().hasAuthority)
@@ -52,7 +52,7 @@ public class SpawnTeam : MonoBehaviour
         UnitMeta.Race race = (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), player.GetRace()); 
         string userkey = player.GetUserID();
         JSONNode userTeamCard;
-        Debug.Log($"HandleLoadTeam : {userkey} {race}");
+        //Debug.Log($"HandleLoadTeam : {userkey} {race}");
 
         for (int i = 0; i < userTeamDict[userkey].Count; i++) {
             userTeamCard = userTeamDict[userkey][i];
@@ -79,6 +79,6 @@ public class SpawnTeam : MonoBehaviour
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         jsonResult = JSON.Parse(rawJson);
         userTeamDict.Add(userid, jsonResult);
-        Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
     }
 }
