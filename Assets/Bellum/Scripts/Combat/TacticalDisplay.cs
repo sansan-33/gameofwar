@@ -9,6 +9,7 @@ public class TacticalDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject tacticalBarParent = null;
     private Quaternion startRotation;
+    [SerializeField] public bool defaultDisbale=false;
 
     public void Start()
     {
@@ -32,9 +33,11 @@ public class TacticalDisplay : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         gameObject.SetActive(false);
+        Debug.Log($"Set active false LateCall");
     }
     void OnEnable()
     {
+        if(defaultDisbale) { gameObject.SetActive(false); return; }
         GameObject[] floatButtons = GameObject.FindGameObjectsWithTag("FloatButton");
         foreach (GameObject btn in floatButtons) {
             if(btn != this.gameObject)

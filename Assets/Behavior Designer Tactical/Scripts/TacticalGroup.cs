@@ -441,8 +441,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         {
             var distance = float.MaxValue;
             var localDistance = 0f;
-            if (tacticalAgent.transform.name.ToLower().Contains("king"))
-                Debug.Log($"ClosestTarget {tacticalAgent.transform.name}:{tacticalAgent.transform.tag}");
+            //if (tacticalAgent.transform.name.ToLower().Contains("archer"))
+                //Debug.Log($"ClosestTarget {tacticalAgent.transform.name}:{tacticalAgent.transform.tag}");
 
             for (int i = targetTransforms.Count - 1; i > -1; --i)
             {
@@ -450,8 +450,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 {
                     //if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) < distance)
                     //Debug.Log($"Box size of {targetTransforms[i].name} {targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude} ");
-                    //if (tacticalAgent.transform.name.ToLower().Contains("king"))
-                    //    Debug.Log($"target [{i}] {targetTransforms[i].name} {targetTransforms[i].tag} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude }");
+                    //if (tacticalAgent.transform.name.ToLower().Contains("archer"))
+                        //Debug.Log($"target [{i}] {targetTransforms[i].name} {targetTransforms[i].tag} , local distance {(targetTransforms[i].position - agentTransform.position).sqrMagnitude - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude }");
 
                     if ((localDistance = (targetTransforms[i].position - agentTransform.position).sqrMagnitude) - targetTransforms[i].GetComponent<BoxCollider>().size.sqrMagnitude  < distance)
                     {
@@ -512,7 +512,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 tacticalAgent.TargetTransform = target;
                 tacticalAgent.TargetDamagable = damageable;
-                if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && tacticalAgent.transform.tag.Contains("0")  && ISDEBUG )
+                if (tacticalAgent.transform.name.ToLower().Contains("archer") && tacticalAgent.transform.tag.Contains("0")  && true )
                     Debug.Log($"{tacticalAgent.transform.name} Found Attack Target -- ClosestTarget -- {target.name}");
 
             }

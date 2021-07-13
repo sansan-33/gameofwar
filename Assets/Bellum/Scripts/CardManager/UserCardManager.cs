@@ -79,7 +79,7 @@ public class UserCardManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().level.text = card.level;
             userCard.GetComponent<UserCardButton>().exp.text = card.exp;
             userCard.GetComponent<UserCardButton>().cardtype = card.unittype;
-            //Debug.Log($"unitTypeArt unittype: {card.unittype}  ");
+            Debug.Log($"unitTypeArt unittype: {card.unittype}  ");
             userCard.GetComponent<UserCardButton>().unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[card.unittype].image;
 
             userCard.transform.Find(card.rarity.ToLower() + "_background").gameObject.SetActive(true);
