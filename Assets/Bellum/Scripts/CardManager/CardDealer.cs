@@ -40,14 +40,12 @@ public class CardDealer : MonoBehaviour
     [SerializeField] Card buttonBarrack;
     [SerializeField] Card buttonTower;
     [SerializeField] Card buttonCatapult;
-    [SerializeField] Card buttonSiege;
     [SerializeField] Card buttonSpikeTrap;
 
     [SerializeField] Card EnemyButtonWall;
     [SerializeField] Card EnemyButtonBarrack;
     [SerializeField] Card EnemyButtonTower;
     [SerializeField] Card EnemyButtonCatapult;
-    [SerializeField] Card EnemyButtonSiege;
     [SerializeField] Card EnemyButtonSpikeTrap;
 
     [SerializeField] public TotalEleixier totalEleixers;
@@ -117,15 +115,13 @@ public class CardDealer : MonoBehaviour
         buttonTower.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.TOWER, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TOWER].ToString()]));
         buttonCatapult.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.CATAPULT, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.CATAPULT].ToString()]));
         buttonSpikeTrap.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SPIKETRAP, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TRAP].ToString()]));
-        buttonSiege.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SIEGE, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.SIEGE].ToString()]));
-
+    
         EnemyButtonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString()]));
         EnemyButtonBarrack.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BARRACK, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.BARRACK].ToString()]));
         EnemyButtonTower.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.TOWER, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TOWER].ToString()]));
         EnemyButtonCatapult.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.CATAPULT, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.CATAPULT].ToString()]));
         EnemyButtonSpikeTrap.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SPIKETRAP, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TRAP].ToString()]));
-        EnemyButtonSiege.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SIEGE, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.SIEGE].ToString()]));
-
+    
     }
     void DealCard(CardPlayer player, int playersIndex,  bool left = true)
     {
