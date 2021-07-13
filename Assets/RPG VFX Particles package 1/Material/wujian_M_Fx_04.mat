@@ -1,0 +1,192 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: wujian_M_Fx_04
+  m_Shader: {fileID: 4800000, guid: bd6af5d577c618947b73aa60db554e51, type: 3}
+  m_ShaderKeywords: CUSTOMDATA_OPEN_NO _USEDARK_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Dissolve:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveTex:
+        m_Texture: {fileID: 2800000, guid: fa74e9a406e70c7438f766db923ae398, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Flow:
+        m_Texture: {fileID: 2800000, guid: d20a37e96993ea24ca6b60428d7e0ab6, type: 3}
+        m_Scale: {x: 1.44, y: 0.85}
+        m_Offset: {x: 2.69, y: 0}
+    - _Main:
+        m_Texture: {fileID: 2800000, guid: fa74e9a406e70c7438f766db923ae398, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: fa74e9a406e70c7438f766db923ae398, type: 3}
+        m_Scale: {x: 1.4, y: -1.11}
+        m_Offset: {x: -0.29, y: 1.11}
+    - _MainTexture:
+        m_Texture: {fileID: 2800000, guid: 9fcfa07d57dc4674bb66c4ab8c45e084, type: 3}
+        m_Scale: {x: 0.5, y: 2}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: fa74e9a406e70c7438f766db923ae398, type: 3}
+        m_Scale: {x: 0.97, y: 0.92}
+        m_Offset: {x: 0, y: -0.04}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex_1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 197ebba68fc72464ba15730ab348050c, type: 3}
+        m_Scale: {x: 1.75, y: 0.2}
+        m_Offset: {x: -2.13, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rongjie:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture01:
+        m_Texture: {fileID: 2800000, guid: b2fbe1814d372b94daab6b227367bca0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - CUSTOMDATA_OPEN: 1
+    - _AddMultily: 1
+    - _AlphaBOffsetX: 0
+    - _AlphaBOffsetY: 0
+    - _AlphaBSpeedX: 0.1
+    - _AlphaBSpeedY: 0.1
+    - _AlphaBTilingX: 1
+    - _AlphaBTilingY: 1
+    - _AlphaGOffsetX: 0
+    - _AlphaGOffsetY: 0
+    - _AlphaGSpeedX: 0.1
+    - _AlphaGSpeedY: 0.1
+    - _AlphaGTilingX: 1
+    - _AlphaGTilingY: 1
+    - _AlphaROffsetX: 0
+    - _AlphaROffsetY: 0
+    - _AlphaRSpeedX: 0.1
+    - _AlphaRSpeedY: 0.1
+    - _AlphaRTilingX: 1
+    - _AlphaRTilingY: 1
+    - _Alpha_bright: 1
+    - _Blend2: 1
+    - _ColorCorrection: 0.302
+    - _ColorIntensive: 1.22
+    - _ColorPower: 2.8
+    - _Colorpower: 0
+    - _Colorrange: 1
+    - _Cull: 1
+    - _CullMode: 0
+    - _Cutoff: 0.5
+    - _Depthpower: 1
+    - _Dis: 0
+    - _DissSize: 0
+    - _Dissolve_open: 1
+    - _Dissolve_uspeed: 0
+    - _Dissolve_vspeed: -1
+    - _DistortTex_SpeedX: -1.2
+    - _DistortTex_SpeedY: 0
+    - _DistortX: 0
+    - _DistortY: 0
+    - _Distort_TrailMask: 0
+    - _DstBlend: 1
+    - _EXP: 1.47
+    - _Emission: 1.19
+    - _EnableDistort: 0
+    - _EnableMainTexDistort: 1
+    - _EnableMaskEffectMain: 0
+    - _EnableMaskTexDistort: 1
+    - _Exp: 0.55
+    - _MainSpeedX: -1.6
+    - _MainSpeedY: 0
+    - _MainTexInvert: 0
+    - _MainTexSpeedX: 0.1
+    - _MainTexSpeedY: 0.1
+    - _Main_u: 0
+    - _Main_v: -1
+    - _Mask: 0
+    - _MaskTex_SpeedX: 0
+    - _MaskTex_SpeedY: 0
+    - _Mask_u: 0
+    - _Mask_v: 0
+    - _Maskpower: 10
+    - _Noise_intensity: 2.2
+    - _Noise_uspeed: 0
+    - _Noise_vspeed: -2
+    - _NormalScale: 1
+    - _Opacity: 1
+    - _Particle_Effect: 0
+    - _Particle_Effect_Mutiply: 0
+    - _Rongjie_u: 0
+    - _Rongjie_v: 1
+    - _ScrollXSpeed: 4
+    - _ScrollYSpeed: 4
+    - _SrcBlend: 1
+    - _Switch_panner: 0
+    - _TestureUspeed: 0
+    - _TestureVspeed: 0
+    - _UV_open: 0
+    - _UseAlhaTexGChannel: 1
+    - _UseAlhaTexRChannel: 1
+    - _UseAlphaTexBChannel: 1
+    - _UseDistortTex_RG: 0
+    - _UseMainTex_BChannel: 1
+    - _UseMainTex_GChannel: 1
+    - _UseMainTex_RChannel: 1
+    - _Usecenterglow: 0
+    - _Usedark: 1
+    - _Usedepth: 0
+    - _Value: 0
+    - _ZWrite: 0
+    - __dirty: 1
+    - _color_intensity: 2
+    - _distortX: 7.3
+    - _distortY: 0
+    - _souf: 0
+    - _useMainTex_RGBChannel: 0
+    m_Colors:
+    - _AddColor: {r: 1, g: 1, b: 0, a: 1}
+    - _Color: {r: 1.9176899, g: 1.2056077, b: 0.6241538, a: 1}
+    - _DissColor: {r: 1, g: 0, b: 0, a: 1}
+    - _DistortionSpeedXYPowerZ: {r: 1, g: 1, b: 1, a: 0}
+    - _EndColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Main_Color: {r: 3.6653893, g: 2.3538363, b: 1.1584013, a: 1}
+    - _SpeedMainTexUVNoiseZW: {r: 0, g: 0, b: 1, a: -1}
+    - _StartColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TintColor: {r: 1, g: 0.7273833, b: 0.38235295, a: 1}
