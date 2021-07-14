@@ -9,16 +9,20 @@ public class UnitBody : NetworkBehaviour, IBody
 
     [SerializeField] private List<Material> material;
     private SkinnedMeshRenderer unitRenderer;
+    private MeshRenderer meshRenderer;
+
     [SerializeField] public int doorIndex;
     [SerializeField] public string doorColor;
 
     public override void OnStartServer()
     {
         unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
     public override void OnStartClient()
     {
         unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     //==================================== Set Skill For Unit
@@ -46,13 +50,17 @@ public class UnitBody : NetworkBehaviour, IBody
     }
     private void HandleRenderMaterial(string color)
     {
-        unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+        if (unitRenderer != null)
+            unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+        else
+            meshRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
         GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
         doorColor = color;
         //Debug.Log($"Door Color changed {color} ");
         StartCoroutine(GraphUpdate());
     }
-    IEnumerator GraphUpdate() {
+    IEnumerator GraphUpdate()
+    {
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
         {
             //Debug.Log($"Door Boken !!!!!!!!!!!!!!!! ");
@@ -79,14 +87,14 @@ public class UnitBody : NetworkBehaviour, IBody
         int playerid = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
         int index = playerid == 0 ? star - 1 : 3 + star - 1;
         //Debug.Log(index);
-        unitRenderer.sharedMaterial = material[playerid ==0 ? star - 2 : 3 + star - 2 ];
+        unitRenderer.sharedMaterial = material[playerid == 0 ? star - 2 : 3 + star - 2];
     }
     public void SetRenderMaterial(int playerid, int star)
     {
-       int index = playerid == 0 ? star - 1 : 3 + star - 1;
-       //Debug.Log($"SetRenderMaterial index-->{index}playerid-->{playerid}star-->{star}unit-->{gameObject.name}");
-       GetComponent<UnitBody>().GetUnitRenderer().sharedMaterial = material[index];
-       // Debug.Log(unit.GetComponent<UnitBody>().GetUnitRenderer());
+        int index = playerid == 0 ? star - 1 : 3 + star - 1;
+        //Debug.Log($"SetRenderMaterial index-->{index}playerid-->{playerid}star-->{star}unit-->{gameObject.name}");
+        GetComponent<UnitBody>().GetUnitRenderer().sharedMaterial = material[index];
+        // Debug.Log(unit.GetComponent<UnitBody>().GetUnitRenderer());
     }
     [Server]
     public void ServerChangeUnitRenderer(int playerid, int star)
@@ -98,7 +106,7 @@ public class UnitBody : NetworkBehaviour, IBody
     public void RpcChangeUnitRenderer(int playerid, int star)
     {
         //Debug.Log("RpcChangeUnitRenderer");
-        SetRenderMaterial(playerid,star);
+        SetRenderMaterial(playerid, star);
     }
     public void SetUnitSize(int star)
     {
@@ -117,7 +125,7 @@ public class UnitBody : NetworkBehaviour, IBody
         gameObject.transform.GetChild(8).gameObject.transform.GetChild(0).gameObject.SetActive(false);
         //Debug.Log(gameObject.transform.GetChild(8).gameObject.transform.GetChild(0));
         unit.unitType = UnitMeta.UnitType.TANK;
-        unit.GetUnitMovement().SetSpeed( UnitMeta.SpeedType.CURRENT, 6);
+        unit.GetUnitMovement().SetSpeed(UnitMeta.SpeedType.CURRENT, 6);
     }
     [ClientRpc]
     private void RpcChangeType(GameObject unit)
