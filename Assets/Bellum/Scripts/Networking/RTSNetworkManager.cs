@@ -44,15 +44,15 @@ public class RTSNetworkManager : NetworkManager
 
     public static event Action ClientOnConnected;
     public static event Action ClientOnDisconnected;
-   
+
     private bool isGameInProgress = false;
     private bool isSinglePlayer = true;
 
-    private List<Color> teamsColor = new List<Color>() { Color.blue, Color.red};
+    private List<Color> teamsColor = new List<Color>() { Color.blue, Color.red };
     public List<RTSPlayer> Players { get; } = new List<RTSPlayer>();
 
     private Dictionary<UnitMeta.UnitKey, GameObject> unitDict = new Dictionary<UnitMeta.UnitKey, GameObject>();
-   
+
     #region Server
     public override void OnServerConnect(NetworkConnection conn)
     {
@@ -67,7 +67,8 @@ public class RTSNetworkManager : NetworkManager
         Players.Remove(player);
         isGameInProgress = false;
 
-        if (Players.Count == 0){
+        if (Players.Count == 0)
+        {
             StartCoroutine(HandleEndGame(Convert.ToString((int)NetworkManager.singleton.GetComponent<TelepathyTransport>().port)));
         }
     }
@@ -80,7 +81,7 @@ public class RTSNetworkManager : NetworkManager
     {
         UnityWebRequest webReq = new UnityWebRequest();
         // build the url and query
-        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.quitService , port);
+        webReq.url = string.Format("{0}/{1}/{2}", APIConfig.urladdress, APIConfig.quitService, port);
         webReq.method = "put";
         webReq.SendWebRequest();
         yield return new WaitForSeconds(10f);
@@ -89,7 +90,7 @@ public class RTSNetworkManager : NetworkManager
     public void StartGame()
     {
         if (Players.Count > 1) { isSinglePlayer = false; }
-       
+
         isGameInProgress = true;
         SetupUnitDict();
         //ServerChangeScene("Scene_Map_0" + Random.Range(1, 4));
@@ -114,7 +115,7 @@ public class RTSNetworkManager : NetworkManager
         Players.Add(player);
 
         player.SetDisplayName($"Player {Players.Count}");
-        player.SetTeamColor(teamsColor[Players.Count-1]);
+        player.SetTeamColor(teamsColor[Players.Count - 1]);
         player.SetPlayerID(Players.Count - 1);
         player.SetEnemyID(player.GetPlayerID() == 0 ? 1 : 0);
         player.SetTeamEnemyColor(teamsColor[player.GetEnemyID()]);
@@ -128,38 +129,36 @@ public class RTSNetworkManager : NetworkManager
             GameOverHandler gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
             GameBoardHandler gameBoardHandlerInstance = Instantiate(gameBoardHandlerPrefab);
             GreatWallController greatWallInstance = Instantiate(greatWallPrefab, gameBoardHandlerInstance.middleLinePoint.position, Quaternion.identity);
-
-            //GameObject doorMiddleInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.middleDoorPoint.position, Quaternion.identity);
+            GameObject doorMiddleInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.middleDoorPoint.position, Quaternion.identity);
             GameObject doorLeftInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.leftDoorPoint.position, Quaternion.identity);
             GameObject doorRightInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.rightDoorPoint.position, Quaternion.identity);
+
+            GameObject doorUpperMiddleInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.middleDoorPoint.position.x, gameBoardHandlerInstance.middleDoorPoint.position.y, gameBoardHandlerInstance.middleDoorPoint.position.z - 15), Quaternion.identity);
+            GameObject doorUpperLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z - 15), Quaternion.identity);
+            GameObject doorUpperRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z - 15), Quaternion.identity);
+
+            GameObject doorLowerMiddleInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.middleDoorPoint.position.x, gameBoardHandlerInstance.middleDoorPoint.position.y, gameBoardHandlerInstance.middleDoorPoint.position.z + 15), Quaternion.identity);
+            GameObject doorLowerLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z + 15), Quaternion.identity);
+            GameObject doorLowerRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z + 15), Quaternion.identity);
+
 
             NetworkServer.Spawn(gameBoardHandlerInstance.gameObject);
             NetworkServer.Spawn(gameOverHandlerInstance.gameObject);
             NetworkServer.Spawn(greatWallInstance.gameObject);
-            //NetworkServer.Spawn(doorMiddleInstance.gameObject);
+
+            NetworkServer.Spawn(doorMiddleInstance.gameObject);
             NetworkServer.Spawn(doorLeftInstance.gameObject);
             NetworkServer.Spawn(doorRightInstance.gameObject);
+            NetworkServer.Spawn(doorUpperMiddleInstance.gameObject);
+            NetworkServer.Spawn(doorUpperLeftInstance.gameObject);
+            NetworkServer.Spawn(doorUpperRightInstance.gameObject);
+            NetworkServer.Spawn(doorLowerMiddleInstance.gameObject);
+            NetworkServer.Spawn(doorLowerLeftInstance.gameObject);
+            NetworkServer.Spawn(doorLowerRightInstance.gameObject);
 
-            /*
-              
-                GameObject doorLowerMiddleInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.middleDoorPoint.position.x, gameBoardHandlerInstance.middleDoorPoint.position.y, gameBoardHandlerInstance.middleDoorPoint.position.z + 15), Quaternion.identity);
-                GameObject doorLowerLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z + 15), Quaternion.identity);
-                GameObject doorLowerRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z + 15), Quaternion.identity);
-
-                GameObject doorUpperMiddleInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.middleDoorPoint.position.x, gameBoardHandlerInstance.middleDoorPoint.position.y, gameBoardHandlerInstance.middleDoorPoint.position.z - 15), Quaternion.identity);
-                GameObject doorUpperLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z - 15), Quaternion.identity);
-                GameObject doorUpperRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z - 15), Quaternion.identity);
-
-                NetworkServer.Spawn(doorUpperMiddleInstance.gameObject);
-                NetworkServer.Spawn(doorUpperLeftInstance.gameObject);
-                NetworkServer.Spawn(doorUpperRightInstance.gameObject);
-                NetworkServer.Spawn(doorLowerMiddleInstance.gameObject);
-                NetworkServer.Spawn(doorLowerLeftInstance.gameObject);
-                NetworkServer.Spawn(doorLowerRightInstance.gameObject);
-                */
             foreach (RTSPlayer player in Players)
             {
-                SetupUnitFactory(new Vector3(0,0,0), player);
+                SetupUnitFactory(new Vector3(0, 0, 0), player);
             }
         }
     }
@@ -171,7 +170,7 @@ public class RTSNetworkManager : NetworkManager
                    Quaternion.identity);
         NetworkServer.Spawn(factoryInstance, player.connectionToClient);
     }
-    
+
     private void SetupUnitDict()
     {
         unitDict.Clear();
