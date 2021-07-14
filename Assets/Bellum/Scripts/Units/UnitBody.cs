@@ -9,16 +9,20 @@ public class UnitBody : NetworkBehaviour, IBody
 
     [SerializeField] private List<Material> material;
     private SkinnedMeshRenderer unitRenderer;
+    private MeshRenderer meshRenderer;
     [SerializeField] public int doorIndex;
     [SerializeField] public string doorColor;
 
     public override void OnStartServer()
     {
         unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
     public override void OnStartClient()
     {
         unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
+
     }
 
     //==================================== Set Skill For Unit
@@ -46,7 +50,11 @@ public class UnitBody : NetworkBehaviour, IBody
     }
     private void HandleRenderMaterial(string color)
     {
-        unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+        if(unitRenderer!=null)
+            unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+        else
+            meshRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+
         GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
         doorColor = color;
         //Debug.Log($"Door Color changed {color} ");

@@ -128,17 +128,35 @@ public class RTSNetworkManager : NetworkManager
             GameOverHandler gameOverHandlerInstance = Instantiate(gameOverHandlerPrefab);
             GameBoardHandler gameBoardHandlerInstance = Instantiate(gameBoardHandlerPrefab);
             GreatWallController greatWallInstance = Instantiate(greatWallPrefab, gameBoardHandlerInstance.middleLinePoint.position, Quaternion.identity);
-            GameObject doorMiddleInstance = Instantiate(doorMiddlePrefab, gameBoardHandlerInstance.middleDoorPoint.position, Quaternion.identity);
+
+            //GameObject doorMiddleInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.middleDoorPoint.position, Quaternion.identity);
             GameObject doorLeftInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.leftDoorPoint.position, Quaternion.identity);
-            GameObject doorRightInstance = Instantiate(doorRightPrefab, gameBoardHandlerInstance.rightDoorPoint.position, Quaternion.identity);
+            GameObject doorRightInstance = Instantiate(doorLeftPrefab, gameBoardHandlerInstance.rightDoorPoint.position, Quaternion.identity);
 
             NetworkServer.Spawn(gameBoardHandlerInstance.gameObject);
             NetworkServer.Spawn(gameOverHandlerInstance.gameObject);
             NetworkServer.Spawn(greatWallInstance.gameObject);
-            NetworkServer.Spawn(doorMiddleInstance.gameObject);
+            //NetworkServer.Spawn(doorMiddleInstance.gameObject);
             NetworkServer.Spawn(doorLeftInstance.gameObject);
             NetworkServer.Spawn(doorRightInstance.gameObject);
 
+            /*
+              
+                GameObject doorLowerMiddleInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.middleDoorPoint.position.x, gameBoardHandlerInstance.middleDoorPoint.position.y, gameBoardHandlerInstance.middleDoorPoint.position.z + 15), Quaternion.identity);
+                GameObject doorLowerLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z + 15), Quaternion.identity);
+                GameObject doorLowerRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z + 15), Quaternion.identity);
+
+                GameObject doorUpperMiddleInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.middleDoorPoint.position.x, gameBoardHandlerInstance.middleDoorPoint.position.y, gameBoardHandlerInstance.middleDoorPoint.position.z - 15), Quaternion.identity);
+                GameObject doorUpperLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z - 15), Quaternion.identity);
+                GameObject doorUpperRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z - 15), Quaternion.identity);
+
+                NetworkServer.Spawn(doorUpperMiddleInstance.gameObject);
+                NetworkServer.Spawn(doorUpperLeftInstance.gameObject);
+                NetworkServer.Spawn(doorUpperRightInstance.gameObject);
+                NetworkServer.Spawn(doorLowerMiddleInstance.gameObject);
+                NetworkServer.Spawn(doorLowerLeftInstance.gameObject);
+                NetworkServer.Spawn(doorLowerRightInstance.gameObject);
+                */
             foreach (RTSPlayer player in Players)
             {
                 SetupUnitFactory(new Vector3(0,0,0), player);

@@ -1,5 +1,6 @@
 using System;
 using Mirror;
+using UnityEngine;
 
 public class GreatWallController : NetworkBehaviour
 {
@@ -31,5 +32,12 @@ public class GreatWallController : NetworkBehaviour
     private void HandleGateOpen(string playerid, string doorIndex)
     {
         GateOpened?.Invoke("" + playerid, doorIndex);
+    }
+    void OnEnable()
+    {
+        foreach (MeshRenderer wall in GetComponentsInChildren<MeshRenderer>())
+        {
+            wall.enabled = false;
+        }
     }
 }

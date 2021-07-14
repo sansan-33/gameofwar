@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4676332958412269252
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1346,19 +1346,7 @@ MonoBehaviour:
   targeter: {fileID: 8505953493549189610}
   onSelected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 641317823713200231}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   onDeselected:
     m_PersistentCalls:
       m_Calls: []

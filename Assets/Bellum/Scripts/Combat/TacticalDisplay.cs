@@ -23,8 +23,8 @@ public class TacticalDisplay : MonoBehaviour
     }
     void Update()
     {
-        tacticalBarParent.transform.rotation = startRotation;
-        StartCoroutine(LateCall());
+        //tacticalBarParent.transform.rotation = startRotation;
+        //StartCoroutine(LateCall());
     }
     private void OnDestroy()
     {
