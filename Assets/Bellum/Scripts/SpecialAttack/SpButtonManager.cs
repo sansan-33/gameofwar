@@ -18,6 +18,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] public GameObject stunPrefab;
     [SerializeField] public GameObject shieldPrefab;
     [SerializeField] public GameObject slashPrefab;
+    [SerializeField] public GameObject meteorPrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
 
@@ -212,7 +213,7 @@ public class SpButtonManager : MonoBehaviour
         buttonChild.transform.GetChild(1).GetComponent<Image>().sprite = sprite;
         spawnedSpButtonUnit.Add(unit.unitKey);
         buttons.Add(button.GetComponent<Button>());
-
+        Instantiate(meteorPrefab, button.transform);
         // Instantiate specialAttack
         GameObject specialAttackObj = Instantiate(specialAttack, spPrefabParent);
 
