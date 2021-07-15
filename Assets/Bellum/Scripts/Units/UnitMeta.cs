@@ -398,6 +398,11 @@ public class UnitMeta
     {
         UnitType.TOWER, UnitType.WALL, UnitType.BARRACK, UnitType.CATAPULT, UnitType.TRAP
     };
+
+    public static HashSet<UnitType> TeamUnitType = new HashSet<UnitType>()
+    {
+        UnitType.KING, UnitType.QUEEN, UnitType.HERO
+    };
 }
 /*
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ARCHER',30,6,2,1,3,0,"","");

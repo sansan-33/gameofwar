@@ -2,6 +2,9 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Localization.Settings;
+
 
 public class UserCardButton : MonoBehaviour
 {
@@ -43,11 +46,36 @@ public class UserCardButton : MonoBehaviour
             userCardFocus.SetActive(true);
             TeamCardButton teamCard = cardSlotParent.transform.GetChild(StaticClass.SelectedCardSlot).GetComponent<TeamCardButton>();
             teamCard.cardSlotEmpty.SetActive(false);
-            teamCard.cardSlotKey.text = cardkey;
+            
             teamCard.cardSlotLevel.text = level.text;
             teamCard.unitTypeImage.sprite = unitTypeImage.sprite;
-            teamCard.cardSlotType.text = cardtype;
             teamCard.characterImage.sprite = characterImage.sprite;
+
+            // Localization
+            //teamCard.cardSlotKey.text = cardkey;
+            AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, cardkey.ToLower(), null);
+            if (op.IsDone)
+            {
+                teamCard.cardSlotKey.text = op.Result;
+            }
+            else
+            {
+                op.Completed += (o) => teamCard.cardSlotKey.text = o.Result;
+            }
+            // no need to set font because the card alredy set font in TeamManager
+
+            //teamCard.cardSlotType.text = cardtype;
+            op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, cardtype.ToLower(), null);
+            if (op.IsDone)
+            {
+                teamCard.cardSlotType.text = op.Result;
+            }
+            else
+            {
+                op.Completed += (o) => teamCard.cardSlotType.text = o.Result;
+            }
+            // no need to set font because the card alredy set font in TeamManager
+            //Debug.Log($"UsercardButton.HandleClick() cardtype:{cardtype} teamCard.cardSlotType.text:{teamCard.cardSlotType.text}");
         }
         else
             SceneManager.LoadScene("Scene_Hero_Menu");

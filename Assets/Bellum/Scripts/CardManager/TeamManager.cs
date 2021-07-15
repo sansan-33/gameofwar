@@ -52,6 +52,7 @@ public class TeamManager : MonoBehaviour
             for (int i = 0; i < NOOFCARDSLOT; i++)
             {
                 teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
+                //Debug.Log($"TeamManager.HandleLoadTeam() i:{i} userCardArray[i].cardkey: {userCardArray[i].cardkey}");
                 teamCardBtn.characterImage.sprite = Arts.CharacterArtDictionary[userCardArray[i].cardkey].image;
 
                 // Localization
