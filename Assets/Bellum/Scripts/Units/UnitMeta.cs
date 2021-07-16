@@ -399,9 +399,11 @@ public class UnitMeta
         UnitType.TOWER, UnitType.WALL, UnitType.BARRACK, UnitType.CATAPULT, UnitType.TRAP
     };
 
-    public static HashSet<UnitType> TeamUnitType = new HashSet<UnitType>()
+    public static Dictionary<UnitType, int> TeamUnitType = new Dictionary<UnitType, int>()
     {
-        UnitType.KING, UnitType.QUEEN, UnitType.HERO
+        { UnitType.KING, 0 },
+        { UnitType.QUEEN, 1 },
+        { UnitType.HERO, 2 }
     };
 }
 /*

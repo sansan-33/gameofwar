@@ -47,7 +47,7 @@ public class UserCardManager : MonoBehaviour
                 //Debug.Log($"IS_TEAM_MEMBER_SELECTION allCard.Value.unittype: {allCard.Value.unittype}"); 
                 if (Enum.TryParse(allCard.Value.unittype, out UnitMeta.UnitType unitType))
                 {
-                    if (!UnitMeta.TeamUnitType.Contains(unitType))
+                    if (!UnitMeta.TeamUnitType.ContainsKey(unitType))
                     {
                         continue;
                     }
