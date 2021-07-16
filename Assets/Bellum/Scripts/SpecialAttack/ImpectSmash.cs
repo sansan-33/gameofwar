@@ -71,6 +71,13 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         {
             impect.GetComponent<Tornado>().SetPlayerType(RTSplayer.GetPlayerID());
         }
+        if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
+        {
+            GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
+            
+            wallController.transform.position = new Vector3(wallController.transform.position.x, wallController.transform.position.y, hit.point.z);
+            wallController.dynamicBlock(true);
+        }
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
         GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
         List<GameObject> armies = new List<GameObject>();
@@ -83,10 +90,22 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             if ((dragCircle.transform.position - unit.transform.position).sqrMagnitude < 27)
             {
                 unit.GetComponent<Health>().DealDamage(damage);
+                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.ZAP)
+                {
+                    unit.GetComponent<AstarAI>().IS_STUNNED = true;
+                    StartCoroutine(awakeUnit(unit.GetComponent<AstarAI>()));
+                }
             }
         }
         Destroy(dragCircle);
     }
+    private IEnumerator awakeUnit(AstarAI astarAI)
+    {
+        yield return new WaitForSeconds(1);
+        astarAI.IS_STUNNED = false;
+
+    }
+
     // Update is called once per frame
     void Update()
     {
