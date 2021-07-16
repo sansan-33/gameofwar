@@ -20,7 +20,8 @@ public class TeamCardButton : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        buttonComponent.onClick.AddListener(HandleClick);
+        // focus team card by user card clicked, no need to click team card
+        //buttonComponent.onClick.AddListener(HandleClick);
     }
     public void HandleClick()
     {

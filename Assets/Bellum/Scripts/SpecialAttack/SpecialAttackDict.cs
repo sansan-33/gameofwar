@@ -6,7 +6,7 @@ public class SpecialAttackDict : MonoBehaviour
 {
     //[SerializeField] public Sprite[] sprite ;
     [SerializeField] public Sprite[] childSprite;
-    public enum SpecialAttackType { SLASH, SHIELD, STUN, LIGHTNING, ICE, METEOR, FIREARROW, TORNADO};
+    public enum SpecialAttackType { SLASH, SHIELD, STUN, LIGHTNING, ICE, METEOR, FIREARROW, TORNADO, ZAP};
   
 
     public static Dictionary<UnitMeta.UnitKey, SpecialAttackType[]> unitSp = new Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>()

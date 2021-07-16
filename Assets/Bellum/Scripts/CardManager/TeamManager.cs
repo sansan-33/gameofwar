@@ -122,10 +122,12 @@ public class TeamManager : MonoBehaviour
         for (int i = 0; i < jsonResult.Count; i++)
         {
             userCardArray = new UserCard[NOOFCARDSLOT];
-            for (int j=0;j<NOOFCARDSLOT;j++) { 
-                userCardArray[j] = userCardManager.userCardDict[jsonResult[i]["cardkey" + (j+1) ]];
+            for (int j=0;j<NOOFCARDSLOT;j++) {
+                if (jsonResult[i]["cardkey" + (j + 1)] != null)
+                    userCardArray[j] = userCardManager.userCardDict[jsonResult[i]["cardkey" + (j+1) ]];
             }
-            userTeamDict.Add(jsonResult[i]["teamnumber"], userCardArray);
+            if (jsonResult[i]["teamnumber"] != null)
+                userTeamDict.Add(jsonResult[i]["teamnumber"], userCardArray);
         }
         //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
 

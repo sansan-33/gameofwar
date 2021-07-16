@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
+using static SpecialAttackDict;
 
 public class CardStats : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class CardStats : MonoBehaviour
     public int special;
     public string specialkey;
     public string passivekey;
-    [HideInInspector] public SpecialAttackDict.SpecialAttackType specialAttackType = SpecialAttackDict.SpecialAttackType.ICE;
+    public SpecialAttackDict.SpecialAttackType specialAttackType;
 
     public CardStats() { }
     public CardStats(int star, int cardLevel, int health, int attack, float repeatAttackDelay, float speed, int defense, int special = 0, string specialkey ="", string passivekey = "")
@@ -31,6 +33,10 @@ public class CardStats : MonoBehaviour
         this.specialkey = specialkey;
         this.passivekey = passivekey;
         this.special = special;
+        if(specialkey != "")
+        {
+            specialAttackType = (SpecialAttackDict.SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), specialkey.ToUpper());
+        }
     }
     public void SetCardStats(CardStats _cardStats)
     {
