@@ -273,6 +273,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 492418229348455649, guid: 019dc2dc693d6634a85fd1ccf0ab640d, type: 3}
   m_PrefabInstance: {fileID: 2085343106420260676}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &1884135516288842403 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 492418229359789543, guid: 019dc2dc693d6634a85fd1ccf0ab640d, type: 3}
+  m_PrefabInstance: {fileID: 2085343106420260676}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2832729073762412160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -670,6 +675,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 1884135516288842403}
     - target: {fileID: 7423325971735272445, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: unitNetworkAnimator
       value: 

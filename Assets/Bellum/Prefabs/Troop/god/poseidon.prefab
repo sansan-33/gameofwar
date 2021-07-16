@@ -614,6 +614,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 879015779803470223}
     - target: {fileID: 6636034856614558278, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -721,15 +725,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4256596427628394, guid: aa613a030064d96469d961665414eed1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4256596427628394, guid: aa613a030064d96469d961665414eed1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4256596427628394, guid: aa613a030064d96469d961665414eed1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4256596427628394, guid: aa613a030064d96469d961665414eed1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -845,6 +849,11 @@ Transform:
 --- !u!4 &5253110966720127236 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 515660040445447712, guid: aa613a030064d96469d961665414eed1, type: 3}
+  m_PrefabInstance: {fileID: 5746930144410513188}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &879015779803470223 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4896493293928756907, guid: aa613a030064d96469d961665414eed1, type: 3}
   m_PrefabInstance: {fileID: 5746930144410513188}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9078474764836457373

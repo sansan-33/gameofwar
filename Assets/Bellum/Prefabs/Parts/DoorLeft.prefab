@@ -278,6 +278,11 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 7514147749363510567, guid: 0411bbd6c1ad5b84084f7036ccec0aba, type: 3}
   m_PrefabInstance: {fileID: 3330770490449961123}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &8686240830507923061 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6247332840379553494, guid: 0411bbd6c1ad5b84084f7036ccec0aba, type: 3}
+  m_PrefabInstance: {fileID: 3330770490449961123}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4778064016378831852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -537,6 +542,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 8686240830507923061}
     - target: {fileID: 7816549538136174443, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_SizeDelta.x
       value: 440

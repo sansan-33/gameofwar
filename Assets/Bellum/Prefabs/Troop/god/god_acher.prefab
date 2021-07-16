@@ -288,6 +288,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1840965680527716, guid: 4dbd87ab32665bb409d9a9c35a86392f, type: 3}
   m_PrefabInstance: {fileID: 654808973765261057}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &5831676009577606653 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6482965903902137084, guid: 4dbd87ab32665bb409d9a9c35a86392f, type: 3}
+  m_PrefabInstance: {fileID: 654808973765261057}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3014692229348437158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,6 +644,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 5831676009577606653}
     - target: {fileID: 7423325971735272445, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: unitNetworkAnimator
       value: 

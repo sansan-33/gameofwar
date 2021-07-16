@@ -132,7 +132,7 @@ MonoBehaviour:
   targeter: {fileID: 2925192595363130339}
   damageToDeal: 1
   attackPoint: {fileID: 6292815710269267299}
-  attackRange: 4
+  attackRange: 4.5
   layerMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -234,6 +234,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1d0d384bf6275a41a82fa312a7e2939, type: 3}
+--- !u!137 &2473795806441901872 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 137593721830654054, guid: e1d0d384bf6275a41a82fa312a7e2939, type: 3}
+  m_PrefabInstance: {fileID: 2575044065428524886}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6320016605951996451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -746,6 +751,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 2473795806441901872}
     - target: {fileID: 6960025489075234182, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
       value: 9

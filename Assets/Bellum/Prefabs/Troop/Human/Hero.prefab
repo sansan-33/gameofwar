@@ -316,6 +316,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2513268077619995391, guid: 187da356ba2d1384590d57cfd9a60ccd, type: 3}
   m_PrefabInstance: {fileID: 3997427140702950075}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &4094554995741757377 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1129135619296451962, guid: 187da356ba2d1384590d57cfd9a60ccd, type: 3}
+  m_PrefabInstance: {fileID: 3997427140702950075}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8990345615618230560
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -795,6 +800,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 4094554995741757377}
     - target: {fileID: 6960025489075234182, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
       value: 8

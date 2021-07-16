@@ -677,6 +677,10 @@ PrefabInstance:
       propertyPath: unitType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6536947487935663186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_RenderersToHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 8809234227287985667}
     - target: {fileID: 6960025489075234182, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -822,15 +826,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4677343919420462, guid: 899e2809d8bccae468e7425f6d31954f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4677343919420462, guid: 899e2809d8bccae468e7425f6d31954f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4677343919420462, guid: 899e2809d8bccae468e7425f6d31954f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4677343919420462, guid: 899e2809d8bccae468e7425f6d31954f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -878,3 +882,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 899e2809d8bccae468e7425f6d31954f, type: 3}
+--- !u!137 &8809234227287985667 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 137483180476070654, guid: 899e2809d8bccae468e7425f6d31954f, type: 3}
+  m_PrefabInstance: {fileID: 8910618026025121021}
+  m_PrefabAsset: {fileID: 0}
