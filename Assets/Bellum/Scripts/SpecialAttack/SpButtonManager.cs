@@ -110,7 +110,7 @@ public class SpButtonManager : MonoBehaviour
 
                         //GameObject specialAttack = SpecialAttackPrefab[specialAttackType];
 
-                        Debug.Log($"1 player mode unit.specialAttackType: {unit.specialAttackType} {unit.name}");
+                       // Debug.Log($"1 player mode unit.specialAttackType: {unit.specialAttackType} {unit.name}");
                         //InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), specialAttack, false);
                         InstantiateSpButton(unit.specialAttackType, unit.GetComponent<Unit>(), false);
                     }
@@ -285,7 +285,7 @@ public class SpButtonManager : MonoBehaviour
     public void InstantiateSpButton(SpecialAttackDict.SpecialAttackType spType, Unit unit, bool enemySpawn)
     {
         //Debug.Log("SpButtonManager InstantiateSpButton()");
-        Debug.Log($"spType{spType}");
+        //Debug.Log($"spType{spType}");
         //only spawn one button for each type of Sp
         //Debug.Log($"spawn {spType}");
         if (enemySpawn == true)
@@ -331,30 +331,25 @@ public class SpButtonManager : MonoBehaviour
            
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(fireArrowPrefab);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.FIREARROW);
-
         }
         if (spType == SpecialAttackType.METEOR)
-        {
-           
+        {     
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(meteorPrefab);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.METEOR);
         }
         if (spType == SpecialAttackType.TORNADO)
-        {
-            
+        {   
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(tornadoPrefab);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.TORNADO);
         }
         if (spType == SpecialAttackType.ZAP)
-        {
-           
+        {  
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(zapPrefab);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.ZAP) ;
         }
         if (spType == SpecialAttackType.FREEZE)
         {
-
-            impectSmash.GetComponent<ImpectSmash>().SetImpectType(freezePrefab);
+            impectSmash.GetComponent<ImpectSmash>().SetImpectType(null);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.FREEZE);
         }
         // Instantiate specialAttack

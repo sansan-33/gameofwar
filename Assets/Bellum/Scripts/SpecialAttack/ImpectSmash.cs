@@ -9,18 +9,28 @@ using UnityEngine.InputSystem;
 
 public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    [SerializeField] private LayerMask floorMask = new LayerMask();
     [SerializeField] Material freezeMaterial;
     [SerializeField] int damage = 10;
     [SerializeField] GameObject dragcCirclePrefab;
     private GameObject dragCircle;
     private RTSPlayer RTSplayer;
     private GameObject impectType;
+    private PlayerGround playerGround;
     private SpecialAttackDict.SpecialAttackType SpecialAttackType;
     // Start is called before the first frame update
     void Start()
     {
-        RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>(); 
-
+        RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
+        foreach (GameObject ground in grounds)
+        {
+            if (ground.TryGetComponent(out PlayerGround pg))
+            {
+                playerGround = pg;
+                break;
+            }
+        }
     }
     public void SetImpectType(GameObject prefab)
     {
@@ -40,6 +50,7 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
+        playerGround.SetALlLayer();
         dragCircle = Instantiate(dragcCirclePrefab);
         if(SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType,out float scale))
         {
@@ -52,17 +63,23 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity)) { return; }
-        dragCircle.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
+        dragCircle.transform.position = new Vector3(hit.point.x, 2, hit.point.z);
     }
     public void OnEndDrag(PointerEventData eventData)
     {
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity)) { return; }
-        GameObject impect = Instantiate(impectType);
-        impect.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) {return; }
+        GameObject impect = null ;
+        if (impectType != null)
+        {
+            impect = Instantiate(impectType);
+            impect.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+        }
+        
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.TORNADO)
         {
            
@@ -89,6 +106,7 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 cmManager.shake();
             }
         }
+        playerGround.resetLayer();
         DealDamage();
         Destroy(dragCircle);
         
@@ -96,11 +114,19 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private void DealDamage()
     {
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
+        GameObject[] provokeUnit = GameObject.FindGameObjectsWithTag("Provoke" + 1);
+        GameObject[] sneakUnit = GameObject.FindGameObjectsWithTag("Sneaky" + 1);
         GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
         List<GameObject> armies = new List<GameObject>();
+        List<GameObject> army = new List<GameObject>();
         armies = units.ToList();
+
+        provokeUnit.CopyTo(armies);
         if (king != null)
-            armies.Add(king);
+            army.Add(king);
+        //Debug.Log($"1 {armies.Count}");
+        sneakUnit.CopyTo(armies);
+        //Debug.Log($"2 {armies.Count}");
         float range = 11;
         float scale = 0.5f;
         while(dragCircle.transform.localScale.x > scale)
@@ -110,21 +136,21 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         }
 
         foreach (GameObject unit in armies)
-        {
+        {//
             Debug.Log($"finded {unit} circle pos {dragCircle.transform.position} - pos {unit.transform.position} = sqrMagnitude {(dragCircle.transform.position - unit.transform.position).sqrMagnitude} range = {range}");
             if ((dragCircle.transform.position - unit.transform.position).sqrMagnitude < range)
             {
                 unit.GetComponent<Health>().DealDamage(damage);
                 if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.ZAP)
                 {
-                    StartCoroutine(awakeUnit(unit, 1, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                    StartCoroutine(AwakeUnit(unit, 1, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                     //unit.GetComponent<AstarAI>().IS_STUNNED = true;
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, unit.GetComponent<CardStats>().repeatAttackDelay);
                     
                 }
                 if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.FREEZE)
                 {
-                    StartCoroutine(awakeUnit(unit, 5, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                    StartCoroutine(AwakeUnit(unit, 5, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                     unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
                     
@@ -138,11 +164,15 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         Destroy(gameObject);
 
     }
-    private IEnumerator awakeUnit(GameObject unit, float sec,float speed ,float repeatAttackDelay,Material material)
+    private IEnumerator AwakeUnit(GameObject unit, float sec,float speed ,float repeatAttackDelay,Material material)
     {
         yield return new WaitForSeconds(sec);
-        unit.GetComponent<UnitPowerUp>().SpecialEffect(speed, repeatAttackDelay);
-        unit.GetComponentInChildren<SkinnedMeshRenderer>().material = material;
+        if(speed != 0)
+        {
+            unit.GetComponent<UnitPowerUp>().SpecialEffect(speed, repeatAttackDelay);
+            unit.GetComponentInChildren<SkinnedMeshRenderer>().material = material;
+        }
+        
 
     }
 

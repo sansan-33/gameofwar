@@ -323,8 +323,15 @@ public class PlayerGround : MonoBehaviour
             }
         }
     }
-   
-    public void resetLayer()
+    public void SetALlLayer()
+    {
+        Debug.Log("SetALlLayer");
+        foreach (GameObject child in layers)
+        {
+            child.gameObject.layer = LayerMask.NameToLayer("Floor");
+        }
+    }
+        public void resetLayer()
     {
         Debug.Log("Reset Layer");
         if(meshParent!= null)
