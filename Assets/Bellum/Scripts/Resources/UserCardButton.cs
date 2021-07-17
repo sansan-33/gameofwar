@@ -57,6 +57,7 @@ public class UserCardButton : MonoBehaviour
             teamCard.cardSlotLevel.text = level.text;
             teamCard.unitTypeImage.sprite = unitTypeImage.sprite;
             teamCard.characterImage.sprite = characterImage.sprite;
+            teamCard.cardSlotKeyValue = cardkey;
 
             teamCard.cardSlotFocus.transform.parent = teamCard.transform;
             teamCard.cardSlotFocus.transform.position = new Vector3(teamCard.transform.position.x, teamCard.transform.position.y + 50, teamCard.transform.position.z); // Because Card Slot Button in Horiztional Layout with padding bottom 50

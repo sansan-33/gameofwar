@@ -16,6 +16,7 @@ public class TeamManager : MonoBehaviour
     public UserCardManager userCardManager;
     private Dictionary<string, UserCard[]> userTeamDict = new Dictionary<string, UserCard[]>();
     public GameObject TeamCardSlot;
+    public GameObject TeamTabSlot;
     public PopupMessageDisplay popupMessageDisplay;
 
     private static int NOOFCARDSLOT = 3;
@@ -36,15 +37,25 @@ public class TeamManager : MonoBehaviour
     {
         StartCoroutine(HandleLoadTeam(userid));
     }
+
     IEnumerator HandleLoadTeam(string userid)
     {
         yield return GetTeamInfo(userid);
+
+        if (TeamTabSlot.transform.childCount > StaticClass.SelectedTeamSlot)
+        {
+            TeamTabButton teamTabButton = TeamTabSlot.transform.GetChild(StaticClass.SelectedTeamSlot).GetComponent<TeamTabButton>();
+            teamTabButton.FocusTab();
+        }
+
         TeamCardButton teamCardBtn;
         UnitMeta.UnitKey unitkey;
         //UnitMeta.UnitKey[] teamMembers = new UnitMeta.UnitKey [NOOFCARDSLOT];
         UserCard[] userCardArray = new UserCard[NOOFCARDSLOT];
         for (int i = 0; i < NOOFCARDSLOT; i++)
             TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>().cardSlotEmpty.SetActive(true);
+
+        teamnumber = StaticClass.SelectedTeamSlot.ToString();
         //Debug.Log($"Handle Load Team -- teamnumber {teamnumber}");
         if (userTeamDict.TryGetValue( teamnumber , out userCardArray))
         {
@@ -54,6 +65,7 @@ public class TeamManager : MonoBehaviour
                 teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
                 //Debug.Log($"TeamManager.HandleLoadTeam() i:{i} userCardArray[i].cardkey: {userCardArray[i].cardkey}");
                 teamCardBtn.characterImage.sprite = Arts.CharacterArtDictionary[userCardArray[i].cardkey].image;
+                teamCardBtn.cardSlotKeyValue = userCardArray[i].cardkey;
 
                 // Localization
                 //teamCardBtn.cardSlotKey.text = userCardArray[i].cardkey;
@@ -101,6 +113,7 @@ public class TeamManager : MonoBehaviour
     // sends an API request - returns a JSON file
     IEnumerator GetTeamInfo(string userid)
     {
+        Debug.Log($"TeamManager.GetTeamInfo() StaticClass.SelectedTeamSlot:{StaticClass.SelectedTeamSlot}");
         userTeamDict.Clear();
         // resulting JSON from an API request
         JSONNode jsonResult;
@@ -123,9 +136,12 @@ public class TeamManager : MonoBehaviour
         {
             userCardArray = new UserCard[NOOFCARDSLOT];
             for (int j=0;j<NOOFCARDSLOT;j++) {
+                //Debug.Log($"jsonResult[i][cardkey + (j + 1)]: {jsonResult[i]["cardkey" + (j + 1)] }");
                 if (jsonResult[i]["cardkey" + (j + 1)] != null)
                     userCardArray[j] = userCardManager.userCardDict[jsonResult[i]["cardkey" + (j+1) ]];
             }
+
+            Debug.Log($"jsonResult[i][teamnumber]: {jsonResult[i]["teamnumber"] }");
             if (jsonResult[i]["teamnumber"] != null)
                 userTeamDict.Add(jsonResult[i]["teamnumber"], userCardArray);
         }
@@ -140,7 +156,7 @@ public class TeamManager : MonoBehaviour
         for (int i = 0; i < NOOFCARDSLOT; i++)
         {
             teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
-            cardSlotKeys[i] = teamCardBtn.cardSlotKey.text;
+            cardSlotKeys[i] = teamCardBtn.cardSlotKeyValue;
             if(UnitMeta.KeyType[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), cardSlotKeys[i])] == UnitMeta.UnitType.KING){
                 HasOneKing = true;
             }

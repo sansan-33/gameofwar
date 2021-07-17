@@ -16,6 +16,7 @@ public class TeamCardButton : MonoBehaviour
     [SerializeField] public Image unitTypeImage;
     [SerializeField] public UserCard userCard ;
     [SerializeField] public Image characterImage;
+    public string cardSlotKeyValue;
 
     // Use this for initialization
     void Start()

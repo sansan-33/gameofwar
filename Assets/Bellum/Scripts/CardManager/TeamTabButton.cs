@@ -20,9 +20,15 @@ public class TeamTabButton : MonoBehaviour
 
     public void HandleClick()
     {
+        FocusTab();
+        StaticClass.SelectedTeamSlot = tabID;
+        TeamTabChanged?.Invoke(tabID.ToString());
+    }
+
+    public void FocusTab()
+    {
         tabFocus.transform.parent = transform;
         tabFocus.transform.position = new Vector3(transform.position.x, transform.position.y - 50, transform.position.z); // Because Card Slot Button in Horiztional Layout with padding bottom 50
         tabFocus.SetActive(true);
-        TeamTabChanged?.Invoke(tabID.ToString());
     }
 }
