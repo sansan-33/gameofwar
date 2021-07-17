@@ -21,14 +21,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: lava
-  m_Shader: {fileID: 4800000, guid: 650dd9526735d5b46b79224bc6e94025, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 90b2ed65665cb1d48a95c0b44f8ec4b8, type: 3}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -90,7 +89,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1: 0.3
     - Vector1_101BB603: 0.1
+    - Vector1_272114616eed42dcadd47fa47522b5de: 500
+    - Vector1_61c33c82bb834e4ab97c00d121b5ba7e: 0.3
     - Vector1_8CA39F27: 32
     - Vector1_A7EE0E62: 0.7
     - _AlphaClip: 0
@@ -120,6 +122,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_1: {r: 0, g: 0, b: 0, a: 0}
     - Color_59634AE5: {r: 1, g: 1, b: 1, a: 0}
     - Color_5CE90B7B: {r: 1, g: 1, b: 1, a: 0}
     - Color_8AF701E9: {r: 1, g: 1, b: 1, a: 0}
