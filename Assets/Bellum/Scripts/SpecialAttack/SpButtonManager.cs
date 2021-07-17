@@ -20,7 +20,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] public GameObject slashPrefab;
     [SerializeField] public GameObject impectSmashPrefab;
     [SerializeField] GameObject zapPrefab;
-    [SerializeField] GameObject icePrefabs;
+    [SerializeField] GameObject freezePrefab;
     [SerializeField] GameObject meteorPrefab;
     [SerializeField] GameObject fireArrowPrefab;
     [SerializeField] GameObject tornadoPrefab;
@@ -59,6 +59,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.METEOR, slashPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.TORNADO, slashPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ZAP, slashPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.Freeze, freezePrefab);
     }
 
     private void Start()
@@ -321,8 +322,8 @@ public class SpButtonManager : MonoBehaviour
         spawnedSpButtonUnit.Add(unit.unitKey);
         buttons.Add(button.GetComponent<Button>());
 
-        //hard code sp type is ZAP
-        //spType = SpecialAttackType.ZAP;
+        //hard code sp type is Freeze
+        //spType = SpecialAttackType.Freeze;
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
         if (spType == SpecialAttackType.FIREARROW)
@@ -349,6 +350,12 @@ public class SpButtonManager : MonoBehaviour
            
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(zapPrefab);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.ZAP) ;
+        }
+        if (spType == SpecialAttackType.Freeze)
+        {
+
+            impectSmash.GetComponent<ImpectSmash>().SetImpectType(freezePrefab);
+            impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.Freeze);
         }
         // Instantiate specialAttack
 

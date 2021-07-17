@@ -9,9 +9,9 @@ using UnityEngine.InputSystem;
 
 public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
+    [SerializeField] Material freezeMaterial;
     [SerializeField] int damage = 10;
     [SerializeField] GameObject dragcCirclePrefab;
-    private PlayerGround playerGround;
     private GameObject dragCircle;
     private RTSPlayer RTSplayer;
     private GameObject impectType;
@@ -20,15 +20,7 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     void Start()
     {
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>(); 
-        GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
-        foreach (GameObject ground in grounds)
-        {
-            if (ground.TryGetComponent(out PlayerGround pg))
-            {
-                playerGround = pg;
-                break;
-            }
-        }
+
     }
     public void SetImpectType(GameObject prefab)
     {
@@ -70,17 +62,18 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         //if the floor layer is not floor it will not work!!!
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity)) { return; }
         GameObject impect = Instantiate(impectType);
-        
+        impect.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.TORNADO)
         {
-            impect.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
+           
             impect.GetComponent<Tornado>().SetPlayerType(RTSplayer.GetPlayerID());
-            StartCoroutine(DestroyGameObjectAfterSec(impect, 5.5f));
-            
+            impect.GetComponent<Tornado>().OnStartServer();
+            //StartCoroutine(DestroyGameObjectAfterSec(impect, 5.5f));
+
         }
         else
         {
-            impect.transform.position = new Vector3(hit.point.x, 0 + 20, hit.point.z);
+            //impect.transform.position = new Vector3(hit.point.x, 0 + 20, hit.point.z);
         }
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
         {
@@ -127,6 +120,10 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 {
                     unit.GetComponent<AstarAI>().IS_STUNNED = true;
                     StartCoroutine(awakeUnit(unit.GetComponent<AstarAI>()));
+                }
+                if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.Freeze)
+                {
+                    unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
                 }
             }
         }
