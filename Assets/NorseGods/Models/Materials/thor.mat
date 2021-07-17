@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: thor
-  m_Shader: {fileID: -6465566751694194690, guid: 2527d3abc2908ab43b4ba559ea457c02, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 90b2ed65665cb1d48a95c0b44f8ec4b8, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -68,9 +68,24 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_1: 1
     - Vector1_101BB603: 1
     - Vector1_1B9AE9F5: 1
+    - Vector1_272114616eed42dcadd47fa47522b5de: 500
+    - Vector1_61c33c82bb834e4ab97c00d121b5ba7e: 1
     - Vector1_8CA39F27: 32
     - Vector1_90D69B87: 0
     - Vector1_A7EE0E62: 0.7
@@ -96,6 +111,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_1: {r: 0, g: 0, b: 0, a: 0}
     - Color_59634AE5: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 0}
     - Color_5CE90B7B: {r: 1, g: 1, b: 1, a: 0}
     - Color_8AF701E9: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 0}

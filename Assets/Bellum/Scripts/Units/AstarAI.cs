@@ -19,7 +19,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
     public bool reachedEndOfPath;
 
-    bool IS_STUNNED = false;
+    public bool IS_STUNNED = false;
     private RTSPlayer player;
     public Collider other;
     public bool isCollided = false;
@@ -138,6 +138,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     [ServerCallback]
     public void Update()
     {
+        if (IS_STUNNED) { CmdStop(); }
         if (path == null)
         {
             // We have no path to follow yet, so don't do anything
@@ -192,7 +193,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
         // If you are writing a 2D game you may want to remove the CharacterController and instead modify the position directly
         transform.position += velocity * Time.deltaTime;
-        if (IS_STUNNED) { CmdStop(); }
+       
       }
 
     [Command]

@@ -59,6 +59,7 @@ public class SpawnTeam : MonoBehaviour
             unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), userTeamCard["cardkey"]);  
             cardStats =  new CardStats(userTeamCard["star"], userTeamCard["level"], userTeamCard["health"], userTeamCard["attack"], userTeamCard["repeatattackdelay"], userTeamCard["speed"], userTeamCard["defense"], userTeamCard["special"], userTeamCard["specialkey"], userTeamCard["passivekey"]);
             //Debug.Log($"CmdSpawnTeamUnit: unitKey {unitKey} playerID {playerID}");
+            Debug.Log($"cardStats.specialkey{cardStats.specialkey}");
             localFactory.CmdSpawnTeamUnit( unitKey, 1, playerID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor, Quaternion.Euler(0, 180, 0)); ;
         }
         //Debug.Log($"UserCardLoaded Invoke");
