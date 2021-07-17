@@ -49,6 +49,10 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         dragCircle = Instantiate(dragcCirclePrefab);
+        if(SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType,out float scale))
+        {
+            dragCircle.transform.localScale = new Vector3(scale, scale, scale);
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -69,13 +73,14 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.TORNADO)
         {
+            impect.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
             impect.GetComponent<Tornado>().SetPlayerType(RTSplayer.GetPlayerID());
-            StartCoroutine(DestroyGameObjectAfterSec(impect, 5));
-            impect.transform.position = hit.point;
+            StartCoroutine(DestroyGameObjectAfterSec(impect, 5.5f));
+            
         }
         else
         {
-            impect.transform.position = new Vector3(hit.point.x, hit.point.y + 20, hit.point.z);
+            impect.transform.position = new Vector3(hit.point.x, 0 + 20, hit.point.z);
         }
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
         {
@@ -126,7 +131,7 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             }
         }
     }
-    private IEnumerator DestroyGameObjectAfterSec(GameObject gameObject, int sec)
+    private IEnumerator DestroyGameObjectAfterSec(GameObject gameObject, float sec)
     {
         yield return new WaitForSeconds(sec);
         Destroy(gameObject);
