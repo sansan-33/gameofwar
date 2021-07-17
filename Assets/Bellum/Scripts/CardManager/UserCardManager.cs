@@ -77,9 +77,8 @@ public class UserCardManager : MonoBehaviour
         CharacterImage characterImage;
         UserCard card;
 
-        if (!IS_TEAM_MEMBER_SELECTION)
+        if (!IS_TEAM_MEMBER_SELECTION && CharacterTabSlot.transform.childCount > 0)
         {
-            // alway select 0 tab when populate
             CharacterTabButton characterTabButton = CharacterTabSlot.transform.GetChild(0).GetComponent<CharacterTabButton>();
             characterTabButton.FocusTab();
         }
