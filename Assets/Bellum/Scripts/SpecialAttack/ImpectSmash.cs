@@ -122,7 +122,7 @@ public class ImpectSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, unit.GetComponent<CardStats>().repeatAttackDelay);
                     
                 }
-                if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.Freeze)
+                if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.FREEZE)
                 {
                     StartCoroutine(awakeUnit(unit, 5, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);

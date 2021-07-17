@@ -59,7 +59,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.METEOR, slashPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.TORNADO, slashPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ZAP, slashPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.Freeze, freezePrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
     }
 
     private void Start()
@@ -351,11 +351,11 @@ public class SpButtonManager : MonoBehaviour
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(zapPrefab);
             impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.ZAP) ;
         }
-        if (spType == SpecialAttackType.Freeze)
+        if (spType == SpecialAttackType.FREEZE)
         {
 
             impectSmash.GetComponent<ImpectSmash>().SetImpectType(freezePrefab);
-            impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.Freeze);
+            impectSmash.GetComponent<ImpectSmash>().SetSpecialAttackType(SpecialAttackType.FREEZE);
         }
         // Instantiate specialAttack
 
