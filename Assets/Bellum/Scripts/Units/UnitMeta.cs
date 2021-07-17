@@ -405,6 +405,17 @@ public class UnitMeta
         { UnitType.QUEEN, 1 },
         { UnitType.HERO, 2 }
     };
+
+    public static Dictionary<int, UnitType> CharacterUnitType = new Dictionary<int, UnitType>()
+    {
+        { 0, UnitType.ALL },
+        { 1, UnitType.ARCHER },
+        { 2, UnitType.TANK },
+        { 3, UnitType.MAGIC },
+        { 4, UnitType.CAVALRY },
+        { 5, UnitType.FOOTMAN },
+        { 6, UnitType.SIEGE }
+    };
 }
 /*
 insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ARCHER',30,6,2,1,3,0,"","");

@@ -21,14 +21,53 @@ public class UserCardManager : MonoBehaviour
     [SerializeField] public LocalizationResponder localizationResponder;
     public GameObject userCardFocus;
     public GameObject cardSlotParent;
+    public GameObject CharacterTabSlot;
+    private string characterNumber = "0";
 
     public Dictionary<string, UserCard> userCardDict = new Dictionary<string, UserCard>();
     private Dictionary<string, UserCard> allCardDict = new Dictionary<string, UserCard>();
     public static event Action<string> UserCardLoaded;
+
     public void Start()
     {
+        CharacterTabButton.CharacterTabChanged += CharacterChanged;
         StartCoroutine(Populate(StaticClass.UserID));
     }
+    
+    public void OnDestroy()
+    {
+        CharacterTabButton.CharacterTabChanged -= CharacterChanged;
+    }
+
+    public void CharacterChanged(string local_characternumber)
+    {
+        
+        characterNumber = local_characternumber;
+        StartCoroutine(TabChanged(Int32.Parse(characterNumber)));
+
+    }
+
+    IEnumerator TabChanged(int tabID)
+    {
+        UserCardButton userCard;
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            userCard = transform.GetChild(i).GetComponent<UserCardButton>();
+            // get selected character tab id and UnitType, don't show if not same unittype
+            if (tabID > 0 && userCard.cardtype != UnitMeta.CharacterUnitType[tabID].ToString())
+            {
+                userCard.gameObject.SetActive(false);
+            }
+            else
+            {
+                userCard.gameObject.SetActive(true);
+            }
+
+        }
+        yield return null;
+    }
+
+
     IEnumerator Populate(string userid)
     {
         yield return GetAllCard("id");
@@ -37,6 +76,13 @@ public class UserCardManager : MonoBehaviour
         GameObject userCard;
         CharacterImage characterImage;
         UserCard card;
+
+        if (!IS_TEAM_MEMBER_SELECTION)
+        {
+            // alway select 0 tab when populate
+            CharacterTabButton characterTabButton = CharacterTabSlot.transform.GetChild(0).GetComponent<CharacterTabButton>();
+            characterTabButton.FocusTab();
+        }
 
         foreach (var allCard in allCardDict)
         {
@@ -58,7 +104,7 @@ public class UserCardManager : MonoBehaviour
             userCard = Instantiate(userCardPrefab);
             userCard.GetComponent<UserCardButton>().characterImage.sprite = characterImage.image ;
             userCard.GetComponent<UserCardButton>().cardkey = allCard.Key;
-            
+
             if (userCardDict.TryGetValue(allCard.Key, out card))
             {
                 userCard.GetComponent<UserCardButton>().lockImage.SetActive(false);
@@ -122,6 +168,7 @@ public class UserCardManager : MonoBehaviour
         }
         yield return null;
     }
+
     // sends an API request - returns a JSON file
     IEnumerator GetUserCard(string userid)
     {

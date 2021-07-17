@@ -1,16 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-using TMPro;
 using System;
 
-public class TeamTabButton : MonoBehaviour
+public class CharacterTabButton : MonoBehaviour
 {
-
     public Button buttonComponent;
     public GameObject tabFocus;
     public int tabID;
-    public static event Action<string> TeamTabChanged;
+    public static event Action<string> CharacterTabChanged;
 
     // Use this for initialization
     void Start()
@@ -21,8 +19,7 @@ public class TeamTabButton : MonoBehaviour
     public void HandleClick()
     {
         FocusTab();
-        StaticClass.SelectedTeamTab = tabID;
-        TeamTabChanged?.Invoke(tabID.ToString());
+        CharacterTabChanged?.Invoke(tabID.ToString());
     }
 
     public void FocusTab()

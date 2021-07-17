@@ -42,9 +42,9 @@ public class TeamManager : MonoBehaviour
     {
         yield return GetTeamInfo(userid);
 
-        if (TeamTabSlot.transform.childCount > StaticClass.SelectedTeamSlot)
+        if (TeamTabSlot.transform.childCount > StaticClass.SelectedTeamTab)
         {
-            TeamTabButton teamTabButton = TeamTabSlot.transform.GetChild(StaticClass.SelectedTeamSlot).GetComponent<TeamTabButton>();
+            TeamTabButton teamTabButton = TeamTabSlot.transform.GetChild(StaticClass.SelectedTeamTab).GetComponent<TeamTabButton>();
             teamTabButton.FocusTab();
         }
 
@@ -55,7 +55,7 @@ public class TeamManager : MonoBehaviour
         for (int i = 0; i < NOOFCARDSLOT; i++)
             TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>().cardSlotEmpty.SetActive(true);
 
-        teamnumber = StaticClass.SelectedTeamSlot.ToString();
+        teamnumber = StaticClass.SelectedTeamTab.ToString();
         //Debug.Log($"Handle Load Team -- teamnumber {teamnumber}");
         if (userTeamDict.TryGetValue( teamnumber , out userCardArray))
         {
@@ -102,7 +102,7 @@ public class TeamManager : MonoBehaviour
                 if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING )
                 {
                     StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
-                    Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
+                    //Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
             }
             //StaticClass.teamMembers = teamMembers;
@@ -113,7 +113,7 @@ public class TeamManager : MonoBehaviour
     // sends an API request - returns a JSON file
     IEnumerator GetTeamInfo(string userid)
     {
-        Debug.Log($"TeamManager.GetTeamInfo() StaticClass.SelectedTeamSlot:{StaticClass.SelectedTeamSlot}");
+        //Debug.Log($"TeamManager.GetTeamInfo() StaticClass.SelectedTeamSlot:{StaticClass.SelectedTeamTab}");
         userTeamDict.Clear();
         // resulting JSON from an API request
         JSONNode jsonResult;
@@ -141,7 +141,7 @@ public class TeamManager : MonoBehaviour
                     userCardArray[j] = userCardManager.userCardDict[jsonResult[i]["cardkey" + (j+1) ]];
             }
 
-            Debug.Log($"jsonResult[i][teamnumber]: {jsonResult[i]["teamnumber"] }");
+            //Debug.Log($"jsonResult[i][teamnumber]: {jsonResult[i]["teamnumber"] }");
             if (jsonResult[i]["teamnumber"] != null)
                 userTeamDict.Add(jsonResult[i]["teamnumber"], userCardArray);
         }
