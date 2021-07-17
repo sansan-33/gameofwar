@@ -27,6 +27,13 @@ public class SpecialAttackDict : MonoBehaviour
     {
 
     };
+    public static Dictionary<SpecialAttackType, bool> NeedCameraShake = new Dictionary<SpecialAttackType, bool>()
+    {
+        {SpecialAttackType.FIREARROW, false },
+        {SpecialAttackType.TORNADO, false },
+        {SpecialAttackType.METEOR, true },
+        {SpecialAttackType.ZAP, true },
+    };
     private void Start()
     {
         /*SpSprite.Clear();

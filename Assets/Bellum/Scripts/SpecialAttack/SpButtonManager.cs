@@ -313,8 +313,11 @@ public class SpButtonManager : MonoBehaviour
 
         buttonChild = button.transform.Find("mask").gameObject;
         buttonChild.transform.GetChild(0).GetComponent<Image>().sprite = characterImage.image;
-        SpecialAttackDict.ChildSpSprite.TryGetValue(spType, out sprite);
-        buttonChild.transform.GetChild(1).GetComponent<Image>().sprite = sprite;
+        if(SpecialAttackDict.ChildSpSprite.TryGetValue(spType, out sprite))
+        {
+            buttonChild.transform.GetChild(1).GetComponent<Image>().sprite = sprite;
+        }
+       
         spawnedSpButtonUnit.Add(unit.unitKey);
         buttons.Add(button.GetComponent<Button>());
 
