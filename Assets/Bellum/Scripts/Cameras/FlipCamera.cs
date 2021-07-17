@@ -17,9 +17,12 @@ public class FlipCamera : MonoBehaviour
     float lensSize = 30f;
     private CinemachineVirtualCamera camCurrent;
     private bool zooming = false;
+    [SerializeField] public GameObject outsideFrame;
+
     public void Awake()
     {
 
+        clearFog();
         if (NetworkClient.connection.identity == null) { return; }
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         //Debug.Log($"Flip Cam Player ID  {player.GetPlayerID()} , Enemy ID {player.GetEnemyID()}");
@@ -75,4 +78,62 @@ public class FlipCamera : MonoBehaviour
         }
         
     }
+    public void clearFog()
+    {
+        //FoW.FogOfWarTeam.GetTeam(2).SetFog(GetBounds(outsideFrame), (byte)0);
+    }
+
+
+    public static Bounds GetBounds(GameObject obj)
+
+    {
+
+        Bounds bounds = new Bounds();
+
+        Renderer[] renderers = obj.GetComponentsInChildren<Renderer>();
+
+        if (renderers.Length > 0)
+
+        {
+
+            //Find first enabled renderer to start encapsulate from it
+
+            foreach (Renderer renderer in renderers)
+
+            {
+
+                if (renderer.enabled)
+
+                {
+
+                    bounds = renderer.bounds;
+
+                    break;
+
+                }
+
+            }
+
+            //Encapsulate for all renderers
+
+            foreach (Renderer renderer in renderers)
+
+            {
+
+                if (renderer.enabled)
+
+                {
+
+                    bounds.Encapsulate(renderer.bounds);
+
+                }
+
+            }
+
+        }
+
+        return bounds;
+
+    }
+
 }
