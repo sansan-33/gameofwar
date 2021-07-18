@@ -31298,6 +31298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 423470521}
   - component: {fileID: 423470520}
+  - component: {fileID: 423470522}
   m_Layer: 0
   m_Name: Fog Of War System
   m_TagString: Untagged
@@ -31338,6 +31339,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &423470522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 423470519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248c53a953a6047dea07372840e65aa5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 423470520}
 --- !u!1 &427657560
 GameObject:
   m_ObjectHideFlags: 0
