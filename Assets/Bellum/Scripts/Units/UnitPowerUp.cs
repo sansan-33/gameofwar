@@ -218,6 +218,7 @@ public class UnitPowerUp : NetworkBehaviour
         GetComponent<RVOController>().layer = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<FogOfWarUnit>().team = playerID;
+        GetComponent<FogOfWarUnit>().circleRadius  = GetComponent<IAttack>().AttackDistance();
         HandleUnitSkill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay,speed);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
