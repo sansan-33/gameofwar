@@ -18,9 +18,11 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private GameObject impectType;
     private PlayerGround playerGround;
     private SpecialAttackDict.SpecialAttackType SpecialAttackType;
+    private SpecialAttackManager specialAttackManager;
     // Start is called before the first frame update
     void Start()
     {
+        specialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager").GetComponent<SpecialAttackManager>();
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
         foreach (GameObject ground in grounds)
@@ -73,24 +75,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) {return; }
-        GameObject impect = null ;
-        if (impectType != null)
-        {
-            impect = Instantiate(impectType);
-            impect.transform.position = new Vector3(hit.point.x, 0, hit.point.z);
-        }
-        
-        if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.TORNADO)
-        {
-           
-            impect.GetComponent<Tornado>().SetPlayerType(RTSplayer.GetPlayerID());
-            impect.GetComponent<Tornado>().OnStartServer();
-            //StartCoroutine(DestroyGameObjectAfterSec(impect, 5.5f));
-        }
-        else
-        {
-            //impect.transform.position = new Vector3(hit.point.x, 0 + 20, hit.point.z);
-        }
+        Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
+        specialAttackManager.SpawnPrefab(new Vector3(hit.point.x, 0, hit.point.z), SpecialAttackType.ToString());
+       
+
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
         {
             GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();

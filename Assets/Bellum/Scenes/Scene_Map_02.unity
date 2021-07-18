@@ -11750,6 +11750,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1320765523999854053, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
+      propertyPath: sceneId
+      value: 2726560674
+      objectReference: {fileID: 0}
     - target: {fileID: 8345797534256068743, guid: 3a7fe5eeda49643718a2d1ae0f49005a, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -86230,6 +86234,12 @@ MonoBehaviour:
   stunPrefab: {fileID: 0}
   shieldPrefab: {fileID: 0}
   slashPrefab: {fileID: 0}
+  impectSmashPrefab: {fileID: 0}
+  zapPrefab: {fileID: 0}
+  freezePrefab: {fileID: 0}
+  meteorPrefab: {fileID: 0}
+  fireArrowPrefab: {fileID: 0}
+  tornadoPrefab: {fileID: 0}
   spPrefabParent: {fileID: 0}
   EnemyButtonOffSet: 0
   buttonOffSet: 200
@@ -93103,6 +93113,7 @@ MonoBehaviour:
   lightPlayer1: {fileID: 810888061}
   lightSecondaryPlayer0: {fileID: 1651308106}
   lightSecondaryPlayer1: {fileID: 2010540869}
+  outsideFrame: {fileID: 0}
 --- !u!4 &1690794287
 Transform:
   m_ObjectHideFlags: 0

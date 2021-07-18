@@ -55,10 +55,10 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.ICE, icePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SHIELD, shieldPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SLASH, slashPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.FIREARROW, slashPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.METEOR, slashPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.TORNADO, slashPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.ZAP, slashPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.FIREARROW, fireArrowPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.METEOR, meteorPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.TORNADO, tornadoPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.ZAP, zapPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
     }
 
