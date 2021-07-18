@@ -45,7 +45,7 @@ public class MenuManager : MonoBehaviour
     }
     public void GoToShop()
     {
-        SceneManager.LoadScene("FogOfWar3D_URP");
+        SceneManager.LoadScene("Scene_Shop");
     }
     public void GoToRanking()
     {
