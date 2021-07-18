@@ -31,24 +31,24 @@ public class SpecialAttackManager : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdSpawnPrefab(Vector3 pos, string specialAttackType)
     {
-        Debug.Log($"CmdPowerUp {pos} {specialAttackType } ");
+        //Debug.Log($"CmdPowerUp {pos} {specialAttackType } ");
         ServerSpawnPrefab(pos, specialAttackType);
     }
     [Server]
     public void ServerSpawnPrefab(Vector3 pos, string specialAttackType)
     {
-        Debug.Log($"ServerpowerUp {pos} {specialAttackType } ");
+        //Debug.Log($"ServerpowerUp {pos} {specialAttackType } ");
         HandleSpawnPrefab(pos, specialAttackType);
         //if comment this line . player 2 name is lower case with (clone) , card stats and other things not sync
         RpcSpawnPrefab(pos, specialAttackType);
     }
     public void HandleSpawnPrefab( Vector3 pos, string specialAttackType)
     {
-        Debug.Log($"HandleSpawnPrefab 1 {specialAttackType}");
+        //Debug.Log($"HandleSpawnPrefab 1 {specialAttackType}");
         SpecialAttackTypeStringKey.TryGetValue(specialAttackType, out SpecialAttackType SpecialAttackType);
-        Debug.Log($"HandleSpawnPrefab 2 {specialAttackType}, {SpecialAttackType}");
+        //Debug.Log($"HandleSpawnPrefab 2 {specialAttackType}, {SpecialAttackType}");
         GetComponent<SpButtonManager>().SpecialAttackPrefab.TryGetValue(SpecialAttackType, out GameObject impectPrefab);
-        Debug.Log($"HandleSpawnPrefab 3{impectPrefab}, {SpecialAttackType}");
+        //Debug.Log($"HandleSpawnPrefab 3{impectPrefab}, {SpecialAttackType}");
         GameObject impect = null;
         if (impectPrefab != null)
         {
@@ -67,7 +67,7 @@ public class SpecialAttackManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSpawnPrefab(Vector3 pos, string specialAttackType)
     {
-        Debug.Log($"RpcPowerUp {pos} {specialAttackType }  ");
+        //Debug.Log($"RpcPowerUp {pos} {specialAttackType }  ");
         HandleSpawnPrefab( pos, specialAttackType);
     }
     // Update is called once per frame
