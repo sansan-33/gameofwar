@@ -17,18 +17,23 @@ public class Tornado : NetworkBehaviour
     public override void OnStartClient()
     {
         if (NetworkClient.connection.identity == null) { return; }
+        //Debug.Log("OnStartClient");
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerid = player.GetPlayerID();
         enemyid = player.GetEnemyID();
     }
     public override void OnStartServer()
     {
+        //Debug.Log("OnStartServer");
         Invoke(nameof(TurnOffPulling), destroyAfterSeconds-1f);
         Invoke(nameof(DestroySelf), destroyAfterSeconds);
+        //var rotationVector = transform.rotation.eulerAngles;
+        //rotationVector.x = 90;
+        //transform.rotation = Quaternion.Euler(rotationVector);
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log($"Tornado OnTriggerEnter {other.tag} ");
+        //Debug.Log($"Tornado OnTriggerEnter {other.tag} {other.name} ");
 
         if (CanPull(other)) {
             StartCoroutine(pullObject(other, true));
@@ -52,6 +57,7 @@ public class Tornado : NetworkBehaviour
     }
     IEnumerator pullObject(Collider x, bool shouldPull)
     {
+        //Debug.Log($"Start IEnumerator pull obj. should pull = {shouldPull}");
         if (shouldPull)
         {
             if (x == null || x.GetComponent<Rigidbody>() == null ) { yield break; }
@@ -75,8 +81,8 @@ public class Tornado : NetworkBehaviour
         bool sameTeam = true;
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
-            if ( other.tag.Contains(enemyid.ToString()) && unitType == "Enemy") { return false; }  
-            if ( other.tag.Contains(playerid.ToString()) && unitType == "Player") { return false; }  //check to see if it belongs to the player, if it does, do nothing
+            if ( other.tag.Contains(enemyid.ToString()) && unitType == "Enemy") { Debug.Log("return false enemy"); return false; }  
+            if ( other.tag.Contains(playerid.ToString()) && unitType == "Player") { Debug.Log("return false player"); return false; }  //check to see if it belongs to the player, if it does, do nothing
         }
         else // Multi player seneriao
         {
