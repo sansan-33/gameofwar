@@ -94,7 +94,8 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
         {
             GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
-            
+            wallController.dynamicBlock(false);
+            //Debug.Log($"GreatWallController move to {hit.point.z}");
             wallController.transform.position = new Vector3(wallController.transform.position.x, wallController.transform.position.y, hit.point.z);
             wallController.dynamicBlock(true);
         }
