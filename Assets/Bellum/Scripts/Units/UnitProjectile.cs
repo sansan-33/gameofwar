@@ -59,6 +59,7 @@ public class UnitProjectile : NetworkBehaviour
         initialPosition = this.transform.position;
         Launch();
     }
+    
     void Launch()
     {
         if (IS_CHAIN_ATTACK)

@@ -51,7 +51,7 @@ public class SpButtonManager : MonoBehaviour
         Arts.initDictionary();
 
         SpecialAttackPrefab.Add(SpecialAttackType.LIGHTNING, lightningPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.STUN, stunPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.STUNO, stunPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ICE, icePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SHIELD, shieldPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SLASH, slashPrefab);
@@ -60,6 +60,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.TORNADO, tornadoPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ZAP, zapPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.Stun, stunPrefab);
     }
 
     private void Start()
@@ -326,32 +327,34 @@ public class SpButtonManager : MonoBehaviour
         //spType = SpecialAttackType.ZAP;
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
-        if (spType == SpecialAttackType.FIREARROW)
+        switch (spType)
         {
-           
-            impectSmash.GetComponent<ImpactSmash>().SetImpectType(fireArrowPrefab);
-            impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FIREARROW);
+            case SpecialAttackType.FIREARROW:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(fireArrowPrefab);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FIREARROW);
+                break;
+            case SpecialAttackType.METEOR:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(meteorPrefab);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.METEOR);
+                break;
+            case SpecialAttackType.TORNADO:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(tornadoPrefab);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.TORNADO);
+                break;
+            case SpecialAttackType.ZAP:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(zapPrefab);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.ZAP);
+                break;
+            case SpecialAttackType.FREEZE:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FREEZE);
+                break;
+            case SpecialAttackType.Stun:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(stunPrefab);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.Stun);
+                break;
         }
-        if (spType == SpecialAttackType.METEOR)
-        {     
-            impectSmash.GetComponent<ImpactSmash>().SetImpectType(meteorPrefab);
-            impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.METEOR);
-        }
-        if (spType == SpecialAttackType.TORNADO)
-        {   
-            impectSmash.GetComponent<ImpactSmash>().SetImpectType(tornadoPrefab);
-            impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.TORNADO);
-        }
-        if (spType == SpecialAttackType.ZAP)
-        {  
-            impectSmash.GetComponent<ImpactSmash>().SetImpectType(zapPrefab);
-            impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.ZAP) ;
-        }
-        if (spType == SpecialAttackType.FREEZE)
-        {
-            impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
-            impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FREEZE);
-        }
+
         // Instantiate specialAttack
 
 

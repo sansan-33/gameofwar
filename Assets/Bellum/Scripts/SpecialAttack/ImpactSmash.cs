@@ -19,6 +19,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private PlayerGround playerGround;
     private SpecialAttackDict.SpecialAttackType SpecialAttackType;
     private SpecialAttackManager specialAttackManager;
+    private int key = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -41,6 +42,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void SetSpecialAttackType(SpecialAttackDict.SpecialAttackType type)
     {
         SpecialAttackType = type;
+    }
+    public SpecialAttackDict.SpecialAttackType GetSpecialAttackType()
+    {
+        return SpecialAttackType;
     }
     public void OnPointerDown()
     {
@@ -91,8 +96,14 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         {
             if(needCameraShake == true)
             {
-                CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
-                cmManager.shake();
+                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
+                {
+                    Invoke("ShakeCam", 3);
+                }
+                else
+                {
+                    ShakeCam();
+                }
             }
         }
         playerGround.resetLayer();
@@ -139,13 +150,35 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 }
                 if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.FREEZE)
                 {
-                    StartCoroutine(AwakeUnit(unit, 5, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                    key++;
+                    if (UnitSpeedkeys.ContainsKey(unit.GetComponent<Health>().freezeKey))
+                    {
+                        UnitRepeatAttackDelaykeys.Remove(unit.GetComponent<Health>().freezeKey);
+                        UnitSpeedkeys.Remove(unit.GetComponent<Health>().freezeKey);
+                        UnitMaterial.Remove(unit.GetComponent<Health>().freezeKey);
+                    }
+                    unit.GetComponent<Health>().freezeKey = key;
+                    unit.GetComponent<Health>().IsFrezze = true;
+                    UnitSpeedkeys.Add(key, unit.GetComponent<CardStats>().speed);
+                    UnitMaterial.Add(key, unit.GetComponentInChildren<SkinnedMeshRenderer>().material);
+                    UnitRepeatAttackDelaykeys.Add(key, unit.GetComponent<CardStats>().repeatAttackDelay);
+                    StartCoroutine(AwakeUnit(unit, 5000, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                    unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
+                    unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;  
+                }
+                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.Stun)
+                {
+                    StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                     unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
-                    
                 }
             }
         }
+    }
+    private void ShakeCam()
+    {
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.shake();
     }
     private IEnumerator DestroyGameObjectAfterSec(GameObject unit, float sec)
     {
@@ -164,7 +197,18 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         
 
     }
+    public Dictionary<int, float> UnitRepeatAttackDelaykeys = new Dictionary<int, float>()
+    {
 
+    };
+    public Dictionary<int, float> UnitSpeedkeys = new Dictionary<int, float>()
+    {
+
+    };
+    public Dictionary<int, Material> UnitMaterial = new Dictionary<int, Material>()
+    {
+
+    };
     // Update is called once per frame
     void Update()
     {
