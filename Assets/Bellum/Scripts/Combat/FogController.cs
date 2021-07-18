@@ -8,6 +8,7 @@ using UnityEngine.Rendering;
 public class FogController : MonoBehaviour
 {
     public Volume volume;
+    public FogOfWarTeam fowTeam;
 
     // Start is called before the first frame update
     void Start()
@@ -15,6 +16,9 @@ public class FogController : MonoBehaviour
         var playerid =  NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
         VolumeProfile profile = volume.sharedProfile;
         if (profile != null && profile.TryGet(out FogOfWarURP fow))
+        {
             fow.team.value = playerid;
+            fowTeam.team = playerid;
+        }
     }
 }
