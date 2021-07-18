@@ -210,9 +210,11 @@ GameObject:
   m_Component:
   - component: {fileID: 8345797534256068743}
   - component: {fileID: 8345797534256068742}
+  - component: {fileID: -1320765523999854053}
+  - component: {fileID: 6937996917766845951}
   m_Layer: 0
   m_Name: SpecialAttackManager
-  m_TagString: Untagged
+  m_TagString: SpecialAttackManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,13 +262,44 @@ MonoBehaviour:
   freezePrefab: {fileID: 7535935705291246327, guid: 70343bac359362444a1e3fc42852a5ff, type: 3}
   meteorPrefab: {fileID: 6902500406925264907, guid: b12c517fe0aa44e4cb9959f52e516866, type: 3}
   fireArrowPrefab: {fileID: 138484, guid: 32ec3ec418a336747afa71cf65f20e67, type: 3}
-  tornadoPrefab: {fileID: 1651284899731740, guid: 1962cefffce3e49e9b674ababb5c735f, type: 3}
+  tornadoPrefab: {fileID: 1651284899731740, guid: 4108c70463cef4634b68a70feb8c6bed, type: 3}
   spPrefabParent: {fileID: 8491812324135193630}
   EnemyButtonOffSet: 100
   buttonOffSet: 250
   FirstCardPos: {fileID: 9137005635777667539}
   enemyFirstCardPos: {fileID: 8491812323670484686}
   spawnedSpButtonUnit: 0500000008000000120000001100000008000000
+--- !u!114 &-1320765523999854053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8345797534256068761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  visible: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &6937996917766845951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8345797534256068761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53ed7b2fbdfb544d4bc35dd4f704c6f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &8491812323670484685
 GameObject:
   m_ObjectHideFlags: 0

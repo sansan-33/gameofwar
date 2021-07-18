@@ -7,7 +7,7 @@ namespace DigitalRuby.ThunderAndLightning
 {
     public class Lightning : MonoBehaviour, ISpecialAttack
     {
-        [SerializeField] private GameObject LightlingPrefab;
+        /*[SerializeField] private GameObject LightlingPrefab;
         [SerializeField] private LayerMask layerMask = new LayerMask();
         [SerializeField] private GameObject attackPoint;
         [SerializeField] private int electicDamage = 10;
@@ -47,14 +47,14 @@ namespace DigitalRuby.ThunderAndLightning
             if (SpawnedButton) { SPButton = FindObjectOfType<SpButton>().GetButton(GetComponent<Unit>().SpBtnTicket).GetComponent<Button>(); }
             if (SPButton == null) { return; }
             SPButton.onClick.RemoveAllListeners();
-            SPButton.onClick.AddListener(OnPointerDowns);*/
+            SPButton.onClick.AddListener(OnPointerDowns);
             spCost = FindObjectOfType<SpCost>();
             TB = GameObject.FindGameObjectWithTag("TacticalSystem").GetComponent<TacticalBehavior>();
         }
-
+        */
         public void OnPointerDown()
         {
-            //Debug.Log(layerMask);
+          /*  //Debug.Log(layerMask);
             targetList.Clear();
             startPointList.Clear();
             lightlingList.Clear();
@@ -147,8 +147,9 @@ namespace DigitalRuby.ThunderAndLightning
 
                 Lightlings(startPointList.ToArray()[a], targetList.ToArray()[a]);
             }
-            lightlingTimer = 5;
+            lightlingTimer = 5;*/
         }
+        /*
         public void OnDrawGizmos()
         {
             Gizmos.color = Color.blue;
@@ -207,10 +208,10 @@ namespace DigitalRuby.ThunderAndLightning
                     }
                 }
             }
-        }
+        }*/
         public int GetSpCost()
         {
-            return SPCost;
+            return 0;
         }
     }
 }
