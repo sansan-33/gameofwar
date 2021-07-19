@@ -50,7 +50,7 @@ public class SpButtonManager : MonoBehaviour
         //Debug.Log("SpButtonManager Awake()");
         Arts.initDictionary();
 
-        SpecialAttackPrefab.Add(SpecialAttackType.LIGHTNING, lightningPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.LIGHTNING, zapPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.STUNO, stunPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ICE, icePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SHIELD, shieldPrefab);
@@ -352,6 +352,10 @@ public class SpButtonManager : MonoBehaviour
             case SpecialAttackType.STUN:
                 impectSmash.GetComponent<ImpactSmash>().SetImpectType(stunPrefab);
                 impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.STUN);
+                break;
+            case SpecialAttackType.LIGHTNING:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(zapPrefab);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.LIGHTNING);
                 break;
         }
 

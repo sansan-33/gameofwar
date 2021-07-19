@@ -339,6 +339,7 @@ public class EnemyAI : MonoBehaviour
         {
             case 1:
                 statUpFactor = 1;
+
                 return unitTypesList;
             case 2:
                 statUpFactor = 1;

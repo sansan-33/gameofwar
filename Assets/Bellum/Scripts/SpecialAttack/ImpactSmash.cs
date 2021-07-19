@@ -20,6 +20,9 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private SpecialAttackDict.SpecialAttackType SpecialAttackType;
     private SpecialAttackManager specialAttackManager;
     private int key = 0;
+    private GreatWallController wallController;
+    private CinemachineManager cmManager;
+    private float i= 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -80,16 +83,27 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) {return; }
-        Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
-        specialAttackManager.SpawnPrefab(new Vector3(hit.point.x, 0, hit.point.z), SpecialAttackType.ToString());
+        //Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
+        Debug.Log($"attack type {SpecialAttackType}");
+        if(SpecialAttackType != SpecialAttackDict.SpecialAttackType.LIGHTNING)
+        {
+            specialAttackManager.SpawnPrefab(new Vector3(hit.point.x, 0, hit.point.z), SpecialAttackType.ToString());
+        }
+       
        
 
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
         {
-            GreatWallController wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
+            if (wallController == null)
+            {
+                wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
+            }
+            
             wallController.dynamicBlock(false);
             //Debug.Log($"GreatWallController move to {hit.point.z}");
-            wallController.transform.position = new Vector3(wallController.transform.position.x, wallController.transform.position.y, hit.point.z);
+            Vector3 wallPos = wallController.transform.position;
+            wallPos.z =  hit.point.z;
+            wallController.transform.position = wallPos;
             wallController.dynamicBlock(true);
         }
         if(SpecialAttackDict.NeedCameraShake.TryGetValue(SpecialAttackType,out bool needCameraShake))
@@ -98,7 +112,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             {
                 if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
                 {
-                    Invoke("ShakeCam", 3);
+                    Invoke("ShakeCam", 1.5f);
                 }
                 else
                 {
@@ -119,6 +133,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
         List<GameObject> armies = new List<GameObject>();
         List<GameObject> army = new List<GameObject>();
+        List<GameObject> topThreeHealthUnit = new List<GameObject>();
         armies = units.ToList();
 
         provokeUnit.CopyTo(armies);
@@ -134,50 +149,83 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             range *= 2;
             scale += 0.5f;
         }
-
         foreach (GameObject unit in armies)
         {//
-            Debug.Log($"finded {unit} circle pos {dragCircle.transform.position} - pos {unit.transform.position} = sqrMagnitude {(dragCircle.transform.position - unit.transform.position).sqrMagnitude} range = {range}");
+            //Debug.Log($"finded {unit} circle pos {dragCircle.transform.position} - pos {unit.transform.position} = sqrMagnitude {(dragCircle.transform.position - unit.transform.position).sqrMagnitude} range = {range}");
             if ((dragCircle.transform.position - unit.transform.position).sqrMagnitude < range)
             {
-                unit.GetComponent<Health>().DealDamage(damage);
-                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.ZAP)
+                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.LIGHTNING)
                 {
-                    StartCoroutine(AwakeUnit(unit, 1, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
-                    //unit.GetComponent<AstarAI>().IS_STUNNED = true;
-                    unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, unit.GetComponent<CardStats>().repeatAttackDelay);
-                    
-                }
-                if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.FREEZE)
-                {
-                    key++;
-                    if (UnitSpeedkeys.ContainsKey(unit.GetComponent<Health>().freezeKey))
+                    if (topThreeHealthUnit.Count < 3)
                     {
-                        UnitRepeatAttackDelaykeys.Remove(unit.GetComponent<Health>().freezeKey);
-                        UnitSpeedkeys.Remove(unit.GetComponent<Health>().freezeKey);
-                        UnitMaterial.Remove(unit.GetComponent<Health>().freezeKey);
+                        //Debug.Log("ADD unit" + unit);
+                        topThreeHealthUnit.Add(unit);
                     }
-                    unit.GetComponent<Health>().freezeKey = key;
-                    unit.GetComponent<Health>().IsFrezze = true;
-                    UnitSpeedkeys.Add(key, unit.GetComponent<CardStats>().speed);
-                    UnitMaterial.Add(key, unit.GetComponentInChildren<SkinnedMeshRenderer>().material);
-                    UnitRepeatAttackDelaykeys.Add(key, unit.GetComponent<CardStats>().repeatAttackDelay);
-                    StartCoroutine(AwakeUnit(unit, 5000, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
-                    unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
-                    unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;  
+                    else
+                    {
+                        
+                        foreach (GameObject obj in topThreeHealthUnit.ToArray())
+                        {
+                           // Debug.Log($"{obj.name}:{obj.GetComponent<Health>().getMaxHealth()} < {unit.GetComponent<Health>().getMaxHealth()}");
+                            if (obj.GetComponent<Health>().getMaxHealth() < unit.GetComponent<Health>().getMaxHealth())
+                            {
+                                topThreeHealthUnit.Remove(obj);
+                                topThreeHealthUnit.Add(unit);
+                            }
+                        }
+                    }
                 }
-                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.STUN)
+                else
                 {
-                    StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
-                    unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
-                    unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
+                    unit.GetComponent<Health>().DealDamage(damage);
                 }
+                   
+                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.ZAP)
+                    {
+                        StartCoroutine(AwakeUnit(unit, 1, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                        //unit.GetComponent<AstarAI>().IS_STUNNED = true;
+                        unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, unit.GetComponent<CardStats>().repeatAttackDelay);
+
+                    }
+                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.FREEZE)
+                    {
+                        key++;
+                        if (UnitSpeedkeys.ContainsKey(unit.GetComponent<Health>().freezeKey))
+                        {
+                            UnitRepeatAttackDelaykeys.Remove(unit.GetComponent<Health>().freezeKey);
+                            UnitSpeedkeys.Remove(unit.GetComponent<Health>().freezeKey);
+                            UnitMaterial.Remove(unit.GetComponent<Health>().freezeKey);
+                        }
+                        unit.GetComponent<Health>().freezeKey = key;
+                        unit.GetComponent<Health>().IsFrezze = true;
+                        UnitSpeedkeys.Add(key, unit.GetComponent<CardStats>().speed);
+                        UnitMaterial.Add(key, unit.GetComponentInChildren<SkinnedMeshRenderer>().material);
+                        UnitRepeatAttackDelaykeys.Add(key, unit.GetComponent<CardStats>().repeatAttackDelay);
+                        StartCoroutine(AwakeUnit(unit, 5000, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                        unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
+                        unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
+                    }
+                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.STUN)
+                    {
+                        StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                        unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
+                       // unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
+                    }                
+            }
+        }
+        if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.LIGHTNING)
+        {
+            foreach (GameObject unit in topThreeHealthUnit)
+            {
+                Debug.Log($"deal damge to {unit.name}");
+                unit.GetComponent<Health>().DealDamage(damage);
+                specialAttackManager.SpawnPrefab(new Vector3(unit.transform.position.x, 0, unit.transform.position.z), SpecialAttackType.ToString());
             }
         }
     }
     private void ShakeCam()
     {
-        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
         cmManager.shake();
     }
     private IEnumerator DestroyGameObjectAfterSec(GameObject unit, float sec)
@@ -210,9 +258,5 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
 
     };
     // Update is called once per frame
-    void Update()
-    {
-        
-       
-    }
+
 }
