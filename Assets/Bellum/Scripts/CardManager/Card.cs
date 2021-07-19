@@ -110,7 +110,7 @@ public class Card : MonoBehaviour
     {
         //Debug.Log($"calling set card _cardFace.numbers {_cardFace.numbers} stats {_cardFace.stats}");
         cardFace = new CardFace(_cardFace.suit, _cardFace.numbers, _cardFace.star, _cardFace.stats);
-        if(cardFace.numbers == Card_Numbers.BARRACK || cardFace.numbers == Card_Numbers.TOWER || cardFace.numbers == Card_Numbers.CATAPULT || cardFace.numbers == Card_Numbers.WALL) 
+        if(cardFace.numbers == Card_Numbers.BARRACK || cardFace.numbers == Card_Numbers.TOWER || cardFace.numbers == Card_Numbers.BEACON || cardFace.numbers == Card_Numbers.WALL ) 
         {
             if(enemyCard == false)
             {

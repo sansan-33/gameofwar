@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.16468236, g: 0.34327677, b: 0.47353002, a: 1}
+  m_IndirectSpecularColor: {r: 0.16485308, g: 0.34301975, b: 0.47536376, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -35778,8 +35778,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 4
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b741db7ac3d1c423aad5b49a9780ca2d, type: 2}
-  m_sharedMaterial: {fileID: 5568139486216784236, guid: b741db7ac3d1c423aad5b49a9780ca2d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -43750,8 +43750,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 4
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b741db7ac3d1c423aad5b49a9780ca2d, type: 2}
-  m_sharedMaterial: {fileID: 5568139486216784236, guid: b741db7ac3d1c423aad5b49a9780ca2d, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -52548,7 +52548,7 @@ GameObject:
   - component: {fileID: 856916322}
   - component: {fileID: 856916321}
   m_Layer: 5
-  m_Name: EnemyButtonCatapult
+  m_Name: EnemyButtonBeacon
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -57999,7 +57999,7 @@ GameObject:
   - component: {fileID: 968482645}
   - component: {fileID: 968482644}
   m_Layer: 5
-  m_Name: ButtonCatapult
+  m_Name: ButtonBeacon
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58179,7 +58179,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 29aff765d6fa144a4b3e383d7c062859, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44fcbe9a150c244b7b2ae28131d46f92, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -106973,12 +106973,12 @@ MonoBehaviour:
   buttonWall: {fileID: 1119261664}
   buttonBarrack: {fileID: 559671447}
   buttonTower: {fileID: 2134787536}
-  buttonCatapult: {fileID: 968482644}
+  buttonBeacon: {fileID: 968482644}
   buttonSpikeTrap: {fileID: 681656537}
   EnemyButtonWall: {fileID: 880822304}
   EnemyButtonBarrack: {fileID: 1331862990}
   EnemyButtonTower: {fileID: 1176117996}
-  EnemyButtonCatapult: {fileID: 856916321}
+  EnemyButtonBeacon: {fileID: 856916321}
   EnemyButtonSpikeTrap: {fileID: 681656537}
   totalEleixers: {fileID: 739865865}
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
