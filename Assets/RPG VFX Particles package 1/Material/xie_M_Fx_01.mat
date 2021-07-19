@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: xie_M_Fx_01
+  m_Shader: {fileID: 4800000, guid: 56bedbcbfe68e1345a5e87fe73790dab, type: 3}
+  m_ShaderKeywords: _USEFRESNEL_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 4008e72a5ba9cf646a57e880d31f241b, type: 3}
+        m_Scale: {x: 1.17, y: 0.92}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Cutoff: 0.5
+    - _Emission: 3.27
+    - _Fresnel: 1
+    - _FresnelEmission: 2.75
+    - _InvFade: 1
+    - _SeparateEmission: 0.83
+    - _SeparateFresnel: 0
+    - _UseCustomData: 0
+    - _UseFresnel: 1
+    - __dirty: 1
+    m_Colors:
+    - _BackFacesColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.96635, g: 0.514151, b: 1, a: 1}
+    - _FrontFacesColor: {r: 0.35836798, g: 0, b: 0.6132076, a: 1}
+    - _SpeedMainTexUVNoiseZW: {r: 0, g: 0, b: 0, a: 0}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

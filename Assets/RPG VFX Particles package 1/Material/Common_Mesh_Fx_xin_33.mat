@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Common_Mesh_Fx_xin_33
+  m_Shader: {fileID: 4800000, guid: a3dbedeba9c42cd48b959b80146fb64b, type: 3}
+  m_ShaderKeywords: _UV_OPEN_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Dissolve:
+        m_Texture: {fileID: 2800000, guid: 970927fc7f130614cb8a46c7afe72aaf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Flow:
+        m_Texture: {fileID: 2800000, guid: 197ebba68fc72464ba15730ab348050c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Main:
+        m_Texture: {fileID: 2800000, guid: f8375f82597266242a81398e16842f71, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 8bcde865ef7c50040bd04b200d20c000, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: d20a37e96993ea24ca6b60428d7e0ab6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Noise:
+        m_Texture: {fileID: 2800000, guid: 80b8cb41beb673a4ca140172336a1d50, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Rongjie:
+        m_Texture: {fileID: 2800000, guid: bccb85887944b1b40972209f1f7bdfba, type: 3}
+        m_Scale: {x: 1, y: 1.39}
+        m_Offset: {x: 0, y: 0}
+    - _Trail_Mask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Trail_Tex:
+        m_Texture: {fileID: 2800000, guid: 61e01dd06ca413f4bad175e9d167034b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VertexUV:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Color_intensity: 1
+    - _CullMode: 0
+    - _Cutoff: 0.5
+    - _Depthpower: 1
+    - _Emission: 2
+    - _Exp: 1
+    - _InvFade: 1
+    - _Main_u: 0
+    - _Main_v: 0
+    - _Mask_u: 1
+    - _Mask_v: -1.09
+    - _Opacity: 1
+    - _Rgba: 0
+    - _Rongjie_u: -2.6
+    - _Rongjie_v: 3.15
+    - _UV_open: 1
+    - _Usecenterglow: 0
+    - _Usedepth: 0
+    - _Uspeed: 0
+    - _Vspeed: 0
+    - _souf: 1
+    m_Colors:
+    - _Color: {r: 0.82277113, g: 0.3254717, b: 1, a: 1}
+    - _DistortionSpeedXYPowerZ: {r: 0, g: 0, b: -0.32, a: 0}
+    - _Main_Color: {r: 1.4290932, g: 0, b: 7.3772106, a: 1}
+    - _SpeedMainTexUVNoiseZW: {r: 0, g: 0, b: 1, a: -1}
+    - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
+    - _VertexXYZ: {r: 0, g: 0, b: 0, a: 0}

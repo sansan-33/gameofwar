@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: jian_M_Fx_35
+  m_Shader: {fileID: 4800000, guid: a3dbedeba9c42cd48b959b80146fb64b, type: 3}
+  m_ShaderKeywords: _UV_OPEN_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Main:
+        m_Texture: {fileID: 2800000, guid: 76c4a0c8f6435354692f0fc17db2ce00, type: 3}
+        m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 3fdd7ed0d4572dd42b7ebb6f2baf476d, type: 3}
+        m_Scale: {x: 0.5, y: 1}
+        m_Offset: {x: 0, y: -0.1}
+    - _Rongjie:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TexTure02:
+        m_Texture: {fileID: 2800000, guid: 80b8cb41beb673a4ca140172336a1d50, type: 3}
+        m_Scale: {x: 3, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    - _Texture_01:
+        m_Texture: {fileID: 2800000, guid: b963d98b834582a4b876695d49a46d49, type: 3}
+        m_Scale: {x: 3, y: 0.5}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Cutoff: 0.5
+    - _EXP: 1.35
+    - _MASKRotator_speed: 0
+    - _MASK_Color_intensity: 2
+    - _Main_u: 0
+    - _Main_v: 0
+    - _Mask_u: 0.1
+    - _Mask_v: -1.08
+    - _Opacity: 1
+    - _Rongjie_u: 0
+    - _Rongjie_v: -0.34
+    - _Tex01_Uspeed: 0
+    - _Tex01_Vspeed: -1.5
+    - _Tex02_Color_intensity: 1
+    - _Tex02_Uspeed: 0
+    - _Tex02_Vspeed: 1
+    - _UV_open: 1
+    - _souf: 0
+    m_Colors:
+    - _MASK_COLOR: {r: 1, g: 0.96176463, b: 0.9044118, a: 1}
+    - _Main_Color: {r: 1.7404696, g: 6.314113, b: 0, a: 0.98039216}
+    - _Tex02_Color: {r: 1, g: 1, b: 1, a: 1}
