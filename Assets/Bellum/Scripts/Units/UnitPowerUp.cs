@@ -27,8 +27,8 @@ public class UnitPowerUp : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawnFxEffect();
-        spawnSpecialEffect();
+        //spawnFxEffect();
+        //spawnSpecialEffect();
     }
     private void Update()
     {
@@ -327,7 +327,11 @@ public class UnitPowerUp : NetworkBehaviour
         float offset = tag.Contains("0") ? 10f : -5f;
         Transform transform = GetComponentInParent<Transform>();
         Vector3 position = new Vector3 (transform.position.x, transform.position.y, transform.position.z + offset);
-        GameObject scriptEffect = Instantiate(scriptEffectPrefab, position, Quaternion.identity);
+
+        //if you  use Quaternion.identity, the rotation will set to 0,0,0
+        //GameObject scriptEffect = Instantiate(scriptEffectPrefab, position, Quaternion.identity);
+        GameObject scriptEffect = Instantiate(scriptEffectPrefab);
+        scriptEffect.transform.position = position;
         scriptEffect.GetComponent<Tornado>().SetPlayerType(Int32.Parse(tag.Substring(tag.Length - 1)));
         NetworkServer.Spawn(scriptEffect, connectionToClient);
     }
