@@ -10,7 +10,7 @@ using System.Linq;
 public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
 {
     [SerializeField] private Targeter targeter = null;
-    [SerializeField] private GameObject projectilePrefab = null;
+    [SerializeField] private GameObject[] projectilePrefab = null;
     [SerializeField] private Transform projectileSpawnPoint = null;
     [SerializeField] private float fireRange = 300f;
     [SerializeField] private float rotationSpeed = 100f;
@@ -115,7 +115,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
             spawnOffset.y = 0;
             spawnOffset.z = 0;
 
-            GameObject projectileInstance = Instantiate(projectilePrefab, projectileSpawnPoint.position + spawnOffset, projectileRotation);
+            GameObject projectileInstance = Instantiate(projectilePrefab[GetComponent<CardStats>().star - 1], projectileSpawnPoint.position + spawnOffset, projectileRotation);
             projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDeal, damageToDealFactor);
             var localDistance = (targetPosition - transform.position).sqrMagnitude;
             if (localDistance > 400f)
