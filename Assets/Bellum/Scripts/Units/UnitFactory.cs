@@ -21,6 +21,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject humanCatapultPrefab = null;
     [SerializeField] private GameObject humanSpikeTrapPrefab = null;
     [SerializeField] private GameObject humanSiegePrefab = null;
+    [SerializeField] private GameObject humanBeaconPrefab = null;
 
     // Undead
     [SerializeField] private GameObject miniSkeletonPrefab = null;
@@ -37,6 +38,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject undeadCatapultPrefab = null;
     [SerializeField] private GameObject undeadSpikeTrapPrefab = null;
     [SerializeField] private GameObject undeadSiegePrefab = null;
+    [SerializeField] private GameObject undeadBeaconPrefab = null;
 
     // god
     [SerializeField] private GameObject godarcherPrefab = null;
@@ -53,6 +55,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject godCatapultPrefab = null;
     [SerializeField] private GameObject godSpikeTrapPrefab = null;
     [SerializeField] private GameObject godSiegePrefab = null;
+    [SerializeField] private GameObject godBeaconPrefab = null;
 
     // elf
     [SerializeField] private GameObject elfrangerPrefab = null;
@@ -69,6 +72,7 @@ public class UnitFactory : NetworkBehaviour
     [SerializeField] private GameObject elfCatapultPrefab = null;
     [SerializeField] private GameObject elfSpikeTrapPrefab = null;
     [SerializeField] private GameObject elfSiegePrefab = null;
+    [SerializeField] private GameObject elfBeaconPrefab = null;
 
     [SerializeField] private GameBoardHandler gameBoardHandlerPrefab = null;
 
@@ -244,6 +248,13 @@ public class UnitFactory : NetworkBehaviour
         unitDict.Add(UnitMeta.UnitKey.GODSPIKETRAP, godSpikeTrapPrefab);
         unitDict.Add(UnitMeta.UnitKey.HUMANSPIKETRAP, humanSpikeTrapPrefab);
         unitDict.Add(UnitMeta.UnitKey.UNDEADSPIKETRAP, undeadSpikeTrapPrefab);
+
+        unitDict.Add(UnitMeta.UnitKey.ELFBEACON, elfBeaconPrefab);
+        unitDict.Add(UnitMeta.UnitKey.GODBEACON, godBeaconPrefab);
+        unitDict.Add(UnitMeta.UnitKey.HUMANBEACON, humanBeaconPrefab);
+        unitDict.Add(UnitMeta.UnitKey.UNDEADBEACON, undeadBeaconPrefab);
+
+
     }
     public GameObject GetUnitPrefab(UnitMeta.Race race, UnitMeta.UnitType unitType)
     {

@@ -36751,7 +36751,7 @@ GameObject:
   - component: {fileID: 700589449}
   - component: {fileID: 700589448}
   m_Layer: 5
-  m_Name: ButtonCatapult
+  m_Name: ButtonBeacon
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36794,7 +36794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardFace:
     suit: 0
-    numbers: 9
+    numbers: 15
     star: 0
     stats: {fileID: 0}
   cardPlayerHandIndex: 0
@@ -36931,7 +36931,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 29aff765d6fa144a4b3e383d7c062859, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 44fcbe9a150c244b7b2ae28131d46f92, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -46565,7 +46565,7 @@ GameObject:
   - component: {fileID: 896806854}
   - component: {fileID: 896806859}
   m_Layer: 5
-  m_Name: EnemyButtonCatapult
+  m_Name: EnemyButtonBeacon
   m_TagString: Card
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69423,12 +69423,12 @@ MonoBehaviour:
   buttonWall: {fileID: 298748896}
   buttonBarrack: {fileID: 1681273116}
   buttonTower: {fileID: 162936899}
-  buttonCatapult: {fileID: 700589448}
+  buttonBeacon: {fileID: 700589448}
   buttonSpikeTrap: {fileID: 1498309457}
   EnemyButtonWall: {fileID: 839869553}
   EnemyButtonBarrack: {fileID: 1240192037}
   EnemyButtonTower: {fileID: 989408944}
-  EnemyButtonCatapult: {fileID: 896806859}
+  EnemyButtonBeacon: {fileID: 896806859}
   EnemyButtonSpikeTrap: {fileID: 1498309457}
   totalEleixers: {fileID: 1128753618}
   greyScaleShader: {fileID: 4800000, guid: bc48e7f9d79b24d7496ce905f1c5a0d1, type: 3}
@@ -86856,7 +86856,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5931026049596760948, guid: c021ba6808dd94dd699a611ea23292d0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 30.00003
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 6514540122918432780, guid: c021ba6808dd94dd699a611ea23292d0, type: 3}
       propertyPath: sceneId

@@ -226,7 +226,7 @@ public class Card : MonoBehaviour
         int elexier;
         if (cardTimerImage != null && cardFace.numbers != Card_Numbers.BARRACK && cardFace.numbers !=Card_Numbers.TOWER
             && cardFace.numbers != Card_Numbers.CATAPULT && cardFace.numbers != Card_Numbers.WALL
-            && cardFace.numbers != Card_Numbers.SPIKETRAP )
+            && cardFace.numbers != Card_Numbers.SPIKETRAP && cardFace.numbers != Card_Numbers.BEACON )
         {
             onClick = false;
             elexier = enemyCard ? dealManagers.totalEleixers.enemyEleixer : dealManagers.totalEleixers.eleixer;
@@ -289,7 +289,7 @@ public enum Card_Stars
 
 public enum Card_Numbers
 {
-    ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, SPIKETRAP
+    ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, SPIKETRAP, BEACON
     //ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, WALL, BARRACK, TOWER, CATAPULT, SPIKETRAP, SIEGE
 }
 public enum Card_Deck

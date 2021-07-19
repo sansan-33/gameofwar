@@ -24,11 +24,11 @@ public class UnitMeta
                         ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL,
                         ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL, UNDEADQUEEN,ELFQUEEN,MULAN,
                         HUMANTOWER,HUMANBARRACK,HUMANCATAPULT, UNDEADTOWER, UNDEADBARRACK, UNDEADCATAPULT, ELFTOWER, ELFBARRACK, ELFCATAPULT, GODTOWER, GODBARRACK, GODCATAPULT, DOOR,
-                        HUMANSPIKETRAP, HUMANSIEGE, UNDEADSPIKETRAP, UNDEADSIEGE, ELFSPIKETRAP, ELFSIEGE, GODSPIKETRAP, GODSIEGE
+                        HUMANSPIKETRAP, HUMANSIEGE, UNDEADSPIKETRAP, UNDEADSIEGE, ELFSPIKETRAP, ELFSIEGE, GODSPIKETRAP, GODSIEGE, HUMANBEACON, ELFBEACON, GODBEACON, UNDEADBEACON
     };
-    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, TRAP, QUEEN };
+    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, TRAP, QUEEN, BEACON };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
-    public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL, QUEEN, HERO };
+    public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL, QUEEN, HERO, SECRET };
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
     public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER,SIEGE};
@@ -50,7 +50,8 @@ public class UnitMeta
         { UnitType.TOWER, 1 },
         { UnitType.CATAPULT, 1 },
         { UnitType.SIEGE, 3 },
-        { UnitType.TRAP, 1 }
+        { UnitType.TRAP, 1 },
+        { UnitType.BEACON, 1 }
     };
     
     public static Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType> DefaultUnitTactical = new Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType>()
@@ -80,7 +81,8 @@ public class UnitMeta
         { UnitType.TOWER, UnitPosition.WALL },
         { UnitType.CATAPULT, UnitPosition.WALL },
         { UnitType.SIEGE, UnitPosition.WALL },
-        { UnitType.TRAP, UnitPosition.WALL }
+        { UnitType.TRAP, UnitPosition.WALL },
+        { UnitType.BEACON, UnitPosition.SECRET },
     };
     public static Dictionary<UnitType, UnitKey> HumanTypeKey = new  Dictionary<UnitType, UnitKey>() {
 
@@ -97,7 +99,8 @@ public class UnitMeta
         { UnitType.TOWER, UnitKey.HUMANTOWER },
         { UnitType.CATAPULT, UnitKey.HUMANCATAPULT },
         { UnitType.SIEGE, UnitKey.HUMANSIEGE },
-        { UnitType.TRAP , UnitKey.HUMANSPIKETRAP }
+        { UnitType.TRAP , UnitKey.HUMANSPIKETRAP },
+        { UnitType.BEACON , UnitKey.HUMANBEACON }
     };
     public static Dictionary<UnitType, UnitKey> UndeadTypeKey = new Dictionary<UnitType, UnitKey>()
     {
@@ -114,7 +117,8 @@ public class UnitMeta
         { UnitType.TOWER, UnitKey.UNDEADTOWER },
         { UnitType.CATAPULT, UnitKey.UNDEADCATAPULT },
         { UnitType.SIEGE, UnitKey.UNDEADSIEGE },
-        { UnitType.TRAP , UnitKey.UNDEADSPIKETRAP }
+        { UnitType.TRAP , UnitKey.UNDEADSPIKETRAP },
+        { UnitType.BEACON , UnitKey.UNDEADBEACON }
     };
     public static Dictionary<UnitType, UnitKey> GodTypeKey = new Dictionary<UnitType, UnitKey>()
     {
@@ -131,8 +135,8 @@ public class UnitMeta
         { UnitType.TOWER, UnitKey.GODTOWER },
         { UnitType.CATAPULT, UnitKey.GODCATAPULT },
         { UnitType.SIEGE, UnitKey.GODSIEGE },
-        { UnitType.TRAP , UnitKey.GODSPIKETRAP }
-
+        { UnitType.TRAP , UnitKey.GODSPIKETRAP },
+        { UnitType.BEACON , UnitKey.GODBEACON }
     };
     public static Dictionary<UnitType, UnitKey> ElfTypeKey = new Dictionary<UnitType, UnitKey>()
     {
@@ -149,7 +153,8 @@ public class UnitMeta
         { UnitType.TOWER, UnitKey.ELFTOWER },
         { UnitType.CATAPULT, UnitKey.ELFCATAPULT },
         { UnitType.SIEGE, UnitKey.ELFSIEGE },
-        { UnitType.TRAP , UnitKey.ELFSPIKETRAP }
+        { UnitType.TRAP , UnitKey.ELFSPIKETRAP },
+        { UnitType.BEACON , UnitKey.ELFBEACON }
     };
     public static Dictionary<Race, Dictionary<UnitType,UnitKey>> UnitRaceTypeKey = new Dictionary<Race, Dictionary<UnitType, UnitKey>>()
     {
@@ -174,6 +179,7 @@ public class UnitMeta
         { UnitKey.HUMANCATAPULT , UnitType.CATAPULT },
         { UnitKey.HUMANSPIKETRAP , UnitType.TRAP },
         { UnitKey.HUMANSIEGE , UnitType.SIEGE },
+        { UnitKey.HUMANBEACON , UnitType.BEACON },
 
         { UnitKey.UNDEADARCHER , UnitType.ARCHER   } ,
         { UnitKey.GIANT , UnitType.TANK  } ,
@@ -189,6 +195,7 @@ public class UnitMeta
         { UnitKey.UNDEADCATAPULT , UnitType.CATAPULT },
         { UnitKey.UNDEADSPIKETRAP , UnitType.TRAP },
         { UnitKey.UNDEADSIEGE , UnitType.SIEGE },
+        { UnitKey.UNDEADBEACON , UnitType.BEACON },
 
         { UnitKey.GODARCHER , UnitType.ARCHER } ,
         { UnitKey.GODKNIGHT , UnitType.TANK } ,
@@ -204,6 +211,7 @@ public class UnitMeta
         { UnitKey.GODCATAPULT , UnitType.CATAPULT },
         { UnitKey.GODSPIKETRAP , UnitType.TRAP },
         { UnitKey.GODSIEGE , UnitType.SIEGE },
+        { UnitKey.GODBEACON , UnitType.BEACON },
 
         { UnitKey.ELFRANGER , UnitType.ARCHER } ,
         { UnitKey.ELFGOLEM , UnitType.TANK } ,
@@ -218,8 +226,8 @@ public class UnitMeta
         { UnitKey.ELFBARRACK , UnitType.BARRACK },
         { UnitKey.ELFCATAPULT , UnitType.CATAPULT },
         { UnitKey.ELFSPIKETRAP , UnitType.TRAP },
-        { UnitKey.ELFSIEGE , UnitType.SIEGE }
-
+        { UnitKey.ELFSIEGE , UnitType.SIEGE },
+        { UnitKey.ELFBEACON , UnitType.BEACON }
     };
     public static Dictionary<UnitKey, Race> KeyRace = new Dictionary<UnitKey, Race>() {
 
@@ -237,6 +245,7 @@ public class UnitMeta
         { UnitKey.HUMANCATAPULT , Race.HUMAN },
         { UnitKey.HUMANSIEGE , Race.HUMAN },
         { UnitKey.HUMANSPIKETRAP , Race.HUMAN },
+        { UnitKey.HUMANBEACON , Race.HUMAN },
 
         { UnitKey.UNDEADARCHER , Race.UNDEAD  } ,
         { UnitKey.GIANT , Race.UNDEAD  } ,
@@ -252,6 +261,7 @@ public class UnitMeta
         { UnitKey.UNDEADCATAPULT , Race.UNDEAD },
         { UnitKey.UNDEADSIEGE , Race.UNDEAD },
         { UnitKey.UNDEADSPIKETRAP , Race.UNDEAD },
+        { UnitKey.UNDEADBEACON , Race.UNDEAD },
 
         { UnitKey.THOR , Race.GOD},
         { UnitKey.LOKI , Race.GOD},
@@ -267,6 +277,7 @@ public class UnitMeta
         { UnitKey.GODCATAPULT , Race.GOD },
         { UnitKey.GODSIEGE , Race.GOD },
         { UnitKey.GODSPIKETRAP , Race.GOD },
+        { UnitKey.GODBEACON , Race.GOD },
 
         { UnitKey.ELFQUEEN , Race.ELF},
         { UnitKey.ELFDEMONHUNTER , Race.ELF},
@@ -282,6 +293,7 @@ public class UnitMeta
         { UnitKey.ELFCATAPULT , Race.ELF },
         { UnitKey.ELFSIEGE , Race.ELF },
         { UnitKey.ELFSPIKETRAP , Race.ELF },
+        { UnitKey.ELFBEACON , Race.ELF }
     };
     public static Dictionary<UnitKey, bool> CanCollide = new Dictionary<UnitKey, bool>(){
         { UnitKey.CAVALRY,true },
@@ -313,6 +325,7 @@ public class UnitMeta
         { UnitKey.HUMANCATAPULT , WeaponType.CANNON },
         { UnitKey.HUMANSPIKETRAP , WeaponType.NOTHING },
         { UnitKey.HUMANSIEGE , WeaponType.SIEGE },
+        { UnitKey.HUMANBEACON , WeaponType.NOTHING },
 
         { UnitKey.UNDEADARCHER , WeaponType.BOW  } ,
         { UnitKey.GIANT , WeaponType.AXE  } ,
@@ -328,6 +341,7 @@ public class UnitMeta
         { UnitKey.UNDEADCATAPULT , WeaponType.CANNON },
         { UnitKey.UNDEADSPIKETRAP , WeaponType.NOTHING },
         { UnitKey.UNDEADSIEGE , WeaponType.SIEGE },
+        { UnitKey.UNDEADBEACON , WeaponType.NOTHING },
 
         { UnitKey.THOR , WeaponType.HAMMER},
         { UnitKey.LOKI , WeaponType.DAGGER},
@@ -343,6 +357,7 @@ public class UnitMeta
         { UnitKey.GODCATAPULT , WeaponType.CANNON },
         { UnitKey.GODSPIKETRAP , WeaponType.NOTHING },
         { UnitKey.GODSIEGE , WeaponType.SIEGE },
+        { UnitKey.GODBEACON , WeaponType.NOTHING },
 
         { UnitKey.ELFRANGER , WeaponType.BOW  } ,
         { UnitKey.ELFGOLEM , WeaponType.PUNCH } ,
@@ -358,6 +373,7 @@ public class UnitMeta
         { UnitKey.ELFCATAPULT , WeaponType.CANNON },
         { UnitKey.ELFSPIKETRAP , WeaponType.NOTHING },
         { UnitKey.ELFSIEGE , WeaponType.SIEGE },
+        { UnitKey.ELFBEACON , WeaponType.NOTHING }
 
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillOne = new Dictionary<UnitType, UnitSkill>()
