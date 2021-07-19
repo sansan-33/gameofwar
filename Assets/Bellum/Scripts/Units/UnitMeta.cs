@@ -28,7 +28,7 @@ public class UnitMeta
     };
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, TRAP, QUEEN };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
-    public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL};
+    public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL, QUEEN, HERO };
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
     public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER,SIEGE};
@@ -72,8 +72,8 @@ public class UnitMeta
         { UnitType.MAGIC, UnitPosition.MIDFIELDER },
         { UnitType.TANK, UnitPosition.FORWARD },
         { UnitType.FOOTMAN, UnitPosition.FORWARD },
-        { UnitType.QUEEN, UnitPosition.DEFENDER },
-        { UnitType.HERO, UnitPosition.DEFENDER },
+        { UnitType.QUEEN, UnitPosition.QUEEN },
+        { UnitType.HERO, UnitPosition.HERO  },
         { UnitType.KING, UnitPosition.GOALIE },
         { UnitType.WALL, UnitPosition.WALL },
         { UnitType.BARRACK, UnitPosition.WALL },

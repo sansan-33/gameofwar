@@ -179,6 +179,25 @@ MonoBehaviour:
   anim: {fileID: 0}
   audioSource: {fileID: 0}
   isAttacking: 0
+--- !u!114 &4890295079989421941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133252179051372525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d788be1e909f043e695f7b9e01c83628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  material:
+  - {fileID: 2100000, guid: db059245549a34909a79155153085714, type: 2}
+  - {fileID: 2100000, guid: bb60b84e59ca04e5e8dfb8b820ded156, type: 2}
+  doorIndex: 0
+  doorColor: 
 --- !u!1 &4713597574683672276
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +378,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5870392029335625418}
     m_Modifications:
+    - target: {fileID: 583886483697343636, guid: fa3ea7da533782847bff2be95946c678, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 583886483697343640, guid: fa3ea7da533782847bff2be95946c678, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 583886483697343642, guid: fa3ea7da533782847bff2be95946c678, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 583886483697343644, guid: fa3ea7da533782847bff2be95946c678, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6f541dac813718e4294b7348d013ff14, type: 2}
+    - target: {fileID: 583886483697343646, guid: fa3ea7da533782847bff2be95946c678, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1755276586894667345, guid: fa3ea7da533782847bff2be95946c678, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -410,6 +449,10 @@ PrefabInstance:
     - target: {fileID: 7101576874435252295, guid: fa3ea7da533782847bff2be95946c678, type: 3}
       propertyPath: m_Name
       value: Magic Tower Blue
+      objectReference: {fileID: 0}
+    - target: {fileID: 7101576874435252295, guid: fa3ea7da533782847bff2be95946c678, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa3ea7da533782847bff2be95946c678, type: 3}
