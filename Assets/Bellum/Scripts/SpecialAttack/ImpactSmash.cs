@@ -237,7 +237,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private IEnumerator AwakeUnit(GameObject unit, float sec,float speed ,float repeatAttackDelay,Material material)
     {
         yield return new WaitForSeconds(sec);
-        if(speed != 0)
+        if(speed != 0 && unit != null)
         {
             unit.GetComponent<UnitPowerUp>().SpecialEffect(speed, repeatAttackDelay);
             unit.GetComponentInChildren<SkinnedMeshRenderer>().material = material;

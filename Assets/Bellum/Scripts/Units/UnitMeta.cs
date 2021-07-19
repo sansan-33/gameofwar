@@ -380,7 +380,7 @@ public class UnitMeta
     {
         { UnitType.ARCHER, UnitSkill.NOTHING } ,
         { UnitType.MAGIC, UnitSkill.TORNADO} ,
-        { UnitType.CAVALRY, UnitSkill.DASH } ,
+        { UnitType.CAVALRY, UnitSkill.CHARGE } ,
         { UnitType.FOOTMAN, UnitSkill.NOTHING },
         { UnitType.TANK, UnitSkill.PROVOKE },
         { UnitType.SIEGE, UnitSkill.NOTHING }
