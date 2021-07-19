@@ -102,6 +102,9 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     [Server]
     private void HandleFireProjectile(Vector3 targetPosition)
     {
+        int arrowIndex = GetComponent<CardStats>().star - 1;
+        GameObject projectile  = arrowIndex > projectilePrefab.Length ? projectilePrefab[0] : projectilePrefab[arrowIndex];
+        
         for (var i = 0; i < numShots; i++)
         {
             Quaternion targetRotation = Quaternion.LookRotation(targetPosition - transform.position);
@@ -114,8 +117,8 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
             Vector3 spawnOffset = UnityEngine.Random.insideUnitSphere * spawnMoveRange * numShots;
             spawnOffset.y = 0;
             spawnOffset.z = 0;
-
-            GameObject projectileInstance = Instantiate(projectilePrefab[GetComponent<CardStats>().star - 1], projectileSpawnPoint.position + spawnOffset, projectileRotation);
+            
+            GameObject projectileInstance = Instantiate(projectile, projectileSpawnPoint.position + spawnOffset, projectileRotation);
             projectileInstance.GetComponent<UnitProjectile>().SetDamageToDeal(damageToDeal, damageToDealFactor);
             var localDistance = (targetPosition - transform.position).sqrMagnitude;
             if (localDistance > 400f)
