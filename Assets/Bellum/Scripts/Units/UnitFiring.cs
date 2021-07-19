@@ -102,7 +102,9 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
     [Server]
     private void HandleFireProjectile(Vector3 targetPosition)
     {
-        int arrowIndex = GetComponent<CardStats>().star > 0 ? GetComponent<CardStats>().star - 1 : 0;
+        int arrowIndex = 0;
+        if (TryGetComponent(out CardStats cardStats))
+            arrowIndex = cardStats.star > 0 ? cardStats.star - 1 : 0;
         GameObject projectile  = arrowIndex >= projectilePrefab.Length ? projectilePrefab[0] : projectilePrefab[arrowIndex];
         Debug.Log($"arrowIndex {arrowIndex} ,projectilePrefab.Length {projectilePrefab.Length} , projectile:  {projectile.name}  ");
         for (var i = 0; i < numShots; i++)
