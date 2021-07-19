@@ -95,7 +95,6 @@ public class CardDealer : MonoBehaviour
             foreach (Card_Deck number in Enum.GetValues(typeof(Card_Deck)))
             {
                 cardkey = UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][(UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), number.ToString())].ToString();
-                
                 cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze, cardstats[cardkey]));
             }
         }

@@ -204,7 +204,10 @@ public class Health : NetworkBehaviour, IDamageable
     {
         return currentHealth;
     }
-
+    public float getMaxHealth()
+    {
+        return maxHealth;
+    }
     public void Damage(float amount)
     {
         throw new NotImplementedException();
