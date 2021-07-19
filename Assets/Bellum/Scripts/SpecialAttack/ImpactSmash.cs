@@ -166,7 +166,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                     unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;  
                 }
-                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.Stun)
+                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.STUN)
                 {
                     StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                     unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);

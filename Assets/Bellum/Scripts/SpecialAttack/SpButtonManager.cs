@@ -60,7 +60,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.TORNADO, tornadoPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ZAP, zapPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.Stun, stunPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.STUN, stunPrefab);
     }
 
     private void Start()
@@ -349,9 +349,9 @@ public class SpButtonManager : MonoBehaviour
                 impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
                 impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FREEZE);
                 break;
-            case SpecialAttackType.Stun:
+            case SpecialAttackType.STUN:
                 impectSmash.GetComponent<ImpactSmash>().SetImpectType(stunPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.Stun);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.STUN);
                 break;
         }
 
