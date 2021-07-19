@@ -79,10 +79,14 @@ public class Tornado : NetworkBehaviour
     private bool CanPull(Collider other)
     {
         bool sameTeam = true;
+        if (other.TryGetComponent<Unit>(out Unit unit))
+        {
+            if (unit.unitType == UnitMeta.UnitType.KING || unit.unitType == UnitMeta.UnitType.QUEEN || unit.unitType == UnitMeta.UnitType.HERO) { return false; }
+        }
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
         {
-            if ( other.tag.Contains(enemyid.ToString()) && unitType == "Enemy") { Debug.Log("return false enemy"); return false; }  
-            if ( other.tag.Contains(playerid.ToString()) && unitType == "Player") { Debug.Log("return false player"); return false; }  //check to see if it belongs to the player, if it does, do nothing
+            if ( other.tag.Contains(enemyid.ToString()) && unitType == "Enemy") { return false; }  
+            if ( other.tag.Contains(playerid.ToString()) && unitType == "Player") {return false; }  //check to see if it belongs to the player, if it does, do nothing
         }
         else // Multi player seneriao
         {
