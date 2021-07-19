@@ -85,7 +85,7 @@ public class UserCardManager : MonoBehaviour
 
         foreach (var allCard in allCardDict)
         {
-            //Debug.Log($"Character Art Key : {allCard.Key}  ");
+            //Debug.Log($"Character Art Card : {allCard}  ");
             if (IS_TEAM_MEMBER_SELECTION)
             {
                 // load KING, QUEEN and HERO cards only
@@ -113,6 +113,7 @@ public class UserCardManager : MonoBehaviour
             }
             else
             {
+                userCard.GetComponent<UserCardButton>().lockImage.SetActive(true);
                 userCard.GetComponent<UserCardButton>().userLevelBar.SetActive(false);
                 card = allCard.Value;
             }
@@ -195,7 +196,7 @@ public class UserCardManager : MonoBehaviour
                 userCardDict.Add(jsonResult[i]["cardkey"] , new UserCard(jsonResult[i]["cardkey"], jsonResult[i]["level"], jsonResult[i]["exp"], jsonResult[i]["specail"], jsonResult[i]["rarity"], jsonResult[i]["leveluprequirement"], jsonResult[i]["star"], jsonResult[i]["unittype"]) );
         }
         UserCardLoaded?. Invoke(userid);
-        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        //Debug.Log($"GetUserCard() jsonResult {webReq.url } {jsonResult}");
         
     }
     // sends an API request - returns a JSON file
