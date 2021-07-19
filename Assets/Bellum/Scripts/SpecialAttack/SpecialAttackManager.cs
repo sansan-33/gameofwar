@@ -16,6 +16,7 @@ public class SpecialAttackManager : NetworkBehaviour
        { "TORNADO",SpecialAttackType.TORNADO },
        { "ZAP",SpecialAttackType.ZAP },
        { "LIGHTNING",SpecialAttackType.LIGHTNING },
+        { "STUN",SpecialAttackType.STUN },
     };
     void Start()
     {
