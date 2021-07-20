@@ -27,8 +27,8 @@ public class UnitPowerUp : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //spawnFxEffect();
-        //spawnSpecialEffect();
+        spawnFxEffect();
+        spawnSpecialEffect();
     }
     private void Update()
     {
