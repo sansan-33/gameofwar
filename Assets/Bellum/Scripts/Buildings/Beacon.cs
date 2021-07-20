@@ -4,19 +4,13 @@ using Mirror;
 
 public class Beacon : MonoBehaviour
 {
-    private UnitFactory localFactory;
-
     private int playerID = 0;
-    private Color teamColor;
-    private CardDealer cardDealer;
-    public Transform barrackTransform;
-
+    private RTSPlayer player;
     void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
         RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
-        teamColor = player.GetTeamColor();
         PowerUpTeam();
     }
     public void OnDestroy()
@@ -24,25 +18,17 @@ public class Beacon : MonoBehaviour
     }
     public void PowerUpTeam()
     {
-        foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
+        foreach (Unit unit in player.GetMyUnits())
         {
-            if (factroy.GetComponent<UnitFactory>().hasAuthority)
-            {
-                localFactory = factroy.GetComponent<UnitFactory>();
-                StartCoroutine(HandlePowerUpTeam(UnitMeta.UnitType.FOOTMAN, playerID, teamColor, StaticClass.playerRace));
-            }
+            if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { continue; }
+            //if ((transform.position - unit.transform.position).sqrMagnitude < healingRange * healingRange)
+            //{
+            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10);
+            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 100);
+            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 10);
+            //}
         }
     }
-    IEnumerator HandlePowerUpTeam(UnitMeta.UnitType unitType, int _playerid, Color _teamColor, UnitMeta.Race race)
-    {
-        cardDealer = GameObject.FindGameObjectWithTag("DealManager").GetComponent<CardDealer>();
-        CardStats cardStats;
-        while (true)
-        {
-            cardStats = cardDealer.userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][unitType].ToString()];
-            localFactory.CmdDropUnit(_playerid, barrackTransform.position, race, unitType, unitType.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, _teamColor, Quaternion.identity);
-            yield return new WaitForSeconds(1.5f);
-        }
-    }
+    
 
 }

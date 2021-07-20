@@ -14,6 +14,8 @@ public class TotalHealthDisplay : MonoBehaviour
     [SerializeField] private TMP_Text PlayerName = null;
     [SerializeField] private TMP_Text EnemyName = null;
     [SerializeField] private TMP_Text YourName = null;
+    [SerializeField] private GameObject buffPlayerAttack = null;
+    [SerializeField] private GameObject buffEnemyAttack = null;
 
     private float currentPlayerTotalHealth = 0;
     private float currentEnemyTotalHealth = 0;
@@ -25,6 +27,8 @@ public class TotalHealthDisplay : MonoBehaviour
 
     private void Start() { 
         GameOverHandler.ClientOnGameOver += SetTotalHealthToDie;
+        EffectStatus.ClientOnEffectUpdated += HandleEffectStatus;
+
         if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         YourName.text = "Player" + player.GetPlayerID();
@@ -43,6 +47,8 @@ public class TotalHealthDisplay : MonoBehaviour
     private void OnDestroy()
     {
         GameOverHandler.ClientOnGameOver -= SetTotalHealthToDie;
+        EffectStatus.ClientOnEffectUpdated -= HandleEffectStatus;
+
     }
     private void Update()
     {
@@ -111,5 +117,15 @@ public class TotalHealthDisplay : MonoBehaviour
             TotalEnemyHealthBar.fillAmount = 0f;
         }
     }
-
+    private void HandleEffectStatus(UnitMeta.EffectType effectType, int value)
+    {
+        switch (effectType)
+        {
+            case UnitMeta.EffectType.ATTACK:
+                buffPlayerAttack.SetActive(value != 0);
+                break;
+            default:
+                break;
+        }
+    }
 }
