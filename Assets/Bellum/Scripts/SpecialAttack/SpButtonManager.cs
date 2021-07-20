@@ -26,6 +26,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] GameObject tornadoPrefab;
     [SerializeField] GameObject EarthquakePrefab;
     [SerializeField] GameObject removeGaugePrefab;
+    [SerializeField] GameObject grabPrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
 
@@ -64,7 +65,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.STUN, EarthquakePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.REMOVEGAUGE, removeGaugePrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.GRAB, removeGaugePrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.GRAB, grabPrefab);
     }
 
     private void Start()
@@ -328,9 +329,10 @@ public class SpButtonManager : MonoBehaviour
         buttons.Add(button.GetComponent<Button>());
 
         //hard code sp type is Freeze
-        spType = SpecialAttackType.REMOVEGAUGE;
+        spType = SpecialAttackType.GRAB;
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
+        impectSmash.GetComponent<ImpactSmash>().SetUnit(unit);
         switch (spType)
         {
             case SpecialAttackType.FIREARROW:

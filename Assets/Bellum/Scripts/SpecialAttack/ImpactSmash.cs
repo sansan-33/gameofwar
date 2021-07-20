@@ -105,16 +105,18 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        
         if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
         StartCoroutine(GetComponentInParent<SpCostDisplay>().MinusSpCost(cost));
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE) { return; }
+        Destroy(dragCircle);
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) {return; }
         //Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
         Debug.Log($"attack type {SpecialAttackType}");
-        if(SpecialAttackType != SpecialAttackDict.SpecialAttackType.LIGHTNING)
+        if(SpecialAttackType != SpecialAttackDict.SpecialAttackType.LIGHTNING && SpecialAttackType != SpecialAttackDict.SpecialAttackType.GRAB)
         {
             specialAttackManager.SpawnPrefab(new Vector3(hit.point.x, 0, hit.point.z), SpecialAttackType.ToString());
         }
@@ -151,7 +153,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         }
         playerGround.resetLayer();
         DealDamage();
-        Destroy(dragCircle);  
+        
     }
     private void DealDamage()
     {
@@ -243,8 +245,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                         break;
                     case SpecialAttackDict.SpecialAttackType.GRAB:
-                        if((parentUnit.transform.position - unit.transform.position).sqrMagnitude < distance)
+                        //Debug.Log($"parentUnit.transform.position {parentUnit.transform.position} - unit pos {unit.transform.position} = {(parentUnit.transform.position - unit.transform.position).sqrMagnitude} < distance {distance}");
+                        if ((parentUnit.transform.position - unit.transform.position).sqrMagnitude < distance)
                         {
+                            //Debug.Log($"change target to {unit}");
                             distance = (parentUnit.transform.position - unit.transform.position).sqrMagnitude;
                             closestUnit = unit;
                         }
@@ -256,27 +260,39 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         {
             foreach (GameObject unit in topThreeHealthUnit)
             {
-                Debug.Log($"deal damge to {unit.name}");
+                //Debug.Log($"deal damge to {unit.name}");
                 unit.GetComponent<Health>().DealDamage(damage);
                 specialAttackManager.SpawnPrefab(new Vector3(unit.transform.position.x, 0, unit.transform.position.z), SpecialAttackType.ToString());
             }
         }
         if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.GRAB)
         {
-            float timer = 1;
-            while (closestUnit.transform.position.x != parentUnit.transform.position.x)
-            {
-                timer -= Time.deltaTime;
-                if (closestUnit != null)
-                {
-                    Mathf.SmoothDamp(closestUnit.transform.position.x, parentUnit.transform.position.x, ref progressUnitVelocity, 1);
-                    Mathf.SmoothDamp(closestUnit.transform.position.z, parentUnit.transform.position.z, ref progressUnitVelocity, 1);
-                }
-                if(timer <= 0) { break; }
-            }
-          
+            //StartCoroutine(MoveUnitZ(closestUnit.transform));
+            //StartCoroutine(MoveUnit(closestUnit.transform));
+            specialAttackManager.SpawnGrabPrefab(closestUnit.transform.position, parentUnit.transform.position, SpecialAttackType.ToString(), closestUnit.gameObject);
         }
 
+    }
+    private IEnumerator MoveUnit(Transform closestUnit)
+    {
+        
+        float timer = 5;
+        while (closestUnit.position.x != parentUnit.transform.position.x || closestUnit.position.z != parentUnit.transform.position.z)
+        {
+            //Debug.Log("move unit");
+            timer -= Time.deltaTime;
+            if (closestUnit != null)
+            {
+               // Debug.Log($" from {closestUnit.position} x move to {parentUnit.transform.position}");
+                float targetX = parentUnit.transform.position.x;
+                Vector3 zero = Vector3.zero;
+                closestUnit.position = Vector3.SmoothDamp(closestUnit.position, parentUnit.transform.position, ref zero, 0.3f);
+                //closestUnit.position = new Vector3(x, closestUnit.transform.position.y, closestUnit.transform.position.z);
+
+            }
+            yield return new WaitForSeconds(0.01f);
+            if (timer <= 0) { Debug.Log("Time break"); break; }
+        }
     }
     private void ShakeCam()
     {
