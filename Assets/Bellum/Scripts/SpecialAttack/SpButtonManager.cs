@@ -64,6 +64,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.STUN, EarthquakePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.REMOVEGAUGE, removeGaugePrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.GRAB, removeGaugePrefab);
     }
 
     private void Start()
@@ -363,6 +364,10 @@ public class SpButtonManager : MonoBehaviour
             case SpecialAttackType.REMOVEGAUGE:
                 impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
                 impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.REMOVEGAUGE);
+                break;
+            case SpecialAttackType.GRAB:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.GRAB);
                 break;
         }
 

@@ -24,7 +24,9 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private int key = 0;
     private GreatWallController wallController;
     private CinemachineManager cmManager;
+    private Unit parentUnit;
     private int cost = 3;
+    private float progressUnitVelocity;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +41,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 break;
             }
         }
+    }
+    public void SetUnit(Unit unit)
+    {
+        parentUnit = unit;
     }
     public void SetImpectType(GameObject prefab)
     {
@@ -77,7 +83,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
+        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; } 
         playerGround.SetALlLayer();
         dragCircle = Instantiate(dragcCirclePrefab);
         if(SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType,out float scale))
@@ -166,7 +172,12 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         //Debug.Log($"2 {armies.Count}");
         float range = 11;
         float scale = 0.5f;
-        while(dragCircle.transform.localScale.x > scale)
+
+        //Grab
+        float distance = 10000;
+        GameObject closestUnit  = null;
+
+        while (dragCircle.transform.localScale.x > scale)
         {
             range *= 2;
             scale += 0.5f;
@@ -201,16 +212,16 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 {
                     unit.GetComponent<Health>().DealDamage(damage);
                 }
-                   
-                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.ZAP)
-                    {
+
+                switch (SpecialAttackType)
+                {
+                    case SpecialAttackDict.SpecialAttackType.ZAP:
                         StartCoroutine(AwakeUnit(unit, 1, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         //unit.GetComponent<AstarAI>().IS_STUNNED = true;
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, unit.GetComponent<CardStats>().repeatAttackDelay);
+                        break;
+                    case SpecialAttackDict.SpecialAttackType.FREEZE:
 
-                    }
-                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.FREEZE)
-                    {
                         key++;
                         if (UnitSpeedkeys.ContainsKey(unit.GetComponent<Health>().freezeKey))
                         {
@@ -226,13 +237,19 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                         StartCoroutine(AwakeUnit(unit, 5000, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                         unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
-                    }
-                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.STUN)
-                    {
+                        break;
+                    case SpecialAttackDict.SpecialAttackType.STUN:
                         StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
-                       // unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
-                    }                
+                        break;
+                    case SpecialAttackDict.SpecialAttackType.GRAB:
+                        if((parentUnit.transform.position - unit.transform.position).sqrMagnitude < distance)
+                        {
+                            distance = (parentUnit.transform.position - unit.transform.position).sqrMagnitude;
+                            closestUnit = unit;
+                        }
+                        break;
+                }             
             }
         }
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.LIGHTNING)
@@ -244,6 +261,22 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 specialAttackManager.SpawnPrefab(new Vector3(unit.transform.position.x, 0, unit.transform.position.z), SpecialAttackType.ToString());
             }
         }
+        if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.GRAB)
+        {
+            float timer = 1;
+            while (closestUnit.transform.position.x != parentUnit.transform.position.x)
+            {
+                timer -= Time.deltaTime;
+                if (closestUnit != null)
+                {
+                    Mathf.SmoothDamp(closestUnit.transform.position.x, parentUnit.transform.position.x, ref progressUnitVelocity, 1);
+                    Mathf.SmoothDamp(closestUnit.transform.position.z, parentUnit.transform.position.z, ref progressUnitVelocity, 1);
+                }
+                if(timer <= 0) { break; }
+            }
+          
+        }
+
     }
     private void ShakeCam()
     {

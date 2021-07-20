@@ -18,6 +18,7 @@ public class SpecialAttackManager : NetworkBehaviour
        { "LIGHTNING",SpecialAttackType.LIGHTNING },
         { "STUN",SpecialAttackType.STUN },
         { "REMOVEGAUGE",SpecialAttackType.REMOVEGAUGE },
+        { "GRAB",SpecialAttackType.GRAB },
     };
     void Start()
     {
