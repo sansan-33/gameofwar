@@ -372,7 +372,7 @@ public class SpButtonManager : MonoBehaviour
                 impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.GRAB);
                 break;
         }
-
+        button.GetComponent<SpCostDisplay>().SetSpPrefab(impectSmash);
         // Instantiate specialAttack
         ISpecialAttack iSpecialAttack = impectSmash.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
         impectSmash.GetComponent<Button>().onClick.AddListener(iSpecialAttack.OnPointerDown);

@@ -113,24 +113,24 @@ public class SpecialAttackManager : NetworkBehaviour
                 impect = Instantiate(impectPrefab);
                 impect.transform.position = backPos;
             }
-            Debug.Log("grab prefab start");
+            //Debug.Log("grab prefab start");
             float timer = 1;
             while (impect.transform.position != unit.transform.position)
             {
                 timer -= Time.deltaTime;
-                Debug.Log($"grab prefab start {impect.transform.position}");
+                //Debug.Log($"grab prefab start {impect.transform.position}");
                 impect.transform.position = Vector3.SmoothDamp(impect.transform.position, unit.transform.position, ref currentVelocity, 0.5f);
                 yield return new WaitForSeconds(0.01f);
                 if (timer <= 0) { Debug.Log("Time break"); break; }
             }
             timer = 1;
-            Debug.Log("unit back");
+            //Debug.Log("unit back");
             StartCoroutine(moveUnit(unit, backPos));
-            Debug.Log("grab prefab");
+            //Debug.Log("grab prefab");
             while (impect.transform.position != backPos)
             {
                 timer -= Time.deltaTime;
-                Debug.Log($"grab prefab back {impect.transform.position}");
+                ///Debug.Log($"grab prefab back {impect.transform.position}");
                 impect.transform.position = Vector3.SmoothDamp(impect.transform.position, backPos, ref currentVelocity, 0.5f);
                 yield return new WaitForSeconds(0.01f);
                 if (timer <= 0) { Debug.Log("Time break"); break; }
@@ -146,7 +146,7 @@ public class SpecialAttackManager : NetworkBehaviour
         Vector3 currentVelocity = Vector3.zero;
         while (unit.transform.position != pos)
         {
-            Debug.Log($"unit prefab back {unit.transform.position}");
+            //Debug.Log($"unit prefab back {unit.transform.position}");
             unit.transform.position = Vector3.SmoothDamp(unit.transform.position, pos, ref currentVelocity, 0.5f);
             yield return new WaitForSeconds(0.01f);
             if (timer <= 0) { Debug.Log("Time break"); break; }

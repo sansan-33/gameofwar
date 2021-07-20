@@ -7,9 +7,14 @@ using SimpleJSON;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameOverDisplay : MonoBehaviour
 {
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private GameObject loseCanvas;
+    [SerializeField] private GameObject OpenCanvasButton;
+
     [SerializeField] public Canvas gameOverDisplayParent;
     [SerializeField] private TMP_Text winnerNameText = null;
     [SerializeField] private TMP_Text stat1Text = null;
@@ -22,13 +27,16 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] private TMP_Text totalText = null;
 
     [SerializeField] private Canvas cardDisplay = null;
+    [SerializeField] private Canvas spButtonDisplay = null;
     [SerializeField] private TMP_Text crownBlueText = null;
     [SerializeField] private TMP_Text crownRedText = null;
     [SerializeField] public GameStartDisplay gameStartDisplay;
     public TacticalBehavior tacticalBehavior;
-
+    private RTSPlayer rTSPlayer;
     APIManager apiManager;
     private bool IS_COMPLETED = false;
+    private bool openedCanvas = false;
+    private int winnerID;
 
     private void FixedUpdate()
     {
@@ -45,6 +53,7 @@ public class GameOverDisplay : MonoBehaviour
     }
     private void Start()
     {
+        rTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         apiManager = new APIManager();
         GameOverHandler.ClientOnGameOver += ClientHandleGameOver;
     }
@@ -73,6 +82,7 @@ public class GameOverDisplay : MonoBehaviour
         double timer = gameStartDisplay.GetGameTimerValue();
         //Debug.Log($" ClientHandleGameOver winner: {winner} , Timer: {Timer}");
         int _playerid = (winner.ToLower() == "blue" ? 0 : 1);
+        winnerID = _playerid;
         GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + _playerid);
         winnerNameText.text = $"{winner} Team";
         gameOverDisplayParent.enabled = true;
@@ -88,6 +98,7 @@ public class GameOverDisplay : MonoBehaviour
         int crownCount = winner.ToLower() == "blue" ? Int32.Parse(crownBlueText.text) : Int32.Parse(crownRedText.text);
 
         cardDisplay.enabled = false;
+        spButtonDisplay.enabled = false;
         stat1Text.text = Convert.ToInt32(timer).ToString();
         List<Unit> troops = tacticalBehavior.GetAllTroops(_playerid);
         int totalKill = 0;
@@ -114,6 +125,47 @@ public class GameOverDisplay : MonoBehaviour
             stat6Text.text = StaticClass.HighestDamage.ToString() + " * 30 ";
             StartCoroutine(updateUserRankingInfo(Convert.ToInt32(timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
             IS_COMPLETED = true;
+        }
+        openedCanvas = true;
+        OpenCanvasButton.SetActive(true);
+        if (_playerid == rTSPlayer.GetPlayerID())
+        {
+            winCanvas.SetActive(true);
+        }
+        else
+        {
+            loseCanvas.SetActive(true);
+        }
+    }
+    public void HandleResultCanvas()
+    {
+        Debug.Log($"HandleResultCanvas winner is {winnerID}");
+        if (winnerID == rTSPlayer.GetPlayerID())
+        {
+            if(openedCanvas == true)
+            {
+                openedCanvas = false;
+                winCanvas.SetActive(false);
+            }
+            else
+            {
+                openedCanvas = true;
+                winCanvas.SetActive(true);
+            }
+           
+        }
+        else
+        {
+            if (openedCanvas == true)
+            {
+                openedCanvas = false;
+                loseCanvas.SetActive(false);
+            }
+            else
+            {
+                openedCanvas = true;
+                loseCanvas.SetActive(true);
+            }
         }
     }
     private void ClientHandleGameOverdraw()
