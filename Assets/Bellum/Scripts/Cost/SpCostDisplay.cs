@@ -184,6 +184,10 @@ public class SpCostDisplay : MonoBehaviour
     {
         this.unit = unit;
     }
+    public Unit GetUnit()
+    {
+        return unit;
+    }
     public void SetSpPrefab(GameObject SpPrefab)
     {
         this.SpPrefab = SpPrefab;
