@@ -25,6 +25,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] GameObject fireArrowPrefab;
     [SerializeField] GameObject tornadoPrefab;
     [SerializeField] GameObject EarthquakePrefab;
+    [SerializeField] GameObject removeGaugePrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
 
@@ -62,6 +63,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.ZAP, zapPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.FREEZE, freezePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.STUN, EarthquakePrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.REMOVEGAUGE, removeGaugePrefab);
     }
 
     private void Start()
@@ -325,7 +327,7 @@ public class SpButtonManager : MonoBehaviour
         buttons.Add(button.GetComponent<Button>());
 
         //hard code sp type is Freeze
-        //spType = SpecialAttackType.ZAP;
+        spType = SpecialAttackType.REMOVEGAUGE;
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
         switch (spType)
@@ -358,12 +360,17 @@ public class SpButtonManager : MonoBehaviour
                 impectSmash.GetComponent<ImpactSmash>().SetImpectType(zapPrefab);
                 impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.LIGHTNING);
                 break;
+            case SpecialAttackType.REMOVEGAUGE:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.REMOVEGAUGE);
+                break;
         }
 
         // Instantiate specialAttack
-
-
-
+        ISpecialAttack iSpecialAttack = impectSmash.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
+        impectSmash.GetComponent<Button>().onClick.AddListener(iSpecialAttack.OnPointerDown);
+        Debug.Log($"button add onclick");
+      
         // Debug.Log($"SpButtonManager InstantiateSpButton() specialAttackObj:{specialAttackObj}, iSpecialAttack:{iSpecialAttack}");
 
 

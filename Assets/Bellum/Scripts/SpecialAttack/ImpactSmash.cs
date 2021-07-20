@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -13,6 +14,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     [SerializeField] Material freezeMaterial;
     [SerializeField] int damage = 10;
     [SerializeField] GameObject dragcCirclePrefab;
+    [SerializeField] private bool needMinusSP = false;
     private GameObject dragCircle;
     private RTSPlayer RTSplayer;
     private GameObject impectType;
@@ -22,7 +24,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private int key = 0;
     private GreatWallController wallController;
     private CinemachineManager cmManager;
-    private float i= 3;
+    private int cost = 3;
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void SetSpecialAttackType(SpecialAttackDict.SpecialAttackType type)
     {
         SpecialAttackType = type;
+        if (SpecialAttackDict.SpecialAttackCost.TryGetValue(SpecialAttackType, out int cost))
+        {
+            this.cost = cost;
+        }
     }
     public SpecialAttackDict.SpecialAttackType GetSpecialAttackType()
     {
@@ -52,14 +58,26 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnPointerDown()
     {
-   
+      if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE)
+        {
+            List<Button> buttons = SpButtonManager.buttons;
+            foreach(Button button in buttons)
+            {
+                if(button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("Player" + RTSplayer.GetEnemyID()) || button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("King" + RTSplayer.GetEnemyID()))
+                {
+                    StartCoroutine(button.GetComponent<SpCostDisplay>().MinusSpCost(10));
+                    specialAttackManager.SpawnPrefab(button.GetComponent<SpCostDisplay>().GetUnit().transform.position, SpecialAttackType.ToString());
+                }
+            }
+        }
     }
     public int GetSpCost()
     {
-        return 0;
+        return 1;
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
         playerGround.SetALlLayer();
         dragCircle = Instantiate(dragcCirclePrefab);
         if(SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType,out float scale))
@@ -70,6 +88,8 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
 
     public void OnDrag(PointerEventData eventData)
     {
+        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
+        if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE){ return; }
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
@@ -79,6 +99,9 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnEndDrag(PointerEventData eventData)
     {
+        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
+        StartCoroutine(GetComponentInParent<SpCostDisplay>().MinusSpCost(cost));
+        if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE) { return; }
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
@@ -122,8 +145,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         }
         playerGround.resetLayer();
         DealDamage();
-        Destroy(dragCircle);
-        
+        Destroy(dragCircle);  
     }
     private void DealDamage()
     {

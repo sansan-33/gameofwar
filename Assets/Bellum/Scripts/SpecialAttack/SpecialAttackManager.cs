@@ -17,6 +17,7 @@ public class SpecialAttackManager : NetworkBehaviour
        { "ZAP",SpecialAttackType.ZAP },
        { "LIGHTNING",SpecialAttackType.LIGHTNING },
         { "STUN",SpecialAttackType.STUN },
+        { "REMOVEGAUGE",SpecialAttackType.REMOVEGAUGE },
     };
     void Start()
     {
