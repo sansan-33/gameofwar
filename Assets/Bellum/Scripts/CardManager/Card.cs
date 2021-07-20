@@ -242,8 +242,8 @@ public class Card : MonoBehaviour
                 cardTimerImage.gameObject.SetActive(false);
                 effectAmount = 0.1f;
             }
-            if(cardSpawnButton.GetComponentInChildren<Image>() == null )
-                Debug.Log($"cardSpawnButton.GetComponentInChildren<Image>() is null {cardSpawnButton.name} , {cardFace.numbers}");
+            if(cardSpawnButton == null || cardSpawnButton.GetComponentInChildren<Image>() == null )
+                Debug.Log($"cardSpawnButton.GetComponentInChildren<Image>() is null {cardFace.numbers}");
             cardSpawnButton.GetComponentInChildren<Image>().material.SetFloat("_Greyscale", effectAmount);
         }
         else if(cardTimerImage != null)
