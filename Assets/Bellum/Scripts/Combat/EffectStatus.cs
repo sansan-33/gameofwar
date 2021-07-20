@@ -5,7 +5,7 @@ using UnityEngine;
 public class EffectStatus : NetworkBehaviour
 {
 
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleEffectUpdated))]
     public int attack;
     [SyncVar]
     public int defense;
@@ -18,8 +18,14 @@ public class EffectStatus : NetworkBehaviour
     [SyncVar]
     public bool isStun;
 
-    public static event Action<UnitMeta.EffectType,int> ClientOnEffectUpdated;
+    int playerID = 0;
+    public static event Action<int, UnitMeta.EffectType,int> ClientOnEffectUpdated;
 
+    void Start()
+    {
+        if (NetworkClient.connection.identity == null) { return; }
+        playerID = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
+    }
 
     //==================================== Set Tag For DIE
     public void SetEffect(string tag, int value)
@@ -70,8 +76,10 @@ public class EffectStatus : NetworkBehaviour
             default:
                 break;
         }
-        if (tag.ToLower().Contains("king"))
-            ClientOnEffectUpdated?.Invoke(myEffect , value);
     }
-
+    private void HandleEffectUpdated(int oldValue, int newValue)
+    {
+        if (tag.ToLower().Contains("king"))
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.ATTACK , newValue);
+    }
 }

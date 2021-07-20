@@ -9,8 +9,10 @@ public class Beacon : MonoBehaviour
     void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
-        RTSPlayer player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         playerID = player.GetPlayerID();
+        string color = playerID == 0 ? "blue" : "red";
+        GetComponent<UnitBody>().SetTeamColor(color);
         PowerUpTeam();
     }
     public void OnDestroy()
@@ -21,12 +23,9 @@ public class Beacon : MonoBehaviour
         foreach (Unit unit in player.GetMyUnits())
         {
             if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { continue; }
-            //if ((transform.position - unit.transform.position).sqrMagnitude < healingRange * healingRange)
-            //{
             unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10);
             unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 100);
             unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 10);
-            //}
         }
     }
     

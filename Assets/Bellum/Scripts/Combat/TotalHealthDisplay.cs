@@ -24,11 +24,12 @@ public class TotalHealthDisplay : MonoBehaviour
     RTSPlayer player;
     GameObject[] enemies;
     GameObject[] armies;
+    Dictionary<string, GameObject> buffEffects = new Dictionary<string, GameObject>();
 
     private void Start() { 
         GameOverHandler.ClientOnGameOver += SetTotalHealthToDie;
         EffectStatus.ClientOnEffectUpdated += HandleEffectStatus;
-
+        InitBuffEffects();
         if (NetworkClient.connection.identity == null) { return; }
         player = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         YourName.text = "Player" + player.GetPlayerID();
@@ -44,11 +45,15 @@ public class TotalHealthDisplay : MonoBehaviour
         }
         //Debug.Log($"TotalHealthDisplay.Start() after if TotalPlayerHealthBar.type:{TotalPlayerHealthBar.type}, TotalEnemyHealthBar.type:{TotalEnemyHealthBar.type}");
     }
+    private void InitBuffEffects()
+    {
+        buffEffects.Add(0 + "-" + UnitMeta.EffectType.ATTACK.ToString(), buffPlayerAttack);
+        buffEffects.Add(1 + "-" + UnitMeta.EffectType.ATTACK.ToString(), buffEnemyAttack);
+    }
     private void OnDestroy()
     {
         GameOverHandler.ClientOnGameOver -= SetTotalHealthToDie;
         EffectStatus.ClientOnEffectUpdated -= HandleEffectStatus;
-
     }
     private void Update()
     {
@@ -117,12 +122,14 @@ public class TotalHealthDisplay : MonoBehaviour
             TotalEnemyHealthBar.fillAmount = 0f;
         }
     }
-    private void HandleEffectStatus(UnitMeta.EffectType effectType, int value)
+    private void HandleEffectStatus(int playerid, UnitMeta.EffectType effectType, int value)
     {
+
+        Debug.Log($"HandleEffectStatus playerid {playerid} , {effectType} / {value} ");
         switch (effectType)
         {
             case UnitMeta.EffectType.ATTACK:
-                buffPlayerAttack.SetActive(value != 0);
+                buffEffects[playerid + "-" +  effectType.ToString()].SetActive(value != 0);
                 break;
             default:
                 break;

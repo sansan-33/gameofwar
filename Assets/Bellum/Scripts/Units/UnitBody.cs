@@ -8,20 +8,20 @@ public class UnitBody : NetworkBehaviour, IBody
 {
 
     [SerializeField] private List<Material> material;
-    private SkinnedMeshRenderer unitRenderer;
-    private MeshRenderer meshRenderer;
+    private SkinnedMeshRenderer[] unitRenderer;
+    private MeshRenderer[] meshRenderer;
     [SerializeField] public int doorIndex;
     [SerializeField] public string doorColor;
 
     public override void OnStartServer()
     {
-        unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        unitRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
+        meshRenderer = GetComponentsInChildren<MeshRenderer>();
     }
     public override void OnStartClient()
     {
-        unitRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
-        meshRenderer = GetComponentInChildren<MeshRenderer>();
+        unitRenderer = GetComponentsInChildren<SkinnedMeshRenderer>();
+        meshRenderer = GetComponentsInChildren<MeshRenderer>();
 
     }
 
@@ -50,10 +50,18 @@ public class UnitBody : NetworkBehaviour, IBody
     }
     private void HandleRenderMaterial(string color)
     {
-        if(unitRenderer!=null)
-            unitRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+        if (unitRenderer != null && unitRenderer.Length > 0)
+            foreach (SkinnedMeshRenderer renderer in unitRenderer)
+            {
+                renderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+            }
         else
-            meshRenderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+        {
+            foreach (MeshRenderer renderer in meshRenderer)
+            {
+                renderer.sharedMaterial = material[color == "blue" ? 0 : 1];
+            }
+        }
 
         GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
         doorColor = color;
@@ -87,7 +95,7 @@ public class UnitBody : NetworkBehaviour, IBody
         int playerid = NetworkClient.connection.identity.GetComponent<RTSPlayer>().GetPlayerID();
         int index = playerid == 0 ? star - 1 : 3 + star - 1;
         //Debug.Log(index);
-        unitRenderer.sharedMaterial = material[playerid ==0 ? star - 2 : 3 + star - 2 ];
+        unitRenderer[0].sharedMaterial = material[playerid ==0 ? star - 2 : 3 + star - 2 ];
     }
     public void SetRenderMaterial(int playerid, int star)
     {
@@ -134,6 +142,6 @@ public class UnitBody : NetworkBehaviour, IBody
     }
     public Renderer GetUnitRenderer()
     {
-        return unitRenderer;
+        return unitRenderer[0];
     }
 }
