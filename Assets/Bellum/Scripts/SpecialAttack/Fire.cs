@@ -9,6 +9,7 @@ public class Fire : MonoBehaviour
     [SerializeField] GameObject firePrefabChild2;
     [SerializeField] private float burnTime = 10;
     [SerializeField] private int maxSpawn = 3;
+    [SerializeField] private int damage = 500;
     bool bigFire = true;
     private Transform parent;
     // Start is called before the first frame update
@@ -36,6 +37,17 @@ public class Fire : MonoBehaviour
         {
             maxSpawn--;
                yield return new WaitForSeconds(5);
+            float vector = bigFire ? 7 : 7 / 4;
+            Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(vector, vector, vector));
+            Debug.Log($"collideed {colliders.Length}");
+            foreach (Collider unit in colliders)
+            {
+                if (unit.TryGetComponent<Health>(out Health health))
+                {
+                    Debug.Log($"deal damage to {unit.name}");
+                    health.DealDamage(damage);
+                }
+            }
             if (bigFire == false)
             {
                 Vector3 pos = transform.position;
@@ -79,8 +91,15 @@ public class Fire : MonoBehaviour
 
         }
         
-        // Update is called once per frame
         
+        // Update is called once per frame
+
     }
-    
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(transform.position, new Vector3(7, 7, 7));
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, new Vector3(7 / 4, 7 / 4, 7 / 4));
+    }
 }
