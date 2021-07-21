@@ -30,12 +30,18 @@ public class Beacon : MonoBehaviour
     }
     public void PowerUpUnit(Unit unit)
     {
-        if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { return; }
+        StartCoroutine(PowerUpUnitDelay(unit));
+    }
+    IEnumerator PowerUpUnitDelay(Unit unit)
+    {
+        yield return new WaitForSeconds(1f);
+        Debug.Log($"Beacon handle Unit spawned {unit.name} {unit.tag}");
+        if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { yield break; }
         unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10f);
         unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 2f);
         unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.SPEED.ToString(), 2f);
         unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 1.1f);
-        
+
     }
 
 }

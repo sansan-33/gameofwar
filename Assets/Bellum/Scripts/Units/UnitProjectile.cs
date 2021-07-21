@@ -9,7 +9,7 @@ using UnityEngine;
 public class UnitProjectile : NetworkBehaviour
 {
     [SerializeField] private Rigidbody rb = null;
-    [SerializeField] private float damageToDeals = 0;
+    [SerializeField] private float damageToDeal = 0;
     [SerializeField] private float damageToDealOriginal = 0;
     [SerializeField] private float destroyAfterSeconds = 20f;
     [SerializeField] private float launchForce = 10f;
@@ -117,17 +117,18 @@ public class UnitProjectile : NetworkBehaviour
         if(!IS_CHAIN_ATTACK)
         Invoke(nameof(DestroySelf), destroyAfterSeconds);
     }
-    public void SetDamageToDeal(int damageToDeal , float newDamageToDealFactor)
+    public void SetDamageToDeal(int newDamageToDeal , float damageToDealFactor)
     {
         //Debug.Log($"damageToDealOriginal {damageToDealOriginal}newDamageToDealFactor{newDamageToDealFactor}");
-        this.damageToDeals = damageToDeal == 0 ? this.damageToDeals : damageToDeal;
-        damageToDealOriginal = (int) (damageToDealOriginal * newDamageToDealFactor);
+        damageToDeal = newDamageToDeal == 0 ? damageToDeal : newDamageToDeal;
+        damageToDeal = (int)(damageToDeal * damageToDealFactor);
+        damageToDealOriginal = damageToDeal;
     }
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
         bool isFlipped = false;
         bTouchingGround = true;
-        damageToDeals = damageToDealOriginal;
+        //damageToDeal = damageToDealOriginal;
         if (other == null || other.name == "Walkable" || other.name == "Door" || other.name.Contains("Trap") ) { return;  }
         if (other.tag.Contains("Building")) {
             //Debug.Log($" Hitted object {other.tag}  {other.name}, Attacker arrow type is {unitType} ");
@@ -168,13 +169,13 @@ public class UnitProjectile : NetworkBehaviour
             //opponentIdentity = (playerid == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals}"); 
             //Debug.Log($"before strengthWeakness{damageToDeals}");
-            damageToDeals = StrengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeals);
+            damageToDeal = StrengthWeakness.calculateDamage(UnitMeta.UnitType.ARCHER, other.GetComponent<Unit>().unitType, damageToDeal);
            
             //cmdDamageText(other.transform.position, damageToDeals, damageToDealOriginal, opponentIdentity, isFlipped);
             specialEffect(other.transform.GetComponent<Unit>().GetTargeter().GetAimAtPoint().position);
             elementalEffect(element, other.transform.GetComponent<Unit>());
             HITTED = true;
-            dealDamage(other.gameObject, damageToDeals,unitType);
+            dealDamage(other.gameObject, damageToDeal,unitType);
             //Debug.Log($" Hit Helath Projectile OnTriggerEnter ... {this} , {other.GetComponent<Unit>().unitType} , {damageToDeals} / {damageToDealOriginal}");
             if(!IS_CHAIN_ATTACK)
                 arrowStick(other.transform);
@@ -248,12 +249,7 @@ public class UnitProjectile : NetworkBehaviour
      
     private void specialEffect(Vector3 position )
     {
-        //if (isLocalPlayer)
-        //{
-            //            RpcSpecialEffect(position);
-            //      else
-            CmdSpecialEffect(position);
-        //}
+        CmdSpecialEffect(position);
     }
     [ClientRpc]
     private void RpcSpecialEffect(Vector3 position)
