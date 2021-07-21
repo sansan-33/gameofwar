@@ -125,7 +125,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) {return; }
-        //Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
+        Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
         Debug.Log($"attack type {SpecialAttackType}");
         if(SpecialAttackType != SpecialAttackDict.SpecialAttackType.LIGHTNING && SpecialAttackType != SpecialAttackDict.SpecialAttackType.GRAB)
         {
