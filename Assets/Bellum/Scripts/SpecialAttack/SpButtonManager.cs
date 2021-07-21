@@ -28,6 +28,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] GameObject removeGaugePrefab;
     [SerializeField] GameObject grabPrefab;
     [SerializeField] GameObject cardRankUpPrefab;
+    [SerializeField] GameObject firePrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
 
@@ -68,6 +69,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.REMOVEGAUGE, removeGaugePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.GRAB, grabPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.CARDRANKUP, cardRankUpPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.FIRE, firePrefab);
     }
 
     private void Start()
@@ -331,7 +333,7 @@ public class SpButtonManager : MonoBehaviour
         buttons.Add(button.GetComponent<Button>());
 
         //hard code sp type is Freeze
-        spType = SpecialAttackType.CARDRANKUP;
+        spType = SpecialAttackType.FIRE;
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
         impectSmash.GetComponent<ImpactSmash>().SetUnit(unit);
@@ -376,6 +378,10 @@ public class SpButtonManager : MonoBehaviour
             case SpecialAttackType.CARDRANKUP:
                 impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
                 impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.CARDRANKUP);
+                break;
+            case SpecialAttackType.FIRE:
+                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
+                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FIRE);
                 break;
         }
         button.GetComponent<SpCostDisplay>().SetSpPrefab(impectSmash);
