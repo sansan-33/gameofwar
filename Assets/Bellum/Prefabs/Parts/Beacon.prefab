@@ -65,6 +65,43 @@ MonoBehaviour:
   uniqueID: 5233058888566129101
   updateError: 1
   checkTime: 0.2
+--- !u!114 &1218068993787302190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133252179051372525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efee954c69f0d421086729bb8df1137f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  uniqueID: 8264489038481130857
+  points:
+  - {x: -3.7, y: 0, z: -0.3443735}
+  - {x: -3.8855193, y: 0, z: 0.8295682}
+  - {x: -3.6607316, y: 0, z: 2.3423028}
+  - {x: 3.5, y: 0, z: -2.3173747}
+  - {x: 3.3770924, y: 0, z: 2.66808}
+  - {x: 3.5, y: 7.137501, z: -0.5843384}
+  - {x: -3.5160668, y: 0, z: -2.308462}
+  convex: 1
+  minBoundsHeight: 1
+  penaltyDelta: 0
+  modifyWalkability: 0
+  setWalkability: 0
+  applyOnStart: 1
+  applyOnScan: 1
+  updatePhysics: 0
+  resetPenaltyOnPhysics: 0
+  updateErosion: 1
+  modifyTag: 1
+  setTag: 3
+  legacyMode: 0
+  serializedVersion: 1
+  legacyUseWorldSpace: 0
 --- !u!114 &1241105151033404262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,7 +234,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   audioSource: {fileID: 0}
   isAttacking: 0
---- !u!114 &1218068993787302190
+--- !u!114 &8849343054601534573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -206,34 +243,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 8133252179051372525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efee954c69f0d421086729bb8df1137f, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b130f358dcb26548b2ff0923d496dc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 1
-  uniqueID: 8264489038481130857
-  points:
-  - {x: -3.7, y: 0, z: -0.3443735}
-  - {x: -3.8855193, y: 0, z: 0.8295682}
-  - {x: -3.6607316, y: 0, z: 2.3423028}
-  - {x: 3.5, y: 0, z: -2.3173747}
-  - {x: 3.3770924, y: 0, z: 2.66808}
-  - {x: 3.5, y: 7.137501, z: -0.5843384}
-  - {x: -3.5160668, y: 0, z: -2.308462}
-  convex: 1
-  minBoundsHeight: 1
-  penaltyDelta: 0
-  modifyWalkability: 0
-  setWalkability: 0
-  applyOnStart: 1
-  applyOnScan: 1
-  updatePhysics: 0
-  resetPenaltyOnPhysics: 0
-  updateErosion: 1
-  modifyTag: 1
-  setTag: 3
-  legacyMode: 0
-  serializedVersion: 1
-  legacyUseWorldSpace: 0
+  team: 0
+  brightness: 1
+  shapeType: 0
+  absoluteOffset: 0
+  offset: {x: 0, y: 0}
+  boxSize: {x: 5, y: 5}
+  circleRadius: 5
+  innerRadius: 1
+  angle: 180
+  texture: {fileID: 0}
+  rotateToForward: 0
+  mesh: {fileID: 0}
+  lineOfSightMask:
+    serializedVersion: 2
+    m_Bits: 0
+  lineOfSightRaycastCount: 100
+  lineOfSightPenetration: 0
+  lineOfSightRaycastAngle: 360
+  lineOfSightRaycastOffset: 0
+  lineOfSightSeeOutsideRange: 0
+  multithreading: 0
+  cellBased: 0
+  snapToPixelCenter: 0
 --- !u!1 &4713597574683672276
 GameObject:
   m_ObjectHideFlags: 0

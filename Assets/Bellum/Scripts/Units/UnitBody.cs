@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FoW;
 using Mirror;
 using Pathfinding;
 using UnityEngine;
@@ -62,6 +63,8 @@ public class UnitBody : NetworkBehaviour, IBody
                 renderer.sharedMaterial = material[color == "blue" ? 0 : 1];
             }
         }
+        GetComponent<FogOfWarUnit>().team = color == "blue" ? 0 : 1;
+        GetComponent<FogOfWarUnit>().circleRadius = 10;
 
         GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
         doorColor = color;

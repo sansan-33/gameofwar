@@ -57,6 +57,7 @@ public class EffectStatus : NetworkBehaviour
         {
             case UnitMeta.EffectType.ATTACK:
                 attack = attack + value;
+                gameObject.GetComponent<IAttack>().ScaleDamageDeal(0, 0, attack); // 0 means current value
                 break;
             case UnitMeta.EffectType.DEFENSE:
                 defense = defense + value;
@@ -67,6 +68,7 @@ public class EffectStatus : NetworkBehaviour
                 break;
             case UnitMeta.EffectType.SPEED:
                 speed = speed + value;
+                gameObject.GetComponent<UnitPowerUp>().SetSpeed(speed, true);
                 break;
             case UnitMeta.EffectType.FREEZE:
                 isFreeze = value > 0; 
@@ -96,7 +98,7 @@ public class EffectStatus : NetworkBehaviour
     private void HandleSpeedEffectUpdated(float oldValue, float newValue)
     {
         if (tag.ToLower().Contains("king"))
-            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.FREEZE, newValue);
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.SPEED, newValue);
     }
     private void HandleFreezeEffectUpdated(bool oldValue, bool newValue)
     {
@@ -106,6 +108,6 @@ public class EffectStatus : NetworkBehaviour
     private void HandleStunEffectUpdated(bool oldValue, bool newValue)
     {
         if (tag.ToLower().Contains("king"))
-            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.FREEZE, newValue ? 1f : 0f);
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.STUN, newValue ? 1f : 0f);
     }
 }
