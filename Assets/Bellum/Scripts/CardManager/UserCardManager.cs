@@ -9,6 +9,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using static CharacterArt;
 using static UnitTypeArt;
+using static SpTypeArt;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization.Settings;
 
@@ -17,6 +18,7 @@ public class UserCardManager : MonoBehaviour
     [SerializeField] GameObject userCardPrefab;
     [SerializeField] public CharacterArt Arts;
     [SerializeField] public UnitTypeArt unitTypeArt;
+    [SerializeField] public SpTypeArt spTypeArt;
     [SerializeField] bool IS_TEAM_MEMBER_SELECTION;
     [SerializeField] public LocalizationResponder localizationResponder;
     public GameObject userCardFocus;
@@ -76,6 +78,7 @@ public class UserCardManager : MonoBehaviour
         GameObject userCard;
         CharacterImage characterImage;
         UserCard card;
+        SpTypeImage spTypeImage;
 
         if (!IS_TEAM_MEMBER_SELECTION && CharacterTabSlot.transform.childCount > 0)
         {
@@ -104,9 +107,20 @@ public class UserCardManager : MonoBehaviour
             userCard.GetComponent<UserCardButton>().characterImage.sprite = characterImage.image ;
             userCard.GetComponent<UserCardButton>().cardkey = allCard.Key;
 
+            if (spTypeArt.SpTypeArtDictionary.TryGetValue(allCard.Value.spType, out spTypeImage))
+            {
+                userCard.GetComponent<UserCardButton>().spTypeImage.sprite = spTypeImage.image;
+            }
+            else
+            {
+                userCard.GetComponent<UserCardButton>().spTypeImage.gameObject.SetActive(false);
+            }
+            
+
             if (userCardDict.TryGetValue(allCard.Key, out card))
             {
                 userCard.GetComponent<UserCardButton>().lockImage.SetActive(false);
+                userCard.GetComponent<UserCardButton>().isLock = false;
                 if (IS_TEAM_MEMBER_SELECTION)
                     userCard.GetComponent<UserCardButton>().userLevelBar.SetActive(false);
 
@@ -115,6 +129,7 @@ public class UserCardManager : MonoBehaviour
             {
                 userCard.GetComponent<UserCardButton>().lockImage.SetActive(true);
                 userCard.GetComponent<UserCardButton>().userLevelBar.SetActive(false);
+                userCard.GetComponent<UserCardButton>().isLock = true;
                 card = allCard.Value;
             }
 
@@ -193,7 +208,7 @@ public class UserCardManager : MonoBehaviour
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if(jsonResult[i]["cardkey"] !=null && jsonResult[i]["cardkey"].ToString().Length > 0  )
-                userCardDict.Add(jsonResult[i]["cardkey"] , new UserCard(jsonResult[i]["cardkey"], jsonResult[i]["level"], jsonResult[i]["exp"], jsonResult[i]["specail"], jsonResult[i]["rarity"], jsonResult[i]["leveluprequirement"], jsonResult[i]["star"], jsonResult[i]["unittype"]) );
+                userCardDict.Add(jsonResult[i]["cardkey"] , new UserCard(jsonResult[i]["cardkey"], jsonResult[i]["level"], jsonResult[i]["exp"], jsonResult[i]["specail"], jsonResult[i]["rarity"], jsonResult[i]["leveluprequirement"], jsonResult[i]["star"], jsonResult[i]["unittype"], jsonResult[i]["specialkey"]) );
         }
         UserCardLoaded?. Invoke(userid);
         //Debug.Log($"GetUserCard() jsonResult {webReq.url } {jsonResult}");
@@ -223,9 +238,9 @@ public class UserCardManager : MonoBehaviour
         for (int i = 0; i < jsonResult.Count; i++)
         {
             if (jsonResult[i]["cardkey"] != null && jsonResult[i]["cardkey"].ToString().Length > 0)
-                allCardDict.Add(jsonResult[i]["cardkey"], new UserCard(jsonResult[i]["cardkey"], "?", "?", "?", jsonResult[i]["rarity"], "?", jsonResult[i]["star"], jsonResult[i]["unittype"]));
+                allCardDict.Add(jsonResult[i]["cardkey"], new UserCard(jsonResult[i]["cardkey"], "?", "?", "?", jsonResult[i]["rarity"], "?", jsonResult[i]["star"], jsonResult[i]["unittype"], jsonResult[i]["specialkey"]));
         }
-        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        //Debug.Log($"GetAllCard() jsonResult {webReq.url } {jsonResult}");
     }
 
 }

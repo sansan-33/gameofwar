@@ -9,8 +9,9 @@ public class UserCard
     public string leveluprequirement;
     public string star;
     public string unittype;
+    public string spType;
 
-    public UserCard(string local_cardkey, string local_level, string local_exp, string local_special, string local_rarity, string local_leveluprequirement, string local_star, string local_unittype)
+    public UserCard(string local_cardkey, string local_level, string local_exp, string local_special, string local_rarity, string local_leveluprequirement, string local_star, string local_unittype, string local_spType)
     {
         cardkey = local_cardkey;
         level = local_level;
@@ -20,10 +21,12 @@ public class UserCard
         leveluprequirement = local_leveluprequirement;
         star = local_star;
         unittype = local_unittype;
+        spType = local_spType;
     }
+    
     public override string ToString()
     {
-        return "cardkey: " + cardkey + ",level: " + level + ",exp: " + exp + ",special: " + special + ",rarity: " + rarity + ",leveluprequirement: " + leveluprequirement + ",star: " + star + ",unittype: " + unittype;
+        return "cardkey: " + cardkey + ",level: " + level + ",exp: " + exp + ",special: " + special + ",rarity: " + rarity + ",leveluprequirement: " + leveluprequirement + ",star: " + star + ",unittype: " + unittype + ",spType: " + spType;
     }
 }
 

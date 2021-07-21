@@ -56,13 +56,23 @@ public class TeamManager : MonoBehaviour
             TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>().cardSlotEmpty.SetActive(true);
 
         teamnumber = StaticClass.SelectedTeamTab.ToString();
+
         //Debug.Log($"Handle Load Team -- teamnumber {teamnumber}");
-        if (userTeamDict.TryGetValue( teamnumber , out userCardArray))
+        if (userTeamDict.TryGetValue(teamnumber, out userCardArray))
         {
-            //Debug.Log($"userTeamDict -- teamnumber {teamnumber} {userCardArray} ");
             for (int i = 0; i < NOOFCARDSLOT; i++)
             {
                 teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
+                //Debug.Log($"HandleLoadTeam set Font: {userCardManager.localizationResponder.getCurrentFont()}");
+                teamCardBtn.cardSlotKey.font = userCardManager.localizationResponder.getCurrentFont();
+                teamCardBtn.cardSlotType.font = userCardManager.localizationResponder.getCurrentFont();
+                //StaticClass.teamMembers = teamMembers;
+
+                Debug.Log($"userTeamDict -- teamnumber {teamnumber} {userCardArray} {userCardArray.Length} ");
+                if (userCardArray[i] == null)
+                {
+                    continue;
+                }
                 //Debug.Log($"TeamManager.HandleLoadTeam() i:{i} userCardArray[i].cardkey: {userCardArray[i].cardkey}");
                 teamCardBtn.characterImage.sprite = Arts.CharacterArtDictionary[userCardArray[i].cardkey].image;
                 teamCardBtn.cardSlotKeyValue = userCardArray[i].cardkey;
@@ -78,7 +88,7 @@ public class TeamManager : MonoBehaviour
                 {
                     op.Completed += (o) => teamCardBtn.cardSlotKey.text = o.Result;
                 }
-                teamCardBtn.cardSlotKey.font = userCardManager.localizationResponder.getCurrentFont();
+
 
                 //teamCardBtn.cardSlotType.text = userCardArray[i].unittype;
                 op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, userCardArray[i].unittype.ToLower(), null);
@@ -90,26 +100,41 @@ public class TeamManager : MonoBehaviour
                 {
                     op.Completed += (o) => teamCardBtn.cardSlotType.text = o.Result;
                 }
-                teamCardBtn.cardSlotType.font = userCardManager.localizationResponder.getCurrentFont();
+
                 //Debug.Log($"TeamManager.HandleLoadTeam() teamCardBtn.cardSlotType.text:{teamCardBtn.cardSlotType.text}");
 
                 teamCardBtn.cardSlotLevel.text = userCardArray[i].level;
                 teamCardBtn.unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[userCardArray[i].unittype].image;
-                
+
                 teamCardBtn.cardSlotEmpty.SetActive(false);
                 //teamMembers[i] = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userCardArray[i].cardkey);
                 unitkey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), userCardArray[i].cardkey);
-                if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING )
+                if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING)
                 {
                     StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
                     //Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
-            }
-            //StaticClass.teamMembers = teamMembers;
-            
-        }
 
+
+                
+            }
+
+        }
+        else
+        {
+            // load font even no team member
+            for (int i = 0; i < NOOFCARDSLOT; i++)
+            {
+                teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
+                //Debug.Log($"HandleLoadTeam set Font: {userCardManager.localizationResponder.getCurrentFont()}");
+                teamCardBtn.cardSlotKey.font = userCardManager.localizationResponder.getCurrentFont();
+                teamCardBtn.cardSlotType.font = userCardManager.localizationResponder.getCurrentFont();
+                //StaticClass.teamMembers = teamMembers;
+            }
+
+        }
     }
+
     // sends an API request - returns a JSON file
     IEnumerator GetTeamInfo(string userid)
     {
@@ -132,20 +157,20 @@ public class TeamManager : MonoBehaviour
 
         // parse the raw string into a json result we can easily read
         jsonResult = JSON.Parse(rawJson);
+        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
         for (int i = 0; i < jsonResult.Count; i++)
         {
             userCardArray = new UserCard[NOOFCARDSLOT];
             for (int j=0;j<NOOFCARDSLOT;j++) {
-                //Debug.Log($"jsonResult[i][cardkey + (j + 1)]: {jsonResult[i]["cardkey" + (j + 1)] }");
-                if (jsonResult[i]["cardkey" + (j + 1)] != null)
-                    userCardArray[j] = userCardManager.userCardDict[jsonResult[i]["cardkey" + (j+1) ]];
+                userCardManager.userCardDict.TryGetValue(jsonResult[i]["cardkey" + (j + 1)], out userCardArray[j]);
+        
             }
 
-            //Debug.Log($"jsonResult[i][teamnumber]: {jsonResult[i]["teamnumber"] }");
-            if (jsonResult[i]["teamnumber"] != null)
+            Debug.Log($"jsonResult[i][teamnumber]: {jsonResult[i]["teamnumber"] } userCardArray:{userCardArray}");
+            if (jsonResult[i]["teamnumber"] != null && userCardArray != null && userCardArray.Length > 0)
                 userTeamDict.Add(jsonResult[i]["teamnumber"], userCardArray);
         }
-        //Debug.Log($"jsonResult {webReq.url } {jsonResult}");
+        
 
     }
     public void SaveTeamFormation()
@@ -181,11 +206,11 @@ public class TeamManager : MonoBehaviour
         //   "/team/{userid}/{cardkey1}/{cardkey2}/{cardkey3}/{teamnumber}" , method = RequestMethod.PUT )
         webReq.url = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}", APIConfig.urladdress, APIConfig.teamService, userid, teamnumber, cardkey1, cardkey2, cardkey3);
         webReq.method = "put";
-        Debug.Log($"levelup card {webReq.url }");
+        //Debug.Log($"levelup card {webReq.url }");
         // send the web request and wait for a returning result
         yield return webReq.SendWebRequest();
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-        Debug.Log($"rawJson {rawJson}");
+        //Debug.Log($"rawJson {rawJson}");
         jsonResult = JSON.Parse(rawJson); 
         string status = jsonResult["status"];
         popupMessageDisplay.displayText(2f,"Team Saved [" + status + "]"  , status.Contains("OK"));
