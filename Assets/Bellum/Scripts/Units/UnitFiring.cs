@@ -213,6 +213,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         damageToDeal = attack == 0 ? damageToDeal : attack;
         this.repeatAttackDelay = repeatAttackDelay == 0 ? this.repeatAttackDelay : repeatAttackDelay;
         damageToDealFactor = factor;
+        Debug.Log($"Unit Firing damageToDeal: {damageToDeal} damageToDealFactor :{damageToDealFactor}");
         //damageToDeal = (int)(damageToDeal * factor);
     }
     public void ScaleAttackRange(float _fireRange)

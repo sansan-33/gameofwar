@@ -236,8 +236,7 @@ public class UnitPowerUp : NetworkBehaviour
     {
         UnitMeta.UnitType unitType = gameObject.GetComponent<Unit>().unitType;
         if (unitType == UnitMeta.UnitType.KING || unitType == UnitMeta.UnitType.HERO || unitType == UnitMeta.UnitType.QUEEN
-            || unitType == UnitMeta.UnitType.TOWER || unitType == UnitMeta.UnitType.BARRACK
-            || unitType == UnitMeta.UnitType.CATAPULT || unitType == UnitMeta.UnitType.WALL ) { return; }
+            ||UnitMeta.BuildingUnit.Contains(unitType)){ return; }
         //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
         UnitMeta.UnitSkill defaultSkill = skill == UnitMeta.UnitSkill.DEFAULT ? UnitMeta.UnitStarSkill[star][gameObject.GetComponent<Unit>().unitType] : skill;
         //Debug.Log($" star {star} unitType {gameObject.GetComponent<Unit>().unitType} skill {skill} ");
