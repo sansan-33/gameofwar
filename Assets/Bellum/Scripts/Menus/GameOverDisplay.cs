@@ -105,6 +105,7 @@ public class GameOverDisplay : MonoBehaviour
         int totalKill = 0;
         foreach (Unit army in troops)
         {
+            if(army.GetComponent<HealthDisplay>() != null)
             totalKill += army.GetComponent<HealthDisplay>().kills;
             //Debug.Log($"totalKill = {totalKill} + {army.name} kill {army.GetComponent<HealthDisplay>().kills}");
         }
