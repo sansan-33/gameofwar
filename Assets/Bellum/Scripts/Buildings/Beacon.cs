@@ -14,20 +14,28 @@ public class Beacon : MonoBehaviour
         string color = playerID == 0 ? "blue" : "red";
         GetComponent<UnitBody>().SetTeamColor(color);
         PowerUpTeam();
+        Unit.ClientOnUnitSpawned += PowerUpUnit;
+
     }
     public void OnDestroy()
     {
+        Unit.ClientOnUnitSpawned -= PowerUpUnit;
     }
     public void PowerUpTeam()
     {
         foreach (Unit unit in player.GetMyUnits())
         {
-            if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { continue; }
-            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10);
-            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 100);
-            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 10);
+            PowerUpUnit(unit);
         }
     }
-    
+    public void PowerUpUnit(Unit unit)
+    {
+        if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { return; }
+        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10f);
+        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 2f);
+        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.SPEED.ToString(), 2f);
+        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 1.1f);
+        
+    }
 
 }

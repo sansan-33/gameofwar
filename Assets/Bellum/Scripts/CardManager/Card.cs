@@ -35,6 +35,7 @@ public class Card : MonoBehaviour
     [SerializeField] public GameObject cardFrame;
     [SerializeField] private Image cardTimerImage;
     [SerializeField] private float relodTime = 30;
+    [SerializeField] GameObject cardRankUpPrefab;
     private float timer;
     private float effectAmount = 1f;
     private float originalx;
@@ -64,6 +65,29 @@ public class Card : MonoBehaviour
 
         //if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
     }
+    public void RankUp(UnitSkillArt unitSkillArt, int MAXCARDSTAR)
+    {
+        Debug.Log($"rank up {((int)cardFace.star + 1)} {MAXCARDSTAR}");
+        if (((int)cardFace.star + 1) >= MAXCARDSTAR) { return; }
+        Debug.Log("card rank up");
+        int star = 0;
+        star = (int)cardFace.star;
+        //Increase 1 star to before card,  Text is setting + 2 , becuase the enum cardFace.star start with 0 
+        cardStar.text = "" + (star + 2);
+        cardFace.star = (Card_Stars)(star + 1);
+        if (Enum.TryParse(cardFace.numbers.ToString(), out UnitMeta.UnitType unitType))
+        {
+            skillIcon.gameObject.SetActive((UnitMeta.UnitStarSkill[(star + 2)][unitType]) != UnitMeta.UnitSkill.NOTHING);
+            skillIcon.sprite = unitSkillArt.UnitSkillImageDictionary[(UnitMeta.UnitStarSkill[(star + 2)][unitType]).ToString()].image;
+        }
+        for (int j = 0; j < star + 2; j++)
+        {
+            stars.transform.GetChild(j).Find("Active").gameObject.SetActive(true);
+        }
+        cardFrame.transform.GetChild(star + 1).gameObject.SetActive(true);
+        Instantiate(cardRankUpPrefab, transform);
+    }
+   
     IEnumerator HandleScale()
     {
        /*(Debug.Log("handle scale");

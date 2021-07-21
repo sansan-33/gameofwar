@@ -19,6 +19,8 @@ public class SpecialAttackManager : NetworkBehaviour
         { "STUN",SpecialAttackType.STUN },
         { "REMOVEGAUGE",SpecialAttackType.REMOVEGAUGE },
         { "GRAB",SpecialAttackType.GRAB },
+        { "CARDRANKUP",SpecialAttackType.CARDRANKUP },
+
     };
     void Start()
     {

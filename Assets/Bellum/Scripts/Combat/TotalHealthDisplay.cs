@@ -126,9 +126,10 @@ public class TotalHealthDisplay : MonoBehaviour
             TotalEnemyHealthBar.fillAmount = 0f;
         }
     }
-    private void HandleEffectStatus(int playerid, UnitMeta.EffectType effectType, int value)
+    private void HandleEffectStatus(int playerid, UnitMeta.EffectType effectType, float value)
     {
         Debug.Log($"HandleEffectStatus playerid {playerid} , {effectType} / {value} ");
         buffEffects[playerid + "-" +  effectType.ToString()].gameObject.SetActive(value != 0);
+        buffEffects[playerid + "-" + effectType.ToString()].effectValue = value;
     }
 }
