@@ -34,15 +34,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         cardPlayer = GameObject.FindGameObjectWithTag("PlayerDeck").GetComponent<CardPlayer>();
         specialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager").GetComponent<SpecialAttackManager>();
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
-        foreach (GameObject ground in grounds)
-        {
-            if (ground.TryGetComponent(out PlayerGround pg))
-            {
-                playerGround = pg;
-                break;
-            }
-        }
+        GetPlayerGroung();
     }
     public void SetUnit(Unit unit)
     {
@@ -63,6 +55,18 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public SpecialAttackDict.SpecialAttackType GetSpecialAttackType()
     {
         return SpecialAttackType;
+    }
+    private void GetPlayerGroung()
+    {
+        GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
+        foreach (GameObject ground in grounds)
+        {
+            if (ground.TryGetComponent(out PlayerGround pg))
+            {
+                playerGround = pg;
+                break;
+            }
+        }
     }
     public void OnPointerDown()
     {
@@ -94,7 +98,8 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; } 
+        if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
+        if(playerGround == null) { GetPlayerGroung(); }
         playerGround.SetALlLayer();
         dragCircle = Instantiate(dragcCirclePrefab);
         if(SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType,out float scale))

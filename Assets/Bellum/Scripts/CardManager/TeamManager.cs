@@ -76,7 +76,8 @@ public class TeamManager : MonoBehaviour
                 }
                 //Debug.Log($"TeamManager.HandleLoadTeam() i:{i} userCardArray[i].cardkey: {userCardArray[i].cardkey}");
                 teamCardBtn.characterImage.sprite = Arts.CharacterArtDictionary[userCardArray[i].cardkey].image;
-                teamCardBtn.spTypeImage.sprite = spTypeArts.SpTypeArtDictionary[userCardArray[i].spType].image;
+                if (spTypeArts.SpTypeArtDictionary.ContainsKey(userCardArray[i].spType)) 
+                    teamCardBtn.spTypeImage.sprite = spTypeArts.SpTypeArtDictionary[userCardArray[i].spType].image;
                 teamCardBtn.cardSlotKeyValue = userCardArray[i].cardkey;
 
                 // Localization
