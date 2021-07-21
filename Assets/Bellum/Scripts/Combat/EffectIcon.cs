@@ -5,4 +5,5 @@ using UnityEngine;
 public class EffectIcon : MonoBehaviour
 {
     [SerializeField] public UnitMeta.EffectType effectType;
+    [SerializeField] public float effectValue=0f;
 }
