@@ -129,7 +129,7 @@ public class GameOverDisplay : MonoBehaviour
         }
         OpenCanvasButton.SetActive(true);
         Debug.Log($"_playerid = {_playerid} enemy id = {rTSPlayer.GetEnemyID()}player id = {rTSPlayer.GetPlayerID()}");
-        if (_playerid == rTSPlayer.GetEnemyID())
+        if (_playerid == rTSPlayer.GetPlayerID())
         {
             winCanvas.SetActive(true);
         }
