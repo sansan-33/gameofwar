@@ -114,6 +114,7 @@ public class UserCardManager : MonoBehaviour
             else
             {
                 userCard.GetComponent<UserCardButton>().spTypeImage.gameObject.SetActive(false);
+                userCard.GetComponent<UserCardButton>().spTypeImage.transform.parent.gameObject.SetActive(false);
             }
             
 
