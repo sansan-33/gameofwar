@@ -1,9 +1,11 @@
 using System.Collections;
 using UnityEngine;
 using Mirror;
+using MagicArsenal;
 
 public class Beacon : MonoBehaviour
 {
+    [SerializeField] private MagicBeamStatic magicBeanStatic;
     private int playerID = 0;
     private RTSPlayer player;
     void Start()
@@ -30,6 +32,7 @@ public class Beacon : MonoBehaviour
     }
     public void PowerUpUnit(Unit unit)
     {
+        StartCoroutine(StartBeam());
         StartCoroutine(PowerUpUnitDelay(unit));
     }
     IEnumerator PowerUpUnitDelay(Unit unit)
@@ -37,11 +40,19 @@ public class Beacon : MonoBehaviour
         yield return new WaitForSeconds(1f);
         Debug.Log($"Beacon handle Unit spawned {unit.name} {unit.tag}");
         if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { yield break; }
-        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10f);
-        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 2f);
-        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.SPEED.ToString(), 2f);
-        unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 1.1f);
-
+        if (unit.TryGetComponent<EffectStatus>(out EffectStatus effectStatus))
+        {
+            effectStatus.SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10f);
+            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 2f);
+            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.SPEED.ToString(), 2f);
+            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 1.1f);
+        }
     }
+    IEnumerator StartBeam()
+    {
+        yield return new WaitForSeconds(1f);
+        magicBeanStatic.enabled = true;
+    }
+        
 
 }
