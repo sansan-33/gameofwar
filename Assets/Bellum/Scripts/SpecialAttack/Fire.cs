@@ -8,6 +8,7 @@ public class Fire : MonoBehaviour
     [SerializeField] GameObject firePrefabChild1;
     [SerializeField] GameObject firePrefabChild2;
     [SerializeField] private float burnTime = 10;
+    [SerializeField] private int maxSpawn = 3;
     bool bigFire = true;
     private Transform parent;
     // Start is called before the first frame update
@@ -31,9 +32,10 @@ public class Fire : MonoBehaviour
 
     private IEnumerator BurnAround()
     {
-        while (true)
+        while (maxSpawn >= 0)
         {
-            yield return new WaitForSeconds(3);
+            maxSpawn--;
+               yield return new WaitForSeconds(5);
             if (bigFire == false)
             {
                 Vector3 pos = transform.position;
