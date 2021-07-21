@@ -23,8 +23,8 @@ public class Beacon : MonoBehaviour
         foreach (Unit unit in player.GetMyUnits())
         {
             if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { continue; }
-            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 1.1f);
-            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 1.1f);
+            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10f);
+            unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 2f);
             unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.SPEED.ToString(), 2f);
             unit.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 1.1f);
         }
