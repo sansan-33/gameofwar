@@ -32,6 +32,8 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] private TMP_Text crownBlueText = null;
     [SerializeField] private TMP_Text crownRedText = null;
     [SerializeField] public GameStartDisplay gameStartDisplay;
+    [SerializeField] public TotalHealthDisplay totalHealthDisplay;
+
     public TacticalBehavior tacticalBehavior;
     private RTSPlayer rTSPlayer;
     APIManager apiManager;
@@ -99,6 +101,7 @@ public class GameOverDisplay : MonoBehaviour
         int crownCount = winner.ToLower() == "blue" ? Int32.Parse(crownBlueText.text) : Int32.Parse(crownRedText.text);
 
         cardDisplay.enabled = false;
+        totalHealthDisplay.enabled = false;
         spButtonDisplay.enabled = false;
         stat1Text.text = Convert.ToInt32(timer).ToString();
         List<Unit> troops = tacticalBehavior.GetAllTroops(_playerid);
@@ -156,19 +159,6 @@ public class GameOverDisplay : MonoBehaviour
             }
            
         }
-       /* else
-        {
-            if (openedCanvas == true)
-            {
-                openedCanvas = false;
-                loseCanvas.SetActive(false);
-            }
-            else
-            {
-                openedCanvas = true;
-                loseCanvas.SetActive(true);
-            }
-        }*/
     }
     private void ClientHandleGameOverdraw()
     {
@@ -176,6 +166,7 @@ public class GameOverDisplay : MonoBehaviour
         winnerNameText.text = $"Draw!";
         gameOverDisplayParent.enabled = true;
         cardDisplay.enabled = false;
+        totalHealthDisplay.enabled = false;
         IS_COMPLETED = true;
     }
     public void ClientHandleGameOverResign()
@@ -185,6 +176,7 @@ public class GameOverDisplay : MonoBehaviour
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
         cardDisplay.enabled = false;
+        totalHealthDisplay.enabled = false;
         IS_COMPLETED = true;
     }
     IEnumerator updateUserRankingInfo(int timeleft, int killcount, int health, int dieCount, int crownCount)

@@ -213,6 +213,7 @@ public class UnitFiring : NetworkBehaviour, IAttackAgent, IAttack
         damageToDeal = attack == 0 ? damageToDeal : attack;
         this.repeatAttackDelay = repeatAttackDelay == 0 ? this.repeatAttackDelay : repeatAttackDelay;
         damageToDealFactor = factor;
+        damageToDeal = (int)(damageToDeal * factor);
     }
     public void ScaleAttackRange(float _fireRange)
     {
