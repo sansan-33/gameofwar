@@ -67,6 +67,7 @@ public class EffectStatus : NetworkBehaviour
                 break;
             case UnitMeta.EffectType.SPEED:
                 speed = speed + value;
+                gameObject.GetComponent<UnitPowerUp>().SetSpeed(speed, true);
                 break;
             case UnitMeta.EffectType.FREEZE:
                 isFreeze = value > 0; 
