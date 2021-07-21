@@ -18,6 +18,7 @@ public class GameStartDisplay : NetworkBehaviour
     [SerializeField] private GameObject vsFrame = null;
     [SerializeField] private GameObject vsText = null;
     [SerializeField] public CharacterArt Arts;
+    [SerializeField] private GameObject fxEffectParent = null;
     public static event Action ServerGameStart;
     public static event Action ServerGameSpeedUp;
 
@@ -56,7 +57,7 @@ public class GameStartDisplay : NetworkBehaviour
         StartCoroutine(LoadPlayerData());
         StartCoroutine(LerpPosition(maskBlue.transform , 400f,0f, .5f));
         yield return LerpPosition(maskRed.transform, -400f, 0f, .5f);
-        //StartCoroutine(LerpPosition(vsFrame.transform, 2000f, 2000f, .5f));
+        fxEffectParent.SetActive(true);
         vsText.SetActive(true);
         yield return new WaitForSeconds(2.5f);
         startTimer += NetworkTime.time;
@@ -158,6 +159,7 @@ public class GameStartDisplay : NetworkBehaviour
         {
             offset = NetworkTime.time;
             gameStartDisplayParent.SetActive(false);
+            fxEffectParent.SetActive(false);
             ServerGameStart?.Invoke();
         }
     }
