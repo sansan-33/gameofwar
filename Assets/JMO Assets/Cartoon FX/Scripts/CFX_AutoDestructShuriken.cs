@@ -22,11 +22,11 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 	IEnumerator CheckIfAlive ()
 	{
 		ParticleSystem ps = this.GetComponent<ParticleSystem>();
-		
-		while(true && ps != null)
+		while (true && ps != null)
 		{
 			yield return new WaitForSeconds(aliveTime);
-			if ( name.ToLower().Contains("impact") || name.ToLower().Contains("fire"))
+
+			if ( name.ToLower().Contains("impact") || name.ToLower().Contains("fire")|| name.ToLower().Contains("explosion"))
 			{
 				//Debug.Log($"CheckIfAlive {name} {aliveTime}");
 				GameObject.Destroy(this.gameObject);
