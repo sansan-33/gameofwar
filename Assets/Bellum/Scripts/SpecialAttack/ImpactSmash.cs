@@ -27,9 +27,11 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private Unit parentUnit;
     private int cost = 3;
     private float progressUnitVelocity;
+    private CardPlayer cardPlayer;
     // Start is called before the first frame update
     void Start()
     {
+        cardPlayer = GameObject.FindGameObjectWithTag("PlayerDeck").GetComponent<CardPlayer>();
         specialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager").GetComponent<SpecialAttackManager>();
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
         GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
@@ -64,17 +66,26 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnPointerDown()
     {
-      if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE)
+        switch (SpecialAttackType)
         {
-            List<Button> buttons = SpButtonManager.buttons;
-            foreach(Button button in buttons)
-            {
-                if(button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("Player" + RTSplayer.GetEnemyID()) || button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("King" + RTSplayer.GetEnemyID()))
+            case SpecialAttackDict.SpecialAttackType.REMOVEGAUGE:
+                List<Button> buttons = SpButtonManager.buttons;
+                foreach (Button button in buttons)
                 {
-                    StartCoroutine(button.GetComponent<SpCostDisplay>().MinusSpCost(10));
-                    specialAttackManager.SpawnPrefab(button.GetComponent<SpCostDisplay>().GetUnit().transform.position, SpecialAttackType.ToString());
+                    if (button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("Player" + RTSplayer.GetEnemyID()) || button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("King" + RTSplayer.GetEnemyID()))
+                    {
+                        StartCoroutine(button.GetComponent<SpCostDisplay>().MinusSpCost(10));
+                        specialAttackManager.SpawnPrefab(button.GetComponent<SpCostDisplay>().GetUnit().transform.position, SpecialAttackType.ToString());
+                    }
                 }
-            }
+                break;
+            case SpecialAttackDict.SpecialAttackType.CARDRANKUP:
+                Debug.Log("rank up");
+                foreach(Card card in cardPlayer.GetCards())
+                {
+                    card.RankUp(cardPlayer.unitSkillArt, cardPlayer.MAXCARDSTAR);
+                }
+                break;
         }
     }
     public int GetSpCost()

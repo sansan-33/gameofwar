@@ -25,7 +25,7 @@ public class CardPlayer : MonoBehaviour
     [Header("Settings")]
     [SerializeField] float cardOffset = 150f; // NO Effect to change here, need to set it in inspector
     [SerializeField] float cardMoveSpeed = 10;// NO Effect to change here, need to set it in inspector
-    [SerializeField] int MAXCARDSTAR = 2;
+    [SerializeField] public int MAXCARDSTAR = 2;
     [SerializeField] public bool isEnemy;
 
     [Header("Debug")]
@@ -210,7 +210,10 @@ public class CardPlayer : MonoBehaviour
         yield return mergeCard();
         
     }
-
+    public List<Card> GetCards()
+    {
+        return playerHand[0];
+    }
     public void moveCard(int index, bool isShiftCard = true)
     {
         //Debug.Log($"Player.moveCard() isEnemy:{isEnemy} Remove:{playerHand[0][index]} {enemyCardDealer.cards.IndexOf(playerHand[0][index])}");
