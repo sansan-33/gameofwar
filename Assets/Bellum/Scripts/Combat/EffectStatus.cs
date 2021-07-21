@@ -57,14 +57,14 @@ public class EffectStatus : NetworkBehaviour
         {
             case UnitMeta.EffectType.ATTACK:
                 attack = attack + value;
-                gameObject.GetComponent<IAttack>().ScaleDamageDeal(0, 0, attack); // 0 means current value
+                gameObject.GetComponent<IAttack>().ScaleDamageDeal(0, 0, value); // 0 means current value
                 break;
             case UnitMeta.EffectType.DEFENSE:
                 defense = defense + value;
                 break;
             case UnitMeta.EffectType.HEALTH:
                 health = health + value;
-                gameObject.GetComponent<Health>().ScaleMaxHealth( (int) gameObject.GetComponent<Health>().getCurrentHealth() , health);
+                gameObject.GetComponent<Health>().ScaleMaxHealth( (int) gameObject.GetComponent<Health>().getCurrentHealth() , value);
                 break;
             case UnitMeta.EffectType.SPEED:
                 speed = speed + value;

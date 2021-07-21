@@ -14,6 +14,7 @@ public class TeamCardButton : MonoBehaviour
     [SerializeField] public TMP_Text cardSlotType;
     [SerializeField] public TMP_Text cardSlotLevel;
     [SerializeField] public Image unitTypeImage;
+    [SerializeField] public Image spTypeImage;
     [SerializeField] public UserCard userCard ;
     [SerializeField] public Image characterImage;
     public string cardSlotKeyValue;
