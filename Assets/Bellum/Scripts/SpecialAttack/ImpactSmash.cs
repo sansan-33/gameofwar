@@ -167,8 +167,8 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         armies = units.ToList();
 
         provokeUnit.CopyTo(armies);
-        if (king != null)
-            army.Add(king);
+        if (king != null) { armies.Add(king); }
+           
         //Debug.Log($"1 {armies.Count}");
         sneakUnit.CopyTo(armies);
         //Debug.Log($"2 {armies.Count}");

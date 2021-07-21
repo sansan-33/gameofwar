@@ -13,6 +13,7 @@ public class GameOverDisplay : MonoBehaviour
 {
     [SerializeField] private GameObject winCanvas;
     [SerializeField] private GameObject loseCanvas;
+    [SerializeField] private GameObject winResult;
     [SerializeField] private GameObject OpenCanvasButton;
 
     [SerializeField] public Canvas gameOverDisplayParent;
@@ -126,9 +127,9 @@ public class GameOverDisplay : MonoBehaviour
             StartCoroutine(updateUserRankingInfo(Convert.ToInt32(timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
             IS_COMPLETED = true;
         }
-        openedCanvas = true;
         OpenCanvasButton.SetActive(true);
-        if (_playerid == rTSPlayer.GetPlayerID())
+        Debug.Log($"_playerid = {_playerid} enemy id = {rTSPlayer.GetEnemyID()}player id = {rTSPlayer.GetPlayerID()}");
+        if (_playerid == rTSPlayer.GetEnemyID())
         {
             winCanvas.SetActive(true);
         }
@@ -145,16 +146,16 @@ public class GameOverDisplay : MonoBehaviour
             if(openedCanvas == true)
             {
                 openedCanvas = false;
-                winCanvas.SetActive(false);
+                winResult.SetActive(false);
             }
             else
             {
                 openedCanvas = true;
-                winCanvas.SetActive(true);
+                winResult.SetActive(true);
             }
            
         }
-        else
+       /* else
         {
             if (openedCanvas == true)
             {
@@ -166,7 +167,7 @@ public class GameOverDisplay : MonoBehaviour
                 openedCanvas = true;
                 loseCanvas.SetActive(true);
             }
-        }
+        }*/
     }
     private void ClientHandleGameOverdraw()
     {
