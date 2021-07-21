@@ -415,7 +415,7 @@ public class UnitMeta
 
     public static HashSet<UnitType> BuildingUnit = new HashSet<UnitType>()
     {
-        UnitType.TOWER, UnitType.WALL, UnitType.BARRACK, UnitType.CATAPULT, UnitType.TRAP
+        UnitType.TOWER, UnitType.WALL, UnitType.BARRACK, UnitType.CATAPULT, UnitType.TRAP, UnitType.BEACON
     };
 
     public static Dictionary<UnitType, int> TeamUnitType = new Dictionary<UnitType, int>()
