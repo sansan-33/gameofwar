@@ -10,6 +10,7 @@ public class Fire : MonoBehaviour
     [SerializeField] private float burnTime = 10;
     [SerializeField] private int maxSpawn = 3;
     [SerializeField] private int damage = 500;
+    [SerializeField] private int diedTime = 20;
     bool bigFire = true;
     private Transform parent;
     // Start is called before the first frame update
@@ -17,8 +18,15 @@ public class Fire : MonoBehaviour
     {
         parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
         StartCoroutine(BurnAround());
+        StartCoroutine(DestroySelf());
     }
-
+    private IEnumerator DestroySelf()
+    {
+        //Debug.Log("start destroy");
+        yield return new WaitForSeconds(diedTime);
+        //Debug.Log("destroy");
+        Destroy(gameObject);
+    }
     public void HandleScale(bool fromBigFire = false)
     {
         if (fromBigFire == true)
