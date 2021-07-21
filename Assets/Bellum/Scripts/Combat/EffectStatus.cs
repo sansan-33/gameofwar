@@ -57,6 +57,7 @@ public class EffectStatus : NetworkBehaviour
         {
             case UnitMeta.EffectType.ATTACK:
                 attack = attack + value;
+                gameObject.GetComponent<IAttack>().ScaleDamageDeal(0, 0, attack); // 0 means current value
                 break;
             case UnitMeta.EffectType.DEFENSE:
                 defense = defense + value;
