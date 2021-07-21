@@ -1,26 +1,26 @@
 using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
 public class EffectStatus : NetworkBehaviour
 {
-
-    [SyncVar(hook = nameof(HandleEffectUpdated))]
+    [SyncVar(hook = nameof(HandleAttackEffectUpdated))]
     public int attack;
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleDefenseEffectUpdated))]
     public int defense;
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleHealthEffectUpdated))]
     public int health;
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleSpeedEffectUpdated))]
     public int speed;
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleFreezeEffectUpdated))]
     public bool isFreeze;
-    [SyncVar]
+    [SyncVar(hook = nameof(HandleStunEffectUpdated))]
     public bool isStun;
 
     int playerID = 0;
     public static event Action<int, UnitMeta.EffectType,int> ClientOnEffectUpdated;
-
+    private Dictionary<UnitMeta.EffectType, bool> effectStateMachine = new Dictionary<UnitMeta.EffectType, bool>();
     void Start()
     {
         if (NetworkClient.connection.identity == null) { return; }
@@ -77,9 +77,34 @@ public class EffectStatus : NetworkBehaviour
                 break;
         }
     }
-    private void HandleEffectUpdated(int oldValue, int newValue)
+    private void HandleAttackEffectUpdated(int oldValue, int newValue)
     {
         if (tag.ToLower().Contains("king"))
-            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.ATTACK , newValue);
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.ATTACK, newValue);
+    }
+    private void HandleDefenseEffectUpdated(int oldValue, int newValue)
+    {
+        if (tag.ToLower().Contains("king"))
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.DEFENSE, newValue);
+    }
+    private void HandleHealthEffectUpdated(int oldValue, int newValue)
+    {
+        if (tag.ToLower().Contains("king"))
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.HEALTH, newValue);
+    }
+    private void HandleSpeedEffectUpdated(int oldValue, int newValue)
+    {
+        if (tag.ToLower().Contains("king"))
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.FREEZE, newValue);
+    }
+    private void HandleFreezeEffectUpdated(bool oldValue, bool newValue)
+    {
+        if (tag.ToLower().Contains("king"))
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.FREEZE, newValue ? 1 :0);
+    }
+    private void HandleStunEffectUpdated(bool oldValue, bool newValue)
+    {
+        if (tag.ToLower().Contains("king"))
+            ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.FREEZE, newValue ? 1 : 0);
     }
 }

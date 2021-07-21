@@ -14,8 +14,8 @@ public class TotalHealthDisplay : MonoBehaviour
     [SerializeField] private TMP_Text PlayerName = null;
     [SerializeField] private TMP_Text EnemyName = null;
     [SerializeField] private TMP_Text YourName = null;
-    [SerializeField] private GameObject buffPlayerAttack = null;
-    [SerializeField] private GameObject buffEnemyAttack = null;
+    [SerializeField] private EffectIcon[] buffPlayerEffects;
+    [SerializeField] private EffectIcon[] buffEnemyEffects;
 
     private float currentPlayerTotalHealth = 0;
     private float currentEnemyTotalHealth = 0;
@@ -24,7 +24,7 @@ public class TotalHealthDisplay : MonoBehaviour
     RTSPlayer player;
     GameObject[] enemies;
     GameObject[] armies;
-    Dictionary<string, GameObject> buffEffects = new Dictionary<string, GameObject>();
+    Dictionary<string, EffectIcon> buffEffects = new Dictionary<string, EffectIcon>();
 
     private void Start() { 
         GameOverHandler.ClientOnGameOver += SetTotalHealthToDie;
@@ -47,8 +47,12 @@ public class TotalHealthDisplay : MonoBehaviour
     }
     private void InitBuffEffects()
     {
-        buffEffects.Add(0 + "-" + UnitMeta.EffectType.ATTACK.ToString(), buffPlayerAttack);
-        buffEffects.Add(1 + "-" + UnitMeta.EffectType.ATTACK.ToString(), buffEnemyAttack);
+        int i = 0;
+        foreach (EffectIcon effect in buffPlayerEffects)
+        {
+            buffEffects.Add(0 + "-" + effect.effectType.ToString(), effect);
+            buffEffects.Add(1 + "-" + effect.effectType.ToString(), buffEnemyEffects[i++]);
+        }
     }
     private void OnDestroy()
     {
@@ -124,15 +128,7 @@ public class TotalHealthDisplay : MonoBehaviour
     }
     private void HandleEffectStatus(int playerid, UnitMeta.EffectType effectType, int value)
     {
-
         Debug.Log($"HandleEffectStatus playerid {playerid} , {effectType} / {value} ");
-        switch (effectType)
-        {
-            case UnitMeta.EffectType.ATTACK:
-                buffEffects[playerid + "-" +  effectType.ToString()].SetActive(value != 0);
-                break;
-            default:
-                break;
-        }
+        buffEffects[playerid + "-" +  effectType.ToString()].gameObject.SetActive(value != 0);
     }
 }

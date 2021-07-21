@@ -32,7 +32,7 @@ public class UnitMeta
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
     public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER,SIEGE};
-    public enum EffectType { ATTACK, DEFENSE, HEALTH, SPEED, FREEZE, STUN };
+    public enum EffectType { ATTACK, DEFENSE, HEALTH, SPEED, FREEZE, STUN, BURN };
 
 
 
