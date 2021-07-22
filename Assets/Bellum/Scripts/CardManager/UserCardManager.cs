@@ -92,12 +92,6 @@ public class UserCardManager : MonoBehaviour
         UserCard card;
         SpTypeImage spTypeImage;
 
-        if (!IS_TEAM_MEMBER_SELECTION && CharacterTabSlot.transform.childCount > 0)
-        {
-            CharacterTabButton characterTabButton = CharacterTabSlot.transform.GetChild(0).GetComponent<CharacterTabButton>();
-            characterTabButton.FocusTab();
-        }
-
         foreach (var allCard in allCardDict)
         {
             //Debug.Log($"Character Art Card : {allCard}  ");
@@ -194,6 +188,13 @@ public class UserCardManager : MonoBehaviour
             }
             userCard.transform.SetParent(transform);
         }
+
+        if (!IS_TEAM_MEMBER_SELECTION && CharacterTabSlot.transform.childCount > 0)
+        {
+            CharacterTabButton characterTabButton = CharacterTabSlot.transform.GetChild(StaticClass.SelectedCharacterTab).GetComponent<CharacterTabButton>();
+            characterTabButton.HandleClick();
+        }
+
         yield return null;
     }
 
