@@ -39,7 +39,7 @@ public class UnitMeta
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 4 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitKey, bool> UnitKeyRider = new Dictionary<UnitKey, bool>() { { UnitKey.CAVALRY, true }, { UnitKey.GODCAVALRY, true }, { UnitKey.RIDER, true }, { UnitKey.ELFCAVALRY, true } };
     public static Dictionary<UnitType, float> DefendRadius = new Dictionary<UnitType, float>() { { UnitType.HERO, 8f }, { UnitType.KING, 8f }, { UnitType.QUEEN, 8f } };
-    public static Dictionary<UnitType, int> UnitSelfDestory = new Dictionary<UnitType, int>() { { UnitType.WALL, 20 }, { UnitType.TOWER, 30 }, { UnitType.CATAPULT, 20 }, { UnitType.BARRACK, 30 }, { UnitType.TRAP, 15 } };
+    public static Dictionary<UnitType, int> UnitSelfDestory = new Dictionary<UnitType, int>() { { UnitType.WALL, 20 }, { UnitType.TRAP, 15 } };
     public static Dictionary<UnitType, int> UnitEleixer = new Dictionary<UnitType, int>()
     {
         { UnitType.ARCHER, 3 },
@@ -428,12 +428,13 @@ public class UnitMeta
     public static Dictionary<int, UnitType> CharacterUnitType = new Dictionary<int, UnitType>()
     {
         { 0, UnitType.ALL },
-        { 1, UnitType.ARCHER },
-        { 2, UnitType.TANK },
-        { 3, UnitType.MAGIC },
-        { 4, UnitType.CAVALRY },
-        { 5, UnitType.FOOTMAN },
-        { 6, UnitType.SIEGE }
+        { 1, UnitType.KING },
+        { 2, UnitType.ARCHER },
+        { 3, UnitType.TANK },
+        { 4, UnitType.MAGIC },
+        { 5, UnitType.CAVALRY },
+        { 6, UnitType.FOOTMAN },
+        { 7, UnitType.SIEGE }
     };
 }
 /*

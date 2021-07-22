@@ -138,6 +138,7 @@ public class SpecialAttackManager : NetworkBehaviour
                 yield return new WaitForSeconds(0.01f);
                 if (timer <= 0) { Debug.Log("Time break"); break; }
             }
+            Destroy(impect);
         }
         
 
