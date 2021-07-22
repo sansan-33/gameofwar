@@ -55,8 +55,20 @@ public class UserCardManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             userCard = transform.GetChild(i).GetComponent<UserCardButton>();
+
             // get selected character tab id and UnitType, don't show if not same unittype
-            if (tabID > 0 && userCard.cardtype != UnitMeta.CharacterUnitType[tabID].ToString())
+            if (tabID == 1) // first tab show team characters only
+            {
+                if (UnitMeta.TeamUnitType.ContainsKey((UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), userCard.cardtype)))
+                {
+                    userCard.gameObject.SetActive(true);
+                }
+                else
+                {
+                    userCard.gameObject.SetActive(false);
+                }
+            }
+            else if (tabID > 1 && userCard.cardtype != UnitMeta.CharacterUnitType[tabID].ToString())
             {
                 userCard.gameObject.SetActive(false);
             }
