@@ -17,7 +17,6 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     [SerializeField] private bool needMinusSP = false;
     private GameObject dragCircle;
     private RTSPlayer RTSplayer;
-    private GameObject impectType;
     private PlayerGround playerGround;
     private SpecialAttackDict.SpecialAttackType SpecialAttackType;
     private SpecialAttackManager specialAttackManager;
@@ -39,10 +38,6 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void SetUnit(Unit unit)
     {
         parentUnit = unit;
-    }
-    public void SetImpectType(GameObject prefab)
-    {
-        impectType = prefab;
     }
     public void SetSpecialAttackType(SpecialAttackDict.SpecialAttackType type)
     {
@@ -177,6 +172,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         GameObject[] provokeUnit = GameObject.FindGameObjectsWithTag("Provoke" + 1);
         GameObject[] sneakUnit = GameObject.FindGameObjectsWithTag("Sneaky" + 1);
         GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
+        GameObject[] bomb = GameObject.FindGameObjectsWithTag("Bomb");
         List<GameObject> armies = new List<GameObject>();
         List<GameObject> army = new List<GameObject>();
         List<GameObject> topThreeHealthUnit = new List<GameObject>();
@@ -187,6 +183,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
            
         //Debug.Log($"1 {armies.Count}");
         sneakUnit.CopyTo(armies);
+        bomb.CopyTo(armies);
         //Debug.Log($"2 {armies.Count}");
         float range = 11;
         float scale = 0.5f;
@@ -205,41 +202,44 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             //Debug.Log($"finded {unit} circle pos {dragCircle.transform.position} - pos {unit.transform.position} = sqrMagnitude {(dragCircle.transform.position - unit.transform.position).sqrMagnitude} range = {range}");
             if ((dragCircle.transform.position - unit.transform.position).sqrMagnitude < range)
             {
-                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.LIGHTNING)
-                {
-                    if (topThreeHealthUnit.Count < 3)
-                    {
-                        //Debug.Log("ADD unit" + unit);
-                        topThreeHealthUnit.Add(unit);
-                    }
-                    else
-                    {
-                        
-                        foreach (GameObject obj in topThreeHealthUnit.ToArray())
-                        {
-                           // Debug.Log($"{obj.name}:{obj.GetComponent<Health>().getMaxHealth()} < {unit.GetComponent<Health>().getMaxHealth()}");
-                            if (obj.GetComponent<Health>().getMaxHealth() < unit.GetComponent<Health>().getMaxHealth())
-                            {
-                                topThreeHealthUnit.Remove(obj);
-                                topThreeHealthUnit.Add(unit);
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    unit.GetComponent<Health>().DealDamage(damage);
-                }
 
-                switch (SpecialAttackType)
-                {
-                    case SpecialAttackDict.SpecialAttackType.ZAP:
+                if (unit.TryGetComponent<Unit>(out Unit Unit))
+                { 
+                    if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.LIGHTNING)
+                    { 
+                        if (topThreeHealthUnit.Count < 3)
+                         {
+                             //Debug.Log("ADD unit" + unit);
+                            topThreeHealthUnit.Add(unit);
+                         }
+                         else
+                         {
+                        
+                             foreach (GameObject obj in topThreeHealthUnit.ToArray())
+                             {
+                                 // Debug.Log($"{obj.name}:{obj.GetComponent<Health>().getMaxHealth()} < {unit.GetComponent<Health>().getMaxHealth()}");
+                                 if (obj.GetComponent<Health>().getMaxHealth() < unit.GetComponent<Health>().getMaxHealth())
+                                 {
+                                    topThreeHealthUnit.Remove(obj);
+                                    topThreeHealthUnit.Add(unit);
+                                  }
+                             }
+                         }
+                     }
+                     else
+                     {
+                        unit.GetComponent<Health>().DealDamage(damage);
+                     }
+                    
+                    switch (SpecialAttackType)
+                    {
+
+                        case SpecialAttackDict.SpecialAttackType.ZAP:
                         StartCoroutine(AwakeUnit(unit, 1, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         //unit.GetComponent<AstarAI>().IS_STUNNED = true;
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, unit.GetComponent<CardStats>().repeatAttackDelay);
                         break;
-                    case SpecialAttackDict.SpecialAttackType.FREEZE:
-
+                        case SpecialAttackDict.SpecialAttackType.FREEZE:
                         key++;
                         if (UnitSpeedkeys.ContainsKey(unit.GetComponent<Health>().freezeKey))
                         {
@@ -256,20 +256,27 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                         unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
                         break;
-                    case SpecialAttackDict.SpecialAttackType.STUN:
+                        case SpecialAttackDict.SpecialAttackType.STUN:
                         StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                         break;
-                    case SpecialAttackDict.SpecialAttackType.GRAB:
+                        case SpecialAttackDict.SpecialAttackType.GRAB:
                         //Debug.Log($"parentUnit.transform.position {parentUnit.transform.position} - unit pos {unit.transform.position} = {(parentUnit.transform.position - unit.transform.position).sqrMagnitude} < distance {distance}");
-                        if ((parentUnit.transform.position - unit.transform.position).sqrMagnitude < distance)
-                        {
-                            //Debug.Log($"change target to {unit}");
-                            distance = (parentUnit.transform.position - unit.transform.position).sqrMagnitude;
-                            closestUnit = unit;
-                        }
+                       
                         break;
-                }             
+
+                    }
+                    
+                }
+                if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.GRAB)
+                {
+                    if ((parentUnit.transform.position - unit.transform.position).sqrMagnitude < distance)
+                    {
+                        Debug.Log($"change target to {unit}");
+                        distance = (parentUnit.transform.position - unit.transform.position).sqrMagnitude;
+                        closestUnit = unit;
+                    }
+                }
             }
         }
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.LIGHTNING)
@@ -285,6 +292,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         {
             //StartCoroutine(MoveUnitZ(closestUnit.transform));
             //StartCoroutine(MoveUnit(closestUnit.transform));
+            Debug.Log($"grab {closestUnit.name}");
             specialAttackManager.SpawnGrabPrefab(closestUnit.transform.position, parentUnit.transform.position, SpecialAttackType.ToString(), closestUnit.gameObject);
         }
 

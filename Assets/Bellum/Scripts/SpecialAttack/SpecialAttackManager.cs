@@ -20,7 +20,8 @@ public class SpecialAttackManager : NetworkBehaviour
         { "REMOVEGAUGE",SpecialAttackType.REMOVEGAUGE },
         { "GRAB",SpecialAttackType.GRAB },
         { "CARDRANKUP",SpecialAttackType.CARDRANKUP },
-         { "FIRE",SpecialAttackType.FIRE },
+        { "FIRE",SpecialAttackType.FIRE },
+        { "BOMB",SpecialAttackType.BOMB },
 
     };
     void Start()

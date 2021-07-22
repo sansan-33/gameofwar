@@ -29,6 +29,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] GameObject grabPrefab;
     [SerializeField] GameObject cardRankUpPrefab;
     [SerializeField] GameObject firePrefab;
+    [SerializeField] GameObject bombPrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
 
@@ -70,6 +71,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.GRAB, grabPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.CARDRANKUP, cardRankUpPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.FIRE, firePrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.BOMB, bombPrefab);
     }
 
     private void Start()
@@ -333,57 +335,15 @@ public class SpButtonManager : MonoBehaviour
         buttons.Add(button.GetComponent<Button>());
 
         //hard code sp type is Freeze
-        //spType = SpecialAttackType.GRAB;
+        if(spType == SpecialAttackType.FIRE)
+        {
+            spType = SpecialAttackType.BOMB;
+        }
+        
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
         impectSmash.GetComponent<ImpactSmash>().SetUnit(unit);
-        switch (spType)
-        {
-            case SpecialAttackType.FIREARROW:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(fireArrowPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FIREARROW);
-                break;
-            case SpecialAttackType.METEOR:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(meteorPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.METEOR);
-                break;
-            case SpecialAttackType.TORNADO:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(tornadoPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.TORNADO);
-                break;
-            case SpecialAttackType.ZAP:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(zapPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.ZAP);
-                break;
-            case SpecialAttackType.FREEZE:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FREEZE);
-                break;
-            case SpecialAttackType.STUN:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(stunPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.STUN);
-                break;
-            case SpecialAttackType.LIGHTNING:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(zapPrefab);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.LIGHTNING);
-                break;
-            case SpecialAttackType.REMOVEGAUGE:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.REMOVEGAUGE);
-                break;
-            case SpecialAttackType.GRAB:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.GRAB);
-                break;
-            case SpecialAttackType.CARDRANKUP:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.CARDRANKUP);
-                break;
-            case SpecialAttackType.FIRE:
-                impectSmash.GetComponent<ImpactSmash>().SetImpectType(null);
-                impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(SpecialAttackType.FIRE);
-                break;
-        }
+        impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(spType);
         button.GetComponent<SpCostDisplay>().SetSpPrefab(impectSmash);
         // Instantiate specialAttack
         ISpecialAttack iSpecialAttack = impectSmash.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;
