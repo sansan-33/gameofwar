@@ -55,8 +55,20 @@ public class UserCardManager : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
         {
             userCard = transform.GetChild(i).GetComponent<UserCardButton>();
+
             // get selected character tab id and UnitType, don't show if not same unittype
-            if (tabID > 0 && userCard.cardtype != UnitMeta.CharacterUnitType[tabID].ToString())
+            if (tabID == 1) // first tab show team characters only
+            {
+                if (UnitMeta.TeamUnitType.ContainsKey((UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), userCard.cardtype)))
+                {
+                    userCard.gameObject.SetActive(true);
+                }
+                else
+                {
+                    userCard.gameObject.SetActive(false);
+                }
+            }
+            else if (tabID > 1 && userCard.cardtype != UnitMeta.CharacterUnitType[tabID].ToString())
             {
                 userCard.gameObject.SetActive(false);
             }
@@ -79,12 +91,6 @@ public class UserCardManager : MonoBehaviour
         CharacterImage characterImage;
         UserCard card;
         SpTypeImage spTypeImage;
-
-        if (!IS_TEAM_MEMBER_SELECTION && CharacterTabSlot.transform.childCount > 0)
-        {
-            CharacterTabButton characterTabButton = CharacterTabSlot.transform.GetChild(0).GetComponent<CharacterTabButton>();
-            characterTabButton.FocusTab();
-        }
 
         foreach (var allCard in allCardDict)
         {
@@ -182,6 +188,13 @@ public class UserCardManager : MonoBehaviour
             }
             userCard.transform.SetParent(transform);
         }
+
+        if (!IS_TEAM_MEMBER_SELECTION && CharacterTabSlot.transform.childCount > 0)
+        {
+            CharacterTabButton characterTabButton = CharacterTabSlot.transform.GetChild(StaticClass.SelectedCharacterTab).GetComponent<CharacterTabButton>();
+            characterTabButton.HandleClick();
+        }
+
         yield return null;
     }
 

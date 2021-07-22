@@ -20,6 +20,7 @@ public class CharacterTabButton : MonoBehaviour
     {
         FocusTab();
         CharacterTabChanged?.Invoke(tabID.ToString());
+        StaticClass.SelectedCharacterTab = tabID;
     }
 
     public void FocusTab()
