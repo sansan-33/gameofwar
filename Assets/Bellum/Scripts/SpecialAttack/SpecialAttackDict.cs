@@ -41,6 +41,7 @@ public class SpecialAttackDict : MonoBehaviour
         {SpecialAttackType.METEOR, 1.5f },
         {SpecialAttackType.TORNADO, 2 },
          {SpecialAttackType.FIRE, 1 },
+          {SpecialAttackType.BOMB, 0.5f },
     };
     public static Dictionary<SpecialAttackType, int> SpecialAttackCost = new Dictionary<SpecialAttackType, int>()
     {
