@@ -9,7 +9,7 @@ public class Fire : MonoBehaviour
     [SerializeField] GameObject firePrefabChild2;
     [SerializeField] private float burnTime = 10;
     [SerializeField] private int maxSpawn = 3;
-    [SerializeField] private int damage = 500;
+    [SerializeField] private int damage = 5;
     [SerializeField] private int diedTime = 20;
     bool bigFire = true;
     private Transform parent;
