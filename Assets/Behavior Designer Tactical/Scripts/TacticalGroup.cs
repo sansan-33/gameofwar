@@ -541,9 +541,9 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             //    Debug.Log($"{tacticalAgent.transform.name} move to attack position");
 
             FindAttackTarget();
-            
+            if(tacticalAgent.TargetTransform == null) { return false; } 
             //if (!tacticalAgent.CanSeeTarget() || Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
-            if (tacticalAgent.TargetTransform != null && Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
+            if (Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
             {
                 tacticalAgent.SetDestination(tacticalAgent.TargetTransform.position);
                 //tacticalAgent.SetDestination(SurroundTraget(tacticalAgent.TargetTransform.position));

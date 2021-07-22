@@ -122,7 +122,7 @@ public class UnitProjectile : NetworkBehaviour
         damageToDeal = newDamageToDeal == 0 ? damageToDeal : newDamageToDeal;
         damageToDeal = (int)(damageToDeal * damageToDealFactor);
         damageToDealOriginal = damageToDeal;
-        Debug.Log($"newDamageToDeal {newDamageToDeal} , damageToDeal {damageToDeal},  damageToDealOriginal {damageToDealOriginal}, newDamageToDealFactor {damageToDealFactor}");
+        //Debug.Log($"newDamageToDeal {newDamageToDeal} , damageToDeal {damageToDeal},  damageToDealOriginal {damageToDealOriginal}, newDamageToDealFactor {damageToDealFactor}");
     }
     private void OnTriggerEnter(Collider other) //sphere collider is used to differentiate between the unit itself, and the attack range (fireRange)
     {
