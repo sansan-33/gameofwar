@@ -8,10 +8,10 @@ public class CardSlot : MonoBehaviour
     public void Start()
     {
           
-        //if (mergeEffectPrefab != null)
-        //    mergeEffect = Instantiate(mergeEffectPrefab, transform);
-        //else
-        //    Debug.Log($"{name} mergeEffectPrefab is null");
+        if (mergeEffectPrefab != null)
+            mergeEffect = Instantiate(mergeEffectPrefab, transform);
+        else
+            Debug.Log($"{name} mergeEffectPrefab is null");
 
         //if (UnitMeta.UnitEleixer.TryGetValue((UnitMeta.UnitType)type, out int value)) { uniteleixer = value; }
     }

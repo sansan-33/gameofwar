@@ -543,7 +543,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             FindAttackTarget();
             
             //if (!tacticalAgent.CanSeeTarget() || Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
-            if (Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
+            if (tacticalAgent.TargetTransform != null && Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
             {
                 tacticalAgent.SetDestination(tacticalAgent.TargetTransform.position);
                 //tacticalAgent.SetDestination(SurroundTraget(tacticalAgent.TargetTransform.position));
