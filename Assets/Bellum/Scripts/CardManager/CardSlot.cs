@@ -9,8 +9,8 @@ public class CardSlot : MonoBehaviour
     {
 
         //if (mergeEffectPrefab != null)
-        mergeEffect = Instantiate(mergeEffectPrefab, transform);
-        Debug.Log($"{name} mergeEffectPrefab is null ? {mergeEffect == null} {mergeEffect.name}");
+        //mergeEffect = Instantiate(mergeEffectPrefab, transform);
+        //Debug.Log($"{name} mergeEffectPrefab is null ? {mergeEffect == null} {mergeEffect.name}");
         //else
         //Debug.Log($"{name} mergeEffectPrefab is null");
 
@@ -19,13 +19,14 @@ public class CardSlot : MonoBehaviour
 
     private void Update()
     {
-         
+             
     }
     public void playMergeEffect()
     {
-        if (mergeEffect != null)
-            mergeEffect.GetComponent<ParticleSystem>().Play();
-        //Debug.Log($"{name} play merge card effect");
+        //if (mergeEffect != null)
+        //mergeEffect.GetComponent<ParticleSystem>().Play();
+        mergeEffect = Instantiate(mergeEffectPrefab, transform);
+        Debug.Log($"{name} play merge card effect");
     }
 
-}
+}                                                                          
