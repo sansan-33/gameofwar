@@ -183,7 +183,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                    
                     foreach (UnitMeta.TargetTag unitTargetTag in UnitMeta.TargetGroup[unitTag])
                     {
-                        string _targetTag = unitTargetTag.ToString() + targetid;
+                        string _targetTag = unitTargetTag.ToString() + (unitTargetTag == UnitMeta.TargetTag.Door  ?  "" :  targetid);
                         var foundAttackGroup = GameObject.FindGameObjectsWithTag(_targetTag);
                         for (int i = 0; i < foundAttackGroup.Length; ++i)
                         {
