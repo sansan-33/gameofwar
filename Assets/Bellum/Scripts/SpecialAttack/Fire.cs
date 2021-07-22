@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class Fire : MonoBehaviour
 {
@@ -10,17 +11,22 @@ public class Fire : MonoBehaviour
     [SerializeField] private float burnTime = 10;
     [SerializeField] private int maxSpawn = 3;
     [SerializeField] private int damage = 5;
-    [SerializeField] private int diedTime = 20;
+    [SerializeField] private int diedTime = 15;
     bool bigFire = true;
     private Transform parent;
+    private SpecialAttackManager specialAttackManager;
+    private RTSPlayer RTSPlayer;
     // Start is called before the first frame update
     void Start()
     {
+        RTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        tag = "Fire" + RTSPlayer.GetPlayerID();
+        gameObject.layer = LayerMask.NameToLayer("Projectile");
         parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
         StartCoroutine(BurnAround());
-        StartCoroutine(DestroySelf());
+        StartCoroutine(DestroySelf(diedTime));
     }
-    private IEnumerator DestroySelf()
+    private IEnumerator DestroySelf(int diedTime)
     {
         //Debug.Log("start destroy");
         yield return new WaitForSeconds(diedTime);
@@ -29,16 +35,26 @@ public class Fire : MonoBehaviour
     }
     public void HandleScale(bool fromBigFire = false)
     {
+       
         if (fromBigFire == true)
         {
+           // Debug.Log("HandleScale");
 
-                firePrefabChild1.transform.localScale /= 3;
-            firePrefabChild2.transform.localScale /= 3;
+            firePrefabChild1.transform.localScale = new Vector3(6,6,6);
+            firePrefabChild2.transform.localScale = new Vector3(6, 6, 6);
         }
         this.bigFire = false;
 
     }
-
+    public void SetSpecialAttackManager(SpecialAttackManager specialAttackManager)
+    {
+        this.specialAttackManager = specialAttackManager;
+    }
+    public void DestroyFire()
+    {
+        // Debug.Log("deatroy fire check");
+        StartCoroutine(DestroySelf(1));
+    }
     private IEnumerator BurnAround()
     {
         while (maxSpawn >= 0)
@@ -47,13 +63,17 @@ public class Fire : MonoBehaviour
                yield return new WaitForSeconds(5);
             float vector = bigFire ? 7 : 7 / 4;
             Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(vector, vector, vector));
-            Debug.Log($"collideed {colliders.Length}");
+           // Debug.Log($"collideed {colliders.Length}");
             foreach (Collider unit in colliders)
             {
                 if (unit.TryGetComponent<Health>(out Health health))
                 {
-                    Debug.Log($"deal damage to {unit.name}");
-                    health.DealDamage(damage);
+                    if (unit.CompareTag("Player" + RTSPlayer.GetEnemyID())|| unit.CompareTag("King" + RTSPlayer.GetEnemyID())|| unit.CompareTag("Sneaky" + RTSPlayer.GetEnemyID())|| unit.CompareTag("Provoke" + RTSPlayer.GetEnemyID()))
+                    {
+                       // Debug.Log($"deal damage to {unit.name}");
+                        health.DealDamage(damage);
+                    }
+                   
                 }
             }
             if (bigFire == false)
@@ -74,20 +94,20 @@ public class Fire : MonoBehaviour
                 switch (_pos)
                 {
                     case 0:
-                        randomX = Random.Range(pos.x - 3, pos.x - 5);
-                        randomZ = Random.Range(pos.z - 3, pos.z - 5);
+                        randomX = Random.Range(pos.x - 2, pos.x - 4);
+                        randomZ = Random.Range(pos.z - 2, pos.z - 4);
                         break;
                     case 1:
-                        randomX = Random.Range(pos.x - 3, pos.x - 5);
-                        randomZ = Random.Range(pos.z + 3, pos.z + 5);
+                        randomX = Random.Range(pos.x - 2, pos.x - 4);
+                        randomZ = Random.Range(pos.z + 2, pos.z + 4);
                         break;
                     case 2:
-                        randomX = Random.Range(pos.x + 3, pos.x + 5);
-                        randomZ = Random.Range(pos.z - 3, pos.z - 5);
+                        randomX = Random.Range(pos.x + 2, pos.x + 4);
+                        randomZ = Random.Range(pos.z - 2, pos.z - 4);
                         break;
                     case 3:
-                        randomX = Random.Range(pos.x + 3, pos.x + 5);
-                        randomZ = Random.Range(pos.z + 3, pos.z + 5);
+                        randomX = Random.Range(pos.x + 2, pos.x + 4);
+                        randomZ = Random.Range(pos.z + 2, pos.z + 4);
                         break;
                 }
 

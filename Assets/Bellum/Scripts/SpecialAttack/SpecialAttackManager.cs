@@ -70,6 +70,10 @@ public class SpecialAttackManager : NetworkBehaviour
             impect.GetComponent<Tornado>().OnStartServer();
             //StartCoroutine(DestroyGameObjectAfterSec(impect, 5.5f));
         }
+        if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.FIRE)
+        {
+            impect.GetComponent<Fire>().SetSpecialAttackManager(this);   
+        }
     }
     [ClientRpc]
     public void RpcSpawnPrefab(Vector3 pos, string specialAttackType)
@@ -157,11 +161,44 @@ public class SpecialAttackManager : NetworkBehaviour
         }
     }
     [ClientRpc]
-    public void RpcSpawnGrabPrefab(Vector3 toPosVector3 , Vector3 pos, string specialAttackType, GameObject unit)
+    public void RpcSpawnGrabPrefab(Vector3 toPosVector3, Vector3 pos, string specialAttackType, GameObject unit)
     {
         //Debug.Log($"RpcPowerUp {pos} {specialAttackType }  ");
         StartCoroutine(HandleSpawnGrabPrefab(toPosVector3,pos, specialAttackType, unit));
     }
+    /*public void DestroyPrefab(GameObject prefab)
+    {
+        if (isServer)
+            RpcDestroyPrefab(prefab);
+        else
+            CmdDestroyPrefab(prefab);
+    }
+    //[Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = false)]
+    public void CmdDestroyPrefab(GameObject prefab)
+    {
+        Debug.Log($"CmdPowerUp {prefab} ");
+        ServerDestroyPrefab(prefab);
+    }
+    [Server]
+    public void ServerDestroyPrefab(GameObject prefab)
+    {
+
+        //Debug.Log($"ServerpowerUp {pos} {specialAttackType } ");
+        HandleDestroyPrefab(prefab);
+        //if comment this line . player 2 name is lower case with (clone) , card stats and other things not sync
+        RpcDestroyPrefab(prefab);
+    }
+    public void HandleDestroyPrefab(GameObject prefab)
+    {
+        Destroy(prefab);
+    }
+    [ClientRpc]
+    public void RpcDestroyPrefab(GameObject prefab)
+    {
+        //Debug.Log($"RpcPowerUp {pos} {specialAttackType }  ");
+        HandleDestroyPrefab(prefab);
+    }*/
     // Update is called once per frame
     void Update()
     {

@@ -133,14 +133,14 @@ public class CardDealer : MonoBehaviour
         //Debug.Log("DealingCard");
         Card lastCard = cardObjectPool.GetObject().GetComponent<Card>();
         CardFace randomCard;
-        //if (player.isEnemy == false)
-       // {
-           // randomCard = cardDeck[2];
-        //}
-        //else
-       // {
+       /* if (player.isEnemy == true)
+       {
+            randomCard = cardDeck[2];
+        }
+        else
+        {*/
             randomCard = cardDeck[UnityEngine.Random.Range(0, cardDeck.Count)];
-        //}
+       // }
         
         
         cardDeckUsed.Add(randomCard);

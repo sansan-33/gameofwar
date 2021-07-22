@@ -439,12 +439,13 @@ public class UnitMeta
     public static Dictionary<int, UnitType> CharacterUnitType = new Dictionary<int, UnitType>()
     {
         { 0, UnitType.ALL },
-        { 1, UnitType.ARCHER },
-        { 2, UnitType.TANK },
-        { 3, UnitType.MAGIC },
-        { 4, UnitType.CAVALRY },
-        { 5, UnitType.FOOTMAN },
-        { 6, UnitType.SIEGE }
+        { 1, UnitType.KING },
+        { 2, UnitType.ARCHER },
+        { 3, UnitType.TANK },
+        { 4, UnitType.MAGIC },
+        { 5, UnitType.CAVALRY },
+        { 6, UnitType.FOOTMAN },
+        { 7, UnitType.SIEGE }
     };
 }
 /*
