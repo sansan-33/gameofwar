@@ -10,7 +10,7 @@ public class Fire : MonoBehaviour
     [SerializeField] private float burnTime = 10;
     [SerializeField] private int maxSpawn = 3;
     [SerializeField] private int damage = 5;
-    [SerializeField] private int diedTime = 20;
+    [SerializeField] private int diedTime = 15;
     bool bigFire = true;
     private Transform parent;
     // Start is called before the first frame update
@@ -29,11 +29,13 @@ public class Fire : MonoBehaviour
     }
     public void HandleScale(bool fromBigFire = false)
     {
+       
         if (fromBigFire == true)
         {
+            Debug.Log("HandleScale");
 
-                firePrefabChild1.transform.localScale /= 3;
-            firePrefabChild2.transform.localScale /= 3;
+            firePrefabChild1.transform.localScale = new Vector3(6,6,6);
+            firePrefabChild2.transform.localScale = new Vector3(6, 6, 6);
         }
         this.bigFire = false;
 
@@ -74,20 +76,20 @@ public class Fire : MonoBehaviour
                 switch (_pos)
                 {
                     case 0:
-                        randomX = Random.Range(pos.x - 3, pos.x - 5);
-                        randomZ = Random.Range(pos.z - 3, pos.z - 5);
+                        randomX = Random.Range(pos.x - 2, pos.x - 4);
+                        randomZ = Random.Range(pos.z - 2, pos.z - 4);
                         break;
                     case 1:
-                        randomX = Random.Range(pos.x - 3, pos.x - 5);
-                        randomZ = Random.Range(pos.z + 3, pos.z + 5);
+                        randomX = Random.Range(pos.x - 2, pos.x - 4);
+                        randomZ = Random.Range(pos.z + 2, pos.z + 4);
                         break;
                     case 2:
-                        randomX = Random.Range(pos.x + 3, pos.x + 5);
-                        randomZ = Random.Range(pos.z - 3, pos.z - 5);
+                        randomX = Random.Range(pos.x + 2, pos.x + 4);
+                        randomZ = Random.Range(pos.z - 2, pos.z - 4);
                         break;
                     case 3:
-                        randomX = Random.Range(pos.x + 3, pos.x + 5);
-                        randomZ = Random.Range(pos.z + 3, pos.z + 5);
+                        randomX = Random.Range(pos.x + 2, pos.x + 4);
+                        randomZ = Random.Range(pos.z + 2, pos.z + 4);
                         break;
                 }
 
