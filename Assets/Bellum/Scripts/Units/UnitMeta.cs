@@ -40,11 +40,11 @@ public class UnitMeta
     //         | King
     public enum TargetTag { Provoke,Door,Player,King,Building };
     public static Dictionary<TargetTag, List<TargetTag>> TargetGroup = new Dictionary<TargetTag, List<TargetTag>>() {
-        { TargetTag.Provoke, new List<TargetTag> {TargetTag.Player, TargetTag.King } },
-        { TargetTag.Door, new List<TargetTag> {TargetTag.Provoke} },
-        { TargetTag.Player, new List<TargetTag> {TargetTag.King } },
-        { TargetTag.King, new List<TargetTag> {} },
-        { TargetTag.Building, new List<TargetTag> { TargetTag.Door } }
+        { TargetTag.Provoke, new List<TargetTag> { TargetTag.Provoke, TargetTag.Player, TargetTag.King } },
+        { TargetTag.Door, new List<TargetTag> { TargetTag.Door, TargetTag.Provoke} },
+        { TargetTag.Player, new List<TargetTag> { TargetTag.Player, TargetTag.King } },
+        { TargetTag.King, new List<TargetTag> { TargetTag.King } },
+        { TargetTag.Building, new List<TargetTag> { TargetTag.Building, TargetTag.Door } }
     };
 
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 4 }, { UnitType.ARCHER, 2 } };
