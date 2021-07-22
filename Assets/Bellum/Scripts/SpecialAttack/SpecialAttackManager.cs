@@ -162,7 +162,7 @@ public class SpecialAttackManager : NetworkBehaviour
                 }
                 //Debug.Log("grab prefab start");
                 float timer = 1;
-                while (impect.transform.position != bomb.transform.position)
+                while (bomb != null && impect.transform.position != bomb.transform.position)
                 {
                     timer -= Time.deltaTime;
                     //Debug.Log($"grab prefab start {impect.transform.position}");
@@ -174,7 +174,7 @@ public class SpecialAttackManager : NetworkBehaviour
                 //Debug.Log("unit back");
                 StartCoroutine(moveUnit(bomb, backPos));
                 //Debug.Log("grab prefab");
-                while (impect.transform.position != backPos)
+                while (bomb != null && impect.transform.position != backPos)
                 {
                     timer -= Time.deltaTime;
                     ///Debug.Log($"grab prefab back {impect.transform.position}");
@@ -193,7 +193,7 @@ public class SpecialAttackManager : NetworkBehaviour
     {
         float timer = 1;
         Vector3 currentVelocity = Vector3.zero;
-        while (unit.transform.position != pos)
+        while (unit != null && unit.transform.position != pos)
         {
             //Debug.Log($"unit prefab back {unit.transform.position}");
             unit.transform.position = Vector3.SmoothDamp(unit.transform.position, pos, ref currentVelocity, 0.5f);
