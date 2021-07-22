@@ -34,7 +34,18 @@ public class UnitMeta
     public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER,SIEGE};
     public enum EffectType { ATTACK, DEFENSE, HEALTH, SPEED, FREEZE, STUN, BURN };
 
-
+    // Target Table
+    // Target  | Provoke | Door      | Player    |  King    | Building
+    //         | Player  | Provoke   | King      |  King    | Door
+    //         | King
+    public enum TargetTag { Provoke,Door,Player,King,Building };
+    public static Dictionary<TargetTag, List<TargetTag>> TargetGroup = new Dictionary<TargetTag, List<TargetTag>>() {
+        { TargetTag.Provoke, new List<TargetTag> {TargetTag.Player, TargetTag.King } },
+        { TargetTag.Door, new List<TargetTag> {TargetTag.Provoke} },
+        { TargetTag.Player, new List<TargetTag> {TargetTag.King } },
+        { TargetTag.King, new List<TargetTag> {} },
+        { TargetTag.Building, new List<TargetTag> { TargetTag.Door } }
+    };
 
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 4 }, { UnitType.ARCHER, 2 } };
     public static Dictionary<UnitKey, bool> UnitKeyRider = new Dictionary<UnitKey, bool>() { { UnitKey.CAVALRY, true }, { UnitKey.GODCAVALRY, true }, { UnitKey.RIDER, true }, { UnitKey.ELFCAVALRY, true } };

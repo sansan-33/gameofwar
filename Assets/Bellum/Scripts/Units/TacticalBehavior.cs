@@ -227,6 +227,12 @@ public class TacticalBehavior : MonoBehaviour
                 return target;
             }
         }
+        if (unit.unitType == UnitMeta.UnitType.SIEGE)
+        {
+            target = "Building" + enemyid;
+            return target;
+        }
+
         if (TaticalAttackCurrent[playerid] == TaticalAttack.SPINATTACK || TaticalAttackCurrent[playerid] == TaticalAttack.ARROWRAIN || TaticalAttackCurrent[playerid] == TaticalAttack.CAVALRYCHARGES)
         {
             if (provoke)

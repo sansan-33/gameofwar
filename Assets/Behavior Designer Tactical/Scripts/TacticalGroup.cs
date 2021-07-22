@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tasks;
 using Tooltip = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 using HelpURL = BehaviorDesigner.Runtime.Tasks.HelpURLAttribute;
+using System.Linq;
 
 namespace BehaviorDesigner.Runtime.Tactical.Tasks
 {
@@ -160,20 +161,30 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 else
                 {
+                    /*
                     List<string> targets = new List<string>();
                     targets.Add(targetTag.Value);
+
                     if (targetTag.Value.Contains("Provoke"))
                         targets.Add("Player" + targetTag.Value.Substring(targetTag.Value.Length - 1));
+                    else if(targetTag.Value.Contains("Building"))
+                        targets.Add("Door");
                     else {
                         if (targetTag.Value != "Door")
                             targets.Add("Provoke" + targetTag.Value.Substring(targetTag.Value.Length - 1));
                     }
-                    if (targetTag.Value != "Door")
+                    if (targetTag.Value != "Door" && !targetTag.Value.Contains("Building") )
                         targets.Add("King" + targetTag.Value.Substring(targetTag.Value.Length - 1));
-
-                    foreach (string taregt in targets)
+                    */
+                    var isNumeric = int.TryParse(targetTag.Value.Last().ToString(), out _);
+                    string targetid = isNumeric ? targetTag.Value.Last().ToString() : "";
+                    string targetUnitTag = isNumeric ? targetTag.Value.Substring(0, targetTag.Value.Length - 1) : targetTag.Value;
+                    System.Enum.TryParse(targetUnitTag, out UnitMeta.TargetTag unitTag);
+                   
+                    foreach (UnitMeta.TargetTag unitTargetTag in UnitMeta.TargetGroup[unitTag])
                     {
-                        var foundAttackGroup = GameObject.FindGameObjectsWithTag(taregt);
+                        string _targetTag = unitTargetTag.ToString() + targetid;
+                        var foundAttackGroup = GameObject.FindGameObjectsWithTag(_targetTag);
                         for (int i = 0; i < foundAttackGroup.Length; ++i)
                         {
                             var damageable = (foundAttackGroup[i].GetComponentInParent(typeof(IDamageable)) as IDamageable);
