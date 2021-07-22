@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 public class Fire : MonoBehaviour
 {
@@ -13,14 +14,19 @@ public class Fire : MonoBehaviour
     [SerializeField] private int diedTime = 15;
     bool bigFire = true;
     private Transform parent;
+    private SpecialAttackManager specialAttackManager;
+    private RTSPlayer RTSPlayer;
     // Start is called before the first frame update
     void Start()
     {
+        RTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+        tag = "Fire" + RTSPlayer.GetPlayerID();
+        gameObject.layer = LayerMask.NameToLayer("Projectile");
         parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
         StartCoroutine(BurnAround());
-        StartCoroutine(DestroySelf());
+        StartCoroutine(DestroySelf(diedTime));
     }
-    private IEnumerator DestroySelf()
+    private IEnumerator DestroySelf(int diedTime)
     {
         //Debug.Log("start destroy");
         yield return new WaitForSeconds(diedTime);
@@ -32,7 +38,7 @@ public class Fire : MonoBehaviour
        
         if (fromBigFire == true)
         {
-            Debug.Log("HandleScale");
+           // Debug.Log("HandleScale");
 
             firePrefabChild1.transform.localScale = new Vector3(6,6,6);
             firePrefabChild2.transform.localScale = new Vector3(6, 6, 6);
@@ -40,7 +46,15 @@ public class Fire : MonoBehaviour
         this.bigFire = false;
 
     }
-
+    public void SetSpecialAttackManager(SpecialAttackManager specialAttackManager)
+    {
+        this.specialAttackManager = specialAttackManager;
+    }
+    public void DestroyFire()
+    {
+        // Debug.Log("deatroy fire check");
+        StartCoroutine(DestroySelf(1));
+    }
     private IEnumerator BurnAround()
     {
         while (maxSpawn >= 0)
@@ -49,13 +63,17 @@ public class Fire : MonoBehaviour
                yield return new WaitForSeconds(5);
             float vector = bigFire ? 7 : 7 / 4;
             Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(vector, vector, vector));
-            Debug.Log($"collideed {colliders.Length}");
+           // Debug.Log($"collideed {colliders.Length}");
             foreach (Collider unit in colliders)
             {
                 if (unit.TryGetComponent<Health>(out Health health))
                 {
-                    Debug.Log($"deal damage to {unit.name}");
-                    health.DealDamage(damage);
+                    if (unit.CompareTag("Player" + RTSPlayer.GetEnemyID())|| unit.CompareTag("King" + RTSPlayer.GetEnemyID())|| unit.CompareTag("Sneaky" + RTSPlayer.GetEnemyID())|| unit.CompareTag("Provoke" + RTSPlayer.GetEnemyID()))
+                    {
+                       // Debug.Log($"deal damage to {unit.name}");
+                        health.DealDamage(damage);
+                    }
+                   
                 }
             }
             if (bigFire == false)

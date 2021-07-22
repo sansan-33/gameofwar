@@ -33,7 +33,6 @@ public class Tornado : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log($"Tornado OnTriggerEnter {other.tag} {other.name} ");
 
         if (CanPull(other)) {
             StartCoroutine(pullObject(other, true));
@@ -79,6 +78,30 @@ public class Tornado : NetworkBehaviour
     private bool CanPull(Collider other)
     {
         bool sameTeam = true;
+        if (other.TryGetComponent<Fire>(out Fire fire))
+        {
+            if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
+            {
+               
+                if (fire.CompareTag("Fire" + 0))
+                {
+                    
+                    fire.DestroyFire();
+                }  //check to see if it belongs to the player, if it does, do nothing
+            }
+            else // Multi player seneriao
+            {
+                if (this.TryGetComponent<NetworkIdentity>(out NetworkIdentity networkIdentity))
+                {
+                    if (!networkIdentity.hasAuthority) { return false; }
+                    if (fire.CompareTag("Fire" + enemyid))
+                    {
+                        fire.DestroyFire();
+                    }
+                }
+            }
+            return false;
+        }
         if (other.TryGetComponent<Unit>(out Unit unit))
         {
             if (unit.unitType == UnitMeta.UnitType.KING || unit.unitType == UnitMeta.UnitType.QUEEN || unit.unitType == UnitMeta.UnitType.HERO) { return false; }
@@ -99,6 +122,7 @@ public class Tornado : NetworkBehaviour
                 }
             }
         }
+
         return sameTeam;
     }
     [Server]
