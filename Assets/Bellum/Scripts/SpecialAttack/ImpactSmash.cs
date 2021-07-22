@@ -293,6 +293,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             //StartCoroutine(MoveUnitZ(closestUnit.transform));
             //StartCoroutine(MoveUnit(closestUnit.transform));
             Debug.Log($"grab {closestUnit.name}");
+            if (closestUnit.CompareTag("Bomb")) { Debug.Log("change tag"); closestUnit.tag = "SelectedBomb"; }
             specialAttackManager.SpawnGrabPrefab(closestUnit.transform.position, parentUnit.transform.position, SpecialAttackType.ToString(), closestUnit.gameObject);
         }
 

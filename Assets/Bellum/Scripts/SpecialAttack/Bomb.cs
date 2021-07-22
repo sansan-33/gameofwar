@@ -8,6 +8,7 @@ public class Bomb : MonoBehaviour
 {
     [SerializeField] private float damage = 100;
     [SerializeField] private float explodedTime = 10;
+    [SerializeField] private float range = 0.25f;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,22 +17,14 @@ public class Bomb : MonoBehaviour
     private IEnumerator Explode(float time)
     {
         yield return new WaitForSeconds(time);
-        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
-        GameObject[] provokeUnit = GameObject.FindGameObjectsWithTag("Provoke" + 1);
-        GameObject[] sneakUnit = GameObject.FindGameObjectsWithTag("Sneaky" + 1);
-        GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
-        //GameObject[] bomb = GameObject.FindGameObjectsWithTag("Bomb");
-        List<GameObject> armies = new List<GameObject>();
-        armies = units.ToList();
-
-        provokeUnit.CopyTo(armies);
-        if (king != null) { armies.Add(king); }
-
         //Debug.Log($"1 {armies.Count}");
-        sneakUnit.CopyTo(armies);
-        foreach(GameObject unit in armies)
+        Collider[] colliders = Physics.OverlapBox(transform.position, new Vector3(range, range, range));
+        foreach(Collider unit in colliders)
         {
-            unit.GetComponent<Health>().DealDamage(damage);
+            if(unit.TryGetComponent<Unit>(out Unit _unit))
+            {
+                unit.GetComponent<Health>().DealDamage(damage);
+            }
         }
         Destroy(gameObject);
     }
