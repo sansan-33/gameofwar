@@ -339,7 +339,8 @@ public class SpButtonManager : MonoBehaviour
         {
             spType = SpecialAttackType.BOMB;
         }*/
-        //spType = SpecialAttackType.STUN;
+
+        spType = SpecialAttackType.STUN;
 
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);

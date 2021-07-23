@@ -79,7 +79,7 @@ public class SpecialAttackManager : NetworkBehaviour
         }
         if(SpecialAttackType == SpecialAttackType.STUN)
         {
-            Instantiate(stunPrefab).transform.position = pos;
+            Instantiate(stunPrefab).transform.position = new Vector3(pos.x,pos.y+2,pos.z);
         }
     }
     [ClientRpc]
