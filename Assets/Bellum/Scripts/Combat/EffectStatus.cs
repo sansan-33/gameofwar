@@ -105,7 +105,7 @@ public class EffectStatus : NetworkBehaviour
             ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.SPEED, newValue);
         if(newValue > oldValue)
         {
-            Instantiate(speedPrefab, transform);
+            //Instantiate(speedPrefab, transform);
         }
         else
         {
