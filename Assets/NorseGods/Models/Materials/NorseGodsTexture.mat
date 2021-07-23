@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NorseGodsTexture
-  m_Shader: {fileID: -6465566751694194690, guid: 90b2ed65665cb1d48a95c0b44f8ec4b8, type: 3}
+  m_Shader: {fileID: 4800000, guid: 76d3903ff637fd94cb83f28811b66e1a, type: 3}
   m_ShaderKeywords: N_F_EAL_ON N_F_O_ON N_F_RELGI_ON N_F_SS_ON N_F_TRANSAFFSHA_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -165,10 +165,12 @@ Material:
     - Vector1_A7EE0E62: 0.7
     - _AlphaBaseCutout: 1
     - _AlphaClip: 0
+    - _BlaThres: 0
     - _BleModDest: 0
     - _BleModSour: 1
     - _Blend: 0
     - _BumpScale: 1
+    - _ColOutMiSel: 0
     - _Compa: 4
     - _Cull: 2
     - _Culling: 2
@@ -208,6 +210,7 @@ Material:
     - _MCapIntensity: 1
     - _MVCOL: 0
     - _Metallic: 0
+    - _MixDeNorSob: 0
     - _MixMainTexToOutline: 0
     - _Mode: 0
     - _N_F_CA: 0
@@ -238,9 +241,14 @@ Material:
     - _N_F_STIS: 0
     - _NoisyOutlineIntensity: 0
     - _NormalMapIntensity: 1
+    - _NormalMax: 1
+    - _NormalMin: 1
+    - _NormalThreshold: 1.3
     - _OcclusionStrength: 1
     - _Opacity: 1
     - _Oper: 0
+    - _OutOnSel: 0
+    - _OutlineColorIntensity: 0
     - _OutlineExtrudeMethod: 0
     - _OutlineWidth: 0.5
     - _OutlineWidthAffectedByViewDistance: 0
@@ -289,6 +297,8 @@ Material:
     - _SmoothObjectNormal: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SobOutSel: 0
+    - _SobelOutlineThreshold: 50
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
@@ -304,6 +314,7 @@ Material:
     - _VertexColorBlueAffectOutlineWitdh: 0
     - _VertexColorGreenControlSelfShadowThreshold: 0
     - _VertexColorRedControlSmoothObjectNormal: 0
+    - _WhiThres: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
