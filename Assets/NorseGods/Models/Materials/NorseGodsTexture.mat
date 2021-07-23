@@ -22,7 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: NorseGodsTexture
   m_Shader: {fileID: 4800000, guid: 6459b2db96a08ca41b0f9b39dc7ad59e, type: 3}
-  m_ShaderKeywords: N_F_EAL_ON N_F_O_ON N_F_RELGI_ON N_F_SS_ON N_F_TRANSAFFSHA N_F_TRANSAFFSHA_ON
+  m_ShaderKeywords: N_F_EAL_ON N_F_GLO_ON N_F_O_ON N_F_RELGI_ON N_F_RL_ON N_F_SS_ON
+    N_F_TRANSAFFSHA N_F_TRANSAFFSHA_ON
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -190,14 +191,14 @@ Material:
     - _GIFlatShade: 0
     - _GIShadeThreshold: 0
     - _GlossColorPower: 10
-    - _GlossIntensity: 1
+    - _GlossIntensity: 0.118
     - _GlossMapScale: 1
     - _GlossSoftness: 0
     - _GlossTextureFollowLight: 0
     - _GlossTextureFollowObjectRotation: 0
     - _GlossTextureRotate: 0
     - _GlossTextureSoftness: 0
-    - _Glossiness: 0.5
+    - _Glossiness: 0.694
     - _GlossyReflections: 1
     - _HighlightColorPower: 1
     - _LightAffectOutlineColor: 0
@@ -219,7 +220,7 @@ Material:
     - _N_F_DCS: 0
     - _N_F_EAL: 1
     - _N_F_FR: 0
-    - _N_F_GLO: 0
+    - _N_F_GLO: 1
     - _N_F_GLOT: 0
     - _N_F_HDLS: 0
     - _N_F_HPSS: 0
@@ -231,7 +232,7 @@ Material:
     - _N_F_OFLMB: 0
     - _N_F_PT: 0
     - _N_F_R: 0
-    - _N_F_RL: 0
+    - _N_F_RL: 1
     - _N_F_SCT: 0
     - _N_F_SL: 0
     - _N_F_SON: 0
@@ -266,7 +267,7 @@ Material:
     - _RefVal: 0
     - _ReflectionIntensity: 0
     - _ReflectionRoughtness: 0
-    - _RimLigInt: 1
+    - _RimLigInt: 0.09
     - _RimLightColorPower: 10
     - _RimLightInLight: 1
     - _RimLightSoftness: 1
