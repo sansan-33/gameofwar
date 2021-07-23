@@ -17,5 +17,6 @@ public class APIConfig
     public static string userProfileService = "userprofile";
     public static string userRankingService = "userranking";
     public static string userProfileNameService = "userprofile/name";
-
+    public static string userRewardService = "userprofile/reward";
+    public enum GemStone {ruby,opal,emerald,sapphire,topaz};
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Text;
 using SimpleJSON;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,7 +11,7 @@ public class UserProfileManager : MonoBehaviour
     [SerializeField] private FirebaseManager firebaseManager;
     public event Action userProfileChanged;
     public event Action requestTextUpdate;
-  
+      
     private void Awake()
     {
         if(firebaseManager!= null)
@@ -45,11 +46,23 @@ public class UserProfileManager : MonoBehaviour
         {
             StaticClass.diamond =  jsonResult[0]["diamond"];
             StaticClass.gold = jsonResult[0]["gold"];
+            StaticClass.ruby = jsonResult[0]["ruby"];
+            StaticClass.opal = jsonResult[0]["opal"];
+            StaticClass.sapphire = jsonResult[0]["sapphire"];
+            StaticClass.topaz = jsonResult[0]["topaz"];
+            StaticClass.emerald = jsonResult[0]["emerald"];
+            StaticClass.experience = jsonResult[0]["experience"];
         }
         else
         {
             StaticClass.diamond = "0";
             StaticClass.gold = "0";
+            StaticClass.ruby = "0";
+            StaticClass.opal = "0";
+            StaticClass.sapphire = "0";
+            StaticClass.topaz = "0";
+            StaticClass.emerald = "0";
+            StaticClass.experience = "0";
         }
         requestTextUpdate?.Invoke();
         //Debug.Log($"Get User Profile {webReq.url } {jsonResult}");

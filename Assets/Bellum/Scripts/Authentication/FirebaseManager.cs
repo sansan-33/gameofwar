@@ -7,6 +7,7 @@ using Firebase;
 using Firebase.Auth;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FirebaseManager : MonoBehaviour
 {
@@ -41,7 +42,16 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField] private TMP_InputField usernameProfileText = null;
     [SerializeField] private TMP_Text useridProfileText = null;
     [SerializeField] private GameObject userProfilePopUp = null;
+    [SerializeField] private Image userExperienceSlider = null;
+    [SerializeField] private TMP_Text userExperienceText = null;
+    [SerializeField] private TMP_Text userGoldText = null;
+    [SerializeField] private TMP_Text userRubyText = null;
+    [SerializeField] private TMP_Text userOpalText = null;
+    [SerializeField] private TMP_Text userEmeraldText = null;
+    [SerializeField] private TMP_Text userSapphireText = null;
+    [SerializeField] private TMP_Text userTopazText = null;
 
+    //ruby, opal,emerald,sapphire,topaz
     APIManager apiManager;
     [SerializeField] private SaveSystem saveSystem;
     [SerializeField] private LanguageSelectionManager languageSelectionManager;
@@ -71,6 +81,16 @@ public class FirebaseManager : MonoBehaviour
     {
         usernameProfileText.text = user.DisplayName;
         useridProfileText.text = user.UserId;
+
+        userGoldText.text = StaticClass.gold;
+        userRubyText.text = StaticClass.ruby;
+        userOpalText.text = StaticClass.opal;
+        userEmeraldText.text = StaticClass.emerald;
+        userSapphireText.text = StaticClass.sapphire;
+        userTopazText.text = StaticClass.topaz;
+        userExperienceText.text = StaticClass.experience;
+        userExperienceSlider.fillAmount =  Int32.Parse(StaticClass.experience) / 100;
+
     }
     public void UpdateUserProfile()
     {

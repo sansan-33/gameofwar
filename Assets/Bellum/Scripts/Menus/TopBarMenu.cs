@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TopBarMenu : MonoBehaviour
 {
@@ -9,7 +11,10 @@ public class TopBarMenu : MonoBehaviour
     [SerializeField] private UserProfileManager userProfileManager;
     [SerializeField] public TMP_Text gold = null;
     [SerializeField] public TMP_Text diamond = null;
-    
+    [SerializeField] private Image userExperienceSlider = null;
+    [SerializeField] private TMP_Text userExperienceText = null;
+
+
     private void Awake()
     {
         userProfileManager.userProfileChanged += HandleProfileUpdate;
@@ -37,13 +42,14 @@ public class TopBarMenu : MonoBehaviour
         yield return userProfileManager.GetUserProfile(StaticClass.UserID);
         UserProfileTextUpdate();
     }
-   
     public void UserProfileTextUpdate()
     {
         Debug.Log($"Top Bar User Profile Text Update");
         username.text = StaticClass.Username;
         gold.text = StaticClass.gold;
         diamond.text = StaticClass.diamond;
+        userExperienceText.text = StaticClass.experience;
+        userExperienceSlider.fillAmount = Int32.Parse(StaticClass.experience) / 100;
     }
     public void GoToMainMenu()
     {
