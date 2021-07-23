@@ -95,7 +95,7 @@ public class APIManager
         webReq.downloadHandler = new DownloadHandlerBuffer();
         webReq.url = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}", APIConfig.urladdress, APIConfig.userRewardService, userid, exp, gold, gemtype, reward);
         webReq.method = "put";
-        //Debug.Log($"update user name {webReq.url }");
+        Debug.Log($"update user reward {webReq.url }");
         yield return webReq.SendWebRequest();
     }
 }

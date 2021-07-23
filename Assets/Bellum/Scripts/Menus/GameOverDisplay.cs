@@ -221,6 +221,6 @@ public class GameOverDisplay : MonoBehaviour
         rewardGem.transform.Find("icon_" + gem).gameObject.SetActive(true);
         rewardGemCount.text = randCount.ToString();
 
-        yield return apiManager.UpdateUserReward(StaticClass.UserID, RewardMeta.missionExp[missionKey].ToString() , RewardMeta.missionGold[missionKey].ToString(), gemType, randCount.ToString());
+        yield return apiManager.UpdateUserReward(StaticClass.UserID, RewardMeta.missionExp[missionKey].ToString() , RewardMeta.missionGold[missionKey].ToString(), gem, randCount.ToString());
     }
 }
