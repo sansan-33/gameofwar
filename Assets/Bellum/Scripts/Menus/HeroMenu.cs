@@ -8,6 +8,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Localization.Settings;
+using static SpTypeArt;
 
 public class HeroMenu : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public GameObject stars;
     [SerializeField] public UnitTypeArt unitTypeArt;
     [SerializeField] public CharacterFullArt characterFullArt;
-    [SerializeField] public SkillArt skillArt;
+    [SerializeField] public SpTypeArt spTypeArt;
     [SerializeField] public UnitFactory localFactory;
     [SerializeField] public Transform unitBodyParent;
 
@@ -80,10 +81,12 @@ public class HeroMenu : MonoBehaviour
 
         // convert the byte array to a string
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
-        
+        SpTypeImage spTypeImage;
+
         // parse the raw string into a json result we can easily read
         jsonResult = JSON.Parse(rawJson);
-        if(jsonResult.Count> 0)
+        Debug.Log($"Hero Menu GetUserCardDetail jsonResult:{jsonResult} ");
+        if (jsonResult.Count> 0)
         {
             double levelupfactor = Math.Pow(LEVELUP_POWER, Int32.Parse(jsonResult[0]["level"]));
             lvlText.text = jsonResult[0]["level"];
@@ -112,15 +115,6 @@ public class HeroMenu : MonoBehaviour
                 unitBody.localScale = new Vector3(7, 7, 7);
                 unitBody.transform.SetParent(unitBodyParent.transform);
             }
-            if (jsonResult[0]["specialkey"].ToString().Trim().Length > 2)
-            {
-                Enum.TryParse(jsonResult[0]["specialkey"], out SpecialAttackDict.SpecialAttackType skill);
-                skillImage.sprite = skillArt.skillImages[(int) skill].image;
-                skillImage.GetComponentInChildren<TMP_Text>().text = jsonResult[0]["specialkey"];
-            }
-            else
-                skillImage.gameObject.SetActive(false);
-            //passiveImage.sprite = skillArt.skillImages[jsonResult[0]["passivekey"].ToString().Length == 0 ? "99" : jsonResult[0]["passivekey"]].image;
 
             if (Int32.TryParse(jsonResult[0]["star"], out int star))
             {
@@ -148,6 +142,29 @@ public class HeroMenu : MonoBehaviour
                 op.Completed += (o) => nameText.text = o.Result;
             }
             //Debug.Log($"HeroMenu.GetUserCardDetail() after locale nameText.text:{nameText.text}");
+            
+            Debug.Log($"HeroMenu.GetUserCardDetail() after jsonResult[0][specialkey]:{jsonResult[0]["specialkey"]} jsonResult[0][specialkey].ToString().ToLower():{jsonResult[0]["specialkey"].ToString().ToLower()}");
+            if (spTypeArt.SpTypeArtDictionary.TryGetValue(jsonResult[0]["specialkey"], out spTypeImage))
+            {
+                skillImage.sprite = spTypeImage.image;
+                //skillImage.GetComponentInChildren<TMP_Text>().text = jsonResult[0]["specialkey"];
+
+                op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, jsonResult[0]["specialkey"].ToString().Replace("\"", "").ToLower(), null);
+                if (op.IsDone)
+                {
+                    skillImage.GetComponentInChildren<TMP_Text>().text = op.Result;
+                }
+                else
+                {
+                    op.Completed += (o) => skillImage.GetComponentInChildren<TMP_Text>().text = o.Result;
+                }
+            }
+            else
+            {
+                skillImage.gameObject.SetActive(false);
+                skillImage.transform.parent.gameObject.SetActive(false);
+                //passiveImage.sprite = skillArt.skillImages[jsonResult[0]["passivekey"].ToString().Length == 0 ? "99" : jsonResult[0]["passivekey"]].image;
+            }
         }
     }
 }

@@ -129,6 +129,7 @@ public class GameOverDisplay : MonoBehaviour
             stat5Text.text = dieCount.ToString();
             stat6Text.text = StaticClass.HighestDamage.ToString() + " * 30 ";
             StartCoroutine(updateUserRankingInfo(Convert.ToInt32(timer), totalKill, Convert.ToInt32(winnerObject.GetComponent<Health>().getCurrentHealth()), dieCount, crownCount));
+            StartCoroutine(updateUserReward());
             IS_COMPLETED = true;
         }
         OpenCanvasButton.SetActive(true);
@@ -200,5 +201,11 @@ public class GameOverDisplay : MonoBehaviour
             yield return apiManager.UpdateEventRanking(StaticClass.UserID, StaticClass.EventRankingID, point.ToString());
         else
             yield return null;
+    }
+    IEnumerator updateUserReward()
+    {
+        string missionKey = StaticClass.Chapter + "-" + StaticClass.Mission;
+        int rand = 3;
+        yield return apiManager.UpdateUserReward(StaticClass.UserID, RewardMeta.missionExp[missionKey].ToString() , RewardMeta.missionGold[missionKey].ToString(), RewardMeta.missionTreasure[missionKey].ToString(), rand.ToString());
     }
 }

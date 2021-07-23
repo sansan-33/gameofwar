@@ -89,4 +89,13 @@ public class APIManager
         //Debug.Log($"update user name {webReq.url }");
         yield return webReq.SendWebRequest();
     }
+    public IEnumerator UpdateUserReward(string userid, string exp, string gold, string gemtype, string reward)
+    {
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}/{3}/{4}/{5}/{6}", APIConfig.urladdress, APIConfig.userRewardService, userid, exp, gold, gemtype, reward);
+        webReq.method = "put";
+        //Debug.Log($"update user name {webReq.url }");
+        yield return webReq.SendWebRequest();
+    }
 }

@@ -428,8 +428,8 @@ public class TacticalBehavior : MonoBehaviour
             if(army.TryGetComponent<AstarAI>(out AstarAI ai))
                 sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetTaskStatus().text )) ;
         }
-        return sb.ToString();
-        //return "";
+        //return sb.ToString();
+        return "";
     }
     public List<Unit> GetAllTroops(int id)
     {

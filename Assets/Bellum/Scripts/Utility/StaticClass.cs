@@ -9,8 +9,18 @@ public static class StaticClass
     public static int SelectedTeamTab { get; set; }
     public static int SelectedCharacterTab { get; set; }
     public static UnitMeta.UnitKey[] teamMembers { get; set; }
+
+    //User Profile
+    public static string level { get; set; }
     public static string gold { get; set; }
     public static string diamond { get; set; }
+    public static string ruby { get; set; }
+    public static string opal { get; set; }
+    public static string emerald { get; set; }
+    public static string sapphire { get; set; }
+    public static string topaz { get; set; }
+    public static string experience { get; set; }
+
     public static string TotalPower { get; set; }
     public static UnitMeta.Race playerRace { get; set; }
     public static UnitMeta.Race enemyRace { get; set; }
