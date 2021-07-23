@@ -161,11 +161,13 @@ public class CardDealer : MonoBehaviour
         lastCard.eleixerText.text = uniteleixer.ToString();
         lastCard.SetUnitElexier(uniteleixer);
         for (int j = 0; j < 3; j++) {
-            lastCard.stars.transform.GetChild(j).Find("Active").gameObject.SetActive(false);
+            lastCard.stars.transform.GetChild(j).Find("Active1").gameObject.SetActive(false);
+            lastCard.stars.transform.GetChild(j).Find("Active2").gameObject.SetActive(false);
+            lastCard.stars.transform.GetChild(j).Find("Active3").gameObject.SetActive(false);
             lastCard.cardFrame.transform.GetChild(j).gameObject.SetActive(false);
         }
         lastCard.cardFrame.transform.GetChild(0).gameObject.SetActive(true);
-        lastCard.stars.transform.GetChild(0).Find("Active").gameObject.SetActive(true);
+        lastCard.stars.transform.GetChild(0).Find("Active1").gameObject.SetActive(true);
         lastCard.skillIcon.gameObject.SetActive(false);
         //Debug.Log($"{player.name} is enemy = {player.isEnemy}");
         lastCard.enemyCard = player.isEnemy;

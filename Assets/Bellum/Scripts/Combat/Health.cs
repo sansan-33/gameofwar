@@ -17,11 +17,9 @@ public class Health : NetworkBehaviour, IDamageable
     private int lastDamageDeal;
     private int ElectricDamage;
     private float electricTimer = 1;
-    public bool IsFrezze = false;
     public bool IsElectricShock = false;
     public event Action ServerOnDie;
     public static event Action<string> HeroOrKingOnDie;
-    public int freezeKey;
     public event Action<int, int, int> ClientOnHealthUpdated;
     public static event Action<GameObject> IceHitUpdated;
     public GameObject specialEffectPrefab;
@@ -84,10 +82,9 @@ public class Health : NetworkBehaviour, IDamageable
             return false;
         }
         //else { Destroy(shield.ShieldEffect); }
-        if(IsFrezze == true)
+        if(GetComponent<EffectStatus>().isFreeze == true)
         {
-            IsFrezze = false;
-            UnFrezze();
+           GetComponent<EffectStatus>().UnFrezze();
         }
         if (currentHealth != 0)
         {
@@ -109,26 +106,6 @@ public class Health : NetworkBehaviour, IDamageable
             }
         }
         return false;
-    }
-    public void UnFrezze()
-    {
-        Debug.Log("Unfrezze");
-        ImpactSmash impactSmash = null;
-        ImpactSmash[] impactSmashs = FindObjectsOfType<ImpactSmash>();
-        foreach(ImpactSmash _impactSmash in impactSmashs)
-        {
-            if(_impactSmash.GetSpecialAttackType() == SpecialAttackDict.SpecialAttackType.FREEZE)
-            {
-                impactSmash = _impactSmash;
-            }
-        }
-        impactSmash.UnitRepeatAttackDelaykeys.TryGetValue(freezeKey, out float RAD);
-        impactSmash.UnitSpeedkeys.TryGetValue(freezeKey, out float speed);
-        impactSmash.UnitMaterial.TryGetValue(freezeKey, out Material material);
-        Debug.Log($"RAD = {RAD}, speed = {speed}, material = {material}, key = {freezeKey}");
-        GetComponentInChildren<SkinnedMeshRenderer>().material = material;
-        GetComponent<UnitPowerUp>().SpecialEffect(RAD, speed);
-
     }
     private IEnumerator Die()
     {

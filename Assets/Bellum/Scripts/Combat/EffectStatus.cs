@@ -18,6 +18,10 @@ public class EffectStatus : NetworkBehaviour
     [SyncVar(hook = nameof(HandleStunEffectUpdated))]
     public bool isStun = false;
 
+    [SerializeField] private GameObject slowPrefab;
+    [SerializeField] private GameObject speedPrefab;
+
+    public int freezeKey;
     int playerID = 0;
     public static event Action<int, UnitMeta.EffectType, float> ClientOnEffectUpdated;
     private Dictionary<UnitMeta.EffectType, bool> effectStateMachine = new Dictionary<UnitMeta.EffectType, bool>();
@@ -99,6 +103,16 @@ public class EffectStatus : NetworkBehaviour
     {
         if (tag.ToLower().Contains("king"))
             ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.SPEED, newValue);
+        if(newValue > oldValue)
+        {
+            //Instantiate(speedPrefab, transform);
+        }
+        else
+        {
+            Instantiate(slowPrefab, transform);
+        }
+
+        
     }
     private void HandleFreezeEffectUpdated(bool oldValue, bool newValue)
     {
@@ -109,5 +123,26 @@ public class EffectStatus : NetworkBehaviour
     {
         if (tag.ToLower().Contains("king"))
             ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.STUN, newValue ? 1f : 0f);
+    }
+    public void UnFrezze()
+    {
+        //Debug.Log("Unfrezze");
+        isFreeze = false;
+        ImpactSmash impactSmash = null;
+        ImpactSmash[] impactSmashs = FindObjectsOfType<ImpactSmash>();
+        foreach (ImpactSmash _impactSmash in impactSmashs)
+        {
+            if (_impactSmash.GetSpecialAttackType() == SpecialAttackDict.SpecialAttackType.FREEZE)
+            {
+                impactSmash = _impactSmash;
+            }
+        }
+        impactSmash.UnitRepeatAttackDelaykeys.TryGetValue(freezeKey, out float RAD);
+        impactSmash.UnitSpeedkeys.TryGetValue(freezeKey, out float speed);
+        impactSmash.UnitMaterial.TryGetValue(freezeKey, out Material material);
+        //Debug.Log($"RAD = {RAD}, speed = {speed}, material = {material}, key = {freezeKey}");
+        GetComponentInChildren<SkinnedMeshRenderer>().material = material;
+        GetComponent<UnitPowerUp>().SpecialEffect(RAD, speed);
+
     }
 }

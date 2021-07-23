@@ -15,7 +15,7 @@ public class SpButtonManager : MonoBehaviour
 
     [SerializeField] public GameObject lightningPrefab;
     [SerializeField] public GameObject icePrefab;
-    [SerializeField] public GameObject stunPrefab;
+    [SerializeField] public GameObject stunoldPrefab;
     [SerializeField] public GameObject shieldPrefab;
     [SerializeField] public GameObject slashPrefab;
     [SerializeField] public GameObject impectSmashPrefab;
@@ -57,7 +57,7 @@ public class SpButtonManager : MonoBehaviour
         Arts.initDictionary();
 
         SpecialAttackPrefab.Add(SpecialAttackType.LIGHTNING, zapPrefab);
-        SpecialAttackPrefab.Add(SpecialAttackType.STUNO, stunPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.STUNO, stunoldPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.ICE, icePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SHIELD, shieldPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.SLASH, slashPrefab);
@@ -335,11 +335,13 @@ public class SpButtonManager : MonoBehaviour
         buttons.Add(button.GetComponent<Button>());
 
         //hard code sp type is Freeze
-        if(spType == SpecialAttackType.FIRE)
+        /*if(spType == SpecialAttackType.FIRE)
         {
             spType = SpecialAttackType.BOMB;
-        }
-        
+        }*/
+
+        spType = SpecialAttackType.STUN;
+
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
         impectSmash.GetComponent<ImpactSmash>().SetUnit(unit);

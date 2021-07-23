@@ -82,7 +82,7 @@ public class Card : MonoBehaviour
         }
         for (int j = 0; j < star + 2; j++)
         {
-            stars.transform.GetChild(j).Find("Active").gameObject.SetActive(true);
+            stars.transform.GetChild(j).Find("Active" + star).gameObject.SetActive(true);
         }
         cardFrame.transform.GetChild(star + 1).gameObject.SetActive(true);
         Instantiate(cardRankUpPrefab, transform);
