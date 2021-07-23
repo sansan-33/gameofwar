@@ -96,7 +96,10 @@ public class UserCardButton : MonoBehaviour
                 //Debug.Log($"UsercardButton.HandleClick() cardtype:{cardtype} teamCard.cardSlotType.text:{teamCard.cardSlotType.text}");
             }
         }
-        else
-            SceneManager.LoadScene("Scene_Hero_Menu");
+        else {
+            if (!isLock)
+                SceneManager.LoadScene("Scene_Hero_Menu");
+        }
+            
     }
 }
