@@ -143,7 +143,7 @@ public class HeroMenu : MonoBehaviour
             }
             //Debug.Log($"HeroMenu.GetUserCardDetail() after locale nameText.text:{nameText.text}");
             
-            Debug.Log($"HeroMenu.GetUserCardDetail() after jsonResult[0][specialkey]:{jsonResult[0]["specialkey"]} jsonResult[0][specialkey].ToString().ToLower():{jsonResult[0]["specialkey"].ToString().ToLower()}");
+            //Debug.Log($"HeroMenu.GetUserCardDetail() after jsonResult[0][specialkey]:{jsonResult[0]["specialkey"]} jsonResult[0][specialkey].ToString().ToLower():{jsonResult[0]["specialkey"].ToString().ToLower()}");
             if (spTypeArt.SpTypeArtDictionary.TryGetValue(jsonResult[0]["specialkey"], out spTypeImage))
             {
                 skillImage.sprite = spTypeImage.image;
