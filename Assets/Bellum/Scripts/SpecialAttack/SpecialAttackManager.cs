@@ -7,6 +7,7 @@ using static SpecialAttackDict;
 public class SpecialAttackManager : NetworkBehaviour
 {
     private RTSPlayer RTSplayer;
+    [SerializeField] GameObject stunPrefab;
     // Start is called before the first frame update
     private Dictionary<string, SpecialAttackType> SpecialAttackTypeStringKey = new Dictionary<string, SpecialAttackType>()
     {
@@ -28,30 +29,31 @@ public class SpecialAttackManager : NetworkBehaviour
     {
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
     }
-    public void SpawnPrefab(Vector3 pos, string specialAttackType)
+    public void SpawnPrefab(Vector3 pos, string specialAttackType,bool IsEnemy)
     {
         if (isServer)
-            RpcSpawnPrefab(pos, specialAttackType);
+            RpcSpawnPrefab(pos, specialAttackType, IsEnemy);
         else
-            CmdSpawnPrefab(pos, specialAttackType);
+            CmdSpawnPrefab(pos, specialAttackType, IsEnemy);
     }
     //[Command(ignoreAuthority = true)]
     [Command(requiresAuthority = false)]
-    public void CmdSpawnPrefab(Vector3 pos, string specialAttackType)
+    public void CmdSpawnPrefab(Vector3 pos, string specialAttackType, bool IsEnemy)
     {
         //Debug.Log($"CmdPowerUp {pos} {specialAttackType } ");
-        ServerSpawnPrefab(pos, specialAttackType);
+        ServerSpawnPrefab(pos, specialAttackType, IsEnemy);
     }
     [Server]
-    public void ServerSpawnPrefab(Vector3 pos, string specialAttackType)
+    public void ServerSpawnPrefab(Vector3 pos, string specialAttackType, bool IsEnemy)
     {
         //Debug.Log($"ServerpowerUp {pos} {specialAttackType } ");
-        HandleSpawnPrefab(pos, specialAttackType);
+        HandleSpawnPrefab(pos, specialAttackType, IsEnemy);
         //if comment this line . player 2 name is lower case with (clone) , card stats and other things not sync
-        RpcSpawnPrefab(pos, specialAttackType);
+        RpcSpawnPrefab(pos, specialAttackType, IsEnemy);
     }
-    public void HandleSpawnPrefab( Vector3 pos, string specialAttackType)
+    public void HandleSpawnPrefab( Vector3 pos, string specialAttackType, bool IsEnemy)
     {
+        int ID = IsEnemy ? 1 : 0;
         //Debug.Log($"HandleSpawnPrefab 1 {specialAttackType}");
         SpecialAttackTypeStringKey.TryGetValue(specialAttackType, out SpecialAttackType SpecialAttackType);
         //Debug.Log($"HandleSpawnPrefab 2 {specialAttackType}, {SpecialAttackType}");
@@ -73,14 +75,18 @@ public class SpecialAttackManager : NetworkBehaviour
         }
         if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.FIRE)
         {
-            impect.GetComponent<Fire>().SetSpecialAttackManager(this);   
+            impect.GetComponent<Fire>().SetSpecialAttackManager(this, ID);   
+        }
+        if(SpecialAttackType == SpecialAttackType.STUN)
+        {
+            Instantiate(stunPrefab).transform.position = pos;
         }
     }
     [ClientRpc]
-    public void RpcSpawnPrefab(Vector3 pos, string specialAttackType)
+    public void RpcSpawnPrefab(Vector3 pos, string specialAttackType, bool IsEnemy)
     {
         //Debug.Log($"RpcPowerUp {pos} {specialAttackType }  ");
-        HandleSpawnPrefab( pos, specialAttackType);
+        HandleSpawnPrefab( pos, specialAttackType, IsEnemy);
     }
     public void SpawnGrabPrefab(Vector3 toPosVector3 , Vector3 pos, string specialAttackType, GameObject unit)
     {

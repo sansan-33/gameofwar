@@ -74,7 +74,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                     if (button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("Player" + RTSplayer.GetEnemyID()) || button.GetComponent<SpCostDisplay>().GetUnit().CompareTag("King" + RTSplayer.GetEnemyID()))
                     {
                         StartCoroutine(button.GetComponent<SpCostDisplay>().MinusSpCost(10));
-                        specialAttackManager.SpawnPrefab(button.GetComponent<SpCostDisplay>().GetUnit().transform.position, SpecialAttackType.ToString());
+                        specialAttackManager.SpawnPrefab(button.GetComponent<SpCostDisplay>().GetUnit().transform.position, SpecialAttackType.ToString(), false);
                     }
                 }
                 break;
@@ -116,23 +116,39 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     }
     public void OnEndDrag(PointerEventData eventData)
     {
-        
+
+        HandleEndDrag(true,new Vector3(0,0,0));
+
+
+    }
+    public void HandleEndDrag(bool isMouseDrag, Vector3 position)
+    {
         if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
         StartCoroutine(GetComponentInParent<SpCostDisplay>().MinusSpCost(cost));
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE) { return; }
-        Destroy(dragCircle);
-        Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
-        Ray ray = Camera.main.ScreenPointToRay(pos);
-        //if the floor layer is not floor it will not work!!!
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) {return; }
-        Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
-        Debug.Log($"attack type {SpecialAttackType}");
-        if(SpecialAttackType != SpecialAttackDict.SpecialAttackType.LIGHTNING && SpecialAttackType != SpecialAttackDict.SpecialAttackType.GRAB)
+        if(dragCircle != null) { Destroy(dragCircle); }
+        float _scale = 2;
+        if (SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType, out float scale))
         {
-            specialAttackManager.SpawnPrefab(new Vector3(hit.point.x, 0, hit.point.z), SpecialAttackType.ToString());
+            _scale = scale;
+        }
+        if (isMouseDrag == true)
+        {
+            Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
+            Ray ray = Camera.main.ScreenPointToRay(pos);
+            //if the floor layer is not floor it will not work!!!
+            if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, floorMask)) { return; }
+            position = hit.point;
         }
        
-       
+        //Debug.Log($"{new Vector3(hit.point.x, 0, hit.point.z) }{SpecialAttackType.ToString()}");
+        Debug.Log($"attack type {SpecialAttackType}");
+        if (SpecialAttackType != SpecialAttackDict.SpecialAttackType.LIGHTNING && SpecialAttackType != SpecialAttackDict.SpecialAttackType.GRAB)
+        {
+            specialAttackManager.SpawnPrefab(new Vector3(position.x, 0, position.z), SpecialAttackType.ToString(), isMouseDrag);
+        }
+
+
 
         if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
         {
@@ -140,17 +156,17 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             {
                 wallController = GameObject.FindGameObjectWithTag("GreatWallController").GetComponent<GreatWallController>();
             }
-            
+
             wallController.dynamicBlock(false);
             //Debug.Log($"GreatWallController move to {hit.point.z}");
             Vector3 wallPos = wallController.transform.position;
-            wallPos.z =  hit.point.z;
+            wallPos.z = position.z;
             wallController.transform.position = wallPos;
             wallController.dynamicBlock(true);
         }
-        if(SpecialAttackDict.NeedCameraShake.TryGetValue(SpecialAttackType,out bool needCameraShake))
+        if (SpecialAttackDict.NeedCameraShake.TryGetValue(SpecialAttackType, out bool needCameraShake))
         {
-            if(needCameraShake == true)
+            if (needCameraShake == true)
             {
                 if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.METEOR)
                 {
@@ -163,10 +179,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             }
         }
         playerGround.resetLayer();
-        DealDamage();
-        
+        DealDamage(_scale,position);
     }
-    private void DealDamage()
+
+    private void DealDamage(float _scale,Vector3 pos)
     {
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
         GameObject[] provokeUnit = GameObject.FindGameObjectsWithTag("Provoke" + 1);
@@ -192,7 +208,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         float distance = 10000;
         GameObject closestUnit  = null;
 
-        while (dragCircle.transform.localScale.x > scale)
+        while (_scale > scale)
         {
             range *= 2;
             scale += 0.5f;
@@ -200,7 +216,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         foreach (GameObject unit in armies)
         {//
             //Debug.Log($"finded {unit} circle pos {dragCircle.transform.position} - pos {unit.transform.position} = sqrMagnitude {(dragCircle.transform.position - unit.transform.position).sqrMagnitude} range = {range}");
-            if ((dragCircle.transform.position - unit.transform.position).sqrMagnitude < range)
+            if ((pos - unit.transform.position).sqrMagnitude < range)
             {
 
                 if (unit.TryGetComponent<Unit>(out Unit Unit))
@@ -241,24 +257,25 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                         break;
                         case SpecialAttackDict.SpecialAttackType.FREEZE:
                         key++;
-                        if (UnitSpeedkeys.ContainsKey(unit.GetComponent<Health>().freezeKey))
+                        if (UnitSpeedkeys.ContainsKey(unit.GetComponent<EffectStatus>().freezeKey))
                         {
-                            UnitRepeatAttackDelaykeys.Remove(unit.GetComponent<Health>().freezeKey);
-                            UnitSpeedkeys.Remove(unit.GetComponent<Health>().freezeKey);
-                            UnitMaterial.Remove(unit.GetComponent<Health>().freezeKey);
+                            UnitRepeatAttackDelaykeys.Remove(unit.GetComponent<EffectStatus>().freezeKey);
+                            UnitSpeedkeys.Remove(unit.GetComponent<EffectStatus>().freezeKey);
+                            UnitMaterial.Remove(unit.GetComponent<EffectStatus>().freezeKey);
                         }
-                        unit.GetComponent<Health>().freezeKey = key;
-                        unit.GetComponent<Health>().IsFrezze = true;
+                        unit.GetComponent<EffectStatus>().freezeKey = key;
+                        unit.GetComponent<EffectStatus>().isFreeze = true;
                         UnitSpeedkeys.Add(key, unit.GetComponent<CardStats>().speed);
                         UnitMaterial.Add(key, unit.GetComponentInChildren<SkinnedMeshRenderer>().material);
                         UnitRepeatAttackDelaykeys.Add(key, unit.GetComponent<CardStats>().repeatAttackDelay);
-                        StartCoroutine(AwakeUnit(unit, 5000, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                        StartCoroutine(AwakeUnit(unit, 10000, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
                         unit.GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
                         break;
                         case SpecialAttackDict.SpecialAttackType.STUN:
-                        StartCoroutine(AwakeUnit(unit, 3, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
+                        StartCoroutine(AwakeUnit(unit, 6, unit.GetComponent<CardStats>().speed, unit.GetComponent<CardStats>().repeatAttackDelay, unit.GetComponentInChildren<SkinnedMeshRenderer>().material));
                         unit.GetComponent<UnitPowerUp>().SpecialEffect(float.MaxValue, 0);
+                        specialAttackManager.SpawnPrefab(unit.transform.position, SpecialAttackType.ToString(), false);
                         break;
                         case SpecialAttackDict.SpecialAttackType.GRAB:
                         //Debug.Log($"parentUnit.transform.position {parentUnit.transform.position} - unit pos {unit.transform.position} = {(parentUnit.transform.position - unit.transform.position).sqrMagnitude} < distance {distance}");
@@ -285,7 +302,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             {
                 //Debug.Log($"deal damge to {unit.name}");
                 unit.GetComponent<Health>().DealDamage(damage);
-                specialAttackManager.SpawnPrefab(new Vector3(unit.transform.position.x, 0, unit.transform.position.z), SpecialAttackType.ToString());
+                specialAttackManager.SpawnPrefab(new Vector3(unit.transform.position.x, 0, unit.transform.position.z), SpecialAttackType.ToString(),false);
             }
         }
         if(SpecialAttackType == SpecialAttackDict.SpecialAttackType.GRAB)
@@ -297,27 +314,6 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             specialAttackManager.SpawnGrabPrefab(closestUnit.transform.position, parentUnit.transform.position, SpecialAttackType.ToString(), closestUnit.gameObject);
         }
 
-    }
-    private IEnumerator MoveUnit(Transform closestUnit)
-    {
-        
-        float timer = 5;
-        while (closestUnit.position.x != parentUnit.transform.position.x || closestUnit.position.z != parentUnit.transform.position.z)
-        {
-            //Debug.Log("move unit");
-            timer -= Time.deltaTime;
-            if (closestUnit != null)
-            {
-               // Debug.Log($" from {closestUnit.position} x move to {parentUnit.transform.position}");
-                float targetX = parentUnit.transform.position.x;
-                Vector3 zero = Vector3.zero;
-                closestUnit.position = Vector3.SmoothDamp(closestUnit.position, parentUnit.transform.position, ref zero, 0.3f);
-                //closestUnit.position = new Vector3(x, closestUnit.transform.position.y, closestUnit.transform.position.z);
-
-            }
-            yield return new WaitForSeconds(0.01f);
-            if (timer <= 0) { Debug.Log("Time break"); break; }
-        }
     }
     private void ShakeCam()
     {

@@ -45,8 +45,12 @@ public class SpecialAttackDict : MonoBehaviour
     };
     public static Dictionary<SpecialAttackType, int> SpecialAttackCost = new Dictionary<SpecialAttackType, int>()
     {
+        {SpecialAttackType.BOMB, 10 },
+        {SpecialAttackType.CARDRANKUP, 10 },
         {SpecialAttackType.FIREARROW, 10 },
         {SpecialAttackType.FREEZE, 10 },
+        {SpecialAttackType.FIRE, 10 },
+        {SpecialAttackType.GRAB, 10 },
         {SpecialAttackType.ICE, 10 },
         {SpecialAttackType.LIGHTNING, 10 },
         {SpecialAttackType.METEOR, 10 },
@@ -57,6 +61,7 @@ public class SpecialAttackDict : MonoBehaviour
         {SpecialAttackType.STUNO, 10 },
         {SpecialAttackType.TORNADO, 10 },
         {SpecialAttackType.ZAP, 10 },
+        
     };
     private void Start()
     {

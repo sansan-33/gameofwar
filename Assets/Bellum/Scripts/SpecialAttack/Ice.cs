@@ -114,7 +114,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
                     //Debug.Log($"iced {hitCollider.name}");
                     enemyList.Add(hitCollider);
                     hitCollider.GetComponent<Health>().DealDamage(IceDamage);
-                    hitCollider.GetComponent<Health>().IsFrezze = true;
+                    hitCollider.GetComponent<EffectStatus>().isFreeze = true;
                     CardStats cardStats = hitCollider.GetComponent<CardStats>();
                     UnitRepeatAttackDelaykeys.Add(hitCollider, cardStats.repeatAttackDelay);
                     UnitSpeedkeys.Add(hitCollider, cardStats.speed);
@@ -201,7 +201,7 @@ public class Ice : MonoBehaviour, ISpecialAttack
         effect.GetComponentInChildren<RFX4_StartDelay>().Enable();
         //effect.GetComponentInChildren<RFX4_StartDelay>().Debusg(0);
         //Debug.Log($"ice break{effect.GetComponentInChildren<RFX4_StartDelay>().Delay} {unit}");
-        unit.GetComponent<Health>().IsFrezze = false;
+        unit.GetComponent<EffectStatus>().isFreeze = false;
       //  Destroy(effect);
         UnitRepeatAttackDelaykeys.TryGetValue(unit, out float repeatAttackDelay);
         UnitSpeedkeys.TryGetValue(unit, out float speed);

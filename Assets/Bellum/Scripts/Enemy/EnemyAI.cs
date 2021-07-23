@@ -779,51 +779,53 @@ public class EnemyAI : MonoBehaviour
         cardDealer.Hit(true);
 
         // }
-        SpecialAttack(type);
+        SpecialAttack(type,new Vector3(36.6138f,0, -51.48428f));
     }
-    private void SpecialAttack(UnitMeta.UnitType type)
+    private void SpecialAttack(UnitMeta.UnitType type,Vector3 pos)
     {
-        //Debug.Log("SpecialAttack");
-        if(Sp.TryGetValue(type,out List<SpecialAttackType> specialAttackTypes))
-        {
+        Debug.Log("SpecialAttack");
+        //if (Sp.TryGetValue(type, out List<SpecialAttackType> specialAttackTypes))
+       // {
             //Debug.Log($"SpecialAttack Got {specialAttackTypes}");
-            GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
+            /*GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
             GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
             List<GameObject> armies = new List<GameObject>();
             armies = units.ToList();
             if (king != null)
-                armies.Add(king);
-            foreach (GameObject unit in armies)
+                armies.Add(king)*/
+            GameObject SpecialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager");
+            ImpactSmash[] impactSmash = SpecialAttackManager.GetComponentsInChildren<ImpactSmash>();
+            foreach (ImpactSmash impact in impactSmash)
             {
                 //Debug.Log($"SpecialAttack Unit type is  {unit.GetComponent<Unit>().unitType}");
-                if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
-                {
-                    if (unit.GetComponent<CardStats>().specialkey != "")
-                    {
-                        SpecialAttackType specialAttackType = (SpecialAttackType)Enum.Parse(typeof(SpecialAttackType), unit.GetComponent<CardStats>().specialkey.ToUpper());
-                        //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
-                        foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
+
+                
+                    
+                    //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
+                    //foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
+                    //{
+                        Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} ==");
+                        if (impact.GetSpecialAttackType() == SpecialAttackType.FIRE)
                         {
-                            //Debug.Log($"SpecialAttack  type is  {specialAttackType} == {_specialAttackType}");
-                            if (specialAttackType == _specialAttackType)
+                Debug.Log("Sp type == fire");
+                //ISpecialAttack iSpecialAttack = impact.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
+                // SpButtonManager.enemyUnitBtns.TryGetValue(impact.GetComponent<Unit>().unitKey, out var btn);
+                           var btn = impact.GetComponentInParent<SpCostDisplay>();
+                           Debug.Log($"SpecialAttack  cost {impact.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
+                            if (impact != null && btn != null)
                             {
-                                ISpecialAttack iSpecialAttack = unit.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
-                                SpButtonManager.enemyUnitBtns.TryGetValue(unit.GetComponent<Unit>().unitKey, out var btn);
-                                //Debug.Log($"SpecialAttack  cost {iSpecialAttack.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
-                                if(iSpecialAttack != null && btn != null)
-                                {
-                                    if (iSpecialAttack.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
-                                    {
-                                        //Debug.Log("Onpointerdown");
-                                        iSpecialAttack.OnPointerDown();
-                                    }
+                                if (impact.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                               {
+                                Debug.Log("Onpointerdown");
+                                impact.HandleEndDrag(false, pos);
                                 }
                             }
                         }
-                    }
-                }                   
+                   // }
+               
+                
             }
-        }
+        //}
     }
     private IEnumerator SelectWallPos()
     {

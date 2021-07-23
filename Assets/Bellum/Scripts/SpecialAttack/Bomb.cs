@@ -9,6 +9,7 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float damage = 100;
     [SerializeField] private float explodedTime = 10;
     [SerializeField] private float range = 0.25f;
+    [SerializeField] private GameObject bombFX = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +27,7 @@ public class Bomb : MonoBehaviour
                 unit.GetComponent<Health>().DealDamage(damage);
             }
         }
+        Instantiate(bombFX).transform.position = transform.position ;
         Destroy(gameObject);
     }
 }

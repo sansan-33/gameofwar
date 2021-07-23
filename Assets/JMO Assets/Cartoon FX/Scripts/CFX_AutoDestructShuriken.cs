@@ -13,7 +13,7 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 	// If true, deactivate the object instead of destroying it
 	public bool OnlyDeactivate;
 	public float aliveTime=0.5f;
-
+	public bool destroy = false;
 	void OnEnable()
 	{
 		StartCoroutine("CheckIfAlive");
@@ -26,7 +26,7 @@ public class CFX_AutoDestructShuriken : MonoBehaviour
 		{
 			yield return new WaitForSeconds(aliveTime);
 
-			if ( name.ToLower().Contains("impact") || name.ToLower().Contains("fire")|| name.ToLower().Contains("explosion"))
+			if ( name.ToLower().Contains("impact") || name.ToLower().Contains("fire")|| name.ToLower().Contains("explosion")|| name.ToLower().Contains("bomb")|| destroy == true)
 			{
 				//Debug.Log($"CheckIfAlive {name} {aliveTime}");
 				GameObject.Destroy(this.gameObject);

@@ -23,8 +23,8 @@ public class Fire : MonoBehaviour
         tag = "Fire" + RTSPlayer.GetPlayerID();
         gameObject.layer = LayerMask.NameToLayer("Projectile");
         parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
-        StartCoroutine(BurnAround());
-        StartCoroutine(DestroySelf(diedTime));
+        
+        
     }
     private IEnumerator DestroySelf(int diedTime)
     {
@@ -46,16 +46,19 @@ public class Fire : MonoBehaviour
         this.bigFire = false;
 
     }
-    public void SetSpecialAttackManager(SpecialAttackManager specialAttackManager)
+    public void SetSpecialAttackManager(SpecialAttackManager specialAttackManager,int EnemyID)
     {
-        this.specialAttackManager = specialAttackManager;
+        //this.specialAttackManager = specialAttackManager;
+        StartCoroutine(BurnAround(EnemyID));
+        StartCoroutine(DestroySelf(diedTime));
+
     }
     public void DestroyFire()
     {
         // Debug.Log("deatroy fire check");
         StartCoroutine(DestroySelf(1));
     }
-    private IEnumerator BurnAround()
+    private IEnumerator BurnAround(int ID)
     {
         while (maxSpawn >= 0)
         {
@@ -68,7 +71,7 @@ public class Fire : MonoBehaviour
             {
                 if (unit.TryGetComponent<Health>(out Health health))
                 {
-                    if (unit.CompareTag("Player" + RTSPlayer.GetEnemyID())|| unit.CompareTag("King" + RTSPlayer.GetEnemyID())|| unit.CompareTag("Sneaky" + RTSPlayer.GetEnemyID())|| unit.CompareTag("Provoke" + RTSPlayer.GetEnemyID()))
+                    if (unit.CompareTag("Player" + ID) || unit.CompareTag("King" + ID) || unit.CompareTag("Sneaky" + ID) || unit.CompareTag("Provoke" + ID) || unit.CompareTag("Building" + ID))
                     {
                        // Debug.Log($"deal damage to {unit.name}");
                         health.DealDamage(damage);
