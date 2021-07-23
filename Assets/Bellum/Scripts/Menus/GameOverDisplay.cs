@@ -180,11 +180,20 @@ public class GameOverDisplay : MonoBehaviour
     {
         //Debug.Log("Quit Game");
         if (gameOverDisplayParent == null) { gameOverDisplayParent = GetComponentInChildren<Canvas>(); }
+        GameObject winnerObject = GameObject.FindGameObjectWithTag("King" + rTSPlayer.GetPlayerID());
         winnerNameText.text = $"Someone give up";
         gameOverDisplayParent.enabled = true;
+
+        CinemachineManager cmManager = GameObject.FindGameObjectWithTag("CinemachineManager").GetComponent<CinemachineManager>();
+        cmManager.ThirdCamera(winnerObject, winnerObject);
+        winnerNameText.DOFade(0f, 0.1f);
+        winnerNameText.DOFade(1f, 5f);
+        winnerNameText.transform.DOMove(winnerNameText.transform.position + 2 * (Vector3.down), 1.75f).OnComplete(() => {
+            //Destroy(transform.root.gameObject);
+        });
         cardDisplay.enabled = false;
         menuDisplay.SetActive(false);
-        IS_COMPLETED = true;
+        loseCanvas.SetActive(true);
     }
     IEnumerator updateUserRankingInfo(int timeleft, int killcount, int health, int dieCount, int crownCount)
     {
