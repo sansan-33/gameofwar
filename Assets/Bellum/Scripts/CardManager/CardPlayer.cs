@@ -151,7 +151,7 @@ public class CardPlayer : MonoBehaviour
                 }
                 for (int j = 0 ; j < star + 2; j++)
                 {
-                    beforeNewCard.stars.transform.GetChild(j).Find("Active").gameObject.SetActive(true);
+                    beforeNewCard.stars.transform.GetChild(j).Find("Active" + (star + 2)).gameObject.SetActive(true);
                 }
                 beforeNewCard.cardFrame.transform.GetChild(star + 1).gameObject.SetActive(true);
                 //Debug.Log($"***** Merged card {lastCardBefore } ==> star: {beforeNewCard.cardStar.text} / {beforeNewCard.cardFace.star} ");
