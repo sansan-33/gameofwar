@@ -52,6 +52,7 @@ public class UserProfileManager : MonoBehaviour
             StaticClass.topaz = jsonResult[0]["topaz"];
             StaticClass.emerald = jsonResult[0]["emerald"];
             StaticClass.experience = jsonResult[0]["experience"];
+            StaticClass.level = jsonResult[0]["level"];
         }
         else
         {
@@ -63,6 +64,7 @@ public class UserProfileManager : MonoBehaviour
             StaticClass.topaz = "0";
             StaticClass.emerald = "0";
             StaticClass.experience = "0";
+            StaticClass.level = "0";
         }
         requestTextUpdate?.Invoke();
         //Debug.Log($"Get User Profile {webReq.url } {jsonResult}");

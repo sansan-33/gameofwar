@@ -13,6 +13,7 @@ public class TopBarMenu : MonoBehaviour
     [SerializeField] public TMP_Text diamond = null;
     [SerializeField] private Image userExperienceSlider = null;
     [SerializeField] private TMP_Text userExperienceText = null;
+    [SerializeField] public TMP_Text userLevel = null;
 
 
     private void Awake()
@@ -48,8 +49,12 @@ public class TopBarMenu : MonoBehaviour
         username.text = StaticClass.Username;
         gold.text = StaticClass.gold;
         diamond.text = StaticClass.diamond;
-        userExperienceText.text = StaticClass.experience;
-        userExperienceSlider.fillAmount = Int32.Parse(StaticClass.experience) / 100;
+        if (userExperienceText != null)
+        {
+            userExperienceText.text = StaticClass.experience;
+            userExperienceSlider.fillAmount = Int32.Parse(StaticClass.experience) / 100;
+            userLevel.text = StaticClass.level;
+        }
     }
     public void GoToMainMenu()
     {
