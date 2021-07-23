@@ -19,6 +19,7 @@ public class EffectStatus : NetworkBehaviour
     public bool isStun = false;
 
     [SerializeField] private GameObject slowPrefab;
+    [SerializeField] private GameObject speedPrefab;
 
     public int freezeKey;
     int playerID = 0;
@@ -102,7 +103,16 @@ public class EffectStatus : NetworkBehaviour
     {
         if (tag.ToLower().Contains("king"))
             ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.SPEED, newValue);
-        Instantiate(slowPrefab, transform);
+        if(newValue > oldValue)
+        {
+            Instantiate(speedPrefab, transform);
+        }
+        else
+        {
+            Instantiate(slowPrefab, transform);
+        }
+
+        
     }
     private void HandleFreezeEffectUpdated(bool oldValue, bool newValue)
     {
