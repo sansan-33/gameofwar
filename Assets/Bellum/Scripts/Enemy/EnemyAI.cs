@@ -67,6 +67,29 @@ public class EnemyAI : MonoBehaviour
         {"4",4},
         {"5",5}
     };
+    private Dictionary<string, SpecialAttackType> SpStartergy = new Dictionary<string, SpecialAttackType>()
+    {
+        {"1,1",SpecialAttackType.FIRE},
+        {"1,2",SpecialAttackType.FIRE},
+        {"1,3",SpecialAttackType.FIRE},
+        {"1,4",SpecialAttackType.FIRE},
+        {"1,5",SpecialAttackType.FIRE},
+        {"2,1",SpecialAttackType.FIRE},
+        {"2,2",SpecialAttackType.FIRE},
+        {"2,3",SpecialAttackType.FIRE},
+        {"2,4",SpecialAttackType.FIRE},
+        {"2,5",SpecialAttackType.FIRE},
+        {"3,1",SpecialAttackType.FIRE},
+        {"3,2",SpecialAttackType.FIRE},
+        {"3,3",SpecialAttackType.FIRE},
+        {"3,4",SpecialAttackType.FIRE},
+        {"3,5",SpecialAttackType.FIRE},
+        {"4,1",SpecialAttackType.FIRE},
+        {"4,2",SpecialAttackType.FIRE},
+        {"4,3",SpecialAttackType.FIRE},
+        {"4,4",SpecialAttackType.FIRE},
+        {"4,5",SpecialAttackType.FIRE},
+    };
     [SerializeField] List<SpecialAttackType> SpList1;
     [SerializeField] List<SpecialAttackType> SpList2;
     float test;
@@ -805,7 +828,8 @@ public class EnemyAI : MonoBehaviour
                     //foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
                     //{
                         Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} ==");
-                        if (impact.GetSpecialAttackType() == SpecialAttackType.FIRE)
+            SpStartergy.TryGetValue(chapter.ToString() + "," +mission.ToString(), out SpecialAttackType specialAttackType);
+                        if (impact.GetSpecialAttackType() == specialAttackType)
                         {
                 Debug.Log("Sp type == fire");
                 //ISpecialAttack iSpecialAttack = impact.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
