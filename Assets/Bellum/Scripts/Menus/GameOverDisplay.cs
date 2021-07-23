@@ -34,6 +34,12 @@ public class GameOverDisplay : MonoBehaviour
     [SerializeField] public GameStartDisplay gameStartDisplay;
     [SerializeField] public GameObject menuDisplay;
 
+    [Header("Rewards Item")]
+    [SerializeField] private TMP_Text rewardExperience = null;
+    [SerializeField] private TMP_Text rewardGold = null;
+    [SerializeField] private GameObject rewardGem = null;
+    [SerializeField] private TMP_Text rewardGemCount = null;
+
     public TacticalBehavior tacticalBehavior;
     private RTSPlayer rTSPlayer;
     APIManager apiManager;
@@ -205,7 +211,16 @@ public class GameOverDisplay : MonoBehaviour
     IEnumerator updateUserReward()
     {
         string missionKey = StaticClass.Chapter + "-" + StaticClass.Mission;
-        int rand = 3;
-        yield return apiManager.UpdateUserReward(StaticClass.UserID, RewardMeta.missionExp[missionKey].ToString() , RewardMeta.missionGold[missionKey].ToString(), RewardMeta.missionTreasure[missionKey].ToString(), rand.ToString());
+        int randCount = UnityEngine.Random.Range(1, 2);
+        rewardExperience.text = RewardMeta.missionExp[missionKey].ToString();
+        rewardGold.text = RewardMeta.missionGold[missionKey].ToString();
+        string gemType = RewardMeta.missionTreasure[missionKey].ToString();
+        var gem = gemType.Split('-')[0];
+        var gemRate = gemType.Split('-')[1];
+    
+        rewardGem.transform.Find("icon_" + gem).gameObject.SetActive(true);
+        rewardGemCount.text = randCount.ToString();
+
+        yield return apiManager.UpdateUserReward(StaticClass.UserID, RewardMeta.missionExp[missionKey].ToString() , RewardMeta.missionGold[missionKey].ToString(), gemType, randCount.ToString());
     }
 }
