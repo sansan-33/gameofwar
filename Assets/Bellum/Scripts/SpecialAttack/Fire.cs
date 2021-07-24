@@ -20,7 +20,7 @@ public class Fire : MonoBehaviour
     void Start()
     {
         RTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        tag = "Fire" + RTSPlayer.GetPlayerID();
+        //tag = "Fire" + RTSPlayer.GetPlayerID();
         gameObject.layer = LayerMask.NameToLayer("Projectile");
         parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
         
@@ -51,6 +51,8 @@ public class Fire : MonoBehaviour
         //this.specialAttackManager = specialAttackManager;
         StartCoroutine(BurnAround(EnemyID));
         StartCoroutine(DestroySelf(diedTime));
+        int ID = EnemyID == 0 ? 1 : 0;
+        tag = "Fire" + ID;
 
     }
     public void DestroyFire()

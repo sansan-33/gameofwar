@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using SimpleJSON;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Networking;
+using static SpTypeArt;
 
 public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
@@ -10,6 +14,38 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     Vector3 mPosDelta = Vector3.zero;
     Vector3 mPos;
 
+    [SerializeField] GameObject zapPrefab;
+    [SerializeField] GameObject freezePrefab;
+    [SerializeField] GameObject meteorPrefab;
+    [SerializeField] GameObject fireArrowPrefab;
+    [SerializeField] GameObject tornadoPrefab;
+    [SerializeField] GameObject EarthquakePrefab;
+    [SerializeField] GameObject removeGaugePrefab;
+    [SerializeField] GameObject grabPrefab;
+    [SerializeField] GameObject cardRankUpPrefab;
+    [SerializeField] GameObject firePrefab;
+    [SerializeField] GameObject bombPrefab;
+    [SerializeField] bool showEffect = false;
+    [SerializeField] Vector3 spawnPos = new Vector3(66, 222, -1945);
+
+    private Dictionary<string, GameObject> SPEffect = new Dictionary<string, GameObject>()
+    {
+        
+    };
+    private Dictionary<string, Vector3> SpPosition = new Dictionary<string, Vector3>()
+    {
+        { "FIREARROW", new Vector3(92,254,-1945) },
+           { "METEOR", new Vector3(92,254,-2010) },
+           { "TORNADO", new Vector3(92,222,-1945) },
+            {"ZAP", new Vector3(92,222,-1945) },
+            //SPEffect.Add("FREEZE", new Vector3(92,222,-1945));
+            {"STUN", new Vector3(92,222,-1945) },
+            {"REMOVEGAUGE", new Vector3(92,222,-1945) },
+            {"GRAB", new Vector3(92,222,-1945) },
+            {"CARDRANKUP", new Vector3(92,222,-1945) },
+            {"FIRE", new Vector3(92,222,-1945) },
+            {"BOMB", new Vector3(92,222,-1945) },
+    };
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log($"OnBeginDrag ");
@@ -31,6 +67,55 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     // Start is called before the first frame update
     void Start()
     {
+        if(showEffect  == true)
+        {
+            SPEffect.Clear();
+            SPEffect.Add("FIREARROW", fireArrowPrefab);
+            SPEffect.Add("METEOR", meteorPrefab);
+            SPEffect.Add("TORNADO", tornadoPrefab);
+            SPEffect.Add("ZAP", zapPrefab);
+            //SPEffect.Add("FREEZE", freezePrefab);
+            SPEffect.Add("STUN", EarthquakePrefab);
+            SPEffect.Add("REMOVEGAUGE", removeGaugePrefab);
+            SPEffect.Add("GRAB", grabPrefab);
+            SPEffect.Add("CARDRANKUP", cardRankUpPrefab);
+            SPEffect.Add("FIRE", firePrefab);
+            SPEffect.Add("BOMB", bombPrefab);
+            StartCoroutine(HandlePlaySP());
+        }
+        
+    }
+    private IEnumerator HandlePlaySP()
+    {
+        JSONNode jsonResult;
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.cardService,  StaticClass.UserID, StaticClass.CrossSceneInformation);
+        yield return webReq.SendWebRequest();
+        
+        // convert the byte array to a string
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+        SpTypeImage spTypeImage;
+
+        // parse the raw string into a json result we can easily read
+        jsonResult = JSON.Parse(rawJson);
+        string key = jsonResult[0]["specialkey"];
+        Debug.Log($"key = {key} json = {jsonResult} json0 = {jsonResult[0]}");
+        if (SPEffect.TryGetValue(key, out GameObject _effect))
+        {
+            Debug.Log($"effect = {_effect}");
+            if(_effect != null)
+            {
+                Debug.Log("spawn prefab");
+                GameObject effect = Instantiate(_effect);
+                Vector3 spawnPos = SpPosition[key];
+                effect.transform.position = spawnPos;
+                var rotationVector = effect.transform.rotation.eulerAngles;
+                rotationVector.x = 90;
+                effect.transform.rotation = Quaternion.Euler(rotationVector);
+            }
+          
+        }
         
     }
 

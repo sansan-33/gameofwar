@@ -20,6 +20,7 @@ public static class StaticClass
     public static string sapphire { get; set; }
     public static string topaz { get; set; }
     public static string experience { get; set; }
+    public static string highestPoint { get; set; }
 
     public static string TotalPower { get; set; }
     public static UnitMeta.Race playerRace { get; set; }
