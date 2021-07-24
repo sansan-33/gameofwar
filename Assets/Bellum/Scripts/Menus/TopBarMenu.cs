@@ -44,7 +44,7 @@ public class TopBarMenu : MonoBehaviour
     IEnumerator LoadUserProfile()
     {
         yield return userProfileManager.GetUserProfile(StaticClass.UserID);
-        UserProfileTextUpdate();
+        //UserProfileTextUpdate();
     }
     public void UserProfileTextUpdate()
     {
@@ -59,11 +59,11 @@ public class TopBarMenu : MonoBehaviour
         if (userExperienceText != null)
         {
             float fillVal = (float)(Int32.Parse(StaticClass.experience) / (100f * (Int32.Parse(StaticClass.level) + 1)));
-            userExperienceText.text = StaticClass.experience;
+            userExperienceText.text = StaticClass.experience + " / " + (Int32.Parse(StaticClass.level) + 1) * 100 ;
             userExperienceSlider.fillAmount = fillVal;
             userLevel.text = StaticClass.level;
             Debug.Log($"user level up fill value {fillVal}");
-            if (fillVal > 1) {
+            if (fillVal >= 1) {
                 userLevelUpEffect.SetActive(true);
                 yield return apiManager.UpdateUserLevel(StaticClass.UserID, StaticClass.level, StaticClass.experience);
                 yield return LoadUserProfile();

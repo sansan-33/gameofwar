@@ -92,7 +92,7 @@ public class FirebaseManager : MonoBehaviour
         userEmeraldText.text = StaticClass.emerald;
         userSapphireText.text = StaticClass.sapphire;
         userTopazText.text = StaticClass.topaz;
-        userExperienceText.text = StaticClass.experience;
+        userExperienceText.text = StaticClass.experience + " / " + (Int32.Parse(StaticClass.level) + 1) * 100 ;
         userExperienceSlider.fillAmount = (float)(Int32.Parse(StaticClass.experience) / (100f * (Int32.Parse(StaticClass.level) + 1)));
 
 
