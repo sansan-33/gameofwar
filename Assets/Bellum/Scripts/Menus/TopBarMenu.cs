@@ -63,7 +63,7 @@ public class TopBarMenu : MonoBehaviour
             userLevel.text = StaticClass.level;
             if (fillVal > 1) {
                 yield return apiManager.UpdateUserLevel(StaticClass.UserID, StaticClass.level, StaticClass.experience);
-                yield return LoadUserProfile();
+                //yield return LoadUserProfile();
             }
         }
     }
