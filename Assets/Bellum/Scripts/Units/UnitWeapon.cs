@@ -20,7 +20,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private Vector3 weaponSize = new Vector3(0.15f, 0.1f, 0.5f);
     private float calculatedDamageToDeal ;
     private float originalDamage;
-    public float DashDamageFactor = 0.1f;
+    public float DashDamageFactor = 0.05f;
     public bool IsKingSP = false;
     NetworkIdentity opponentIdentity;
     bool m_Started;
