@@ -33,7 +33,7 @@ public class Tornado : NetworkBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-
+        //Debug.Log($"Tornado triggerEntre {other.name} tag is {other.tag}");
         if (CanPull(other)) {
             StartCoroutine(pullObject(other, true));
         }
@@ -82,8 +82,9 @@ public class Tornado : NetworkBehaviour
         {
             if (((RTSNetworkManager)NetworkManager.singleton).Players.Count == 1)
             {
-               
-                if (fire.CompareTag("Fire" + 0))
+                int Id = unitType == "Player" ? enemyid : playerid;
+                //Debug.Log($"fire tag = {fire.tag} ID = {Id}");
+                if (fire.CompareTag("Fire" + Id))
                 {
                     
                     fire.DestroyFire();

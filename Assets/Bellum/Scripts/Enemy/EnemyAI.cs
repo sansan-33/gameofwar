@@ -802,7 +802,8 @@ public class EnemyAI : MonoBehaviour
         cardDealer.Hit(true);
 
         // }
-        SpecialAttack(type,new Vector3(36.6138f,0, -51.48428f));
+        SpecialAttack(type,new Vector3(40,1,-46));
+        //new Vector3(36.6138f,0, -51.48428f)
     }
     private void SpecialAttack(UnitMeta.UnitType type,Vector3 pos)
     {
