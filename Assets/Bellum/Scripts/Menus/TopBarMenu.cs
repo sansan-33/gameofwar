@@ -15,6 +15,7 @@ public class TopBarMenu : MonoBehaviour
     [SerializeField] private Image userExperienceSlider = null;
     [SerializeField] private TMP_Text userExperienceText = null;
     [SerializeField] public TMP_Text userLevel = null;
+    [SerializeField] public GameObject userLevelUpEffect = null;
 
 
     private void Awake()
@@ -61,9 +62,11 @@ public class TopBarMenu : MonoBehaviour
             userExperienceText.text = StaticClass.experience;
             userExperienceSlider.fillAmount = fillVal;
             userLevel.text = StaticClass.level;
+            Debug.Log($"user level up fill value {fillVal}");
             if (fillVal > 1) {
+                userLevelUpEffect.SetActive(true);
                 yield return apiManager.UpdateUserLevel(StaticClass.UserID, StaticClass.level, StaticClass.experience);
-                //yield return LoadUserProfile();
+                yield return LoadUserProfile();
             }
         }
     }
