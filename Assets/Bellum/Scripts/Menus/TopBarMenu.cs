@@ -9,6 +9,7 @@ public class TopBarMenu : MonoBehaviour
 {
     [SerializeField] public TMP_Text username = null;
     [SerializeField] private UserProfileManager userProfileManager;
+    APIManager apiManager;
     [SerializeField] public TMP_Text gold = null;
     [SerializeField] public TMP_Text diamond = null;
     [SerializeField] private Image userExperienceSlider = null;
@@ -32,6 +33,7 @@ public class TopBarMenu : MonoBehaviour
 
     public void Start()
     {
+        apiManager = new APIManager();
         UserProfileTextUpdate();
     }
     public void HandleProfileUpdate()
@@ -49,11 +51,20 @@ public class TopBarMenu : MonoBehaviour
         username.text = StaticClass.Username;
         gold.text = StaticClass.gold;
         diamond.text = StaticClass.diamond;
+        StartCoroutine(userLevelUp());
+    }
+    IEnumerator userLevelUp()
+    {
         if (userExperienceText != null)
         {
+            float fillVal = (float)(Int32.Parse(StaticClass.experience) / (100f * (Int32.Parse(StaticClass.level) + 1)));
             userExperienceText.text = StaticClass.experience;
-            userExperienceSlider.fillAmount = Int32.Parse(StaticClass.experience) / 100;
+            userExperienceSlider.fillAmount = fillVal;
             userLevel.text = StaticClass.level;
+            if (fillVal > 1) {
+                yield return apiManager.UpdateUserLevel(StaticClass.UserID, StaticClass.level, StaticClass.experience);
+                yield return LoadUserProfile();
+            }
         }
     }
     public void GoToMainMenu()

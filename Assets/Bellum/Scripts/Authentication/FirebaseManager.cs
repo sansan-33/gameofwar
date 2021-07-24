@@ -43,7 +43,9 @@ public class FirebaseManager : MonoBehaviour
     [SerializeField] private TMP_Text useridProfileText = null;
     [SerializeField] private GameObject userProfilePopUp = null;
     [SerializeField] private Image userExperienceSlider = null;
+    [SerializeField] private TMP_Text userLevelText = null;
     [SerializeField] private TMP_Text userExperienceText = null;
+    [SerializeField] private TMP_Text userHighestPointText = null;
     [SerializeField] private TMP_Text userGoldText = null;
     [SerializeField] private TMP_Text userRubyText = null;
     [SerializeField] private TMP_Text userOpalText = null;
@@ -81,6 +83,8 @@ public class FirebaseManager : MonoBehaviour
     {
         usernameProfileText.text = user.DisplayName;
         useridProfileText.text = user.UserId;
+        userHighestPointText.text = StaticClass.highestPoint;
+        userLevelText.text = StaticClass.level;
 
         userGoldText.text = StaticClass.gold;
         userRubyText.text = StaticClass.ruby;
@@ -89,7 +93,8 @@ public class FirebaseManager : MonoBehaviour
         userSapphireText.text = StaticClass.sapphire;
         userTopazText.text = StaticClass.topaz;
         userExperienceText.text = StaticClass.experience;
-        userExperienceSlider.fillAmount =  Int32.Parse(StaticClass.experience) / 100;
+        userExperienceSlider.fillAmount = (float)(Int32.Parse(StaticClass.experience) / (100f * (Int32.Parse(StaticClass.level) + 1)));
+
 
     }
     public void UpdateUserProfile()

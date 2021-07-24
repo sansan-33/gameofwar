@@ -48,7 +48,7 @@ public class SummonManager : MonoBehaviour
         summonStartDisplay.SetActive(false);
         summonPullButton.SetActive(false);
         StartCoroutine(ServerSummon(StaticClass.UserID, summonCount));
-        StartCoroutine(userProfileManager.UpdateDiamond(StaticClass.UserID, diamond));
+        StartCoroutine(userProfileManager.updateDiamond(diamond));
     }
     public void PullAgain()
     {
