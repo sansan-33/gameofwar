@@ -47,6 +47,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             {"FIRE", new Vector3(72,222,-1945) },
             {"BOMB", new Vector3(92,222,-1945) },
             {"SHIELD", new Vector3(95.4f,266,-1945) },
+             {"LIGHTNING", new Vector3(92,222,-1945) },
     };
     private Dictionary<string, Vector3> SpScale = new Dictionary<string, Vector3>()
     {
@@ -90,6 +91,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             SPEffect.Add("FIRE", firePrefab);
             SPEffect.Add("BOMB", bombPrefab);
             SPEffect.Add("SHIELD", shieldPrefab);
+            SPEffect.Add("LIGHTNING", zapPrefab);
             StartCoroutine(HandlePlaySP());
         }
         
@@ -119,12 +121,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 if (_effect != null)
                 {
                     Debug.Log("spawn prefab");
-                    effect = Instantiate(_effect);
-                    Vector3 spawnPos = SpPosition[key];
-                    effect.transform.position = spawnPos;
-                    var rotationVector = effect.transform.rotation.eulerAngles;
-                    rotationVector.x = 90;
-                    effect.transform.rotation = Quaternion.Euler(rotationVector);
+                    effect = SpawnEffect(_effect,key,0);
                     if (SpScale.TryGetValue(key, out Vector3 scale))
                     {
                         effect.transform.localScale = scale;
@@ -140,7 +137,12 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                         case "GRAB":
                             StartCoroutine(HandleMoveEffect(new Vector3(spawnPos.x, spawnPos.y, spawnPos.z - 100), effect));
                             break;
-
+                        case "LIGHTNING":
+                            yield return new WaitForSeconds(0.5f);
+                            SpawnEffect(_effect, key,4);
+                            yield return new WaitForSeconds(0.5f);
+                            SpawnEffect(_effect, key,-4);
+                            break;
                     }
                 }
 
@@ -156,7 +158,17 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         }
 
     }
-
+    private GameObject SpawnEffect(GameObject _effect,string key,int spawnVector )
+    {
+        GameObject effect = null;
+        effect = Instantiate(_effect);
+        Vector3 spawnPos = SpPosition[key];
+        effect.transform.position = new Vector3(spawnPos.x+ spawnVector, spawnPos.y,spawnPos.z);
+        var rotationVector = effect.transform.rotation.eulerAngles;
+        rotationVector.x = 90;
+        effect.transform.rotation = Quaternion.Euler(rotationVector);
+        return effect;
+    }
     private IEnumerator HandleMoveEffect(Vector3 pos, GameObject effect)
     {
         float timer = 10;
