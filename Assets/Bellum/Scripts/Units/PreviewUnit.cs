@@ -25,6 +25,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     [SerializeField] GameObject cardRankUpPrefab;
     [SerializeField] GameObject firePrefab;
     [SerializeField] GameObject bombPrefab;
+    [SerializeField] GameObject shieldPrefab;
     [SerializeField] bool showEffect = false;
     [SerializeField] Vector3 spawnPos = new Vector3(66, 222, -1945);
 
@@ -34,17 +35,24 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     };
     private Dictionary<string, Vector3> SpPosition = new Dictionary<string, Vector3>()
     {
-        { "FIREARROW", new Vector3(92,254,-1945) },
-           { "METEOR", new Vector3(92,254,-2010) },
-           { "TORNADO", new Vector3(92,222,-1945) },
+        { "FIREARROW", new Vector3(92,430,-1945) },
+           { "METEOR", new Vector3(92,270,-2010) },
+           { "TORNADO", new Vector3(95.75f,215,-1940) },
             {"ZAP", new Vector3(92,222,-1945) },
             //SPEffect.Add("FREEZE", new Vector3(92,222,-1945));
             {"STUN", new Vector3(92,222,-1945) },
             {"REMOVEGAUGE", new Vector3(92,222,-1945) },
-            {"GRAB", new Vector3(92,222,-1945) },
+            {"GRAB", new Vector3(73,222,-1945) },
             {"CARDRANKUP", new Vector3(92,222,-1945) },
-            {"FIRE", new Vector3(92,222,-1945) },
+            {"FIRE", new Vector3(72,222,-1945) },
             {"BOMB", new Vector3(92,222,-1945) },
+            {"SHIELD", new Vector3(95.4f,266,-1945) },
+    };
+    private Dictionary<string, Vector3> SpScale = new Dictionary<string, Vector3>()
+    {
+           { "TORNADO", new Vector3(3, 3, 3) },
+            {"GRAB", new Vector3(3, 3, 3) },
+            {"SHIELD", new Vector3(7,5,12) },
     };
     public void OnBeginDrag(PointerEventData eventData)
     {
@@ -81,6 +89,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             SPEffect.Add("CARDRANKUP", cardRankUpPrefab);
             SPEffect.Add("FIRE", firePrefab);
             SPEffect.Add("BOMB", bombPrefab);
+            SPEffect.Add("SHIELD", shieldPrefab);
             StartCoroutine(HandlePlaySP());
         }
         
@@ -113,12 +122,37 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
                 var rotationVector = effect.transform.rotation.eulerAngles;
                 rotationVector.x = 90;
                 effect.transform.rotation = Quaternion.Euler(rotationVector);
+                if(SpScale.TryGetValue(key, out Vector3 scale))
+                {
+                    effect.transform.localScale = scale;
+                }
+                switch (key)
+                {
+                    case "FIRE":
+                        Debug.Log("change rotation of fire");
+                        var fireRotationVector = effect.transform.rotation.eulerAngles;
+                        fireRotationVector.x = -90;
+                        effect.transform.rotation = Quaternion.Euler(fireRotationVector);
+                        break;
+                }
             }
           
         }
         
     }
-
+    private IEnumerator HandleMoveEffect(Vector3 pos, GameObject effect)
+    {
+        float timer = 10;
+        Vector3 currentVelocity = Vector3.zero;
+        while (effect != null && effect.transform.position != pos)
+        {
+            //Debug.Log($"unit prefab back {unit.transform.position}");
+            effect.transform.position = Vector3.SmoothDamp(effect.transform.position, pos, ref currentVelocity, 5f);
+            yield return new WaitForSeconds(0.01f);
+            if (timer <= 0) { Debug.Log("Time break"); break; }
+        }
+        Destroy(effect);
+    }
     // Update is called once per frame
     void Update()
     {
