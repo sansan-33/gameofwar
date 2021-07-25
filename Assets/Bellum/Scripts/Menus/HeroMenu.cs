@@ -18,6 +18,8 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public TMP_Text leveluprequirementText;
     [SerializeField] public TMP_Text nameText;
     [SerializeField] public TMP_Text rarityText;
+    [SerializeField] public TMP_Text upgradeGoldValue;
+
     [Header("Card Statistic")]
     [SerializeField] public TMP_Text healthValue;
     [SerializeField] public TMP_Text attackValue;
@@ -26,6 +28,7 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public TMP_Text speedValue;
     [SerializeField] public TMP_Text specialValue;
     [SerializeField] public TMP_Text powerValue;
+    
 
     [SerializeField] public Image characterImage;
     [SerializeField] public Image unitTypeImage;
@@ -95,9 +98,19 @@ public class HeroMenu : MonoBehaviour
             nameText.text = jsonResult[0]["cardkey"];
             rarityText.text = jsonResult[0]["rarity"];
             raceText.text = jsonResult[0]["race"];
+            upgradeGoldValue.text = jsonResult[0]["goldrequirement"];
             if (float.TryParse(jsonResult[0]["exp"], out float cardexp) && float.TryParse(jsonResult[0]["leveluprequirement"], out float cardleveluprequirement))
             {
-                if (cardexp >= cardleveluprequirement) { CANLEVELUP = true; levelUpButton.image.color = Color.white; }
+                if (cardexp >= cardleveluprequirement) {
+                    CANLEVELUP = true;
+                    //Debug.Log($"Hero Menu levelUpButton.interactable = true ");
+                    levelUpButton.interactable = true;
+                    //levelUpButton.image.color = Color.white;
+                } else
+                {
+                    //Debug.Log($"Hero Menu levelUpButton.interactable = false ");
+                    levelUpButton.interactable = false;
+                }
                 levelSlider.value = cardexp / cardleveluprequirement;
             }
             //characterImage.sprite = characterFullArt.CharacterFullArtDictionary[jsonResult[0]["cardkey"]].image;
