@@ -119,7 +119,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 cmdSpecialEffect(other.transform.position);
                 if(firstOther == null)
                     firstOther = other.gameObject;
-                if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.UnitRaceTypeKey[unit.race][unit.unitType])) { cmShake(); }
+                if ( UnitMeta.ShakeCamera.ContainsKey (UnitMeta.GetUnitKeyByRaceType(unit.race, unit.unitType))) { cmShake(); }
                 if (tag.Contains("Sneaky")) GetComponent<UnitPowerUp>().CmdSneakOff();
                 if (!IsAreaOfEffect)
                     break;

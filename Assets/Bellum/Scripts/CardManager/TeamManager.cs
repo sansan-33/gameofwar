@@ -112,9 +112,9 @@ public class TeamManager : MonoBehaviour
                 teamCardBtn.cardSlotEmpty.SetActive(false);
                 //teamMembers[i] = (UnitMeta.UnitKey) Enum.Parse(typeof(UnitMeta.UnitKey), userCardArray[i].cardkey);
                 unitkey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), userCardArray[i].cardkey);
-                if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING)
+                if (UnitMeta.UnitStruct[unitkey].type == UnitMeta.UnitType.KING)
                 {
-                    StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
+                    StaticClass.playerRace = UnitMeta.UnitStruct[unitkey].race;
                     //Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
 
@@ -185,7 +185,7 @@ public class TeamManager : MonoBehaviour
         {
             teamCardBtn = TeamCardSlot.transform.GetChild(i).GetComponent<TeamCardButton>();
             cardSlotKeys[i] = teamCardBtn.cardSlotKeyValue;
-            if(UnitMeta.KeyType[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), cardSlotKeys[i])] == UnitMeta.UnitType.KING){
+            if(UnitMeta.UnitStruct[(UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), cardSlotKeys[i])].type == UnitMeta.UnitType.KING){
                 HasOneKing = true;
             }
         }

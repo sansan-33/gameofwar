@@ -94,7 +94,7 @@ public class CardDealer : MonoBehaviour
         {
             foreach (Card_Deck number in Enum.GetValues(typeof(Card_Deck)))
             {
-                cardkey = UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][(UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), number.ToString())].ToString();
+                cardkey = UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace, (UnitMeta.UnitType)Enum.Parse(typeof(UnitMeta.UnitType), number.ToString()) ).ToString();
                 cardDeck.Add(new CardFace(suit, (Card_Numbers)number, Card_Stars.Bronze, cardstats[cardkey]));
             }
         }
@@ -108,18 +108,18 @@ public class CardDealer : MonoBehaviour
     }
     void SetBuildingsCard(Dictionary<String, CardStats> _cardstats)
     {
-        buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString()]));
+        buttonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace, UnitMeta.UnitType.WALL).ToString()]));
         //Debug.Log($"Set Building Card {UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.BARRACK].ToString()} ");
-        buttonBarrack.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BARRACK, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.BARRACK].ToString()]));
-        buttonTower.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.TOWER, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TOWER].ToString()]));
-        buttonBeacon.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BEACON, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.BEACON].ToString()]));
-        buttonSpikeTrap.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SPIKETRAP, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TRAP].ToString()]));
+        buttonBarrack.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BARRACK, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.BARRACK).ToString() ]));
+        buttonTower.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.TOWER, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.TOWER).ToString()]));
+        buttonBeacon.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BEACON, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.BEACON).ToString()]));
+        buttonSpikeTrap.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SPIKETRAP, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.TRAP).ToString()]));
     
-        EnemyButtonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.WALL].ToString()]));
-        EnemyButtonBarrack.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BARRACK, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.BARRACK].ToString()]));
-        EnemyButtonTower.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.TOWER, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TOWER].ToString()]));
-        EnemyButtonBeacon.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BEACON, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.BEACON].ToString()]));
-        EnemyButtonSpikeTrap.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SPIKETRAP, Card_Stars.Bronze, _cardstats[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TRAP].ToString()]));
+        EnemyButtonWall.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.WALL, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.WALL).ToString()]));
+        EnemyButtonBarrack.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BARRACK, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.BARRACK).ToString()]));
+        EnemyButtonTower.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.TOWER, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.TOWER).ToString()]));
+        EnemyButtonBeacon.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.BEACON, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.BEACON).ToString()]));
+        EnemyButtonSpikeTrap.SetCard(new CardFace(Card_Suits.Clubs, Card_Numbers.SPIKETRAP, Card_Stars.Bronze, _cardstats[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.TRAP).ToString()]));
     
     }
     void DealCard(CardPlayer player, int playersIndex,  bool left = true)
@@ -155,7 +155,7 @@ public class CardDealer : MonoBehaviour
         UnitMeta.Race race = playersIndex == 0 ? StaticClass.playerRace : StaticClass.enemyRace;
         Material mat = new Material(greyScaleShader);
         //Debug.Log($"DealingCard race {race} type {type} playersIndex {playersIndex} , StaticClass.enemyRace {StaticClass.enemyRace}");
-        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][(UnitMeta.UnitType)type].ToString() ].image;
+        lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.GetUnitKeyByRaceType(race,(UnitMeta.UnitType)type).ToString()].image;
         //lastCard.cardSpawnButton.GetComponentInChildren<Image>().sprite  = lastCard.GetComponent<Card>().sprite[cardnumber];
         lastCard.cardSpawnButton.GetComponentInChildren<Image>().material = mat;
         lastCard.eleixerText.text = uniteleixer.ToString();

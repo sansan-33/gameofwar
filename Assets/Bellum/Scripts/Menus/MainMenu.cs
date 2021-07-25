@@ -90,9 +90,9 @@ public class MainMenu : MonoBehaviour
             {
                 sbTeamMember.Append(comma).Append(jsonResult[i]["cardkey" + j].ToString());
                 unitkey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[i]["cardkey" + j] );  
-                if (UnitMeta.KeyType[unitkey] == UnitMeta.UnitType.KING)
+                if (UnitMeta.UnitStruct[unitkey].type== UnitMeta.UnitType.KING)
                 {
-                    StaticClass.playerRace = UnitMeta.KeyRace[unitkey];
+                    StaticClass.playerRace = UnitMeta.UnitStruct[unitkey].race;
                     //Debug.Log($"StaticClass.playerRace {StaticClass.playerRace}");
                 }
                 comma = ",";

@@ -4,6 +4,22 @@ using System.Collections.Generic;
 public class UnitMeta
 {
 
+    public class MyUnit
+    {
+        public UnitKey key;
+        public Race race;
+        public UnitType type;
+        public WeaponType weapontype;
+
+        public MyUnit(UnitKey _key, UnitType _type, Race _race, WeaponType _weapontype)
+        {
+            this.key = _key;
+            this.type = _type;
+            this.race = _race;
+            this.weapontype = _weapontype;
+        }
+    }
+
     /*
      * Attack checking 
      * 1) Unit radius usually 2, attack range at least 5
@@ -20,25 +36,25 @@ public class UnitMeta
     public static string KINGENEMYTAG = "King1";
     public static string ENEMY_USERID = "-1";
     public enum UnitKey { ARCHER, KNIGHT, MAGE, CAVALRY, SPEARMAN, HERO, MINISKELETON, GIANT, KING,
-                        UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH,HUMANWALL, UNDEADWALL,
-                        ODIN,THOR,LOKI,GODARCHER,GODCAVALRY,GODSPEARMAN,GODMAGE,GODKNIGHT, GODWALL,
-                        ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL, UNDEADQUEEN,ELFQUEEN,MULAN,
-                        HUMANTOWER,HUMANBARRACK,HUMANCATAPULT, UNDEADTOWER, UNDEADBARRACK, UNDEADCATAPULT, ELFTOWER, ELFBARRACK, ELFCATAPULT, GODTOWER, GODBARRACK, GODCATAPULT, DOOR,
-                        HUMANSPIKETRAP, HUMANSIEGE, UNDEADSPIKETRAP, UNDEADSIEGE, ELFSPIKETRAP, ELFSIEGE, GODSPIKETRAP, GODSIEGE, HUMANBEACON, ELFBEACON, GODBEACON, UNDEADBEACON
+        UNDEADHERO, UNDEADARCHER, UNDEADKING, RIDER, LICH, HUMANWALL, UNDEADWALL,
+        ODIN, THOR, LOKI, GODARCHER, GODCAVALRY, GODSPEARMAN, GODMAGE, GODKNIGHT, GODWALL,
+        ELFRANGER, ELFCAVALRY, ELFFOOTMAN, ELFMAGE, ELFGOLEM, ELFTREEANT, ELFDEMONHUNTER, ELFWALL, UNDEADQUEEN, ELFQUEEN, MULAN,
+        HUMANTOWER, HUMANBARRACK, HUMANCATAPULT, UNDEADTOWER, UNDEADBARRACK, UNDEADCATAPULT, ELFTOWER, ELFBARRACK, ELFCATAPULT, GODTOWER, GODBARRACK, GODCATAPULT, DOOR,
+        HUMANSPIKETRAP, HUMANSIEGE, UNDEADSPIKETRAP, UNDEADSIEGE, ELFSPIKETRAP, ELFSIEGE, GODSPIKETRAP, GODSIEGE, HUMANBEACON, ELFBEACON, GODBEACON, UNDEADBEACON
     };
     public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, TRAP, QUEEN, BEACON };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL, QUEEN, HERO, SECRET };
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
     public enum SpeedType { ORIGINAL, CURRENT, MAX };
-    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER , SPELL,AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER,SIEGE};
+    public enum WeaponType { THSWORD, SHSWORD, BOW, HAMMER, SPEAR, DAGGER, SPELL, AXE, LANCE, PUNCH, NOTHING, CANNON, SPAWNER, SIEGE };
     public enum EffectType { ATTACK, DEFENSE, HEALTH, SPEED, FREEZE, STUN, BURN };
 
     // Target Table
     // Target  | Provoke | Door      | Player    |  King    | Building
     //         | Player  | Provoke   | King      |  King    | Door
     //         | King
-    public enum TargetTag { Provoke,Door,Player,King,Building };
+    public enum TargetTag { Provoke, Door, Player, King, Building };
     public static Dictionary<TargetTag, List<TargetTag>> TargetGroup = new Dictionary<TargetTag, List<TargetTag>>() {
         { TargetTag.Provoke, new List<TargetTag> { TargetTag.Provoke, TargetTag.Player, TargetTag.King } },
         { TargetTag.Door, new List<TargetTag> { TargetTag.Door, TargetTag.Provoke} },
@@ -67,7 +83,7 @@ public class UnitMeta
         { UnitType.TRAP, 1 },
         { UnitType.BEACON, 1 }
     };
-    
+
     public static Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType> DefaultUnitTactical = new Dictionary<UnitType, TacticalBehavior.BehaviorSelectionType>()
     {
         { UnitType.ARCHER, TacticalBehavior.BehaviorSelectionType.Attack } ,
@@ -98,216 +114,72 @@ public class UnitMeta
         { UnitType.TRAP, UnitPosition.WALL },
         { UnitType.BEACON, UnitPosition.SECRET },
     };
-    public static Dictionary<UnitType, UnitKey> HumanTypeKey = new  Dictionary<UnitType, UnitKey>() {
 
-        { UnitType.ARCHER, UnitKey.ARCHER } ,
-        { UnitType.TANK, UnitKey.KNIGHT} ,
-        { UnitType.CAVALRY, UnitKey.CAVALRY} ,
-        { UnitType.MAGIC, UnitKey.MAGE },
-        { UnitType.FOOTMAN, UnitKey.SPEARMAN },
-        { UnitType.HERO, UnitKey.HERO },
-        { UnitType.QUEEN, UnitKey.MULAN },
-        { UnitType.KING, UnitKey.KING },
-        { UnitType.WALL, UnitKey.HUMANWALL },
-        { UnitType.BARRACK, UnitKey.HUMANBARRACK },
-        { UnitType.TOWER, UnitKey.HUMANTOWER },
-        { UnitType.CATAPULT, UnitKey.HUMANCATAPULT },
-        { UnitType.SIEGE, UnitKey.HUMANSIEGE },
-        { UnitType.TRAP , UnitKey.HUMANSPIKETRAP },
-        { UnitType.BEACON , UnitKey.HUMANBEACON }
-    };
-    public static Dictionary<UnitType, UnitKey> UndeadTypeKey = new Dictionary<UnitType, UnitKey>()
-    {
-        { UnitType.ARCHER, UnitKey.UNDEADARCHER } ,
-        { UnitType.TANK, UnitKey.GIANT} ,
-        { UnitType.CAVALRY, UnitKey.RIDER} ,
-        { UnitType.MAGIC, UnitKey.LICH },
-        { UnitType.FOOTMAN, UnitKey.MINISKELETON },
-        { UnitType.HERO, UnitKey.UNDEADHERO },
-        { UnitType.QUEEN, UnitKey.UNDEADQUEEN },
-        { UnitType.KING, UnitKey.UNDEADKING },
-        { UnitType.WALL, UnitKey.UNDEADWALL },
-        { UnitType.BARRACK, UnitKey.UNDEADBARRACK },
-        { UnitType.TOWER, UnitKey.UNDEADTOWER },
-        { UnitType.CATAPULT, UnitKey.UNDEADCATAPULT },
-        { UnitType.SIEGE, UnitKey.UNDEADSIEGE },
-        { UnitType.TRAP , UnitKey.UNDEADSPIKETRAP },
-        { UnitType.BEACON , UnitKey.UNDEADBEACON }
-    };
-    public static Dictionary<UnitType, UnitKey> GodTypeKey = new Dictionary<UnitType, UnitKey>()
-    {
-        { UnitType.ARCHER, UnitKey.GODARCHER } ,
-        { UnitType.TANK, UnitKey.GODKNIGHT} ,
-        { UnitType.CAVALRY, UnitKey.GODCAVALRY} ,
-        { UnitType.MAGIC, UnitKey.GODMAGE },
-        { UnitType.FOOTMAN, UnitKey.GODSPEARMAN },
-        { UnitType.QUEEN, UnitKey.LOKI },
-        { UnitType.HERO, UnitKey.THOR },
-        { UnitType.KING, UnitKey.ODIN },
-        { UnitType.WALL, UnitKey.GODWALL },
-        { UnitType.BARRACK, UnitKey.GODBARRACK },
-        { UnitType.TOWER, UnitKey.GODTOWER },
-        { UnitType.CATAPULT, UnitKey.GODCATAPULT },
-        { UnitType.SIEGE, UnitKey.GODSIEGE },
-        { UnitType.TRAP , UnitKey.GODSPIKETRAP },
-        { UnitType.BEACON , UnitKey.GODBEACON }
-    };
-    public static Dictionary<UnitType, UnitKey> ElfTypeKey = new Dictionary<UnitType, UnitKey>()
-    {
-        { UnitType.ARCHER, UnitKey.ELFRANGER } ,
-        { UnitType.TANK, UnitKey.ELFGOLEM} ,
-        { UnitType.CAVALRY, UnitKey.ELFCAVALRY} ,
-        { UnitType.MAGIC, UnitKey.ELFMAGE },
-        { UnitType.FOOTMAN, UnitKey.ELFFOOTMAN },
-        { UnitType.HERO, UnitKey.ELFDEMONHUNTER },
-        { UnitType.QUEEN, UnitKey.ELFQUEEN },
-        { UnitType.KING, UnitKey.ELFTREEANT },
-        { UnitType.WALL, UnitKey.ELFWALL },
-        { UnitType.BARRACK, UnitKey.ELFBARRACK },
-        { UnitType.TOWER, UnitKey.ELFTOWER },
-        { UnitType.CATAPULT, UnitKey.ELFCATAPULT },
-        { UnitType.SIEGE, UnitKey.ELFSIEGE },
-        { UnitType.TRAP , UnitKey.ELFSPIKETRAP },
-        { UnitType.BEACON , UnitKey.ELFBEACON }
-    };
-    public static Dictionary<Race, Dictionary<UnitType,UnitKey>> UnitRaceTypeKey = new Dictionary<Race, Dictionary<UnitType, UnitKey>>()
-    {
-        {Race.HUMAN , HumanTypeKey },
-        {Race.UNDEAD , UndeadTypeKey },
-        {Race.GOD , GodTypeKey },
-        {Race.ELF , ElfTypeKey }
-    };
-    public static Dictionary<UnitKey, UnitType> KeyType = new Dictionary<UnitKey, UnitType>() {
+    public static Dictionary<UnitKey, MyUnit> UnitStruct = new Dictionary<UnitKey, MyUnit>() {
+        { UnitKey.ARCHER , new MyUnit(UnitKey.ARCHER, UnitType.ARCHER, Race.HUMAN , WeaponType.BOW) },
+        { UnitKey.KNIGHT , new MyUnit(UnitKey.KNIGHT, UnitType.TANK, Race.HUMAN , WeaponType.THSWORD) },
+        { UnitKey.CAVALRY, new MyUnit(UnitKey.CAVALRY, UnitType.CAVALRY, Race.HUMAN , WeaponType.LANCE) },
+        { UnitKey.MAGE , new MyUnit(UnitKey.MAGE, UnitType.MAGIC, Race.HUMAN, WeaponType.SPELL ) },
+        { UnitKey.SPEARMAN , new MyUnit(UnitKey.SPEARMAN, UnitType.FOOTMAN, Race.HUMAN, WeaponType.SPEAR ) },
+        { UnitKey.HERO , new MyUnit(UnitKey.HERO, UnitType.HERO, Race.HUMAN , WeaponType.SHSWORD) },
+        { UnitKey.MULAN , new MyUnit(UnitKey.MULAN, UnitType.QUEEN, Race.HUMAN , WeaponType.SHSWORD) },
+        { UnitKey.KING , new MyUnit(UnitKey.KING, UnitType.KING, Race.HUMAN, WeaponType.SHSWORD ) },
+        { UnitKey.HUMANWALL , new MyUnit(UnitKey.HUMANWALL, UnitType.WALL, Race.HUMAN , WeaponType.NOTHING) },
+        { UnitKey.HUMANTOWER , new MyUnit(UnitKey.HUMANTOWER, UnitType.TOWER, Race.HUMAN, WeaponType.NOTHING ) },
+        { UnitKey.HUMANBARRACK , new MyUnit(UnitKey.HUMANBARRACK, UnitType.BARRACK, Race.HUMAN , WeaponType.SPAWNER) },
+        { UnitKey.HUMANCATAPULT , new MyUnit(UnitKey.HUMANCATAPULT, UnitType.CATAPULT, Race.HUMAN, WeaponType.CANNON ) },
+        { UnitKey.HUMANSPIKETRAP , new MyUnit(UnitKey.HUMANSPIKETRAP, UnitType.TRAP, Race.HUMAN, WeaponType.NOTHING ) },
+        { UnitKey.HUMANSIEGE , new MyUnit(UnitKey.HUMANSIEGE, UnitType.SIEGE, Race.HUMAN, WeaponType.SIEGE ) },
+        { UnitKey.HUMANBEACON , new MyUnit(UnitKey.HUMANBEACON, UnitType.BEACON, Race.HUMAN , WeaponType.NOTHING) },
 
-        { UnitKey.ARCHER , UnitType.ARCHER } ,
-        { UnitKey.KNIGHT , UnitType.TANK } ,
-        { UnitKey.CAVALRY , UnitType.CAVALRY} ,
-        { UnitKey.MAGE , UnitType.MAGIC},
-        { UnitKey.SPEARMAN , UnitType.FOOTMAN},
-        { UnitKey.HERO , UnitType.HERO},
-        { UnitKey.MULAN , UnitType.QUEEN},
-        { UnitKey.KING , UnitType.KING },
-        { UnitKey.HUMANWALL , UnitType.WALL },
-        { UnitKey.HUMANTOWER , UnitType.TOWER },
-        { UnitKey.HUMANBARRACK , UnitType.BARRACK },
-        { UnitKey.HUMANCATAPULT , UnitType.CATAPULT },
-        { UnitKey.HUMANSPIKETRAP , UnitType.TRAP },
-        { UnitKey.HUMANSIEGE , UnitType.SIEGE },
-        { UnitKey.HUMANBEACON , UnitType.BEACON },
+        { UnitKey.UNDEADARCHER , new MyUnit(UnitKey.UNDEADARCHER, UnitType.ARCHER, Race.UNDEAD, WeaponType.BOW ) },
+        { UnitKey.GIANT , new MyUnit(UnitKey.GIANT, UnitType.TANK, Race.UNDEAD, WeaponType.AXE ) },
+        { UnitKey.RIDER , new MyUnit(UnitKey.RIDER, UnitType.CAVALRY, Race.UNDEAD, WeaponType.LANCE ) },
+        { UnitKey.LICH , new MyUnit(UnitKey.LICH, UnitType.MAGIC, Race.UNDEAD, WeaponType.SPELL ) },
+        { UnitKey.MINISKELETON , new MyUnit(UnitKey.MINISKELETON, UnitType.FOOTMAN, Race.UNDEAD , WeaponType.AXE) },
+        { UnitKey.UNDEADHERO , new MyUnit(UnitKey.UNDEADHERO, UnitType.HERO, Race.UNDEAD , WeaponType.SHSWORD) },
+        { UnitKey.UNDEADQUEEN , new MyUnit(UnitKey.UNDEADQUEEN, UnitType.QUEEN, Race.UNDEAD , WeaponType.SHSWORD) },
+        { UnitKey.UNDEADKING , new MyUnit(UnitKey.UNDEADKING, UnitType.KING, Race.UNDEAD , WeaponType.SHSWORD) },
+        { UnitKey.UNDEADWALL , new MyUnit(UnitKey.UNDEADWALL, UnitType.WALL, Race.UNDEAD , WeaponType.NOTHING) },
+        { UnitKey.UNDEADTOWER , new MyUnit(UnitKey.UNDEADTOWER, UnitType.TOWER, Race.UNDEAD, WeaponType.NOTHING ) },
+        { UnitKey.UNDEADBARRACK , new MyUnit(UnitKey.UNDEADBARRACK, UnitType.BARRACK, Race.UNDEAD , WeaponType.SPAWNER) },
+        { UnitKey.UNDEADCATAPULT , new MyUnit(UnitKey.UNDEADCATAPULT, UnitType.CATAPULT, Race.UNDEAD , WeaponType.CANNON) },
+        { UnitKey.UNDEADSPIKETRAP , new MyUnit(UnitKey.UNDEADSPIKETRAP, UnitType.TRAP, Race.UNDEAD , WeaponType.NOTHING) },
+        { UnitKey.UNDEADSIEGE , new MyUnit(UnitKey.UNDEADSIEGE, UnitType.SIEGE, Race.UNDEAD , WeaponType.SIEGE) },
+        { UnitKey.UNDEADBEACON , new MyUnit(UnitKey.UNDEADBEACON, UnitType.BEACON, Race.UNDEAD, WeaponType.NOTHING ) },
 
-        { UnitKey.UNDEADARCHER , UnitType.ARCHER   } ,
-        { UnitKey.GIANT , UnitType.TANK  } ,
-        { UnitKey.RIDER , UnitType.CAVALRY  } ,
-        { UnitKey.LICH , UnitType.MAGIC },
-        { UnitKey.MINISKELETON , UnitType.FOOTMAN  },
-        { UnitKey.UNDEADHERO , UnitType.HERO  },
-        { UnitKey.UNDEADQUEEN , UnitType.QUEEN  },
-        { UnitKey.UNDEADKING , UnitType.KING  },
-        { UnitKey.UNDEADWALL , UnitType.WALL },
-        { UnitKey.UNDEADTOWER , UnitType.TOWER },
-        { UnitKey.UNDEADBARRACK , UnitType.BARRACK },
-        { UnitKey.UNDEADCATAPULT , UnitType.CATAPULT },
-        { UnitKey.UNDEADSPIKETRAP , UnitType.TRAP },
-        { UnitKey.UNDEADSIEGE , UnitType.SIEGE },
-        { UnitKey.UNDEADBEACON , UnitType.BEACON },
+        { UnitKey.GODARCHER , new MyUnit(UnitKey.GODARCHER, UnitType.ARCHER, Race.GOD, WeaponType.BOW ) },
+        { UnitKey.GODKNIGHT , new MyUnit(UnitKey.GODKNIGHT, UnitType.TANK, Race.GOD , WeaponType.SPEAR) },
+        { UnitKey.GODCAVALRY , new MyUnit(UnitKey.GODCAVALRY, UnitType.CAVALRY, Race.GOD , WeaponType.LANCE) },
+        { UnitKey.GODMAGE , new MyUnit(UnitKey.GODMAGE, UnitType.MAGIC, Race.GOD , WeaponType.SPELL) },
+        { UnitKey.GODSPEARMAN, new MyUnit(UnitKey.GODSPEARMAN, UnitType.FOOTMAN, Race.GOD , WeaponType.SHSWORD) },
+        { UnitKey.THOR , new MyUnit(UnitKey.THOR, UnitType.HERO, Race.GOD , WeaponType.HAMMER) },
+        { UnitKey.LOKI , new MyUnit(UnitKey.LOKI, UnitType.QUEEN, Race.GOD , WeaponType.DAGGER) },
+        { UnitKey.ODIN , new MyUnit(UnitKey.ODIN, UnitType.KING, Race.GOD , WeaponType.SPEAR) },
+        { UnitKey.GODWALL , new MyUnit(UnitKey.GODWALL, UnitType.WALL, Race.GOD , WeaponType.NOTHING) },
+        { UnitKey.GODTOWER , new MyUnit(UnitKey.GODTOWER, UnitType.TOWER, Race.GOD , WeaponType.NOTHING) },
+        { UnitKey.GODBARRACK , new MyUnit(UnitKey.GODBARRACK, UnitType.BARRACK, Race.GOD , WeaponType.SPAWNER) },
+        { UnitKey.GODCATAPULT , new MyUnit(UnitKey.GODCATAPULT, UnitType.CATAPULT, Race.GOD , WeaponType.CANNON) },
+        { UnitKey.GODSPIKETRAP , new MyUnit(UnitKey.GODSPIKETRAP, UnitType.TRAP, Race.GOD , WeaponType.NOTHING) },
+        { UnitKey.GODSIEGE , new MyUnit(UnitKey.GODSIEGE, UnitType.SIEGE, Race.GOD , WeaponType.SIEGE) },
+        { UnitKey.GODBEACON, new MyUnit(UnitKey.GODBEACON, UnitType.BEACON, Race.GOD , WeaponType.NOTHING) },
 
-        { UnitKey.GODARCHER , UnitType.ARCHER } ,
-        { UnitKey.GODKNIGHT , UnitType.TANK } ,
-        { UnitKey.GODCAVALRY , UnitType.CAVALRY} ,
-        { UnitKey.GODMAGE , UnitType.MAGIC},
-        { UnitKey.GODSPEARMAN , UnitType.FOOTMAN},
-        { UnitKey.THOR , UnitType.HERO},
-        { UnitKey.LOKI , UnitType.QUEEN},
-        { UnitKey.ODIN , UnitType.KING },
-        { UnitKey.GODWALL , UnitType.WALL },
-        { UnitKey.GODTOWER , UnitType.TOWER },
-        { UnitKey.GODBARRACK , UnitType.BARRACK },
-        { UnitKey.GODCATAPULT , UnitType.CATAPULT },
-        { UnitKey.GODSPIKETRAP , UnitType.TRAP },
-        { UnitKey.GODSIEGE , UnitType.SIEGE },
-        { UnitKey.GODBEACON , UnitType.BEACON },
+        { UnitKey.ELFRANGER , new MyUnit(UnitKey.ELFRANGER, UnitType.ARCHER, Race.ELF, WeaponType.BOW ) },
+        { UnitKey.ELFGOLEM , new MyUnit(UnitKey.ELFGOLEM, UnitType.TANK, Race.ELF , WeaponType.PUNCH) },
+        { UnitKey.ELFCAVALRY , new MyUnit(UnitKey.ELFCAVALRY, UnitType.CAVALRY, Race.ELF, WeaponType.LANCE ) },
+        { UnitKey.ELFMAGE , new MyUnit(UnitKey.ELFMAGE, UnitType.MAGIC, Race.ELF , WeaponType.SPELL) },
+        { UnitKey.ELFFOOTMAN , new MyUnit(UnitKey.ELFFOOTMAN, UnitType.FOOTMAN, Race.ELF , WeaponType.AXE) },
+        { UnitKey.ELFQUEEN , new MyUnit(UnitKey.ELFQUEEN, UnitType.QUEEN, Race.ELF , WeaponType.SHSWORD) },
+        { UnitKey.ELFDEMONHUNTER , new MyUnit(UnitKey.ELFDEMONHUNTER, UnitType.HERO, Race.ELF, WeaponType.AXE ) },
+        { UnitKey.ELFTREEANT, new MyUnit(UnitKey.ELFTREEANT, UnitType.KING, Race.ELF, WeaponType.PUNCH ) },
+        { UnitKey.ELFWALL , new MyUnit(UnitKey.ELFWALL, UnitType.WALL, Race.ELF , WeaponType.NOTHING) },
+        { UnitKey.ELFTOWER , new MyUnit(UnitKey.ELFTOWER, UnitType.TOWER, Race.ELF , WeaponType.NOTHING) },
+        { UnitKey.ELFBARRACK , new MyUnit(UnitKey.ELFBARRACK, UnitType.BARRACK, Race.ELF , WeaponType.SPAWNER) },
+        { UnitKey.ELFCATAPULT , new MyUnit(UnitKey.ELFCATAPULT, UnitType.CATAPULT, Race.ELF , WeaponType.CANNON) },
+        { UnitKey.ELFSPIKETRAP, new MyUnit(UnitKey.ELFSPIKETRAP, UnitType.TRAP, Race.ELF , WeaponType.NOTHING) },
+        { UnitKey.ELFSIEGE , new MyUnit(UnitKey.ELFSIEGE, UnitType.SIEGE, Race.ELF , WeaponType.SIEGE) },
+        { UnitKey.ELFBEACON , new MyUnit(UnitKey.ELFBEACON, UnitType.BEACON, Race.ELF , WeaponType.NOTHING) },
 
-        { UnitKey.ELFRANGER , UnitType.ARCHER } ,
-        { UnitKey.ELFGOLEM , UnitType.TANK } ,
-        { UnitKey.ELFCAVALRY , UnitType.CAVALRY} ,
-        { UnitKey.ELFMAGE , UnitType.MAGIC},
-        { UnitKey.ELFFOOTMAN , UnitType.FOOTMAN},
-        { UnitKey.ELFQUEEN , UnitType.QUEEN},
-        { UnitKey.ELFDEMONHUNTER , UnitType.HERO},
-        { UnitKey.ELFTREEANT , UnitType.KING },
-        { UnitKey.ELFWALL , UnitType.WALL },
-        { UnitKey.ELFTOWER , UnitType.TOWER },
-        { UnitKey.ELFBARRACK , UnitType.BARRACK },
-        { UnitKey.ELFCATAPULT , UnitType.CATAPULT },
-        { UnitKey.ELFSPIKETRAP , UnitType.TRAP },
-        { UnitKey.ELFSIEGE , UnitType.SIEGE },
-        { UnitKey.ELFBEACON , UnitType.BEACON }
-    };
-    public static Dictionary<UnitKey, Race> KeyRace = new Dictionary<UnitKey, Race>() {
-
-        { UnitKey.ARCHER , Race.HUMAN } ,
-        { UnitKey.KNIGHT , Race.HUMAN } ,
-        { UnitKey.CAVALRY , Race.HUMAN} ,
-        { UnitKey.MAGE , Race.HUMAN},
-        { UnitKey.SPEARMAN , Race.HUMAN},
-        { UnitKey.HERO , Race.HUMAN},
-        { UnitKey.MULAN , Race.HUMAN},
-        { UnitKey.KING , Race.HUMAN },
-        { UnitKey.HUMANWALL , Race.HUMAN },
-        { UnitKey.HUMANBARRACK , Race.HUMAN },
-        { UnitKey.HUMANTOWER , Race.HUMAN },
-        { UnitKey.HUMANCATAPULT , Race.HUMAN },
-        { UnitKey.HUMANSIEGE , Race.HUMAN },
-        { UnitKey.HUMANSPIKETRAP , Race.HUMAN },
-        { UnitKey.HUMANBEACON , Race.HUMAN },
-
-        { UnitKey.UNDEADARCHER , Race.UNDEAD  } ,
-        { UnitKey.GIANT , Race.UNDEAD  } ,
-        { UnitKey.RIDER , Race.UNDEAD  } ,
-        { UnitKey.LICH , Race.UNDEAD },
-        { UnitKey.MINISKELETON , Race.UNDEAD  },
-        { UnitKey.UNDEADHERO , Race.UNDEAD  },
-        { UnitKey.UNDEADQUEEN , Race.UNDEAD  },
-        { UnitKey.UNDEADKING , Race.UNDEAD  },
-        { UnitKey.UNDEADWALL , Race.UNDEAD },
-        { UnitKey.UNDEADBARRACK , Race.UNDEAD },
-        { UnitKey.UNDEADTOWER , Race.UNDEAD },
-        { UnitKey.UNDEADCATAPULT , Race.UNDEAD },
-        { UnitKey.UNDEADSIEGE , Race.UNDEAD },
-        { UnitKey.UNDEADSPIKETRAP , Race.UNDEAD },
-        { UnitKey.UNDEADBEACON , Race.UNDEAD },
-
-        { UnitKey.THOR , Race.GOD},
-        { UnitKey.LOKI , Race.GOD},
-        { UnitKey.ODIN , Race.GOD },
-        { UnitKey.GODARCHER , Race.GOD } ,
-        { UnitKey.GODKNIGHT , Race.GOD } ,
-        { UnitKey.GODCAVALRY , Race.GOD} ,
-        { UnitKey.GODMAGE , Race.GOD},
-        { UnitKey.GODSPEARMAN , Race.GOD},
-        { UnitKey.GODWALL , Race.GOD },
-        { UnitKey.GODBARRACK , Race.GOD },
-        { UnitKey.GODTOWER , Race.GOD },
-        { UnitKey.GODCATAPULT , Race.GOD },
-        { UnitKey.GODSIEGE , Race.GOD },
-        { UnitKey.GODSPIKETRAP , Race.GOD },
-        { UnitKey.GODBEACON , Race.GOD },
-
-        { UnitKey.ELFQUEEN , Race.ELF},
-        { UnitKey.ELFDEMONHUNTER , Race.ELF},
-        { UnitKey.ELFTREEANT , Race.ELF},
-        { UnitKey.ELFRANGER , Race.ELF } ,
-        { UnitKey.ELFGOLEM , Race.ELF } ,
-        { UnitKey.ELFCAVALRY , Race.ELF} ,
-        { UnitKey.ELFMAGE , Race.ELF},
-        { UnitKey.ELFFOOTMAN , Race.ELF},
-        { UnitKey.ELFWALL , Race.ELF },
-        { UnitKey.ELFBARRACK , Race.ELF },
-        { UnitKey.ELFTOWER , Race.ELF },
-        { UnitKey.ELFCATAPULT , Race.ELF },
-        { UnitKey.ELFSIEGE , Race.ELF },
-        { UnitKey.ELFSPIKETRAP , Race.ELF },
-        { UnitKey.ELFBEACON , Race.ELF }
     };
     public static Dictionary<UnitKey, bool> CanCollide = new Dictionary<UnitKey, bool>(){
         { UnitKey.CAVALRY,true },
@@ -321,74 +193,6 @@ public class UnitMeta
         { UnitKey.GODCAVALRY , true },
         { UnitKey.ELFCAVALRY , true },
         { UnitKey.ELFGOLEM , true }
-    };
-
-    public static Dictionary<UnitKey, WeaponType> KeyWeaponType = new Dictionary<UnitKey, WeaponType>() {
-
-        { UnitKey.ARCHER , WeaponType.BOW } ,
-        { UnitKey.KNIGHT , WeaponType.THSWORD } ,
-        { UnitKey.CAVALRY , WeaponType.LANCE} ,
-        { UnitKey.MAGE , WeaponType.SPELL},
-        { UnitKey.SPEARMAN , WeaponType.SPEAR},
-        { UnitKey.MULAN , WeaponType.SHSWORD},
-        { UnitKey.HERO , WeaponType.SHSWORD},
-        { UnitKey.KING , WeaponType.SHSWORD },
-        { UnitKey.HUMANWALL , WeaponType.NOTHING },
-        { UnitKey.HUMANTOWER , WeaponType.NOTHING },
-        { UnitKey.HUMANBARRACK , WeaponType.SPAWNER },
-        { UnitKey.HUMANCATAPULT , WeaponType.CANNON },
-        { UnitKey.HUMANSPIKETRAP , WeaponType.NOTHING },
-        { UnitKey.HUMANSIEGE , WeaponType.SIEGE },
-        { UnitKey.HUMANBEACON , WeaponType.NOTHING },
-
-        { UnitKey.UNDEADARCHER , WeaponType.BOW  } ,
-        { UnitKey.GIANT , WeaponType.AXE  } ,
-        { UnitKey.RIDER , WeaponType.LANCE  } ,
-        { UnitKey.LICH , WeaponType.SPELL },
-        { UnitKey.MINISKELETON , WeaponType.AXE  },
-        { UnitKey.UNDEADQUEEN , WeaponType.SHSWORD},
-        { UnitKey.UNDEADHERO , WeaponType.SHSWORD  },
-        { UnitKey.UNDEADKING , WeaponType.SHSWORD  },
-        { UnitKey.UNDEADWALL , WeaponType.NOTHING },
-        { UnitKey.UNDEADTOWER , WeaponType.NOTHING },
-        { UnitKey.UNDEADBARRACK , WeaponType.SPAWNER },
-        { UnitKey.UNDEADCATAPULT , WeaponType.CANNON },
-        { UnitKey.UNDEADSPIKETRAP , WeaponType.NOTHING },
-        { UnitKey.UNDEADSIEGE , WeaponType.SIEGE },
-        { UnitKey.UNDEADBEACON , WeaponType.NOTHING },
-
-        { UnitKey.THOR , WeaponType.HAMMER},
-        { UnitKey.LOKI , WeaponType.DAGGER},
-        { UnitKey.ODIN , WeaponType.SPEAR },
-        { UnitKey.GODARCHER , WeaponType.BOW } ,
-        { UnitKey.GODKNIGHT , WeaponType.SPEAR } ,
-        { UnitKey.GODCAVALRY , WeaponType.LANCE} ,
-        { UnitKey.GODMAGE , WeaponType.SPELL},
-        { UnitKey.GODSPEARMAN , WeaponType.SHSWORD},
-        { UnitKey.GODWALL , WeaponType.NOTHING },
-        { UnitKey.GODTOWER , WeaponType.NOTHING },
-        { UnitKey.GODBARRACK , WeaponType.SPAWNER },
-        { UnitKey.GODCATAPULT , WeaponType.CANNON },
-        { UnitKey.GODSPIKETRAP , WeaponType.NOTHING },
-        { UnitKey.GODSIEGE , WeaponType.SIEGE },
-        { UnitKey.GODBEACON , WeaponType.NOTHING },
-
-        { UnitKey.ELFRANGER , WeaponType.BOW  } ,
-        { UnitKey.ELFGOLEM , WeaponType.PUNCH } ,
-        { UnitKey.ELFCAVALRY , WeaponType.LANCE} ,
-        { UnitKey.ELFMAGE , WeaponType.SPELL},
-        { UnitKey.ELFQUEEN , WeaponType.SHSWORD},
-        { UnitKey.ELFFOOTMAN , WeaponType.AXE },
-        { UnitKey.ELFDEMONHUNTER , WeaponType.AXE },
-        { UnitKey.ELFTREEANT , WeaponType.PUNCH },
-        { UnitKey.ELFWALL , WeaponType.NOTHING },
-        { UnitKey.ELFTOWER , WeaponType.NOTHING },
-        { UnitKey.ELFBARRACK , WeaponType.SPAWNER },
-        { UnitKey.ELFCATAPULT , WeaponType.CANNON },
-        { UnitKey.ELFSPIKETRAP , WeaponType.NOTHING },
-        { UnitKey.ELFSIEGE , WeaponType.SIEGE },
-        { UnitKey.ELFBEACON , WeaponType.NOTHING }
-
     };
     public static Dictionary<UnitType, UnitSkill> UnitTypeSkillOne = new Dictionary<UnitType, UnitSkill>()
     {
@@ -421,7 +225,7 @@ public class UnitMeta
     {
         {1 , UnitTypeSkillOne },
         {2 , UnitTypeSkillTwo },
-        {3 , UnitTypeSkillThree } 
+        {3 , UnitTypeSkillThree }
     };
 
     public static HashSet<UnitType> BuildingUnit = new HashSet<UnitType>()
@@ -447,62 +251,19 @@ public class UnitMeta
         { 6, UnitType.FOOTMAN },
         { 7, UnitType.SIEGE }
     };
+
+    public static UnitKey GetUnitKeyByRaceType(Race race, UnitType type)
+    {
+        UnitKey result = UnitKey.ARCHER;
+        foreach (var key in UnitStruct.Keys )
+        {
+            MyUnit unit = UnitStruct[key];
+            if (unit.race == race && unit.type == type)
+            {
+                result = key ;
+                break;
+            }
+        }
+        return result;
+    }
 }
-/*
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ARCHER',30,6,2,1,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('KNIGHT',150,40,2,1,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('MAGE',80,15,3,1,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('CAVALRY',70,25,2,1,10,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('SPEARMAN',15,15,1,1,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HERO',500,10,0.6,1,3,180,"LIGHTNING","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('MULAN',800,5,0.6,1,3,180,"LIGHTNING","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('MINISKELETON',15,15,1,1,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GIANT',150,40,2,1,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('KING',1000,20,1,1,4,0,"SHIELD","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADHERO',500,10,0.6,0,3,0,"LIGHTNING","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADQUEEN',800,5,0.6,1,3,180,"LIGHTNING","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADARCHER',30,6,2,0,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADKING',1000,20,1,0,3,0,"SHIELD","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('RIDER',70,25,2,0,10,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('LICH',80,15,3,0,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODARCHER',30,6,2,2,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODKNIGHT',150,40,2,2,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODMAGE',80,15,3,2,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODCAVALRY',70,25,2,2,10,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODSPEARMAN',15,15,1,2,4,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('THOR',500,10,0.6,2,4,180,"STUN","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('LOKI',800,5,0.6,2,4,180,"SHIELD","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ODIN',1000,20,1,2,5,0,"LIGHTNING","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODWALL',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFWALL',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HUMANWALL',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADWALL',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFRANGER',30,6,2,2,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFGOLEM',150,40,2,2,2,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFMAGE',80,15,3,2,3,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFCAVALRY',70,25,2,2,10,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFFOOTMAN',15,15,1,2,4,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFDEMONHUNTER',500,10,0.6,2,4,180,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFQUEEN',800,5,0.6,1,3,180,"SLASH","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFTREEANT',1000,2,0.6,2,4,180,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODBARRACK',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFBARRACK',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HUMANBARRACK',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADBARRACK',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODTOWER',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFTOWER',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HUMANTOWER',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADTOWER',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODCATAPULT',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFCATAPULT',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HUMANCATAPULT',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADCATAPULT',100,0,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODSPIKETRAP',100,50,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFSPIKETRAP',100,50,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HUMANSPIKETRAP',100,50,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADSPIKETRAP',100,50,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('GODSIEGE',100,150,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('ELFSIEGE',100,150,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('HUMANSIEGE',100,150,0,0,0,0,"","");
-insert into cardstat (cardkey,health,attack,repeatattackdelay,defense,speed,special,specialkey,passivekey) values ('UNDEADSIEGE',100,150,0,0,0,0,"","");
-*/

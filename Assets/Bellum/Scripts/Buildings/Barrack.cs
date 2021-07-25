@@ -39,7 +39,7 @@ public class Barrack : MonoBehaviour
         CardStats cardStats;
         while (true)
         {
-            cardStats = cardDealer.userCardStatsDict[UnitMeta.UnitRaceTypeKey[race][unitType].ToString()];
+            cardStats = cardDealer.userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(race,unitType).ToString()];
             localFactory.CmdDropUnit(_playerid, barrackTransform.position , race, unitType, unitType.ToString(), 1, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, 1, _teamColor, Quaternion.identity);
             yield return new WaitForSeconds(1.5f);
         }

@@ -567,7 +567,7 @@ public class TacticalBehavior : MonoBehaviour
         switch (type) {
             case TaticalAttack.SPINATTACK:
                 TaticalAttackCurrent[playerid] = TaticalAttack.SPINATTACK;
-                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.FOOTMAN].ToString()];
+                cardStats = userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.FOOTMAN).ToString()];
                 while (unitspawn <= 3) {
                     yield return new WaitForSeconds(0.5f);
                     localFactory.CmdSpawnUnit(StaticClass.playerRace, UnitMeta.UnitType.FOOTMAN, 3, playerid, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, player.GetTeamColor());
@@ -581,7 +581,7 @@ public class TacticalBehavior : MonoBehaviour
                 break;
             case TaticalAttack.CAVALRYCHARGES:
                 TaticalAttackCurrent[playerid] = TaticalAttack.CAVALRYCHARGES;
-                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.CAVALRY].ToString()];
+                cardStats = userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace, UnitMeta.UnitType.CAVALRY).ToString()];
                 TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.CAVALRY, playerid);
                 unitTactical[playerid][UnitMeta.UnitType.CAVALRY] = BehaviorSelectionType.Hold;
                 while (unitspawn <= 6)
@@ -601,7 +601,7 @@ public class TacticalBehavior : MonoBehaviour
                 break;
             case TaticalAttack.ARROWRAIN:
                 TaticalAttackCurrent[playerid] = TaticalAttack.ARROWRAIN;
-                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.ARCHER].ToString()];
+                cardStats = userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace,UnitMeta.UnitType.ARCHER).ToString()];
                 TryTB((int)BehaviorSelectionType.Hold, UnitMeta.UnitType.ARCHER, playerid);
                 unitTactical[playerid][UnitMeta.UnitType.ARCHER] = BehaviorSelectionType.Hold;
                 while (unitspawn <= 12)
@@ -617,7 +617,7 @@ public class TacticalBehavior : MonoBehaviour
                 break;
             case TaticalAttack.ABSOLUTEDEFENSE:
                 TaticalAttackCurrent[playerid] = TaticalAttack.ABSOLUTEDEFENSE;
-                cardStats = userCardStatsDict[UnitMeta.UnitRaceTypeKey[StaticClass.playerRace][UnitMeta.UnitType.TANK].ToString()];
+                cardStats = userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(StaticClass.playerRace, UnitMeta.UnitType.TANK).ToString()];
                 //printCurrentUnitTactical();
                 //TryTB((int)BehaviorSelectionType.Defend, UnitMeta.UnitType.TANK, playerid);
                 unitTactical[playerid][UnitMeta.UnitType.TANK] = BehaviorSelectionType.Defend;

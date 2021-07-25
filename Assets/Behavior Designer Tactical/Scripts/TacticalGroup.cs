@@ -492,7 +492,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && tacticalAgent.transform.tag.Contains("0")  && ISDEBUG)
                 Debug.Log($"{tacticalAgent.transform.name}  -- Start Finding AttackTarget ");
 
-            if (!UnitMeta.CanCollide.ContainsKey(UnitMeta.UnitRaceTypeKey[unit.race ][unit.unitType]) && unit.GetUnitMovement().isCollide())
+            if (!UnitMeta.CanCollide.ContainsKey(UnitMeta.GetUnitKeyByRaceType(unit.race ,unit.unitType)) && unit.GetUnitMovement().isCollide())
             {
                 if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && tacticalAgent.transform.tag.Contains("0")  && ISDEBUG)
                     Debug.Log($"{tacticalAgent.transform.name}  -- collide {unit.GetUnitMovement().collideTargetTransform().name} ");

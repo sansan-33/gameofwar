@@ -109,7 +109,7 @@ public class GameStartDisplay : NetworkBehaviour
             //Debug.Log($"LoadPlayerData userid {players[i].GetUserID()} race {players[i].GetRace() } total power {players[i].GetTotalPower() }");
             teamInfo[i].GetComponent<PlayerVS>().PlayerName.text = players[i].GetDisplayName() ;
             teamInfo[i].GetComponent<SlidingNumber>().SetNumber(Int32.Parse(players[i].GetTotalPower()));
-            teamInfo[i].GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[playerRace][UnitMeta.UnitType.KING].ToString()].image;
+            teamInfo[i].GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.GetUnitKeyByRaceType(playerRace,UnitMeta.UnitType.KING).ToString()].image;
             teamInfo[i].GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
             teamInfo[i].SetActive(true);
         }
@@ -129,7 +129,7 @@ public class GameStartDisplay : NetworkBehaviour
             {
                 TotalPower += Int32.Parse(apiManager.data["GetTotalPower"][i]["power"]);
             }
-            maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.UnitRaceTypeKey[race][UnitMeta.UnitType.KING].ToString()].image;
+            maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().sprite = Arts.CharacterArtDictionary[UnitMeta.GetUnitKeyByRaceType(race,UnitMeta.UnitType.KING).ToString()].image;
             maskRed.GetComponent<PlayerVS>().charIcon.GetComponent<Image>().enabled = true;
             maskRed.GetComponent<PlayerVS>().PlayerName.text = race.ToString() + StaticClass.Mission;
             maskRed.GetComponent<SlidingNumber>().SetNumber(TotalPower);
