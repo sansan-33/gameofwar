@@ -19,12 +19,16 @@ public class Fire : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        RTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        //tag = "Fire" + RTSPlayer.GetPlayerID();
-        gameObject.layer = LayerMask.NameToLayer("Projectile");
-        parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
-        
-        
+        if(NetworkClient.connection != null)
+        {
+            RTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+            //tag = "Fire" + RTSPlayer.GetPlayerID();
+            gameObject.layer = LayerMask.NameToLayer("Projectile");
+            parent = GameObject.FindGameObjectWithTag("SpecialAttackManager").transform;
+
+        }
+
+
     }
     private IEnumerator DestroySelf(int diedTime)
     {
