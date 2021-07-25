@@ -17,15 +17,12 @@ public class EnemyAI : MonoBehaviour
     private bool handledDict = false;
     private int elexier = 0;
     private Card nextCard;
-    private Card urgentSpawn;
     private RTSPlayer RTSplayer;
     private UnitFactory localFactory;
     private bool ISGAMEOVER = false;
     public List<Card> cards = new List<Card>();
-    private List<SpCostDisplay> spCostDisplay = new List<SpCostDisplay>();
     private enum Difficulty { OneStar, TwoStar, ThreeStar,StatUp };
     private enum Position { left, right, centre };
-    private Vector3 heroPos;
     private int mission;
     private int chapter;
     private float progressImageVelocity;
@@ -56,8 +53,8 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] UnitMeta.UnitType attackType;
     private Dictionary<UnitMeta.UnitType, List<SpecialAttackType>> Sp = new Dictionary<UnitMeta.UnitType, List<SpecialAttackType>>()
     { };
-    private Dictionary<int, List<SpecialAttackType>> Chapter = new Dictionary<int, List<SpecialAttackType>>()
-    { };
+    //private Dictionary<int, List<SpecialAttackType>> Chapter = new Dictionary<int, List<SpecialAttackType>>()
+    //{ };
     [SerializeField] int statUpFactor;
     private Dictionary<string, int> Mission = new Dictionary<string, int>()
     {
@@ -92,7 +89,6 @@ public class EnemyAI : MonoBehaviour
     };
     [SerializeField] List<SpecialAttackType> SpList1;
     [SerializeField] List<SpecialAttackType> SpList2;
-    float test;
     private void Start()
     {
         if (((RTSNetworkManager)NetworkManager.singleton).Players.Count != 1) { return; }
@@ -176,7 +172,7 @@ public class EnemyAI : MonoBehaviour
                  yield return SelectCard(true);
                  yield return new WaitForSeconds(2f);
                   yield return SpawnEnemy();
-              
+                StartCoroutine(TheArtOfWar());
                 //if (timer <= 0) { localFactory.GetComponent<Player>().dragCardMerge(); }
             }
            
@@ -249,7 +245,7 @@ public class EnemyAI : MonoBehaviour
                 savingCardForDefend = true;
                 canSpawnUnit = false;
                 int i = 3;
-                UnitMeta.UnitType[] strengthWeakness = StrengthWeakness.GetStrengthWeakness(unit.unitType);
+                //UnitMeta.UnitType[] strengthWeakness = StrengthWeakness.GetStrengthWeakness(unit.unitType);
                 yield return SelectCard(true);
                 //Debug.Log($"unit == {unit.name} next card {nextCard}");
                 while (unit.transform.position.z < halfLine.position.z || elexier < nextCard.GetUnitElexier())
@@ -269,7 +265,7 @@ public class EnemyAI : MonoBehaviour
                 if (i > 0)
                 {
                     if (localFactory == null) { yield return SetLocalFactory(); }
-                    int type = (int)nextCard.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+                    int type = (int)nextCard.cardFace.numbers % Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
                     SpawnUnit(unit.transform.position, nextCard, (UnitMeta.UnitType)type);
                     canSpawnUnit = true;
                     savingCardForDefend = false;
@@ -477,7 +473,7 @@ public class EnemyAI : MonoBehaviour
     private IEnumerator DragCard(int beforeNewCard, int card )
     {
        
-        Vector2 original = cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition;
+        //Vector2 original = cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition;
         //Card finishedCard = card == cards.Count - 1 ? cards[card - 1] : cards[card + 1];
         Card finishedCard = cards[card];
         //Vector2 finishPos = finishedCard.GetComponentInParent<CardSlot>().GetComponentInParent<RectTransform>().anchoredPosition;
@@ -851,6 +847,13 @@ public class EnemyAI : MonoBehaviour
                 
             }
         //}
+    }
+    private IEnumerator TheArtOfWar()
+    {
+        //Debug.Log("close fog");
+        //Debug.Log($"fog of war = {FoW.FogOfWarTeam.GetTeam(0)}");
+        FoW.FogOfWarTeam.GetTeam(0).SetAll(); 
+        yield return null;
     }
     private IEnumerator SelectWallPos()
     {
