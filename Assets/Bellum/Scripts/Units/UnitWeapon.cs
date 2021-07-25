@@ -20,7 +20,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private Vector3 weaponSize = new Vector3(0.15f, 0.1f, 0.5f);
     private float calculatedDamageToDeal ;
     private float originalDamage;
-    public float DashDamageFactor = 0.1f;
+    [SerializeField] private float DashDamageFactor = 0.1f;
     public bool IsKingSP = false;
     NetworkIdentity opponentIdentity;
     bool m_Started;
@@ -103,7 +103,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
                 if (unit.unitType == UnitMeta.UnitType.CAVALRY && unit.GetUnitMovement().GetAcceleration() > 0f)
                 {
-                    Debug.Log($"Unit Weapon speed current: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)}  max: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)} calculatedDamageToDeal {calculatedDamageToDeal} * {DashDamageFactor}");
+                    Debug.Log($"Unit {name} Weapon speed current: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT)}  max: {unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.MAX)} calculatedDamageToDeal {calculatedDamageToDeal} * {DashDamageFactor}");
                     calculatedDamageToDeal *= (DashDamageFactor * unit.GetUnitMovement().GetSpeed(UnitMeta.SpeedType.CURRENT));
                     cmdDamageText(other.transform.position, calculatedDamageToDeal, originalDamage, opponentIdentity, isFlipped);
                 }
