@@ -110,36 +110,53 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         jsonResult = JSON.Parse(rawJson);
         string key = jsonResult[0]["specialkey"];
         Debug.Log($"key = {key} json = {jsonResult} json0 = {jsonResult[0]}");
-        if (SPEffect.TryGetValue(key, out GameObject _effect))
+        while (true)
         {
-            Debug.Log($"effect = {_effect}");
-            if(_effect != null)
+            GameObject effect = null;
+            if (SPEffect.TryGetValue(key, out GameObject _effect))
             {
-                Debug.Log("spawn prefab");
-                GameObject effect = Instantiate(_effect);
-                Vector3 spawnPos = SpPosition[key];
-                effect.transform.position = spawnPos;
-                var rotationVector = effect.transform.rotation.eulerAngles;
-                rotationVector.x = 90;
-                effect.transform.rotation = Quaternion.Euler(rotationVector);
-                if(SpScale.TryGetValue(key, out Vector3 scale))
+                Debug.Log($"effect = {_effect}");
+                if (_effect != null)
                 {
-                    effect.transform.localScale = scale;
+                    Debug.Log("spawn prefab");
+                    effect = Instantiate(_effect);
+                    Vector3 spawnPos = SpPosition[key];
+                    effect.transform.position = spawnPos;
+                    var rotationVector = effect.transform.rotation.eulerAngles;
+                    rotationVector.x = 90;
+                    effect.transform.rotation = Quaternion.Euler(rotationVector);
+                    if (SpScale.TryGetValue(key, out Vector3 scale))
+                    {
+                        effect.transform.localScale = scale;
+                    }
+                    switch (key)
+                    {
+                        case "FIRE":
+                            Debug.Log("change rotation of fire");
+                            var fireRotationVector = effect.transform.rotation.eulerAngles;
+                            fireRotationVector.x = -90;
+                            effect.transform.rotation = Quaternion.Euler(fireRotationVector);
+                            break;
+                        case "GRAB":
+                            StartCoroutine(HandleMoveEffect(new Vector3(spawnPos.x, spawnPos.y, spawnPos.z - 100), effect));
+                            break;
+
+                    }
                 }
-                switch (key)
-                {
-                    case "FIRE":
-                        Debug.Log("change rotation of fire");
-                        var fireRotationVector = effect.transform.rotation.eulerAngles;
-                        fireRotationVector.x = -90;
-                        effect.transform.rotation = Quaternion.Euler(fireRotationVector);
-                        break;
-                }
+
             }
-          
+            else if (key == "FREZZE" || key == "ICE")
+            {
+
+            }
+
+            yield return new WaitForSeconds(10);
+            if(effect != null) { Destroy(effect); }
+
         }
-        
+
     }
+
     private IEnumerator HandleMoveEffect(Vector3 pos, GameObject effect)
     {
         float timer = 10;
