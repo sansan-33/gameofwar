@@ -15,7 +15,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
     Vector3 mPos;
 
     [SerializeField] GameObject zapPrefab;
-    [SerializeField] GameObject freezePrefab;
+    [SerializeField] Material freezeMaterial;
     [SerializeField] GameObject meteorPrefab;
     [SerializeField] GameObject fireArrowPrefab;
     [SerializeField] GameObject tornadoPrefab;
@@ -105,7 +105,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
         // convert the byte array to a string
         string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
         SpTypeImage spTypeImage;
-
+        yield return new WaitForSeconds(1);
         // parse the raw string into a json result we can easily read
         jsonResult = JSON.Parse(rawJson);
         string key = jsonResult[0]["specialkey"];
@@ -147,7 +147,7 @@ public class PreviewUnit : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndD
             }
             else if (key == "FREZZE" || key == "ICE")
             {
-
+                GetComponentInChildren<SkinnedMeshRenderer>().material = freezeMaterial;
             }
 
             yield return new WaitForSeconds(10);
