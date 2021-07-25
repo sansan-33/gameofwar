@@ -51,4 +51,8 @@ public class MenuManager : MonoBehaviour
     {
         SceneManager.LoadScene("Scene_Ranking");
     }
+    public void GoToAchievement()
+    {
+        SceneManager.LoadScene("Scene_Achievement");
+    }
 }
