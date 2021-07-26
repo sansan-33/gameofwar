@@ -33,7 +33,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
         cardPlayer = GameObject.FindGameObjectWithTag("PlayerDeck").GetComponent<CardPlayer>();
         specialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager").GetComponent<SpecialAttackManager>();
         RTSplayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
-        GetPlayerGroung();
+        GetPlayerGround();
     }
     public void SetUnit(Unit unit)
     {
@@ -51,7 +51,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     {
         return SpecialAttackType;
     }
-    private void GetPlayerGroung()
+    private void GetPlayerGround()
     {
         GameObject[] grounds = GameObject.FindGameObjectsWithTag("FightGround");
         foreach (GameObject ground in grounds)
@@ -79,11 +79,16 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 }
                 break;
             case SpecialAttackDict.SpecialAttackType.CARDRANKUP:
-                Debug.Log("rank up");
+                //Debug.Log("rank up");
                 foreach(Card card in cardPlayer.GetCards())
                 {
                     card.RankUp(cardPlayer.unitSkillArt, cardPlayer.MAXCARDSTAR);
                 }
+                break;
+            case SpecialAttackDict.SpecialAttackType.DARKNESSRETURN:
+                //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetEnemyID()).updateAutomatically = false;
+                //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetEnemyID()).SetAll();
+                FindObjectOfType<EnemyAI>().closedFog = true;
                 break;
         }
     }
@@ -94,7 +99,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void OnBeginDrag(PointerEventData eventData)
     {
         if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
-        if(playerGround == null) { GetPlayerGroung(); }
+        if(playerGround == null) { GetPlayerGround(); }
         playerGround.SetALlLayer();
         dragCircle = Instantiate(dragcCirclePrefab);
         if(SpecialAttackDict.RangeScale.TryGetValue(SpecialAttackType,out float scale))
@@ -106,7 +111,10 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void OnDrag(PointerEventData eventData)
     {
         if ((GetComponentInParent<SpCostDisplay>().spCost / 3) < cost && needMinusSP == true) { return; }
-        if (SpecialAttackType == SpecialAttackDict.SpecialAttackType.REMOVEGAUGE){ return; }
+        if (!SpecialAttackDict.SpNeedDrag[SpecialAttackType])
+        {
+            return;
+        }
         Vector3 pos = Input.touchCount > 0 ? Input.GetTouch(0).position : Mouse.current.position.ReadValue();
         Ray ray = Camera.main.ScreenPointToRay(pos);
         //if the floor layer is not floor it will not work!!!

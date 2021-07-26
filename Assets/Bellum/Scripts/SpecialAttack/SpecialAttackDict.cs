@@ -6,7 +6,9 @@ public class SpecialAttackDict : MonoBehaviour
 {
     //[SerializeField] public Sprite[] sprite ;
     [SerializeField] public Sprite[] childSprite;
-    public enum SpecialAttackType { SLASH, SHIELD, STUNO, LIGHTNING, ICE, METEOR, FIREARROW, TORNADO, ZAP, FREEZE, STUN, REMOVEGAUGE, GRAB, CARDRANKUP, FIRE, BOMB};
+
+    //Remember when you adda new type, you need to add it to the dictionary below and SpecialAttackManager.SpecialAttackTypeStringKey  
+    public enum SpecialAttackType { SLASH, SHIELD, STUNO, LIGHTNING, ICE, METEOR, FIREARROW, TORNADO, ZAP, FREEZE, STUN, REMOVEGAUGE, GRAB, CARDRANKUP, FIRE, BOMB, DARKNESSRETURN};
   
 
     public static Dictionary<UnitMeta.UnitKey, SpecialAttackType[]> unitSp = new Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>()
@@ -40,13 +42,14 @@ public class SpecialAttackDict : MonoBehaviour
         {SpecialAttackType.FIREARROW, 1 },
         {SpecialAttackType.METEOR, 1.5f },
         {SpecialAttackType.TORNADO, 2 },
-         {SpecialAttackType.FIRE, 1 },
-          {SpecialAttackType.BOMB, 0.5f },
+        {SpecialAttackType.FIRE, 1 },
+        {SpecialAttackType.BOMB, 0.5f },
     };
     public static Dictionary<SpecialAttackType, int> SpecialAttackCost = new Dictionary<SpecialAttackType, int>()
     {
         {SpecialAttackType.BOMB, 10 },
         {SpecialAttackType.CARDRANKUP, 10 },
+        {SpecialAttackType.DARKNESSRETURN, 10 },
         {SpecialAttackType.FIREARROW, 10 },
         {SpecialAttackType.FREEZE, 10 },
         {SpecialAttackType.FIRE, 10 },
@@ -61,7 +64,27 @@ public class SpecialAttackDict : MonoBehaviour
         {SpecialAttackType.STUNO, 10 },
         {SpecialAttackType.TORNADO, 10 },
         {SpecialAttackType.ZAP, 10 },
-        
+    };
+    public static Dictionary<SpecialAttackType, bool> SpNeedDrag = new Dictionary<SpecialAttackType, bool>()
+    {
+        {SpecialAttackType.BOMB, true },
+        {SpecialAttackType.CARDRANKUP, false },
+        {SpecialAttackType.DARKNESSRETURN, false },
+        {SpecialAttackType.FIREARROW, true },
+        {SpecialAttackType.FREEZE, true },
+        {SpecialAttackType.FIRE, true },
+        {SpecialAttackType.GRAB, true },
+        {SpecialAttackType.ICE, true },
+        {SpecialAttackType.LIGHTNING, true },
+        {SpecialAttackType.METEOR, true },
+        {SpecialAttackType.REMOVEGAUGE, false },
+        {SpecialAttackType.SHIELD, true },
+        {SpecialAttackType.SLASH, true },
+        {SpecialAttackType.STUN, true },
+        {SpecialAttackType.STUNO, true },
+        {SpecialAttackType.TORNADO, true },
+        {SpecialAttackType.ZAP, true },
+
     };
     private void Start()
     {
