@@ -66,10 +66,13 @@ public class UnitBody : NetworkBehaviour, IBody
         GetComponent<FogOfWarUnit>().team = color == "blue" ? 0 : 1;
         GetComponent<FogOfWarUnit>().circleRadius = 10;
 
-        GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
         doorColor = color;
-        //Debug.Log($"Door Color changed {color} ");
-        StartCoroutine(GraphUpdate());
+        if (GetComponent<GraphUpdateScene>() != null)
+        {
+            GetComponent<GraphUpdateScene>().setTag = (color == "blue" ? 1 : 2);
+            //Debug.Log($"Door Color changed {color} ");
+            StartCoroutine(GraphUpdate());
+        }
     }
     IEnumerator GraphUpdate() {
         if (GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
