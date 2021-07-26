@@ -199,6 +199,7 @@ public class UnitPowerUp : NetworkBehaviour
     }
     public void HandlePowerUp(int playerID, string unitName, int spawnPointIndex, int star,int cardLevel, int health, int attack, float repeatAttackDelay, float speed, int defense, int special, string specialkey, string passivekey, Color teamColor)
     {
+        string color = playerID == 0 ? "blue" : "red";
         //Debug.Log($"HandlePowerUp StaticClass.IsFlippedCamera {StaticClass.IsFlippedCamera} , {gameObject.tag} : {gameObject.name}/{unitName} ==> powerUp , star {star} ,cardLevel {cardLevel}, health {health}, attack {attack}, repeatAttackDelay {repeatAttackDelay}, speed {speed}, defense {defense}, special {special} ");
         gameObject.name = unitName;
         //Debug.Log($"HandlePowerUp this.name {this.name}, unitName {unitName}, gameObject {gameObject.name}");
@@ -219,6 +220,7 @@ public class UnitPowerUp : NetworkBehaviour
         GetComponent<RVOController>().collidesWith = tag.Contains("0") ? RVOLayer.Layer3 : RVOLayer.Layer2;
         GetComponent<FogOfWarUnit>().team = playerID;
         GetComponent<FogOfWarUnit>().circleRadius  = GetComponent<IAttack>().AttackDistance();
+        GetComponent<UnitBody>().SetTeamColor(color);
         HandleUnitSkill(UnitMeta.UnitSkill.DEFAULT, star, attack, repeatAttackDelay,speed);
         if ( StaticClass.IsFlippedCamera ){
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
