@@ -998,6 +998,7 @@ GameObject:
   - component: {fileID: 7959692030236372963}
   - component: {fileID: 7687708321317471109}
   - component: {fileID: 900146273751064871}
+  - component: {fileID: 5208807437894997678}
   m_Layer: 10
   m_Name: Unit
   m_TagString: Unit
@@ -1787,6 +1788,25 @@ MonoBehaviour:
   slowPrefab: {fileID: 0}
   speedPrefab: {fileID: 0}
   freezeKey: 0
+--- !u!114 &5208807437894997678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460804451879552006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d788be1e909f043e695f7b9e01c83628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  material:
+  - {fileID: 2100000, guid: f7edda7b4c846fb44b4f014840323deb, type: 2}
+  - {fileID: 2100000, guid: 0a032bb9004e32947bb84a6238f03a0f, type: 2}
+  doorIndex: 0
+  doorColor: 
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0
