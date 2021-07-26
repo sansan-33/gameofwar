@@ -42,6 +42,7 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public SpTypeArt spTypeArt;
     [SerializeField] public UnitFactory localFactory;
     [SerializeField] public Transform unitBodyParent;
+    [SerializeField] public GameObject topBar;
 
     private bool CANLEVELUP = false;
     private static float LEVELUP_POWER = 1.1f;
@@ -56,9 +57,13 @@ public class HeroMenu : MonoBehaviour
     public void levelUpCard()
     {
         if (!CANLEVELUP) { return; }
-        StartCoroutine(handleLevelUpCard(StaticClass.CrossSceneInformation, StaticClass.UserID, "1"));
+        StartCoroutine(handleLevelUpCard(StaticClass.CrossSceneInformation, StaticClass.UserID, lvlText.text));
         CANLEVELUP = false;
-        levelUpButton.image.color = Color.black;
+        //levelUpButton.image.color = Color.black;
+
+        // call user profile manager to refresh gold
+        UserProfileManager userprofileManager = topBar.GetComponent<UserProfileManager>();
+        userprofileManager.RewardGold(0);
     }
     IEnumerator handleLevelUpCard(string cardkey, string userid, string level)
     {
@@ -99,9 +104,10 @@ public class HeroMenu : MonoBehaviour
             rarityText.text = jsonResult[0]["rarity"];
             raceText.text = jsonResult[0]["race"];
             upgradeGoldValue.text = jsonResult[0]["goldrequirement"];
-            if (float.TryParse(jsonResult[0]["exp"], out float cardexp) && float.TryParse(jsonResult[0]["leveluprequirement"], out float cardleveluprequirement))
+            if (float.TryParse(jsonResult[0]["exp"], out float cardexp) && float.TryParse(jsonResult[0]["leveluprequirement"], out float cardleveluprequirement) &&
+                float.TryParse(jsonResult[0]["goldrequirement"], out float cardgoldrequirement))
             {
-                if (cardexp >= cardleveluprequirement) {
+                if (cardexp >= cardleveluprequirement && float.Parse(StaticClass.gold) >= cardgoldrequirement) {
                     CANLEVELUP = true;
                     //Debug.Log($"Hero Menu levelUpButton.interactable = true ");
                     levelUpButton.interactable = true;
