@@ -38,7 +38,7 @@ public class Beacon : MonoBehaviour
     IEnumerator PowerUpUnitDelay(Unit unit)
     {
         yield return new WaitForSeconds(1f);
-        Debug.Log($"Beacon handle Unit spawned {unit.name} {unit.tag}");
+        //Debug.Log($"Beacon handle Unit spawned {unit.name} {unit.tag}");
         if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { yield break; }
         if (unit.TryGetComponent<EffectStatus>(out EffectStatus effectStatus))
         {

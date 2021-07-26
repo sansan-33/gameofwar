@@ -1323,7 +1323,7 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   visible: 0
-  m_AssetId: 
+  m_AssetId: cb8d23f56e2ad4e64bc8eac535a3008f
   hasSpawned: 0
 --- !u!114 &6372428433142078116
 MonoBehaviour:
@@ -1405,9 +1405,7 @@ MonoBehaviour:
   maxHealth: 100
   defense: 0
   shield: {fileID: 3007018670020009129}
-  IsFrezze: 0
   IsElectricShock: 0
-  freezeKey: 0
   specialEffectPrefab: {fileID: 1965343156803978, guid: 3dc1e9ee58f1d453aa8ee52e54bde010, type: 3}
   blinkDuration: 0.5
   blinkIntensity: 10
@@ -1455,9 +1453,9 @@ MonoBehaviour:
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
   compressRotation: 0
-  interpolateScale: 1
-  interpolateRotation: 1
   interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
   syncScale: 1
 --- !u!65 &7886504477174588649
 BoxCollider:
@@ -1486,7 +1484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  specialEffectPrefab: {fileID: 100000, guid: a66737023181f468595fdd8386cdad71, type: 3}
+  specialEffectPrefab: {fileID: 0}
   fxEffectPrefab: {fileID: 0}
   scriptEffectPrefab: {fileID: 0}
   sneakyMaterial: {fileID: 0}
@@ -1780,6 +1778,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  attack: 0
+  defense: 0
+  health: 0
+  speed: 0
+  isFreeze: 0
+  isStun: 0
+  slowPrefab: {fileID: 0}
+  speedPrefab: {fileID: 0}
+  freezeKey: 0
 --- !u!1 &2598530083062933460
 GameObject:
   m_ObjectHideFlags: 0

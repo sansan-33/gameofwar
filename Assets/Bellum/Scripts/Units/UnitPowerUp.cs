@@ -337,7 +337,7 @@ public class UnitPowerUp : NetworkBehaviour
     private void Sneak(int attack, float repeatAttackDelay)
     {
         gameObject.tag = "Sneaky" + tag.Substring(tag.Length - 1);
-        gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, 99);
+        gameObject.GetComponent<IAttack>().ScaleDamageDeal(attack, repeatAttackDelay, 9);
         foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             //Material[]  mats = new Material[] {sneakyMaterial, skinnedMeshRenderer.materials[1] };
