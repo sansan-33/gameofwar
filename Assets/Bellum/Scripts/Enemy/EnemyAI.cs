@@ -178,6 +178,7 @@ public class EnemyAI : MonoBehaviour
             }
 
             usingCard = true;
+            if(closedFog == true) { yield return new WaitForSeconds(2.5f); }
             //yield return SelectWallPos(); 
         }
         //yield return new WaitForSeconds(1f);
@@ -815,10 +816,11 @@ public class EnemyAI : MonoBehaviour
         SpecialAttack(type, new Vector3(40, 1, -46));
         //new Vector3(36.6138f,0, -51.48428f)
     }
-    private bool FogOpened()
+    public IEnumerator FogCloseded()
     {
-        //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).VisibilityOfArea();
-        return true;
+        closedFog = true;
+        yield return new WaitForSeconds(5) ;
+        closedFog = false;
     }
     private void SpecialAttack(UnitMeta.UnitType type, Vector3 pos)
     {
@@ -865,8 +867,13 @@ public class EnemyAI : MonoBehaviour
         }
         //}
     }
+    private void CloseFog()
+    {
+        StartCoroutine(TheArtOfWar());
+    }
     private IEnumerator TheArtOfWar()
     {
+        //Debug.Log($"VisibilityOfArea = {FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).VisibilityOfArea(new Bounds())}");
         //Debug.Log("close open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //Debug.Log($"fog of war = {FoW.FogOfWarTeam.GetTeam(0)}");
          FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = false;

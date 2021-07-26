@@ -88,7 +88,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
             case SpecialAttackDict.SpecialAttackType.DARKNESSRETURN:
                 //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetEnemyID()).updateAutomatically = false;
                 //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetEnemyID()).SetAll();
-                FindObjectOfType<EnemyAI>().closedFog = true;
+                FindObjectOfType<EnemyAI>().FogCloseded();
                 break;
         }
     }
