@@ -340,12 +340,13 @@ public class SpButtonManager : MonoBehaviour
             spType = SpecialAttackType.BOMB;
         }*/
 
-        spType = SpecialAttackType.DARKNESSRETURN;
+        //spType = SpecialAttackType.DARKNESSRETURN;
 
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);
         impectSmash.GetComponent<ImpactSmash>().SetUnit(unit);
         impectSmash.GetComponent<ImpactSmash>().SetSpecialAttackType(spType);
+        impectSmash.GetComponent<ImpactSmash>().enemySp = enemySpawn;
         button.GetComponent<SpCostDisplay>().SetSpPrefab(impectSmash);
         // Instantiate specialAttack
         ISpecialAttack iSpecialAttack = impectSmash.GetComponent(typeof(ISpecialAttack)) as ISpecialAttack;

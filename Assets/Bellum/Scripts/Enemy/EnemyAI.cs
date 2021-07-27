@@ -100,6 +100,7 @@ public class EnemyAI : MonoBehaviour
         GameOverHandler.ClientOnGameOver += HandleGameOver;
         Unit.ClientOnUnitSpawned += UrgentDefend;
         Unit.ClientOnUnitDespawned += Rage;
+        Health.StaticHealthUpdated += HandleHealthUpdate;
         InvokeRepeating("HandleSpawnEnemyBackUp", 10, 10);
         //InvokeRepeating(nameof(CloseFog), 10, 10);
     }
@@ -111,6 +112,7 @@ public class EnemyAI : MonoBehaviour
         Unit.ClientOnUnitSpawned -= UrgentDefend;
         Unit.ClientOnUnitDespawned -= Rage;
         GreatWallController.GateOpened -= GateOpen;
+        Health.StaticHealthUpdated -= HandleHealthUpdate;
         if (GameObject.FindGameObjectWithTag("King1"))
         {
             GameObject.FindGameObjectWithTag("King1").GetComponent<Health>().ClientOnHealthUpdated -= OnHealthUpdated;
@@ -846,7 +848,7 @@ public class EnemyAI : MonoBehaviour
             //{
             //Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} ==");
             SpStartergy.TryGetValue(chapter.ToString() + "," + mission.ToString(), out SpecialAttackType specialAttackType);
-            if (impact.GetSpecialAttackType() == specialAttackType)
+            if (impact.GetSpecialAttackType() == specialAttackType&& impact.enemySp == true)
             {
                 //Debug.Log("Sp type == fire");
                 //ISpecialAttack iSpecialAttack = impact.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
@@ -868,43 +870,7 @@ public class EnemyAI : MonoBehaviour
         }
         //}
     }
-    private void CloseFog()
-    {
-        StartCoroutine(CrossTheSeaByATrick());
-    }
-    private IEnumerator CrossTheSeaByATrick()
-    {
-        //Debug.Log($"VisibilityOfArea = {FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).VisibilityOfArea(new Bounds())}");
-        Debug.Log("close open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //Debug.Log($"fog of war = {FoW.FogOfWarTeam.GetTeam(0)}");
-         //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = false;
-        foreach(Unit unit in RTSplayer.GetMyUnits())
-        {
-            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
-            {
-                Debug.Log($"change ID of {unit.name}");
-                unit.GetComponent<FogOfWarUnit>().team = 999;
-            }
-               
-        }
-        //FoW.FogOfWarTeam FogOfWarTeam = FindObjectOfType<FoW.FogOfWarTeam>();
-        //FogOfWarTeam.GetTeams(RTSplayer.GetPlayerID()).updateUnits = false;
-        yield return new WaitForSeconds(1f);
-        //Debug.Log("close fog !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).SetAll();
-        //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).ManualUpdate(0.1f);
-        yield return new WaitForSeconds(5);
-        ///Debug.Log("open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-       // FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = true;
-        foreach (Unit unit in RTSplayer.GetMyUnits())
-        {
-            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
-            {
-                unit.GetComponent<FogOfWarUnit>().team = 0;
-            }
-              
-        }
-    }
+
     private IEnumerator SelectWallPos()
     {
         int enemyInRight = 0;
@@ -974,5 +940,77 @@ public class EnemyAI : MonoBehaviour
     {
         //test = Mathf.SmoothDamp(test, 100, ref progressImageVelocity, 0.5f);
         //Debug.Log(test);
+    }
+
+
+
+    /// Art of war part
+
+
+
+
+    private void CloseFog()
+    {
+        StartCoroutine(CrossTheSeaByATrick());
+    }
+    private IEnumerator CrossTheSeaByATrick()
+    {
+        //Debug.Log($"VisibilityOfArea = {FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).VisibilityOfArea(new Bounds())}");
+        Debug.Log("close open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //Debug.Log($"fog of war = {FoW.FogOfWarTeam.GetTeam(0)}");
+        //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = false;
+        foreach (Unit unit in RTSplayer.GetMyUnits())
+        {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
+            {
+                Debug.Log($"change ID of {unit.name}");
+                unit.GetComponent<FogOfWarUnit>().team = 999;
+            }
+
+        }
+        //FoW.FogOfWarTeam FogOfWarTeam = FindObjectOfType<FoW.FogOfWarTeam>();
+        //FogOfWarTeam.GetTeams(RTSplayer.GetPlayerID()).updateUnits = false;
+        yield return new WaitForSeconds(1f);
+        //Debug.Log("close fog !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).SetAll();
+        //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).ManualUpdate(0.1f);
+        yield return new WaitForSeconds(5);
+        ///Debug.Log("open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+       // FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = true;
+        foreach (Unit unit in RTSplayer.GetMyUnits())
+        {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
+            {
+                unit.GetComponent<FogOfWarUnit>().team = 0;
+            }
+
+        }
+    }
+
+    private void HandleHealthUpdate(GameObject unit ,float health,int maxHealth)
+    {
+        if(unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO&&health<maxHealth/2&&mission == 2&&chapter==1)
+        {
+            AttackBeacon();
+        }
+    }
+    private void AttackBeacon()
+    {
+        Vector3 beacon = Vector3.zero;
+        GameObject[] Building = GameObject.FindGameObjectsWithTag("Building0");
+        foreach(GameObject building in Building)
+        {
+            if(building.TryGetComponent<Unit>(out Unit unit))
+            {
+                if(unit.unitType == UnitMeta.UnitType.BEACON)
+                {
+                    beacon = building.transform.position;
+                }
+
+            }
+        }
+        if(beacon  == Vector3.zero) { return; }
+        SpawnSpesificUnit(UnitMeta.UnitType.SIEGE, new Vector3(beacon.x,beacon.y, halfLine.position.z));
+        Debug.Log($"spawn unit in { new Vector3(beacon.x, beacon.y, halfLine.position.z)}");
     }
 }

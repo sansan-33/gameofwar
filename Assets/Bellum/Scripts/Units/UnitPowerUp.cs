@@ -204,7 +204,7 @@ public class UnitPowerUp : NetworkBehaviour
         gameObject.name = unitName;
         //Debug.Log($"HandlePowerUp this.name {this.name}, unitName {unitName}, gameObject {gameObject.name}");
         gameObject.tag = ((gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING) ? "King" : "Player") + playerID;
-
+        
         var mask = gameObject.GetComponent<Seeker>().traversableTags;
         var enemyid = playerID == 0 ? 1 : 0;
         gameObject.GetComponent<Seeker>().traversableTags = mask & ~(1 << (enemyid + 1));
@@ -226,7 +226,7 @@ public class UnitPowerUp : NetworkBehaviour
             gameObject.GetComponent<HealthDisplay>().flipHealthBar();
         }
         //Debug.Log($"HandlePowerUp this.name {this.name}, unitName {unitName}, gameObject {gameObject.name}");
-
+        if (gameObject.GetComponent<Unit>().unitType == UnitMeta.UnitType.SIEGE) { gameObject.tag = "Siege" + playerID; }
     }
     [ClientRpc]
     public void RpcPowerUp(int playerID, string unitName, int spawnPointIndex, int star, int cardLevel, int health, int attack, float repeatAttackDelay, float speed, int defense, int special, string specialkey, string passivekey, Color teamColor)
