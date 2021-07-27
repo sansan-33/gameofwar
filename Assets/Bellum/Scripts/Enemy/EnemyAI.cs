@@ -101,7 +101,7 @@ public class EnemyAI : MonoBehaviour
         Unit.ClientOnUnitSpawned += UrgentDefend;
         Unit.ClientOnUnitDespawned += Rage;
         InvokeRepeating("HandleSpawnEnemyBackUp", 10, 10);
-        InvokeRepeating(nameof(CloseFog), 10, 10);
+        //InvokeRepeating(nameof(CloseFog), 10, 10);
     }
     private void OnDestroy()
     {
