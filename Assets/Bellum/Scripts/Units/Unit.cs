@@ -93,6 +93,11 @@ public class Unit : NetworkBehaviour
     [Server]
     private void ServerHandleDie()
     {
+        if(unitType == UnitMeta.UnitType.STUPIDTAPIR)
+        {
+            unitType = UnitMeta.UnitType.FOOTMAN;
+            return;
+        }
         NetworkServer.Destroy(gameObject);
     }
    

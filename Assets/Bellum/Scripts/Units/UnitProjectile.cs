@@ -22,6 +22,7 @@ public class UnitProjectile : NetworkBehaviour
     int playerid = 0;
     int enemyid = 0;
     float depth = 1.5f;
+    private RTSPlayer rTSPlayer;
 
     // launch variables
     Vector3 TargetObjectPos = Vector3.zero;
@@ -38,6 +39,10 @@ public class UnitProjectile : NetworkBehaviour
 
     [SerializeField] private GameObject textPrefab = null;
 
+    private void Start()
+    {
+        rTSPlayer = NetworkClient.connection.identity.GetComponent<RTSPlayer>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -221,6 +226,12 @@ public class UnitProjectile : NetworkBehaviour
                     enemy.GetComponent<UnitBody>().SetTeamColor(arrowType == "Enemy" ? "red" : "blue");
                     //GateOpened?.Invoke(arrowType == "Enemy" ? "1" : "0");
                     wallController.GateOpen(arrowType == "Enemy" ? "1" : "0", enemy.GetComponent<UnitBody>().doorIndex.ToString());
+                }
+                if (enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.STUPIDTAPIR)
+                {
+                    int ID = tag.Contains("0") ? 0 : 1;
+                    Debug.Log($"change tag to {ID }");
+                    enemy.tag = "Player" + ID;
                 }
             }
 
