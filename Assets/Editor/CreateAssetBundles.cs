@@ -20,12 +20,12 @@ public class CreateAssetBundles
         Directory.CreateDirectory(assetBundleDirectory);
 
         //create bundles for all platform (use IOS for editor support on MAC but must be on IOS build platform)
-        BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.iOS);
-        AppendPlatformToFileName("IOS");
-        Debug.Log("IOS bundle created...");
+        //BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.iOS);
+        //AppendPlatformToFileName("IOS");
+        //Debug.Log("IOS bundle created...");
 
         BuildPipeline.BuildAssetBundles(assetBundleDirectory, BuildAssetBundleOptions.None, BuildTarget.Android);
-        AppendPlatformToFileName("Android");
+        //AppendPlatformToFileName("Android");
         Debug.Log("Android bundle created...");
 
         RemoveSpacesInFileNames();
