@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 137709058995399558, guid: 078f8dbbda7240040841bfe37b5aeeee, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35a59708ca01f0446aa76b0e2e8b737a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 078f8dbbda7240040841bfe37b5aeeee, type: 3}
 --- !u!1001 &6113991414710508609
@@ -319,27 +323,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552497, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552497, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552498, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552498, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552499, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552499, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552500, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Speed
@@ -351,11 +355,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552504, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552504, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552505, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
@@ -367,19 +371,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552506, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552506, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552507, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552507, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552508, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
@@ -391,11 +395,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552509, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552509, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: showBehaviorDesignerGizmo
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552510, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: gizmoViewMode
@@ -601,6 +605,14 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Unit
       objectReference: {fileID: 0}
+    - target: {fileID: 5208807437894997678, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: material.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 35a59708ca01f0446aa76b0e2e8b737a, type: 2}
+    - target: {fileID: 5208807437894997678, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: material.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: d2b545ee9a5b910418ad48b9164f6712, type: 2}
     - target: {fileID: 5531517098549734394, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: maxHealth
       value: 50
