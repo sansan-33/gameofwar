@@ -22,6 +22,7 @@ public class Health : NetworkBehaviour, IDamageable
     public static event Action<string> HeroOrKingOnDie;
     public event Action<int, int, int> ClientOnHealthUpdated;
     public static event Action<GameObject> IceHitUpdated;
+    public static event Action<GameObject,float,int> StaticHealthUpdated;
     public GameObject specialEffectPrefab;
 
     [SyncVar] float blinkTimer;
@@ -86,6 +87,7 @@ public class Health : NetworkBehaviour, IDamageable
         {
            GetComponent<EffectStatus>().UnFrezze();
         }
+       
         if (currentHealth != 0)
         {
             StaticClass.HighestDamage = StaticClass.HighestDamage < damageAmount ? damageAmount : StaticClass.HighestDamage;
@@ -94,6 +96,7 @@ public class Health : NetworkBehaviour, IDamageable
             {
                 damageAmount = (int)damageAmount;
                 currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
+                StaticHealthUpdated?.Invoke(gameObject, currentHealth,maxHealth);
                 //if(tag.Contains("King") || tag.Contains("Hero"))
                 //Debug.Log($"name {name} current health {currentHealth} , damge took {damageAmount}");
                 blinkTimer = blinkDuration;

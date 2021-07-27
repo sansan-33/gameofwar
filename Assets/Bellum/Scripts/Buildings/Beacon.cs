@@ -42,10 +42,10 @@ public class Beacon : MonoBehaviour
         if (unit.tag.Substring(unit.tag.Length - 1) != playerID.ToString()) { yield break; }
         if (unit.TryGetComponent<EffectStatus>(out EffectStatus effectStatus))
         {
-            effectStatus.SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 10f);
-            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 2f);
+            effectStatus.SetEffect(UnitMeta.EffectType.ATTACK.ToString(), 4f);
+            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.HEALTH.ToString(), 10f);
             effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.SPEED.ToString(), 2f);
-            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 1.1f);
+            effectStatus.GetComponent<EffectStatus>().SetEffect(UnitMeta.EffectType.DEFENSE.ToString(), 2f);
         }
     }
     IEnumerator StartBeam()

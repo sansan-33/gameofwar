@@ -27,6 +27,7 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private int cost = 3;
     private float progressUnitVelocity;
     private CardPlayer cardPlayer;
+    public bool enemySp = false;
     // Start is called before the first frame update
     void Start()
     {
