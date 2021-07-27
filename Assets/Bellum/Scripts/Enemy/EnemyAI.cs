@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FoW;
 using Mirror;
 using UnityEngine;
 using static SpecialAttackDict;
@@ -21,10 +22,11 @@ public class EnemyAI : MonoBehaviour
     private UnitFactory localFactory;
     private bool ISGAMEOVER = false;
     public List<Card> cards = new List<Card>();
-    private enum Difficulty { OneStar, TwoStar, ThreeStar,StatUp };
+    private enum Difficulty { OneStar, TwoStar, ThreeStar, StatUp };
     private enum Position { left, right, centre };
     private int mission;
     private int chapter;
+    public bool closedFog = false;
     private float progressImageVelocity;
     [SerializeField] private bool dragCard = true;
     [SerializeField] private float cardSizeUpFactor = 0.625f;
@@ -35,7 +37,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private CardPlayer player;
     [SerializeField] private CardPlayer enemyPlayer;
     [SerializeField] private CardDealer cardDealer;
-     private Dictionary<UnitMeta.UnitType, Position> StratergyPostion = new Dictionary<UnitMeta.UnitType, Position>()
+    private Dictionary<UnitMeta.UnitType, Position> StratergyPostion = new Dictionary<UnitMeta.UnitType, Position>()
     { };
     [SerializeField] List<UnitMeta.UnitType> unitType;
     [SerializeField] List<Position> position;
@@ -99,6 +101,7 @@ public class EnemyAI : MonoBehaviour
         Unit.ClientOnUnitSpawned += UrgentDefend;
         Unit.ClientOnUnitDespawned += Rage;
         InvokeRepeating("HandleSpawnEnemyBackUp", 10, 10);
+        //InvokeRepeating(nameof(CloseFog), 10, 10);
     }
     private void OnDestroy()
     {
@@ -143,15 +146,15 @@ public class EnemyAI : MonoBehaviour
             GameObject.FindGameObjectWithTag("King1").GetComponent<Health>().ClientOnHealthUpdated += OnHealthUpdated;
             GreatWallController.GateOpened += GateOpen;
         }
-        
-      /*  Mission.Add(1, Difficulty.OneStar);
-        Mission.Add(2, Difficulty.TwoStar);
-        Mission.Add(3, Difficulty.ThreeStar);
-        Mission.Add(4, Difficulty.StatUp);*/
+
+        /*  Mission.Add(1, Difficulty.OneStar);
+          Mission.Add(2, Difficulty.TwoStar);
+          Mission.Add(3, Difficulty.ThreeStar);
+          Mission.Add(4, Difficulty.StatUp);*/
         yield return null;
 
     }
-    
+
     private IEnumerator HandleSpawnnEnemy()
     {
         List<UnitMeta.UnitType> lists = HandleMission();
@@ -165,19 +168,19 @@ public class EnemyAI : MonoBehaviour
             // Debug.Log($"HandleSpawnnEnemy {cards.Count}");
             if (enemyBreakWall == false)
             {
-                SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, new Vector3(48,0,-28));
+                SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, new Vector3(48, 0, -28));
             }
             if (canSpawnUnit == true)
             {//Debug.Log("HandleSpawnnEnemy");
-                 yield return SelectCard(true);
-                 yield return new WaitForSeconds(2f);
-                  yield return SpawnEnemy();
-                StartCoroutine(TheArtOfWar());
+                yield return SelectCard(true);
+                yield return new WaitForSeconds(2f);
+                yield return SpawnEnemy();
                 //if (timer <= 0) { localFactory.GetComponent<Player>().dragCardMerge(); }
             }
-           
-                usingCard = true;
-                //yield return SelectWallPos(); 
+
+            usingCard = true;
+            if(closedFog == true) { yield return new WaitForSeconds(2.5f); }
+            //yield return SelectWallPos(); 
         }
         //yield return new WaitForSeconds(1f);
 
@@ -186,7 +189,7 @@ public class EnemyAI : MonoBehaviour
     }
     private void HandleSpawnEnemyBackUp()
     {
-        if(usingCard == false)
+        if (usingCard == false)
         {
             //Debug.Log("glichted");
             StopCoroutine(HandleSpawnnEnemy());
@@ -196,22 +199,22 @@ public class EnemyAI : MonoBehaviour
     }
     private void Rage(Unit unit)
     {
-       // Debug.Log($"tag == {unit.tag} type = {unit.unitType} use T {usedTatical}");
+        // Debug.Log($"tag == {unit.tag} type = {unit.unitType} use T {usedTatical}");
         //Need to change Tag;
-        if (unit.CompareTag("Die1") && unit.unitType == UnitMeta.UnitType.HERO  && usedTatical == false)
+        if (unit.CompareTag("Die1") && unit.unitType == UnitMeta.UnitType.HERO && usedTatical == false)
         {
             if (chapter >= 4 && mission >= 3)
             {
                 usedTatical = true;
                 TB.taticalAttack(TacticalBehavior.TaticalAttack.CAVALRYCHARGES, RTSplayer.GetEnemyID());
             }
-            else if(chapter >= 4 && mission == 2)
+            else if (chapter >= 4 && mission == 2)
             {
                 usedTatical = true;
                 TB.taticalAttack(TacticalBehavior.TaticalAttack.ABSOLUTEDEFENSE, RTSplayer.GetEnemyID());
             }
-            else if(chapter >= 4 && mission == 1)
-            { 
+            else if (chapter >= 4 && mission == 1)
+            {
                 usedTatical = true;
                 TB.taticalAttack(TacticalBehavior.TaticalAttack.ARROWRAIN, RTSplayer.GetEnemyID());
             }
@@ -234,13 +237,13 @@ public class EnemyAI : MonoBehaviour
         while (unit.CompareTag("Unit"))
         {
             yield return new WaitForSeconds(0.5f);
-            if(unit == null) { break; }
+            if (unit == null) { break; }
         }
         // Debug.Log($"unit.unitType{unit.unitType} tag == {unit.tag}");
         // Debug.Log(savingCardForDefend);
         if (savingCardForDefend == false)
         {
-            if (unit !=null && unit.unitType == UnitMeta.UnitType.FOOTMAN && unit.CompareTag("Sneaky0"))
+            if (unit != null && unit.unitType == UnitMeta.UnitType.FOOTMAN && unit.CompareTag("Sneaky0"))
             {
                 savingCardForDefend = true;
                 canSpawnUnit = false;
@@ -276,14 +279,14 @@ public class EnemyAI : MonoBehaviour
             {
                 trap.DropUnit(unit.transform.position);
             }*/
-           // Debug.Log($"unit = {unit} unit.unitType = {unit.unitType} tag = {unit.tag} star = {unit.GetComponent<CardStats>().star} ");
+            // Debug.Log($"unit = {unit} unit.unitType = {unit.unitType} tag = {unit.tag} star = {unit.GetComponent<CardStats>().star} ");
             //Debug.Log($"mission == {mission} = {mission == 5} chapter == 1 = {chapter == 1} StaticClass.Mission = {StaticClass.Mission}");
             //Debug.Log($"unit = unit {unit != null}    unit.unitType = unit.unitType  {unit.unitType == UnitMeta.UnitType.MAGIC } tag = PLayer1 {unit.CompareTag("Player1")} star = 3 {unit.GetComponent<CardStats>().star == 3 }");
-            if (unit != null && unit.unitType == UnitMeta.UnitType.MAGIC && unit.CompareTag("Player1")&& unit.GetComponent<CardStats>().star == 3 && mission == 5&& chapter == 1)
+            if (unit != null && unit.unitType == UnitMeta.UnitType.MAGIC && unit.CompareTag("Player1") && unit.GetComponent<CardStats>().star == 3 && mission == 5 && chapter == 1)
             {
                 Tornado[] tornados = FindObjectsOfType<Tornado>();
                 Debug.Log($"tornados.Length = {tornados.Length}");
-                foreach(Tornado tornado in tornados)
+                foreach (Tornado tornado in tornados)
                 {
                     if (tornado.unitType == "Enemy")
                     {
@@ -293,7 +296,7 @@ public class EnemyAI : MonoBehaviour
                     }
 
                 }
-                
+
             }
         }
         if (unit.unitType == UnitMeta.UnitType.CAVALRY && unit.CompareTag("Player0") && chapter >= 2)
@@ -320,15 +323,15 @@ public class EnemyAI : MonoBehaviour
             enemyBreakWall = true;
         }
     }
-    private void SpawnSpesificUnit(UnitMeta.UnitType unitType ,Vector3 pos)
+    private void SpawnSpesificUnit(UnitMeta.UnitType unitType, Vector3 pos)
     {
-        for(int i = 0; i < cards.Count; i++)
+        for (int i = 0; i < cards.Count; i++)
         {
             Card card = cards[i];
             int type = (int)card.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
             if ((UnitMeta.UnitType)type == unitType)
             {
-                if( elexier < card.GetUnitElexier())
+                if (elexier < card.GetUnitElexier())
                 {
                     if (pos == Vector3.zero)
                     {
@@ -349,7 +352,7 @@ public class EnemyAI : MonoBehaviour
         string chapters;
         chapters = StaticClass.Chapter;
         missions = StaticClass.Mission;
-       
+
         Mission.TryGetValue(missions, out int _mission);
         Mission.TryGetValue(chapters, out int _chapter);
         chapter = _chapter;
@@ -378,9 +381,9 @@ public class EnemyAI : MonoBehaviour
                 {
                     Debug.Log($"AI Spawn Emeny {unit.name} {RTSplayer.GetTeamEnemyColor()}");
                     CardStats cardStats = unit.GetComponent<CardStats>();
-                   // cardStats.attack *= statUpFactor;
-                   // cardStats.health *= statUpFactor;
-                   // cardStats.defense *= statUpFactor;
+                    // cardStats.attack *= statUpFactor;
+                    // cardStats.health *= statUpFactor;
+                    // cardStats.defense *= statUpFactor;
                     unit.GetComponent<UnitPowerUp>().PowerUp(1, unit.name, unit.GetComponent<Unit>().GetSpawnPointIndex(), cardStats.star, cardStats.cardLevel, cardStats.health * statUpFactor,
                         cardStats.attack * statUpFactor, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense * statUpFactor, cardStats.special, cardStats.specialkey,
                         cardStats.passivekey, RTSplayer.GetTeamEnemyColor());
@@ -394,16 +397,16 @@ public class EnemyAI : MonoBehaviour
     }
     public void SetCards(Card card)
     {
-       // Debug.Log($"Enemy card list add {card.cardFace.numbers} ");
+        // Debug.Log($"Enemy card list add {card.cardFace.numbers} ");
         //Debug.Log($" is enemy {card.enemyCard}");
         //if (card.GetComponentInParent<Player>()) { Debug.Log($"belong to {card.GetComponentInParent<Player>().name}"); }
-        
+
         this.cards.Add(card);
         StartCoroutine(SameCard());
     }
     private IEnumerator SameCard()
     {
-        if(dragCard == true && FinishDealEnemyCard == true)
+        if (dragCard == true && FinishDealEnemyCard == true)
         {
             //Debug.Log("SameCard");
             List<Card> Archers = new List<Card>();
@@ -417,7 +420,7 @@ public class EnemyAI : MonoBehaviour
             numOfEachCard.Add(Footmans);
             numOfEachCard.Add(Magics);
             numOfEachCard.Add(Tanks);
-            foreach (Card card in cards) 
+            foreach (Card card in cards)
             {
                 switch (card.cardFace.numbers)
                 {
@@ -443,9 +446,9 @@ public class EnemyAI : MonoBehaviour
                         break;
                 }
             }
-            foreach(List<Card> cards in numOfEachCard)
+            foreach (List<Card> cards in numOfEachCard)
             {
-                if(cards.Count >= 2)
+                if (cards.Count >= 2)
                 {
                     //Debug.Log($"{cards[0].cardFace.numbers} has over 2 card");
                     yield return SameStar(cards);
@@ -457,22 +460,22 @@ public class EnemyAI : MonoBehaviour
     }
     private IEnumerator SameStar(List<Card> cards)
     {
-       // int i = 0;
-        
-            Card beforeNewCard = cards[0];
-            Card card = cards[1];
-            //Debug.Log($"{beforeNewCard.cardFace.numbers} is {beforeNewCard.cardFace.star} == {card.cardFace.numbers} is {card.cardFace.star}");
-            //if (beforeNewCard == card) { Debug.Log("Card"); }
-            if (beforeNewCard.cardFace.star == card.cardFace.star)
-            {
-                yield return DragCard(this.cards.IndexOf(beforeNewCard), this.cards.IndexOf(card));
-            }
-        
+        // int i = 0;
+
+        Card beforeNewCard = cards[0];
+        Card card = cards[1];
+        //Debug.Log($"{beforeNewCard.cardFace.numbers} is {beforeNewCard.cardFace.star} == {card.cardFace.numbers} is {card.cardFace.star}");
+        //if (beforeNewCard == card) { Debug.Log("Card"); }
+        if (beforeNewCard.cardFace.star == card.cardFace.star)
+        {
+            yield return DragCard(this.cards.IndexOf(beforeNewCard), this.cards.IndexOf(card));
+        }
+
         yield return null;
     }
-    private IEnumerator DragCard(int beforeNewCard, int card )
+    private IEnumerator DragCard(int beforeNewCard, int card)
     {
-       
+
         //Vector2 original = cards[beforeNewCard].GetComponent<RectTransform>().anchoredPosition;
         //Card finishedCard = card == cards.Count - 1 ? cards[card - 1] : cards[card + 1];
         Card finishedCard = cards[card];
@@ -480,13 +483,13 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log($"DragCard {original} {finishPos}");
         float timer = 1f;
 
-       float x = cards[beforeNewCard].transform.position.x;
+        float x = cards[beforeNewCard].transform.position.x;
         float y = cards[beforeNewCard].transform.position.y;
         float PosX = finishedCard.transform.position.x;
         //Debug.Log($"Drag card {enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>())} < {enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>())}");
         if (enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) < enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
         {
-            
+
             while (enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) <= enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
             {
                 //Debug.Log("right");
@@ -506,9 +509,9 @@ public class EnemyAI : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
-        else if(enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) > enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
+        else if (enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) > enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
         {
-            while(enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) >= enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
+            while (enemyPlayer.cardSlotlist.IndexOf(cards[beforeNewCard].GetComponentInParent<CardSlot>()) >= enemyPlayer.cardSlotlist.IndexOf(finishedCard.GetComponentInParent<CardSlot>()))
             {
                 //Debug.Log("left");
                 timer -= Time.deltaTime;
@@ -526,8 +529,8 @@ public class EnemyAI : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
-        
-     
+
+
 
         //dealManagers.GetComponent<CardDealer>().Hit(true);
         yield return null;
@@ -538,9 +541,9 @@ public class EnemyAI : MonoBehaviour
     }
     private IEnumerator SpawnEnemy()
     {
-        while(nextCard != null)
+        while (nextCard != null)
         {
-            if(nextCard.GetUnitElexier() <= this.elexier)
+            if (nextCard.GetUnitElexier() <= this.elexier)
             {
                 int type = (int)nextCard.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
                 yield return SelectPos(nextCard, (UnitMeta.UnitType)type);
@@ -554,32 +557,32 @@ public class EnemyAI : MonoBehaviour
     {
         int i = 2;
         Card _card = null;
-        
-            GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 0);
-            GameObject king = GameObject.FindGameObjectWithTag("King" + 0);
-            List<GameObject> armies = new List<GameObject>();
-            armies = units.ToList();
-            if (king != null)
-                armies.Add(king);
-           /* foreach(GameObject unit in armies)
-            {
-                UnitMeta.UnitType[] strengthWeakness = StrengthWeakness.GetStrengthWeakness(unit.GetComponent<Unit>().unitType);
-                if (strengthWeakness != null)
-                {
-                Debug.Log("strengthWeakness != null");
-                    foreach (Card card in cards)
-                    {
-                        int type = (int)card.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-                        if ((UnitMeta.UnitType)type == strengthWeakness[1])
-                        {
-                        Debug.Log($"using stength in {(UnitMeta.UnitType)type} to {unit.GetComponent<Unit>().unitType}");
-                            _card = card;
-                        }
-                    }
 
-                }
-            }*/
-        if(_card == null)
+        GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 0);
+        GameObject king = GameObject.FindGameObjectWithTag("King" + 0);
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        if (king != null)
+            armies.Add(king);
+        /* foreach(GameObject unit in armies)
+         {
+             UnitMeta.UnitType[] strengthWeakness = StrengthWeakness.GetStrengthWeakness(unit.GetComponent<Unit>().unitType);
+             if (strengthWeakness != null)
+             {
+             Debug.Log("strengthWeakness != null");
+                 foreach (Card card in cards)
+                 {
+                     int type = (int)card.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
+                     if ((UnitMeta.UnitType)type == strengthWeakness[1])
+                     {
+                     Debug.Log($"using stength in {(UnitMeta.UnitType)type} to {unit.GetComponent<Unit>().unitType}");
+                         _card = card;
+                     }
+                 }
+
+             }
+         }*/
+        if (_card == null)
         {
             foreach (Card card in cards)
             {
@@ -596,16 +599,16 @@ public class EnemyAI : MonoBehaviour
                     }
                 }
             }
-         }
+        }
 
-            
-            
-        
-        while(_card == null)
+
+
+
+        while (_card == null)
         {
             _card = checkStar(i);
             i--;
-            if(i == -1) { break; }
+            if (i == -1) { break; }
         }
         i = 2;
         while (_card == null)
@@ -615,16 +618,16 @@ public class EnemyAI : MonoBehaviour
             if (i == -1) { break; }
         }
         //Debug.Log($"SelectCard {_card}");
-        
-            nextCard = _card;
-            RectTransform rect = nextCard.GetComponent<RectTransform>();
-            //float x = rect.localScale.x;
-            //float y = rect.localScale.y;
-            //float z = rect.localScale.z;
-            rect.localScale = new Vector3(cardSizeUpFactor, cardSizeUpFactor, cardSizeUpFactor);
-        
-       
-       // Debug.Log($"Select card {nextCard.cardFace.numbers}");
+
+        nextCard = _card;
+        RectTransform rect = nextCard.GetComponent<RectTransform>();
+        //float x = rect.localScale.x;
+        //float y = rect.localScale.y;
+        //float z = rect.localScale.z;
+        rect.localScale = new Vector3(cardSizeUpFactor, cardSizeUpFactor, cardSizeUpFactor);
+
+
+        // Debug.Log($"Select card {nextCard.cardFace.numbers}");
         yield return null;
     }
     private Card checkStar(int star)
@@ -635,12 +638,12 @@ public class EnemyAI : MonoBehaviour
             //Debug.Log($"{(int)card.cardFace.star} == {star}");
             if ((int)card.cardFace.star == star)
             {
-                if(checkType(card, star))
+                if (checkType(card, star))
                 {
                     return card;
                 }
             }
-            
+
         }
         foreach (Card card in cards)
         {
@@ -652,7 +655,7 @@ public class EnemyAI : MonoBehaviour
                 }
             }
         }
-        
+
         return null;
     }
     private Card GetCard(int star)
@@ -661,7 +664,7 @@ public class EnemyAI : MonoBehaviour
         {
             if ((int)card.cardFace.star == star)
             {
-               // Debug.Log("checkStar");
+                // Debug.Log("checkStar");
                 return card;
             }
         }
@@ -670,10 +673,10 @@ public class EnemyAI : MonoBehaviour
 
     private bool checkType(Card card, int star)
     {
-       // Debug.Log(star);
+        // Debug.Log(star);
         int type = (int)card.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         Stratergy.TryGetValue(star, out var unitTypes);
-       // Debug.Log($"checkType {unitTypes}");
+        // Debug.Log($"checkType {unitTypes}");
         int i = 0;
         while (i < unitTypes.Count)
         {
@@ -683,14 +686,14 @@ public class EnemyAI : MonoBehaviour
             }
             i++;
         }
-       return false;
+        return false;
     }
     private bool checkWaitCard(Card card, int star)
     {
-       // Debug.Log("checkWaitCard");
+        // Debug.Log("checkWaitCard");
         int type = (int)card.cardFace.numbers % System.Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
         int _star = star;
-        while(_star < 3)
+        while (_star < 3)
         {
             Stratergy.TryGetValue(star, out var unitTypes);
             int i = 0;
@@ -710,8 +713,12 @@ public class EnemyAI : MonoBehaviour
     {
         CardFace cardFace = card.cardFace;
         if (localFactory == null) { yield return SetLocalFactory(); }
-        
-        Vector3 unitPos = new Vector3(0,0,0);
+        if (type == UnitMeta.UnitType.FOOTMAN && mission == 1 && chapter == 1 && cardFace.star == Card_Stars.Silver)
+        {
+            StartCoroutine(CrossTheSeaByATrick());
+        }
+
+        Vector3 unitPos = new Vector3(0, 0, 0);
         List<GameObject> LeftSideUnits = new List<GameObject>();
         List<GameObject> RightSideUnits = new List<GameObject>();
         GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 0);
@@ -750,7 +757,7 @@ public class EnemyAI : MonoBehaviour
                 }
                 if (unitPos == new Vector3(0, 0, 0))
                 {
-                   // Debug.Log("Using startRightPos");
+                    // Debug.Log("Using startRightPos");
                     unitPos = startRightPos;
                 }
                 break;
@@ -766,7 +773,7 @@ public class EnemyAI : MonoBehaviour
                 }
                 if (unitPos == new Vector3(0, 0, 0))
                 {
-                   // Debug.Log("Using startLeftPos");
+                    // Debug.Log("Using startLeftPos");
                     unitPos = startLeftPos;
                 }
                 break;
@@ -775,22 +782,29 @@ public class EnemyAI : MonoBehaviour
                 unitPos = startCentrePos;
                 break;
         }
-        if(enemyBreakWall == false)
+        if (enemyBreakWall == false)
         {
             unitPos = new Vector3(48, 0, -28);
         }
-        SpawnUnit(unitPos,card,type);
-         yield return null;
+        SpawnUnit(unitPos, card, type);
+        yield return null;
     }
-    private void SpawnUnit(Vector3 unitPos,Card card, UnitMeta.UnitType type)
+    private void SpawnUnit(Vector3 unitPos, Card card, UnitMeta.UnitType type)
     {
         Debug.Log(unitPos);
+        if (closedFog == true)
+        {
+            float xFactor = UnityEngine.Random.Range(-5, 5);
+            float yFactor = UnityEngine.Random.Range(-5, 5);
+            float zFactor = UnityEngine.Random.Range(-5, 5);
+            unitPos = new Vector3(unitPos.x + xFactor, unitPos.y + yFactor, unitPos.z+ zFactor);
+        }
         CardFace cardFace = card.cardFace;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         FindObjectOfType<TotalEleixier>().enemyEleixer -= card.GetUnitElexier();
         localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
             cardFace.stats.health * (int)statUpFactor, cardFace.stats.attack * (int)statUpFactor, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense * (int)statUpFactor, cardFace.stats.special, cardFace.stats.specialkey,
-            cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamEnemyColor() , Quaternion.identity);
+            cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamEnemyColor(), Quaternion.identity);
         card.enemyCard = false;
         card.ResetScale();
         //cards.Remove(card);
@@ -798,62 +812,98 @@ public class EnemyAI : MonoBehaviour
         cardDealer.Hit(true);
 
         // }
-        SpecialAttack(type,new Vector3(40,1,-46));
+
+        // StartCoroutine(TheArtOfWar());
+        SpecialAttack(type, new Vector3(40, 1, -46));
         //new Vector3(36.6138f,0, -51.48428f)
     }
-    private void SpecialAttack(UnitMeta.UnitType type,Vector3 pos)
+    public IEnumerator FogCloseded()
     {
-        Debug.Log("SpecialAttack");
+        closedFog = true;
+        yield return new WaitForSeconds(5) ;
+        closedFog = false;
+    }
+    private void SpecialAttack(UnitMeta.UnitType type, Vector3 pos)
+    {
+        //sDebug.Log("SpecialAttack");
         //if (Sp.TryGetValue(type, out List<SpecialAttackType> specialAttackTypes))
-       // {
-            //Debug.Log($"SpecialAttack Got {specialAttackTypes}");
-            /*GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
-            GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
-            List<GameObject> armies = new List<GameObject>();
-            armies = units.ToList();
-            if (king != null)
-                armies.Add(king)*/
-            GameObject SpecialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager");
-            ImpactSmash[] impactSmash = SpecialAttackManager.GetComponentsInChildren<ImpactSmash>();
-            foreach (ImpactSmash impact in impactSmash)
-            {
-                //Debug.Log($"SpecialAttack Unit type is  {unit.GetComponent<Unit>().unitType}");
+        // {
+        //Debug.Log($"SpecialAttack Got {specialAttackTypes}");
+        /*GameObject[] units = GameObject.FindGameObjectsWithTag("Player" + 1);
+        GameObject king = GameObject.FindGameObjectWithTag("King" + 1);
+        List<GameObject> armies = new List<GameObject>();
+        armies = units.ToList();
+        if (king != null)
+            armies.Add(king)*/
+        GameObject SpecialAttackManager = GameObject.FindGameObjectWithTag("SpecialAttackManager");
+        ImpactSmash[] impactSmash = SpecialAttackManager.GetComponentsInChildren<ImpactSmash>();
+        foreach (ImpactSmash impact in impactSmash)
+        {
+            //Debug.Log($"SpecialAttack Unit type is  {unit.GetComponent<Unit>().unitType}");
 
-                
-                    
-                    //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
-                    //foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
-                    //{
-                        Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} ==");
-            SpStartergy.TryGetValue(chapter.ToString() + "," +mission.ToString(), out SpecialAttackType specialAttackType);
-                        if (impact.GetSpecialAttackType() == specialAttackType)
-                        {
-                Debug.Log("Sp type == fire");
+            //Debug.Log($"SpecialAttack  type is  {specialAttackType}");
+            //foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
+            //{
+            //Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} ==");
+            SpStartergy.TryGetValue(chapter.ToString() + "," + mission.ToString(), out SpecialAttackType specialAttackType);
+            if (impact.GetSpecialAttackType() == specialAttackType)
+            {
+                //Debug.Log("Sp type == fire");
                 //ISpecialAttack iSpecialAttack = impact.GetComponentInChildren(typeof(ISpecialAttack)) as ISpecialAttack;
                 // SpButtonManager.enemyUnitBtns.TryGetValue(impact.GetComponent<Unit>().unitKey, out var btn);
-                           var btn = impact.GetComponentInParent<SpCostDisplay>();
-                           Debug.Log($"SpecialAttack  cost {impact.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
-                            if (impact != null && btn != null)
-                            {
-                                if (impact.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
-                               {
-                                Debug.Log("Onpointerdown");
-                                impact.HandleEndDrag(false, pos);
-                                }
-                            }
-                        }
-                   // }
-               
-                
+                var btn = impact.GetComponentInParent<SpCostDisplay>();
+                //Debug.Log($"SpecialAttack  cost {impact.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
+                if (impact != null && btn != null)
+                {
+                    if (impact.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                    {
+                        //Debug.Log("Onpointerdown");
+                        impact.HandleEndDrag(false, pos);
+                    }
+                }
             }
+            // }
+
+
+        }
         //}
     }
-    private IEnumerator TheArtOfWar()
+    private void CloseFog()
     {
-        //Debug.Log("close fog");
+        StartCoroutine(CrossTheSeaByATrick());
+    }
+    private IEnumerator CrossTheSeaByATrick()
+    {
+        //Debug.Log($"VisibilityOfArea = {FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).VisibilityOfArea(new Bounds())}");
+        Debug.Log("close open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //Debug.Log($"fog of war = {FoW.FogOfWarTeam.GetTeam(0)}");
-        FoW.FogOfWarTeam.GetTeam(0).SetAll(); 
-        yield return null;
+         //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = false;
+        foreach(Unit unit in RTSplayer.GetMyUnits())
+        {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
+            {
+                Debug.Log($"change ID of {unit.name}");
+                unit.GetComponent<FogOfWarUnit>().team = 999;
+            }
+               
+        }
+        //FoW.FogOfWarTeam FogOfWarTeam = FindObjectOfType<FoW.FogOfWarTeam>();
+        //FogOfWarTeam.GetTeams(RTSplayer.GetPlayerID()).updateUnits = false;
+        yield return new WaitForSeconds(1f);
+        //Debug.Log("close fog !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).SetAll();
+        //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).ManualUpdate(0.1f);
+        yield return new WaitForSeconds(5);
+        ///Debug.Log("open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+       // FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = true;
+        foreach (Unit unit in RTSplayer.GetMyUnits())
+        {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
+            {
+                unit.GetComponent<FogOfWarUnit>().team = 0;
+            }
+              
+        }
     }
     private IEnumerator SelectWallPos()
     {
@@ -887,11 +937,12 @@ public class EnemyAI : MonoBehaviour
           {
             //  PlaceWall(heroPos);
           }*/
-        }  yield return null;
+        }
+        yield return null;
     }
     private void PlaceWall(Vector3 pos)
     {
-        Vector3 vector = new Vector3(pos.x+5, pos.y, pos.z);
+        Vector3 vector = new Vector3(pos.x + 5, pos.y, pos.z);
         wall.DropUnit(vector);
     }
     private void HandleGameOver(string winner)
@@ -901,7 +952,7 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator SetLocalFactory()
     {
-        
+
         if (localFactory == null)
         {
             foreach (GameObject factroy in GameObject.FindGameObjectsWithTag("UnitFactory"))
@@ -925,4 +976,3 @@ public class EnemyAI : MonoBehaviour
         //Debug.Log(test);
     }
 }
-

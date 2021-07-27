@@ -23,7 +23,7 @@ public class SpecialAttackManager : NetworkBehaviour
         { "CARDRANKUP",SpecialAttackType.CARDRANKUP },
         { "FIRE",SpecialAttackType.FIRE },
         { "BOMB",SpecialAttackType.BOMB },
-
+        { "DARKNESSRETURN",SpecialAttackType.DARKNESSRETURN },
     };
     void Start()
     {
