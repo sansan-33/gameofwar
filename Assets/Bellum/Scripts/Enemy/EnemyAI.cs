@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using FoW;
 using Mirror;
 using UnityEngine;
 using static SpecialAttackDict;
@@ -100,7 +101,7 @@ public class EnemyAI : MonoBehaviour
         Unit.ClientOnUnitSpawned += UrgentDefend;
         Unit.ClientOnUnitDespawned += Rage;
         InvokeRepeating("HandleSpawnEnemyBackUp", 10, 10);
-        InvokeRepeating("CloseFog", 2, 10);
+        InvokeRepeating(nameof(CloseFog), 10, 10);
     }
     private void OnDestroy()
     {
@@ -714,7 +715,7 @@ public class EnemyAI : MonoBehaviour
         if (localFactory == null) { yield return SetLocalFactory(); }
         if (type == UnitMeta.UnitType.FOOTMAN && mission == 1 && chapter == 1 && cardFace.star == Card_Stars.Silver)
         {
-            StartCoroutine(TheArtOfWar());
+            StartCoroutine(CrossTheSeaByATrick());
         }
 
         Vector3 unitPos = new Vector3(0, 0, 0);
@@ -869,14 +870,23 @@ public class EnemyAI : MonoBehaviour
     }
     private void CloseFog()
     {
-        StartCoroutine(TheArtOfWar());
+        StartCoroutine(CrossTheSeaByATrick());
     }
-    private IEnumerator TheArtOfWar()
+    private IEnumerator CrossTheSeaByATrick()
     {
         //Debug.Log($"VisibilityOfArea = {FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).VisibilityOfArea(new Bounds())}");
-        //Debug.Log("close open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Debug.Log("close open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //Debug.Log($"fog of war = {FoW.FogOfWarTeam.GetTeam(0)}");
-         FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = false;
+         //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = false;
+        foreach(Unit unit in RTSplayer.GetMyUnits())
+        {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
+            {
+                Debug.Log($"change ID of {unit.name}");
+                unit.GetComponent<FogOfWarUnit>().team = 999;
+            }
+               
+        }
         //FoW.FogOfWarTeam FogOfWarTeam = FindObjectOfType<FoW.FogOfWarTeam>();
         //FogOfWarTeam.GetTeams(RTSplayer.GetPlayerID()).updateUnits = false;
         yield return new WaitForSeconds(1f);
@@ -885,7 +895,15 @@ public class EnemyAI : MonoBehaviour
         //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).ManualUpdate(0.1f);
         yield return new WaitForSeconds(5);
         ///Debug.Log("open fog power !!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = true;
+       // FoW.FogOfWarTeam.GetTeam(RTSplayer.GetPlayerID()).updateUnits = true;
+        foreach (Unit unit in RTSplayer.GetMyUnits())
+        {
+            if (unit.unitType != UnitMeta.UnitType.KING && unit.unitType != UnitMeta.UnitType.QUEEN && unit.unitType != UnitMeta.UnitType.HERO && unit.tag.Contains("0"))
+            {
+                unit.GetComponent<FogOfWarUnit>().team = 0;
+            }
+              
+        }
     }
     private IEnumerator SelectWallPos()
     {
