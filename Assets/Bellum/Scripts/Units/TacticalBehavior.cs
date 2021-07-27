@@ -257,12 +257,27 @@ public class TacticalBehavior : MonoBehaviour
         unit.GetUnitMovement().provoke(false);
         if (unit.unitType == UnitMeta.UnitType.ARCHER || unit.unitType == UnitMeta.UnitType.FOOTMAN)
             target = enemyCount == 0 ? "King" + enemyid : "Player" + enemyid;
+        else if (unit.unitType == UnitMeta.UnitType.CAVALRY && unitTypeCount(UnitMeta.UnitType.SIEGE, enemyid) > 0 )
+            target = "Building" + enemyid;
         else
             target = "King" + enemyid;
 
          
         return target;
     }
+
+    private int unitTypeCount(UnitMeta.UnitType targetUnitType, int enemyid)
+    {
+        var count = 0;
+        GameObject[]  myUnits = GameObject.FindGameObjectsWithTag("Player" + enemyid);
+        foreach(GameObject unit in myUnits)
+        {
+            if (unit.GetComponent<Unit>().unitType == targetUnitType)
+                count++;
+        }
+        return count;
+    }
+
     private void SetDefend(int group, BehaviorTree agentTree, GameObject defendObject, int playerid, GameObject king,  Unit unit)
     {
         if (group == (int)BehaviorSelectionType.Hold || group == (int)BehaviorSelectionType.Defend)
