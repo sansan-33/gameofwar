@@ -42,7 +42,7 @@ public class UnitMeta
         HUMANTOWER, HUMANBARRACK, HUMANCATAPULT, UNDEADTOWER, UNDEADBARRACK, UNDEADCATAPULT, ELFTOWER, ELFBARRACK, ELFCATAPULT, GODTOWER, GODBARRACK, GODCATAPULT, DOOR,
         HUMANSPIKETRAP, HUMANSIEGE, UNDEADSPIKETRAP, UNDEADSIEGE, ELFSPIKETRAP, ELFSIEGE, GODSPIKETRAP, GODSIEGE, HUMANBEACON, ELFBEACON, GODBEACON, UNDEADBEACON
     };
-    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, TRAP, QUEEN, BEACON };
+    public enum UnitType { ARCHER, TANK, MAGIC, CAVALRY, FOOTMAN, SIEGE, WALL, TOWER, BARRACK, CATAPULT, HERO, KING, ALL, DOOR, TRAP, QUEEN, BEACON, STUPIDTAPIR };
     public enum UnitSkill { DASH, SHIELD, HEAL, TORNADO, VOLLEY, SLOW, PROVOKE, CHARGE, SNEAK, SCALE, NOTHING, DEFAULT, ARROWRAIN };
     public enum UnitPosition { FORWARD, MIDFIELDER, DEFENDER, GOALIE, WALL, QUEEN, HERO, SECRET };
     public enum Race { HUMAN, UNDEAD, ELF, GOD, ALL };
@@ -54,13 +54,14 @@ public class UnitMeta
     // Target  | Provoke | Door      | Player    |  King    | Building
     //         | Player  | Provoke   | King      |  King    | Door
     //         | King
-    public enum TargetTag { Provoke, Door, Player, King, Building };
+    public enum TargetTag { Provoke, Door, Player, King, Building , Siege};
     public static Dictionary<TargetTag, List<TargetTag>> TargetGroup = new Dictionary<TargetTag, List<TargetTag>>() {
         { TargetTag.Provoke, new List<TargetTag> { TargetTag.Provoke, TargetTag.Player, TargetTag.King } },
         { TargetTag.Door, new List<TargetTag> { TargetTag.Door, TargetTag.Provoke} },
         { TargetTag.Player, new List<TargetTag> { TargetTag.Player, TargetTag.King } },
         { TargetTag.King, new List<TargetTag> { TargetTag.King } },
-        { TargetTag.Building, new List<TargetTag> { TargetTag.Building, TargetTag.Door } }
+        { TargetTag.Building, new List<TargetTag> { TargetTag.Building, TargetTag.Door } },
+         { TargetTag.Siege, new List<TargetTag> { TargetTag.Siege} }
     };
 
     public static Dictionary<UnitType, int> UnitSize = new Dictionary<UnitType, int>() { { UnitType.FOOTMAN, 4 }, { UnitType.ARCHER, 2 } };

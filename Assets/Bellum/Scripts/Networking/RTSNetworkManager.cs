@@ -135,10 +135,13 @@ public class RTSNetworkManager : NetworkManager
             GameObject doorUpperRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z - 15), Quaternion.identity);
             GameObject doorLowerLeftInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.leftDoorPoint.position.x, gameBoardHandlerInstance.leftDoorPoint.position.y, gameBoardHandlerInstance.leftDoorPoint.position.z + 15), Quaternion.identity);
             GameObject doorLowerRightInstance = Instantiate(doorLeftPrefab, new Vector3(gameBoardHandlerInstance.rightDoorPoint.position.x, gameBoardHandlerInstance.rightDoorPoint.position.y, gameBoardHandlerInstance.rightDoorPoint.position.z + 15), Quaternion.identity);
+            GameObject stupidTapir = Instantiate(doorLeftPrefab, new Vector3(Random.Range(34-2,34+2),0.5f, Random.Range(-26 - 2, -26 + 2)), Quaternion.identity);
+            stupidTapir.GetComponent<Unit>().unitType = UnitMeta.UnitType.STUPIDTAPIR;
             NetworkServer.Spawn(doorUpperLeftInstance.gameObject);
             NetworkServer.Spawn(doorUpperRightInstance.gameObject);
             NetworkServer.Spawn(doorLowerLeftInstance.gameObject);
             NetworkServer.Spawn(doorLowerRightInstance.gameObject);
+            NetworkServer.Spawn(stupidTapir.gameObject);
             NetworkServer.Spawn(greatWallInstance.gameObject);
 
             /*

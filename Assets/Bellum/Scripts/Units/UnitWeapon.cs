@@ -172,7 +172,17 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
                     wallController.GateOpen("" + _playerid, enemy.GetComponent<UnitBody>().doorIndex.ToString() );
                 }
             }
+            if(enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.STUPIDTAPIR)
+            {
+                ChangeTag(enemy);
+            }
         }
+    }
+    private void ChangeTag(GameObject enemy)
+    {
+        int ID = tag.Contains("0") ? 0 : 1;
+        Debug.Log($"change tag to {ID }");
+        enemy.tag = "Player" + ID;
     }
     private void KilledEnemy()
     {
