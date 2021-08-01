@@ -169,10 +169,10 @@ public class EnemyAI : MonoBehaviour
             if (localFactory == null) { yield return SetLocalFactory(); }
 
             // Debug.Log($"HandleSpawnnEnemy {cards.Count}");
-            if (enemyBreakWall == false)
+           /* if (enemyBreakWall == false)
             {
                 SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, new Vector3(48, 0, -28));
-            }
+            }*/
             if (chapter == 1 && mission == 3) { StartCoroutine(AttackTapir()); }
             if (canSpawnUnit == true)
             {//Debug.Log("HandleSpawnnEnemy");
@@ -1033,11 +1033,15 @@ public class EnemyAI : MonoBehaviour
             {
                 if(tapir.transform.position.z < halfLine.position.z)
                 {
+                   
                     unitSpawnPos = tapir.transform.position;
+                   // Debug.Log($"{unitSpawnPos} = tapir pos");
                 }
                 else
                 {
+                    //Debug.Log($"{tapir.transform.position} = tapir pos     {halfLine.position} = halfLine pos");
                     unitSpawnPos = halfLine.position;
+                    //Debug.Log($"{unitSpawnPos} = halfLine pos");
                 }
             }
         }

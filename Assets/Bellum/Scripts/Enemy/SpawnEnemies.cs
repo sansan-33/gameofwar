@@ -82,8 +82,12 @@ public class SpawnEnemies : MonoBehaviour
         {
             if (isUnitAlive(UnitMeta.UnitType.MAGIC) < 1)
             {
-                cardStats = userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(race,UnitMeta.UnitType.MAGIC).ToString()];
-                localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.MAGIC, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+                if (StaticClass.Mission != "3" || StaticClass.Chapter != "1")
+                {
+                    cardStats = userCardStatsDict[UnitMeta.GetUnitKeyByRaceType(race, UnitMeta.UnitType.MAGIC).ToString()];
+                    localFactory.CmdSpawnUnit(race, UnitMeta.UnitType.MAGIC, 1, enemyID, cardStats.cardLevel, cardStats.health, cardStats.attack, cardStats.repeatAttackDelay, cardStats.speed, cardStats.defense, cardStats.special, cardStats.specialkey, cardStats.passivekey, teamColor);
+
+                }
             }
             if (isUnitAlive(UnitMeta.UnitType.TANK) < 0)
             {

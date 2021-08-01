@@ -9,7 +9,7 @@ public class StupidTapir : MonoBehaviour
     private Dictionary<int, List<BehaviorTree>> agentBehaviorTreeGroup = new Dictionary<int, List<BehaviorTree>>();
     void Start()
     {
-        借刀殺人();
+
     }
     public void Attack()
     {
@@ -28,10 +28,6 @@ public class StupidTapir : MonoBehaviour
 
            
         }
-    }
-    private void 借刀殺人()
-    {
-        Debug.Log("借刀殺人");
     }
     // Update is called once per frame
     void Update()
