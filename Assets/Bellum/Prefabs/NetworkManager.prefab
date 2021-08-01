@@ -49,9 +49,7 @@ MonoBehaviour:
   runInBackground: 1
   autoStartServerBuild: 1
   serverTickRate: 30
-  serverBatching: 1
-  serverBatchInterval: 0
-  offlineScene: Assets/Bellum/Scenes/Scene_Main_Menu.unity
+  offlineScene: 
   onlineScene: 
   transport: {fileID: 2616846832148046254}
   networkAddress: localhost
@@ -108,7 +106,7 @@ MonoBehaviour:
   - {fileID: 2656945522907152493, guid: 26c87a5b310b5a948bc18b807f887bd6, type: 3}
   - {fileID: 2656945522907152493, guid: 498e2c7db582cbc4ba18a09f5fc8fe96, type: 3}
   - {fileID: 8133252179051372525, guid: 3b5cb65ff6b14408388371f6e60011cb, type: 3}
-  - {fileID: 1239664150971644568, guid: 3cd5308b4e6a3426891d4e1ef58a6fc9, type: 3}
+  - {fileID: 6947259221661263850, guid: cc277c49f47704eb380cfbd51959eb8a, type: 3}
   unitFactoryPrefab: {fileID: 8088222534062158649, guid: d2415ae51e45e4bcbae689336e1e39ec, type: 3}
   gameOverHandlerPrefab: {fileID: 4035699833470688585, guid: 9420570756c60ac4face05b533eb2774, type: 3}
   gameBoardHandlerPrefab: {fileID: 1617644115191324618, guid: 3ff91ecdddf434ef9b9402866119f3f0, type: 3}
@@ -116,6 +114,7 @@ MonoBehaviour:
   doorLeftPrefab: {fileID: 6947259221661263850, guid: 44f512ffe2aa64e7fbe1ce48b2a53bbb, type: 3}
   doorMiddlePrefab: {fileID: 6947259221661263850, guid: 96ee8dc30349e4d65a9c9958d0b9ce68, type: 3}
   doorRightPrefab: {fileID: 6947259221661263850, guid: 5607d8687f45047aaa1d97275abbc823, type: 3}
+  tapirPrefab: {fileID: 6947259221661263850, guid: cc277c49f47704eb380cfbd51959eb8a, type: 3}
 --- !u!114 &2616846832148046254
 MonoBehaviour:
   m_ObjectHideFlags: 0
