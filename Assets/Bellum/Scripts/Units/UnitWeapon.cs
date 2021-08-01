@@ -98,6 +98,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
          
             if (other.TryGetComponent<Health>(out Health health))
             {
+                if(player == null) {player = NetworkClient.connection.identity.GetComponent<RTSPlayer>(); }
+                //Debug.Log($"{player}{GetComponent<NetworkIdentity>()}{other}");
+                //Debug.Log($"{player.GetPlayerID()}{GetComponent<NetworkIdentity>()}{other.GetComponent<NetworkIdentity>()}");
                 opponentIdentity = (player.GetPlayerID() == 1) ? GetComponent<NetworkIdentity>() : other.GetComponent<NetworkIdentity>();
                 //Debug.Log($"Original damage {damageToDeal}, {this.GetComponent<Unit>().unitType} , {other.GetComponent<Unit>().unitType} ");
                 calculatedDamageToDeal = StrengthWeakness.calculateDamage(unit.unitType, other.GetComponent<Unit>().unitType, damageToDeal);
@@ -141,24 +144,30 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
         if (m_Started)
         {
             // cache previous Gizmos settings
-            Gizmos.color = Color.yellow;
-            Gizmos.matrix = transform.localToWorldMatrix;
-            Vector3 boxPosition = attackPoint.transform.position;
-            // convert from world position to local position 
-            boxPosition = transform.InverseTransformPoint(boxPosition);
-            Gizmos.DrawWireCube(boxPosition, weaponSize * attackRange);
-            // restore previous Gizmos settings
-            Gizmos.color = prevColor;
-            Gizmos.matrix = prevMatrix;
+            
+            if (name.Contains("Tapir")) { Gizmos.DrawWireCube(attackPoint.transform.position, weaponSize * attackRange); Gizmos.color = Color.green; } else
+            {
+                Gizmos.color = Color.yellow;
+                Gizmos.matrix = transform.localToWorldMatrix;
+                Vector3 boxPosition = attackPoint.transform.position;
+                // convert from world position to local position 
+                boxPosition = transform.InverseTransformPoint(boxPosition);
+                Gizmos.DrawWireCube(boxPosition, weaponSize * attackRange);
+                // restore previous Gizmos settings
+                Gizmos.color = prevColor;
+                Gizmos.matrix = prevMatrix;
+            }
         }
     }
 
-    [Command]
-    public void CmdDealDamage(GameObject enemy,  float damge, string _playerid)
+    [Command(requiresAuthority = false)]
+    public void CmdDealDamage(GameObject enemy,  float damage, string _playerid)
     {
+
+        
         string color = _playerid == "0" ? "blue" : "red";
         //Debug.Log($"Cmd Deal Damage color : {color} ");
-        if (enemy.GetComponent<Health>().DealDamage(damge)){
+        if (enemy.GetComponent<Health>().DealDamage(damage)){
             KilledEnemy();
             if(enemy.GetComponent<Unit>().unitType == UnitMeta.UnitType.DOOR)
             {

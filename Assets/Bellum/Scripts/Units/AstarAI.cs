@@ -239,7 +239,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         float sneakyOffset = (transform.tag.Contains("Sneaky")) ? 0.1f : 1f;
         //Debug.Log($"AstarAI is collide ?  {isCollided}");
         Vector3 size = name.Contains("Tapir") ? new Vector3(3, 6, 3) : bodySize * sneakyOffset;
-        Debug.Log(size);
+        //Debug.Log(size);
         Collider[] hitColliders = Physics.OverlapBox(GetComponent<Targeter>().GetAimAtPoint().transform.position, size, Quaternion.identity, LayerMask.GetMask("Unit"));
         int i = 0;
         isCollided = false;
@@ -269,7 +269,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
             else // Single player seneriao
             {
                 //Check for either player0 or king0 collide their team member
-                Debug.Log($"Single player seneriao collided {other.tag} {other.name}");
+                ///Debug.Log($"Single player seneriao collided {other.tag} {other.name}");
                 if (other.tag != transform.tag && !other.tag.Contains( playerid) ) {
                     isCollided = true;
                     break;
@@ -281,7 +281,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         }
         if (!isCollided)
             other = null;
-        Debug.Log($"return {isCollided}");
+        //Debug.Log($"return {isCollided}");
         return isCollided;
     }
 
@@ -303,7 +303,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
             }
             else
             {
-                Debug.Log($"{name} server move");
+                //Debug.Log($"{name} server move");
                 ServerMove(position);
             }
         }
