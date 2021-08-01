@@ -62,6 +62,8 @@ public class MainMenu : MonoBehaviour
             GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
             Transform unitBody = Instantiate(unitPrefab.transform.Find("Body"));
             unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
+            unitBody.gameObject.GetComponentInChildren<Animator>().SetBool("DEFEND",true);
+
             unitBody.transform.position = new Vector3(unitPos.x , unitPos.y , unitPos.z - 12);
             unitBody.transform.Rotate(-90,90,90);
             unitBody.transform.localScale = new Vector3(7f, 7f, 7f);
