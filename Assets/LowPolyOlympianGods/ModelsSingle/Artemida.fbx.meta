@@ -1,105 +1,293 @@
 fileFormatVersion: 2
 guid: 4829038a4861fb147a6af0bc5ca7bd72
 ModelImporter:
-  serializedVersion: 22
-  fileIDToRecycleName:
-    100000: Ankle_L
-    100002: Ankle_R
-    100004: //RootNode
-    100006: Ball_L
-    100008: Ball_R
-    100010: Clavicle_L
-    100012: Clavicle_R
-    100014: Elbow_L
-    100016: Elbow_R
-    100018: Eyebrows
-    100020: Eyes
-    100022: Finger_01
-    100024: Finger_01.001
-    100026: Finger_02
-    100028: Finger_02.001
-    100030: Finger_03
-    100032: Finger_03.001
-    100034: Hand_L
-    100036: Hand_R
-    100038: Head
-    100040: Hips
-    100042: IndexFinger_01
-    100044: IndexFinger_01.001
-    100046: IndexFinger_02
-    100048: IndexFinger_02.001
-    100050: IndexFinger_03
-    100052: IndexFinger_03.001
-    100054: LowerLeg_L
-    100056: LowerLeg_R
-    100058: Neck
-    100060: Root
-    100062: Shoulder_L
-    100064: Shoulder_R
-    100066: Spine_01
-    100068: Spine_02
-    100070: Spine_03
-    100072: Thumb_01
-    100074: Thumb_01.001
-    100076: Thumb_02
-    100078: Thumb_02.001
-    100080: UpperLeg_L
-    100082: UpperLeg_R
-    100084: Armature
-    100086: Character_Artemida
-    400000: Ankle_L
-    400002: Ankle_R
-    400004: //RootNode
-    400006: Ball_L
-    400008: Ball_R
-    400010: Clavicle_L
-    400012: Clavicle_R
-    400014: Elbow_L
-    400016: Elbow_R
-    400018: Eyebrows
-    400020: Eyes
-    400022: Finger_01
-    400024: Finger_01.001
-    400026: Finger_02
-    400028: Finger_02.001
-    400030: Finger_03
-    400032: Finger_03.001
-    400034: Hand_L
-    400036: Hand_R
-    400038: Head
-    400040: Hips
-    400042: IndexFinger_01
-    400044: IndexFinger_01.001
-    400046: IndexFinger_02
-    400048: IndexFinger_02.001
-    400050: IndexFinger_03
-    400052: IndexFinger_03.001
-    400054: LowerLeg_L
-    400056: LowerLeg_R
-    400058: Neck
-    400060: Root
-    400062: Shoulder_L
-    400064: Shoulder_R
-    400066: Spine_01
-    400068: Spine_02
-    400070: Spine_03
-    400072: Thumb_01
-    400074: Thumb_01.001
-    400076: Thumb_02
-    400078: Thumb_02.001
-    400080: UpperLeg_L
-    400082: UpperLeg_R
-    400084: Armature
-    400086: Character_Artemida
-    2100000: Alt1
-    2300000: Character_Artemida
-    3300000: Character_Artemida
-    4300000: Character_Artemida
-    9500000: //RootNode
-    13700000: Character_Artemida
+  serializedVersion: 20200
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Ankle_L
+  - first:
+      1: 100002
+    second: Ankle_R
+  - first:
+      1: 100004
+    second: //RootNode
+  - first:
+      1: 100006
+    second: Ball_L
+  - first:
+      1: 100008
+    second: Ball_R
+  - first:
+      1: 100010
+    second: Clavicle_L
+  - first:
+      1: 100012
+    second: Clavicle_R
+  - first:
+      1: 100014
+    second: Elbow_L
+  - first:
+      1: 100016
+    second: Elbow_R
+  - first:
+      1: 100018
+    second: Eyebrows
+  - first:
+      1: 100020
+    second: Eyes
+  - first:
+      1: 100022
+    second: Finger_01
+  - first:
+      1: 100024
+    second: Finger_01.001
+  - first:
+      1: 100026
+    second: Finger_02
+  - first:
+      1: 100028
+    second: Finger_02.001
+  - first:
+      1: 100030
+    second: Finger_03
+  - first:
+      1: 100032
+    second: Finger_03.001
+  - first:
+      1: 100034
+    second: Hand_L
+  - first:
+      1: 100036
+    second: Hand_R
+  - first:
+      1: 100038
+    second: Head
+  - first:
+      1: 100040
+    second: Hips
+  - first:
+      1: 100042
+    second: IndexFinger_01
+  - first:
+      1: 100044
+    second: IndexFinger_01.001
+  - first:
+      1: 100046
+    second: IndexFinger_02
+  - first:
+      1: 100048
+    second: IndexFinger_02.001
+  - first:
+      1: 100050
+    second: IndexFinger_03
+  - first:
+      1: 100052
+    second: IndexFinger_03.001
+  - first:
+      1: 100054
+    second: LowerLeg_L
+  - first:
+      1: 100056
+    second: LowerLeg_R
+  - first:
+      1: 100058
+    second: Neck
+  - first:
+      1: 100060
+    second: Root
+  - first:
+      1: 100062
+    second: Shoulder_L
+  - first:
+      1: 100064
+    second: Shoulder_R
+  - first:
+      1: 100066
+    second: Spine_01
+  - first:
+      1: 100068
+    second: Spine_02
+  - first:
+      1: 100070
+    second: Spine_03
+  - first:
+      1: 100072
+    second: Thumb_01
+  - first:
+      1: 100074
+    second: Thumb_01.001
+  - first:
+      1: 100076
+    second: Thumb_02
+  - first:
+      1: 100078
+    second: Thumb_02.001
+  - first:
+      1: 100080
+    second: UpperLeg_L
+  - first:
+      1: 100082
+    second: UpperLeg_R
+  - first:
+      1: 100084
+    second: Armature
+  - first:
+      1: 100086
+    second: Character_Artemida
+  - first:
+      4: 400000
+    second: Ankle_L
+  - first:
+      4: 400002
+    second: Ankle_R
+  - first:
+      4: 400004
+    second: //RootNode
+  - first:
+      4: 400006
+    second: Ball_L
+  - first:
+      4: 400008
+    second: Ball_R
+  - first:
+      4: 400010
+    second: Clavicle_L
+  - first:
+      4: 400012
+    second: Clavicle_R
+  - first:
+      4: 400014
+    second: Elbow_L
+  - first:
+      4: 400016
+    second: Elbow_R
+  - first:
+      4: 400018
+    second: Eyebrows
+  - first:
+      4: 400020
+    second: Eyes
+  - first:
+      4: 400022
+    second: Finger_01
+  - first:
+      4: 400024
+    second: Finger_01.001
+  - first:
+      4: 400026
+    second: Finger_02
+  - first:
+      4: 400028
+    second: Finger_02.001
+  - first:
+      4: 400030
+    second: Finger_03
+  - first:
+      4: 400032
+    second: Finger_03.001
+  - first:
+      4: 400034
+    second: Hand_L
+  - first:
+      4: 400036
+    second: Hand_R
+  - first:
+      4: 400038
+    second: Head
+  - first:
+      4: 400040
+    second: Hips
+  - first:
+      4: 400042
+    second: IndexFinger_01
+  - first:
+      4: 400044
+    second: IndexFinger_01.001
+  - first:
+      4: 400046
+    second: IndexFinger_02
+  - first:
+      4: 400048
+    second: IndexFinger_02.001
+  - first:
+      4: 400050
+    second: IndexFinger_03
+  - first:
+      4: 400052
+    second: IndexFinger_03.001
+  - first:
+      4: 400054
+    second: LowerLeg_L
+  - first:
+      4: 400056
+    second: LowerLeg_R
+  - first:
+      4: 400058
+    second: Neck
+  - first:
+      4: 400060
+    second: Root
+  - first:
+      4: 400062
+    second: Shoulder_L
+  - first:
+      4: 400064
+    second: Shoulder_R
+  - first:
+      4: 400066
+    second: Spine_01
+  - first:
+      4: 400068
+    second: Spine_02
+  - first:
+      4: 400070
+    second: Spine_03
+  - first:
+      4: 400072
+    second: Thumb_01
+  - first:
+      4: 400074
+    second: Thumb_01.001
+  - first:
+      4: 400076
+    second: Thumb_02
+  - first:
+      4: 400078
+    second: Thumb_02.001
+  - first:
+      4: 400080
+    second: UpperLeg_L
+  - first:
+      4: 400082
+    second: UpperLeg_R
+  - first:
+      4: 400084
+    second: Armature
+  - first:
+      4: 400086
+    second: Character_Artemida
+  - first:
+      21: 2100000
+    second: Alt1
+  - first:
+      23: 2300000
+    second: Character_Artemida
+  - first:
+      33: 3300000
+    second: Character_Artemida
+  - first:
+      43: 4300000
+    second: Character_Artemida
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Character_Artemida
   externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -109,13 +297,15 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Avatar creation failed:\n\tTransform 'Armature.001' not found
+      in HumanDescription.\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -128,23 +318,33 @@ ModelImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 1
-    meshCompression: 0
+    meshCompression: 3
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
@@ -152,10 +352,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human:
     - boneName: Root
       humanName: Hips
@@ -705,14 +908,17 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
