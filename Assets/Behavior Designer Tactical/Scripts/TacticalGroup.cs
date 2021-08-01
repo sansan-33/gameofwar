@@ -484,7 +484,7 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         /// </summary>
         protected void FindAttackTarget()
         {
-           
+            
             //if (tacticalAgent.IsEngaged && tacticalAgent.TargetTransform != null && tacticalAgent.TargetDamagable.IsAlive()) { return; }
             Transform target = null;
             IDamageable damageable = null;
@@ -505,8 +505,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
             }
             else if (tacticalAgent.TargetTransform == null || !tacticalAgent.TargetDamagable.IsAlive())
             {
-                if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && tacticalAgent.transform.tag.Contains("0")  && ISDEBUG)
-                    Debug.Log($"{tacticalAgent.transform.name} searching closest target ");
+                //if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && tacticalAgent.transform.tag.Contains("0")  && ISDEBUG)
+                  
 
                 ClosestTarget(transform, ref target, ref damageable);
                 if (useTargetBone.Value)
@@ -523,8 +523,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 }
                 tacticalAgent.TargetTransform = target;
                 tacticalAgent.TargetDamagable = damageable;
-                if (tacticalAgent.transform.name.ToLower().Contains("archer") && tacticalAgent.transform.tag.Contains("0")  && true )
-                    Debug.Log($"{tacticalAgent.transform.name} Found Attack Target -- ClosestTarget -- {target.name}");
+                if (tacticalAgent.transform.name.ToLower().Contains("tapir")) { }
+                    //Debug.Log($"{tacticalAgent.transform.name} Found Attack Target -- ClosestTarget -- {target.name}");
 
             }
             else {
@@ -538,11 +538,14 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         protected bool MoveToAttackPosition()
         {
             //if (tacticalAgent.transform.name.ToLower().Contains(debugTarget) && ISDEBUG)
-            //    Debug.Log($"{tacticalAgent.transform.name} move to attack position");
+               
 
             FindAttackTarget();
-            if(tacticalAgent.TargetTransform == null) { return false; } 
+            //Debug.Log($"{tacticalAgent.transform.name} move to attack position target is  {tacticalAgent.TargetTransform.name}");
+            if (tacticalAgent.TargetTransform == null) { return false; }
             //if (!tacticalAgent.CanSeeTarget() || Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
+            //if (tacticalAgent.transform.name.Contains("Tapir")) { Debug.Log($"{Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position)} > {tacticalAgent.AttackAgent.AttackDistance()}"); }
+                
             if (Vector3.Distance(tacticalAgent.TargetTransform.position, transform.position) > tacticalAgent.AttackAgent.AttackDistance())
             {
                 tacticalAgent.SetDestination(tacticalAgent.TargetTransform.position);

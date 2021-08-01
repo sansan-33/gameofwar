@@ -181,8 +181,9 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     private void ChangeTag(GameObject enemy)
     {
         int ID = tag.Contains("0") ? 0 : 1;
-        Debug.Log($"change tag to {ID }");
+        //Debug.Log($"change tag to {ID }");
         enemy.tag = "Player" + ID;
+        enemy.name = "StupidTapir";
     }
     private void KilledEnemy()
     {
