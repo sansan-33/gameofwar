@@ -124,7 +124,17 @@ public class Health : NetworkBehaviour, IDamageable
             GetComponent<UnitAnimator>().StateControl(UnitAnimator.AnimState.DIE);
             yield return new WaitForSeconds(3f);
         }
-        ServerOnDie?.Invoke(); // if ServerOnDie not null then invoke
+        if(GetComponent<Unit>().unitType != UnitMeta.UnitType.STUPIDTAPIR)
+        {
+            ServerOnDie?.Invoke();
+        }
+        else
+        {
+            yield return new WaitForSeconds(2);
+            GetComponent<StupidTapir>().Attack();
+            GetComponent<Unit>().unitType = UnitMeta.UnitType.FOOTMAN;
+        }
+         // if ServerOnDie not null then invoke
     }
     public void OnElectricShock(float damageAmount,int electricShockDamage)
     {

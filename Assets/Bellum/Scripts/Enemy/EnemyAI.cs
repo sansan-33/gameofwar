@@ -179,7 +179,7 @@ public class EnemyAI : MonoBehaviour
                 yield return SpawnEnemy();
                 //if (timer <= 0) { localFactory.GetComponent<Player>().dragCardMerge(); }
             }
-
+            //Card(Clone)
             usingCard = true;
             if(closedFog == true) { yield return new WaitForSeconds(2.5f); }
             //yield return SelectWallPos(); 

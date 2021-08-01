@@ -223,6 +223,14 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
     {
         
     }
+    private void OnDrawGizmos()
+    {
+        float sneakyOffset = (transform.tag.Contains("Sneaky")) ? 0.1f : 1f;
+       
+        if (name.Contains("Tapir")) { Gizmos.color = Color.green; }
+        
+        Gizmos.DrawWireCube(GetComponent<Targeter>().GetAimAtPoint().transform.position, new Vector3(3,6,3));
+    }
     public bool isCollide()
     {
         //if (isProvoked) return false;
@@ -230,7 +238,9 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
 
         float sneakyOffset = (transform.tag.Contains("Sneaky")) ? 0.1f : 1f;
         //Debug.Log($"AstarAI is collide ?  {isCollided}");
-        Collider[] hitColliders = Physics.OverlapBox(GetComponent<Targeter>().GetAimAtPoint().transform.position, bodySize * sneakyOffset, Quaternion.identity, LayerMask.GetMask("Unit"));
+        Vector3 size = name.Contains("Tapir") ? new Vector3(3, 6, 3) : bodySize * sneakyOffset;
+        Debug.Log(size);
+        Collider[] hitColliders = Physics.OverlapBox(GetComponent<Targeter>().GetAimAtPoint().transform.position, size, Quaternion.identity, LayerMask.GetMask("Unit"));
         int i = 0;
         isCollided = false;
         if(playerid == "-1")
@@ -259,7 +269,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
             else // Single player seneriao
             {
                 //Check for either player0 or king0 collide their team member
-                //Debug.Log($"Single player seneriao collided {other.tag}");
+                Debug.Log($"Single player seneriao collided {other.tag} {other.name}");
                 if (other.tag != transform.tag && !other.tag.Contains( playerid) ) {
                     isCollided = true;
                     break;
@@ -271,6 +281,7 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         }
         if (!isCollided)
             other = null;
+        Debug.Log($"return {isCollided}");
         return isCollided;
     }
 
@@ -290,6 +301,11 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
             {
                 CmdMove(position);
             }
+            else
+            {
+                Debug.Log($"{name} server move");
+                ServerMove(position);
+            }
         }
     }
 
@@ -303,6 +319,10 @@ public class AstarAI : NetworkBehaviour, IUnitMovement
         if (hasAuthority)
         {
             CmdRotate(targetRotation);
+        }
+        else
+        {
+            ServerRotate(targetRotation);
         }
     }
 

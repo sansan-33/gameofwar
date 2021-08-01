@@ -425,13 +425,20 @@ public class TacticalBehavior : MonoBehaviour
     public string GetTacticalStatus()
     {
         List<Unit> troops = GetAllTroops(PLAYERID);
+        List<Unit> stupidTapirUnits = new List<Unit>();
+        StupidTapir[] stupidTapirs = FindObjectsOfType<StupidTapir>();
+        foreach(StupidTapir stupidTapir in stupidTapirs)
+        {
+            stupidTapirUnits.Add(stupidTapir.GetComponent<Unit>());
+        }
         troops.AddRange(GetAllTroops(ENEMYID));
+        troops.AddRange(stupidTapirUnits);
         var sb = new System.Text.StringBuilder();
         foreach (Unit army in troops) {
             if(army.TryGetComponent<AstarAI>(out AstarAI ai))
                 sb.Append( String.Format("{0} \t {1} \n", army.name.PadRight(15), army.GetTaskStatus().text )) ;
         }
-        //return sb.ToString();
+        return sb.ToString();
         return "";
     }
     public List<Unit> GetAllTroops(int id)
