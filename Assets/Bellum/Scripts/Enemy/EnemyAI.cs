@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     private enum Position { left, right, centre };
     private int mission;
     private int chapter;
+    private Vector3 unitSpawnPos;
     public bool closedFog = false;
     private float progressImageVelocity;
     [SerializeField] private bool dragCard = true;
@@ -172,6 +173,7 @@ public class EnemyAI : MonoBehaviour
             {
                 SpawnSpesificUnit(UnitMeta.UnitType.FOOTMAN, new Vector3(48, 0, -28));
             }
+            if (chapter == 1 && mission == 3) { StartCoroutine(AttackTapir()); }
             if (canSpawnUnit == true)
             {//Debug.Log("HandleSpawnnEnemy");
                 yield return SelectCard(true);
@@ -271,7 +273,8 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (localFactory == null) { yield return SetLocalFactory(); }
                     int type = (int)nextCard.cardFace.numbers % Enum.GetNames(typeof(UnitMeta.UnitType)).Length;
-                    SpawnUnit(unit.transform.position, nextCard, (UnitMeta.UnitType)type);
+                    if (unitSpawnPos == Vector3.zero) { unitSpawnPos = unit.transform.position; }
+                    SpawnUnit( nextCard, (UnitMeta.UnitType)type);
                     canSpawnUnit = true;
                     savingCardForDefend = false;
                 }
@@ -337,11 +340,13 @@ public class EnemyAI : MonoBehaviour
                 {
                     if (pos == Vector3.zero)
                     {
-                        SpawnUnit(GameObject.FindGameObjectWithTag("King1").transform.position, card, (UnitMeta.UnitType)type);
+                        if(unitSpawnPos == Vector3.zero) { unitSpawnPos = GameObject.FindGameObjectWithTag("King1").transform.position; }
+                        SpawnUnit( card, (UnitMeta.UnitType)type);
                     }
                     else
                     {
-                        SpawnUnit(pos, card, (UnitMeta.UnitType)type);
+                        if (unitSpawnPos == Vector3.zero) { unitSpawnPos = pos; }
+                        SpawnUnit( card, (UnitMeta.UnitType)type);
                     }
                 }
 
@@ -788,23 +793,27 @@ public class EnemyAI : MonoBehaviour
         {
             unitPos = new Vector3(48, 0, -28);
         }
-        SpawnUnit(unitPos, card, type);
+        if(unitSpawnPos == Vector3.zero)
+        {
+            unitSpawnPos = unitPos;
+        }
+       
+        SpawnUnit(card, type);
         yield return null;
     }
-    private void SpawnUnit(Vector3 unitPos, Card card, UnitMeta.UnitType type)
+    private void SpawnUnit( Card card, UnitMeta.UnitType type)
     {
-        Debug.Log(unitPos);
         if (closedFog == true)
         {
             float xFactor = UnityEngine.Random.Range(-5, 5);
             float yFactor = UnityEngine.Random.Range(-5, 5);
             float zFactor = UnityEngine.Random.Range(-5, 5);
-            unitPos = new Vector3(unitPos.x + xFactor, unitPos.y + yFactor, unitPos.z+ zFactor);
+            unitSpawnPos = new Vector3(unitSpawnPos.x + xFactor, unitSpawnPos.y + yFactor, unitSpawnPos.z+ zFactor);
         }
         CardFace cardFace = card.cardFace;
         if (!UnitMeta.UnitSize.TryGetValue((UnitMeta.UnitType)type, out int unitsize)) { unitsize = 1; }
         FindObjectOfType<TotalEleixier>().enemyEleixer -= card.GetUnitElexier();
-        localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
+        localFactory.CmdDropUnit(RTSplayer.GetEnemyID(), unitSpawnPos, StaticClass.enemyRace, (UnitMeta.UnitType)type, ((UnitMeta.UnitType)type).ToString(), unitsize, cardFace.stats.cardLevel,
             cardFace.stats.health * (int)statUpFactor, cardFace.stats.attack * (int)statUpFactor, cardFace.stats.repeatAttackDelay, cardFace.stats.speed, cardFace.stats.defense * (int)statUpFactor, cardFace.stats.special, cardFace.stats.specialkey,
             cardFace.stats.passivekey, (int)cardFace.star + 1, RTSplayer.GetTeamEnemyColor(), Quaternion.identity);
         card.enemyCard = false;
@@ -812,7 +821,7 @@ public class EnemyAI : MonoBehaviour
         //cards.Remove(card);
         enemyPlayer.moveCard(card.cardPlayerHandIndex);
         cardDealer.Hit(true);
-
+        unitSpawnPos = Vector3.zero;
         // }
 
         // StartCoroutine(TheArtOfWar());
@@ -1012,5 +1021,25 @@ public class EnemyAI : MonoBehaviour
         if(beacon  == Vector3.zero) { return; }
         SpawnSpesificUnit(UnitMeta.UnitType.SIEGE, new Vector3(beacon.x,beacon.y, halfLine.position.z));
         Debug.Log($"spawn unit in { new Vector3(beacon.x, beacon.y, halfLine.position.z)}");
+    }
+
+    private IEnumerator AttackTapir()
+    {
+        yield return new WaitForSeconds(10);
+        StupidTapir tapir = null;
+        if (tapir = FindObjectOfType<StupidTapir>())
+        {
+            if(tapir.GetComponent<Unit>().unitType == UnitMeta.UnitType.STUPIDTAPIR)
+            {
+                if(tapir.transform.position.z < halfLine.position.z)
+                {
+                    unitSpawnPos = tapir.transform.position;
+                }
+                else
+                {
+                    unitSpawnPos = halfLine.position;
+                }
+            }
+        }
     }
 }

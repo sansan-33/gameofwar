@@ -96,6 +96,25 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &2358274707764297785
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6947259221661263850}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: bfa1b60e86929334f8c90f62a49a9307, type: 3}
+  m_Controller: {fileID: 22100000, guid: f4857c995b80341b796dc84c0b9f1b39, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-518783207453019905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,7 +142,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clientAuthority: 0
-  animator: {fileID: 5079738831998242180}
+  animator: {fileID: 8705866261878925030, guid: 0ce1ae312268442f89ba4e0ed3c5d1f7, type: 3}
 --- !u!114 &3850201406701151160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,11 +314,6 @@ PrefabInstance:
       objectReference: {fileID: 9100000, guid: 6a6aef3f70bc247bba2eaa1ff9870f36, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0411bbd6c1ad5b84084f7036ccec0aba, type: 3}
---- !u!95 &5079738831998242180 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 7514147749363510567, guid: 0411bbd6c1ad5b84084f7036ccec0aba, type: 3}
-  m_PrefabInstance: {fileID: 3330770490449961123}
-  m_PrefabAsset: {fileID: 0}
 --- !u!23 &8686240830507923061 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6247332840379553494, guid: 0411bbd6c1ad5b84084f7036ccec0aba, type: 3}
@@ -343,11 +357,11 @@ PrefabInstance:
     - target: {fileID: 720658289876782571, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: anim
       value: 
-      objectReference: {fileID: 5079738831998242180}
+      objectReference: {fileID: 2358274707764297785}
     - target: {fileID: 720658289876782571, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: networkAnim
       value: 
-      objectReference: {fileID: 1834587705506309338}
+      objectReference: {fileID: 1045411852272175993, guid: 0ce1ae312268442f89ba4e0ed3c5d1f7, type: 3}
     - target: {fileID: 1014293119696515951, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: radius
       value: 0.5
