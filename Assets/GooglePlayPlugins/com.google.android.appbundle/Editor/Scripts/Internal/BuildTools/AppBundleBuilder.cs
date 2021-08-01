@@ -680,6 +680,8 @@ namespace Google.Android.AppBundle.Editor.Internal.BuildTools
             var splitBaseDestination = GetDestinationSubdirectory(splitBaseDirectory);
             var splitBaseAssetsPath = Path.Combine(splitBaseDestination.FullName, AssetsDirectoryName);
             baseAssetsDirectories[0].MoveTo(splitBaseAssetsPath);
+            var managedDirInfo = Directory.CreateDirectory(Path.Combine(baseDestination.FullName, "assets/bin/Data/Managed"));
+            File.Create(Path.Combine(managedDirInfo.FullName, ".keep_folder")).Close();
             return null;
         }
 
