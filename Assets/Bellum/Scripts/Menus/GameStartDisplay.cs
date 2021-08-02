@@ -26,7 +26,7 @@ public class GameStartDisplay : NetworkBehaviour
     private double startTimer = 3;
     bool IS_PLAYER_LOADED = false;
     RTSPlayer player;
-    double SPEEPUPTIME = 60; // will speed up eleixier recovery after 10s
+    double SPEEPUPTIME = 360; // will speed up eleixier recovery after 60s
     bool ISSPEEDUP = false;
     double offset=0;
     double now=0;

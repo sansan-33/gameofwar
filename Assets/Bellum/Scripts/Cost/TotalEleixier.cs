@@ -60,7 +60,7 @@ public class TotalEleixier : MonoBehaviour
     public void speedUpEleixier()
     {
         if (IS_SPEEDUP) { return; }
-        maxEleixerTimer = maxEleixerTimer / 3f;
+        maxEleixerTimer = maxEleixerTimer / 2f;
         eleixerSpeed.text = "X 3";
         IS_SPEEDUP = true;
     }
