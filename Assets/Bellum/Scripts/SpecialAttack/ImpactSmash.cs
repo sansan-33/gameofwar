@@ -87,9 +87,9 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
                 }
                 break;
             case SpecialAttackDict.SpecialAttackType.DARKNESSRETURN:
-                //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetEnemyID()).updateAutomatically = false;
-                //FoW.FogOfWarTeam.GetTeam(RTSplayer.GetEnemyID()).SetAll();
-                FindObjectOfType<EnemyAI>().FogCloseded();
+                StartCoroutine(FindObjectOfType<EnemyAI>().FogCloseded());
+                Vector3 pos = GameObject.FindGameObjectWithTag("King" + RTSplayer.GetEnemyID()).transform.position;
+                specialAttackManager.SpawnPrefab(new Vector3(pos.x, pos.y+5, pos.z), SpecialAttackType.ToString(), false);
                 break;
         }
     }

@@ -30,6 +30,7 @@ public class SpButtonManager : MonoBehaviour
     [SerializeField] GameObject cardRankUpPrefab;
     [SerializeField] GameObject firePrefab;
     [SerializeField] GameObject bombPrefab;
+    [SerializeField] GameObject blindPrefab;
     [SerializeField] private Transform spPrefabParent;
     public Dictionary<SpecialAttackType, GameObject> SpecialAttackPrefab = new Dictionary<SpecialAttackType, GameObject>();
 
@@ -72,6 +73,7 @@ public class SpButtonManager : MonoBehaviour
         SpecialAttackPrefab.Add(SpecialAttackType.CARDRANKUP, cardRankUpPrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.FIRE, firePrefab);
         SpecialAttackPrefab.Add(SpecialAttackType.BOMB, bombPrefab);
+        SpecialAttackPrefab.Add(SpecialAttackType.DARKNESSRETURN, blindPrefab);
     }
 
     private void Start()
@@ -340,7 +342,7 @@ public class SpButtonManager : MonoBehaviour
             spType = SpecialAttackType.BOMB;
         }*/
 
-        //spType = SpecialAttackType.DARKNESSRETURN;
+        spType = SpecialAttackType.DARKNESSRETURN;
 
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);

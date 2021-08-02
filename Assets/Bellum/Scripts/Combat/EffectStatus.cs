@@ -103,6 +103,7 @@ public class EffectStatus : NetworkBehaviour
     {
         if (tag.ToLower().Contains("king"))
             ClientOnEffectUpdated?.Invoke(playerID, UnitMeta.EffectType.SPEED, newValue);
+        //Debug.Log($"{name} get slow old {oldValue} new {newValue}");
         if(newValue > oldValue)
         {
             //Instantiate(speedPrefab, transform);

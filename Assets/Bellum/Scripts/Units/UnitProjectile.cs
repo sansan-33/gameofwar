@@ -243,6 +243,8 @@ public class UnitProjectile : NetworkBehaviour
         switch (element)
         {
             case ElementalDamage.Element.ELECTRIC:
+                EffectStatus effectStatus = other.GetComponent<EffectStatus>();
+                effectStatus.SetEffect("SPEED", effectStatus.speed - 0.5f);
                 other.GetUnitPowerUp().CmdSpeedUp(-0.5f, true);
                 break;
         }
