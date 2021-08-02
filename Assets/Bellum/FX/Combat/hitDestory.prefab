@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9217189728220818601}
   - component: {fileID: 9217189728220818603}
   - component: {fileID: 9217189728220818600}
+  - component: {fileID: 5852765642221823993}
   m_Layer: 0
   m_Name: eff_smoke_02
   m_TagString: Untagged
@@ -4838,7 +4839,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: b1037945666e1904190e73f9b7a534a5, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4884,6 +4884,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &5852765642221823993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217189728220818606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnlyDeactivate: 0
+  aliveTime: 1
+  destroy: 0
 --- !u!1 &9217189728285745496
 GameObject:
   m_ObjectHideFlags: 0
@@ -4895,6 +4910,7 @@ GameObject:
   - component: {fileID: 9217189728285745499}
   - component: {fileID: 9217189728285745509}
   - component: {fileID: 9217189728285745498}
+  - component: {fileID: 2572346749656228595}
   m_Layer: 0
   m_Name: eff_path_07
   m_TagString: Untagged
@@ -9713,7 +9729,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 0f4d3a2c40c5d3647a8b439b1b8f82b3, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9759,6 +9774,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &2572346749656228595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217189728285745496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnlyDeactivate: 0
+  aliveTime: 1
+  destroy: 0
 --- !u!1 &9217189728998709237
 GameObject:
   m_ObjectHideFlags: 0
@@ -9819,6 +9849,7 @@ GameObject:
   - component: {fileID: 9217189729082457230}
   - component: {fileID: 9217189729082457224}
   - component: {fileID: 9217189729082457225}
+  - component: {fileID: 3158924318814918399}
   m_Layer: 0
   m_Name: eff_path_02
   m_TagString: Untagged
@@ -14655,7 +14686,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 7ff3922a5ed9a91408e36fed2b960cc2, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14701,6 +14731,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3158924318814918399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217189729082457231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnlyDeactivate: 0
+  aliveTime: 1
+  destroy: 0
 --- !u!1 &9217189729085998783
 GameObject:
   m_ObjectHideFlags: 0
@@ -14747,6 +14792,7 @@ GameObject:
   - component: {fileID: 9217189729472350172}
   - component: {fileID: 9217189729472350174}
   - component: {fileID: 9217189729472350175}
+  - component: {fileID: 8191922521277454149}
   m_Layer: 0
   m_Name: eff_glow_02
   m_TagString: Untagged
@@ -19610,7 +19656,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ddb46b4126ae74e4a86de1277af53659, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19656,6 +19701,21 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8191922521277454149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217189729472350173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnlyDeactivate: 0
+  aliveTime: 1
+  destroy: 0
 --- !u!1 &9217189729563232866
 GameObject:
   m_ObjectHideFlags: 0
@@ -19667,6 +19727,7 @@ GameObject:
   - component: {fileID: 9217189729563232877}
   - component: {fileID: 9217189729563232879}
   - component: {fileID: 9217189729563232876}
+  - component: {fileID: 7229435764707348367}
   m_Layer: 0
   m_Name: eff_glow_03
   m_TagString: Untagged
@@ -24485,7 +24546,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: ea53513ca9ec8d6409916da330694fef, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24531,3 +24591,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &7229435764707348367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217189729563232866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnlyDeactivate: 0
+  aliveTime: 1
+  destroy: 0
