@@ -80,7 +80,7 @@ public class GameOverDisplay : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("Scene_Main_Menu");
+            SceneManager.LoadScene("Scene_Lobby");
             //NetworkManager.singleton.offlineScene = "Scene_Main_Menu";
             NetworkManager.singleton.StopClient();
         }
