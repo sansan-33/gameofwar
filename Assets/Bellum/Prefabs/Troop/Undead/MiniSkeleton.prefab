@@ -106,7 +106,7 @@ Animator:
   m_GameObject: {fileID: 7815172197941435234}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 4805573c9a2ef8947a41f5b8000b2221, type: 3}
-  m_Controller: {fileID: 22100000, guid: be566bff68f694f0fb4dc4f51a383107, type: 2}
+  m_Controller: {fileID: 22100000, guid: 486f67a141e9d48038bd481819050268, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -261,9 +261,17 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2975106368469557397, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4013354438904151874, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
       propertyPath: m_Name
       value: ShieldSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 4615995091409874369, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4706346506508035993, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
       propertyPath: m_LocalScale.x
@@ -276,6 +284,10 @@ PrefabInstance:
     - target: {fileID: 4706346506508035993, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413356698869989767, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6904109133639217763, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
       propertyPath: m_RootOrder
@@ -370,6 +382,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1337363821014112851, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1430969508781407035, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_AssetId
       value: 
@@ -389,6 +405,10 @@ PrefabInstance:
     - target: {fileID: 2278323069818987186, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375256506939492706, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2460804451879552006, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Name
