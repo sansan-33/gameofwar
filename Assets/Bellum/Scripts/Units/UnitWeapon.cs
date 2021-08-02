@@ -226,6 +226,7 @@ public class UnitWeapon : NetworkBehaviour, IAttackAgent, IAttack
     [Command]
     private void cmdSpecialEffect(Vector3 position  )
     {
+        Debug.Log($"{name } instabtiate {specialEffectPrefab}");
         GameObject effect = Instantiate(specialEffectPrefab,  position, Quaternion.Euler(new Vector3(0, 0, 0)));
         NetworkServer.Spawn(effect, connectionToClient);
     }

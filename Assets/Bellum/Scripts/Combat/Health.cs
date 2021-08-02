@@ -94,6 +94,7 @@ public class Health : NetworkBehaviour, IDamageable
             damageAmount -= defense;
             if (damageAmount > 0)
             {
+                //if (name.Contains("Tapir")) { Debug.Log($"tapir get hit {damageAmount} health is {currentHealth}"); }
                 damageAmount = (int)damageAmount;
                 currentHealth = Mathf.Max(currentHealth - damageAmount, 0);
                 StaticHealthUpdated?.Invoke(gameObject, currentHealth,maxHealth);
@@ -126,12 +127,14 @@ public class Health : NetworkBehaviour, IDamageable
         }
         if(GetComponent<Unit>().unitType != UnitMeta.UnitType.STUPIDTAPIR)
         {
+            Debug.Log($"{name} died");
             ServerOnDie?.Invoke();
         }
         else
         {
             yield return new WaitForSeconds(2);
             GetComponent<StupidTapir>().Attack();
+            currentHealth = maxHealth*5;
             GetComponent<Unit>().unitType = UnitMeta.UnitType.FOOTMAN;
         }
          // if ServerOnDie not null then invoke
