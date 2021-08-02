@@ -106,12 +106,17 @@ Animator:
   m_GameObject: {fileID: 8574794660724119623}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0ee768bfc7c24b5469d019dc7fa28d97, type: 3}
-  m_Controller: {fileID: 22100000, guid: 7c970a3a5e08c499886fc8e77b0eeb73, type: 2}
+  m_Controller: {fileID: 22100000, guid: 486f67a141e9d48038bd481819050268, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Hips'\n\tTransform 'Lower_Arm_L'\n\tTransform
+    'Upper_Arm_R'\n\tTransform 'Lower_Leg_L'\n\tTransform 'Head'\n\tTransform 'Spine'\n\tTransform
+    'Upper_Leg_L'\n\tTransform 'Upper_Reg_R'\n\tTransform 'Upper_Arm_L'\n\tTransform
+    'Hand_L'\n\tand more ...\n\tFrom animation clip 'ATTACK2'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -285,6 +290,14 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1337363821014112851, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
+    - target: {fileID: 1337363821014112851, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
     - target: {fileID: 1430969508781407035, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_AssetId
       value: 
@@ -309,6 +322,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 3.19
       objectReference: {fileID: 0}
+    - target: {fileID: 2375256506939492706, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
+    - target: {fileID: 2375256506939492706, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
     - target: {fileID: 2460804451879552006, guid: cb8d23f56e2ad4e64bc8eac535a3008f, type: 3}
       propertyPath: m_Name
       value: Giant
@@ -768,9 +789,21 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2975106368469557397, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4013354438904151874, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
       propertyPath: m_Name
       value: ShieldSkill
+      objectReference: {fileID: 0}
+    - target: {fileID: 4615995091409874369, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6413356698869989767, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6904109133639217763, guid: d5bff9e88bf6c454bad0ad29aa7ec30e, type: 3}
       propertyPath: m_RootOrder
