@@ -15,7 +15,7 @@ public class UnitLasar : NetworkBehaviour, IAttackAgent, IAttack
     [SerializeField] private float fireRange = 300f;
     [SerializeField] private float rotationSpeed = 100f;
     [SerializeField] private LineRenderer lasar;
-
+    [SerializeField] private GameObject lasarEnd;
     private float lastFireTime;
     public int damageToDeal;
     private int damageToDealOrginol;
@@ -84,7 +84,12 @@ public class UnitLasar : NetworkBehaviour, IAttackAgent, IAttack
         if (sneakyFootman != null && sneakyFootman.Length > 0)
             targets.AddRange(sneakyFootman.ToList());
         //Debug.Log($"AUTO Unit Firing ClosestTarget {targets.Count} ");
-        if (targets.Count == 0) { return null; }
+        if (targets.Count == 0)
+        {
+            lasar.enabled = false;
+            lasarEnd.SetActive(false);
+            return null;
+        }
         for (int i = targets.Count - 1; i > -1; --i)
         {
             if (targets[i].GetComponent<Health>().IsAlive())
@@ -109,6 +114,8 @@ public class UnitLasar : NetworkBehaviour, IAttackAgent, IAttack
         lasar.enabled = true;
         lasar.SetPosition(0, projectileSpawnPoint.position);
         lasar.SetPosition(1, targetPosition);
+        lasarEnd.SetActive(true);
+        lasarEnd.transform.position = targetPosition;
         //Debug.Log($"target = {target} last tar = {lastTarget}");
         if (target != null)
         {
@@ -123,7 +130,11 @@ public class UnitLasar : NetworkBehaviour, IAttackAgent, IAttack
                 damageToDeal = damageToDealOrginol;
             }
             //Debug.Log($"deal{damageToDeal}");
-            target.GetComponent<Health>().DealDamage(damageToDeal);
+            if (target.GetComponent<Health>().DealDamage(damageToDeal))
+            {
+                lasar.enabled = false;
+                lasarEnd.SetActive(false);
+            }
         }
         /*int arrowIndex = 0;
         if (TryGetComponent(out CardStats cardStats))
@@ -218,6 +229,7 @@ public class UnitLasar : NetworkBehaviour, IAttackAgent, IAttack
     }
     private void FireLasar(GameObject target)
     {
+        if (target == null) { return; }
         UnitAnimator.AnimState animState = UnitAnimator.AnimState.ATTACK;
         lastAttackTime = Time.time;
         var localDistance = (target.GetComponent<Targeter>().GetAimAtPoint().position - transform.position).sqrMagnitude;
