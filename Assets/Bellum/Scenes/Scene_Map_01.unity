@@ -72456,7 +72456,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 1.01
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -72513,13 +72513,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1250910356}
-  m_LocalRotation: {x: 0.8689631, y: -0.20146894, z: -0.07783468, w: 0.44525853}
+  m_LocalRotation: {x: 0.8599957, y: -0.16441867, z: -0.10852638, w: 0.47073978}
   m_LocalPosition: {x: 41.2, y: 3, z: 18.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 34
-  m_LocalEulerAnglesHint: {x: 407.94202, y: 928.018, z: -501.233}
+  m_LocalEulerAnglesHint: {x: 410.713, y: 932.633, z: -502.557}
 --- !u!1001 &1253748835
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97779,7 +97779,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -97814,9 +97814,9 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 50
+  field of view: 138
   orthographic: 1
-  orthographic size: 45
+  orthographic size: 50
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -97881,8 +97881,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745352323}
-  m_LocalRotation: {x: 0, y: -0.86602545, z: 0.49999994, w: 0}
-  m_LocalPosition: {x: 35.5, y: 80.88, z: 19.6}
+  m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalPosition: {x: 36.67, y: 82.44401, z: -71.06466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -117486,6 +117486,7 @@ MonoBehaviour:
   cardRankUpPrefab: {fileID: 0}
   firePrefab: {fileID: 0}
   bombPrefab: {fileID: 0}
+  blindPrefab: {fileID: 0}
   spPrefabParent: {fileID: 0}
   EnemyButtonOffSet: 0
   buttonOffSet: 200
