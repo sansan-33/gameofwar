@@ -40,7 +40,7 @@ Animator:
   m_GameObject: {fileID: 8133252179051372525}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 32a2b6e1fe4f8478e9dbf183d2914bdc, type: 2}
+  m_Controller: {fileID: 9100000, guid: 8fa3a174e44609448aebd010c6a7256f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -232,7 +232,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   networkAnim: {fileID: 7787812190307891898}
-  anim: {fileID: 0}
+  anim: {fileID: 2897879146200637902}
   audioSource: {fileID: 0}
   isAttacking: 0
 --- !u!114 &8849343054601534573
@@ -608,6 +608,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -3.09
       objectReference: {fileID: 0}
+    - target: {fileID: 2919108087724791906, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
+    - target: {fileID: 2919108087724791906, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
+    - target: {fileID: 3392415202913423972, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
+    - target: {fileID: 3392415202913423972, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2180264, guid: 174ff0cf1e1144c2aaf312a7a27abbbe, type: 2}
     - target: {fileID: 6818829978409247731, guid: 7ce718c9d8abed0428d8a6278b0970a4, type: 3}
       propertyPath: m_AssetId
       value: 3b5cb65ff6b14408388371f6e60011cb
