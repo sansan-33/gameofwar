@@ -29,6 +29,10 @@ public class EnemyAI : MonoBehaviour
     private Vector3 unitSpawnPos;
     public bool closedFog = false;
     private float progressImageVelocity;
+
+
+    private bool usedFire;
+
     [SerializeField] private bool dragCard = true;
     [SerializeField] private float cardSizeUpFactor = 0.625f;
     [SerializeField] private TacticalBehavior TB;
@@ -73,7 +77,7 @@ public class EnemyAI : MonoBehaviour
         {"1,2",SpecialAttackType.FIRE},
         {"1,3",SpecialAttackType.FIRE},
         {"1,4",SpecialAttackType.FIRE},
-        {"1,5",SpecialAttackType.FIRE},
+        {"1,5",SpecialAttackType.BOMB},
         {"2,1",SpecialAttackType.FIRE},
         {"2,2",SpecialAttackType.FIRE},
         {"2,3",SpecialAttackType.FIRE},
@@ -856,7 +860,23 @@ public class EnemyAI : MonoBehaviour
             //foreach (SpecialAttackType _specialAttackType in specialAttackTypes)
             //{
             //Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} ==");
-            SpStartergy.TryGetValue(chapter.ToString() + "," + mission.ToString(), out SpecialAttackType specialAttackType);
+            SpecialAttackType specialAttackType = SpecialAttackType.FIRE;
+            if (mission== 5 && chapter == 1)
+            {
+                if (usedFire == true)
+                {
+                    specialAttackType = SpecialAttackType.BOMB;
+                }
+                else
+                {
+                    specialAttackType = SpecialAttackType.FIRE;
+                }
+            }
+            else
+            {
+                SpStartergy.TryGetValue(chapter.ToString() + "," + mission.ToString(), out  specialAttackType);
+            }
+         
             if (impact.GetSpecialAttackType() == specialAttackType&& impact.enemySp == true)
             {
                 //Debug.Log("Sp type == fire");

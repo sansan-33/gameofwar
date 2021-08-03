@@ -342,7 +342,7 @@ public class SpButtonManager : MonoBehaviour
             spType = SpecialAttackType.BOMB;
         }*/
 
-        spType = SpecialAttackType.DARKNESSRETURN;
+        //spType = SpecialAttackType.DARKNESSRETURN;
 
 
         var impectSmash = Instantiate(impectSmashPrefab, button.transform);

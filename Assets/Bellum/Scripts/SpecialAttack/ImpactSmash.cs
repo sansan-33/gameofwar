@@ -18,11 +18,13 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     private GameObject dragCircle;
     private RTSPlayer RTSplayer;
     private PlayerGround playerGround;
-    private SpecialAttackDict.SpecialAttackType SpecialAttackType;
+    public SpecialAttackDict.SpecialAttackType SpecialAttackType;
     private SpecialAttackManager specialAttackManager;
     private int key = 0;
     private GreatWallController wallController;
     private CinemachineManager cmManager;
+    public string unitName;
+    public string unitTag;
     private Unit parentUnit;
     private int cost = 3;
     private float progressUnitVelocity;
@@ -39,6 +41,8 @@ public class ImpactSmash : MonoBehaviour,ISpecialAttack, IDragHandler, IBeginDra
     public void SetUnit(Unit unit)
     {
         parentUnit = unit;
+        unitName = unit.name;
+        unitTag = unit.tag;
     }
     public void SetSpecialAttackType(SpecialAttackDict.SpecialAttackType type)
     {

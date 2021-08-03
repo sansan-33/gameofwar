@@ -57,7 +57,16 @@ public class SpawnEnemies : MonoBehaviour
     IEnumerator HandleLoadEnemies()
     {
         CardStats cardStats;
-        UnitMeta.Race race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
+        UnitMeta.Race race;
+        if (StaticClass.Chapter == "1"&&StaticClass.Mission == "5")
+        {
+            race = UnitMeta.Race.ELF;
+        }
+        else
+        {
+            race = StaticClass.Chapter == null ? UnitMeta.Race.ELF : (UnitMeta.Race)Enum.Parse(typeof(UnitMeta.Race), (int.Parse(StaticClass.Chapter) - 1).ToString());
+        }
+     
 
         if (isUnitAlive(UnitMeta.UnitType.KING) < 1)
         {

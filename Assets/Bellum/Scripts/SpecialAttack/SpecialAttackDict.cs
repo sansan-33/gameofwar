@@ -8,7 +8,9 @@ public class SpecialAttackDict : MonoBehaviour
     [SerializeField] public Sprite[] childSprite;
 
     //Remember when you adda new type, you need to add it to the dictionary below and SpecialAttackManager.SpecialAttackTypeStringKey  
-    public enum SpecialAttackType { SLASH, SHIELD, STUNO, LIGHTNING, ICE, METEOR, FIREARROW, TORNADO, ZAP, FREEZE, STUN, REMOVEGAUGE, GRAB, CARDRANKUP, FIRE, BOMB, DARKNESSRETURN};
+    public enum SpecialAttackType { SLASH, SHIELD, STUNO, LIGHTNING, ICE,
+        //New
+        METEOR, FIREARROW, TORNADO, ZAP, FREEZE, STUN, REMOVEGAUGE, GRAB, CARDRANKUP, FIRE, BOMB, DARKNESSRETURN};
   
 
     public static Dictionary<UnitMeta.UnitKey, SpecialAttackType[]> unitSp = new Dictionary<UnitMeta.UnitKey, SpecialAttackType[]>()
