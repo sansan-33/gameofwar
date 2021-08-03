@@ -31,7 +31,7 @@ public class EnemyAI : MonoBehaviour
     private float progressImageVelocity;
 
 
-    private bool usedFire;
+    private bool usedFire = false;
 
     [SerializeField] private bool dragCard = true;
     [SerializeField] private float cardSizeUpFactor = 0.625f;
@@ -863,20 +863,22 @@ public class EnemyAI : MonoBehaviour
             SpecialAttackType specialAttackType = SpecialAttackType.FIRE;
             if (mission== 5 && chapter == 1)
             {
+                Debug.Log($"used fire{usedFire}");
                 if (usedFire == true)
                 {
                     specialAttackType = SpecialAttackType.BOMB;
                 }
                 else
                 {
-                    specialAttackType = SpecialAttackType.FIRE;
+                    
+                       specialAttackType = SpecialAttackType.FIRE;
                 }
             }
             else
             {
                 SpStartergy.TryGetValue(chapter.ToString() + "," + mission.ToString(), out  specialAttackType);
             }
-         
+            Debug.Log($"SpecialAttack  type is  {impact.GetSpecialAttackType()} == {specialAttackType}");
             if (impact.GetSpecialAttackType() == specialAttackType&& impact.enemySp == true)
             {
                 //Debug.Log("Sp type == fire");
@@ -886,17 +888,18 @@ public class EnemyAI : MonoBehaviour
                 //Debug.Log($"SpecialAttack  cost {impact.GetSpCost()} <= {btn.GetComponent<SpCostDisplay>().spCost / 3}");
                 if (impact != null && btn != null)
                 {
-                    if (impact.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
-                    {
+                    //if (impact.GetSpCost() <= btn.GetComponent<SpCostDisplay>().spCost / 3)
+                    //{
                         //Debug.Log("Onpointerdown");
                         impact.HandleEndDrag(false, pos);
-                    }
+                    //}
                 }
             }
             // }
 
 
         }
+        usedFire = true;
         //}
     }
 

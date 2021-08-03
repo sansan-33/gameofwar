@@ -132,7 +132,7 @@ public class SpButtonManager : MonoBehaviour
                 }
                 else
                 {
-                    if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING)
+                    if (unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.HERO || unit.GetComponent<Unit>().unitType == UnitMeta.UnitType.KING|| unit.GetComponent<Unit>().unitType== UnitMeta.UnitType.QUEEN)
                     {
                         //Debug.Log($"enemy unit.specialkey{unit.specialkey} {unit.name}");
                         if(unit.specialkey == "") { Debug.Log("unit specail key is null"); }

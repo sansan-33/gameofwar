@@ -75,6 +75,7 @@ public class Fire : MonoBehaviour
            // Debug.Log($"collideed {colliders.Length}");
             foreach (Collider unit in colliders)
             {
+                //Debug.Log($"burn {unit.name}");
                 if (unit.TryGetComponent<Health>(out Health health))
                 {
                     if (unit.CompareTag("Player" + ID) || unit.CompareTag("King" + ID) || unit.CompareTag("Sneaky" + ID) || unit.CompareTag("Provoke" + ID) || unit.CompareTag("Building" + ID))
@@ -83,6 +84,12 @@ public class Fire : MonoBehaviour
                         health.DealDamage(damage);
                     }
                    
+                }
+                else if (unit.TryGetComponent<Bomb>(out Bomb bomb))
+                {
+                    bomb.ChangeDamage(2);
+                    Debug.Log($"burn {unit.name}");
+                    bomb.Explode();
                 }
             }
             if (bigFire == false)

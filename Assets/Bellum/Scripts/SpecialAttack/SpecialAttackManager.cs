@@ -77,6 +77,10 @@ public class SpecialAttackManager : NetworkBehaviour
         {
             impect.GetComponent<Fire>().SetSpecialAttackManager(this, ID);   
         }
+        if(SpecialAttackType == SpecialAttackType.BOMB)
+        {
+            impect.GetComponent<Bomb>().ID = ID;
+        }
         if(SpecialAttackType == SpecialAttackType.STUN)
         {
             Instantiate(stunPrefab).transform.position = new Vector3(pos.x,pos.y+2,pos.z);
