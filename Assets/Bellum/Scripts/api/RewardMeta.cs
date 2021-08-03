@@ -21,13 +21,4 @@ public class RewardMeta
         { "3-1", "ruby-100" }, { "3-2", "opal-100" }, { "3-3", "emerald-50" }, { "3-4", "sapphire-40" }, { "3-5", "topaz-10" },
         { "4-1", "ruby-100" }, { "4-2", "opal-100" }, { "4-3", "emerald-50" }, { "4-4", "sapphire-40" }, { "4-5", "topaz-10" }
     };
-    public enum GemStone { ruby, opal, emerald, sapphire, topaz };
-    public static Dictionary<GemStone, string> gemLevel = new Dictionary<GemStone, string>()
-    {
-        {GemStone.ruby, "R" },
-        {GemStone.opal, "SR" },
-        {GemStone.emerald, "SSR" },
-        {GemStone.sapphire, "UR" },
-        {GemStone.topaz, "LR" }
-    };
- }
+  }
