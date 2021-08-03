@@ -20,6 +20,21 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public TMP_Text rarityText;
     [SerializeField] public TMP_Text upgradeGoldValue;
 
+    [Header("Weapon Upgrade")]
+    [SerializeField] public TMP_Text weaponLvlText;
+    [SerializeField] public TMP_Text weaponExpText;
+    [SerializeField] public Image weaponGem;
+    [SerializeField] public TMP_Text weaponLeveluprequirementText;
+    [SerializeField] public TMP_Text weaponNameText;
+    [SerializeField] public TMP_Text weaponUpgradeGoldValue;
+    [SerializeField] public Button weaponLevelUpButton;
+    [SerializeField] public Slider weaponLevelSlider;
+    [SerializeField] public Sprite rubyImage;
+    [SerializeField] public Sprite emeraldImage;
+    [SerializeField] public Sprite sapphireImage;
+    [SerializeField] public Sprite topazImage;
+    [SerializeField] public Sprite opalImage;
+
     [Header("Card Statistic")]
     [SerializeField] public TMP_Text healthValue;
     [SerializeField] public TMP_Text attackValue;
@@ -28,7 +43,6 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public TMP_Text speedValue;
     [SerializeField] public TMP_Text specialValue;
     [SerializeField] public TMP_Text powerValue;
-    
 
     [SerializeField] public Image characterImage;
     [SerializeField] public Image unitTypeImage;
@@ -45,6 +59,7 @@ public class HeroMenu : MonoBehaviour
     [SerializeField] public GameObject topBar;
 
     private bool CANLEVELUP = false;
+    private bool CANWEAPONUP = false;
     private static float LEVELUP_POWER = 1.1f;
     private Transform unitBody;
    
@@ -65,6 +80,7 @@ public class HeroMenu : MonoBehaviour
         UserProfileManager userprofileManager = topBar.GetComponent<UserProfileManager>();
         userprofileManager.RewardGold(0);
     }
+
     IEnumerator handleLevelUpCard(string cardkey, string userid, string level)
     {
         UnityWebRequest webReq = new UnityWebRequest();
@@ -78,6 +94,34 @@ public class HeroMenu : MonoBehaviour
         yield return webReq.SendWebRequest();
         yield return GetUserCardDetail(userid, cardkey);
     }
+
+    public void weaponUp()
+    {
+        if (!CANLEVELUP) { return; }
+        StartCoroutine(handleWeaponUp(StaticClass.CrossSceneInformation, StaticClass.UserID, lvlText.text));
+        CANWEAPONUP = false;
+        //levelUpButton.image.color = Color.black;
+
+        // call user profile manager to refresh gold
+        UserProfileManager userprofileManager = topBar.GetComponent<UserProfileManager>();
+        userprofileManager.RewardGold(0);
+    }
+
+    IEnumerator handleWeaponUp(string cardkey, string userid, string level)
+    {
+        /*
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+
+        // build the url and query
+        webReq.url = string.Format("{0}/{1}/{2}/{3}/{4}", APIConfig.urladdress, APIConfig.levelUpCardService, cardkey, userid, level);
+        webReq.method = "put";
+        Debug.Log($"levelup card {webReq.url }");
+        // send the web request and wait for a returning result
+        yield return webReq.SendWebRequest();*/
+        yield return GetUserCardDetail(userid, cardkey);
+    }
+
     // sends an API request - returns a JSON file
     IEnumerator GetUserCardDetail(string userid, string cardkey)
     {
@@ -184,6 +228,137 @@ public class HeroMenu : MonoBehaviour
                 skillImage.transform.parent.gameObject.SetActive(false);
                 //passiveImage.sprite = skillArt.skillImages[jsonResult[0]["passivekey"].ToString().Length == 0 ? "99" : jsonResult[0]["passivekey"]].image;
             }
+        }
+    }
+
+    // sends an API request - returns a JSON file
+    IEnumerator GetUserCardWeaponDetail(string userid, string cardkey)
+    {
+        JSONNode jsonResult;
+        UnityWebRequest webReq = new UnityWebRequest();
+        webReq.downloadHandler = new DownloadHandlerBuffer();
+        webReq.url = string.Format("{0}/{1}/{2}/{3}", APIConfig.urladdress, APIConfig.cardWeaponService, userid, cardkey);
+        yield return webReq.SendWebRequest();
+
+        // convert the byte array to a string
+        string rawJson = Encoding.Default.GetString(webReq.downloadHandler.data);
+        SpTypeImage spTypeImage;
+
+        // parse the raw string into a json result we can easily read
+        jsonResult = JSON.Parse(rawJson);
+        Debug.Log($"Hero Menu GetUserCardWeaponDetail jsonResult:{jsonResult} ");
+        if (jsonResult.Count > 0)
+        {
+            double levelupfactor = Math.Pow(LEVELUP_POWER, Int32.Parse(jsonResult[0]["level"]));
+            weaponLvlText.text = jsonResult[0]["level"];
+            string gemstone = jsonResult[0]["gemstone"];
+            weaponExpText.text = jsonResult[0][gemstone];
+            weaponLeveluprequirementText.text = jsonResult[0]["leveluprequirement"];
+            weaponNameText.text = jsonResult[0]["cardkey"];
+            rarityText.text = jsonResult[0]["rarity"];
+            weaponGem.sprite = getGemTmage(gemstone);
+
+            weaponUpgradeGoldValue.text = jsonResult[0]["goldrequirement"];
+            if (float.TryParse(jsonResult[0][gemstone], out float cardexp) && float.TryParse(jsonResult[0]["leveluprequirement"], out float cardleveluprequirement) &&
+                float.TryParse(jsonResult[0]["goldrequirement"], out float cardgoldrequirement))
+            {
+                if (cardexp >= cardleveluprequirement && float.Parse(StaticClass.gold) >= cardgoldrequirement)
+                {
+                    CANWEAPONUP = true;
+                    //Debug.Log($"Hero Menu levelUpButton.interactable = true ");
+                    weaponLevelUpButton.interactable = true;
+                    //levelUpButton.image.color = Color.white;
+                }
+                else
+                {
+                    //Debug.Log($"Hero Menu levelUpButton.interactable = false ");
+                    weaponLevelUpButton.interactable = false;
+                }
+                weaponLevelSlider.value = cardexp / cardleveluprequirement;
+            }
+            //characterImage.sprite = characterFullArt.CharacterFullArtDictionary[jsonResult[0]["cardkey"]].image;
+            unitTypeImage.sprite = unitTypeArt.UnitTypeArtDictionary[jsonResult[0]["unittype"]].image;
+
+            Vector3 unitPos = unitBodyParent.gameObject.transform.position;
+            UnitMeta.UnitKey unitKey = (UnitMeta.UnitKey)Enum.Parse(typeof(UnitMeta.UnitKey), jsonResult[0]["cardkey"]);
+            Debug.Log($"Hero Menu unitKey:{unitKey} / cardkey: {jsonResult[0]["cardkey"]} ");
+            GameObject unitPrefab = localFactory.GetUnitPrefab(unitKey);
+            if (unitBody == null)
+            {
+                unitBody = Instantiate(unitPrefab.transform.Find("Body"));
+                unitBody.gameObject.GetComponentInChildren<Animator>().enabled = true;
+                unitBody.position = new Vector3(unitPos.x, unitPos.y - 2, unitPos.z);
+                unitBody.transform.Rotate(0, 180, 0);
+                unitBody.localScale = new Vector3(7, 7, 7);
+                unitBody.transform.SetParent(unitBodyParent.transform);
+            }
+
+            if (Int32.TryParse(jsonResult[0]["star"], out int star))
+            {
+                for (int j = (stars.transform.childCount - 1); j > (star - 1); j--)
+                {
+                    stars.transform.GetChild(j).Find("Active").gameObject.SetActive(false);
+                }
+            }
+            healthValue.text = "" + Math.Round(Double.Parse(jsonResult[0]["health"]) * levelupfactor);
+            attackValue.text = "" + Math.Round(jsonResult[0]["attack"] * levelupfactor);
+            attackDelayValue.text = jsonResult[0]["repeatattackdelay"];
+            defenseValue.text = "" + Math.Round(jsonResult[0]["defense"] * levelupfactor);
+            speedValue.text = jsonResult[0]["speed"];
+            specialValue.text = jsonResult[0]["special"];
+            powerValue.text = jsonResult[0]["power"];
+
+            //Debug.Log($"HeroMenu.GetUserCardDetail() nameText.text:{nameText.text}");
+            AsyncOperationHandle<string> op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, nameText.text.ToLower(), null);
+            if (op.IsDone)
+            {
+                nameText.text = op.Result;
+            }
+            else
+            {
+                op.Completed += (o) => nameText.text = o.Result;
+            }
+            //Debug.Log($"HeroMenu.GetUserCardDetail() after locale nameText.text:{nameText.text}");
+
+            //Debug.Log($"HeroMenu.GetUserCardDetail() after jsonResult[0][specialkey]:{jsonResult[0]["specialkey"]} jsonResult[0][specialkey].ToString().ToLower():{jsonResult[0]["specialkey"].ToString().ToLower()}");
+            if (spTypeArt.SpTypeArtDictionary.TryGetValue(jsonResult[0]["specialkey"], out spTypeImage))
+            {
+                skillImage.sprite = spTypeImage.image;
+                //skillImage.GetComponentInChildren<TMP_Text>().text = jsonResult[0]["specialkey"];
+
+                op = LocalizationSettings.StringDatabase.GetLocalizedStringAsync(LanguageSelectionManager.STRING_TEXT_REF, jsonResult[0]["specialkey"].ToString().Replace("\"", "").ToLower(), null);
+                if (op.IsDone)
+                {
+                    skillImage.GetComponentInChildren<TMP_Text>().text = op.Result;
+                }
+                else
+                {
+                    op.Completed += (o) => skillImage.GetComponentInChildren<TMP_Text>().text = o.Result;
+                }
+            }
+            else
+            {
+                skillImage.gameObject.SetActive(false);
+                skillImage.transform.parent.gameObject.SetActive(false);
+                //passiveImage.sprite = skillArt.skillImages[jsonResult[0]["passivekey"].ToString().Length == 0 ? "99" : jsonResult[0]["passivekey"]].image;
+            }
+        }
+    }
+
+    private Sprite getGemTmage(string gemstone)
+    {
+        switch (gemstone)
+        {
+            case "ruby":
+                return rubyImage;
+            case "emerald":
+                return emeraldImage;
+            case "sapphire":
+                return sapphireImage;
+            case "topaz":
+                return topazImage;
+            default:
+                return opalImage;
         }
     }
 }

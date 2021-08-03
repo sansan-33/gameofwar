@@ -9,6 +9,8 @@ public class APIConfig
     public static string cardService = "card";
     public static string trainCardService = "card/train";
     public static string levelUpCardService = "card/levelup";
+    public static string cardWeaponService = "cardweapon";
+    public static string levelUpCardWeaponService = "cardweapon/levelup";
     public static string summonService = "summon";
     public static string teamService = "team";
     public static string teamCardService = "team/card";
